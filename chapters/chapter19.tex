@@ -13,6 +13,7 @@
 \textnormal{[``Development, underdevelopment, dependence, marginality, and spatial inequality are diverse manifestations of a single process.'']}\\
 \hfill --- Osvaldo Sunkel and Pedro Paz, \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (1970)
 \end{quote}
+\nocite{sunkel1970subdesarrollo}
 
 \vspace{1em}
 
@@ -20,7 +21,7 @@ Chapter~16 analyzed the global $W$. Chapter~17 analyzed the domestic $W$. Chapte
 
 The working hypothesis: at every scale, the weight matrix has the same qualitative form --- a dense core, a sparse periphery, weak cross-block linkages, a concentrated Perron eigenvector, a small spectral gap. We call this \textbf{structural isomorphism} across scales (Definition~\ref{ch19:thm:scale_invariance}). It is a hypothesis about the recursive structure of social organization: the mechanisms that produce center-periphery at the global scale (proximity-dominated edge creation, assortative mixing, self-confirming preferences) may also operate at the national and individual scales. Two exact results discipline it. Aggregation mechanically raises the spectral gap (Proposition~\ref{ch19:prop:lumpability}), so $\Gamma$ values at different scales are not directly comparable. And individual power factors exactly into country, sector and within-sector shares (Proposition~\ref{ch19:thm:nesting}).
 
-Sunkel and Paz (1970) stated the underlying idea in prose: development, underdevelopment, dependence, marginality, and spatial inequality are manifestations of a single process. This chapter gives that claim a precise matrix vocabulary.
+\citet{sunkel1970subdesarrollo} stated the underlying idea in prose: development, underdevelopment, dependence, marginality, and spatial inequality are manifestations of a single process. This chapter gives that claim a precise matrix vocabulary.
 
 
 %% =====================================================================
@@ -115,7 +116,7 @@ The conjecture is not a theorem. The co-evolutionary map has multiple equilibria
 What \emph{can} be proved is how the spectral gap and the Perron vector behave under aggregation. This is what any comparison across scales has to control for.
 
 \begin{proposition}[Aggregation Raises the Spectral Gap]\label{ch19:prop:lumpability}
-Let $W$ be irreducible and row-stochastic on $n$ nodes, and let $\mathcal{P} = \{B_1, \ldots, B_k\}$ be a partition with indicator matrix $V$ ($n \times k$). Suppose $W$ is \textbf{exactly lumpable} with respect to $\mathcal{P}$ (Kemeny and Snell): $\sum_{j \in B'} W_{ij}$ is the same for all $i \in B$, for every pair of blocks $B, B'$. Call this common value $\bar W_{BB'}$. Then:
+Let $W$ be irreducible and row-stochastic on $n$ nodes, and let $\mathcal{P} = \{B_1, \ldots, B_k\}$ be a partition with indicator matrix $V$ ($n \times k$). Suppose $W$ is \textbf{exactly lumpable} with respect to $\mathcal{P}$ \citep{kemeny1960finite}: $\sum_{j \in B'} W_{ij}$ is the same for all $i \in B$, for every pair of blocks $B, B'$. Call this common value $\bar W_{BB'}$. Then:
 \begin{enumerate}
 \item $\bar W$ is row-stochastic and $WV = V\bar W$;
 \item every eigenvalue of $\bar W$ is an eigenvalue of $W$, so $\Gamma(\bar W) \ge \Gamma(W)$;
@@ -179,11 +180,11 @@ where each factor is a share that sums to one over its level.
 \end{proposition}
 
 \begin{proof}[Proof sketch]
-This is Meyer's (1989) uncoupling theorem for stochastic complementation, applied once per level; \texttt{code/ch19.py} verifies the identity numerically.
+This is \citeauthor{meyer1989stochastic}'s \citeyearpar{meyer1989stochastic} uncoupling theorem for stochastic complementation, applied once per level; \texttt{code/ch19.py} verifies the identity numerically.
 \end{proof}
 
 \begin{remark}[Simon--Ando: when the factors are local]
-The identity is exact but the stochastic complements depend on the whole matrix. When cross-block coupling is weak, $W_I = W_0 + \varepsilon C$ with $W_0$ block-diagonal (individuals interact mostly within their sector, and sectors mostly within their country), Simon and Ando (1961) show that $s^{(B)}$ is within $O(\varepsilon)$ of the Perron vector of the diagonal block $W_{BB}$ alone. Each factor can then be measured at its own scale. In the code's example, the maximum error is $2\times10^{-2}$ at $\varepsilon = 0.1$ and $3\times10^{-4}$ at $\varepsilon = 0.001$. The exact Kronecker case of Appendix~19A is a special case that additionally requires the \emph{same} sector matrix in every country.
+The identity is exact but the stochastic complements depend on the whole matrix. When cross-block coupling is weak, $W_I = W_0 + \varepsilon C$ with $W_0$ block-diagonal (individuals interact mostly within their sector, and sectors mostly within their country), \citet{simon1961aggregation} show that $s^{(B)}$ is within $O(\varepsilon)$ of the Perron vector of the diagonal block $W_{BB}$ alone. Each factor can then be measured at its own scale. In the code's example, the maximum error is $2\times10^{-2}$ at $\varepsilon = 0.1$ and $3\times10^{-4}$ at $\varepsilon = 0.001$. The exact Kronecker case of Appendix~19A is a special case that additionally requires the \emph{same} sector matrix in every country.
 \end{remark}
 
 \paragraph{Per-capita comparisons.} Because the factors are shares, per-person comparisons must divide by group size. If $e_{s|c}$ is the sector's employment share and $L_c$ the country's workforce, then for an individual with within-sector per-capita weight $w_i$ (mean one in the sector),
@@ -343,7 +344,7 @@ The binding scale is \emph{not} simply the scale with the smallest $\Gamma$. Acr
 \end{remark}
 
 \begin{prebisch}[Why Prebisch was right about industrialization but incomplete]
-Prebisch (1949) argued that the periphery should industrialize to escape the deteriorating terms of trade. His prescription operated at the global scale: change the periphery's position in $W_G$ by adding manufacturing exports. He was right that the global scale matters. But he did not address the national and individual scales: even with manufacturing, a block-diagonal domestic $W_N$ and attribute-constrained $W_I$ prevent the structural integration needed for industrialization to propagate growth broadly.
+\citet{prebisch1949desarrollo} argued that the periphery should industrialize to escape the deteriorating terms of trade. His prescription operated at the global scale: change the periphery's position in $W_G$ by adding manufacturing exports. He was right that the global scale matters. But he did not address the national and individual scales: even with manufacturing, a block-diagonal domestic $W_N$ and attribute-constrained $W_I$ prevent the structural integration needed for industrialization to propagate growth broadly.
 
 South Korea industrialized --- through export discipline rather than the inward-looking ISI usually associated with ECLA --- and also addressed the other scales: land reform (national: broke the landlord block), education (individual: reduced human-capital attribute constraints), export discipline (global: moved up the product space). The three scales were addressed simultaneously. Bolivia followed only the global prescription (ISI, then gas nationalization) without the national and individual reforms. The result, on this chapter's illustrative numbers: Bolivia's global position improved slightly (ECI $-0.85 \to -0.80$) while the domestic and individual structures barely moved.
 
@@ -445,7 +446,7 @@ Example ($k = m = 3$, $n = 4$, $w_2 = 1$, $w_1 = 0.3$, $w_0 = 0.05$): the eigenv
 
 Osvaldo Sunkel's third appearance in this book (after Chapter~4 with Paz, and Chapter~13 on integration/disintegration). Here we address his deepest claim: that development, underdevelopment, dependence, marginality, and spatial inequality are not five problems but five symptoms of one structural condition.
 
-Sunkel developed this argument in \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (1970, with Pedro Paz) and in ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina'' (1971). % TODO-VERIFY: which text contains the explicit five-process formulation. The claim was methodological as much as substantive: he argued that the fragmentation of development economics into sub-fields (trade theory for dependence, growth theory for development, poverty analysis for marginality, regional science for spatial inequality) was itself an obstacle to understanding. The phenomena are connected because the structure that produces them is connected.
+Sunkel developed this argument in \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (\citeyear{sunkel1970subdesarrollo}, with Pedro Paz) and in ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina'' \citeyearpar{sunkel1971capitalismo}. % TODO-VERIFY: which text contains the explicit five-process formulation. The claim was methodological as much as substantive: he argued that the fragmentation of development economics into sub-fields (trade theory for dependence, growth theory for development, poverty analysis for marginality, regional science for spatial inequality) was itself an obstacle to understanding. The phenomena are connected because the structure that produces them is connected.
 
 \textbf{The formal translation.} Definition~\ref{ch19:thm:five} gives each of the five phenomena a counterpart as a property of the same multi-scale weight matrix. Development is high $\Gamma$. Underdevelopment is low $\Gamma$ from weak coupling. Dependence is asymmetric $W$. Marginality is $\pi_i \approx 0$. Spatial inequality (in integration) is $\Var_r(\Gamma_r)$. That they share a single \emph{cause} is the content of Conjecture~\ref{ch19:conj:mechanism}, a claim the translation makes testable but does not prove.
 
@@ -476,12 +477,12 @@ Sunkel wrote in Santiago, at ILPES, before the 1973 coup. The five processes he 
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Scale invariance in social systems:} West (2017), \textit{Scale: The Universal Laws of Growth, Innovation, Sustainability, and the Pace of Life in Organisms, Cities, Economies, and Companies}. Bettencourt et al.\ (2007), ``Growth, Innovation, Scaling, and the Pace of Life in Cities,'' \textit{PNAS}.
+\textbf{Scale invariance in social systems:} \citet{west2017scale}, \textit{Scale: The Universal Laws of Growth, Innovation, Sustainability, and the Pace of Life in Organisms, Cities, Economies, and Companies}. \citet{bettencourt2007growth}, ``Growth, Innovation, Scaling, and the Pace of Life in Cities.''
 
-\textbf{Multi-scale economic structure:} Hausmann and Hidalgo (2011), ``The Network Structure of Economic Output,'' \textit{Journal of Economic Growth}. For the nesting of local, national, and global production networks: Baldwin and Lopez-Gonzalez (2015), ``Supply-Chain Trade,'' \textit{World Economy}.
+\textbf{Multi-scale economic structure:} \citet{hausmann2011network}, ``The Network Structure of Economic Output.'' For the nesting of local, national, and global production networks: \citet{baldwin2015supply}, ``Supply-Chain Trade.''
 
-\textbf{The structuralist synthesis:} Sunkel and Paz (1970), \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}, Mexico: Siglo XXI. Sunkel (1993), \textit{Development from Within}. CEPAL (2012), \textit{Structural Change for Equality}, the institutional codification of the multi-scale structural approach.
+\textbf{The structuralist synthesis:} \citet{sunkel1970subdesarrollo}, \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}. \citet{sunkel1993development}, \textit{Development from Within}. \citet{cepal2012structural}, \textit{Structural Change for Equality}, the institutional codification of the multi-scale structural approach.
 
-\textbf{Cross-scale interactions:} Acemoglu and Robinson (2012), \textit{Why Nations Fail}, Chapters~3--5 (how colonial institutions at the global scale shape domestic institutions). For the aggregation theory used in this chapter: Simon and Ando (1961), ``Aggregation of Variables in Dynamic Systems,'' \textit{Econometrica}; Kemeny and Snell (1960), \textit{Finite Markov Chains} (lumpability); Meyer (1989), ``Stochastic Complementation, Uncoupling Markov Chains, and the Theory of Nearly Reducible Systems,'' \textit{SIAM Review}.
+\textbf{Cross-scale interactions:} \citet{acemoglu2012why}, \textit{Why Nations Fail}, Chapters~3--5 (how colonial institutions at the global scale shape domestic institutions). For the aggregation theory used in this chapter: \citet{simon1961aggregation}, ``Aggregation of Variables in Dynamic Systems''; \citet{kemeny1960finite}, \textit{Finite Markov Chains} (lumpability); \citet{meyer1989stochastic}, ``Stochastic Complementation, Uncoupling Markov Chains, and the Theory of Nearly Reducible Systems.''
 
 \end{document}

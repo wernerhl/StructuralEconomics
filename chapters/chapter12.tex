@@ -9,6 +9,7 @@
 \textit{``The deprived people tend to come to terms with their deprivation because of the sheer necessity of survival, and they may, as a result, lack the courage to demand any radical change, and may even adjust their desires and expectations to what they unambitiously see as feasible.''}\\
 \hfill --- Amartya Sen, \textit{Development as Freedom} (1999)
 \end{quote}
+\nocite{sen1999development}
 
 \vspace{1em}
 
@@ -20,7 +21,7 @@ Consider an agent in the traditional sector who reports moderate satisfaction wi
 
 The problem has no easy solution. This chapter develops four approaches and states what each can and cannot do. It identifies what can be ranked robustly and what cannot. It then says plainly where a value judgment is unavoidable.
 
-\textbf{Which reading of $\theta$ is in force.} Throughout this chapter $\theta_i$ is an \textit{aspiration level} $a_i$, a reference point for one's own outcome (Chapter~9, Definition~\ref{ch09:def:theta}, ``education'' row). Utility is reference-dependent, in the spirit of Genicot and Ray (2017) and of the relative-income literature (Clark, Frijters and Shields, 2008):
+\textbf{Which reading of $\theta$ is in force.} Throughout this chapter $\theta_i$ is an \textit{aspiration level} $a_i$, a reference point for one's own outcome (Chapter~9, Definition~\ref{ch09:def:theta}, ``education'' row). Utility is reference-dependent, in the spirit of \citet{genicot2017aspirations} and of the relative-income literature \citep{clark2008relative}:
 \begin{equation}\label{ch12:eq:refdep}
 s_i = v(x_i - a_i), \qquad v(z) = z - \frac{\kappa}{2}z^2, \qquad \kappa z < 1 \text{ on the relevant range},
 \end{equation}
@@ -145,7 +146,7 @@ The structure produces contentment that masks deprivation, but only relative to 
 \label{ch12:sec:approaches}
 %% =====================================================================
 
-There is no consensus on how to evaluate welfare when preferences are endogenous. The classic treatments (von Weizs\"{a}cker, 1971; Hammond, 1976; Pollak, 1978) already showed that rankings depend on which preference ``vintage'' is used. This section presents four approaches, ordered from most conservative (closest to standard welfare economics) to most radical (furthest from preference sovereignty).
+There is no consensus on how to evaluate welfare when preferences are endogenous. The classic treatments \citep{weizsacker1971notes,hammond1976endogenous,pollak1978endogenous} already showed that rankings depend on which preference ``vintage'' is used. This section presents four approaches, ordered from most conservative (closest to standard welfare economics) to most radical (furthest from preference sovereignty).
 
 
 \subsection{Approach 1: Laundered Preferences}
@@ -158,7 +159,7 @@ Fix a reference allocation $\x^{\text{ref}}$ and a ``just'' information network 
 It is held fixed while different allocations are compared. Welfare is $\hat{W}(\x) = \sum_i v(x_i - \hat{a}_i)$.
 \end{definition}
 
-The term ``laundering'' is Goodin's (1986), who used it for filtering out preferences that should not count, such as malicious or antisocial ones. The counterfactual-network version used here is closer to \textit{full-information} or informed-desire accounts of well-being (Brandt, 1979; Harsanyi, 1977), with the twist that the counterfactual is specified as a network.
+The term ``laundering'' is \citeauthor{goodin1986laundering}'s \citeyearpar{goodin1986laundering}, who used it for filtering out preferences that should not count, such as malicious or antisocial ones. The counterfactual-network version used here is closer to \textit{full-information} or informed-desire accounts of well-being \citep{brandt1979theory,harsanyi1977morality}, with the twist that the counterfactual is specified as a network.
 
 \begin{proposition}[Properties of Laundered Welfare]\label{ch12:prop:laundered}
 \begin{enumerate}
@@ -203,10 +204,10 @@ The critical move: $\mathcal{O}_i$ is defined by entitlements and conversion fac
 (1)--(2) Definition. (3) $\sum_i e_i = \sum_i\omega_i + \Phi\sum_i\pi_i = \Omega$. And $\min_i \pi_i \le 1/N$, with equality iff $\boldsymbol{\pi}$ is uniform, because the $\pi_i$ sum to 1. (4) Definition of $c_i$.
 \end{proof}
 
-Part~(3) is why the capability approach resists summation. Sen's capability sets are vectors of freedoms, not quantities to be added. Measuring freedom by the size of a choice set is itself contested: Pattanaik and Xu (1990) axiomatize ranking opportunity sets by their cardinality, and Sen (1991) shows why that ignores the value of the options. Sugden (2004, \textit{AER}) proposes an opportunity criterion that does not require coherent preferences.
+Part~(3) is why the capability approach resists summation. Sen's capability sets are vectors of freedoms, not quantities to be added. Measuring freedom by the size of a choice set is itself contested: \citet{pattanaik1990ranking} axiomatize ranking opportunity sets by their cardinality, and \citet{sen1991welfare} shows why that ignores the value of the options. \citet[\textit{AER}]{sugden2004opportunity} proposes an opportunity criterion that does not require coherent preferences.
 
 \begin{intuition}[Sen in matrix notation]
-Sen (1999) argued that well-being should be measured not by what people have (allocations) or by how satisfied they are (utility), but by what they are \textit{free to do and be} (capabilities). In the formation model, the capability set is constrained by two structural objects: her power $\pi_i$, which limits her entitlement, and her information network $W^I$, which limits her conversion factor --- what she knows she can do with her resources.
+\citet{sen1999development} argued that well-being should be measured not by what people have (allocations) or by how satisfied they are (utility), but by what they are \textit{free to do and be} (capabilities). In the formation model, the capability set is constrained by two structural objects: her power $\pi_i$, which limits her entitlement, and her information network $W^I$, which limits her conversion factor --- what she knows she can do with her resources.
 
 Capability deprivation is therefore a \textit{joint} constraint on power and information. You can be capability-deprived because you lack power (a structural constraint) or because you lack information about options (an epistemic constraint). Low aspirations are a separate matter. They do not shrink the capability set, but they may lead an agent to choose little from it, which is why adaptive preferences make satisfaction an unreliable guide.
 \end{intuition}
@@ -229,7 +230,7 @@ where $W_k(\x, \mathbf{a}) = \sum_i v(x_i - a_i)$ and:
 An allocation $\x$ is \textbf{robustly superior} to $\x'$ if $W_k(\x) \geq W_k(\x')$ for all $k$, with strict inequality for at least one.
 \end{definition}
 
-This is Sen's \textit{intersection quasi-ordering} (Sen, 1970): rank only what every admissible criterion ranks the same way, and leave the rest unranked. Its choice-theoretic analogue is Bernheim and Rangel's (2009) unambiguous choice relation. There, $W^I$ plays the role of an \textit{ancillary condition} --- a feature of the decision environment that changes choices without changing the feasible set --- and $\x$ is ranked above $\x'$ only if it is chosen over $\x'$ under every welfare-relevant ancillary condition.
+This is Sen's \textit{intersection quasi-ordering} \citep{sen1970collective}: rank only what every admissible criterion ranks the same way, and leave the rest unranked. Its choice-theoretic analogue is \citeauthor{bernheim2009beyond}'s \citeyearpar{bernheim2009beyond} unambiguous choice relation. There, $W^I$ plays the role of an \textit{ancillary condition} --- a feature of the decision environment that changes choices without changing the feasible set --- and $\x$ is ranked above $\x'$ only if it is chosen over $\x'$ under every welfare-relevant ancillary condition.
 
 \begin{proposition}[What Is Robustly Ranked]\label{ch12:prop:robust}
 Let $v$ be increasing and $0 \le \mathcal{M} < 1$.
@@ -339,7 +340,7 @@ In the setting of Proposition~\ref{ch12:thm:paradox}, a regression of reported s
 Across blocks: Proposition~\ref{ch12:thm:paradox}. Within a block: agents share $a_b$, so differences in $s$ reflect differences in $x$ only.
 \end{proof}
 
-If reference groups are national (blocks are countries), the model produces the pattern Easterlin (1974) described: a strong income--satisfaction gradient within countries and a compressed one across countries. The pattern itself is disputed. Stevenson and Wolfers (2008) find similar within- and cross-country gradients in log income. The formation model offers one mechanism, not a settled fact.
+If reference groups are national (blocks are countries), the model produces the pattern \citet{easterlin1974does} described: a strong income--satisfaction gradient within countries and a compressed one across countries. The pattern itself is disputed. \citet{stevenson2008economic} find similar within- and cross-country gradients in log income. The formation model offers one mechanism, not a settled fact.
 
 
 \subsection{Implication 2: Evaluation Depends on the Vintage of Preferences}
@@ -356,7 +357,7 @@ whenever $\mathbf{a}_{\text{new}} \neq \mathbf{a}_{\text{old}}$. In particular, 
 $v$ is strictly increasing, so the satisfaction of agent $i$ falls when $a_i$ rises at fixed $x_i$.
 \end{proof}
 
-This is not time inconsistency in the Strotz sense (a planner's own plan ceasing to be optimal later). It is the classic problem of changing tastes: which self, or which generation's tastes, should evaluate the policy (von Weizs\"{a}cker, 1971; Hammond, 1976).
+This is not time inconsistency in the Strotz sense (a planner's own plan ceasing to be optimal later). It is the classic problem of changing tastes: which self, or which generation's tastes, should evaluate the policy \citep{weizsacker1971notes,hammond1976endogenous}.
 
 \begin{example}[Information Policy and Satisfaction \illustrative]\label{ch12:ex:education_policy}
 Use Chapter~10's Policy~C (Example~\ref{ch10:ex:policies}): rural agents' weight on each gas agent rises from $0.025$ to $0.075$. With $\mathcal{M} = 0.8$ and allocations held at their initial values, the rural aspiration rises from $0.655$ to $0.713$. Rural satisfaction then falls from $0.108$ to $0.053$.
@@ -378,7 +379,7 @@ Endogenous improvement means $(I - \mathcal{M}W^I)(\x' - \x) \ge 0$, with $\neq$
 The nesting runs in a specific direction. Under endogenous aspirations, improvements for others are partly experienced as losses, so \textit{fewer} changes command unanimous consent. The status quo is harder to dislodge by consent. And the absence of demand for change does not show that the current structure is welfare-maximizing: in the model it can reflect aspirations that the structure itself formed. This depends on the preference model. With other specifications, such as tastes that scale marginal utility, the two Pareto sets need not be nested at all.
 
 \begin{prebisch}[Peripheral capitalism and legitimacy]
-Prebisch (1981, \textit{Capitalismo perif\'{e}rico}) argued that peripheral capitalism tends toward \textit{crisis}. A privileged consumer society imitating the centre absorbs the surplus. Redistributive pressure from organized groups then produces inflationary struggle, and eventually the use of force to restore the system.
+\citet[\textit{Capitalismo perif\'{e}rico}]{prebisch1981capitalismo} argued that peripheral capitalism tends toward \textit{crisis}. A privileged consumer society imitating the centre absorbs the surplus. Redistributive pressure from organized groups then produces inflationary struggle, and eventually the use of force to restore the system.
 % TODO-VERIFY: summary of Prebisch (1981), Capitalismo periferico: crisis y transformacion (FCE); add pages.
 
 The formation model speaks to a complementary question: why redistributive pressure can stay latent for long periods. If aspirations in the traditional sector are formed under a $W^I$ that shows only traditional-sector outcomes, the demand for change is muted. Proposition~\ref{ch12:prop:consent} shows that consent under endogenous aspirations is harder to obtain. When $W^I$ opens up --- urbanization, schooling, media --- aspirations rise. In Prebisch's terms, the redistributive struggle intensifies.
@@ -482,7 +483,7 @@ because the cross-term cancels. The draft's $+\theta_i d_i/\kappa$ was wrong. Su
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Sen (1999)}
 %% =====================================================================
 
-Amartya Sen's \textit{Development as Freedom} (1999) is the most influential critique of preference-based welfare economics in the development literature. Its central argument is that development should be measured not by income or utility but by \textbf{capabilities} --- the substantive freedoms people have to lead the lives they have reason to value. The argument was aimed squarely at the problem this chapter addresses: the inadequacy of preference satisfaction as a welfare criterion when preferences are shaped by deprivation.
+Amartya Sen's \textit{Development as Freedom} \citeyearpar{sen1999development} is the most influential critique of preference-based welfare economics in the development literature. Its central argument is that development should be measured not by income or utility but by \textbf{capabilities} --- the substantive freedoms people have to lead the lives they have reason to value. The argument was aimed squarely at the problem this chapter addresses: the inadequacy of preference satisfaction as a welfare criterion when preferences are shaped by deprivation.
 
 Sen's framework maps onto the formation model in three specific ways --- each with a caveat about what the mapping leaves out.
 
@@ -512,7 +513,7 @@ Development as freedom & Raise $\Neff(\boldsymbol{\pi})$ and the conversion fact
 \end{tabularx}
 \end{center}
 
-Sen was not averse to formalization --- much of his social-choice work is formal. What he resisted was reducing the capability approach to a fixed list of capabilities or a single metric. The formation model respects that: capability is one of four criteria, and the multi-criteria approach is Sen's own intersection quasi-ordering. What the model adds is a mechanism and some measurable quantities: the aspiration compression factor $1 - \mathcal{M}$, and the distinction between entitlements, conversion factors and aspirations. It also adds the structural statistics ($\Neff(\boldsymbol{\pi})$, $\Neff(\boldsymbol{\pi}^I)$) that bear on them. Critics of adaptive-preference arguments warn against using them to override people's own judgments (Nussbaum, 2001; Khader, 2011). That is why the chapter ends with structural transparency rather than with a planner's verdict.
+Sen was not averse to formalization --- much of his social-choice work is formal. What he resisted was reducing the capability approach to a fixed list of capabilities or a single metric. The formation model respects that: capability is one of four criteria, and the multi-criteria approach is Sen's own intersection quasi-ordering. What the model adds is a mechanism and some measurable quantities: the aspiration compression factor $1 - \mathcal{M}$, and the distinction between entitlements, conversion factors and aspirations. It also adds the structural statistics ($\Neff(\boldsymbol{\pi})$, $\Neff(\boldsymbol{\pi}^I)$) that bear on them. Critics of adaptive-preference arguments warn against using them to override people's own judgments \citep{nussbaum2001adaptive,khader2011adaptive}. That is why the chapter ends with structural transparency rather than with a planner's verdict.
 
 
 %% =====================================================================
@@ -520,14 +521,14 @@ Sen was not averse to formalization --- much of his social-choice work is formal
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Adaptive preferences:} Sen (1999), \textit{Development as Freedom}, Chapters~1--3. Nussbaum (2000), \textit{Women and Human Development}, Chapter~1. Nussbaum (2001), ``Adaptive Preferences and Women's Options,'' \textit{Economics and Philosophy}. Khader (2011), \textit{Adaptive Preferences and Women's Empowerment}. Elster (1983), \textit{Sour Grapes}, Chapter~3 (the original philosophical treatment). On aspirations: Genicot and Ray (2017), \textit{Econometrica}; Dalton, Ghosal and Mani (2016), ``Poverty and Aspirations Failure,'' \textit{EJ}.
+\textbf{Adaptive preferences:} \citet{sen1999development}, \textit{Development as Freedom}, Chapters~1--3. \citet{nussbaum2000women}, \textit{Women and Human Development}, Chapter~1. \citet{nussbaum2001adaptive}, ``Adaptive Preferences and Women's Options.'' \citet{khader2011adaptive}, \textit{Adaptive Preferences and Women's Empowerment}. \citet{elster1983sour}, \textit{Sour Grapes}, Chapter~3 (the original philosophical treatment). On aspirations: \citet{genicot2017aspirations}; \citet{dalton2016poverty}, ``Poverty and Aspirations Failure.''
 
-\textbf{Welfare with endogenous preferences:} Becker and Stigler (1977), ``De Gustibus Non Est Disputandum,'' \textit{AER} (the opposing view). Goodin (1986), ``Laundering Preferences,'' in Elster and Hylland (eds.), \textit{Foundations of Social Choice Theory}. Bowles (1998), ``Endogenous Preferences,'' \textit{JEL}. von Weizs\"{a}cker (1971), ``Notes on Endogenous Change of Tastes,'' \textit{JET}. Hammond (1976), ``Endogenous Tastes and Stable Long-Run Choice,'' \textit{JET}. Pollak (1978), ``Endogenous Tastes in Demand and Welfare Analysis,'' \textit{AER P\&P}. Brandt (1979), \textit{A Theory of the Good and the Right}; Harsanyi (1977) on ``true'' (full-information) preferences.
+\textbf{Welfare with endogenous preferences:} \citet{stigler1977gustibus}, ``De Gustibus Non Est Disputandum'' (the opposing view). \citet{goodin1986laundering}, ``Laundering Preferences,'' in Elster and Hylland (eds.), \textit{Foundations of Social Choice Theory}. \citet{bowles1998endogenous}, ``Endogenous Preferences.'' \citet{weizsacker1971notes}, ``Notes on Endogenous Change of Tastes.'' \citet{hammond1976endogenous}, ``Endogenous Tastes and Stable Long-Run Choice.'' \citet{pollak1978endogenous}, ``Endogenous Tastes in Demand and Welfare Analysis.'' \citet{brandt1979theory}, \textit{A Theory of the Good and the Right}; \citet{harsanyi1977morality} on ``true'' (full-information) preferences.
 
-\textbf{The capability approach:} Sen (1970), \textit{Collective Choice and Social Welfare} (partial comparability and intersection quasi-orderings). Sen (1985), \textit{Commodities and Capabilities}. Pattanaik and Xu (1990), ``On Ranking Opportunity Sets in Terms of Freedom of Choice,'' \textit{Recherches \'{E}conomiques de Louvain}. Sen (1991), ``Welfare, Preference and Freedom,'' \textit{J.\ Econometrics}. Alkire (2002), \textit{Valuing Freedoms}. Robeyns (2005), ``The Capability Approach: A Theoretical Survey,'' \textit{Journal of Human Development}.
+\textbf{The capability approach:} \citet{sen1970collective}, \textit{Collective Choice and Social Welfare} (partial comparability and intersection quasi-orderings). \citet{sen1985commodities}, \textit{Commodities and Capabilities}. \citet{pattanaik1990ranking}, ``On Ranking Opportunity Sets in Terms of Freedom of Choice.'' \citet{sen1991welfare}, ``Welfare, Preference and Freedom.'' \citet{alkire2002valuing}, \textit{Valuing Freedoms}. \citet{robeyns2005capability}, ``The Capability Approach: A Theoretical Survey.''
 
-\textbf{The Easterlin paradox:} Easterlin (1974), ``Does Economic Growth Improve the Human Lot?'' Stevenson and Wolfers (2008), ``Economic Growth and Subjective Well-Being,'' \textit{BPEA}. Clark, Frijters, and Shields (2008), ``Relative Income, Happiness, and Utility,'' \textit{JEL}.
+\textbf{The Easterlin paradox:} \citet{easterlin1974does}, ``Does Economic Growth Improve the Human Lot?'' \citet{stevenson2008economic}, ``Economic Growth and Subjective Well-Being.'' \citet{clark2008relative}, ``Relative Income, Happiness, and Utility.''
 
-\textbf{Policy evaluation under endogenous preferences:} Bernheim and Rangel (2009), ``Beyond Revealed Preference: Choice-Theoretic Foundations for Behavioral Welfare Economics,'' \textit{QJE}. Sugden (2004), ``The Opportunity Criterion: Consumer Sovereignty Without the Assumption of Coherent Preferences,'' \textit{AER}. Macours and Vakis (2014), \textit{EJ}, on transfers, aspirations and social interactions.
+\textbf{Policy evaluation under endogenous preferences:} \citet{bernheim2009beyond}, ``Beyond Revealed Preference: Choice-Theoretic Foundations for Behavioral Welfare Economics.'' \citet{sugden2004opportunity}, ``The Opportunity Criterion: Consumer Sovereignty Without the Assumption of Coherent Preferences.'' \citet{macours2014changing}, on transfers, aspirations and social interactions.
 
 \end{document}

@@ -11,6 +11,7 @@
 \textnormal{[``[Solidarity] is not, then, a superficial feeling about the misfortunes of so many people, near or far. On the contrary, it is the firm and persevering determination to commit oneself to the common good.'']}\\
 \hfill --- John Paul II, \textit{Sollicitudo Rei Socialis}, \S 38 (1987)
 \end{quote}
+\nocite{johnpaulii1987sollicitudo}
 
 \vspace{1em}
 
@@ -116,7 +117,7 @@ Other utility functions give other mappings, and giving in the lab also reflects
 \end{definition}
 
 \begin{example}[A Directed Dictator Game \illustrative]\label{ch22:ex:experimental}
-Hypothetical results of the modified dictator game, of the kind a Bolivian field experiment could produce. No existing study is the source. Cardenas (2003) worked in rural Colombia. Henrich et al.\ (2010) included the Tsimane of lowland Bolivia but did not vary the recipient's ethnicity or community. For directed giving to identified network partners, see Leider et al.\ (2009) and Ligon and Schechter (2012).
+Hypothetical results of the modified dictator game, of the kind a Bolivian field experiment could produce. No existing study is the source. \citet{cardenas2003real} worked in rural Colombia. \citet{henrich2010markets} included the Tsimane of lowland Bolivia but did not vary the recipient's ethnicity or community. For directed giving to identified network partners, see \citet{leider2009directed} and \citet{ligon2012motives}.
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
@@ -181,7 +182,7 @@ The illustrative pattern: high within-group trust (diagonal), moderate cross-eth
 \subsection{Strategy 5: Fiscal Revealed Preference}
 
 \begin{definition}[Fiscal $W^U$]\label{ch22:def:fiscal}
-The tax-and-transfer system reveals the polity's \textit{aggregate} allocation rule. Taxes paid by group $g$ that finance transfers to group $g'$ are, at most, a revealed social-welfare weight in the inverse-optimal-tax sense (e.g., Bourguignon and Spadaro, 2012). They are not any individual's $W^U$: they reflect political bargaining, institutions and who controls the fiscal process. With that caveat, define:
+The tax-and-transfer system reveals the polity's \textit{aggregate} allocation rule. Taxes paid by group $g$ that finance transfers to group $g'$ are, at most, a revealed social-welfare weight in the inverse-optimal-tax sense \citep[e.g.,][]{bourguignon2012tax}. They are not any individual's $W^U$: they reflect political bargaining, institutions and who controls the fiscal process. With that caveat, define:
 \begin{equation}\label{ch22:eq:fiscal_WU}
 W^U_{\text{fiscal}, gg'} = \frac{\text{net transfer from } g \text{ to } g'}{\text{total fiscal capacity of } g}.
 \end{equation}
@@ -341,8 +342,8 @@ which is below one when the giver is better off ($c_i > c_j$). For example, $c_i
 \paragraph{Identification.} Three problems.
 \begin{enumerate}
 \item \textbf{Corner solutions.} $\tau_{ij} = 0$ does not mean $W^U_{ij} = 0$: the transfer cost may exceed the gain. A Tobit or Heckman selection model separates the extensive margin (whether to transfer) from the intensive margin (how much), but it needs an exclusion restriction, i.e.\ a variable that shifts the cost of transferring without shifting concern.
-\item \textbf{Other motives.} Transfers are also driven by exchange (payment for services; Cox, 1987), by informal insurance under limited commitment (Ligon, Thomas and Worrall, 2002), and by mixtures of altruism and imperfect commitment within families (Foster and Rosenzweig, 2001). These motives predict different responses of transfers to the recipient's income, which is how the literature tells them apart.
-\item \textbf{Dyadic data.} Transfer networks are dyadic. Estimation should use dyadic regressions with dyad-robust standard errors (Fafchamps and Gubert, 2007) and, where possible, directed games with real network partners (Leider et al., 2009; Ligon and Schechter, 2012).
+\item \textbf{Other motives.} Transfers are also driven by exchange (payment for services; \citealp{cox1987motives}), by informal insurance under limited commitment \citep{ligon2002informal}, and by mixtures of altruism and imperfect commitment within families \citep{foster2001imperfect}. These motives predict different responses of transfers to the recipient's income, which is how the literature tells them apart.
+\item \textbf{Dyadic data.} Transfer networks are dyadic. Estimation should use dyadic regressions with dyad-robust standard errors \citep{fafchamps2007formation} and, where possible, directed games with real network partners \citep{leider2009directed,ligon2012motives}.
 \end{enumerate}
 
 
@@ -373,14 +374,14 @@ The measurement of $W^U$ in Bolivia cannot be divorced from the Andean instituti
 \textbf{Dense within, federated across.} Several principles organize the ayllu:
 \begin{itemize}
 \item reciprocity (\textit{ayni}: labor or goods given now, to be returned in kind later);
-\item \textit{mink'a}: labor provided at a household's or the community's request, typically compensated with food, drink or produce (Alberti and Mayer, 1974);
+\item \textit{mink'a}: labor provided at a household's or the community's request, typically compensated with food, drink or produce \citep{alberti1974reciprocidad};
 \item communal work obligations;
-\item Murra's ``vertical archipelago'' (1972): a community's control of multiple ecological floors, often far apart.
+\item Murra's ``vertical archipelago'' (\citeyear{murra1972control}): a community's control of multiple ecological floors, often far apart.
 \end{itemize}
 These generate dense within-community solidarity: in this chapter's notation, a bright diagonal block of $W^U$. But the ayllu was never simply a closed block. Verticality linked distant ecological zones. Ayllus were nested in larger units (\textit{markas} and the moieties above them), and today they are federated: the Consejo Nacional de Ayllus y Markas del Qullasuyu (CONAMAQ) and the Katarista-influenced peasant confederation CSUTCB organize across communities and regions. The mobilizations of 2000--2005 drew heavily on such community and union federations. % TODO-VERIFY: founding dates (CONAMAQ 1997; CSUTCB 1979) and the federations' role in 2000-2005.
 In matrix terms, the ayllu combines strong within-block weights with \emph{institutionalized} cross-block links. It is a counterexample to the presumption that strong local solidarity must mean fragmentation.
 
-\textbf{Colonial disruption.} Historians document how the colonial order reorganized this structure. The Toledan \textit{reducciones} resettled dispersed populations into new towns. The \textit{mita} and tribute were levied through community authorities, mobilizing within-community obligations for extraction (Stern, 1982; Platt, 1982). In network terms, colonial rule cut some cross-block links (the vertical archipelagos) and redirected within-block obligations upward to a colonial hierarchy. How far this made $W^U$ more block-diagonal than before is a historical question we flag rather than settle.
+\textbf{Colonial disruption.} Historians document how the colonial order reorganized this structure. The Toledan \textit{reducciones} resettled dispersed populations into new towns. The \textit{mita} and tribute were levied through community authorities, mobilizing within-community obligations for extraction \citep{stern1982peru,platt1982estado}. In network terms, colonial rule cut some cross-block links (the vertical archipelagos) and redirected within-block obligations upward to a colonial hierarchy. How far this made $W^U$ more block-diagonal than before is a historical question we flag rather than settle.
 
 \textbf{Contemporary measurement.} The tools of this chapter could measure the ayllu's solidarity directly: directed dictator games with recipients from inside and outside the community (Example~\ref{ch22:ex:experimental} shows the design, with illustrative numbers), dyadic transfer modules, and records of communal labor. Their cross-community entries matter as much as the diagonal: a federated solidarity network can have both a bright diagonal and a high $\Gamma(W^U)$. The formation model offers one account of persistence: solidarity norms ($\theta_{\text{solidarity}}$) are reproduced each generation through community information networks, with half-life $\ln 2 / \ln(1/\rho)$ generations, about 4 at $\rho = 0.85$.
 
@@ -407,12 +408,12 @@ Compensation & Anti-alignment of $W^U$ with $W^P$ & Prop.~\ref{ch22:thm:alignmen
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Social preferences and networks:} Fehr and Schmidt (1999), ``A Theory of Fairness, Competition, and Cooperation,'' \textit{QJE}. Charness and Rabin (2002), ``Understanding Social Preferences with Simple Tests,'' \textit{QJE}. Leider et al.\ (2009), ``Directed Altruism and Enforced Reciprocity in Social Networks,'' \textit{QJE}.
+\textbf{Social preferences and networks:} \citet{fehr1999theory}, ``A Theory of Fairness, Competition, and Cooperation.'' \citet{charness2002understanding}, ``Understanding Social Preferences with Simple Tests.'' \citet{leider2009directed}, ``Directed Altruism and Enforced Reciprocity in Social Networks.''
 
-\textbf{Transfers and informal insurance:} Townsend (1994), ``Risk and Insurance in Village India,'' \textit{Econometrica}. Ligon, Thomas, and Worrall (2002), ``Informal Insurance Arrangements with Limited Commitment,'' \textit{REStud}. Cox (1987), ``Motives for Private Income Transfers,'' \textit{JPE}. Foster and Rosenzweig (2001), ``Imperfect Commitment, Altruism, and the Family: Evidence from Transfer Behavior in Low-Income Rural Areas,'' \textit{REStat}. Fafchamps and Gubert (2007), ``The Formation of Risk Sharing Networks,'' \textit{JDE}. Ligon and Schechter (2012), ``Motives for Sharing in Social Networks,'' \textit{JDE}. Bourguignon and Spadaro (2012), ``Tax--Benefit Revealed Social Preferences,'' \textit{Journal of Economic Inequality}.
+\textbf{Transfers and informal insurance:} \citet{townsend1994risk}, ``Risk and Insurance in Village India.'' \citet{ligon2002informal}, ``Informal Insurance Arrangements with Limited Commitment.'' \citet{cox1987motives}, ``Motives for Private Income Transfers.'' \citet{foster2001imperfect}, ``Imperfect Commitment, Altruism, and the Family: Evidence from Transfer Behavior in Low-Income Rural Areas.'' \citet{fafchamps2007formation}, ``The Formation of Risk Sharing Networks.'' \citet{ligon2012motives}, ``Motives for Sharing in Social Networks.'' \citet{bourguignon2012tax}, ``Tax--Benefit Revealed Social Preferences.''
 
-\textbf{Andean institutions:} Murra (1972), ``El control vertical de un m\'{a}ximo de pisos ecol\'{o}gicos en la econom\'{i}a de las sociedades andinas.'' Alberti and Mayer (1974), \textit{Reciprocidad e intercambio en los Andes peruanos}. Patzi Paco (2004), \textit{Sistema comunal: una propuesta alternativa al sistema liberal}. Platt (1982), \textit{Estado boliviano y ayllu andino}. Stern (1982), \textit{Peru's Indian Peoples and the Challenge of Spanish Conquest}.
+\textbf{Andean institutions:} \citet{murra1972control}, ``El control vertical de un m\'{a}ximo de pisos ecol\'{o}gicos en la econom\'{i}a de las sociedades andinas.'' \citet{alberti1974reciprocidad}, \textit{Reciprocidad e intercambio en los Andes peruanos}. \citet{patzipaco2004sistema}, \textit{Sistema comunal: una propuesta alternativa al sistema liberal}. \citet{platt1982estado}, \textit{Estado boliviano y ayllu andino}. \citet{stern1982peru}, \textit{Peru's Indian Peoples and the Challenge of Spanish Conquest}.
 
-\textbf{Experimental economics in developing countries:} Henrich et al.\ (2010), ``Markets, Religion, Community Size, and the Evolution of Fairness and Punishment,'' \textit{Science}. Cardenas (2003), ``Real Wealth and Experimental Cooperation,'' \textit{Journal of Development Economics}.
+\textbf{Experimental economics in developing countries:} \citet{henrich2010markets}, ``Markets, Religion, Community Size, and the Evolution of Fairness and Punishment.'' \citet{cardenas2003real}, ``Real Wealth and Experimental Cooperation.''
 
 \end{document}

@@ -9,6 +9,7 @@
 \hfill --- CEPAL, \textit{Cambio estructural para la igualdad: una visi\'{o}n integrada del desarrollo} (2012)
 % TODO-VERIFY: this sentence was not located verbatim in CEPAL (2012), LC/G.2524(SES.34/3); check the Spanish edition and give a page, or present it as a paraphrase.
 \end{quote}
+\nocite{cepal2012cambio}
 
 \vspace{1em}
 
@@ -88,7 +89,7 @@ the largest total-variation distance between two rows. $\tau_1(W) < 1$ iff every
 For row-stochastic $A$, $B$: (i) $\tau_1(AB) \le \tau_1(A)\,\tau_1(B)$; (ii) every eigenvalue $\lambda \neq 1$ of $A$ satisfies $|\lambda| \le \tau_1(A)$, so $\Gamma(A) \ge 1 - \tau_1(A)$.
 \end{proposition}
 \begin{proof}[Proof sketch]
-$\tau_1(A) = \sup\{\|\boldsymbol{\delta}'A\|_1 / \|\boldsymbol{\delta}\|_1 : \boldsymbol{\delta} \in \R^N\setminus\{0\},\ \boldsymbol{\delta}'\ones = 0\}$, and $\boldsymbol{\delta}'A\ones = 0$, so the set $\{\boldsymbol{\delta}'\ones = 0\}$ is invariant; (i) is submultiplicativity of this operator norm. For (ii), a left eigenvector $\mathbf{u}$ of $\lambda \neq 1$ satisfies $\mathbf{u}'\ones = 0$; for real $\lambda$ apply the norm bound to $\mathbf{u}$, and for complex $\lambda$ see Seneta (2006, Thm.~3.1).
+$\tau_1(A) = \sup\{\|\boldsymbol{\delta}'A\|_1 / \|\boldsymbol{\delta}\|_1 : \boldsymbol{\delta} \in \R^N\setminus\{0\},\ \boldsymbol{\delta}'\ones = 0\}$, and $\boldsymbol{\delta}'A\ones = 0$, so the set $\{\boldsymbol{\delta}'\ones = 0\}$ is invariant; (i) is submultiplicativity of this operator norm. For (ii), a left eigenvector $\mathbf{u}$ of $\lambda \neq 1$ satisfies $\mathbf{u}'\ones = 0$; for real $\lambda$ apply the norm bound to $\mathbf{u}$, and for complex $\lambda$ see \citet[Thm.~3.1]{seneta2006nonnegative}.
 \end{proof}
 
 In the counterexample, $\tau_1(X) = \tau_1(Y) = \tau_1(XY) = 1$: neither matrix is scrambling, which flags the problem that $\Gamma_t$ hides.
@@ -104,7 +105,7 @@ If $\sum_{t}\bigl(1 - \tau_1(W_t)\bigr) = \infty$, then $(W_t)$ is weakly ergodi
 By Proposition~\ref{ch23:prop:dobrushin}(i), $\tau_1(P_{t,s}) \le \prod_{r=s}^{t-1}\tau_1(W_r) \le \exp\bigl(-\sum_{r=s}^{t-1}(1-\tau_1(W_r))\bigr) \to 0$, using $x \le e^{-(1-x)}$.
 \end{proof}
 
-For backward products such as \eqref{ch23:eq:backward_product}, weak and strong ergodicity coincide (Chatterjee and Seneta, 1977; Seneta, 2006, ch.~4), and the limit vector has a direct power interpretation. An \textbf{absolute probability sequence} is a sequence of probability vectors $(\boldsymbol{\pi}_t)$ with $\boldsymbol{\pi}_{t+1}'W_t = \boldsymbol{\pi}_t'$ (Kolmogorov, 1936; Touri and Nedi\'{c}). Such a sequence always exists, and it makes $\boldsymbol{\pi}_t'\bb_t$ invariant, since $\boldsymbol{\pi}_{t+1}'\bb_{t+1} = \boldsymbol{\pi}_{t+1}'W_t\bb_t = \boldsymbol{\pi}_t'\bb_t$. Under weak ergodicity the eventual consensus is therefore $\boldsymbol{\pi}_s'\bb_s$: \emph{$\boldsymbol{\pi}_s$, not $\boldsymbol{\pi}(W_s)$, is the time-varying vector of epistemic power.} When $W_t$ changes slowly, $\boldsymbol{\pi}_t \approx \boldsymbol{\pi}(W_t)$, with an error controlled by the perturbation lemma (Lemma~\ref{ch06:lem:perturbation}).
+For backward products such as \eqref{ch23:eq:backward_product}, weak and strong ergodicity coincide \citep[ch.~4]{chatterjee1977towards,seneta2006nonnegative}, and the limit vector has a direct power interpretation. An \textbf{absolute probability sequence} is a sequence of probability vectors $(\boldsymbol{\pi}_t)$ with $\boldsymbol{\pi}_{t+1}'W_t = \boldsymbol{\pi}_t'$ \citep{kolmogorov1936theorie,touri2014product}. Such a sequence always exists, and it makes $\boldsymbol{\pi}_t'\bb_t$ invariant, since $\boldsymbol{\pi}_{t+1}'\bb_{t+1} = \boldsymbol{\pi}_{t+1}'W_t\bb_t = \boldsymbol{\pi}_t'\bb_t$. Under weak ergodicity the eventual consensus is therefore $\boldsymbol{\pi}_s'\bb_s$: \emph{$\boldsymbol{\pi}_s$, not $\boldsymbol{\pi}(W_s)$, is the time-varying vector of epistemic power.} When $W_t$ changes slowly, $\boldsymbol{\pi}_t \approx \boldsymbol{\pi}(W_t)$, with an error controlled by the perturbation lemma (Lemma~\ref{ch06:lem:perturbation}).
 
 \begin{keyinsight}
 Report three integration diagnostics, not one: the per-period gap $\Gamma(W_t)$; the Dobrushin coefficient $\tau_1(W_t)$, which composes over time; and the \emph{realized-product gap} over a window of $k$ years, $\Gamma^{(k)}_t := 1 - |\lambda_2(W_{t+k-1}\cdots W_t)|^{1/k}$. When they disagree, the realized-product gap is the one that describes what actually happened.
@@ -414,7 +415,7 @@ When it exists, the RAS solution minimizes the KL-divergence
 \[
 \textstyle\sum_{ij} A^*_{ij}\ln(A^*_{ij}/A_{0,ij})
 \]
-subject to the margin constraints. It preserves zeros (if $A_{0,ij} = 0$ then $A^*_{ij} = 0$) and the block structure of $A_0$. Existence requires $\sum_i r_i = \sum_j c_j$ and margins compatible with the zero pattern of $A_0$ (Bacharach, 1970); in practice the iteration is applied to intermediate transactions, whose margins are intermediate sales and purchases, and the result is row-normalized afterwards to obtain $W^P_t$.
+subject to the margin constraints. It preserves zeros (if $A_{0,ij} = 0$ then $A^*_{ij} = 0$) and the block structure of $A_0$. Existence requires $\sum_i r_i = \sum_j c_j$ and margins compatible with the zero pattern of $A_0$ \citep{bacharach1970biproportional}; in practice the iteration is applied to intermediate transactions, whose margins are intermediate sales and purchases, and the result is row-normalized afterwards to obtain $W^P_t$.
 
 \paragraph{Structural interpretation.} RAS updating assumes the block structure of $W^P$ is unchanged between benchmarks --- only the relative sizes of sectors change. This is conservative: it cannot detect edge creation or destruction between benchmark I-O tables. Between benchmarks, $\Gamma_t$ moves only through the margins. Real structural change therefore shows up as a jump \emph{at the next benchmark year}, which then bundles several years of accumulated change; do not read the jump as a one-year break.
 
@@ -423,11 +424,11 @@ subject to the margin constraints. It preserves zeros (if $A_{0,ij} = 0$ then $A
 \addcontentsline{toc}{subsection}{Appendix 23B: Structural-Cyclical Decomposition}
 \label{ch23:app:decomposition}
 
-\paragraph{HP filter.} The Hodrick-Prescott filter decomposes $\Gamma_t = \Gamma_t^S + \Gamma_t^C$ by minimizing $\sum_t (\Gamma_t - \Gamma_t^S)^2 + \lambda\sum_t [(\Gamma_{t+1}^S - \Gamma_t^S) - (\Gamma_t^S - \Gamma_{t-1}^S)]^2$. The smoothing parameter $\lambda$ controls the trade-off between fit and smoothness. For annual data: $\lambda = 6.25$ (Ravn and Uhlig, 2002) or $\lambda = 100$ (traditional). These choices matter: the gain-$\tfrac12$ cutoff period of the annual HP filter is about 10 years for $\lambda = 6.25$, 20 years for $\lambda = 100$, 28 years for $\lambda = 400$ and 40 years for $\lambda = 1600$ (\texttt{code/ch23.py}). To separate a 10--20 year cycle from structural trends use $\lambda \approx 6.25$--$100$; $\lambda = 400$--$1600$ treats everything shorter than 28--40 years as cyclical.
+\paragraph{HP filter.} The Hodrick-Prescott filter decomposes $\Gamma_t = \Gamma_t^S + \Gamma_t^C$ by minimizing $\sum_t (\Gamma_t - \Gamma_t^S)^2 + \lambda\sum_t [(\Gamma_{t+1}^S - \Gamma_t^S) - (\Gamma_t^S - \Gamma_{t-1}^S)]^2$. The smoothing parameter $\lambda$ controls the trade-off between fit and smoothness. For annual data: $\lambda = 6.25$ \citep{ravn2002adjusting} or $\lambda = 100$ (traditional). These choices matter: the gain-$\tfrac12$ cutoff period of the annual HP filter is about 10 years for $\lambda = 6.25$, 20 years for $\lambda = 100$, 28 years for $\lambda = 400$ and 40 years for $\lambda = 1600$ (\texttt{code/ch23.py}). To separate a 10--20 year cycle from structural trends use $\lambda \approx 6.25$--$100$; $\lambda = 400$--$1600$ treats everything shorter than 28--40 years as cyclical.
 
 \paragraph{Band-pass filter.} The Baxter-King or Christiano-Fitzgerald filter isolates fluctuations at specific frequencies. Structural change: periods $> 20$ years. Business cycle: 2--8 years. The band-pass filter cleanly separates the two.
 
-\paragraph{Structural breaks.} The HP and band-pass filters assume smooth trends. For detecting abrupt structural breaks (nationalization, crisis, regime change): use the Bai-Perron (1998) multiple structural break test applied to $\Gamma_t$. The null hypothesis is no break; the alternative is one or more breaks at unknown dates.
+\paragraph{Structural breaks.} The HP and band-pass filters assume smooth trends. For detecting abrupt structural breaks (nationalization, crisis, regime change): use the \citet{bai1998estimating} multiple structural break test applied to $\Gamma_t$. The null hypothesis is no break; the alternative is one or more breaks at unknown dates.
 
 
 %% =====================================================================
@@ -435,7 +436,7 @@ subject to the margin constraints. It preserves zeros (if $A_{0,ij} = 0$ then $A
 \addcontentsline{toc}{subsection}{Structuralist Case Study: CEPAL (2012)}
 %% =====================================================================
 
-CEPAL's (2012) report \textit{Structural Change for Equality: An Integrated Approach to Development} represents the institutional synthesis of the structuralist tradition's diagnosis and prescription. Published 63 years after Prebisch's 1949 manifesto, it argues that Latin America's central challenge remains structural: the region has achieved macroeconomic stability and poverty reduction but has not changed its production structure.
+\citeauthor{cepal2012structural}'s (\citeyear{cepal2012structural}) report \textit{Structural Change for Equality: An Integrated Approach to Development} represents the institutional synthesis of the structuralist tradition's diagnosis and prescription. Published 63 years after Prebisch's \citeyear{prebisch1949desarrollo} manifesto, it argues that Latin America's central challenge remains structural: the region has achieved macroeconomic stability and poverty reduction but has not changed its production structure.
 
 The report maps onto this chapter's framework precisely.
 
@@ -448,7 +449,7 @@ The report maps onto this chapter's framework precisely.
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
-\textbf{CEPAL 2012} & \textbf{This chapter} & \textbf{Cross-reference} \\
+\textbf{\citet{cepal2012structural}} & \textbf{This chapter} & \textbf{Cross-reference} \\
 \midrule
 Structural change is slow & $v_\Gamma \approx 0.01$/decade & Ex.~\ref{ch23:ex:velocities} \\
 Redistribution without structural change & $\Delta\boldsymbol{\omega} \gg \Delta W$ & Sec.~\ref{ch23:sec:bolivia}, Epoch 4 \\
@@ -468,12 +469,12 @@ CEPAL wrote in the language of institutions and policy. This chapter translates 
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Structural change measurement:} CEPAL (2012), \textit{Structural Change for Equality}, Santiago: United Nations. McMillan, Rodrik, and Verduzco-Gallo (2014), ``Globalization, Structural Change, and Productivity Growth,'' \textit{World Development}. de Vries et al.\ (2012), ``Deconstructing the BRICs,'' \textit{GGDC Research Memorandum}.
+\textbf{Structural change measurement:} \citet{cepal2012structural}, \textit{Structural Change for Equality}. \citet{mcmillan2014globalization}, ``Globalization, Structural Change, and Productivity Growth.'' \citet{devries2012deconstructing}, ``Deconstructing the BRICs.''
 
-\textbf{I-O table updating:} Miller and Blair (2009), \textit{Input-Output Analysis: Foundations and Extensions}, Chapter~8 (RAS and cross-entropy methods). Temursho (2017), ``Entropy-Based Benchmarking Methods,'' \textit{Economic Systems Research}.
+\textbf{I-O table updating:} \citet{miller2009input}, \textit{Input-Output Analysis: Foundations and Extensions}, Chapter~8 (RAS and cross-entropy methods). \citet{temursho2018entropy}, ``Entropy-Based Benchmarking Methods.''
 
-\textbf{Structural breaks:} Bai and Perron (1998), ``Estimating and Testing Linear Models with Multiple Structural Changes,'' \textit{Econometrica}. For application to development: Pritchett (2000), ``Understanding Patterns of Economic Growth,'' \textit{World Bank Economic Review}.
+\textbf{Structural breaks:} \citet{bai1998estimating}, ``Estimating and Testing Linear Models with Multiple Structural Changes.'' For application to development: \citet{pritchett2000understanding}, ``Understanding Patterns of Economic Growth.''
 
-\textbf{Bolivia's economic history:} Morales and Sachs (1990), ``Bolivia's Economic Crisis.'' Weisbrot, Ray, and Johnston (2009), ``Bolivia: The Economy During the Morales Administration,'' CEPR. Andersen et al.\ (2020), ``Bolivia's Twenty-First Century Commodity Boom,'' INESAD Working Paper.
+\textbf{Bolivia's economic history:} \citet{morales1990bolivia}, ``Bolivia's Economic Crisis.'' \citet{weisbrot2009bolivia}, ``Bolivia: The Economy During the Morales Administration.'' Andersen et al.\ (2020), ``Bolivia's Twenty-First Century Commodity Boom,'' INESAD Working Paper.
 
 \end{document}

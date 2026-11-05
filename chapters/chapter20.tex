@@ -10,6 +10,7 @@
 \textit{``A structuralist model of the economy rests on three pillars: a social accounting matrix to describe the flows, a set of closure rules to determine which variables adjust, and a theory of distribution to explain who gets what.''}\\
 \hfill --- Lance Taylor, \textit{Structuralist Macroeconomics} (1983)
 \end{quote}
+\nocite{taylor1983structuralist}
 
 \vspace{1em}
 
@@ -252,7 +253,7 @@ production receives from production (intermediates) and from households (consump
 M_1 = (I - \tilde A)^{-1}, \qquad A^* = M_1 (A_n - \tilde A), \\
 M_2 = I + A^* + A^{*2}, \qquad M_3 = (I - A^{*3})^{-1}.
 \end{gather*}
-Then (Pyatt and Round, 1979)
+Then \citep{pyatt1979accounting}
 \begin{equation}\label{ch20:eq:pyatt_round}
 M_{\text{SAM}} = M_3\, M_2\, M_1 .
 \end{equation}
@@ -315,7 +316,7 @@ The levels are high because this simplified SAM has no savings account: the only
 \begin{prebisch}[Why gas revenue doesn't develop Bolivia]
 The SAM multiplier makes visible what Chapter~17's dashboard suggested: in this illustrative SAM, Bolivia's gas sector behaves as an enclave. Its total multiplier is the lowest of the four production sectors. Gas revenue flows mainly to capital owners, and capital income reaches poor households only weakly (0.8 of 7.1). The circular flow is thinner where it passes through the distribution of income.
 
-This is a central theme of Taylor (1983): in demand-driven structuralist models, the functional and size distribution of income shapes the multiplier, because different recipients have different spending and import propensities. In the SAM, it shows up as a strong Gas-to-Capital cell and a faint Capital-to-Poor-HH cell.
+This is a central theme of \citet{taylor1983structuralist}: in demand-driven structuralist models, the functional and size distribution of income shapes the multiplier, because different recipients have different spending and import propensities. In the SAM, it shows up as a strong Gas-to-Capital cell and a faint Capital-to-Poor-HH cell.
 
 The policy reading needs care. An injection multiplier is not the return on investing in a sector. Investment demand falls mostly on capital goods, many of them imported, and the comparison of 5.18 with 5.82 does not by itself rank investment projects. What the decomposition does show is \emph{where} the circular flow is thin, which is where Chapter~15's operators should act.
 \end{prebisch}
@@ -440,7 +441,7 @@ The reallocation is 23\% of gas value added (19\% if production taxes are includ
 
 \paragraph{The problem.} Raw data from I-O tables, household surveys, and fiscal accounts rarely balance exactly: row sums and column sums disagree because the data sources are independent with different coverage, timing, and definitions.
 
-\paragraph{Cross-entropy balancing (Robinson, Cattaneo, and El-Said, 2001).} Given a prior (unbalanced) SAM $T^0$ with column coefficients $\bar a_{ij} = T^0_{ij}/\sum_k T^0_{kj}$, find coefficients $a_{ij}$ and totals $y$ that minimize the cross-entropy distance to the prior coefficients, subject to balance:
+\paragraph{Cross-entropy balancing \citep*{robinson2001updating}.} Given a prior (unbalanced) SAM $T^0$ with column coefficients $\bar a_{ij} = T^0_{ij}/\sum_k T^0_{kj}$, find coefficients $a_{ij}$ and totals $y$ that minimize the cross-entropy distance to the prior coefficients, subject to balance:
 \begin{equation}
 \min_{a \geq 0,\, y} \sum_{ij} a_{ij} \ln\frac{a_{ij}}{\bar a_{ij}}, \qquad \text{s.t. } \sum_i a_{ij} = 1, \quad \sum_j a_{ij} y_j = y_i .
 \end{equation}
@@ -471,7 +472,7 @@ The proof is in Proposition~\ref{ch20:prop:decomposition}. $M_3$ is block-diagon
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Taylor (1983)}
 %% =====================================================================
 
-Lance Taylor's \textit{Structuralist Macroeconomics: Applicable Models for the Third World} (1983) is a foundational text of applied structuralist macroeconomics. It built macro models on SAMs --- the accounting framework developed by Stone, by Pyatt and Thorbecke (1976) and by Pyatt and Round (1979) --- and used them to capture the structural heterogeneity, distributional flows and institutional constraints that benchmark macro models abstract from.
+Lance Taylor's \textit{Structuralist Macroeconomics: Applicable Models for the Third World} \citeyearpar{taylor1983structuralist} is a foundational text of applied structuralist macroeconomics. It built macro models on SAMs --- the accounting framework developed by Stone, by \citet{pyatt1976planning} and by \citet{pyatt1979accounting} --- and used them to capture the structural heterogeneity, distributional flows and institutional constraints that benchmark macro models abstract from.
 
 Taylor's contribution to this book's framework is methodological. The SAM is not just a data table but a \textit{modeling platform}: it encodes the economy's complete flow structure, and different ``closure rules'' (choices of which variables are exogenous) produce different models from the same SAM. In this book's terms, the SAM supplies the coefficients from which $W^P$ and the multipliers are built. The closure determines the causal story the model tells about them.
 
@@ -503,7 +504,7 @@ Household disaggregation & Household accounts; $\sigma_B$ needs microdata & Rem.
 \end{tabularx}
 \end{center}
 
-Taylor's books (1983, 1990, 2004) trained a generation of structuralist modelers in Latin America, Africa, and South Asia. His 1990 volume, \textit{Socially Relevant Policy Analysis}, collected structuralist computable general equilibrium (CGE) models. SAM-based CGE models, in the line of Dervis, de Melo and Robinson (1982) and Lofgren, Harris and Robinson (2002), remain a standard tool for evaluating policy in developing countries. This chapter places the SAM within the book's matrix framework. The multiplier decomposition locates where the circular flow is thin, and the counterfactual SAM evaluates interventions under an explicit closure.
+Taylor's books \citeyearpar{taylor1983structuralist,taylor1990socially,taylor2004reconstructing} trained a generation of structuralist modelers in Latin America, Africa, and South Asia. His \citeyear{taylor1990socially} volume, \textit{Socially Relevant Policy Analysis}, collected structuralist computable general equilibrium (CGE) models. SAM-based CGE models, in the line of \citet*{dervis1982general} and \citet*{lofgren2002standard}, remain a standard tool for evaluating policy in developing countries. This chapter places the SAM within the book's matrix framework. The multiplier decomposition locates where the circular flow is thin, and the counterfactual SAM evaluates interventions under an explicit closure.
 
 
 %% =====================================================================
@@ -511,11 +512,11 @@ Taylor's books (1983, 1990, 2004) trained a generation of structuralist modelers
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{SAM construction and methodology:} Pyatt and Round (1979), ``Accounting and Fixed Price Multipliers in a Social Accounting Matrix Framework,'' \textit{EJ}. Round (2003), ``Social Accounting Matrices and SAM-Based Multiplier Analysis,'' in Bourguignon and Pereira da Silva (eds.), \textit{The Impact of Economic Policies on Poverty and Income Distribution}. Robinson, Cattaneo, and El-Said (2001), ``Updating and Estimating a Social Accounting Matrix Using Cross Entropy Methods,'' \textit{Economic Systems Research}.
+\textbf{SAM construction and methodology:} \citet{pyatt1979accounting}, ``Accounting and Fixed Price Multipliers in a Social Accounting Matrix Framework.'' \citet{round2003social}, ``Social Accounting Matrices and SAM-Based Multiplier Analysis.'' \citet*{robinson2001updating}, ``Updating and Estimating a Social Accounting Matrix Using Cross Entropy Methods.''
 
-\textbf{Structuralist macroeconomics:} Taylor (1983), \textit{Structuralist Macroeconomics}, New York: Basic Books. Taylor (1990, ed.), \textit{Socially Relevant Policy Analysis: Structuralist Computable General Equilibrium Models for the Developing World}, MIT Press. Taylor (2004), \textit{Reconstructing Macroeconomics}, Harvard University Press. Pyatt and Thorbecke (1976), \textit{Planning Techniques for a Better Future}, ILO.
+\textbf{Structuralist macroeconomics:} \citet{taylor1983structuralist}, \textit{Structuralist Macroeconomics}. \citet{taylor1990socially}, \textit{Socially Relevant Policy Analysis: Structuralist Computable General Equilibrium Models for the Developing World}. \citet{taylor2004reconstructing}, \textit{Reconstructing Macroeconomics}. \citet{pyatt1976planning}, \textit{Planning Techniques for a Better Future}.
 
-\textbf{CGE modeling:} Lofgren, Harris, and Robinson (2002), ``A Standard Computable General Equilibrium (CGE) Model in GAMS,'' IFPRI TMD Discussion Paper 75. Dervis, de Melo, and Robinson (1982), \textit{General Equilibrium Models for Development Policy}, Cambridge University Press. For Bolivia-specific CGE models, see the work of Luis Carlos Jemio. % TODO-VERIFY: exact title/year of the Jemio reference (the earlier "IISEC Working Paper, 2001" title could not be confirmed).
+\textbf{CGE modeling:} \citet*{lofgren2002standard}, ``A Standard Computable General Equilibrium (CGE) Model in GAMS.'' \citet*{dervis1982general}, \textit{General Equilibrium Models for Development Policy}. For Bolivia-specific CGE models, see the work of Luis Carlos Jemio. % TODO-VERIFY: exact title/year of the Jemio reference (the earlier "IISEC Working Paper, 2001" title could not be confirmed).
 
 \textbf{Bolivia SAM data:} INE (\texttt{ine.gob.bo}): I-O tables, National Accounts. UDAPE: social indicators and public expenditure. MEFP (Ministerio de Econom\'{i}a y Finanzas P\'{u}blicas): fiscal data.
 

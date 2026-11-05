@@ -9,6 +9,7 @@
 \hfill --- Osvaldo Sunkel, ``Capitalismo transnacional y desintegraci\'{o}n nacional'' (1971)
 % TODO-VERIFY: check wording and add page against Sunkel (1971), Estudios Internacionales 4(16), pp. 3--61; possibly a paraphrase.
 \end{quote}
+\nocite{sunkel1971capitalismo}
 
 \vspace{1em}
 
@@ -40,7 +41,7 @@ with $\sigma(z) = 1/(1+e^{-z})$ and $p_1, p_2, p_3 \geq 0$, where:
 \end{definition}
 
 \begin{intuition}[Why proximity dominates]
-The three factors create a strong path dependence. New edges form near existing edges (proximity), where the surplus is predictable (information), and where the connection can be sustained (surplus). This means $W_{t+1}$ is similar to $W_t$: the network evolves gradually, not by random rewiring. The principle of relatedness (Hidalgo et al., 2007) --- the empirical law that regions diversify into activities related to their existing activities --- is a consequence of this proximity mechanism applied to $W^P$.
+The three factors create a strong path dependence. New edges form near existing edges (proximity), where the surplus is predictable (information), and where the connection can be sustained (surplus). This means $W_{t+1}$ is similar to $W_t$: the network evolves gradually, not by random rewiring. The principle of relatedness \citep{hidalgo2007product} --- the empirical law that regions diversify into activities related to their existing activities --- is a consequence of this proximity mechanism applied to $W^P$.
 \end{intuition}
 
 
@@ -63,7 +64,7 @@ Bolivia's nationalization of gas in 2006 was a simultaneous edge destruction and
 
 \textbf{Creation:} New edges from gas production to the domestic treasury ($W^P_{\text{gas, treasury}}$) were strengthened. Gas revenues began flowing through domestic fiscal channels to domestic social programs.
 
-\textbf{Net effect on $\Gamma$:} Ambiguous. The nationalization increased some within-country linkages (gas revenue to social spending) but did not create production linkages between the gas sector and the traditional economy. The upper-left block of $W^P$ (gas/government) became brighter internally, but the cross-block entries (gas to traditional) remained dark. $\Gamma$ may have increased slightly (more domestic fiscal links) without fundamentally changing the block-diagonal structure. Strictly, the gas-to-treasury channel is a \emph{fiscal} linkage in Hirschman's (1977) sense rather than a production edge; modelling it inside $W^P$ requires a node set that includes the government as a sector.
+\textbf{Net effect on $\Gamma$:} Ambiguous. The nationalization increased some within-country linkages (gas revenue to social spending) but did not create production linkages between the gas sector and the traditional economy. The upper-left block of $W^P$ (gas/government) became brighter internally, but the cross-block entries (gas to traditional) remained dark. $\Gamma$ may have increased slightly (more domestic fiscal links) without fundamentally changing the block-diagonal structure. Strictly, the gas-to-treasury channel is a \emph{fiscal} linkage in \citeauthor{hirschman1977generalized}'s \citeyearpar{hirschman1977generalized} sense rather than a production edge; modelling it inside $W^P$ requires a node set that includes the government as a sector.
 \end{example}
 
 
@@ -271,7 +272,7 @@ If edge creation is dominated by proximity ($p_1 \gg p_2, p_3$ in~\eqref{ch13:eq
 \noindent\textit{Why it is plausible.} (1) follows from the proximity term dominating: the creation probability is increasing in $a(i,j;W_t)$, which is high for agents already close in $W_t$. (2) under the stated hypothesis is first-order eigenvalue perturbation. (3)--(4): in a block-diagonal $W_t$, within-block distances are small and cross-block distances are large, so edge creation favors within-block links. Example~\ref{ch13:ex:bolivia_two} is an instance: below $\hat c$ the dynamics return to the fragmented equilibrium. Turning (3)--(4) into a theorem requires a specific stochastic model of creation (e.g.\ a stochastic block model with a proximity kernel).
 
 \begin{prebisch}[The principle of relatedness as structural lock-in]
-The principle of relatedness (Hidalgo et al., 2007; Hidalgo, 2021) states that the probability a region enters a new economic activity increases with the number of related activities already present. In the product space, countries diversify into products near their current exports, not into distant products.
+The principle of relatedness \citep{hidalgo2007product,hidalgo2021economic} states that the probability a region enters a new economic activity increases with the number of related activities already present. In the product space, countries diversify into products near their current exports, not into distant products.
 
 This is Conjecture~\ref{ch13:thm:path_dependence} applied to $W^P$. The production network evolves through proximity-dominated edge creation: you can produce what is ``near'' what you already produce. Bolivia produces gas (a product on the periphery of the product space, few connections to other products). The nearest products are other extractive commodities (mining, basic chemicals). The distant products are machinery, electronics, pharmaceuticals --- the dense core of the product space.
 
@@ -404,7 +405,7 @@ In Example~\ref{ch13:ex:bolivia_two} the basin of $B$ is $\{W(c): c > \hat c\}$,
 \toprule
 \textbf{Mechanism} & \textbf{Historical example} & \textbf{Network change} & \textbf{$\varepsilon^*$} \\
 \midrule
-Exogenous shock & WWII (US female LFP; much of the wartime entry reversed by 1950, Goldin 1991) & Mass entry of women into $W^P$ & Large, one-time \\
+Exogenous shock & WWII (US female LFP; much of the wartime entry reversed by 1950, \citealt{goldin1991role}) & Mass entry of women into $W^P$ & Large, one-time \\
 Infrastructure & Trans-Siberian railway & Physical cross-block edge & Medium, permanent \\
 Information shock & Mobile phones (Africa) & $W^I$ gains cross-block edges & Small per edge, cumulative \\
 Policy & South Korea's export-oriented industrialization and heavy-and-chemical-industry drive & Deliberate creation of $W^P$ edges & Large, sustained \\
@@ -492,7 +493,7 @@ A multinational corporation creates a link between Center and Periphery-Elite: $
 \item Pre-war: $W^P$ is block-diagonal (women in domestic production, men in market production). Women's $\theta^*_F = 0.3$ (low market orientation).
 \item WWII shock: women enter $W^P_{\text{market}}$ (large cross-block edge creation). Compute immediate effect on $\boldsymbol{\theta}$.
 \item Post-war: the edge partially reverses (some women leave market). But children of wartime workers have $W^I$ edges to the market. Simulate the formation dynamics for 3 generations.
-\item Does $\theta^*_F$ return to 0.3? Why or why not? Connect to Fern\'{a}ndez (2013).
+\item Does $\theta^*_F$ return to 0.3? Why or why not? Connect to \citet{fernandez2013cultural}.
 \end{enumerate}
 
 \item \textbf{Network evolution simulation.} Write a Python program that simulates the co-evolutionary system for $N = 8$, starting from a random initial $W_0$:
@@ -544,7 +545,7 @@ Stability requires all eigenvalues of $\mathcal{J}$ to have modulus less than 1.
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Sunkel (1971)}
 %% =====================================================================
 
-Osvaldo Sunkel's 1971 essay ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina'' (\textit{Estudios Internacionales}, 4(16), pp.~3--61) advanced a thesis that was ahead of its time by forty years and maps directly onto the network evolution theory of this chapter: \textbf{the same process that integrates the world economy disintegrates the national economies of the periphery}.
+Osvaldo Sunkel's 1971 essay ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina'' (\citealp[\textit{Estudios Internacionales}, 4(16), pp.~3--61]{sunkel1971capitalismo}) advanced a thesis that was ahead of its time by forty years and maps directly onto the network evolution theory of this chapter: \textbf{the same process that integrates the world economy disintegrates the national economies of the periphery}.
 
 Sunkel's argument has three parts.
 
@@ -554,7 +555,7 @@ Sunkel's argument has three parts.
 
 This is Remark~\ref{ch13:prop:disintegration}, mechanism~3: selective integration. The agents who form cross-border links are precisely the agents who previously served as bridges between domestic blocks. When they exit the domestic network (or reduce their domestic engagement), the domestic blocks lose their only connections. The blocks drift apart.
 
-\textbf{Part 3: Many processes, one process.} Sunkel and Paz (1970) had argued that development and underdevelopment are two faces of a single historical process. The 1971 essay identified, in our terms, what that process is: the rewiring of $W$ that simultaneously integrates elites across borders and disintegrates national economies within borders. Every edge created in $W_{\text{global}}$ between an elite node and the international system is, implicitly, an edge weakened in $W_{\text{domestic}}$ between that elite node and the non-elite population. The zero-sum character is not about resources (growth can be positive-sum) but about \textit{attention, links, and structural position}: an agent has a finite capacity for connections, and global connections displace domestic ones.
+\textbf{Part 3: Many processes, one process.} \citet{sunkel1970subdesarrollo} had argued that development and underdevelopment are two faces of a single historical process. The 1971 essay identified, in our terms, what that process is: the rewiring of $W$ that simultaneously integrates elites across borders and disintegrates national economies within borders. Every edge created in $W_{\text{global}}$ between an elite node and the international system is, implicitly, an edge weakened in $W_{\text{domestic}}$ between that elite node and the non-elite population. The zero-sum character is not about resources (growth can be positive-sum) but about \textit{attention, links, and structural position}: an agent has a finite capacity for connections, and global connections displace domestic ones.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
@@ -579,12 +580,12 @@ Sunkel wrote in 1971, before ``globalization'' entered common usage. The multina
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Network evolution:} Jackson and Rogers (2007), ``Meeting Strangers and Friends of Friends,'' \textit{AER}. Barab\'{a}si and Albert (1999), ``Emergence of Scaling in Random Networks,'' \textit{Science}. For endogenous network formation with strategic agents: Bala and Goyal (2000), ``A Noncooperative Model of Network Formation,'' \textit{Econometrica}.
+\textbf{Network evolution:} \citet{jackson2007meeting}, ``Meeting Strangers and Friends of Friends.'' \citet{barabasi1999emergence}, ``Emergence of Scaling in Random Networks.'' For endogenous network formation with strategic agents: \citet{bala2000noncooperative}, ``A Noncooperative Model of Network Formation.''
 
-\textbf{The principle of relatedness:} Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}. Hidalgo (2021), ``Economic Complexity Theory and Applications,'' \textit{Nature Reviews Physics}. Hausmann and Klinger (2007), ``The Structure of the Product Space and the Evolution of Comparative Advantage,'' CID Working Paper.
+\textbf{The principle of relatedness:} \citet{hidalgo2007product}, ``The Product Space Conditions the Development of Nations.'' \citet{hidalgo2021economic}, ``Economic Complexity Theory and Applications.'' \citet{hausmann2007structure}, ``The Structure of the Product Space and the Evolution of Comparative Advantage,'' CID Working Paper.
 
-\textbf{Path dependence in economic geography:} Martin and Sunley (2006), ``Path Dependence and Regional Economic Evolution,'' \textit{Journal of Economic Geography}. Boschma and Frenken (2011), ``The Emerging Empirics of Evolutionary Economic Geography,'' \textit{Journal of Economic Geography}.
+\textbf{Path dependence in economic geography:} \citet{martin2006path}, ``Path Dependence and Regional Economic Evolution.'' \citet{boschma2011emerging}, ``The Emerging Empirics of Evolutionary Economic Geography.''
 
-\textbf{The structuralist tradition on structural change:} Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina,'' \textit{Estudios Internacionales} 4(16). Sunkel (1993), \textit{Development from Within: Toward a Neostructuralist Approach for Latin America}, Lynne Rienner. Ocampo (2009), ``Latin America and the Global Financial Crisis,'' \textit{Cambridge Journal of Economics}. On fiscal and other linkages from staples: Hirschman (1977), ``A Generalized Linkage Approach to Development, with Special Reference to Staples,'' \textit{Economic Development and Cultural Change} 25 (supplement). On the reversal of wartime female employment: Goldin (1991), ``The Role of World War II in the Rise of Women's Employment,'' \textit{AER}.
+\textbf{The structuralist tradition on structural change:} \citet{sunkel1971capitalismo}, ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina.'' \citet{sunkel1993development}, \textit{Development from Within: Toward a Neostructuralist Approach for Latin America}, Lynne Rienner. \citet{ocampo2009latin}, ``Latin America and the Global Financial Crisis.'' On fiscal and other linkages from staples: \citet{hirschman1977generalized}, ``A Generalized Linkage Approach to Development, with Special Reference to Staples.'' On the reversal of wartime female employment: \citet{goldin1991role}, ``The Role of World War II in the Rise of Women's Employment.''
 
 \end{document}

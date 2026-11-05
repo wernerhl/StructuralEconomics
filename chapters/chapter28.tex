@@ -9,6 +9,7 @@
 \hfill --- Celso Furtado, \textit{Desenvolvimento e Subdesenvolvimento} (1961)
 % TODO-VERIFY: this wording may come from Teoria e Politica do Desenvolvimento Economico (1967) rather than the 1961 book; the canonical 1961 line is "um processo historico autonomo, e nao uma etapa ...". Check both editions and give a page.
 \end{quote}
+\nocite{furtado1961desenvolvimento}
 
 \vspace{1em}
 
@@ -93,10 +94,10 @@ The table restates each chapter's main result in terms of $W$ and lists the prim
 \label{ch28:sec:furtado}
 %% =====================================================================
 
-Celso Furtado's 1961 thesis --- that underdevelopment is not a stage but a structure --- is the sentence that generated this book. Every chapter is an elaboration.
+Celso Furtado's \citeyear{furtado1961desenvolvimento} thesis --- that underdevelopment is not a stage but a structure --- is the sentence that generated this book. Every chapter is an elaboration.
 
 \begin{remark}[Furtado's Thesis in the Language of $W$]\label{ch28:prop:furtado}
-Furtado (1961) made three claims. Their translation is ours, and it is a reinterpretation rather than a proof:
+\citet{furtado1961desenvolvimento} made three claims. Their translation is ours, and it is a reinterpretation rather than a proof:
 \begin{enumerate}
 \item \textbf{Underdevelopment is not the absence of development.} It is a specific structural configuration, the product of the \emph{interaction} of a modern sector, tied to the world economy, with an archaic one. In $W$ terms it has \emph{two} features that the book's two coordinates keep apart: weak productive integration between the blocks (small $\Gamma(W^P)$, Chapter~3) \emph{and} a strong extraction channel through which surplus flows from the archaic to the modern sector, which concentrates power ($\boldsymbol{\pi}$ far from uniform, Chapter~6). Low integration and high concentration coexist; neither implies the other.
 
@@ -124,7 +125,7 @@ Contemporary & Algorithmic $W^I$ & 27 \\
 \end{remark}
 
 \begin{intuition}[Why ``the general case'']
-The benchmark Arrow--Debreu model abstracts from social structure: agents interact anonymously through prices ($W^{\text{mkt}} = \ones\mathbf{s}'$), there are no externalities ($W^U = 0$), and preferences are taken as given rather than formed through $W^I$. This is a deliberate abstraction, not a mistake, and modern economics has relaxed each part of it --- production-network macroeconomics (Long and Plosser, 1983; Acemoglu, Carvalho, Ozdaglar and Tahbaz-Salehi, 2012; Baqaee and Farhi, 2019), network learning (DeGroot, 1974; Golub and Jackson, 2010, 2012) and endogenous preferences already work with general $W$. Those literatures are this book's allies.
+The benchmark Arrow--Debreu model abstracts from social structure: agents interact anonymously through prices ($W^{\text{mkt}} = \ones\mathbf{s}'$), there are no externalities ($W^U = 0$), and preferences are taken as given rather than formed through $W^I$. This is a deliberate abstraction, not a mistake, and modern economics has relaxed each part of it --- production-network macroeconomics \citep{long1983real,acemoglu2012network,baqaee2019macroeconomic}, network learning \citep{degroot1974reaching,golub2010naive,golub2012how} and endogenous preferences already work with general $W$. Those literatures are this book's allies.
 
 What structural economics adds is a single language for the three networks at once, and a structuralist agenda for it: who holds power in $W$, how $W$ forms the preferences that judge it, and how $W$ can be changed. In that sense it \textit{removes a restriction}: the anonymous benchmark restricts $W$ to rank-one matrices $\ones\mathbf{s}'$, a set of measure zero among row-stochastic matrices, and structural economics allows $W$ to be anywhere.
 
@@ -183,7 +184,7 @@ Intellectual honesty requires stating the limits.
 
 \textbf{2. The empirical estimates are rough.} $\Gamma$, $N_{\text{eff}}$, and $\Psi$ are estimated from imperfect proxies (I-O tables that are updated every 5--10 years, media surveys with small samples, cohort-year decompositions that rely on strong identifying assumptions). The structural health dashboard is a first approximation. Most country values in Chapters~16--27 are illustrative placeholders, internally consistent but not yet estimated from documented data. The qualitative claims do not hinge on any single number; the quantitative ones (thresholds such as $\Gamma^*$ and $N^*_{\text{eff}}$, shares such as the truncation penalty) do, and they stand or fall with the estimates.
 
-\textbf{3. The political economy is underdeveloped.} Chapter~14's coalition model is a one-shot game. Real political dynamics involve repeated interaction, institutions, ideology, identity, and contingency. The hegemonic cycle (Chapter~24) is a conjecture, not a fully specified model. Reading $\boldsymbol{\pi}$ as bargaining power is an assumption; network-bargaining theory (Manea, 2011; Abreu and Manea, 2012) shows that bargaining payoffs need not equal eigenvector centrality. The book identifies the political constraint but does not solve it.
+\textbf{3. The political economy is underdeveloped.} Chapter~14's coalition model is a one-shot game. Real political dynamics involve repeated interaction, institutions, ideology, identity, and contingency. The hegemonic cycle (Chapter~24) is a conjecture, not a fully specified model. Reading $\boldsymbol{\pi}$ as bargaining power is an assumption; network-bargaining theory \citep{manea2011bargaining,abreu2012bargaining} shows that bargaining payoffs need not equal eigenvector centrality. The book identifies the political constraint but does not solve it.
 
 \textbf{4. Culture is underspecified.} The formation model reduces culture to a preference parameter $\theta$ formed through $W^I$. Real culture involves narratives, identities, rituals, languages, cosmologies --- things that do not reduce to a scalar. The model captures the \textit{mechanism} of cultural transmission (network-mediated signal processing) but not the \textit{content}.
 
@@ -204,7 +205,7 @@ This book opens a research program; it does not close one. Each limit above is a
 \begin{enumerate}
 \item \textbf{Estimation} (limit 2): Replace every illustrative number with a sourced estimate, computed by public code from INE, OECD ICIO, the Atlas of Economic Complexity and household surveys. Then estimate $W^P$, $W^I$, $W^U$ at high frequency and fine spatial resolution, using big data, satellite imagery, and digital trace data, with bootstrap error bands.
 
-\item \textbf{Identification of $\Psi$}: Better designs for separating enforcement from formation. Randomized $W^I$ interventions (following Bernard et al., 2014) in multiple countries.
+\item \textbf{Identification of $\Psi$}: Better designs for separating enforcement from formation. Randomized $W^I$ interventions (following \citealp{bernard2014future}) in multiple countries.
 
 \item \textbf{Testing the conjectures} (limit 6): Is the capital-goods core a bridge in the product space, so that truncation lowers integration? Does sustained growth with equity require $\Gamma > \Gamma^*$, ECI $> 0$ and $\Neff > N^*_{\text{eff}}$, and where are the thresholds? What is the minimum viable capital-goods cluster for a small economy, and can it be shared regionally (a Mercosur or Andean Community program)?
 
@@ -220,7 +221,7 @@ This book opens a research program; it does not close one. Each limit above is a
 
 \item \textbf{Endogenous institutions}: How do institutions (property rights, courts, regulations) emerge from the co-evolutionary dynamics? The institutional operator (Chapter~15) is exogenous in this book; it should be endogenous.
 
-\item \textbf{The general equilibrium of structure} (limits 1, 4): Structuralist CGE models exist (Taylor, 1990, \textit{Socially Relevant Policy Analysis: Structuralist Computable General Equilibrium Models for the Developing World}). What does not yet exist is one with all three networks, the formation channel, time-varying $W$ and political equilibrium --- and with culture represented by more than a scalar.
+\item \textbf{The general equilibrium of structure} (limits 1, 4): Structuralist CGE models exist \citep[\textit{Socially Relevant Policy Analysis: Structuralist Computable General Equilibrium Models for the Developing World}]{taylor1990socially}. What does not yet exist is one with all three networks, the formation channel, time-varying $W$ and political equilibrium --- and with culture represented by more than a scalar.
 \end{enumerate}
 
 
@@ -268,13 +269,13 @@ Celso Furtado (1920--2004) appears three times in this book. In Chapter~2 (under
 
 Furtado was one of the greatest economic thinkers Latin America produced. He was trained in Paris (doctorate at the University of Paris, 1948), worked at CEPAL under Prebisch (1949--1957), led the working group on the Northeast (GTDN, 1958) and then directed SUDENE, the Northeast Brazil development agency, from its creation in 1959 until 1964, served as Brazil's Minister of Planning (1962--1963), and lost his political rights after the military coup of 1964. In exile he held a chair at the Sorbonne (1965--1985) and visiting posts at Yale and Cambridge; back in Brazil he was Minister of Culture (1986--1988). He wrote more than 30 books, across five decades. His intellectual range --- from Keynesian macroeconomics to cultural theory to institutional analysis --- anticipated almost every theme in this book.
 
-The thesis of \textit{Desenvolvimento e Subdesenvolvimento} (1961) can now be stated in its complete form.
+The thesis of \textit{Desenvolvimento e Subdesenvolvimento} (\citeyear{furtado1961desenvolvimento}) can now be stated in its complete form.
 
-\textbf{Claim 1: Underdevelopment is a structure, not a stage.} Rostow (1960) had argued that all economies pass through ``stages of growth'' from traditional to modern. Furtado rejected this: underdevelopment is not pre-development. It is a specific structural configuration produced by the \textit{interaction} of modern and archaic elements within a single system. The modern sector does not gradually absorb the traditional sector; it coexists with it, extracting surplus from it, and reproducing the duality.
+\textbf{Claim 1: Underdevelopment is a structure, not a stage.} \citet{rostow1960stages} had argued that all economies pass through ``stages of growth'' from traditional to modern. Furtado rejected this: underdevelopment is not pre-development. It is a specific structural configuration produced by the \textit{interaction} of modern and archaic elements within a single system. The modern sector does not gradually absorb the traditional sector; it coexists with it, extracting surplus from it, and reproducing the duality.
 
 In this book: underdevelopment is a structural equilibrium (Definition~\ref{ch13:def:structural_eq}) with low integration $\Gamma$ between the modern and archaic blocks, concentrated power $\boldsymbol{\pi}$ (the surplus-extraction channel), and self-reproducing dynamics. It is a fixed point, not a transient state. The fixed point exists because the co-evolutionary dynamics (proximity-dominated edge creation, self-confirming preferences, coalition protection) make it stable.
 
-\textbf{Claim 2: The structure produces the preferences that accept it.} Furtado's deepest insight, developed in \textit{O Mito do Desenvolvimento Econ\^{o}mico} (1974): underdevelopment persists not only because of economic structure but because of cultural structure --- the patterns of consumption that the economic structure produces and that in turn reproduce it. The high-income minority of the periphery imitates the consumption patterns of the center; producing those goods requires capital-intensive technologies imported from the center; those technologies absorb little labour and concentrate income further, which sustains the imitative minority. The ``myth'' is that the center's consumption standards could be generalized to the whole population of the periphery.
+\textbf{Claim 2: The structure produces the preferences that accept it.} Furtado's deepest insight, developed in \textit{O Mito do Desenvolvimento Econ\^{o}mico} (\citeyear{furtado1974mito}): underdevelopment persists not only because of economic structure but because of cultural structure --- the patterns of consumption that the economic structure produces and that in turn reproduce it. The high-income minority of the periphery imitates the consumption patterns of the center; producing those goods requires capital-intensive technologies imported from the center; those technologies absorb little labour and concentrate income further, which sustains the imitative minority. The ``myth'' is that the center's consumption standards could be generalized to the whole population of the periphery.
 
 In this book: this is the formation model (Chapters~9--10). Preferences are endogenous to $W^I$. The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\theta^{\circ} + \mu(\sum W^I_{ij}r_j - r^*)$ captures part of Furtado's mechanism: agents form preferences by observing $W^I$-weighted signals, and when $W^I$ is dominated by center signals (Chapter~8, epistemic Perron dominance), the formation produces center-mimicking preferences in the periphery --- Furtado's ``cultural dependency.'' What the formation equation does not capture is the link Furtado cared about most: from the composition of elite demand to technology choice and to the distribution of income. A faithful formalization would make the consumption basket, not a scalar aspiration, the formed object. The $\Psi$ ratio (Definition~\ref{ch09:def:psi}; Chapter~11 asks what data can reveal about it) measures how much of a perturbation's effect comes through the formation channel.
 
@@ -285,7 +286,7 @@ In this book: this is Part~IV (Chapters~13--15) and the neo-structuralist synthe
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
-\textbf{Furtado (1961/1974)} & \textbf{This book's formalization} & \textbf{Chapter} \\
+\textbf{\citet{furtado1961desenvolvimento,furtado1974mito}} & \textbf{This book's formalization} & \textbf{Chapter} \\
 \midrule
 Underdevelopment is a structure & Non-anonymous $W$: low $\Gamma$, concentrated $\boldsymbol{\pi}$ & 1--4 \\
 Not a stage & Stable fixed point of co-evolutionary system & 13 \\
@@ -299,7 +300,7 @@ The general case & $W$ is any row-stochastic matrix; two coordinates & 28 \\
 \end{tabularx}
 \end{center}
 
-Furtado wrote much of his work in exile, in Portuguese and French, from a chair in Paris. He died in 2004, the year before Evo Morales was elected and five years before Hidalgo and Hausmann's 2009 paper on economic complexity. He did not see the product space, the ECI, or the formation experiments that would test his intuitions. He did not use the Perron eigenvector, the spectral gap, or the DeGroot model.
+Furtado wrote much of his work in exile, in Portuguese and French, from a chair in Paris. He died in 2004, the year before Evo Morales was elected and five years before \citeauthor{hidalgo2009building}'s \citeyear{hidalgo2009building} paper on economic complexity. He did not see the product space, the ECI, or the formation experiments that would test his intuitions. He did not use the Perron eigenvector, the spectral gap, or the DeGroot model.
 
 But he had the thesis: underdevelopment is a structure, not a stage. This book offers a formal language in which to state that thesis, to prove some of its parts, and to put the rest to the test.
 
@@ -309,10 +310,10 @@ But he had the thesis: underdevelopment is a structure, not a stage. This book o
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Furtado:} Furtado (1961), \textit{Desenvolvimento e Subdesenvolvimento}, Rio de Janeiro: Fundo de Cultura. English: \textit{Development and Underdevelopment}, University of California Press, 1964. Furtado (1974), \textit{O Mito do Desenvolvimento Econ\^{o}mico}, Rio de Janeiro: Paz e Terra. English: ``The Myth of Economic Development.'' Furtado (1997), \textit{Obra autobiogr\'{a}fica}, 3 vols., S\~{a}o Paulo: Paz e Terra (his autobiography). Furtado (1999), \textit{O Longo Amanhecer: Reflex\~{o}es sobre a Forma\c{c}\~{a}o do Brasil} (essays). Love (1996), ``Economic Ideas and Ideologies in Latin America since 1930,'' in Bethell (ed.), \textit{Cambridge History of Latin America}, Vol.~6 (for Furtado's intellectual context).
+\textbf{Furtado:} \citet{furtado1961desenvolvimento}, \textit{Desenvolvimento e Subdesenvolvimento}. English: \textit{Development and Underdevelopment} \citep{furtado1964development}. \citet{furtado1974mito}, \textit{O Mito do Desenvolvimento Econ\^{o}mico}. English: ``The Myth of Economic Development.'' \citet{furtado1997obra}, \textit{Obra autobiogr\'{a}fica}, 3 vols.\ (his autobiography). \citet{furtado1999longo}, \textit{O Longo Amanhecer: Reflex\~{o}es sobre a Forma\c{c}\~{a}o do Brasil} (essays). \citet{love1994economic}, ``Economic Ideas and Ideologies in Latin America since 1930'' (for Furtado's intellectual context).
 
-\textbf{The structuralist tradition, complete:} Prebisch (1949), the manifesto. Furtado (1961), the thesis. Pinto (1970), the diagnosis. Sunkel (1971), the integration/disintegration. Tavares (1972), the autopsy. Marini (1973), the exploitation. Fajnzylber (1983/1990), the truncation and the empty box. Cardoso and Faletto (1969), the politics. Quijano (2000), the coloniality. Sen (1999), the capabilities. CEPAL (2012), the institutional synthesis. Ocampo (2009), the policy synthesis. Hidalgo et al.\ (2007) and Hidalgo and Hausmann (2009), the empirical measurement. Taylor (1983, 1990), the structuralist macroeconomics and its CGE models.
+\textbf{The structuralist tradition, complete:} \citet{prebisch1949desarrollo}, the manifesto. \citet{furtado1961desenvolvimento}, the thesis. \citet{pinto1970naturaleza}, the diagnosis. \citet{sunkel1971capitalismo}, the integration/disintegration. \citet{tavares1972substituicao}, the autopsy. \citet{marini1973dialectica}, the exploitation. \citet{fajnzylber1983industrializacion,fajnzylber1990industrializacion}, the truncation and the empty box. \citet{cardoso1969dependencia}, the politics. \citet{quijano2000colonialidad}, the coloniality. \citet{sen1999development}, the capabilities. \citet{cepal2012structural}, the institutional synthesis. \citet{ocampo2009growth}, the policy synthesis. \citet{hidalgo2007product} and \citet{hidalgo2009building}, the empirical measurement. \citet{taylor1983structuralist,taylor1990socially}, the structuralist macroeconomics and its CGE models.
 
-\textbf{Networks in economics:} Long and Plosser (1983); Acemoglu et al.\ (2012), ``The Network Origins of Aggregate Fluctuations,'' \textit{Econometrica}; Baqaee and Farhi (2019), ``The Macroeconomic Impact of Microeconomic Shocks,'' \textit{Econometrica}; Golub and Jackson (2010), \textit{AEJ: Microeconomics}, and (2012), \textit{QJE}; Seneta (2006), \textit{Non-negative Matrices and Markov Chains}.
+\textbf{Networks in economics:} \citet{long1983real}; \citet{acemoglu2012network}, ``The Network Origins of Aggregate Fluctuations''; \citet{baqaee2019macroeconomic}, ``The Macroeconomic Impact of Microeconomic Shocks''; \citet{golub2010naive,golub2012how}; \citet{seneta2006nonnegative}, \textit{Non-negative Matrices and Markov Chains}.
 
 \end{document}

@@ -9,10 +9,11 @@
 \hfill --- Fernando Fajnzylber, \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina} (1983)
 % TODO-VERIFY: likely not verbatim. Fajnzylber's own term is "nucleo endogeno de dinamizacion tecnologica"; check the 1983 Nueva Imagen edition and give a page, or present as a paraphrase.
 \end{quote}
+\nocite{fajnzylber1983industrializacion}
 
 \vspace{1em}
 
-Fajnzylber (1983) identified a specific structural absence at the heart of Latin American economies: the capital goods sector. Not just any sector --- the sector that produces the machines that produce other goods. The sector where learning-by-doing, scale economies, and technological spillovers are concentrated. The sector that, in East Asia, served as the engine of structural transformation. The sector that Latin America never developed.
+\citet{fajnzylber1983industrializacion} identified a specific structural absence at the heart of Latin American economies: the capital goods sector. Not just any sector --- the sector that produces the machines that produce other goods. The sector where learning-by-doing, scale economies, and technological spillovers are concentrated. The sector that, in East Asia, served as the engine of structural transformation. The sector that Latin America never developed.
 
 In this book's notation: the capital goods sector is identified with the \textbf{dense core} of the product space --- the cluster of products (machinery, metal products, electronics, chemicals) where the proximity matrix $\phi_{pp'}$ is densest. It is the bright core of the heatmap. And Latin America's heatmap has a hole where that core should be. (The identification is ours: Fajnzylber's nucleus is a sector \emph{plus} the domestic engineering and innovation capacity around it, not a set of export products.)
 
@@ -41,7 +42,7 @@ its average internal proximity. The \textbf{dense subgraph} is the maximizer of 
 Excluding the diagonal matters: if $\phi_{pp} = 1$ is included in an average over $|S|^2$ pairs, every single product has density 1 and the ``densest'' set is a single product. Note also what the definition does \emph{not} say: a dense set is a set whose members are related to each other; it need not be related to anything else.
 
 \begin{stylizedfact}[The Product-Space Core]\label{ch25:prop:capital_goods}
-Hidalgo et al.\ (2007) built the product space from about 775 products at the SITC (rev.~2) 4-digit level and found a densely connected core of metal products, machinery and chemicals, with a sparse periphery of primary commodities. The quantitative statements below are \illustrative{} placeholders for that structure, to be replaced by the output of Exercise~25.1:
+\citet{hidalgo2007product} built the product space from about 775 products at the SITC (rev.~2) 4-digit level and found a densely connected core of metal products, machinery and chemicals, with a sparse periphery of primary commodities. The quantitative statements below are \illustrative{} placeholders for that structure, to be replaced by the output of Exercise~25.1:
 \begin{enumerate}
 \item The densest subgraph contains machinery (non-electrical and electrical), precision and optical instruments, metal products, organic chemicals, and plastics. Average internal proximity: $\bar{\phi}_{\mathcal{D}} \approx 0.35$.
 \item The average proximity in the full product space: $\bar{\phi}_{\text{all}} \approx 0.08$.
@@ -75,7 +76,7 @@ Under the proxy assumption, for every cut $(S, S^c)$ of $c$'s products,
 Hence if $c$ lacks a set $\mathcal{B}$ of products that \emph{bridges} two clusters $S$ and $S^c$ --- so that, without $\mathcal{B}$, the direct proximity across the cut is small --- then $c$'s integration is at most twice that small conductance, however large the conductance of the same cut would be with $\mathcal{B}$ present.
 \end{proposition}
 \begin{proof}[Proof sketch]
-The first inequality holds because $|\lambda_2| \ge \lambda_2$. The second is the easy half of Cheeger's inequality for reversible chains (Lawler and Sokal, 1988; Sinclair and Jerrum, 1989): insert the test function $f = \ones_S/\mathrm{vol}(S) - \ones_{S^c}/\mathrm{vol}(S^c)$, which is orthogonal to the stationary distribution, into the variational characterization $1 - \lambda_2 = \min_f \mathcal{E}(f,f)/\Var(f)$, and bound the ratio by $2\Phi_c(S)$.
+The first inequality holds because $|\lambda_2| \ge \lambda_2$. The second is the easy half of Cheeger's inequality for reversible chains \citep{lawler1988bounds,sinclair1989approximate}: insert the test function $f = \ones_S/\mathrm{vol}(S) - \ones_{S^c}/\mathrm{vol}(S^c)$, which is orthogonal to the stationary distribution, into the variational characterization $1 - \lambda_2 = \min_f \mathcal{E}(f,f)/\Var(f)$, and bound the ratio by $2\Phi_c(S)$.
 \end{proof}
 
 \begin{remark}[A dense module is not a bridge]\label{ch25:rem:module}
@@ -222,7 +223,7 @@ If Conjecture~\ref{ch25:thm:truncation} holds, the missing capital goods sector 
 \item Why the product space offers few diversification paths (the dense core, which is the hub of the product space, is missing --- relatedness density to core products is near zero).
 \end{enumerate}
 
-Fajnzylber saw this in 1983. The product space literature rediscovered it in 2007. This chapter proves the part that is mathematics (removing a bridge bounds $\Gamma$ by twice the remaining conductance), states the part that is empirical as a conjecture, and estimates that truncation accounts for roughly 55--86\% of Bolivia's integration deficit, depending on the counterfactual.
+Fajnzylber saw this in \citeyear{fajnzylber1983industrializacion}. The product space literature rediscovered it in \citeyear{hidalgo2007product}. This chapter proves the part that is mathematics (removing a bridge bounds $\Gamma$ by twice the remaining conductance), states the part that is empirical as a conjecture, and estimates that truncation accounts for roughly 55--86\% of Bolivia's integration deficit, depending on the counterfactual.
 \end{keyinsight}
 
 
@@ -233,13 +234,13 @@ Fajnzylber saw this in 1983. The product space literature rediscovered it in 200
 
 \begin{remark}[Reasons for Truncation]\label{ch25:prop:three_reasons}
 \begin{enumerate}
-\item \textbf{ISI stalled before the capital-goods core} (Chapter~15, Tavares). Import substitution began with consumer goods and moved toward intermediates and capital goods, but in most countries it stalled before a domestic capital-goods sector with its own technological capacity emerged. Tavares's (1964) analysis of Brazil attributed the stalling to the external constraint and to a market narrowed by income concentration. In operator terms, $\mathcal{L}_{\text{ISI}}$ densified the consumer block internally more than it created cross-block entries (intermediates $\to$ capital goods).
+\item \textbf{ISI stalled before the capital-goods core} (Chapter~15, Tavares). Import substitution began with consumer goods and moved toward intermediates and capital goods, but in most countries it stalled before a domestic capital-goods sector with its own technological capacity emerged. \citeauthor{tavares1964auge}'s (\citeyear{tavares1964auge}) analysis of Brazil attributed the stalling to the external constraint and to a market narrowed by income concentration. In operator terms, $\mathcal{L}_{\text{ISI}}$ densified the consumer block internally more than it created cross-block entries (intermediates $\to$ capital goods).
 
 \item \textbf{The coalition blocked it} (Chapter~14). Capital-goods production requires massive investment, long time horizons, and state support for infant industries. The industrial bourgeoisie ($B$) preferred to import capital goods (cheaper in the short run) than to invest in producing them domestically. The coalition $\{B, M, W\}$ chose consumer ISI because it generated immediate consumer-goods availability (politically popular) rather than capital-goods production (politically costly, economically transformative).
 
 \item \textbf{The formation channel maintained the status quo} (Chapter~10). Without a domestic capital-goods sector, the information signals in $W^I$ did not include ``returns to precision engineering'' or ``opportunities in advanced manufacturing.'' Aspirations and educational investments were calibrated to the existing product space: commodities, basic manufactures, services. The formation channel produced preferences consistent with the truncated structure, preventing the demand for capital-goods capabilities from emerging endogenously.
 
-\item \textbf{Fajnzylber's own mechanisms.} Fajnzylber (1983) emphasized two further causes: an \emph{imitative consumption pattern}, in which high-income groups copied the durable-goods consumption of the United States, steering industry toward assembling those goods rather than toward the machines that make them; and the \emph{leadership of transnational corporations} in the dynamic industries, which imported their technology from headquarters and had little reason to build a local capital-goods and engineering base, while national industrial leadership remained weak.
+\item \textbf{Fajnzylber's own mechanisms.} \citet{fajnzylber1983industrializacion} emphasized two further causes: an \emph{imitative consumption pattern}, in which high-income groups copied the durable-goods consumption of the United States, steering industry toward assembling those goods rather than toward the machines that make them; and the \emph{leadership of transnational corporations} in the dynamic industries, which imported their technology from headquarters and had little reason to build a local capital-goods and engineering base, while national industrial leadership remained weak.
 \end{enumerate}
 \end{remark}
 
@@ -284,7 +285,7 @@ At Bolivia's current structural velocity ($v_\Gamma = +0.01$/decade), the path t
 \end{example}
 
 \begin{prebisch}[From truncated to genuine competitiveness]
-In later work (Fajnzylber, 1988), Fajnzylber distinguished between ``spurious competitiveness'' (based on low wages, resource extraction, currency depreciation) and ``genuine competitiveness'' (based on knowledge, technology, and institutional quality). In this chapter's notation:
+In later work \citep{fajnzylber1988competitividad}, Fajnzylber distinguished between ``spurious competitiveness'' (based on low wages, resource extraction, currency depreciation) and ``genuine competitiveness'' (based on knowledge, technology, and institutional quality). In this chapter's notation:
 
 \textbf{Spurious competitiveness}: high $\pi_c$ in $W^P_{\text{global}}$ through commodity exports. High income during booms ($\Delta\omega$), but no structural change ($\Delta\Gamma = 0$). Bolivia's gas revenue era: GDP grew 4.9\%/year; $\Gamma$ was flat.
 
@@ -300,7 +301,7 @@ The transition from spurious to genuine is the transition from the periphery of 
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{dense subgraph} is the maximizer of internal proximity per product, $e(S)/|S|$ (Goldberg; Charikar's peeling approximates it). In the product space it is the core of machinery, metal products and chemicals (Hidalgo et al., 2007), which holds the highest-PCI products.
+\item The \textbf{dense subgraph} is the maximizer of internal proximity per product, $e(S)/|S|$ (Goldberg; Charikar's peeling approximates it). In the product space it is the core of machinery, metal products and chemicals \citep{hidalgo2007product}, which holds the highest-PCI products.
 
 \item \textbf{Truncated industrialization}: Latin America lacks the dense subgraph. Bolivia's truncation index: 0.98 (2 of $\approx$100 products in $\mathcal{D}$); Korea's: 0.18 (illustrative).
 
@@ -357,7 +358,7 @@ The transition from spurious to genuine is the transition from the periphery of 
 \addcontentsline{toc}{subsection}{Appendix 25A: Dense Subgraphs}
 \label{ch25:app:dense}
 
-\paragraph{Computing $\mathcal{D}$.} Goldberg's problem $\max_S e(S)/|S|$ is solvable exactly in polynomial time by a sequence of minimum-cut computations. For large product spaces, Charikar's (2000) greedy peeling is simpler and guarantees at least half the optimal value: repeatedly delete the product with the smallest remaining weighted degree, and keep the intermediate set with the highest $e(S)/|S|$. On the ten-product example of \texttt{code/ch25.py}, peeling returns the four-product core, which coincides with the brute-force optimum ($e/|S| = 1.35$). A lower size bound $|S| \ge k$ makes the problem NP-hard; if one is needed, report peeling with the bound and state that it is a heuristic. Modularity-based community detection is an alternative, but it partitions the whole space into communities and needs a resolution parameter $\gamma$ and a density threshold to single out $\mathcal{D}$; whichever method is used, state the parameters.
+\paragraph{Computing $\mathcal{D}$.} Goldberg's problem $\max_S e(S)/|S|$ is solvable exactly in polynomial time by a sequence of minimum-cut computations. For large product spaces, \citeauthor{charikar2000greedy}'s (\citeyear{charikar2000greedy}) greedy peeling is simpler and guarantees at least half the optimal value: repeatedly delete the product with the smallest remaining weighted degree, and keep the intermediate set with the highest $e(S)/|S|$. On the ten-product example of \texttt{code/ch25.py}, peeling returns the four-product core, which coincides with the brute-force optimum ($e/|S| = 1.35$). A lower size bound $|S| \ge k$ makes the problem NP-hard; if one is needed, report peeling with the bound and state that it is a heuristic. Modularity-based community detection is an alternative, but it partitions the whole space into communities and needs a resolution parameter $\gamma$ and a density threshold to single out $\mathcal{D}$; whichever method is used, state the parameters.
 
 \paragraph{Integration after removing a set.} For a symmetric $\phi$ and $W = D^{-1}\phi$ (reversible), the eigenvalues are real and Cheeger's inequality holds:
 \[
@@ -380,27 +381,27 @@ Removing a set of products and renormalizing changes every row that touched it, 
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Fajnzylber (1983)}
 %% =====================================================================
 
-Fernando Fajnzylber (1940--1991) was a Chilean economist who worked for many years in Mexico and directed the joint CEPAL/UNIDO Industrial Development Division. His 1983 book \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina} diagnosed the region's structural failure with a precision that anticipated the product space literature by a quarter of a century.
+Fernando Fajnzylber (1940--1991) was a Chilean economist who worked for many years in Mexico and directed the joint CEPAL/UNIDO Industrial Development Division. His \citeyear{fajnzylber1983industrializacion} book \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina} diagnosed the region's structural failure with a precision that anticipated the product space literature by a quarter of a century.
 
 Fajnzylber's argument has three parts. The mapping below is our formal reinterpretation; where he would disagree, we say so.
 
 \textbf{Part 1: The missing ``endogenous nucleus of technical dynamism.''} Fajnzylber identified the capital goods sector, together with the engineering and innovation capacity around it, as the missing piece. Comparing Latin America with the advanced economies, and above all with Japan and the East Asian newly industrializing countries, he argued that the capital goods sector was the engine of technical progress. It was the sector where learning-by-doing was fastest, where scale economies were largest, and where spillovers to other sectors were strongest. Latin America had built consumer-goods industries (textiles, food processing, household appliances) but had never built the machines that make those goods. The ``nucleus'' was imported. Two mechanisms kept it so: an imitative consumption pattern among high-income groups, and the leadership of transnational corporations in the dynamic industries (Remark~\ref{ch25:prop:three_reasons}). In this chapter's notation: the dense subgraph $\mathcal{D}$ was missing (illustratively, $\tau \approx 0.80$). The notation captures the absence, not the consumption and ownership mechanisms that produced it.
 
-\textbf{Part 2: Truncation explains the casillero vac\'{i}o.} Seven years before his 1990 paper on the empty box, Fajnzylber had already identified the mechanism: without the capital goods sector, industrialization could not generate enough inter-sectoral linkages to spread growth broadly. Consumer ISI created modern-sector jobs but did not transform the traditional sector (Tavares's diagnosis, Chapter~15). The dual economy persisted because the structural bridge was never built. Growth without equity was the consequence: the modern sector grew (increasing average income) while the traditional sector stagnated (maintaining inequality). In 1990 he showed that no Latin American country occupied the cell of high growth \emph{and} high equity --- the casillero vac\'{i}o. In this chapter's terms, truncation is a candidate cause of that empty cell (Conjecture~\ref{ch25:thm:truncation}), not an identity.
+\textbf{Part 2: Truncation explains the casillero vac\'{i}o.} Seven years before his \citeyear{fajnzylber1990industrializacion} paper on the empty box, Fajnzylber had already identified the mechanism: without the capital goods sector, industrialization could not generate enough inter-sectoral linkages to spread growth broadly. Consumer ISI created modern-sector jobs but did not transform the traditional sector (Tavares's diagnosis, Chapter~15). The dual economy persisted because the structural bridge was never built. Growth without equity was the consequence: the modern sector grew (increasing average income) while the traditional sector stagnated (maintaining inequality). In 1990 he showed that no Latin American country occupied the cell of high growth \emph{and} high equity --- the casillero vac\'{i}o. In this chapter's terms, truncation is a candidate cause of that empty cell (Conjecture~\ref{ch25:thm:truncation}), not an identity.
 
-\textbf{Part 3: The prescription is ``genuine competitiveness.''} In his later work (1988, 1990) Fajnzylber argued that the path forward was not more ISI (which had targeted the wrong products) nor liberalization (which would expose the truncated structure to global competition it could not survive) but ``genuine competitiveness'': building the knowledge base, institutional infrastructure, and industrial capabilities needed to produce complex goods. In this chapter's notation: the prescription is to build $\mathcal{D}$ through the sequenced operators of Chapter~15, starting with information and education (which create the human-capital preconditions) and culminating in industrial policy targeting the dense subgraph.
+\textbf{Part 3: The prescription is ``genuine competitiveness.''} In his later work (\citeyear{fajnzylber1988competitividad}, \citeyear{fajnzylber1990industrializacion}) Fajnzylber argued that the path forward was not more ISI (which had targeted the wrong products) nor liberalization (which would expose the truncated structure to global competition it could not survive) but ``genuine competitiveness'': building the knowledge base, institutional infrastructure, and industrial capabilities needed to produce complex goods. In this chapter's notation: the prescription is to build $\mathcal{D}$ through the sequenced operators of Chapter~15, starting with information and education (which create the human-capital preconditions) and culminating in industrial policy targeting the dense subgraph.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
-\textbf{Fajnzylber (1983/1990)} & \textbf{Formal object} & \textbf{This chapter} \\
+\textbf{\citet{fajnzylber1983industrializacion,fajnzylber1990industrializacion}} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
 Missing capital goods sector & Truncation $\tau_c \to 1$ & Def.~\ref{ch25:def:truncated} \\
 Endogenous nucleus & Dense subgraph $\mathcal{D}$ (plus capabilities not in the notation) & Def.~\ref{ch25:def:dense} \\
 Truncation $\to$ low linkages & Bridge removal bounds $\Gamma$; $\tau \uparrow \Rightarrow \Gamma \downarrow$ if $\mathcal{D}$ is a bridge & Prop.~\ref{ch25:prop:bridge_bound}, Conj.~\ref{ch25:thm:truncation} \\
 Size of the gap & 55--86\% of excess relaxation time & Ex.~\ref{ch25:thm:penalty} \\
 Imitative consumption, TNC leadership & Causes of truncation & Remark~\ref{ch25:prop:three_reasons} \\
-Spurious vs.\ genuine (1988) & Commodity $\pi$ vs.\ $\mathcal{D}$-based $\pi$ & Prebisch Connection \\
+Spurious vs.\ genuine (\citeyear{fajnzylber1988competitividad}) & Commodity $\pi$ vs.\ $\mathcal{D}$-based $\pi$ & Prebisch Connection \\
 Three strategies & Build, attract, or grow toward $\mathcal{D}$ & Remark~\ref{ch25:prop:strategies} \\
 \bottomrule
 \end{tabularx}
@@ -414,12 +415,12 @@ Fajnzylber died in 1991 at age 51, before seeing either the product space or the
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Fajnzylber:} Fajnzylber (1983), \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina}, Mexico: Nueva Imagen. Fajnzylber (1988), ``Competitividad internacional: evoluci\'{o}n y lecciones,'' \textit{Revista de la CEPAL} 36. Fajnzylber (1990), ``Industrializaci\'{o}n en Am\'{e}rica Latina: de la `caja negra' al `casillero vac\'{i}o'\,,'' \textit{Cuadernos de la CEPAL} 60. CEPAL (2006), \textit{Fernando Fajnzylber: Una visi\'{o}n renovadora del desarrollo en Am\'{e}rica Latina}.
+\textbf{Fajnzylber:} \citet{fajnzylber1983industrializacion}, \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina}. \citet{fajnzylber1988competitividad}, ``Competitividad internacional: evoluci\'{o}n y lecciones.'' \citet{fajnzylber1990industrializacion}, ``Industrializaci\'{o}n en Am\'{e}rica Latina: de la `caja negra' al `casillero vac\'{i}o'\,.'' \citet{cepal2006fernando}, \textit{Fernando Fajnzylber: Una visi\'{o}n renovadora del desarrollo en Am\'{e}rica Latina}.
 
-\textbf{Product space and diversification:} Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}. Hausmann, Hwang, and Rodrik (2007), ``What You Export Matters,'' \textit{JEG}. Hidalgo (2021), ``Economic Complexity Theory and Applications,'' \textit{Nature Reviews Physics}.
+\textbf{Product space and diversification:} \citet{hidalgo2007product}, ``The Product Space Conditions the Development of Nations.'' \citet{hausmann2007what}, ``What You Export Matters.'' \citet{hidalgo2021economic}, ``Economic Complexity Theory and Applications.''
 
-\textbf{Industrial policy and the capital goods sector:} Amsden (1989), \textit{Asia's Next Giant}. Chang (2002), \textit{Kicking Away the Ladder}. Cimoli, Dosi, and Stiglitz (2009), \textit{Industrial Policy and Development}.
+\textbf{Industrial policy and the capital goods sector:} \citet{amsden1989asia}, \textit{Asia's Next Giant}. \citet{chang2002kicking}, \textit{Kicking Away the Ladder}. \citet{cimoli2009industrial}, \textit{Industrial Policy and Development}.
 
-\textbf{Bolivia's industrialization prospects:} Fundaci\'{o}n Milenio (various years), \textit{Informe Econ\'{o}mico}. For the lithium question: Obaya (2019), ``Estudio sobre la cadena de valor del litio en Bolivia,'' CEPAL.
+\textbf{Bolivia's industrialization prospects:} Fundaci\'{o}n Milenio (various years), \textit{Informe Econ\'{o}mico}. For the lithium question: \citet{obaya2019estudio}, ``Estudio de caso sobre la gobernanza del litio en el Estado Plurinacional de Bolivia.''
 
 \end{document}

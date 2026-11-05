@@ -9,6 +9,7 @@
 \textnormal{[``[Coloniality] is founded on the imposition of a racial/ethnic classification of the world's population as the cornerstone of that pattern of power, and it operates on every plane, domain, and dimension --- material and subjective --- of everyday social existence and at the societal scale.'']}\\
 \hfill --- An\'{i}bal Quijano, ``Colonialidad del poder y clasificaci\'{o}n social'' (2000)
 \end{quote}
+\nocite{quijano2000colonialidadclasificacion}
 
 \vspace{1em}
 
@@ -38,12 +39,12 @@ In vector notation:
 \bb^{(t)} = W^I \bb^{(t-1)} = (W^I)^t \bb^{(0)}.
 \end{equation}
 
-This is not Bayesian updating. It is na\"{i}ve averaging: agent $i$ treats her neighbors' beliefs as data, regardless of whether those beliefs are based on independent information. The neighbors do the same. Information gets double-counted, triple-counted, endlessly recirculated. The model is wrong as a description of optimal inference. As a description of how people actually form beliefs it does well: in network experiments it fits choices better than Bayesian benchmarks (Chandrasekhar, Larreguy and Xandri, 2020).
+This is not Bayesian updating. It is na\"{i}ve averaging: agent $i$ treats her neighbors' beliefs as data, regardless of whether those beliefs are based on independent information. The neighbors do the same. Information gets double-counted, triple-counted, endlessly recirculated. The model is wrong as a description of optimal inference. As a description of how people actually form beliefs it does well: in network experiments it fits choices better than Bayesian benchmarks \citep{chandrasekhar2020testing}.
 
 \begin{intuition}[Why DeGroot, not Bayes?]
 Bayesian updating requires agents to know: (i) the data-generating process, (ii) the signal structure of every other agent, (iii) the network topology, and (iv) the prior distribution. In practice, the girl in Potos\'{i} does not know the distribution of returns to education. She does not know what signals her mother received. She does not know the network. She observes her mother's behavior, her teacher's advice, and her TikTok feed, and she averages. DeGroot captures this.
 
-DeMarzo, Vayanos and Zwiebel (2003) motivate repeated averaging as boundedly rational ``persuasion bias'': agents fail to adjust for the repetition of information they have already heard. Molavi, Tahbaz-Salehi and Jadbabaie (2018) give an axiomatic foundation for (log-)linear non-Bayesian updating. Golub and Jackson (2010) then ask when such naive learning is nonetheless \textit{wise} (Section~\ref{ch08:sec:wisdom}).
+\citet{demarzo2003persuasion} motivate repeated averaging as boundedly rational ``persuasion bias'': agents fail to adjust for the repetition of information they have already heard. \citet{molavi2018theory} give an axiomatic foundation for (log-)linear non-Bayesian updating. \citet{golub2010naive} then ask when such naive learning is nonetheless \textit{wise} (Section~\ref{ch08:sec:wisdom}).
 \end{intuition}
 
 
@@ -65,7 +66,7 @@ All agents converge to the same belief $b^*$: the $\boldsymbol{\pi}^I$-weighted 
 An irreducible, aperiodic nonnegative matrix is primitive, so by Theorem~\ref{ch06:thm:PF} (item 6) $(W^I)^t/\rho^t \to \mathbf{v}(\boldsymbol{\pi}^I)'$ with $(\boldsymbol{\pi}^I)'\mathbf{v} = 1$. For row-stochastic $W^I$, $\rho = 1$ and $\mathbf{v} = \ones$ (because $W^I\ones = \ones$), and $(\boldsymbol{\pi}^I)'\ones = 1$. Hence $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ and $\bb^{(t)} = (W^I)^t\bb^{(0)} \to \ones(\boldsymbol{\pi}^I)'\bb^{(0)}$. No diagonalizability is needed.
 \end{proof}
 
-Irreducibility can be relaxed: the same conclusion holds whenever $W^I$ has a single closed communicating class and that class is aperiodic; $\boldsymbol{\pi}^I$ is then zero outside the closed class (Golub and Jackson, 2010). If $W^I$ has several closed classes, as in a block-diagonal $W^I$, there is no global consensus and $\boldsymbol{\pi}^I$ is not unique.
+Irreducibility can be relaxed: the same conclusion holds whenever $W^I$ has a single closed communicating class and that class is aperiodic; $\boldsymbol{\pi}^I$ is then zero outside the closed class \citep{golub2010naive}. If $W^I$ has several closed classes, as in a block-diagonal $W^I$, there is no global consensus and $\boldsymbol{\pi}^I$ is not unique.
 
 \begin{definition}[Epistemic Power]\label{ch08:def:epistemic_power}
 Agent $j$'s \textbf{epistemic power} is $\pi^I_j$: her weight in the long-run consensus. An agent with $\pi^I_j \gg 1/N$ has disproportionate influence on what the society ends up believing. An agent with $\pi^I_j \approx 0$ is epistemically irrelevant --- her initial belief has negligible effect on the consensus, no matter how correct it is.
@@ -187,7 +188,7 @@ where $\Neff = 1/\sum_j (\pi^I_j)^2$ is the effective number of agents of Defini
 By independence, $\Var(e) = \Var(\sum_j \pi^I_j \varepsilon_j) = \sum_j (\pi^I_j)^2 \sigma_j^2 \geq \sigma_{\min}^2\sum_j (\pi^I_j)^2 = \sigma_{\min}^2/\Neff$. With equal variances the inequality is an equality, and $\sum_j (\pi^I_j)^2 \geq 1/N$ (Cauchy--Schwarz, $\sum_j \pi^I_j = 1$) with equality iff $\pi^I_j = 1/N$.
 \end{proof}
 
-Golub and Jackson's (2010) theorem is the asymptotic counterpart: along a sequence of growing networks with independent, bounded-variance signals, the DeGroot consensus converges to the truth (the society is \textit{wise}) if and only if the influence of the most influential agent vanishes, $\max_j \pi^{I}_j \to 0$.
+\citeauthor{golub2010naive}'s (\citeyear{golub2010naive}) theorem is the asymptotic counterpart: along a sequence of growing networks with independent, bounded-variance signals, the DeGroot consensus converges to the truth (the society is \textit{wise}) if and only if the influence of the most influential agent vanishes, $\max_j \pi^{I}_j \to 0$.
 
 \begin{remark}[Effective sample size]\label{ch08:def:neff}
 Read epistemically, $\Neff$ is the number of ``independent voices'' in the consensus. When $\boldsymbol{\pi}^I = \frac{1}{N}\ones$: $\Neff = N$ (every agent counts equally). When one agent holds almost all influence ($\boldsymbol{\pi}^I \approx \mathbf{e}_1$, as with the broadcast hub $\ones\boldsymbol{\pi}'$ of Chapter~6): $\Neff \approx 1$. A star need not be that extreme: the star of Example~\ref{ch08:ex:three_WI} has $\Neff = 2.08$. The Herfindahl index of epistemic power is $H = 1/\Neff$.
@@ -394,7 +395,7 @@ This is the formation mechanism: $W^I$ shapes beliefs, beliefs shape preferences
 \item This is the formation mechanism of Part~III. Write down the full loop: $W^I \to \hat{r} \to a \to r \to$ (next period's signal). Under what condition is the Traditional sector's low-return equilibrium stable?
 \end{enumerate}
 
-\item \textbf{Quijano in matrix form.} Quijano (2000) argued that the ``coloniality of power'' operates through racial classification that structures all domains of social existence. Formalize:
+\item \textbf{Quijano in matrix form.} \citet{quijano2000colonialidad,quijano2000colonialidadclasificacion} argued that the ``coloniality of power'' operates through racial classification that structures all domains of social existence. Formalize:
 \begin{enumerate}
 \item Define $W^I$ where the epistemic weights correlate with racial classification: European-descended agents have $\pi^I_j \gg 1/N$; Indigenous agents have $\pi^I_j \ll 1/N$.
 \item What consensus forms about the ``value'' of different forms of knowledge (Western science vs.\ traditional medicine, formal education vs.\ artisanal skill)?
@@ -473,7 +474,7 @@ The sensitivity is inversely proportional to $1 - \lambda_k$. When some $\lambda
 %% =====================================================================
 
 % TODO-VERIFY: Quijano's birth year (sources give 1928 or 1930).
-An\'{i}bal Quijano (1930--2018) was a Peruvian sociologist who introduced the notion of the coloniality of power in the early 1990s. His 2000 essays ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (in Lander, ed., \textit{La colonialidad del saber}) and ``Colonialidad del poder y clasificaci\'{o}n social'' are central texts of the decolonial turn in Latin American social theory. His argument was not about colonialism as a historical event but about \textbf{coloniality} as a persistent structure of power --- a structure that survived independence and continues to organize knowledge, labor, and social classification in the postcolonial world.
+An\'{i}bal Quijano (1930--2018) was a Peruvian sociologist who introduced the notion of the coloniality of power in the early 1990s. His 2000 essays ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (\citealt{quijano2000colonialidad}, in Lander, ed., \textit{La colonialidad del saber}) and ``Colonialidad del poder y clasificaci\'{o}n social'' \citep{quijano2000colonialidadclasificacion} are central texts of the decolonial turn in Latin American social theory. His argument was not about colonialism as a historical event but about \textbf{coloniality} as a persistent structure of power --- a structure that survived independence and continues to organize knowledge, labor, and social classification in the postcolonial world.
 
 Quijano's framework maps onto the three-network model of this book in a specific and illuminating way.
 
@@ -508,14 +509,14 @@ Quijano wrote in Spanish, from Lima. He did not have the Perron eigenvector. He 
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{DeGroot learning:} DeGroot (1974), ``Reaching a Consensus,'' \textit{JASA}. Golub and Jackson (2010), ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds,'' \textit{AEJ: Microeconomics} --- the key paper: naive learning is wise if and only if the most influential agent's weight vanishes. DeMarzo, Vayanos and Zwiebel (2003), ``Persuasion Bias, Social Influence, and Unidimensional Opinions,'' \textit{QJE}. Molavi, Tahbaz-Salehi and Jadbabaie (2018), ``A Theory of Non-Bayesian Social Learning,'' \textit{Econometrica}. Chandrasekhar, Larreguy and Xandri (2020), ``Testing Models of Social Learning on Networks,'' \textit{Econometrica}.
+\textbf{DeGroot learning:} \citet{degroot1974reaching}, ``Reaching a Consensus.'' \citet{golub2010naive}, ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds'' --- the key paper: naive learning is wise if and only if the most influential agent's weight vanishes. \citet{demarzo2003persuasion}, ``Persuasion Bias, Social Influence, and Unidimensional Opinions.'' \citet{molavi2018theory}, ``A Theory of Non-Bayesian Social Learning.'' \citet{chandrasekhar2020testing}, ``Testing Models of Social Learning on Networks.''
 
-\textbf{Bayesian vs.\ na\"{i}ve learning:} Acemoglu, Dahleh, Lobel, and Ozdaglar (2011), ``Bayesian Learning in Social Networks,'' \textit{ReStud}. Jadbabaie, Molavi, Sandroni, and Tahbaz-Salehi (2012), ``Non-Bayesian Social Learning,'' \textit{Games and Economic Behavior}.
+\textbf{Bayesian vs.\ na\"{i}ve learning:} \citet{acemoglu2011bayesian}, ``Bayesian Learning in Social Networks.'' \citet{jadbabaie2012nonbayesian}, ``Non-Bayesian Social Learning.''
 
-\textbf{Misinformation and manipulation:} Acemoglu, Ozdaglar, and ParandehGheibi (2010), ``Spread of (Mis)information in Social Networks,'' \textit{Games and Economic Behavior}. Candogan and Drakopoulos (2020), ``Optimal Signaling of Content Accuracy.'' Allcott and Gentzkow (2017), ``Social Media and Fake News in the 2016 Election,'' \textit{JEP}.
+\textbf{Misinformation and manipulation:} \citet{acemoglu2010spread}, ``Spread of (Mis)information in Social Networks.'' \citet{candogan2020optimal}, ``Optimal Signaling of Content Accuracy.'' \citet{allcott2017social}, ``Social Media and Fake News in the 2016 Election.''
 
-\textbf{Decolonial theory:} Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina,'' in Lander (ed.), \textit{La colonialidad del saber}, Buenos Aires: CLACSO (the primary source). Quijano (2000), ``Colonialidad del poder y clasificaci\'{o}n social,'' \textit{Journal of World-Systems Research} 6(2) (source of the epigraph). Mignolo (2000), \textit{Local Histories/Global Designs}. For the connection to economics: Ndikumana and Boyce (2011), \textit{Africa's Odious Debts}, Chapter~1.
+\textbf{Decolonial theory:} \citet{quijano2000colonialidad}, ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina,'' in Lander (ed.), \textit{La colonialidad del saber}, Buenos Aires: CLACSO (the primary source). \citet{quijano2000colonialidadclasificacion}, ``Colonialidad del poder y clasificaci\'{o}n social'' (source of the epigraph). \citet{mignolo2000local}, \textit{Local Histories/Global Designs}. For the connection to economics: \citet{ndikumana2011africa}, \textit{Africa's Odious Debts}, Chapter~1.
 
-\textbf{Algorithmic information networks:} Ribeiro et al.\ (2020), ``Auditing Radicalization Pathways on YouTube.'' Huszar et al.\ (2022), ``Algorithmic Amplification of Politics on Twitter,'' \textit{PNAS}.
+\textbf{Algorithmic information networks:} \citet{ribeiro2020auditing}, ``Auditing Radicalization Pathways on YouTube.'' \citet{huszar2022algorithmic}, ``Algorithmic Amplification of Politics on Twitter.''
 
 \end{document}

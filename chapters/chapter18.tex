@@ -12,6 +12,7 @@
 \textnormal{[``The social classification of the world population according to the idea of race is, without a doubt, the most effective instrument of social domination invented in the last 500 years.'']}\\
 \hfill --- An\'{i}bal Quijano, ``Colonialidad del poder'' (2000)
 \end{quote}
+\nocite{quijano2000colonialidad}
 
 \vspace{0.3em}
 
@@ -24,6 +25,7 @@
 \textnormal{[``The superexploitation of labor constitutes the fundamental principle of the underdeveloped economy.'']}\\
 \hfill --- Ruy Mauro Marini, \textit{Dial\'{e}ctica de la dependencia} (1973)
 \end{quote}
+\nocite{marini1973dialectica}
 
 \vspace{1em}
 
@@ -236,7 +238,7 @@ Let agents be classified into $R$ racial/ethnic groups. The racial mixing functi
 \begin{equation}\label{ch18:eq:racial_mixing}
 \phi_{\text{race}}(r_i, r_j) = \begin{cases} 1 & \text{if } r_i = r_j, \\ \lambda_r & \text{if } r_i \neq r_j, \end{cases}
 \end{equation}
-where $\lambda_r \in [0, 1]$ is the cross-racial openness parameter. Racial classification, like gender norms, is socially constructed (Quijano, 2000). The parameter $\lambda_r$ is therefore a property of the social system, not of biology.
+where $\lambda_r \in [0, 1]$ is the cross-racial openness parameter. Racial classification, like gender norms, is socially constructed \citep{quijano2000colonialidad}. The parameter $\lambda_r$ is therefore a property of the social system, not of biology.
 \end{definition}
 
 \begin{conjecture}[Race Constrains All Three Networks Simultaneously]\label{ch18:prop:race_three}
@@ -483,7 +485,7 @@ The sequencing logic of Section~\ref{ch15:sec:sequencing} applies: high-$\Psi$ i
 \item Show that if both groups had $r^g = 0.05 + 0.1\theta^g$, then $\Delta\theta^* = 0$ for every $\lambda$. Assortative information alone does not create a gap; it propagates one.
 \end{enumerate}
 
-\item \textbf{The cost of discrimination.} Using the illustrative values of Example~\ref{ch18:ex:cost} ($\lambda_g = 0.3$, $\Psi = 2.3$): compute the welfare loss from gender discrimination as a fraction of GDP (you will need to assume a relationship between the welfare loss $L$ and GDP). Compare your answer with the order of magnitude of income losses from gender gaps in labor markets estimated in the literature (e.g., Cuberes and Teignier 2016).
+\item \textbf{The cost of discrimination.} Using the illustrative values of Example~\ref{ch18:ex:cost} ($\lambda_g = 0.3$, $\Psi = 2.3$): compute the welfare loss from gender discrimination as a fraction of GDP (you will need to assume a relationship between the welfare loss $L$ and GDP). Compare your answer with the order of magnitude of income losses from gender gaps in labor markets estimated in the literature \citep[e.g.,][]{cuberes2016aggregate}.
 
 \item \textbf{Optimal intervention design.} For the gender gap in Bolivia:
 \begin{enumerate}
@@ -535,13 +537,13 @@ The separable baseline and the intersectional interaction term, formerly in this
 
 This chapter's case study pairs the two structuralist thinkers who brought race and labor exploitation to the center of structural analysis: Quijano's coloniality of power and Marini's superexploitation. Together they provide the theory for what this chapter formalizes as attribute-constrained weight matrices.
 
-\textbf{Quijano (2000): Race as the master attribute.} Quijano's essay ``Colonialidad del poder'' argued that the colonial invention of race was the foundational structuring principle of the modern world-system --- more fundamental than class, nationality, or gender. The racial classification imposed during the conquest (European/Indian/Black/Mestizo) did not merely describe physical differences; it \textit{organized} the entire pattern of social interaction. In this chapter's notation: race is the node attribute with the broadest scope --- it constrains $W^U$, $W^P$, and $W^I$ simultaneously, with low $\lambda_r$ values across all three layers (Conjecture~\ref{ch18:prop:race_three}). What makes the classification effective as an ``instrument of domination'' is not homophily alone, which by itself leaves power equal between equal-sized groups (Proposition~\ref{ch18:prop:homophily_power}). It is homophily combined with an opportunity structure that is unequal in the same direction in every layer.
+\textbf{\citet{quijano2000colonialidad}: Race as the master attribute.} Quijano's essay ``Colonialidad del poder'' argued that the colonial invention of race was the foundational structuring principle of the modern world-system --- more fundamental than class, nationality, or gender. The racial classification imposed during the conquest (European/Indian/Black/Mestizo) did not merely describe physical differences; it \textit{organized} the entire pattern of social interaction. In this chapter's notation: race is the node attribute with the broadest scope --- it constrains $W^U$, $W^P$, and $W^I$ simultaneously, with low $\lambda_r$ values across all three layers (Conjecture~\ref{ch18:prop:race_three}). What makes the classification effective as an ``instrument of domination'' is not homophily alone, which by itself leaves power equal between equal-sized groups (Proposition~\ref{ch18:prop:homophily_power}). It is homophily combined with an opportunity structure that is unequal in the same direction in every layer.
 
 Quijano's second claim was that coloniality \textit{survived} independence. The formal colonial apparatus was dismantled, but the racial classification continued to structure social interaction. In the formation model, racial assortative mixing ($\lambda_r < 1$) propagates return gaps into self-confirming preference gaps (Proposition~\ref{ch18:thm:attribute_trap}). Indigenous communities that observe mainly the returns available in their own constrained opportunity structure form aspirations calibrated to those returns.
 
 How long would such gaps take to fade? With half-life $\ln 2/\ln(1/\rho)$ generations (Chapter~9), $\rho = 0.85$--$0.90$ gives 4.3--6.6 generations, or roughly 110--200 years. Five centuries are therefore 2.5--4.7 half-lives. Initial conditions alone would have decayed to between 4\% and 18\% of their original size. The persistence Quijano describes therefore cannot rest on slow decay. In the model it requires that $\lambda_r$ and the unequal opportunity structure be \emph{reproduced} each generation, which is exactly his thesis that coloniality is an ongoing pattern of power, not a residue.
 
-\textbf{Marini (1973): superexploitation, amplified by race.} For Marini, superexploitation means that labor-power is paid below its value, through intensified work, a longer working day and wages below what workers need to reproduce themselves. It is a Marxian value concept, not a statement about marginal products. In this book's bargaining reading (an interpretation, not Marini's own apparatus; Chapter~7), it corresponds to a weak structural position of workers, $\pi_{\text{worker}} \ll 1/N$. This chapter adds the racial dimension: within the worker class, racial minorities face an additional constraint ($\lambda_r < 1$) and a more restricted opportunity structure, which further reduce their Perron weight. Indigenous workers are \textit{superexploited among the superexploited}: $\pi_{\text{indigenous worker}} < \pi_{\text{non-indigenous worker}} \ll 1/N$.
+\textbf{\citet{marini1973dialectica}: superexploitation, amplified by race.} For Marini, superexploitation means that labor-power is paid below its value, through intensified work, a longer working day and wages below what workers need to reproduce themselves. It is a Marxian value concept, not a statement about marginal products. In this book's bargaining reading (an interpretation, not Marini's own apparatus; Chapter~7), it corresponds to a weak structural position of workers, $\pi_{\text{worker}} \ll 1/N$. This chapter adds the racial dimension: within the worker class, racial minorities face an additional constraint ($\lambda_r < 1$) and a more restricted opportunity structure, which further reduce their Perron weight. Indigenous workers are \textit{superexploited among the superexploited}: $\pi_{\text{indigenous worker}} < \pi_{\text{non-indigenous worker}} \ll 1/N$.
 
 Combining Marini's class analysis with Quijano's racial analysis gives the intersectional structure of Section~\ref{ch18:sec:intersection}. Under the separable baseline, an indigenous working-class woman faces the product $\lambda_r \lambda_g \lambda_c$ of three edge constraints. Whether her position is worse still --- whether the axes interact ($\iota < 0$) --- is the empirical content of the intersectional claim.
 
@@ -569,14 +571,14 @@ Quijano wrote from Lima. Marini wrote from exile. Neither had the Perron eigenve
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Gender and networks:} Beaman et al.\ (2012), ``Female Leadership Raises Aspirations,'' \textit{Science}. Bursztyn et al.\ (2020), ``Misperceived Social Norms: Women Working Outside the Home in Saudi Arabia,'' \textit{AER}. Cuberes and Teignier (2016), ``Aggregate Effects of Gender Gaps in the Labor Market,'' \textit{Journal of Human Capital}.
+\textbf{Gender and networks:} \citet{beaman2012female}, ``Female Leadership Raises Aspirations.'' \citet{bursztyn2020misperceived}, ``Misperceived Social Norms: Women Working Outside the Home in Saudi Arabia.'' \citet{cuberes2016aggregate}, ``Aggregate Effects of Gender Gaps in the Labor Market.''
 
-\textbf{Race and economic structure:} Darity and Mason (1998), ``Evidence on Discrimination in Employment,'' \textit{JEP}. Lang and Lehmann (2012), ``Racial Discrimination in the Labor Market: Theory and Empirics,'' \textit{Journal of Economic Literature}. For Bolivia: Jimenez Pozo, Landa Casazola, and Yanz\'{o}n (2006), ``Bolivia: Indicadores de equidad \'{e}tnica,'' UDAPE.
+\textbf{Race and economic structure:} \citet{darity1998evidence}, ``Evidence on Discrimination in Employment.'' \citet{lang2012racial}, ``Racial Discrimination in the Labor Market: Theory and Empirics.'' For Bolivia: \citet*{jimenezpozo2006bolivia}, ``Bolivia: Indicadores de equidad \'{e}tnica.''
 
-\textbf{Intersectionality:} Crenshaw (1989), ``Demarginalizing the Intersection of Race and Sex,'' \textit{University of Chicago Legal Forum}.
+\textbf{Intersectionality:} \citet{crenshaw1989demarginalizing}, ``Demarginalizing the Intersection of Race and Sex.''
 
-\textbf{Decolonial theory:} Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina.'' Mignolo (2000), \textit{Local Histories/Global Designs}. Walsh (2007), ``Interculturalidad y colonialidad del poder,'' in Castro-G\'{o}mez and Grosfoguel (eds.), \textit{El giro decolonial}.
+\textbf{Decolonial theory:} \citet{quijano2000colonialidad}, ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina.'' \citet{mignolo2000local}, \textit{Local Histories/Global Designs}. \citet{walsh2007interculturalidad}, ``Interculturalidad y colonialidad del poder.''
 
-\textbf{Assortative mixing in networks:} Newman (2003), ``Mixing Patterns in Networks,'' \textit{Physical Review E}. Currarini, Jackson, and Pin (2009), ``An Economic Model of Friendship,'' \textit{Econometrica}. Golub and Jackson (2012), ``How Homophily Affects the Speed of Learning and Best-Response Dynamics,'' \textit{QJE} --- the spectral link between homophily and integration used in Proposition~\ref{ch18:prop:assortative}.
+\textbf{Assortative mixing in networks:} \citet{newman2003mixing}, ``Mixing Patterns in Networks.'' \citet*{currarini2009economic}, ``An Economic Model of Friendship.'' \citet{golub2012how}, ``How Homophily Affects the Speed of Learning and Best-Response Dynamics'' --- the spectral link between homophily and integration used in Proposition~\ref{ch18:prop:assortative}.
 
 \end{document}

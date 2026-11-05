@@ -63,7 +63,7 @@ The idea: enforcement and formation operate on different timescales.
 \end{enumerate}
 \end{definition}
 
-The classification fails in both directions. Enforcement can be \textit{cohort-specific}: the oral contraceptive pill changed women's career investments according to their age when legal access arrived (Goldin and Katz, 2002, \textit{JPE}; Bailey, 2006, \textit{QJE}), so a ``price'' shows up as a cohort effect. Formation can be \textit{contemporaneous}: learning from neighbours (Fogli and Veldkamp, 2011) and corrections of perceived norms (Bursztyn et al., 2020) move behavior within a generation, so formation shows up as a year effect.
+The classification fails in both directions. Enforcement can be \textit{cohort-specific}: the oral contraceptive pill changed women's career investments according to their age when legal access arrived (\citealp[\textit{JPE}]{goldin2002power}; \citealp[\textit{QJE}]{bailey2006more}), so a ``price'' shows up as a cohort effect. Formation can be \textit{contemporaneous}: learning from neighbours \citep{fogli2011nature} and corrections of perceived norms \citep{bursztyn2020misperceived} move behavior within a generation, so formation shows up as a year effect.
 
 \begin{definition}[Cohort--Year Specification and the Variance Ratio]\label{ch11:thm:cohort_year}
 Let $x_{i,c,t}$ be the behavior of agent $i$ from cohort $c$ at time $t$. The \textbf{cohort--year specification} is
@@ -89,7 +89,7 @@ produce identical fitted values. So if age effects $A_a$ are included (and behav
 $(\alpha_t - kt) + (\delta_c + kc) + (A_a + k(t - c)) = \alpha_t + \delta_c + A_a$. $\Var(\delta_c + kc)/\Var(\alpha_t - kt)$ is a ratio of two nonnegative quadratics in $k$. The numerator is minimized at minus the slope of the least-squares trend through $\delta_c$; its minimum is the variance of the detrended $\delta_c$, which is near $0$ when $\delta_c$ is nearly linear. The same holds for the denominator.
 \end{proof}
 
-Any estimate of $\hat{\Psi}_{\text{var}}$ therefore requires an explicit identifying restriction. Common choices are Deaton's normalization (year effects orthogonal to a linear trend), equality of two adjacent age or cohort effects, or a proxy variable for one dimension. The restriction must be stated, and the sensitivity of $\hat{\Psi}_{\text{var}}$ to it reported (Hall, 1971; Heckman and Robb, 1985; Deaton and Paxson, 1994; McKenzie, 2006; Fosse and Winship, 2019). Deaton's normalization assigns all trends to age and cohort, so it mechanically tends to \textit{raise} $\Var(\hat{\delta}_c)$ relative to $\Var(\hat{\alpha}_t)$. On the table of Exercise~11.1, the two-way fit gives $\hat{\Psi}_{\text{var}} = 8.0$. The observationally equivalent APC decompositions with $k = -0.10, -0.05, 0, +0.05$ per decade give $\hat{\Psi}_{\text{var}} = 0.03, 0.62, 8.0, 507$.
+Any estimate of $\hat{\Psi}_{\text{var}}$ therefore requires an explicit identifying restriction. Common choices are Deaton's normalization (year effects orthogonal to a linear trend), equality of two adjacent age or cohort effects, or a proxy variable for one dimension. The restriction must be stated, and the sensitivity of $\hat{\Psi}_{\text{var}}$ to it reported \citep{hall1971measurement,heckman1985using,deaton1994saving,mckenzie2006disentangling,fosse2019analyzing}. Deaton's normalization assigns all trends to age and cohort, so it mechanically tends to \textit{raise} $\Var(\hat{\delta}_c)$ relative to $\Var(\hat{\alpha}_t)$. On the table of Exercise~11.1, the two-way fit gives $\hat{\Psi}_{\text{var}} = 8.0$. The observationally equivalent APC decompositions with $k = -0.10, -0.05, 0, +0.05$ per decade give $\hat{\Psi}_{\text{var}} = 0.03, 0.62, 8.0, 507$.
 
 \begin{proposition}[When the Variance Ratio Maps to $\Psi$]\label{ch11:prop:psivar_map}
 Suppose (i) the APC restriction used is correct; (ii) all year-effect variation is enforcement and all cohort-effect variation is formation; and (iii) a single structural index $z$ drives both, with $\alpha_t = e\,z_t$ and $\delta_c = f\,z_{\tau(c)}$, where $z_{\tau(c)}$ is the index in cohort $c$'s formative years, and the two sample windows have the same $\Var(z)$. Then $\hat{\Psi}_{\text{var}} \to (f/e)^2$, and $\sqrt{\hat{\Psi}_{\text{var}}}$ estimates $|\Psi(\Delta z, \infty)|$ for a permanent change in $z$, in the population of interest.
@@ -109,7 +109,7 @@ Each condition is strong, and none is testable from the cohort--year table alone
 
 \subsection{The Idea}
 
-The cleanest evidence on cultural transmission comes from migrants (Fern\'{a}ndez, 2011). A woman raised in country $B$ by parents from country $A$ faces country $B$'s prices and constraints (enforcement) but may carry part of country $A$'s culture (formation). Her behavior reveals the interaction of $A$'s formation with $B$'s enforcement.
+The cleanest evidence on cultural transmission comes from migrants \citep{fernandez2011does}. A woman raised in country $B$ by parents from country $A$ faces country $B$'s prices and constraints (enforcement) but may carry part of country $A$'s culture (formation). Her behavior reveals the interaction of $A$'s formation with $B$'s enforcement.
 
 \begin{definition}[Epidemiological Regression]\label{ch11:def:epi}
 For female labor force participation of second-generation immigrant women (born and raised in country $B$, parents from country $A$):
@@ -147,7 +147,7 @@ and $\Var(\text{LFP}_A) = b^2\Var(\theta_A) + \Var(e_A)$. Divide. For the third 
 Three caveats follow from the derivation.
 \begin{itemize}
 \item \textit{Origin LFP includes origin enforcement} ($e_A$): wages, laws and childcare in country $A$. That is why $\beta < \rho$.
-\item \textit{Bad controls.} Conditioning on the daughter's education, marital status or number of children removes channels through which culture operates. Those controls bias $\beta$ toward zero as an estimate of the total cultural effect (Angrist and Pischke, 2009, \S3.2.3).
+\item \textit{Bad controls.} Conditioning on the daughter's education, marital status or number of children removes channels through which culture operates. Those controls bias $\beta$ toward zero as an estimate of the total cultural effect \citep[\S3.2.3]{angrist2009mostly}.
 \item \textit{What is transmitted.} $\beta$ identifies a cultural component broadly defined --- beliefs, norms, tastes, or ethnic-network access to jobs --- not a preference parameter specifically (Chapter~9, Section~\ref{ch09:sec:beliefs}).
 \end{itemize}
 
@@ -159,7 +159,7 @@ Second-generation women in the same host labor market face the same prices and l
 \subsection{What the Evidence Shows: Female Labor Force Participation}
 
 \begin{stylizedfact}[Epidemiological Evidence on Female Work]\label{ch11:prop:fernandez}
-Using US Census data on second-generation American women, Fern\'{a}ndez and Fogli (2009, \textit{AEJ: Macro}) and Fern\'{a}ndez (2007, \textit{JEEA}) find that female labor force participation in the parents' country of ancestry (measured around 1950) predicts the daughters' work behavior in the US, conditional on individual and parental characteristics. The results are robust to a range of controls for parental human capital. Fern\'{a}ndez (2013, \textit{AER}) models the twentieth-century rise in US female participation as \textit{learning} about the costs of working.
+Using US Census data on second-generation American women, \citet[\textit{AEJ: Macro}]{fernandez2009culture} and \citet[\textit{JEEA}]{fernandez2007women} find that female labor force participation in the parents' country of ancestry (measured around 1950) predicts the daughters' work behavior in the US, conditional on individual and parental characteristics. The results are robust to a range of controls for parental human capital. \citet[\textit{AER}]{fernandez2013cultural} models the twentieth-century rise in US female participation as \textit{learning} about the costs of working.
 \end{stylizedfact}
 
 \begin{example}[From Epidemiological Coefficients to $\rho$ \illustrative]\label{ch11:ex:epi}
@@ -189,8 +189,8 @@ Cross-country differences in saving rates are not fully explained by interest ra
 \begin{stylizedfact}[Patience, Saving, and Culture]\label{ch11:prop:savings}
 \leavevmode
 \begin{enumerate}
-\item In the Global Preferences Survey (Falk et al., 2018, \textit{QJE}), country-average patience is positively correlated with saving and with educational attainment.
-\item The epidemiological evidence on saving is mixed. Carroll, Rhee and Rhee (1994, \textit{QJE}) find little evidence that immigrants' saving behavior in Canada reflects saving rates in their countries of origin.
+\item In the Global Preferences Survey \citep[\textit{QJE}]{falk2018global}, country-average patience is positively correlated with saving and with educational attainment.
+\item The epidemiological evidence on saving is mixed. \citet[\textit{QJE}]{carroll1994there} find little evidence that immigrants' saving behavior in Canada reflects saving rates in their countries of origin.
 \item \textup{\illustrative} A cohort--year decomposition with cohort share 57\% and year share 43\% of explained variance gives $\hat{\Psi}_{\text{var}} = 1.3$.
 \end{enumerate}
 \end{stylizedfact}
@@ -202,7 +202,7 @@ Cross-country differences in saving rates are not fully explained by interest ra
 \leavevmode
 \begin{enumerate}
 \item Parental, especially maternal, education is among the strongest correlates of children's schooling in household surveys such as the DHS. The correlation mixes genes, resources and formation.
-\item The Bernard et al.\ (2014) documentary experiment changes $W^I$ by randomized design. It is the type of evidence that identifies a formation effect directly, at a short horizon. Mapping a six-month effect into the per-generation $\mu$ of Chapter~9 requires assumptions about exposure and persistence that the experiment does not pin down.
+\item The \citet{bernard2014future} documentary experiment changes $W^I$ by randomized design. It is the type of evidence that identifies a formation effect directly, at a short horizon. Mapping a six-month effect into the per-generation $\mu$ of Chapter~9 requires assumptions about exposure and persistence that the experiment does not pin down.
 \item \textup{\illustrative} A variance ratio of $\hat{\Psi}_{\text{var}} = 0.8$ would be consistent with large enforcement changes in the period (school construction, fee abolition).
 \end{enumerate}
 \end{stylizedfact}
@@ -213,7 +213,7 @@ Cross-country differences in saving rates are not fully explained by interest ra
 \begin{stylizedfact}[Formation in Risk Attitudes]\label{ch11:prop:risk}
 \leavevmode
 \begin{enumerate}
-\item Malmendier and Nagel (2011, \textit{QJE}) use the Survey of Consumer Finances. Households whose lifetime experienced stock returns are lower (weighting recent years more heavily) report lower willingness to take financial risks, are less likely to own stocks, and hold a smaller share of liquid assets in stocks.
+\item \citet[\textit{QJE}]{malmendier2011depression} use the Survey of Consumer Finances. Households whose lifetime experienced stock returns are lower (weighting recent years more heavily) report lower willingness to take financial risks, are less likely to own stocks, and hold a smaller share of liquid assets in stocks.
 \item This is formation from \textit{own} experience, not from signals relayed by others (Chapter~9): the diagonal of $W^I$.
 \item \textup{\illustrative} With current wealth and returns accounting for most of the variation in portfolio shares, a variance ratio around $\hat{\Psi}_{\text{var}} = 0.5$ would be plausible.
 \end{enumerate}
@@ -271,11 +271,11 @@ At a steady state of the formation model with linearized returns, preferences sa
 This is a linear-in-means (spatial-autoregressive) model. It has an \textit{endogenous} effect ($\lambda$: my preference depends on my contacts' preferences, through their returns), \textit{contextual} effects ($\boldsymbol{\delta}$: my contacts' characteristics) and possibly \textit{correlated} effects (contacts share unobserved shocks, or chose each other because they are similar).
 
 \begin{enumerate}
-\item \textbf{Reflection} (Manski, 1993). When $W^I$ averages over a whole group (cohort, region, origin country), group-mean behavior is regressed on group-mean behavior and endogenous and contextual effects cannot be separated. Regressions of cohort means on cohort means are exactly this case.
-\item \textbf{Network identification} (Bramoull\'{e}, Djebbari and Fortin, 2009). With an observed network and no correlated effects, the parameters are identified if $I$, $W^I$ and $(W^I)^2$ are linearly independent (intransitive triads supply the instruments). A block-diagonal $W^I$ with uniform within-block weights fails the condition, because $(W^I)^2 = W^I$. This is the pure block-diagonal case behind Chapter~10's original stratified economy (see \texttt{code/ch11.py}). Chapter~10's stated $W^I$, with cross-block weights $0.025$, has three distinct eigenvalues ($1, 0.775, 0$), so it satisfies the condition --- but only weakly, since the cross-block entries are small. With group interactions and fixed effects, Lee (2007) shows that variation in group size is what identifies the model.
-\item \textbf{Correlated effects and network formation.} If ties form on unobserved $\theta$ (homophily), $W^I$ is endogenous. See Goldsmith-Pinkham and Imbens (2013, \textit{JBES}) and the survey of Blume, Brock, Durlauf and Ioannides (2011).
-\item \textbf{Measuring $W^I$.} Full network surveys are expensive and usually sampled. Chandrasekhar and Lewis study estimation with sampled networks. Breza, Chandrasekhar, McCormick and Pan (2020, \textit{AER}) show how aggregated relational data can recover network statistics. de Paula, Rasul and Souza recover network ties from panel data on outcomes.
-\item \textbf{Experiments on $W^I$.} Randomizing exposure --- the Bernard et al.\ documentary, Beaman et al.'s leader reservations, partial-population designs (Moffitt, 2001), or separating learning from social utility (Bursztyn et al., 2014) --- identifies formation effects of a specific $\Delta W^I$, which is what Definition~\ref{ch09:def:psi} asks for.
+\item \textbf{Reflection} \citep{manski1993identification}. When $W^I$ averages over a whole group (cohort, region, origin country), group-mean behavior is regressed on group-mean behavior and endogenous and contextual effects cannot be separated. Regressions of cohort means on cohort means are exactly this case.
+\item \textbf{Network identification} \citep{bramoulle2009identification}. With an observed network and no correlated effects, the parameters are identified if $I$, $W^I$ and $(W^I)^2$ are linearly independent (intransitive triads supply the instruments). A block-diagonal $W^I$ with uniform within-block weights fails the condition, because $(W^I)^2 = W^I$. This is the pure block-diagonal case behind Chapter~10's original stratified economy (see \texttt{code/ch11.py}). Chapter~10's stated $W^I$, with cross-block weights $0.025$, has three distinct eigenvalues ($1, 0.775, 0$), so it satisfies the condition --- but only weakly, since the cross-block entries are small. With group interactions and fixed effects, \citet{lee2007identification} shows that variation in group size is what identifies the model.
+\item \textbf{Correlated effects and network formation.} If ties form on unobserved $\theta$ (homophily), $W^I$ is endogenous. See \citet[\textit{JBES}]{goldsmithpinkham2013social} and the survey of \citet{blume2011identification}.
+\item \textbf{Measuring $W^I$.} Full network surveys are expensive and usually sampled. \citet{chandrasekhar2016econometrics} study estimation with sampled networks. \citet[\textit{AER}]{breza2020using} show how aggregated relational data can recover network statistics. \citet{depaula2025identifying} recover network ties from panel data on outcomes.
+\item \textbf{Experiments on $W^I$.} Randomizing exposure --- the \citeauthor{bernard2014future} documentary \citeyearpar{bernard2014future}, \citeauthor{beaman2012female}'s leader reservations \citeyearpar{beaman2012female}, partial-population designs \citep{moffitt2001policy}, or separating learning from social utility \citep{bursztyn2014understanding} --- identifies formation effects of a specific $\Delta W^I$, which is what Definition~\ref{ch09:def:psi} asks for.
 \end{enumerate}
 
 
@@ -382,14 +382,14 @@ Migrants are not a random sample. If more entrepreneurial families emigrate, the
 
 The formation model says preferences are formed through $W^I$ (the network). The epidemiological design captures transmission through the family: the daughter's weight on her mother in $W^I$. This may understate the full formation effect if the weights on peers and media in $W^I$ also contribute.
 
-\textbf{Response}: Supplement with designs that capture non-family $W^I$: geographic peer effects (Fogli and Veldkamp), randomized exposure (Bernard et al.), and media exposure variation (natural experiments from media deregulation).
+\textbf{Response}: Supplement with designs that capture non-family $W^I$: geographic peer effects \citep{fogli2011nature}, randomized exposure \citep{bernard2014future}, and media exposure variation (natural experiments from media deregulation).
 
 
 \subsection{Threat 4: Gene-Culture Confounding}
 
 Preferences may be partly genetically transmitted. If patience is heritable, the parent--child correlation reflects genes as well as $W^I$.
 
-\textbf{Response}: Twin and adoption designs. Their message is sobering for family-transmission stories. Cesarini et al.\ (2009, \textit{QJE}) estimate that about 20\% of the variation in risk attitudes and giving in Swedish twins is genetic, with little role for the common family environment; most variation is individual-specific (including measurement error). Sacerdote (2007, \textit{QJE}) studies Korean-American adoptees randomly assigned to families. He finds that adoptive parents' education has effects on adoptees' education and income that are much smaller than the corresponding parent--child gradients for biological children, though family environment matters more for outcomes such as drinking and smoking. Together these results suggest that \textit{family} transmission is a modest part of formation; peers, schools, media and own experience --- the rest of $W^I$ --- would have to carry most of it.
+\textbf{Response}: Twin and adoption designs. Their message is sobering for family-transmission stories. \citet[\textit{QJE}]{cesarini2009genetic} estimate that about 20\% of the variation in risk attitudes and giving in Swedish twins is genetic, with little role for the common family environment; most variation is individual-specific (including measurement error). \citet[\textit{QJE}]{sacerdote2007how} studies Korean-American adoptees randomly assigned to families. He finds that adoptive parents' education has effects on adoptees' education and income that are much smaller than the corresponding parent--child gradients for biological children, though family environment matters more for outcomes such as drinking and smoking. Together these results suggest that \textit{family} transmission is a modest part of formation; peers, schools, media and own experience --- the rest of $W^I$ --- would have to carry most of it.
 
 \begin{proposition}[Sensitivity of the Variance Ratio \illustrative]\label{ch11:prop:bounds}
 Suppose each threat removes a stated share of the cohort-effect variance, with the year-effect variance unchanged. Starting from the illustrative $\hat{\Psi}_{\text{var}} = 2.08$ of Example~\ref{ch11:ex:psi_lfp}:
@@ -500,12 +500,12 @@ Born 1960s & 0.60 & 0.66 & 0.72 \\
 \item Under what conditions does selection bias inflate $\hat{\beta}$?
 \end{enumerate}
 
-\item \textbf{What adoption designs can and cannot tell you.} Sacerdote (2007) studies Korean-American adoptees who were assigned to families quasi-randomly, and compares them with the families' biological children. Suppose (illustratively) that the gradient of children's years of schooling in the mother's years of schooling is $0.10$ for adoptees and $0.30$ for biological children in the same families.
+\item \textbf{What adoption designs can and cannot tell you.} \citet{sacerdote2007how} studies Korean-American adoptees who were assigned to families quasi-randomly, and compares them with the families' biological children. Suppose (illustratively) that the gradient of children's years of schooling in the mother's years of schooling is $0.10$ for adoptees and $0.30$ for biological children in the same families.
 \begin{enumerate}
 \item Why can this design \textit{not} estimate the effect of the adoptees' biological parents?
 \item Under an additive model (gradient = environment + genes), what share of the biological-child gradient is attributable to family environment?
 \item If $\theta$ (here: taste for schooling) were transmitted only through the family environment, what would the adoptee gradient say about $\rho$? What additional assumption about the mapping from $\theta$ to schooling do you need?
-\item Cesarini et al.\ (2009) find little role for the common family environment in risk attitudes. Is that consistent with a large formation effect through \textit{non-family} $W^I$? What design would test it?
+\item \citet{cesarini2009genetic} find little role for the common family environment in risk attitudes. Is that consistent with a large formation effect through \textit{non-family} $W^I$? What design would test it?
 \end{enumerate}
 
 \item \textbf{Bolivia's self-employment variance ratio.} Using Bolivia's \textit{Encuesta de Hogares} (INE, microdata 2000--2019):
@@ -557,7 +557,7 @@ Born 1960s & 0.60 & 0.66 & 0.72 \\
 \begin{equation}
 x_{i,c,t} = \alpha + \sum_{t'} \alpha_{t'} \mathbf{1}[t = t'] + \sum_{c'} \delta_{c'} \mathbf{1}[c = c'] + \beta Z_{i,t} + \varepsilon_{i,c,t},
 \end{equation}
-where $\alpha_{t'}$ are year fixed effects and $\delta_{c'}$ are cohort fixed effects. Age effects can be added, but age $=$ year $-$ cohort is a linear identity. With all three sets of effects, one linear restriction is needed, not the deletion of one set. Deaton (1997, \S2.7) uses year effects orthogonal to a trend and summing to zero (see Proposition~\ref{ch11:prop:apc}).
+where $\alpha_{t'}$ are year fixed effects and $\delta_{c'}$ are cohort fixed effects. Age effects can be added, but age $=$ year $-$ cohort is a linear identity. With all three sets of effects, one linear restriction is needed, not the deletion of one set. \citet[\S2.7]{deaton1997analysis} uses year effects orthogonal to a trend and summing to zero (see Proposition~\ref{ch11:prop:apc}).
 
 \paragraph{The variance ratio.} The year component is $E_{\text{var}} = \Var(\hat{\alpha}_t + \hat{\beta}Z)$: the variance explained by time-varying factors. The cohort component is $F_{\text{var}} = \Var(\hat{\delta}_c)$: the variance explained by cohort membership. $\hat{\Psi}_{\text{var}} = F_{\text{var}}/E_{\text{var}}$ is the statistic of Definition~\ref{ch11:thm:cohort_year}, not the $\Psi$ of Chapter~9.
 
@@ -592,19 +592,19 @@ where $\bar{x}_{o,t_0}$ is the average behavior in origin country $o$ at the tim
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{The epidemiological approach:} Fern\'{a}ndez (2011), ``Does Culture Matter?'' in Benhabib, Bisin, and Jackson (eds.), \textit{Handbook of Social Economics}. Fern\'{a}ndez (2013), ``Cultural Change as Learning,'' \textit{AER}. Fern\'{a}ndez and Fogli (2009), ``Culture: An Empirical Investigation of Beliefs, Work, and Fertility,'' \textit{AEJ: Macroeconomics}. Fern\'{a}ndez (2007), ``Women, Work, and Culture,'' \textit{JEEA}. Carroll, Rhee and Rhee (1994), ``Are There Cultural Effects on Saving? Some Cross-Sectional Evidence,'' \textit{QJE}.
+\textbf{The epidemiological approach:} \citet{fernandez2011does}, ``Does Culture Matter?'' in Benhabib, Bisin, and Jackson (eds.), \textit{Handbook of Social Economics}. \citet{fernandez2013cultural}, ``Cultural Change as Learning.'' \citet{fernandez2009culture}, ``Culture: An Empirical Investigation of Beliefs, Work, and Fertility.'' \citet{fernandez2007women}, ``Women, Work, and Culture.'' \citet{carroll1994there}, ``Are There Cultural Effects on Saving? Some Cross-Sectional Evidence.''
 
-\textbf{Age--period--cohort identification:} Deaton (1997), \textit{The Analysis of Household Surveys}, Chapter~2. Hall (1971); Heckman and Robb (1985); Deaton and Paxson (1994); McKenzie (2006); Fosse and Winship (2019, \textit{Annual Review of Sociology}). Goldin and Katz (2002), ``The Power of the Pill,'' \textit{JPE}; Bailey (2006), \textit{QJE}, on cohort-specific enforcement.
+\textbf{Age--period--cohort identification:} \citet{deaton1997analysis}, \textit{The Analysis of Household Surveys}, Chapter~2. \citet{hall1971measurement}; \citet{heckman1985using}; \citet{deaton1994saving}; \citet{mckenzie2006disentangling}; \citet{fosse2019analyzing}. \citet{goldin2002power}, ``The Power of the Pill''; \citet{bailey2006more}, on cohort-specific enforcement.
 
-\textbf{Social interactions and networks:} Manski (1993), ``Identification of Endogenous Social Effects: The Reflection Problem,'' \textit{REStud}. Bramoull\'{e}, Djebbari and Fortin (2009), ``Identification of Peer Effects through Social Networks,'' \textit{J.\ Econometrics}. Lee (2007), \textit{J.\ Econometrics}. Blume, Brock, Durlauf and Ioannides (2011), in \textit{Handbook of Social Economics}. Goldsmith-Pinkham and Imbens (2013), \textit{JBES}. Breza, Chandrasekhar, McCormick and Pan (2020), \textit{AER}. Bursztyn, Ederer, Ferman and Yuchtman (2014), \textit{Econometrica}. Fogli and Veldkamp (2011), ``Nature or Nurture?'' \textit{Econometrica}.
+\textbf{Social interactions and networks:} \citet{manski1993identification}, ``Identification of Endogenous Social Effects: The Reflection Problem.'' \citet{bramoulle2009identification}, ``Identification of Peer Effects through Social Networks.'' \citet{lee2007identification}. \citet{blume2011identification}, in \textit{Handbook of Social Economics}. \citet{goldsmithpinkham2013social}. \citet{breza2020using}. \citet{bursztyn2014understanding}. \citet{fogli2011nature}, ``Nature or Nurture?''
 
-\textbf{Formation experiments:} Bernard et al.\ (2014), ``The Future in Mind,'' CSAE Working Paper. Beaman et al.\ (2012), ``Female Leadership Raises Aspirations and Educational Attainment for Girls,'' \textit{Science}.
+\textbf{Formation experiments:} \citet{bernard2014future}, ``The Future in Mind,'' CSAE Working Paper. \citet{beaman2012female}, ``Female Leadership Raises Aspirations and Educational Attainment for Girls.''
 
-\textbf{Global Preferences Survey:} Falk et al.\ (2018), ``Global Evidence on Economic Preferences,'' \textit{QJE}. The comprehensive cross-country dataset on patience, risk tolerance, altruism, and trust.
+\textbf{Global Preferences Survey:} \citet{falk2018global}, ``Global Evidence on Economic Preferences.'' The comprehensive cross-country dataset on patience, risk tolerance, altruism, and trust.
 
-\textbf{Gene-culture interaction:} Cesarini et al.\ (2009), ``Genetic Variation in Preferences for Giving and Risk Taking,'' \textit{QJE}. Sacerdote (2007), ``How Large Are the Effects from Changes in Family Environment?'' \textit{QJE}.
+\textbf{Gene-culture interaction:} \citet{cesarini2009genetic}, ``Genetic Variation in Preferences for Giving and Risk Taking.'' \citet{sacerdote2007how}, ``How Large Are the Effects from Changes in Family Environment?''
 
-\textbf{Structural adjustment:} Williamson (1990), ``What Washington Means by Policy Reform.'' Rodrik (2006), ``Goodbye Washington Consensus, Hello Washington Confusion,'' \textit{JEL}. For Bolivia: Morales and Sachs, ``Bolivia's Economic Crisis,'' in Sachs (ed.), \textit{Developing Country Debt and Economic Performance}, vol.~2 (NBER).
+\textbf{Structural adjustment:} \citet{williamson1990what}, ``What Washington Means by Policy Reform.'' \citet{rodrik2006goodbye}, ``Goodbye Washington Consensus, Hello Washington Confusion.'' For Bolivia: \citet{morales1990bolivia}, ``Bolivia's Economic Crisis,'' in Sachs (ed.), \textit{Developing Country Debt and Economic Performance}, vol.~2 (NBER).
 % TODO-VERIFY: volume and year of the Morales & Sachs chapter (NBER volume, c. 1989-90).
 
 \end{document}
