@@ -176,3 +176,13 @@ for trial in range(200):
     assert gap(rownorm(K)) <= bound + 1e-12
 print("Cheeger bound holds in 200 random trials; tight in the equal-group example:",
       np.isclose(2 * 0.3 / 1.3, 1 - abs(1 - 0.3) / 1.3))
+
+print("\n=== Example (Bolivia's gender structure): Chapter 17 sector power per worker ===")
+# Imported from code/ch17.py (Example ch17:ex:bolivia_pi) so Ch17 and Ch18 cannot drift.
+import contextlib, io, os, runpy
+with contextlib.redirect_stdout(io.StringIO()):
+    _c17 = runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "ch17.py"))
+_ratio = dict(zip(_c17["sectors"], _c17["p"] / _c17["emp"]))
+for _s in ["Hydrocarbons", "Mining", "Personal services", "Domestic services"]:
+    print(f"  {_s:20s} pi/share = {_ratio[_s]:.2f}")
+assert _ratio["Hydrocarbons"] == max(_ratio.values())

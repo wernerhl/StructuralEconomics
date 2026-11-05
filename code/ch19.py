@@ -2,6 +2,11 @@
 the lumpability, stochastic-complementation and nested-block results.  numpy only.
 Run from the repo root:  python3 code/ch19.py
 """
+import contextlib
+import io
+import os
+import runpy
+
 import numpy as np
 
 rng = np.random.default_rng(19)
@@ -70,11 +75,23 @@ for eps in [0.1, 0.01, 0.001]:
 print("\n=== Example: per-capita nesting (illustrative inputs) ===")
 piG_bol, piG_deu = 0.0005, 0.08                # Chapter 16 illustrative values
 L_bol, L_deu = 6e6, 45e6                       # illustrative employed workforces
-xi_gas, e_gas = 0.09, 0.01                     # Chapter 17 illustrative values
-xi_inf, e_inf = 0.05, 0.18
+# Chapter 17 illustrative sector values (Example ch17:ex:bolivia_pi), imported from
+# code/ch17.py so the two chapters cannot drift apart.  The Potosi vendor works in
+# "personal services" (traditional/informal block); household production is
+# "domestic services".
+with contextlib.redirect_stdout(io.StringIO()):
+    _c17 = runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "ch17.py"))
+_sec = list(_c17["sectors"])
+pi17, emp17 = _c17["p"], _c17["emp"]
+i_gas, i_inf = _sec.index("Hydrocarbons"), _sec.index("Personal services")
+xi_gas, e_gas = pi17[i_gas], emp17[i_gas]     # 0.195 at 1% of employment
+xi_inf, e_inf = pi17[i_inf], emp17[i_inf]     # 0.012 at 9% of employment
+assert round(xi_gas, 3) == 0.195 and e_gas == 0.01 and round(xi_inf, 3) == 0.012 and e_inf == 0.09
+print(f"Ch17 inputs: hydrocarbons pi = {xi_gas:.3f} (emp {e_gas:.2f}); "
+      f"personal services pi = {xi_inf:.4f} (emp {e_inf:.2f})")
 w_vendor = 0.57 * 0.58                         # Chapter 18: per-capita factor vs non-indigenous man
 sector_gas, sector_inf = xi_gas / e_gas, xi_inf / e_inf
-print(f"sector per-capita factors: gas {sector_gas:.2f}, informal services {sector_inf:.3f}, "
+print(f"sector per-capita factors: gas {sector_gas:.2f}, personal services {sector_inf:.3f}, "
       f"ratio {sector_gas/sector_inf:.1f}")
 print(f"within factor: indigenous woman / non-indigenous man = {w_vendor:.3f} (rounded 0.33)")
 r_exec = sector_gas / sector_inf / 0.33
@@ -83,10 +100,14 @@ country = (piG_deu / L_deu) / (piG_bol / L_bol)
 print(f"country per-capita factor Germany/Bolivia = 160 x {L_bol/L_deu:.3f} = {country:.1f}")
 r_deu = country * (1.0 / sector_inf) / 0.33
 print(f"German engineer (sector factor 1, within 1) / vendor = {country:.1f} x {1/sector_inf:.2f} x {1/0.33:.2f} = {r_deu:.0f}")
+print(f"  without dividing by workforce: 160 x {1/sector_inf:.2f} x {1/0.33:.2f} = {160/sector_inf/0.33:.0f}")
+print(f"vendor / executive per-capita power = {1/r_exec:.4f} ({100/r_exec:.2f}%)")
 print("old text: 0.0112/1.15e-5 =", round(0.0112 / 1.15e-5, 1), "; 160*2.8/0.46 =", round(160 * 2.8 / 0.46, 1),
       "(the 986 vs 974 gap was rounding 1/0.46 = 2.17 to 2.2)")
-print(f"national max/min pi on Ch17 values: hydrocarbons/household = {0.09/0.02:.1f}; "
-      f"'9' is hydrocarbons' pi/employment = {0.09/0.01:.0f}")
+i_max, i_min = int(np.argmax(pi17)), int(np.argmin(pi17))
+print(f"national max/min pi on Ch17 values: {_sec[i_max]}/{_sec[i_min]} = "
+      f"{pi17[i_max]:.3f}/{pi17[i_min]:.3f} = {pi17[i_max]/pi17[i_min]:.0f}")
+print(f"domestic services (household production) pi = {pi17[_sec.index('Domestic services')]:.3f}")
 print(f"Gamma_N/Gamma_G = 0.13/0.20 = {0.13/0.20:.2f} (35% lower)")
 
 print("\n=== Appendix 19B: hierarchical block model ===")

@@ -73,10 +73,10 @@ The global and national columns repeat the illustrative values of Chapters~16 an
 Property & Global & National & Individual \\
 \midrule
 $\Gamma$ & 0.20 & 0.13 & ($\approx 0.10$) \\
-$\max\pi / \min\pi$ & 360 (US/Laos) & 4.5 (hydroc./househ.) & ($\approx 50$) \\
+$\max\pi / \min\pi$ & 360 (US/Laos) & 88 (pub.\ adm./dom.\ serv.) & ($\approx 50$) \\
 Number of blocks & 3 (core/semi/per.) & 3 (gas/form./inf.) & 3+ (gender$\times$ethn.) \\
 $\sigma_B$ & $\approx 0.55$ & 0.62 & ($\approx 0.50$) \\
-$\Neff(\pi^I)$ & 3--5 & 3.2 & --- \\
+$\Neff(\pi^I)$ & 3--5 & 3.4 & --- \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -193,17 +193,17 @@ The identity is exact but the stochastic complements depend on the whole matrix.
 The three per-capita factors are country power per worker, sector power per worker (relative to the national average) and the individual's within-sector position.
 
 \begin{example}[An Indigenous Woman in Potos\'{i} \illustrative]\label{ch19:ex:potosi}
-Agent $i$: an indigenous woman working in informal services in Potos\'{i}, Bolivia. Agent $j$: a non-indigenous male gas executive in Santa Cruz. The inputs are the illustrative values of Chapters~16--18.
+Agent $i$: an indigenous woman working in informal personal services in Potos\'{i}, Bolivia. Agent $j$: a non-indigenous male gas executive in Santa Cruz. The inputs are the illustrative values of Chapters~16--18.
 
 \textbf{Country factor.} Both are Bolivian, so it cancels.
 
-\textbf{Sector factor.} In Chapter~17's table, informal services hold $\pi_N = 0.05$ of national power with $18\%$ of employment ($0.05/0.18 = 0.28$ per worker). Hydrocarbons hold $0.09$ with $1\%$ of employment ($9.0$ per worker). Ratio: $9.0/0.28 = 32.4$.
+\textbf{Sector factor.} In Chapter~17's table (Example~\ref{ch17:ex:bolivia_pi}), personal services hold $\pi_N = 0.012$ of national power with $9\%$ of employment ($0.14$ per worker). Hydrocarbons hold $0.195$ with $1\%$ of employment ($19.5$ per worker). Ratio: $19.5/0.138 \approx 141$.
 
 \textbf{Within-sector factor.} By Chapter~18's illustrative calibration, an indigenous woman holds $0.57 \times 0.58 = 0.33$ of a non-indigenous man's per-capita power. Ratio: $1/0.33 = 3.03$.
 
-\textbf{Total.} $\pi_{I,j}/\pi_{I,i} \approx 32.4 \times 3.03 \approx 98$. The sector factor dominates: power per worker in an enclave that employs very few people is large.
+\textbf{Total.} $\pi_{I,j}/\pi_{I,i} \approx 141 \times 3.03 \approx 427$. The sector factor dominates: power per worker in an enclave that employs very few people is large.
 
-\textbf{A German engineer.} Germany holds $\pi_G = 0.08$ and Bolivia $0.0005$ (Chapter~16), a ratio of 160. \emph{Per worker}, with illustrative workforces of 45 and 6 million, the country factor is $160 \times 6/45 = 21.3$. Put the engineer in a sector whose power share equals its employment share (factor $1$, against $0.28$ for informal services) and give her within-sector factor $1$. The compound ratio to the Potos\'{i} vendor is then $21.3 \times 3.6 \times 3.03 \approx 233$. Forgetting to divide country power by workforce size would inflate this to about $1{,}000$. (Numbers: \texttt{code/ch19.py}.)
+\textbf{A German engineer.} Germany holds $\pi_G = 0.08$ and Bolivia $0.0005$ (Chapter~16), a ratio of 160. \emph{Per worker}, with illustrative workforces of 45 and 6 million, the country factor is $160 \times 6/45 = 21.3$. Put the engineer in a sector whose power share equals its employment share (factor $1$, against $0.14$ for personal services) and give her within-sector factor $1$. The compound ratio to the Potos\'{i} vendor is then $21.3 \times 7.2 \times 3.03 \approx 467$. Forgetting to divide country power by workforce size would inflate this to about $3{,}500$. (Numbers: \texttt{code/ch19.py}.)
 \end{example}
 
 \begin{vizpanel}{Power nesting: three scales, one agent}
@@ -214,7 +214,7 @@ Agent $i$: an indigenous woman working in informal services in Potos\'{i}, Boliv
 \node[font=\scriptsize, blue!70!black] at (5, 3.2) {Country: Bolivia (common factor, cancels)};
 
 \draw[blue!50!black, thick] (0.5, 0.3) rectangle (4.0, 2.7);
-\node[font=\scriptsize, blue!50!black] at (2.25, 2.85) {Sector: $\pi_N/e = 0.05/0.18 = 0.28$};
+\node[font=\scriptsize, blue!50!black] at (2.25, 2.85) {Sector: $\pi_N/e = 0.012/0.09 = 0.14$};
 
 \draw[blue!30!black] (0.8, 0.5) rectangle (2.8, 2.4);
 \node[font=\tiny, blue!30!black, align=center] at (1.8, 2.55) {Within: $w = 0.33$};
@@ -226,7 +226,7 @@ Agent $i$: an indigenous woman working in informal services in Potos\'{i}, Boliv
 %% Comparison agent
 \begin{scope}[xshift=5.5cm]
 \draw[blue!50!black, thick] (0, 0.3) rectangle (3.5, 2.7);
-\node[font=\scriptsize, blue!50!black] at (1.75, 2.85) {Sector: $\pi_N/e = 0.09/0.01 = 9.0$};
+\node[font=\scriptsize, blue!50!black] at (1.75, 2.85) {Sector: $\pi_N/e = 0.195/0.01 = 19.5$};
 \draw[blue!30!black] (0.3, 0.5) rectangle (3.2, 2.4);
 \node[font=\tiny, blue!30!black] at (1.75, 2.55) {Within: $w = 1$};
 \fill[green!60!black] (1.75, 1.3) circle (4pt);
@@ -235,11 +235,11 @@ Agent $i$: an indigenous woman working in informal services in Potos\'{i}, Boliv
 
 %% Ratio
 \draw[<->, thick, red!60!black] (2.3, 1.3) -- (6.7, 1.3);
-\node[font=\scriptsize, red!60!black, above] at (4.5, 1.35) {$\times\, 98$};
+\node[font=\scriptsize, red!60!black, above] at (4.5, 1.35) {$\times\, 427$};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Two Bolivians in the same country (illustrative values). The outer box (country) is common to both and cancels. The middle boxes give sector power per worker: $9.0$ for gas against $0.28$ for informal services, a factor of 32. The inner boxes give the within-sector factor: $1$ against $0.33$, a factor of 3. The compound ratio is about $98\times$. Against a German engineer in an average sector it is about $233\times$, once country power is expressed per worker.
+\small Two Bolivians in the same country (illustrative values). The outer box (country) is common to both and cancels. The middle boxes give sector power per worker: $19.5$ for gas against $0.14$ for personal services, a factor of about 141. The inner boxes give the within-sector factor: $1$ against $0.33$, a factor of 3. The compound ratio is about $427\times$. Against a German engineer in an average sector it is about $467\times$, once country power is expressed per worker.
 \end{vizpanel}
 
 
@@ -258,7 +258,7 @@ Sunkel argued that five phenomena are manifestations of a single process. The fo
 
 \item \textbf{Dependence}: The off-diagonal block of $W^P$ is asymmetric: the periphery's row entries (what it imports from the core) are large, but the core's row entries (what it imports from the periphery) are small. In Perron terms: $\pi_{\text{periphery}} \ll 1/N$. The periphery needs the core more than the core needs the periphery.
 
-\item \textbf{Marginality}: Some nodes have $\pi_i \approx 0$: almost no one places weight on them. Their \emph{columns} in $W$ are nearly zero (their rows still sum to one: they depend on others). They exist in the economy but carry almost no weight in the network. Examples: Bolivia's household-production sector (Chapter~17: $\pi = 0.02$), or the Potos\'{i} vendor of Example~\ref{ch19:ex:potosi}, whose per-capita power is about 1\% of a gas executive's.
+\item \textbf{Marginality}: Some nodes have $\pi_i \approx 0$: almost no one places weight on them. Their \emph{columns} in $W$ are nearly zero (their rows still sum to one: they depend on others). They exist in the economy but carry almost no weight in the network. Examples: Bolivia's domestic-services (household-production) sector (Chapter~17: $\pi = 0.003$), or the Potos\'{i} vendor of Example~\ref{ch19:ex:potosi}, whose per-capita power is about 0.2\% of a gas executive's.
 
 \item \textbf{Spatial inequality (in integration)}: The spectral gap varies across regional submatrices, each renormalized to be row-stochastic: $\Gamma_{\text{Santa Cruz}} > \Gamma_{\text{Potos\'{i}}}$. Some regions have integrated $W^P$ (Santa Cruz: agro-industry, services, some manufacturing). Others have fragmented $W^P$ (Potos\'{i}: mining enclave plus subsistence agriculture). $\Var_r(\Gamma_r)$ measures regional disparity in \emph{integration}; regional income inequality is a different quantity that it may help explain.
 \end{enumerate}
@@ -378,7 +378,7 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 
 \item \textbf{Three-scale comparison.} Using Bolivia data, recompute the global and national columns of Example~\ref{ch19:ex:bolivia_three}: $\Gamma$, $\max\pi/\min\pi$ and $\sigma_B$. For the individual scale, describe what network data would be needed and how you would sample it. Using Proposition~\ref{ch19:prop:lumpability}, explain why a lower $\Gamma$ at the finer scale is not, by itself, evidence of more fragmentation.
 
-\item \textbf{Power nesting.} Choose three Bolivian agents: (a) a non-indigenous male in gas, (b) an indigenous male in agriculture, (c) an indigenous female in informal services. Compute each agent's per-capita power with the per-capita nesting formula, dividing sector power by employment share. What are the pairwise ratios? Which factor dominates?
+\item \textbf{Power nesting.} Choose three Bolivian agents: (a) a non-indigenous male in gas, (b) an indigenous male in agriculture, (c) an indigenous female in informal personal services. Compute each agent's per-capita power with the per-capita nesting formula, dividing sector power by employment share. What are the pairwise ratios? Which factor dominates?
 
 \item \textbf{The global comparison.} Using the nesting formula: compute per-capita $\pi_I$ for a German female engineer, a Brazilian factory worker, and the indigenous woman in Potos\'{i}, expressing country power per worker. What are the ratios? Which scale contributes most to the gap? How much does the answer change if you forget to divide by workforce size?
 
