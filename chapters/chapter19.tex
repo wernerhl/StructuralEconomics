@@ -19,7 +19,7 @@
 
 Chapter~16 analyzed the global $W$. Chapter~17 analyzed the domestic $W$. Chapter~18 analyzed the individual-level $W$. This chapter asks in what precise sense they are the same structure at different magnifications.
 
-The working hypothesis: at every scale, the weight matrix has the same qualitative form --- a dense core, a sparse periphery, weak cross-block linkages, a concentrated Perron eigenvector, a small spectral gap. We call this \textbf{structural isomorphism} across scales (Definition~\ref{ch19:thm:scale_invariance}). It is a hypothesis about the recursive structure of social organization: the mechanisms that produce center-periphery at the global scale (proximity-dominated edge creation, assortative mixing, self-confirming preferences) may also operate at the national and individual scales. Two exact results discipline it. Aggregation mechanically raises the spectral gap (Proposition~\ref{ch19:prop:lumpability}), so $\Gamma$ values at different scales are not directly comparable. And individual power factors exactly into country, sector and within-sector shares (Proposition~\ref{ch19:thm:nesting}).
+The working hypothesis: at every scale, the weight matrix has the same qualitative form --- a dense core, a sparse periphery, weak cross-block linkages, a concentrated Perron eigenvector, a small spectral gap. We call this \textbf{structural isomorphism} across scales (Definition~\ref{ch19:thm:scale_invariance}). It is a hypothesis about the recursive structure of social organization: the mechanisms that produce center-periphery at the global scale (proximity-dominated edge creation, assortative mixing, self-confirming preferences) may also operate at the national and individual scales. For Bolivia the data contradict part of it: the global and national matrices that can be measured are not weakly coupled ($\Gamma \approx 0.45$ at both; Section~\ref{ch19:sec:three_scales}). Two exact results discipline the hypothesis. Aggregation mechanically raises the spectral gap (Proposition~\ref{ch19:prop:lumpability}), so $\Gamma$ values at different scales are not directly comparable. And individual power factors exactly into country, sector and within-sector shares (Proposition~\ref{ch19:thm:nesting}).
 
 \citet{sunkel1970subdesarrollo} stated the underlying idea in prose: development, underdevelopment, dependence, marginality, and spatial inequality are manifestations of a single process. This chapter gives that claim a precise matrix vocabulary.
 
@@ -65,24 +65,27 @@ At all three scales, the weight matrix satisfies:
 Items 3 and 4 are logically independent: $\Gamma$ measures integration and $\Neff$ or $\Var(\pi)$ measure concentration (Proposition~\ref{ch06:prop:gap-power-independent}).
 \end{conjecture}
 
-\begin{example}[Bolivia at Three Scales \illustrative]\label{ch19:ex:bolivia_three}
-The global and national columns repeat the illustrative values of Chapters~16 and~17. The individual column is \emph{hypothetical}: no data set records the person-level $W$ for $10^6$--$10^8$ people.
+At the two scales where Bolivia's matrices can be measured, item~3 fails: the global trade matrix has $\Gamma_G = 0.452$ and Bolivia's domestic production matrix $\Gamma_N = 0.467$ (Example~\ref{ch19:ex:bolivia_three}). Neither is small, and at the national scale no block structure is visible (item~5). Items 1 and 4 hold at both (column sums and Perron weights vary widely). The conjecture survives, if at all, in a weaker form: unequal column sums and concentrated $\boldsymbol{\pi}$ without fragmentation.
+
+\begin{example}[Bolivia at Three Scales (partly \illustrative)]\label{ch19:ex:bolivia_three}
+The $\Gamma$ and $\max\pi/\min\pi$ rows of the global and national columns are measured: the global column from bilateral goods trade among 230 economies in 2019 (Chapter~16; \citealp{growthlab2026atlas}), the national column from INE's 2019 supply--use tables (Chapter~17; \citealp{ine2026sut}). The other rows are illustrative, and the individual column is \emph{hypothetical}: no data set records the person-level $W$ for $10^6$--$10^8$ people.
 \begin{center}
 \small
 \begin{tabularx}{\textwidth}{Lccc}
 \toprule
 Property & Global & National & Individual \\
 \midrule
-$\Gamma$ & 0.20 & 0.13 & ($\approx 0.10$) \\
-$\max\pi / \min\pi$ & 360 (US/Laos) & 88 (pub.\ adm./dom.\ serv.) & ($\approx 50$) \\
-Number of blocks & 3 (core/semi/per.) & 3 (gas/form./inf.) & 3+ (gender$\times$ethn.) \\
+$\Gamma$ & 0.452 & 0.467 & ($\approx 0.10$) \\
+$\max\pi / \min\pi$ & 193 (US/Laos) & 53 (other serv./pub.\ adm.) & ($\approx 50$) \\
+Number of blocks & 3 (core/semi/per.) & none visible ($\lambda_2 = 0.53$) & 3+ (gender$\times$ethn.) \\
 $\sigma_B$ & $\approx 0.55$ & 0.62 & ($\approx 0.50$) \\
 $\Neff(\pi^I)$ & 3--5 & 3.4 & --- \\
 \bottomrule
 \end{tabularx}
+\par\footnotesize Sources: global: Growth Lab bilateral trade, HS92, 2019, imports-only $W$ \citep{growthlab2026atlas}; national: INE supply--use tables 2019, domestic, input shares, 11 sectors \citep{ine2026sut}; author's calculations (\texttt{data/compute/}, \texttt{code/ch19.py}). The US/Laos pair is the book's; the global minimum is far smaller. Domestic services has no $W^P$ row, so the national minimum is public administration ($\pi = 0.0051$). $\sigma_B$, $\Neff$, the global block count and the individual column are illustrative.
 \end{center}
 
-The values are of comparable order but should not be over-read. The domestic spectral gap ($\Gamma = 0.13$) is 35\% smaller than the global one ($0.20$). Spectral gaps of matrices of very different size and aggregation are not directly comparable: aggregation alone raises $\Gamma$ (Proposition~\ref{ch19:prop:lumpability}), so a lower $\Gamma$ at a finer scale is partly mechanical. The between-block share of inequality is 55--62\% at the two observed scales. $\Neff$ is defined on the Perron vector of $W^I$ at each scale, so it is bounded by the number of nodes; it is reported only where that vector exists. (The number of reference persons per individual is a different object, the row-level $1/\sum_j W_{ij}^2$, and is not comparable.)
+The values should not be over-read. The domestic and global spectral gaps ($0.467$ and $0.452$) are almost equal, and neither is small; at the national scale Bolivia's matrix mixes about as fast as those of the comparator economies (Chapter~17). Spectral gaps of matrices of very different size and aggregation are not directly comparable in any case: aggregation alone raises $\Gamma$ (Proposition~\ref{ch19:prop:lumpability}), so a lower $\Gamma$ at a finer scale is partly mechanical, and the national value ranges over $0.33$--$0.69$ across normalizations (Chapter~17). The illustrative between-block share of inequality is 55--62\% at the two scales. $\Neff$ is defined on the Perron vector of $W^I$ at each scale, so it is bounded by the number of nodes; it is reported only where that vector exists. (The number of reference persons per individual is a different object, the row-level $1/\sum_j W_{ij}^2$, and is not comparable.)
 \end{example}
 
 
@@ -203,18 +206,18 @@ The identity is exact but the stochastic complements depend on the whole matrix.
 \]
 The three per-capita factors are country power per worker, sector power per worker (relative to the national average) and the individual's within-sector position.
 
-\begin{example}[An Indigenous Woman in Potos\'{i} \illustrative]\label{ch19:ex:potosi}
-Agent $i$: an indigenous woman working in informal personal services in Potos\'{i}, Bolivia. Agent $j$: a non-indigenous male gas executive in Santa Cruz. The inputs are the illustrative values of Chapters~16--18.
+\begin{example}[An Indigenous Woman in Potos\'{i} (partly \illustrative)]\label{ch19:ex:potosi}
+Agent $i$: an indigenous woman working in informal personal services in Potos\'{i}, Bolivia. Agent $j$: a non-indigenous male gas executive in Santa Cruz. The country and sector factors use the 2019 data of Chapters~16 and~17; the within-sector factor is Chapter~18's illustrative calibration.
 
 \textbf{Country factor.} Both are Bolivian, so it cancels.
 
-\textbf{Sector factor.} In Chapter~17's table (Example~\ref{ch17:ex:bolivia_pi}), personal services hold $\pi_N = 0.012$ of national power with $9\%$ of employment ($0.14$ per worker). Hydrocarbons hold $0.195$ with $1\%$ of employment ($19.5$ per worker). Ratio: $19.5/0.138 \approx 141$.
+\textbf{Sector factor.} In Chapter~17's table (Example~\ref{ch17:ex:bolivia_pi}), personal services hold $\pi_N = 0.021$ of national production-network power with 10.7\% of employment ($0.20$ per worker). Employment in hydrocarbons is reported only together with mining: the two hold $0.077$ with 1.3\% of employment ($5.7$ per worker). Ratio: $5.74/0.198 \approx 29$.
 
 \textbf{Within-sector factor.} By Chapter~18's illustrative calibration, an indigenous woman holds $0.57 \times 0.58 = 0.33$ of a non-indigenous man's per-capita power. Ratio: $1/0.33 = 3.03$.
 
-\textbf{Total.} $\pi_{I,j}/\pi_{I,i} \approx 141 \times 3.03 \approx 427$. The sector factor dominates: power per worker in an enclave that employs very few people is large.
+\textbf{Total.} $\pi_{I,j}/\pi_{I,i} \approx 29 \times 3.03 \approx 88$. The sector factor still dominates, but not because the gas sector is central in $W^P$: its own $\pi$ is only $0.039$. Power per worker is high in hydrocarbons and mining because they employ very few people per unit of value --- capital intensity, as Chapter~17 stresses --- and low in personal services because the sector is peripheral and labour-intensive.
 
-\textbf{A German engineer.} Germany holds $\pi_G = 0.08$ and Bolivia $0.0005$ (Chapter~16), a ratio of 160. \emph{Per worker}, with illustrative workforces of 45 and 6 million, the country factor is $160 \times 6/45 = 21.3$. Put the engineer in a sector whose power share equals its employment share (factor $1$, against $0.14$ for personal services) and give her within-sector factor $1$. The compound ratio to the Potos\'{i} vendor is then $21.3 \times 7.2 \times 3.03 \approx 467$. Forgetting to divide country power by workforce size would inflate this to about $3{,}500$. (Numbers: \texttt{code/ch19.py}.)
+\textbf{A German engineer.} Germany holds $\pi_G = 0.082$ and Bolivia $0.00053$ (Chapter~16, 2019), a ratio of 157. \emph{Per worker}, with labour forces of 43.98 and 5.95 million (2019; \citealp{worldbank2026wdi}), the country factor is $157 \times 5.95/43.98 = 21.2$. Put the engineer in a sector whose power share equals its employment share (factor $1$, against $0.20$ for personal services) and give her within-sector factor $1$. The compound ratio to the Potos\'{i} vendor is then $21.2 \times 5.05 \times 3.03 \approx 325$. Forgetting to divide country power by workforce size would inflate this to about $2{,}400$. (Numbers: \texttt{code/ch19.py}.)
 \end{example}
 
 \begin{vizpanel}{Power nesting: three scales, one agent}
@@ -225,7 +228,7 @@ Agent $i$: an indigenous woman working in informal personal services in Potos\'{
 \node[font=\scriptsize, blue!70!black] at (5, 3.2) {Country: Bolivia (common factor, cancels)};
 
 \draw[blue!50!black, thick] (0.5, 0.3) rectangle (4.0, 2.7);
-\node[font=\scriptsize, blue!50!black] at (2.25, 2.85) {Sector: $\pi_N/e = 0.012/0.09 = 0.14$};
+\node[font=\scriptsize, blue!50!black] at (2.25, 2.85) {Sector: $\pi_N/e = 0.021/0.107 = 0.20$};
 
 \draw[blue!30!black] (0.8, 0.5) rectangle (2.8, 2.4);
 \node[font=\tiny, blue!30!black, align=center] at (1.8, 2.55) {Within: $w = 0.33$};
@@ -237,7 +240,7 @@ Agent $i$: an indigenous woman working in informal personal services in Potos\'{
 %% Comparison agent
 \begin{scope}[xshift=5.5cm]
 \draw[blue!50!black, thick] (0, 0.3) rectangle (3.5, 2.7);
-\node[font=\scriptsize, blue!50!black] at (1.75, 2.85) {Sector: $\pi_N/e = 0.195/0.01 = 19.5$};
+\node[font=\scriptsize, blue!50!black] at (1.75, 2.85) {Sector: $\pi_N/e = 0.077/0.013 = 5.7$};
 \draw[blue!30!black] (0.3, 0.5) rectangle (3.2, 2.4);
 \node[font=\tiny, blue!30!black] at (1.75, 2.55) {Within: $w = 1$};
 \fill[green!60!black] (1.75, 1.3) circle (4pt);
@@ -246,11 +249,11 @@ Agent $i$: an indigenous woman working in informal personal services in Potos\'{
 
 %% Ratio
 \draw[<->, thick, red!60!black] (2.3, 1.3) -- (6.7, 1.3);
-\node[font=\scriptsize, red!60!black, above] at (4.5, 1.35) {$\times\, 427$};
+\node[font=\scriptsize, red!60!black, above] at (4.5, 1.35) {$\times\, 88$};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Two Bolivians in the same country (illustrative values). The outer box (country) is common to both and cancels. The middle boxes give sector power per worker: $19.5$ for gas against $0.14$ for personal services, a factor of about 141. The inner boxes give the within-sector factor: $1$ against $0.33$, a factor of 3. The compound ratio is about $427\times$. Against a German engineer in an average sector it is about $467\times$, once country power is expressed per worker.
+\small Two Bolivians in the same country. The outer box (country) is common to both and cancels. The middle boxes give sector power per worker in 2019 (INE and ILOSTAT; Chapter~17): $5.7$ for hydrocarbons and mining against $0.20$ for personal services, a factor of about 29. The inner boxes give the within-sector factor (illustrative, Chapter~18): $1$ against $0.33$, a factor of 3. The compound ratio is about $88\times$. Against a German engineer in an average sector it is about $325\times$, once country power is expressed per worker.
 \end{vizpanel}
 
 
@@ -269,7 +272,7 @@ Sunkel argued that five phenomena are manifestations of a single process. The fo
 
 \item \textbf{Dependence}: The off-diagonal block of $W^P$ is asymmetric: the periphery's row entries (what it imports from the core) are large, but the core's row entries (what it imports from the periphery) are small. In Perron terms: $\pi_{\text{periphery}} \ll 1/N$. The periphery needs the core more than the core needs the periphery.
 
-\item \textbf{Marginality}: Some nodes have $\pi_i \approx 0$: almost no one places weight on them. Their \emph{columns} in $W$ are nearly zero (their rows still sum to one: they depend on others). They exist in the economy but carry almost no weight in the network. Examples: Bolivia's domestic-services (household-production) sector (Chapter~17: $\pi = 0.003$), or the Potos\'{i} vendor of Example~\ref{ch19:ex:potosi}, whose per-capita power is about 0.2\% of a gas executive's.
+\item \textbf{Marginality}: Some nodes have $\pi_i \approx 0$: almost no one places weight on them. Their \emph{columns} in $W$ are nearly zero (their rows still sum to one: they depend on others). They exist in the economy but carry almost no weight in the network. Examples: Bolivia's domestic-services (household-production) sector, which has no intermediate flows at all and so drops out of $W^P$ (Chapter~17), or the Potos\'{i} vendor of Example~\ref{ch19:ex:potosi}, whose per-capita power is about 1\% of a gas executive's.
 
 \item \textbf{Spatial inequality (in integration)}: The spectral gap varies across regional submatrices, each renormalized to be row-stochastic: $\Gamma_{\text{Santa Cruz}} > \Gamma_{\text{Potos\'{i}}}$. Some regions have integrated $W^P$ (Santa Cruz: agro-industry, services, some manufacturing). Others have fragmented $W^P$ (Potos\'{i}: mining enclave plus subsistence agriculture). $\Var_r(\Gamma_r)$ measures regional disparity in \emph{integration}; regional income inequality is a different quantity that it may help explain.
 \end{enumerate}
@@ -317,17 +320,17 @@ The three scales reinforce each other:
 The four feedback loops form a vicious circle: low global position $\to$ low domestic $\Gamma$ $\to$ low individual $\pi$ $\to$ low national $\Gamma$ $\to$ low global position. Breaking the circle at any one scale has limited effect unless the other scales respond. If the loops are strong, comprehensive structural reform (all scales, all networks) is needed, and piecemeal interventions produce piecemeal results. Each link is a testable hypothesis; none is established here.
 \end{conjecture}
 
-\begin{example}[Bolivia's Vicious Circle \illustrative]\label{ch19:ex:vicious}
-The five links, on the illustrative values of Chapters~16--18:
+\begin{example}[Bolivia's Vicious Circle (partly \illustrative)]\label{ch19:ex:vicious}
+The five links, on the 2019 data of Chapters~16--17 and the illustrative values of Chapter~18:
 \begin{enumerate}
-\item \textbf{Global}: on Chapter~16's values, Bolivia holds $\pi_G = 0.0005$. Its gas exports sit on the periphery of the product space, with a low ECI of $-0.8$.
-\item \textbf{National}: $\Gamma_N = 0.13$. Three weakly coupled blocks. $\sigma_B = 0.62$.
-\item \textbf{Individual}: Indigenous women hold about one-third of a non-indigenous man's per-capita power (Chapter~18). Separable gender $\times$ ethnicity edge constraint: $\phi \approx 0.105$.
-\item \textbf{Back to national}: With 41\% of the population (indigenous) and 50\% (women) facing severe attribute constraints, the national talent pool is fragmented. Cross-group edges that could densify $W^P_N$ are suppressed. $\Gamma_N$ stays low.
-\item \textbf{Back to global}: With low $\Gamma_N$, Bolivia cannot diversify (the principle of relatedness traps it on the commodity periphery). $\pi_G$ stays low.
+\item \textbf{Global}: Bolivia holds $\pi_G = 0.00053$ in the 2019 trade matrix. Its exports sit on the periphery of the product space, with an ECI of $-1.30$, down from $-1.21$ in 2006 \citep{growthlab2026atlas}.
+\item \textbf{National}: here the data break the circle as stated. Bolivia's $\Gamma_N = 0.467$ (2019) is within the range of the industrial economies, and $W^P$ shows no weakly coupled blocks. What is national and peripheral is the export sector: hydrocarbons hold $\pi = 0.039$ in $W^P$ while exporting 70\% of output. ($\sigma_B = 0.62$ remains illustrative.)
+\item \textbf{Individual}: Indigenous women hold about one-third of a non-indigenous man's per-capita power (Chapter~18, illustrative). Separable gender $\times$ ethnicity edge constraint: $\phi \approx 0.105$.
+\item \textbf{Back to national}: With 41\% of the population (indigenous) and 50\% (women) facing attribute constraints, the national talent pool is fragmented and cross-group edges are suppressed. If this link operates, it does so on what the economy produces and exports, not on aggregate $\Gamma_N$, which is not low.
+\item \textbf{Back to global}: With a simple export basket, Bolivia struggles to diversify (the principle of relatedness keeps it on the commodity periphery). $\pi_G$ stays low.
 \end{enumerate}
 
-The circle is self-reinforcing. The gas nationalization of 2006 attempted to break it at the global-to-national link (capturing more resource rents). But without addressing the national-to-individual link (attribute constraints) or the individual-to-national link (formation channel), the rents were redistributed within the existing structure. On Chapter~17's illustrative trajectory, $\Gamma_N$ was $0.12$ in 2006 and $0.13$ in 2019.
+If the circle is self-reinforcing, it runs through the export enclave and complexity, not through domestic fragmentation. The gas nationalization of 2006 attempted to break it at the global-to-national link (capturing more resource rents). But without linking the enclave to the domestic network, addressing the national-to-individual link (attribute constraints) or the individual-to-national link (formation channel), the rents were redistributed within the existing structure. On Chapter~17's INE trajectory, $\Gamma_N$ was $0.518$ in 2006 and $0.467$ in 2019 (on a new base, not strictly comparable), while the ECI fell.
 \end{example}
 
 
@@ -347,16 +350,16 @@ The binding scale is \emph{not} simply the scale with the smallest $\Gamma$. Acr
 
 \begin{remark}[Three illustrative cases]
 \begin{itemize}
-\item \textbf{Bolivia.} The chapter's judgement is that the \textbf{national} scale binds. The reason is not that $\Gamma_N = 0.13$ is the lowest value in Example~\ref{ch19:ex:bolivia_three} (the hypothetical individual value is lower). It is that the conjectured feedback from the national scale to both the individual and the global scale is strongest. The operator sequence of Chapter~15 targets the national $\Gamma$ directly.
-\item \textbf{South Korea} (illustrative $\Gamma_N = 0.45$, $\Gamma_I \approx 0.35$ because of remaining gender gaps). The binding scale may be \textbf{individual}: attribute constraints are the largest remaining source of weak integration.
-\item \textbf{Uruguay}, a small open economy (illustrative $\Gamma_N \approx 0.30$, $\pi_G = 0.001$). The binding scale may be \textbf{global}: the domestic structure is reasonably integrated, but the global position constrains diversification.
+\item \textbf{Bolivia.} The chapter's judgement is that the \textbf{national} scale binds, but the data narrow what that can mean. Bolivia's measured $\Gamma_N = 0.467$ is in the comparator range (Korea $0.511$, the United States $0.463$), so a low aggregate $\Gamma_N$ is not what binds. If the national scale binds, it is through the export enclave: a sector that buys $0.225$ of domestic inputs per unit of output, pays 6\% of its value added as wages, exports 70\% of its output and holds $\pi = 0.039$ in $W^P$ (Chapter~17). The operator sequence of Chapter~15 should then target the enclave's domestic linkages and the complexity of the export basket (ECI $-1.30$), not aggregate $\Gamma_N$. Whether the global scale binds instead is an open question that these data cannot settle.
+\item \textbf{South Korea} ($\Gamma_N = 0.511$ in 2019, OECD ICIO; illustrative $\Gamma_I \approx 0.35$ because of remaining gender gaps). The binding scale may be \textbf{individual}: attribute constraints are the largest remaining source of weak integration.
+\item \textbf{Uruguay}, a small open economy (illustrative $\Gamma_N \approx 0.30$, since Uruguay is not in the OECD ICIO tables; $\pi_G = 0.00055$ in the 2019 trade matrix). The binding scale may be \textbf{global}: the global position constrains diversification.
 \end{itemize}
 \end{remark}
 
 \begin{prebisch}[Why Prebisch was right about industrialization but incomplete]
 \citet{prebisch1949desarrollo} argued that the periphery should industrialize to escape the deteriorating terms of trade. His prescription operated at the global scale: change the periphery's position in $W_G$ by adding manufacturing exports. He was right that the global scale matters. But he did not address the national and individual scales: even with manufacturing, a block-diagonal domestic $W_N$ and attribute-constrained $W_I$ prevent the structural integration needed for industrialization to propagate growth broadly.
 
-South Korea industrialized --- through export discipline rather than the inward-looking ISI usually associated with ECLA --- and also addressed the other scales: land reform (national: broke the landlord block), education (individual: reduced human-capital attribute constraints), export discipline (global: moved up the product space). The three scales were addressed simultaneously. Bolivia followed only the global prescription (ISI, then gas nationalization) without the national and individual reforms. The result, on this chapter's illustrative numbers: Bolivia's global position improved slightly (ECI $-0.85 \to -0.80$) while the domestic and individual structures barely moved.
+South Korea industrialized --- through export discipline rather than the inward-looking ISI usually associated with ECLA --- and also addressed the other scales: land reform (national: broke the landlord block), education (individual: reduced human-capital attribute constraints), export discipline (global: moved up the product space). The three scales were addressed simultaneously. Bolivia followed only the global prescription (ISI, then gas nationalization) without the national and individual reforms. The result: Bolivia's global position did not improve --- its ECI fell from $-1.21$ in 2006 to $-1.46$ in 2018 and stood at $-1.30$ in 2019 \citep{growthlab2026atlas} --- while its domestic $\Gamma$ drifted down (Chapter~17) and the individual structures, on the illustrative numbers, barely moved.
 
 The lesson: structural change must be multi-scale. Addressing one scale without the others is like brightening one block of the heatmap while leaving the rest dark.
 \end{prebisch}
@@ -368,11 +371,11 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 %% =====================================================================
 
 \begin{enumerate}
-\item \textbf{Structural isomorphism} across scales (core-periphery topology, weak cross-block coupling, concentrated $\boldsymbol{\pi}$) is a definition plus a conjecture about a common mechanism (proximity, complementarity, assortative formation), not a theorem. Bolivia's illustrative $\Gamma$ lies in $[0.10, 0.20]$ at the three scales; the individual-scale value is hypothetical.
+\item \textbf{Structural isomorphism} across scales (core-periphery topology, weak cross-block coupling, concentrated $\boldsymbol{\pi}$) is a definition plus a conjecture about a common mechanism (proximity, complementarity, assortative formation), not a theorem. For Bolivia the data contradict the small-$\Gamma$ part: $\Gamma = 0.452$ for the 2019 global trade matrix and $0.467$ for the national production matrix; the individual-scale value is hypothetical.
 
 \item \textbf{Aggregation raises $\Gamma$}: under exact lumpability, the coarse matrix's eigenvalues are a subset of the fine matrix's, so $\Gamma_{\text{coarse}} \ge \Gamma_{\text{fine}}$ and Perron weights aggregate by summation. Cross-scale comparisons of $\Gamma$ are partly mechanical.
 
-\item Individual power is \textbf{nested} exactly, through stochastic complementation: $\pi_{I,i} = \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}|s,c}$, with factors that are local under weak coupling (Simon--Ando). Per-capita comparisons must divide by group size. The Potos\'{i} vendor has about 1/400 of a gas executive's per-capita power (illustrative), and the sector factor dominates.
+\item Individual power is \textbf{nested} exactly, through stochastic complementation: $\pi_{I,i} = \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}|s,c}$, with factors that are local under weak coupling (Simon--Ando). Per-capita comparisons must divide by group size. The Potos\'{i} vendor has about 1/88 of a gas executive's per-capita power (sector factor from 2019 data, within-sector factor illustrative), and the sector factor dominates.
 
 \item \textbf{Five processes, one process} (Sunkel) becomes a dictionary: development = high and rising $\Gamma$; underdevelopment = low $\Gamma$ from weak coupling; dependence = asymmetric cross-block $W$; marginality = $\pi_i \approx 0$; spatial inequality in integration = $\Var_r(\Gamma_r)$. ``One process'' is the conjectured common mechanism.
 
@@ -462,7 +465,7 @@ Sunkel developed this argument in \textit{El subdesarrollo latinoamericano y la 
 
 \textbf{The policy implication.} If the five phenomena have one cause (the block structure of $W$), the structural response targets that cause: raise cross-block coupling at the binding scale, and address the concentration of $\pi$, which is a separate target. The sub-field fragmentation of development economics generates sub-field-specific policy recommendations: trade policy for dependence, growth policy for underdevelopment, social policy for marginality, fiscal transfers for spatial inequality. Each addresses one symptom without addressing the cause. The structural approach generates one recommendation: brighten the dark off-diagonal entries of $W$ at the binding scale (Definition~\ref{ch19:prop:binding}).
 
-\textbf{Why this matters for Bolivia.} Bolivia has active policies addressing all five phenomena separately: gas revenue redistribution (underdevelopment), trade agreements (dependence), social transfers (marginality), regional investment (spatial inequality), and recent growth (development). On Chapter~17's illustrative dashboard, none has substantially changed $\Gamma$: over 30 years it moved from 0.10 to 0.13. The structural reading is that none targeted the weight matrix directly.
+\textbf{Why this matters for Bolivia.} Bolivia has active policies addressing all five phenomena separately: gas revenue redistribution (underdevelopment), trade agreements (dependence), social transfers (marginality), regional investment (spatial inequality), and recent growth (development). On INE's tables none has raised $\Gamma$: it drifted down from $0.567$ (1990) to $0.484$ (2013) (Chapter~17) --- but it was never low. What none of them changed is the export enclave's isolation within $W^P$ (hydrocarbons' $\pi = 0.039$) and the complexity of exports (ECI $-1.30$ in 2019). The structural reading is that none targeted the weight matrix directly.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}

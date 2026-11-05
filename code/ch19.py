@@ -145,6 +145,11 @@ print(f"ECI {eci[('BOL','2006')]:+.3f} (2006) -> {eci[('BOL','2018')]:+.3f} (201
       f"pi_URY = {GPI['URY']:.5f}")
 print(f"Gamma_N / Gamma_G = {Gam_N/Gam_G:.2f}")
 chk("Gamma_N/Gamma_G", Gam_N / Gam_G, 1.03, 2)
+chk("Gamma 1990", float(_c17["summ"](1990)["Gamma"]), 0.567, 3); chk("Gamma 2013", float(_c17["summ"](2013)["Gamma"]), 0.484, 3)
+chk("vendor share 1/88", r_exec, 88, 0)
+for _k, _v in {"dom_inputs_per_output": 0.225, "comp_share_of_va": 6.0}.items():
+    assert FACTS[f"BOL_hydrocarbons_{_k}_2019_b2017"] == _v
+chk("USA Gamma", float(_c17["oecd"]("USA", 2019)["Gamma"]), 0.463, 3)
 
 print("\n=== Appendix 19B: hierarchical block model ===")
 k, m, nn = 3, 3, 4; w2, w1, w0 = 1.0, 0.3, 0.05
