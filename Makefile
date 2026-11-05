@@ -7,8 +7,12 @@ CHAPTERS = $(patsubst chapters/%.tex,%,$(wildcard chapters/chapter*.tex))
 book:
 	mkdir -p $(BUILD)
 	$(LATEX) -output-directory=$(BUILD) structural_economics_book.tex
+	BIBINPUTS=.: bibtex $(BUILD)/structural_economics_book || true
+	$(LATEX) -output-directory=$(BUILD) structural_economics_book.tex
 	$(LATEX) -output-directory=$(BUILD) structural_economics_book.tex
 
+# Single chapters: citations print as [?] unless you add a local bibliography;
+# use `make book` to check citations.
 ch%: FORCE
 	mkdir -p $(BUILD)
 	cd chapters && $(LATEX) -output-directory=../$(BUILD) chapter$*.tex && $(LATEX) -output-directory=../$(BUILD) chapter$*.tex
