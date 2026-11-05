@@ -1,71 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 21: Measuring the Information Network}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 21} \\[0.5em]
-\LARGE Measuring the Information Network \\[0.3em]
-\large\textit{Where $W^I$ Comes From}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{20}}{}
+\chapter{Measuring the Information Network}\label{ch:21}
+\chaptersubtitle{Where $W^I$ Comes From}
 \begin{quote}
 \textit{``Quien controla los medios de informaci\'{o}n controla la formaci\'{o}n de la opini\'{o}n p\'{u}blica, y quien controla la opini\'{o}n p\'{u}blica controla el Estado.''}\\[0.3em]
 \textnormal{[``Whoever controls the means of information controls the formation of public opinion, and whoever controls public opinion controls the State.'']}\\
@@ -83,20 +20,20 @@ Despite these difficulties, $W^I$ can be estimated from four data sources: media
 
 %% =====================================================================
 \section{Four Data Sources for $W^I$}
-\label{sec:sources}
+\label{ch21:sec:sources}
 %% =====================================================================
 
 \subsection{Source 1: Media Audience Data}
 
-\begin{definition}[Media-Derived $W^I$]\label{def:media_WI}
+\begin{definition}[Media-Derived $W^I$]\label{ch21:def:media_WI}
 Let there be $K$ media outlets, each with audience share $s_{gk}$ in demographic group $g$. Define the \textbf{media information matrix}:
-\begin{equation}\label{eq:media_WI}
+\begin{equation}\label{ch21:eq:media_WI}
 W^I_{\text{media}, gg'} = \sum_{k=1}^K s_{gk} \cdot s_{g'k},
 \end{equation}
 where the sum is over outlets shared by groups $g$ and $g'$. Entry $W^I_{\text{media}, gg'}$ measures the \textbf{media overlap}: the probability that groups $g$ and $g'$ are exposed to the same information source. High overlap: both groups see the same narratives. Low overlap: each group lives in a separate information bubble.
 \end{definition}
 
-\begin{example}[Bolivia's Media $W^I$, 2019]\label{ex:bolivia_media}
+\begin{example}[Bolivia's Media $W^I$, 2019]\label{ch21:ex:bolivia_media}
 Six demographic groups: (1) Urban non-indigenous men, (2) Urban non-indigenous women, (3) Urban indigenous, (4) Rural non-indigenous, (5) Rural indigenous men, (6) Rural indigenous women. Five media clusters: (A) Private TV/press (Red Uno, P\'{a}gina Siete), (B) State media (Bolivia TV, Cambio), (C) Community radio (indigenous language), (D) Social media (Facebook, WhatsApp), (E) Word of mouth (local markets, community meetings).
 
 Audience shares (approximate, from Latinobar\'{o}metro and Bolivia media surveys):
@@ -132,17 +69,17 @@ $N_{\text{eff}}(W^I_{\text{media}}) \approx 3.4$. Consistent with Chapter~17's e
 
 \subsection{Source 2: Survey-Elicited Reference Groups}
 
-\begin{definition}[Reference-Group $W^I$]\label{def:reference_WI}
+\begin{definition}[Reference-Group $W^I$]\label{ch21:def:reference_WI}
 Household surveys can elicit $W^I$ directly by asking: ``Whose economic outcomes do you observe and consider when making your own decisions?'' (or proxies such as: ``Who do you compare yourself to?'', ``Whose advice do you follow?'', ``Who would you like your children to be like?'').
 
 Let $R_{ig}$ = 1 if agent $i$ names someone in group $g$ as a reference. The reference-group information matrix:
-\begin{equation}\label{eq:reference_WI}
+\begin{equation}\label{ch21:eq:reference_WI}
 W^I_{\text{ref}, gg'} = \frac{1}{N_g}\sum_{i \in g} R_{ig'}.
 \end{equation}
 Entry $W^I_{\text{ref}, gg'}$: the fraction of group $g$ members who name someone in group $g'$ as a reference.
 \end{definition}
 
-\begin{proposition}[Reference Groups Are Assortative]\label{prop:reference_assortative}
+\begin{proposition}[Reference Groups Are Assortative]\label{ch21:prop:reference_assortative}
 Empirically, reference groups exhibit strong assortative mixing:
 \begin{enumerate}
 \item \textbf{By income}: people compare themselves to others in similar income brackets (Ferrer-i-Carbonell, 2005). Cross-income reference is asymmetric: the poor reference the rich more than the rich reference the poor.
@@ -156,15 +93,15 @@ The assortative mixing parameters $\lambda_k$ from Chapter~18 can be estimated d
 
 \subsection{Source 3: Social Network Data}
 
-\begin{definition}[Network-Derived $W^I$]\label{def:network_WI}
+\begin{definition}[Network-Derived $W^I$]\label{ch21:def:network_WI}
 When social network data are available (friendship networks, communication records, co-membership in organizations), the information matrix is estimated as:
-\begin{equation}\label{eq:network_WI}
+\begin{equation}\label{ch21:eq:network_WI}
 W^I_{\text{net}, ij} = \frac{c_{ij}}{\sum_k c_{ik}},
 \end{equation}
 where $c_{ij}$ is the communication frequency between $i$ and $j$ (messages, calls, meetings). Row-normalize to obtain a row-stochastic matrix.
 \end{definition}
 
-\begin{example}[Village-Level $W^I$ from Banerjee et al.\ (2013)]\label{ex:village}
+\begin{example}[Village-Level $W^I$ from Banerjee et al.\ (2013)]\label{ch21:ex:village}
 Banerjee, Chandrasekhar, Duflo, and Jackson (2013) collected complete social network data in 75 Indian villages: who talks to whom, who visits whom, who lends to whom. The resulting $W^I$ matrices (one per village) have:
 \begin{enumerate}
 \item Strong caste assortative mixing ($\lambda_{\text{caste}} \approx 0.15$--$0.30$).
@@ -179,14 +116,14 @@ These are the first direct measurements of $W^I$ at the individual scale. The sp
 
 \subsection{Source 4: Digital Trace Data}
 
-\begin{definition}[Digital $W^I$]\label{def:digital_WI}
+\begin{definition}[Digital $W^I$]\label{ch21:def:digital_WI}
 Digital platforms generate trace data on information flows: who follows whom (Twitter/X), who shares whose content (Facebook), who watches what (YouTube), who reads what (news aggregators). The digital information matrix:
-\begin{equation}\label{eq:digital_WI}
+\begin{equation}\label{ch21:eq:digital_WI}
 W^I_{\text{digital}, ij} = \frac{\text{content shared from } j \text{ to } i}{\sum_k \text{content shared from } k \text{ to } i}.
 \end{equation}
 \end{definition}
 
-\begin{proposition}[Digital $W^I$ Is Becoming Dominant]\label{prop:digital}
+\begin{proposition}[Digital $W^I$ Is Becoming Dominant]\label{ch21:prop:digital}
 In Bolivia (2023): 72\% of the population uses smartphones; 65\% access social media daily. For urban populations under 35, digital $W^I$ has largely replaced traditional media $W^I$. The consequence:
 \begin{enumerate}
 \item $W^I$ is becoming more measurable (digital traces are recorded).
@@ -198,18 +135,18 @@ In Bolivia (2023): 72\% of the population uses smartphones; 65\% access social m
 
 %% =====================================================================
 \section{Combining Sources: The Composite $W^I$}
-\label{sec:composite}
+\label{ch21:sec:composite}
 %% =====================================================================
 
-\begin{definition}[Composite Information Matrix]\label{def:composite_WI}
+\begin{definition}[Composite Information Matrix]\label{ch21:def:composite_WI}
 The composite $W^I$ combines the four sources:
-\begin{equation}\label{eq:composite_WI}
+\begin{equation}\label{ch21:eq:composite_WI}
 W^I = \omega_m W^I_{\text{media}} + \omega_r W^I_{\text{ref}} + \omega_n W^I_{\text{net}} + \omega_d W^I_{\text{digital}},
 \end{equation}
 where $\omega_m + \omega_r + \omega_n + \omega_d = 1$ are the source weights. The weights can be estimated by matching the composite $W^I$'s predictions (for belief convergence, preference formation, technology adoption) to observed outcomes.
 \end{definition}
 
-\begin{example}[Bolivia's Composite $W^I$ Weights]\label{ex:composite}
+\begin{example}[Bolivia's Composite $W^I$ Weights]\label{ch21:ex:composite}
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
@@ -229,10 +166,10 @@ For urban youth, digital $W^I$ dominates: half of all information formation come
 
 %% =====================================================================
 \section{Estimating $N_{\text{eff}}$ and $\boldsymbol{\pi}^I$ from Data}
-\label{sec:estimation}
+\label{ch21:sec:estimation}
 %% =====================================================================
 
-\begin{proposition}[Estimation of Information Structural Parameters]\label{prop:estimation}
+\begin{proposition}[Estimation of Information Structural Parameters]\label{ch21:prop:estimation}
 From the composite $W^I$, the key structural parameters are:
 
 \textbf{1. The epistemic Perron eigenvector $\boldsymbol{\pi}^I$}: computed by power iteration on $W^I$. Interpretation: $\pi^I_j$ is the long-run influence of source $j$ on the population's beliefs (Chapter~8).
@@ -244,13 +181,13 @@ From the composite $W^I$, the key structural parameters are:
 \textbf{4. The assortative mixing parameters $\lambda_k$}: estimated from the ratio of cross-group to within-group entries: $\hat{\lambda}_k = \bar{W}^I_{\text{cross}, k} / \bar{W}^I_{\text{within}, k}$.
 \end{proposition}
 
-\begin{example}[Bolivia's Information Parameters, 2019]\label{ex:parameters}
+\begin{example}[Bolivia's Information Parameters, 2019]\label{ch21:ex:parameters}
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
 Parameter & Estimate & Method \\
 \midrule
-$N_{\text{eff}}$ & 3.4 & From media overlap (Ex.~\ref{ex:bolivia_media}) \\
+$N_{\text{eff}}$ & 3.4 & From media overlap (Ex.~\ref{ch21:ex:bolivia_media}) \\
 $\Gamma(W^I)$ & 0.14 & Spectral gap of $6 \times 6$ $W^I_{\text{media}}$ \\
 $\lambda_{\text{gender}}(W^I)$ & 0.42 & Cross-gender media overlap \\
 $\lambda_{\text{ethnicity}}(W^I)$ & 0.28 & Cross-ethnic media overlap \\
@@ -270,10 +207,10 @@ The information structure is highly concentrated. Private TV and state media tog
 
 %% =====================================================================
 \section{Validating $W^I$: Does It Predict Formation?}
-\label{sec:validation}
+\label{ch21:sec:validation}
 %% =====================================================================
 
-\begin{proposition}[Validation Tests for $W^I$]\label{prop:validation}
+\begin{proposition}[Validation Tests for $W^I$]\label{ch21:prop:validation}
 The estimated $W^I$ is valid if it predicts the formation outcomes derived in Chapters~8--10:
 \begin{enumerate}
 \item \textbf{Belief convergence}: Groups with high media overlap (large $W^I_{gg'}$) should have more similar beliefs about economic outcomes. Test: correlate $W^I_{gg'}$ with $|\bar{\theta}_g - \bar{\theta}_{g'}|$. The correlation should be negative.
@@ -286,7 +223,7 @@ The estimated $W^I$ is valid if it predicts the formation outcomes derived in Ch
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Validation: Bolivia]\label{ex:validation}
+\begin{example}[Validation: Bolivia]\label{ch21:ex:validation}
 Using Bolivia's EH 2019 and Latinobar\'{o}metro:
 
 \textbf{Test 1 (belief convergence):} Groups with high media overlap agree more on expected inflation, expected income growth, and trust in institutions. Correlation: $r(W^I_{gg'}, -|\bar{\theta}_g - \bar{\theta}_{g'}|) \approx 0.65$ (significant at 1\%).
@@ -301,14 +238,14 @@ All three tests support the estimated $W^I$.
 
 %% =====================================================================
 \section{The $W^I$ Operator Revisited: What the Data Tell the Designer}
-\label{sec:operator}
+\label{ch21:sec:operator}
 %% =====================================================================
 
-\begin{proposition}[Data-Informed Information Policy]\label{prop:data_policy}
+\begin{proposition}[Data-Informed Information Policy]\label{ch21:prop:data_policy}
 The measured $W^I$ tells the policy designer (Chapter~15) exactly where the dark entries are:
 
 \begin{center}
-\begin{tabular}{llc}
+\begin{tabularx}{\textwidth}{LLc}
 \toprule
 \textbf{Dark entry in $W^I$} & \textbf{Operator} & \textbf{Expected $\Delta N_{\text{eff}}$} \\
 \midrule
@@ -317,7 +254,7 @@ Women $\leftrightarrow$ Men in economic info ($\lambda = 0.42$) & Female entrepr
 Community radio $\leftrightarrow$ Mainstream ($\pi^I = 0.05$) & Community journalism training & $+0.3$ \\
 All groups: digital access ($\omega_d = 0.10$ rural) & Rural broadband + digital literacy & $+1.2$ \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 The largest $\Delta N_{\text{eff}}$ comes from rural broadband --- consistent with the optimal sequencing theorem (Chapter~15): information operators have the highest $\Psi$ and should go first.
@@ -332,7 +269,7 @@ Without measurement, the planner says: ``we need better information flows.'' Wit
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch21:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -350,12 +287,12 @@ Without measurement, the planner says: ``we need better information flows.'' Wit
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch21:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{21.\arabic*}, leftmargin=3em]
 
-\item \textbf{Media overlap.} Using Example~\ref{ex:bolivia_media}: compute the full $6 \times 6$ media overlap matrix $W^I_{\text{media}}$. Row-normalize. Compute eigenvalues, $\Gamma$, $\boldsymbol{\pi}^I$, and $N_{\text{eff}}$.
+\item \textbf{Media overlap.} Using Example~\ref{ch21:ex:bolivia_media}: compute the full $6 \times 6$ media overlap matrix $W^I_{\text{media}}$. Row-normalize. Compute eigenvalues, $\Gamma$, $\boldsymbol{\pi}^I$, and $N_{\text{eff}}$.
 
 \item \textbf{Reference groups.} Design a 5-question survey module to elicit $W^I$ reference groups for a Bolivian household survey. What questions would you ask? How would you construct $W^I_{\text{ref}}$ from the responses?
 
@@ -391,7 +328,7 @@ Without measurement, the planner says: ``we need better information flows.'' Wit
 
 \subsection*{Appendix 21A: From Media Shares to $W^I$ --- The Overlap Formula}
 \addcontentsline{toc}{subsection}{Appendix 21A: The Overlap Formula}
-\label{app:overlap}
+\label{ch21:app:overlap}
 
 \paragraph{Derivation.} Assume agent $i$ in group $g$ samples information from outlet $k$ with probability $s_{gk}$. Two agents $i \in g$ and $j \in g'$ receive correlated signals when they share a media source. The probability that both receive the same signal from some outlet:
 \begin{equation}
@@ -407,7 +344,7 @@ This is the inner product of the media consumption vectors. The matrix $W^I_{\te
 
 \subsection*{Appendix 21B: Estimation of $W^I$ from Household Surveys}
 \addcontentsline{toc}{subsection}{Appendix 21B: Survey-Based Estimation}
-\label{app:survey}
+\label{ch21:app:survey}
 
 \paragraph{The ``who do you talk to'' module.} Add to the household survey:
 \begin{enumerate}
@@ -418,7 +355,7 @@ This is the inner product of the media consumption vectors. The matrix $W^I_{\te
 
 \paragraph{Construction.} From the named alters (question 1): assign each alter to a demographic group $g'$. The fraction of group $g$'s members naming alters in $g'$ gives $W^I_{\text{ref}, gg'}$. Row-normalize.
 
-\paragraph{The Manski problem.} Manski's (1993) reflection problem: do agents in group $g$ reference group $g'$ because $g'$ influences $g$, or because both face correlated shocks? The formation model partially addresses this: the cohort-year decomposition (Chapter~11) separates the formation effect (which operates through $W^I$) from correlated shocks (which operate through shared exposure to year effects). The estimated $W^I$ is valid for formation predictions if it survives the validation tests of Proposition~\ref{prop:validation}.
+\paragraph{The Manski problem.} Manski's (1993) reflection problem: do agents in group $g$ reference group $g'$ because $g'$ influences $g$, or because both face correlated shocks? The formation model partially addresses this: the cohort-year decomposition (Chapter~11) separates the formation effect (which operates through $W^I$) from correlated shocks (which operate through shared exposure to year effects). The estimated $W^I$ is valid for formation predictions if it survives the validation tests of Proposition~\ref{ch21:prop:validation}.
 
 
 %% =====================================================================
@@ -437,7 +374,7 @@ This chapter provides the measurement infrastructure. Three findings deserve emp
 \textbf{Third: digital $W^I$ is a structural opportunity and a structural risk.} Bolivia's smartphone penetration (72\%) creates the physical infrastructure for cross-group information edges. But the algorithmic architecture of social media platforms may create new forms of assortative mixing (echo chambers, content personalization) that replicate or intensify the existing $W^I$ structure. Chapter~27 addresses this in detail. For now: the measurement infrastructure developed in this chapter is the prerequisite for monitoring whether digital $W^I$ is increasing or decreasing $N_{\text{eff}}$ over time.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Structuralist insight} & \textbf{This chapter's measurement} & \textbf{Reference} \\
 \midrule
@@ -446,7 +383,7 @@ Coloniality of knowledge (Quijano) & $\pi^I_{\text{community}} = 0.05$: indigeno
 Formation as deeper constraint & $\Psi$ higher where $W^I$ more assortative & Ch.~11 \\
 Information as policy lever & Dark entries $\to$ targeted operators & Ch.~15 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 
@@ -462,6 +399,5 @@ Information as policy lever & Dark entries $\to$ targeted operators & Ch.~15 \\
 \textbf{Reference groups and aspirations:} Ferrer-i-Carbonell (2005), ``Income and Well-Being,'' \textit{Journal of Public Economics}. Luttmer (2005), ``Neighbors as Negatives,'' \textit{QJE}. Genicot and Ray (2017), ``Aspirations and Inequality,'' \textit{Econometrica}.
 
 \textbf{Media in Latin America:} Boas (2005), ``Television and Neopopulism in Latin America,'' \textit{LARR}. Reporters Without Borders, \textit{World Press Freedom Index} (annual, for media concentration data).
-
 
 \end{document}

@@ -1,69 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 26: The Neo-Structuralist Synthesis}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 26} \\[0.5em]
-\LARGE The Neo-Structuralist Synthesis \\[0.3em]
-\large\textit{Growth with Equity as a Spectral Condition}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{25}}{}
+\chapter{The Neo-Structuralist Synthesis}\label{ch:26}
+\chaptersubtitle{Growth with Equity as a Spectral Condition}
 \begin{quote}
 \textit{``El desaf\'{i}o fundamental del desarrollo latinoamericano es el de transformar las estructuras productivas en un contexto de creciente equidad social.''}\\[0.3em]
 \textnormal{[``The fundamental challenge of Latin American development is to transform productive structures in a context of growing social equity.'']}\\
@@ -81,10 +20,10 @@ Ocampo's neo-structuralism --- the synthesis of Prebisch's structuralism, CEPAL'
 
 %% =====================================================================
 \section{The Growth-Equity Theorem}
-\label{sec:theorem}
+\label{ch26:sec:theorem}
 %% =====================================================================
 
-\begin{theorem}[Growth with Equity]\label{thm:growth_equity}
+\begin{theorem}[Growth with Equity]\label{ch26:thm:growth_equity}
 In the structural model, sustained growth with declining inequality requires:
 \begin{enumerate}
 \item $\Gamma(W^P) > \Gamma^*$ \textbf{(structural integration)}: the domestic spectral gap exceeds a threshold above which growth propagates across blocks. The threshold $\Gamma^* \approx 0.30$--$0.35$ (estimated from the cross-country relationship between $\Gamma$ and the Gini coefficient --- the spectral bound from Chapter~16).
@@ -164,11 +103,11 @@ None & High & High & High & Growth with equity (Korea, Nordics) \\
 
 %% =====================================================================
 \section{The Neo-Structuralist Policy Framework}
-\label{sec:framework}
+\label{ch26:sec:framework}
 %% =====================================================================
 
-\begin{definition}[The Neo-Structuralist Policy Package]\label{def:package}
-Ocampo's neo-structuralist synthesis, translated into the operator language of Chapter~15, consists of five simultaneous interventions targeting the three conditions of Theorem~\ref{thm:growth_equity}:
+\begin{definition}[The Neo-Structuralist Policy Package]\label{ch26:def:package}
+Ocampo's neo-structuralist synthesis, translated into the operator language of Chapter~15, consists of five simultaneous interventions targeting the three conditions of Theorem~\ref{ch26:thm:growth_equity}:
 
 \textbf{Pillar 1: Productive transformation} (raise ECI).
 \begin{enumerate}
@@ -193,7 +132,7 @@ Ocampo's neo-structuralist synthesis, translated into the operator language of C
 \end{enumerate}
 \end{definition}
 
-\begin{proposition}[The Three Pillars Are Complementary]\label{prop:complementary}
+\begin{proposition}[The Three Pillars Are Complementary]\label{ch26:prop:complementary}
 The three pillars reinforce each other:
 \begin{enumerate}
 \item Productive transformation (ECI $\uparrow$) creates cross-block edges that raise $\Gamma$: new industries connect sectors that were previously disconnected.
@@ -207,10 +146,10 @@ The complementarity means that the return to each pillar is increasing in the le
 
 %% =====================================================================
 \section{Bolivia's Plan: A Worked Application}
-\label{sec:bolivia}
+\label{ch26:sec:bolivia}
 %% =====================================================================
 
-\begin{example}[A 30-Year Structural Plan for Bolivia]\label{ex:plan}
+\begin{example}[A 30-Year Structural Plan for Bolivia]\label{ch26:ex:plan}
 
 \textbf{Current position} (2019): $\Gamma = 0.13$, ECI $= -0.80$, $N_{\text{eff}} = 3.2$, $\sigma_B = 0.62$.
 
@@ -273,11 +212,11 @@ Every element of the plan corresponds to a specific operator from Chapter~15 tar
 
 %% =====================================================================
 \section{Why Neither Neoliberalism Nor Populism Suffices}
-\label{sec:neither}
+\label{ch26:sec:neither}
 %% =====================================================================
 
-\begin{proposition}[The Insufficiency of Both Alternatives]\label{prop:insufficiency}
-\textbf{The neoliberal prescription} (Washington Consensus): liberalize trade, privatize, deregulate. In operator terms: remove $W^P$ edges (tariff barriers) and let the market create new ones. The assumption: the market will create the ``right'' $W^P$ (the one that maximizes efficiency). The result: the market creates $W^P$ edges dominated by proximity (Chapter~13, the principle of relatedness), which means the existing structure reproduces itself. Commodity exporters liberalize into more commodity export. $\Gamma$ does not change. ECI does not change. The prescription fails condition (1) and (2) of Theorem~\ref{thm:growth_equity}.
+\begin{proposition}[The Insufficiency of Both Alternatives]\label{ch26:prop:insufficiency}
+\textbf{The neoliberal prescription} (Washington Consensus): liberalize trade, privatize, deregulate. In operator terms: remove $W^P$ edges (tariff barriers) and let the market create new ones. The assumption: the market will create the ``right'' $W^P$ (the one that maximizes efficiency). The result: the market creates $W^P$ edges dominated by proximity (Chapter~13, the principle of relatedness), which means the existing structure reproduces itself. Commodity exporters liberalize into more commodity export. $\Gamma$ does not change. ECI does not change. The prescription fails condition (1) and (2) of Theorem~\ref{ch26:thm:growth_equity}.
 
 \textbf{The populist prescription}: nationalize resources, redistribute revenue, expand social programs. In operator terms: change $\boldsymbol{\omega}$ (endowment redistribution) without changing $W$. The result: poverty falls, inequality falls (temporarily), but $\Gamma$ does not change (Chapter~17: Bolivia's 30-year trajectory). When the commodity cycle turns, the gains reverse. The prescription fails condition (1) because it does not raise $\Gamma$.
 
@@ -307,7 +246,7 @@ The argument is one argument, stated with increasing mathematical precision over
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch26:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -325,18 +264,18 @@ The argument is one argument, stated with increasing mathematical precision over
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch26:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{26.\arabic*}, leftmargin=3em]
 
 \item \textbf{The three conditions.} For 30 countries: estimate $\Gamma$ (from ECI as proxy), ECI (from OEC), and $N_{\text{eff}}$ (from media concentration data). Plot each country in the $(\Gamma, \text{ECI})$ plane. Identify which countries satisfy all three conditions and which violate one or more.
 
-\item \textbf{Pathology classification.} Classify the following countries using the pathology table from Theorem~\ref{thm:growth_equity}: (a) Brazil (high ECI, low $\Gamma$), (b) Cuba (high $\Gamma$, low ECI), (c) Venezuela (low $\Gamma$, moderate ECI, low $N_{\text{eff}}$), (d) Costa Rica (moderate $\Gamma$, moderate ECI, high $N_{\text{eff}}$), (e) Bolivia.
+\item \textbf{Pathology classification.} Classify the following countries using the pathology table from Theorem~\ref{ch26:thm:growth_equity}: (a) Brazil (high ECI, low $\Gamma$), (b) Cuba (high $\Gamma$, low ECI), (c) Venezuela (low $\Gamma$, moderate ECI, low $N_{\text{eff}}$), (d) Costa Rica (moderate $\Gamma$, moderate ECI, high $N_{\text{eff}}$), (e) Bolivia.
 
 \item \textbf{Complementarity.} Simulate a 3-variable system $(\Gamma_t, \text{ECI}_t, N_{\text{eff},t})$ with complementary dynamics: $\Delta\Gamma_{t+1} = f(\Gamma_t, \text{ECI}_t, N_{\text{eff},t})$ increasing in all three. Compare: (a) investing in all three simultaneously, (b) investing in one at a time. Which reaches the target zone faster?
 
-\item \textbf{Bolivia's plan: cost-benefit.} Using the cost estimates from Example~\ref{ex:plan} and the expected $\Delta\Gamma$, $\Delta$ECI:
+\item \textbf{Bolivia's plan: cost-benefit.} Using the cost estimates from Example~\ref{ch26:ex:plan} and the expected $\Delta\Gamma$, $\Delta$ECI:
 \begin{enumerate}
 \item Estimate the GDP gain from moving from $\Gamma = 0.13$ to $\Gamma = 0.35$ (use the cross-country $\Gamma$--GDP relationship).
 \item Compute the net present value of the plan at a 5\% discount rate.
@@ -360,7 +299,7 @@ The argument is one argument, stated with increasing mathematical precision over
 
 \subsection*{Appendix 26A: The Growth-Equity Frontier}
 \addcontentsline{toc}{subsection}{Appendix 26A: Growth-Equity Frontier}
-\label{app:frontier}
+\label{ch26:app:frontier}
 
 \paragraph{Definition.} The growth-equity frontier is the set of $(\Gamma, \text{Gini})$ pairs achievable under the structural model. From the spectral bound (Chapter~2): $\text{Gini} \geq g(\Gamma)$, where $g$ is a decreasing function. The frontier is the lower envelope: the minimum Gini achievable for each $\Gamma$.
 
@@ -371,7 +310,7 @@ The argument is one argument, stated with increasing mathematical precision over
 
 \subsection*{Appendix 26B: The Complementarity Condition}
 \addcontentsline{toc}{subsection}{Appendix 26B: Complementarity}
-\label{app:complementarity}
+\label{ch26:app:complementarity}
 
 \paragraph{Formal statement.} The three conditions are complementary if:
 \begin{equation}
@@ -398,7 +337,7 @@ Ocampo's synthesis, developed across numerous publications (2004, 2009, 2012, 20
 \textbf{Pillar 3: Social equity as a condition for growth.} Ocampo reverses the conventional sequence (``grow first, redistribute later''): equity is not a consequence of growth but a \textit{precondition} for it. In this book's terms: high $N_{\text{eff}}$ and low attribute constraints ($\lambda_k$) are necessary for the human capital base, domestic demand, and political stability that structural transformation requires.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Ocampo's synthesis} & \textbf{This chapter's condition} & \textbf{Book reference} \\
 \midrule
@@ -408,12 +347,12 @@ Counter-cyclical policy & $\Delta\pi^S$ vs.\ $\Delta\pi^C$ & Ch.~23 \\
 Macro for structural change & $v_\Gamma > 0$ sustained & Ch.~23 \\
 Social equity as precondition & $N_{\text{eff}} > N^*_{\text{eff}}$, $\lambda_k \uparrow$ & Ch.~18, 21 \\
 Three pillars are complementary & $\partial^2 W / \partial\Gamma\,\partial\text{ECI} > 0$ & App.~26B \\
-Growth with equity & $\Gamma > \Gamma^*$ + ECI $> 0$ + $N_{\text{eff}} > N^*$ & Thm.~\ref{thm:growth_equity} \\
+Growth with equity & $\Gamma > \Gamma^*$ + ECI $> 0$ + $N_{\text{eff}} > N^*$ & Thm.~\ref{ch26:thm:growth_equity} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
-Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry; Furtado explained the reproduction; Pinto measured the heterogeneity; Fajnzylber identified the missing piece; CEPAL documented the stagnation; Ocampo synthesized the prescription. This book gives the synthesis its mathematical foundation. The weight matrix IS Prebisch's structure; the spectral gap IS Pinto's heterogeneity measure; the ECI IS Fajnzylber's truncation index; the formation model IS Furtado's cultural dependency; and the three conditions of Theorem~\ref{thm:growth_equity} ARE Ocampo's three pillars, stated as a theorem.
+Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry; Furtado explained the reproduction; Pinto measured the heterogeneity; Fajnzylber identified the missing piece; CEPAL documented the stagnation; Ocampo synthesized the prescription. This book gives the synthesis its mathematical foundation. The weight matrix IS Prebisch's structure; the spectral gap IS Pinto's heterogeneity measure; the ECI IS Fajnzylber's truncation index; the formation model IS Furtado's cultural dependency; and the three conditions of Theorem~\ref{ch26:thm:growth_equity} ARE Ocampo's three pillars, stated as a theorem.
 
 
 %% =====================================================================
@@ -426,6 +365,5 @@ Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry;
 \textbf{Neo-structuralism:} CEPAL (2012), \textit{Structural Change for Equality}. CEPAL (2016), \textit{Horizons 2030: Equality at the Centre of Sustainable Development}. Bielschowsky (2009), ``Sixty Years of ECLAC,'' \textit{CEPAL Review} 97.
 
 \textbf{Growth with equity:} Rodrik (2007), \textit{One Economics, Many Recipes}. Stiglitz (2002), \textit{Globalization and Its Discontents}. Lin and Chang (2009), ``Should Industrial Policy in Developing Countries Conform to Comparative Advantage?'' \textit{Development Policy Review} (the debate between the two approaches).
-
 
 \end{document}

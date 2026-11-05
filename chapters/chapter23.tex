@@ -1,69 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 23: Tracking Structural Change Over Time}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 23} \\[0.5em]
-\LARGE Tracking Structural Change Over Time \\[0.3em]
-\large\textit{The Moving Heatmap}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{22}}{}
+\chapter{Tracking Structural Change Over Time}\label{ch:23}
+\chaptersubtitle{The Moving Heatmap}
 \begin{quote}
 \textit{``El cambio estructural no es un evento sino un proceso: una secuencia de transformaciones en las relaciones entre los componentes del sistema econ\'{o}mico.''}\\[0.3em]
 \textnormal{[``Structural change is not an event but a process: a sequence of transformations in the relations between the components of the economic system.'']}\\
@@ -81,12 +20,12 @@ Chapter~17 previewed the trajectory for Bolivia (1990--2019): glacial change, ba
 
 %% =====================================================================
 \section{The Time-Varying Weight Matrix}
-\label{sec:time_varying}
+\label{ch23:sec:time_varying}
 %% =====================================================================
 
 \subsection{Construction}
 
-\begin{definition}[Time-Indexed Weight Matrix]\label{def:Wt}
+\begin{definition}[Time-Indexed Weight Matrix]\label{ch23:def:Wt}
 For each year $t$, construct $W_t$ from the available data:
 \begin{enumerate}
 \item $W^P_t$: from the I-O table (if available for year $t$) or interpolated from benchmark I-O tables using annual National Accounts.
@@ -96,13 +35,13 @@ For each year $t$, construct $W_t$ from the available data:
 The structural indicators are computed annually: $\Gamma_t = \Gamma(W_t)$, $\boldsymbol{\pi}_t = \boldsymbol{\pi}(W_t)$, etc.
 \end{definition}
 
-\begin{proposition}[Interpolation of $W^P$ Between Benchmark I-O Tables]\label{prop:interpolation}
+\begin{proposition}[Interpolation of $W^P$ Between Benchmark I-O Tables]\label{ch23:prop:interpolation}
 Most countries produce I-O tables only every 5--10 years. Between benchmarks, $W^P_t$ can be approximated by:
-\begin{equation}\label{eq:interpolation}
+\begin{equation}\label{ch23:eq:interpolation}
 W^P_t \approx W^P_{\tau_0} + \frac{t - \tau_0}{\tau_1 - \tau_0}(W^P_{\tau_1} - W^P_{\tau_0}),
 \end{equation}
 where $\tau_0$ and $\tau_1$ are the benchmark years. Alternatively, use the RAS method: given row totals $\mathbf{r}_t$ (sectoral output) and column totals $\mathbf{c}_t$ (sectoral input use) from annual National Accounts, update $W^P_{\tau_0}$ to match the new margins:
-\begin{equation}\label{eq:RAS}
+\begin{equation}\label{ch23:eq:RAS}
 W^P_t = \text{RAS}(W^P_{\tau_0}; \mathbf{r}_t, \mathbf{c}_t).
 \end{equation}
 The RAS method preserves the block structure of $W^P_{\tau_0}$ while adjusting for changes in sectoral composition.
@@ -111,9 +50,9 @@ The RAS method preserves the block structure of $W^P_{\tau_0}$ while adjusting f
 
 \subsection{The Structural Trajectory}
 
-\begin{definition}[Structural Trajectory]\label{def:trajectory}
+\begin{definition}[Structural Trajectory]\label{ch23:def:trajectory}
 The \textbf{structural trajectory} of an economy is the time series:
-\begin{equation}\label{eq:trajectory}
+\begin{equation}\label{ch23:eq:trajectory}
 \mathcal{T} = \{(\Gamma_t, \sigma_{B,t}, G(\boldsymbol{\pi}_t), N_{\text{eff},t}, \text{ECI}_t) : t = t_0, \ldots, T\}.
 \end{equation}
 The trajectory is plotted in the five-dimensional structural health space (Chapter~17). Projection onto the $(\Gamma_t, \sigma_{B,t})$ plane gives the most informative two-dimensional visualization: integration on one axis, equality on the other.
@@ -122,18 +61,18 @@ The trajectory is plotted in the five-dimensional structural health space (Chapt
 
 %% =====================================================================
 \section{Detecting Structural Breaks}
-\label{sec:breaks}
+\label{ch23:sec:breaks}
 %% =====================================================================
 
-\begin{definition}[Structural Break]\label{def:break}
+\begin{definition}[Structural Break]\label{ch23:def:break}
 A \textbf{structural break} at time $t^*$ is a discontinuity in the trajectory $\mathcal{T}$: a change in $\Gamma$, $\sigma_B$, or $\boldsymbol{\pi}$ that is larger than can be explained by normal cyclical variation. Formally, a break at $t^*$ if:
-\begin{equation}\label{eq:break}
+\begin{equation}\label{ch23:eq:break}
 |\Gamma_{t^*+1} - \Gamma_{t^*}| > k \cdot \hat{\sigma}_{\Delta\Gamma},
 \end{equation}
 where $\hat{\sigma}_{\Delta\Gamma}$ is the standard deviation of year-to-year changes in $\Gamma$ during a stable period, and $k$ is the detection threshold (typically $k = 2$ or $k = 3$).
 \end{definition}
 
-\begin{proposition}[Types of Structural Breaks]\label{prop:break_types}
+\begin{proposition}[Types of Structural Breaks]\label{ch23:prop:break_types}
 Three types of structural breaks correspond to three types of $\Delta W$:
 \begin{enumerate}
 \item \textbf{Edge creation break}: new edges appear (a trade agreement, infrastructure project, market opening). $\Gamma$ increases, $\sigma_B$ decreases. Example: South Korea's export push (1960s).
@@ -145,10 +84,10 @@ Three types of structural breaks correspond to three types of $\Delta W$:
 
 %% =====================================================================
 \section{Bolivia's Structural Trajectory, 1985--2019}
-\label{sec:bolivia}
+\label{ch23:sec:bolivia}
 %% =====================================================================
 
-\begin{example}[Bolivia: Five Structural Epochs]\label{ex:epochs}
+\begin{example}[Bolivia: Five Structural Epochs]\label{ch23:ex:epochs}
 Using Bolivia's I-O tables (1990, 2000, 2006, 2012, 2016), EH data (2000--2019), and trade data (annual):
 
 \textbf{Epoch 1: Structural Adjustment (1985--1993).} The NEP (New Economic Policy) liberalized trade, closed state mines, and privatized public enterprises. Expected effect: edge destruction (state mining edges severed) and edge creation (new private-sector trade edges).
@@ -248,18 +187,18 @@ The trajectory IS the structural report card. One image, 40 years, the entire ar
 
 %% =====================================================================
 \section{Speed of Structural Change}
-\label{sec:speed}
+\label{ch23:sec:speed}
 %% =====================================================================
 
-\begin{definition}[Structural Velocity]\label{def:velocity}
+\begin{definition}[Structural Velocity]\label{ch23:def:velocity}
 The \textbf{structural velocity} is the rate of change of the spectral gap:
-\begin{equation}\label{eq:velocity}
+\begin{equation}\label{ch23:eq:velocity}
 v_\Gamma(t) = \frac{\Gamma_{t+1} - \Gamma_t}{\Delta t}.
 \end{equation}
 The \textbf{structural acceleration} is $a_\Gamma(t) = v_\Gamma(t+1) - v_\Gamma(t)$.
 \end{definition}
 
-\begin{example}[Structural Velocities, Selected Countries]\label{ex:velocities}
+\begin{example}[Structural Velocities, Selected Countries]\label{ch23:ex:velocities}
 \begin{center}
 \begin{tabular}{lccl}
 \toprule
@@ -278,7 +217,7 @@ Venezuela & 2010--2020 & $-0.030$ & Structural collapse \\
 Bolivia's structural velocity ($+0.01$ per decade) means that at the current rate, reaching Korea's current $\Gamma = 0.45$ would take approximately $(0.45 - 0.13)/0.01 = 32$ decades --- 320 years. The velocity itself must increase (structural acceleration) for convergence in a reasonable timeframe.
 \end{example}
 
-\begin{proposition}[What Determines Structural Velocity?]\label{prop:velocity_determinants}
+\begin{proposition}[What Determines Structural Velocity?]\label{ch23:prop:velocity_determinants}
 From the co-evolutionary dynamics of Chapter~13, structural velocity depends on:
 \begin{enumerate}
 \item \textbf{Cross-block surplus} $s_{\text{cross}}$: higher surplus makes new cross-block edges profitable. Industrial policy that creates cross-block linkages increases $v_\Gamma$.
@@ -291,12 +230,12 @@ From the co-evolutionary dynamics of Chapter~13, structural velocity depends on:
 
 %% =====================================================================
 \section{Distinguishing Structural Change from Cyclical Fluctuation}
-\label{sec:distinguish}
+\label{ch23:sec:distinguish}
 %% =====================================================================
 
-\begin{theorem}[Structural-Cyclical Decomposition]\label{thm:decomposition}
+\begin{theorem}[Structural-Cyclical Decomposition]\label{ch23:thm:decomposition}
 Any change in the Perron eigenvector can be decomposed:
-\begin{equation}\label{eq:SC_decomp}
+\begin{equation}\label{ch23:eq:SC_decomp}
 \Delta\pi_{i,t} = \underbrace{\Delta\pi_{i,t}^S}_{\text{structural}} + \underbrace{\Delta\pi_{i,t}^C}_{\text{cyclical}},
 \end{equation}
 where:
@@ -308,12 +247,12 @@ where:
 Identification: the structural component is estimated from the trend in $\Gamma_t$ (HP-filtered or band-pass filtered). The cyclical component is the residual.
 \end{theorem}
 
-\begin{example}[Bolivia: Structural vs.\ Cyclical, 2003--2019]\label{ex:decomposition}
+\begin{example}[Bolivia: Structural vs.\ Cyclical, 2003--2019]\label{ch23:ex:decomposition}
 During the gas boom (2003--2014): $\pi_{\text{gas}}$ rose from 0.07 to 0.11. After the boom (2015--2019): $\pi_{\text{gas}}$ fell back to 0.09.
 
 Decomposition: the structural component $\Delta\pi^S_{\text{gas}} = +0.02$ (the nationalization permanently increased the government's share of gas linkages). The cyclical component: $\Delta\pi^C_{\text{gas}} = +0.02$ (the price boom temporarily inflated gas weights), which reversed to $\Delta\pi^C_{\text{gas}} = -0.02$ after the boom.
 
-The 2006 nationalization produced a structural $\Delta\pi^S$ of approximately $+0.02$ --- a small but persistent effect. The commodity boom produced a cyclical $\Delta\pi^C$ of the same magnitude but temporary. The standard analysis that counted Bolivia's ``structural transformation'' during the boom was measuring the cyclical component. The structural trajectory (Section~\ref{sec:bolivia}) was nearly flat throughout.
+The 2006 nationalization produced a structural $\Delta\pi^S$ of approximately $+0.02$ --- a small but persistent effect. The commodity boom produced a cyclical $\Delta\pi^C$ of the same magnitude but temporary. The standard analysis that counted Bolivia's ``structural transformation'' during the boom was measuring the cyclical component. The structural trajectory (Section~\ref{ch23:sec:bolivia}) was nearly flat throughout.
 \end{example}
 
 \begin{prebisch}[Commodity booms as cyclical mirages]
@@ -327,18 +266,18 @@ The exception: commodity booms CAN produce structural change if the revenue is i
 
 %% =====================================================================
 \section{The Structural Change Index}
-\label{sec:index}
+\label{ch23:sec:index}
 %% =====================================================================
 
-\begin{definition}[Structural Change Index (SCI)]\label{def:SCI}
+\begin{definition}[Structural Change Index (SCI)]\label{ch23:def:SCI}
 The \textbf{Structural Change Index} summarizes the entire trajectory in a single number:
-\begin{equation}\label{eq:SCI}
+\begin{equation}\label{ch23:eq:SCI}
 \text{SCI}(t_0, T) = \frac{\Gamma_T - \Gamma_{t_0}}{\Gamma^* - \Gamma_{t_0}},
 \end{equation}
 where $\Gamma^*$ is the target spectral gap (e.g., $\Gamma^* = 0.50$, the level associated with the ``growth with equity'' zone of the casillero vac\'{i}o). SCI $\in [0, 1]$: the fraction of the structural distance that has been closed over the period.
 \end{definition}
 
-\begin{example}[SCI for Selected Countries]\label{ex:SCI}
+\begin{example}[SCI for Selected Countries]\label{ch23:ex:SCI}
 Using $\Gamma^* = 0.50$:
 \begin{center}
 \begin{tabular}{lcccc}
@@ -359,7 +298,7 @@ Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch23:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -377,7 +316,7 @@ Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch23:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{23.\arabic*}, leftmargin=3em]
@@ -407,7 +346,7 @@ Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its
 
 \subsection*{Appendix 23A: The RAS Method for I-O Table Updating}
 \addcontentsline{toc}{subsection}{Appendix 23A: RAS Method}
-\label{app:RAS}
+\label{ch23:app:RAS}
 
 \paragraph{Problem.} Given a benchmark I-O coefficient matrix $A_0$ and new row totals $\mathbf{r}$ and column totals $\mathbf{c}$, find the updated matrix $A^*$ that matches the new margins while staying ``close'' to $A_0$.
 
@@ -426,7 +365,7 @@ The RAS solution minimizes the KL-divergence $\sum_{ij} A^*_{ij}\ln(A^*_{ij}/A_{
 
 \subsection*{Appendix 23B: Structural vs.\ Cyclical Decomposition}
 \addcontentsline{toc}{subsection}{Appendix 23B: Structural-Cyclical Decomposition}
-\label{app:decomposition}
+\label{ch23:app:decomposition}
 
 \paragraph{HP filter.} The Hodrick-Prescott filter decomposes $\Gamma_t = \Gamma_t^S + \Gamma_t^C$ by minimizing $\sum_t (\Gamma_t - \Gamma_t^S)^2 + \lambda\sum_t [(\Gamma_{t+1}^S - \Gamma_t^S) - (\Gamma_t^S - \Gamma_{t-1}^S)]^2$. The smoothing parameter $\lambda$ controls the trade-off between fit and smoothness. For annual data: $\lambda = 6.25$ (Ravn and Uhlig, 2002) or $\lambda = 100$ (traditional). For structural indicators that change slowly: $\lambda = 400$--$1600$ (equivalent to a 10--20 year business cycle).
 
@@ -451,18 +390,18 @@ The report maps onto this chapter's framework precisely.
 \textbf{Part 3: The prescription is ``change for equality.''} CEPAL argues for industrial policy, technological upgrading, and institutional reform --- the operators of Chapter~15, stated in institutional language rather than matrix notation. The report's title is itself a theorem: structural change ($\Delta\Gamma > 0$) is necessary for equality ($\sigma_B \downarrow$). This is the spectral gap bound: you cannot reduce inequality sustainably without increasing $\Gamma$.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{CEPAL 2012} & \textbf{This chapter} & \textbf{Cross-reference} \\
 \midrule
-Structural change is slow & $v_\Gamma \approx 0.01$/decade & Ex.~\ref{ex:velocities} \\
-Redistribution without structural change & $\Delta\boldsymbol{\omega} \gg \Delta W$ & Sec.~\ref{sec:bolivia}, Epoch 4 \\
+Structural change is slow & $v_\Gamma \approx 0.01$/decade & Ex.~\ref{ch23:ex:velocities} \\
+Redistribution without structural change & $\Delta\boldsymbol{\omega} \gg \Delta W$ & Sec.~\ref{ch23:sec:bolivia}, Epoch 4 \\
 Commodity boom as mirage & $\Delta\pi^C$ reverses & Prebisch Connection \\
 Change for equality & $\Delta\Gamma > 0 \Rightarrow \sigma_B \downarrow$ & Spectral bound \\
 Policy: industrial upgrading & Operators from Ch.~15 & Ch.~15 \\
-SCI as metric & Fraction of gap closed & Def.~\ref{def:SCI} \\
+SCI as metric & Fraction of gap closed & Def.~\ref{ch23:def:SCI} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 CEPAL wrote in the language of institutions and policy. This chapter translates into eigenvalues and trajectories. The message is the same: Latin America has been redistributing within a fixed structure, and the structure has not changed. The trajectory visualization (this chapter's vizpanel) IS the image that CEPAL's report describes in 350 pages of prose.
@@ -480,6 +419,5 @@ CEPAL wrote in the language of institutions and policy. This chapter translates 
 \textbf{Structural breaks:} Bai and Perron (1998), ``Estimating and Testing Linear Models with Multiple Structural Changes,'' \textit{Econometrica}. For application to development: Pritchett (2000), ``Understanding Patterns of Economic Growth,'' \textit{World Bank Economic Review}.
 
 \textbf{Bolivia's economic history:} Morales and Sachs (1990), ``Bolivia's Economic Crisis.'' Weisbrot, Ray, and Johnston (2009), ``Bolivia: The Economy During the Morales Administration,'' CEPR. Andersen et al.\ (2020), ``Bolivia's Twenty-First Century Commodity Boom,'' INESAD Working Paper.
-
 
 \end{document}

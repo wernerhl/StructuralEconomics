@@ -1,73 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\newcommand{\bb}{\mathbf{b}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\Cov}{Cov}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 9: Where Preferences Come From}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 9} \\[0.5em]
-\LARGE Where Preferences Come From \\[0.3em]
-\large\textit{The Assumption Economics Is Afraid to Touch}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{8}}{}
+\chapter{Where Preferences Come From}\label{ch:09}
+\chaptersubtitle{The Assumption Economics Is Afraid to Touch}
 \begin{quote}
 \textit{``O mito do desenvolvimento econ\^{o}mico tem exercido, no plano das rela\c{c}\~{o}es internacionais, uma fun\c{c}\~{a}o similar \`{a}quela desempenhada, no plano das rela\c{c}\~{o}es de classe, pelos mitos criados pela ideologia da classe dominante.''}\\[0.3em]
 \textnormal{[``The myth of economic development has exercised, in the plane of international relations, a function similar to that performed, in the plane of class relations, by the myths created by the ideology of the dominant class.'']}\\
@@ -87,7 +22,7 @@ This is Part~III's thesis: \textbf{every preference parameter that economists tr
 
 %% =====================================================================
 \section{The \textit{De Gustibus} Assumption}
-\label{sec:degustibus}
+\label{ch09:sec:degustibus}
 %% =====================================================================
 
 \subsection{What Economists Assume}
@@ -96,7 +31,7 @@ In 1977, Gary Becker and George Stigler published ``De Gustibus Non Est Disputan
 
 This is assumption A6 from Chapter~4: $\boldsymbol{\theta}$ is fixed. It is the deepest assumption in the standard model --- the one that makes all other analysis possible. If preferences are exogenous, the economist's job is to study how constraints (prices, endowments, institutions) map into outcomes. If preferences are endogenous, everything changes: the constraints shape the preferences that evaluate the outcomes that the constraints produce.
 
-\begin{definition}[The Preference Vector]\label{def:theta}
+\begin{definition}[The Preference Vector]\label{ch09:def:theta}
 The \textbf{preference vector} $\boldsymbol{\theta} = (\theta_1, \ldots, \theta_N)' \in \R^N_+$ collects each agent's preference parameter. In different applications, $\theta_i$ represents:
 \begin{center}
 \begin{tabular}{ll}
@@ -137,7 +72,7 @@ Five preference parameters that economics treats as exogenous. For each, evidenc
 
 Standard assumption: $\delta_i$ is a deep parameter of the utility function, stable across time, drawn from a population distribution. Empirically:
 
-\begin{proposition}[Evidence Against Exogenous $\delta$]\label{prop:delta}
+\begin{proposition}[Evidence Against Exogenous $\delta$]\label{ch09:prop:delta}
 \begin{enumerate}
 \item Discount rates estimated from field experiments vary by a factor of 10 across countries at similar income levels (Falk et al., 2018, Global Preferences Survey).
 \item Within countries, discount rates correlate with exposure to financial institutions: agents with bank accounts discount less steeply (Schaner, 2017).
@@ -153,7 +88,7 @@ In the formation model: $\delta_{i,t+1} = \rho_\delta \delta_{i,t} + (1-\rho_\de
 
 Standard assumption: aspirations are not modeled. Empirically:
 
-\begin{proposition}[Evidence for Network-Mediated Aspirations]\label{prop:aspiration}
+\begin{proposition}[Evidence for Network-Mediated Aspirations]\label{ch09:prop:aspiration}
 \begin{enumerate}
 \item Randomly showing Ethiopian farmers a documentary about successful farmers in their region raised the farmers' aspirations, savings, and children's school enrollment six months later (Bernard et al., 2014). The treatment was a change in $W^I$: the film added a new edge from the successful farmer (signal) to the viewing farmer (receiver).
 \item Beaman et al.\ (2012) found that exposing girls to female leaders in Indian villages raised their aspirations for education and career. The treatment was a change in the composition of signals reaching the girl through $W^I$.
@@ -166,7 +101,7 @@ Standard assumption: aspirations are not modeled. Empirically:
 
 Standard assumption: the elasticity of labor supply is a preference parameter governing the tradeoff between leisure and consumption. Empirically:
 
-\begin{proposition}[Evidence for Network-Mediated Labor Norms]\label{prop:labor}
+\begin{proposition}[Evidence for Network-Mediated Labor Norms]\label{ch09:prop:labor}
 \begin{enumerate}
 \item Female labor force participation varies from 20\% (MENA) to 85\% (Scandinavia). Controlling for income, education, institutions, and demographics, Fern\'{a}ndez (2013) showed that second-generation immigrant women's labor supply is predicted by their mother's country of origin --- not by the host country's prices. Culture (transmitted through $W^I$) dominates prices.
 \item Fogli and Veldkamp (2011) showed that US women's labor supply changes propagated through geographic proximity: a woman's decision to work was influenced by the share of working women in her county, controlling for wages. The network IS the channel.
@@ -179,7 +114,7 @@ Standard assumption: the elasticity of labor supply is a preference parameter go
 
 Standard assumption: risk aversion is stable and innate. Empirically:
 
-\begin{proposition}[Evidence for Network-Mediated Risk Attitudes]\label{prop:risk}
+\begin{proposition}[Evidence for Network-Mediated Risk Attitudes]\label{ch09:prop:risk}
 \begin{enumerate}
 \item Malmendier and Nagel (2011): individuals who experienced low stock market returns during their formative years are more risk-averse as adults. The ``experience'' is a signal filtered through $W^I$ (what your parents and media told you about the economy).
 \item Cameron and Shah (2015): individuals who experienced natural disasters become more risk-averse, even for unrelated gambles. Trauma reshapes the signal distribution processed through $W^I$.
@@ -192,7 +127,7 @@ Standard assumption: risk aversion is stable and innate. Empirically:
 
 Standard assumption: consumers have CES preferences with elasticity $\sigma$ as a fixed parameter. Empirically:
 
-\begin{proposition}[Evidence for Network-Mediated Consumption Patterns]\label{prop:variety}
+\begin{proposition}[Evidence for Network-Mediated Consumption Patterns]\label{ch09:prop:variety}
 \begin{enumerate}
 \item Atkin (2013): Indian migrants' food preferences converge toward destination norms over time, with convergence speed proportional to social integration (density of $W^I$ connections with locals).
 \item Bronnenberg et al.\ (2012): brand preferences for CPG products are predicted by parents' brand loyalty decades earlier, even after controlling for prices and availability. Preferences are inherited through the family $W^I$.
@@ -203,15 +138,15 @@ Standard assumption: consumers have CES preferences with elasticity $\sigma$ as 
 
 %% =====================================================================
 \section{The Formation Equation}
-\label{sec:formation}
+\label{ch09:sec:formation}
 %% =====================================================================
 
 \subsection{The General Form}
 
 All five channels share a common mathematical structure. Agent $i$'s preference parameter evolves according to:
 
-\begin{definition}[The Formation Equation]\label{def:formation}
-\begin{equation}\label{eq:formation}
+\begin{definition}[The Formation Equation]\label{ch09:def:formation}
+\begin{equation}\label{ch09:eq:formation}
 \theta_{i,t+1} = \underbrace{\rho \theta_{i,t}}_{\text{persistence}} + \underbrace{(1 - \rho)\bar{\theta}}_{\text{anchor}} + \underbrace{\mu \left(\sum_j W^I_{ij} r_{j,t} - r^*\right)}_{\text{formation signal}},
 \end{equation}
 where:
@@ -238,11 +173,11 @@ The relative strength of (1), (2), and (3) determines the dynamics. When $\rho$ 
 
 The formation equation operates on a different timescale than the market:
 
-\begin{proposition}[Timescale Separation]\label{prop:timescales}
+\begin{proposition}[Timescale Separation]\label{ch09:prop:timescales}
 In the combined system:
 \begin{enumerate}
 \item \textbf{Fast dynamics} (within a generation): given $\boldsymbol{\theta}_t$, the market clears and the bargaining equilibrium $\x^*(\boldsymbol{\theta}_t, W)$ is reached within a period. Returns $\mathbf{r}_t = g(\x^*_t)$ are realized.
-\item \textbf{Slow dynamics} (between generations): the returns $\mathbf{r}_t$ enter the formation equation~\eqref{eq:formation}, producing $\boldsymbol{\theta}_{t+1}$. The new preferences generate a new bargaining equilibrium $\x^*_{t+1}$.
+\item \textbf{Slow dynamics} (between generations): the returns $\mathbf{r}_t$ enter the formation equation~\eqref{ch09:eq:formation}, producing $\boldsymbol{\theta}_{t+1}$. The new preferences generate a new bargaining equilibrium $\x^*_{t+1}$.
 \end{enumerate}
 The fast dynamics are a fixed-point problem in $\x$ given $\boldsymbol{\theta}$. The slow dynamics are a fixed-point problem in $\boldsymbol{\theta}$ given the function $\x^*(\boldsymbol{\theta})$.
 \end{proposition}
@@ -252,22 +187,22 @@ This separation is what makes the model identified. Within a generation, we obse
 
 \subsection{The Steady State}
 
-\begin{proposition}[Formation Steady State]\label{prop:steady}
+\begin{proposition}[Formation Steady State]\label{ch09:prop:steady}
 If the returns function $r_{j,t} = g_j(\boldsymbol{\theta}_t)$ is continuous and $W^I$ is irreducible, the formation equation has at least one steady state $\boldsymbol{\theta}^*$ satisfying:
-\begin{equation}\label{eq:steady}
+\begin{equation}\label{ch09:eq:steady}
 \theta_i^* = \bar{\theta} + \frac{\mu}{1-\rho}\left(\sum_j W^I_{ij} g_j(\boldsymbol{\theta}^*) - r^*\right).
 \end{equation}
 The steady-state preference deviates from the anchor $\bar{\theta}$ by an amount proportional to $\mu/(1-\rho)$ times the network-weighted return gap.
 \end{proposition}
 
 \begin{proof}
-Set $\theta_{i,t+1} = \theta_{i,t} = \theta_i^*$ in~\eqref{eq:formation}:
+Set $\theta_{i,t+1} = \theta_{i,t} = \theta_i^*$ in~\eqref{ch09:eq:formation}:
 $\theta_i^* = \rho\theta_i^* + (1-\rho)\bar{\theta} + \mu(\sum_j W^I_{ij} r_j^* - r^*)$.
-Solve: $(1-\rho)\theta_i^* = (1-\rho)\bar{\theta} + \mu(\sum_j W^I_{ij} r_j^* - r^*)$, giving~\eqref{eq:steady}. Existence follows from Brouwer's fixed-point theorem applied to the continuous map $\boldsymbol{\theta} \mapsto \bar{\theta}\ones + \frac{\mu}{1-\rho}(W^I \mathbf{g}(\boldsymbol{\theta}) - r^*\ones)$ on a compact convex set.
+Solve: $(1-\rho)\theta_i^* = (1-\rho)\bar{\theta} + \mu(\sum_j W^I_{ij} r_j^* - r^*)$, giving~\eqref{ch09:eq:steady}. Existence follows from Brouwer's fixed-point theorem applied to the continuous map $\boldsymbol{\theta} \mapsto \bar{\theta}\ones + \frac{\mu}{1-\rho}(W^I \mathbf{g}(\boldsymbol{\theta}) - r^*\ones)$ on a compact convex set.
 \end{proof}
 
 
-\begin{example}[Two Steady States in One Economy]\label{ex:two_steady}
+\begin{example}[Two Steady States in One Economy]\label{ch09:ex:two_steady}
 $N = 2$ agents: Modern ($M$) and Traditional ($T$). Block-diagonal $W^I$: each agent observes only her own sector. $\bar{\theta} = 1$, $\rho = 0.8$, $\mu = 0.3$, $r^* = 0.1$.
 
 Returns: $r_M(\theta_M) = 0.05 + 0.1\theta_M$ (high ambition yields high returns in the modern sector), $r_T(\theta_T) = 0.03 + 0.02\theta_T$ (ambition yields little in the traditional sector --- low complementarity).
@@ -341,27 +276,27 @@ Both steady states are self-confirming: the Modern agent's high ambition produce
 
 %% =====================================================================
 \section{Hysteresis: Why the Past Persists}
-\label{sec:hysteresis}
+\label{ch09:sec:hysteresis}
 %% =====================================================================
 
 The formation equation has a critical dynamic property: even after $W^I$ changes, preferences adjust slowly because $\rho$ is close to 1.
 
-\begin{theorem}[Preference Hysteresis]\label{thm:hysteresis}
+\begin{theorem}[Preference Hysteresis]\label{ch09:thm:hysteresis}
 Suppose $W^I$ changes discontinuously from $W^I_{\text{old}}$ to $W^I_{\text{new}}$ at time $t = 0$. The old steady-state preferences were $\boldsymbol{\theta}^*_{\text{old}}$. The new steady-state preferences are $\boldsymbol{\theta}^*_{\text{new}}$. The gap between current preferences and the new steady state decays as:
-\begin{equation}\label{eq:hysteresis}
+\begin{equation}\label{ch09:eq:hysteresis}
 \|\boldsymbol{\theta}_t - \boldsymbol{\theta}^*_{\text{new}}\| \leq C \cdot \rho^t \cdot \|\boldsymbol{\theta}^*_{\text{old}} - \boldsymbol{\theta}^*_{\text{new}}\|.
 \end{equation}
 The half-life of preference adjustment is:
-\begin{equation}\label{eq:halflife}
+\begin{equation}\label{ch09:eq:halflife}
 t_{1/2} = \frac{\ln 2}{\ln(1/\rho)}.
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Let $\Delta_t = \theta_{i,t} - \theta_{i,\text{new}}^*$. From~\eqref{eq:formation} with $W^I_{\text{new}}$ and the new steady-state condition: $\Delta_{t+1} = \rho\Delta_t + \mu \sum_j W^I_{ij,\text{new}}(g_j(\boldsymbol{\theta}_t) - g_j(\boldsymbol{\theta}^*_{\text{new}}))$. Linearizing: $\Delta_{t+1} \approx (\rho + \mu \cdot J)\Delta_t$ where $J$ captures the Jacobian. When $\mu J$ is small relative to $\rho$, the dominant decay rate is $\rho$.
+Let $\Delta_t = \theta_{i,t} - \theta_{i,\text{new}}^*$. From~\eqref{ch09:eq:formation} with $W^I_{\text{new}}$ and the new steady-state condition: $\Delta_{t+1} = \rho\Delta_t + \mu \sum_j W^I_{ij,\text{new}}(g_j(\boldsymbol{\theta}_t) - g_j(\boldsymbol{\theta}^*_{\text{new}}))$. Linearizing: $\Delta_{t+1} \approx (\rho + \mu \cdot J)\Delta_t$ where $J$ captures the Jacobian. When $\mu J$ is small relative to $\rho$, the dominant decay rate is $\rho$.
 \end{proof}
 
-\begin{example}[Hysteresis with $\rho = 0.9$]\label{ex:hysteresis}
+\begin{example}[Hysteresis with $\rho = 0.9$]\label{ch09:ex:hysteresis}
 $\rho = 0.9$: half-life $= \ln 2 / \ln(10/9) \approx 6.6$ generations. If a generation is 25 years, the half-life is 165 years.
 
 Suppose Bolivia's $W^I$ changed in 2006 (new government, new media landscape, new information flows). The preferences formed under the old $W^I$ (pre-2006) are still 93\% of the way toward the old steady state in 2006. By 2031 ($t = 1$ generation): they have moved 10\% toward the new steady state. By 2056: 19\%. By 2106: 34\%. The old preferences are still dominant a century later.
@@ -396,14 +331,14 @@ Hysteresis explains why countries with identical current institutions and prices
 
 %% =====================================================================
 \section{Enforcement vs.\ Formation}
-\label{sec:enforcement_formation}
+\label{ch09:sec:enforcement_formation}
 %% =====================================================================
 
 The standard model explains behavior through two channels: \textbf{prices} (you work more because wages rose) and \textbf{constraints} (you work more because the law changed). Both operate within a generation, holding $\boldsymbol{\theta}$ fixed. We call these \textbf{enforcement effects}: the structure enforces behavior through prices and constraints.
 
 The formation model adds a third channel: \textbf{the structure changes $\boldsymbol{\theta}$}. You work more because your reference group works more, and observing them shifted your norm. This is the \textbf{formation effect}: the structure forms preferences.
 
-\begin{definition}[Enforcement and Formation]\label{def:enf_form}
+\begin{definition}[Enforcement and Formation]\label{ch09:def:enf_form}
 For a change $\Delta W$ in the weight matrix:
 \begin{align}
 \Delta x_i &= \underbrace{\frac{\partial x_i^*}{\partial W}\bigg|_{\boldsymbol{\theta}} \Delta W}_{\text{enforcement effect}} + \underbrace{\frac{\partial x_i^*}{\partial \boldsymbol{\theta}} \cdot \frac{\partial \boldsymbol{\theta}^*}{\partial W} \Delta W}_{\text{formation effect}}.
@@ -411,9 +346,9 @@ For a change $\Delta W$ in the weight matrix:
 The enforcement effect is the immediate behavioral change at fixed preferences. The formation effect is the additional change from the long-run adjustment of preferences to the new structure.
 \end{definition}
 
-\begin{proposition}[The $\Psi$ Ratio (Preview)]\label{prop:psi_preview}
+\begin{proposition}[The $\Psi$ Ratio (Preview)]\label{ch09:prop:psi_preview}
 The \textbf{$\Psi$ ratio} is:
-\begin{equation}\label{eq:psi}
+\begin{equation}\label{ch09:eq:psi}
 \Psi = \frac{\text{formation effect}}{\text{enforcement effect}} = \frac{\partial x_i^*/\partial\boldsymbol{\theta} \cdot \partial\boldsymbol{\theta}^*/\partial W}{\partial x_i^*/\partial W |_{\boldsymbol{\theta}}}.
 \end{equation}
 When $\Psi = 0$: preferences are exogenous (A6 holds). The standard model is complete.
@@ -428,19 +363,19 @@ Chapter~11 estimates $\Psi$ empirically. The punchline: for female labor force p
 
 %% =====================================================================
 \section{The Self-Confirming Trap}
-\label{sec:trap}
+\label{ch09:sec:trap}
 %% =====================================================================
 
-\begin{theorem}[Self-Confirming Preferences]\label{thm:self_confirming}
+\begin{theorem}[Self-Confirming Preferences]\label{ch09:thm:self_confirming}
 If $W^I$ is block-diagonal with blocks $B_1, \ldots, B_k$, each block $b$ has a steady-state preference $\theta^*_b$ satisfying:
-\begin{equation}\label{eq:self_confirming}
+\begin{equation}\label{ch09:eq:self_confirming}
 \theta^*_b = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{r}_b(\theta^*_b) - r^*\right),
 \end{equation}
 where $\bar{r}_b(\theta^*_b)$ is the average return within block $b$ at steady state. Each block's preference level is \textit{rational given its information set}: agents in block $b$ observe returns $\bar{r}_b$ and form preferences $\theta^*_b$ that are consistent with those returns.
 \end{theorem}
 
 \begin{proof}
-With block-diagonal $W^I$, the formation equation decomposes: agents in block $b$ observe only returns from block $b$. Their steady state depends only on $\bar{r}_b$. The result follows from Proposition~\ref{prop:steady} applied within each block.
+With block-diagonal $W^I$, the formation equation decomposes: agents in block $b$ observe only returns from block $b$. Their steady state depends only on $\bar{r}_b$. The result follows from Proposition~\ref{ch09:prop:steady} applied within each block.
 \end{proof}
 
 \begin{intuition}[The deepest trap]
@@ -464,7 +399,7 @@ This is a specific instance of the self-confirming trap: the peripheral elite's 
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch09:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -484,7 +419,7 @@ This is a specific instance of the self-confirming trap: the peripheral elite's 
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch09:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{9.\arabic*}, leftmargin=3em]
@@ -497,7 +432,7 @@ This is a specific instance of the self-confirming trap: the peripheral elite's 
 \item Now set $\rho = 0.95$ and repeat. How does the convergence speed change?
 \end{enumerate}
 
-\item \textbf{Two steady states.} Reproduce Example~\ref{ex:two_steady}:
+\item \textbf{Two steady states.} Reproduce Example~\ref{ch09:ex:two_steady}:
 \begin{enumerate}
 \item Verify the steady-state values $\theta_M^* = 1.088$ and $\theta_T^* = 0.923$.
 \item Now connect the blocks: $W^I = \begin{pmatrix} 0.7 & 0.3 \\ 0.3 & 0.7 \end{pmatrix}$. Compute the new steady states.
@@ -555,7 +490,7 @@ This is a specific instance of the self-confirming trap: the peripheral elite's 
 
 \subsection*{Appendix 9A: Fixed Points of the Formation Mapping}
 \addcontentsline{toc}{subsection}{Appendix 9A: Fixed Points of the Formation Mapping}
-\label{app:fixed}
+\label{ch09:app:fixed}
 
 \paragraph{The formation mapping.} Define $\Phi: \R^N_+ \to \R^N_+$ by:
 \begin{equation}
@@ -567,12 +502,12 @@ The steady state $\boldsymbol{\theta}^*$ is a fixed point: $\Phi(\boldsymbol{\th
 
 \paragraph{Uniqueness.} $\Phi$ has a unique fixed point if $\Phi$ is a contraction: $\|\Phi(\boldsymbol{\theta}) - \Phi(\boldsymbol{\theta}')\| \leq q\|\boldsymbol{\theta} - \boldsymbol{\theta}'\|$ for some $q < 1$. The contraction constant is $q = \frac{\mu}{1-\rho}\|W^I\| \cdot \max_j \sup_\theta |g'_j(\theta)|$. Uniqueness is guaranteed when $\frac{\mu}{1-\rho}$ is sufficiently small relative to the return sensitivity.
 
-\paragraph{Multiple equilibria.} When $\frac{\mu}{1-\rho}$ is large and $g_j$ has strong complementarities (high returns to high $\theta$ in high-$\theta$ environments), the contraction condition fails and multiple steady states can exist. This is the case in Example~\ref{ex:two_steady}: the Modern and Traditional sectors each have their own stable steady state because the return function differs across sectors.
+\paragraph{Multiple equilibria.} When $\frac{\mu}{1-\rho}$ is large and $g_j$ has strong complementarities (high returns to high $\theta$ in high-$\theta$ environments), the contraction condition fails and multiple steady states can exist. This is the case in Example~\ref{ch09:ex:two_steady}: the Modern and Traditional sectors each have their own stable steady state because the return function differs across sectors.
 
 
 \subsection*{Appendix 9B: The Timescale Separation}
 \addcontentsline{toc}{subsection}{Appendix 9B: Timescale Separation}
-\label{app:timescale}
+\label{ch09:app:timescale}
 
 \paragraph{The two-timescale system.} The combined system is:
 \begin{align}
@@ -596,25 +531,25 @@ Furtado's earlier work (\textit{Desenvolvimento e Subdesenvolvimento}, 1961) had
 
 The argument has three parts.
 
-\textbf{Part 1: The myth of development is the belief that peripheral countries can replicate center consumption patterns.} Furtado argued that ``development'' as understood in the postwar period meant achieving center-level consumption: automobiles, appliances, industrialized food, suburban housing. This consumption pattern was not a natural aspiration but a \textit{culturally constructed} one, transmitted to the periphery through $W^I$ (advertising, education, media, elite travel). In the formation equation~\eqref{eq:formation}: the return $r_{j,t}$ observed by the peripheral elite is center-level consumption, filtered through $W^I$ edges that connect peripheral elites to center lifestyles. The formation signal pushes $\theta_i$ (taste for consumption) upward, toward the center's steady state.
+\textbf{Part 1: The myth of development is the belief that peripheral countries can replicate center consumption patterns.} Furtado argued that ``development'' as understood in the postwar period meant achieving center-level consumption: automobiles, appliances, industrialized food, suburban housing. This consumption pattern was not a natural aspiration but a \textit{culturally constructed} one, transmitted to the periphery through $W^I$ (advertising, education, media, elite travel). In the formation equation~\eqref{ch09:eq:formation}: the return $r_{j,t}$ observed by the peripheral elite is center-level consumption, filtered through $W^I$ edges that connect peripheral elites to center lifestyles. The formation signal pushes $\theta_i$ (taste for consumption) upward, toward the center's steady state.
 
-\textbf{Part 2: Center consumption patterns at peripheral income levels produce structural distortion.} If $\theta_i$ (consumption aspiration) is calibrated to center returns but income is peripheral, the savings rate collapses: agents consume beyond their means, relying on debt, capital inflows, or natural resource rents. The investment needed to transform $W^P$ (building inter-sectoral linkages, diversifying the production structure) is crowded out by consumption. In the model: the self-confirming trap of Section~\ref{sec:trap} operates through the consumption channel. High $\theta_{\text{consumption}}$ reduces savings, which reduces investment, which keeps $W^P$ block-diagonal, which keeps returns low in the traditional sector, which keeps aspirations low for the masses while elite aspirations remain center-calibrated. The gap within the periphery widens.
+\textbf{Part 2: Center consumption patterns at peripheral income levels produce structural distortion.} If $\theta_i$ (consumption aspiration) is calibrated to center returns but income is peripheral, the savings rate collapses: agents consume beyond their means, relying on debt, capital inflows, or natural resource rents. The investment needed to transform $W^P$ (building inter-sectoral linkages, diversifying the production structure) is crowded out by consumption. In the model: the self-confirming trap of Section~\ref{ch09:sec:trap} operates through the consumption channel. High $\theta_{\text{consumption}}$ reduces savings, which reduces investment, which keeps $W^P$ block-diagonal, which keeps returns low in the traditional sector, which keeps aspirations low for the masses while elite aspirations remain center-calibrated. The gap within the periphery widens.
 
 \textbf{Part 3: The ecological impossibility.} Furtado's most prescient argument: even if every country could replicate center consumption, the planet cannot sustain it. The myth of development is a myth not only because the periphery cannot achieve it within the existing power structure, but because \textit{nobody} can achieve it within the planet's ecological constraints. This was 1974 --- three years after Limits to Growth, two decades before climate economics. In the formation framework: the center's $\boldsymbol{\theta}^*$ is not a feasible global steady state. It is a local equilibrium sustained by the center's disproportionate claim on global resources (Chapter~16), which is itself a consequence of the center's Perron weight in the global $W^P$.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Furtado's argument (1974)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Consumption aspirations are culturally formed & $\theta_{i,t+1} = f(W^I, r_{j,t})$ & Def.~\ref{def:formation} \\
-Peripheral elites observe center lifestyles & $W^I_{\text{elite, center}} > 0$ & Sec.~\ref{sec:formation} \\
+Consumption aspirations are culturally formed & $\theta_{i,t+1} = f(W^I, r_{j,t})$ & Def.~\ref{ch09:def:formation} \\
+Peripheral elites observe center lifestyles & $W^I_{\text{elite, center}} > 0$ & Sec.~\ref{ch09:sec:formation} \\
 High aspiration at low income = undersaving & $\theta_{\text{cons}}$ high, $Y$ low $\to$ $S$ low & Prebisch box \\
-Underdevelopment reproduces itself culturally & Self-confirming trap & Thm.~\ref{thm:self_confirming} \\
-Past structures persist in current preferences & Hysteresis, $\rho \approx 0.9$ & Thm.~\ref{thm:hysteresis} \\
+Underdevelopment reproduces itself culturally & Self-confirming trap & Thm.~\ref{ch09:thm:self_confirming} \\
+Past structures persist in current preferences & Hysteresis, $\rho \approx 0.9$ & Thm.~\ref{ch09:thm:hysteresis} \\
 The myth is a myth for everyone & Center $\boldsymbol{\theta}^*$ not globally feasible & Ch.~16, Ch.~26 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 \textit{O Mito} was Furtado at his most radical. He had started in 1961 by saying underdevelopment was a structural condition of $W^P$. By 1974, he was saying something deeper: underdevelopment is a structural condition of $\boldsymbol{\theta}$. The production structure produces the preferences that justify the production structure. Changing $W^P$ is necessary but not sufficient; you must also change $W^I$ --- the channel through which the structure becomes desire.
@@ -636,6 +571,5 @@ He wrote it in exile, in French (published by Presses Universitaires de France, 
 \textbf{Risk and experience:} Malmendier and Nagel (2011), ``Depression Babies: Do Macroeconomic Experiences Affect Risk Taking?'' \textit{QJE}.
 
 \textbf{The structuralist tradition on culture:} Furtado (1974), \textit{O Mito do Desenvolvimento Econ\^{o}mico}, Rio de Janeiro: Paz e Terra (the primary source). Furtado (1978), \textit{Criatividade e Depend\^{e}ncia na Civiliza\c{c}\~{a}o Industrial}, also from exile. Prebisch (1949), Section~V (on the demonstration effect). CEPAL (2010), \textit{Time for Equality}, Chapter~1 (on the persistence of structural inequality through cultural channels).
-
 
 \end{document}

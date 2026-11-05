@@ -1,40 +1,7 @@
 \documentclass[12pt,a4paper,openright,twoside]{book}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amssymb}
-\usepackage{booktabs}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{graphicx}
-\usepackage{emptypage}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-
-%% Part page styling
-\titleformat{\part}[display]
-  {\centering\Huge\bfseries}
-  {\Large\textsc{Part \thepart}}
-  {0.5em}
-  {}
-\titlespacing*{\part}{0pt}{-30pt}{40pt}
-
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[LE]{\small\itshape\leftmark}
-\fancyhead[RO]{\small\itshape\rightmark}
-\fancyfoot[C]{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\usepackage{structecon}
+\usepackage{subfiles}
 
 \begin{document}
 
@@ -96,7 +63,7 @@
 {\Large\itshape The General Case}\\[3cm]
 {\LARGE Werner L.\ Hernani-Limarino}\\[0.5em]
 {\normalsize wernerhl@gmail.com}\\[5cm]
-{\large DRAFT --- September 2027}
+{\large DRAFT --- \today}
 \end{center}
 \clearpage
 
@@ -107,7 +74,7 @@
 \thispagestyle{empty}
 \vspace*{\fill}
 \begin{small}
-\noindent\textcopyright\ 2027 Werner L.\ Hernani-Limarino. All rights reserved.\\[1em]
+\noindent\textcopyright\ \the\year Werner L.\ Hernani-Limarino. All rights reserved.\\[1em]
 \noindent Opinions expressed do not reflect the views of affiliated institutions; all errors are the author's own.\\[1em]
 \noindent Typeset in Palatino using \LaTeX\\[1em]
 \noindent Draft manuscript. Not yet published.
@@ -165,139 +132,71 @@ Structural economics is the general case.''
 %% MAIN MATTER
 %% =====================================================================
 \mainmatter
-
-%% The content below provides the structure. In the full manuscript,
-%% each chapter's .tex content would replace the placeholder text.
-%% For now, this compiles as the book's skeleton with part pages and TOC.
-
 \addcontentsline{toc}{chapter}{Preface}
 \chapter*{Preface}
 \markboth{Preface}{Preface}
-\textit{9 pages. See} \texttt{preface\_structural\_economics.pdf}
+\textit{The Preface (9 pp.) is maintained separately and is not yet part of this source tree.}
 
 \addcontentsline{toc}{chapter}{Visual Prologue: Seeing the Matrix}
 \chapter*{Visual Prologue: Seeing the Matrix}
 \markboth{Visual Prologue}{Visual Prologue}
-\textit{9 pages. See} \texttt{visual\_prologue\_seeing\_the\_matrix.pdf}
-
+\textit{The Visual Prologue (9 pp.) is maintained separately and is not yet part of this source tree.}
 
 %% =====================================================================
 \part{The Matrix Reformulation}
 %% =====================================================================
-
-\chapter{Economics in Matrix Notation}
-\textit{29 pages. Epigraph: Prebisch (1949). Case study: Prebisch's 3-step argument $\to$ $W \neq \frac{1}{N}\mathbf{11}'$.}
-
-\chapter{The Welfare Theorems in Matrix Form}
-\textit{17 pages. Epigraph: Furtado (1961). Case study: Underdevelopment as stable fixed point of $W$.}
-
-\chapter{Growth and Distribution in the Weight Matrix}
-\textit{24 pages. Epigraph: Pinto (1970). Case study: Tripartite structure $\to$ block-diagonal $W^P$.}
-
-\chapter{What the Standard Model Assumes}
-\textit{17 pages. Epigraph: Sunkel \& Paz (1970). Case study: Six assumptions as matrix properties.}
-
+\subfile{chapters/chapter01}
+\subfile{chapters/chapter02}
+\subfile{chapters/chapter03}
+\subfile{chapters/chapter04}
 
 %% =====================================================================
 \part{The Three Networks}
 %% =====================================================================
-
-\chapter{Three Networks, One Economy}
-\textit{28 pages. Epigraph: Dos Santos (1970). Case study: Three historical regimes of $W$.}
-
-\chapter{Power and the Perron Eigenvector}
-\textit{21 pages. Epigraph: Prebisch (1981). Case study: Surplus appropriation $\to$ Perron eigenvector.}
-
-\chapter{The Bargaining Equilibrium}
-\textit{21 pages. Epigraph: Marini (1973). Case study: Superexploitation $= \pi_{\text{worker}} \ll 1/N$.}
-
-\chapter{Belief Manipulation and Epistemic Power}
-\textit{16 pages. Epigraph: Quijano (2000). Case study: Coloniality as $W^I$ $\to$ epistemic Perron dominance.}
-
+\subfile{chapters/chapter05}
+\subfile{chapters/chapter06}
+\subfile{chapters/chapter07}
+\subfile{chapters/chapter08}
 
 %% =====================================================================
 \part{The Formation Model}
 %% =====================================================================
-
-\chapter{Where Preferences Come From}
-\textit{19 pages. Epigraph: Furtado (1974). Case study: Cultural dependency $\to$ endogenous preferences.}
-
-\chapter{The Formal Formation Model}
-\textit{19 pages. Epigraph: Cardoso \& Faletto (1969). Case study: Situations of dependency as network topology.}
-
-\chapter{The $\Psi$ Ratio: Measuring Formation}
-\textit{16 pages. Epigraph: Bragg. Empirical chapter, no case study.}
-
-\chapter{Welfare Under Endogenous Preferences}
-\textit{17 pages. Epigraph: Sen (1999). Case study: Capabilities under endogenous preferences.}
-
+\subfile{chapters/chapter09}
+\subfile{chapters/chapter10}
+\subfile{chapters/chapter11}
+\subfile{chapters/chapter12}
 
 %% =====================================================================
 \part{Dynamics of Structural Change}
 %% =====================================================================
-
-\chapter{How Networks Evolve}
-\textit{18 pages. Epigraph: Sunkel (1971). Case study: Integration/disintegration as network rewiring.}
-
-\chapter{Coalitions and Class Alliances}
-\textit{16 pages. Epigraph: Cardoso \& Faletto (1969). Case study: Class alliances as coalitions.}
-
-\chapter{Operator Design: Engineering the Weight Matrix}
-\textit{17 pages. Epigraph: Tavares (1972). Case study: ISI as operator design on $W^P$.}
-
+\subfile{chapters/chapter13}
+\subfile{chapters/chapter14}
+\subfile{chapters/chapter15}
 
 %% =====================================================================
 \part{Three Scales}
 %% =====================================================================
-
-\chapter{The Global Weight Matrix}
-\textit{16 pages. Epigraph: Prebisch (1949) + Hirschman (1958). Case study: Global $W^P$ and linkages.}
-
-\chapter{Domestic Structural Diagnostics}
-\textit{17 pages. Epigraph: Pinto (1970) + Fajnzylber (1990). Case study: Domestic $\Gamma$ + casillero vac\'{i}o.}
-
-\chapter{The Individual Scale: Gender, Race, and Structure}
-\textit{16 pages. Epigraph: Quijano (2000) + Marini (1973). Case study: Node attributes constraining $W$.}
-
-\chapter{Scale Invariance: Five Processes, One Process}
-\textit{15 pages. Epigraph: Sunkel \& Paz (1970). Case study: Three-scale invariance of $\boldsymbol{\pi}$.}
-
+\subfile{chapters/chapter16}
+\subfile{chapters/chapter17}
+\subfile{chapters/chapter18}
+\subfile{chapters/chapter19}
 
 %% =====================================================================
 \part{Measurement}
 %% =====================================================================
-
-\chapter{Social Accounting Matrices as Weight Matrices}
-\textit{14 pages. Epigraph: Taylor (1983). Case study: SAMs as the data infrastructure.}
-
-\chapter{Measuring the Information Network}
-\textit{12 pages. Case study: Media and formation in Latin America.}
-
-\chapter{Measuring the Utility Network}
-\textit{12 pages. Case study: The Andean ayllu as structured solidarity.}
-
-\chapter{Tracking Structural Change Over Time}
-\textit{13 pages. Epigraph: CEPAL (2012). Case study: CEPAL's structural change program.}
-
+\subfile{chapters/chapter20}
+\subfile{chapters/chapter21}
+\subfile{chapters/chapter22}
+\subfile{chapters/chapter23}
 
 %% =====================================================================
 \part{Political Economy and Conclusion}
 %% =====================================================================
-
-\chapter{Hegemony and Counter-Hegemony}
-\textit{14 pages. Epigraph: Gramsci (1929--1935). Case study: Gramsci + Skocpol on structural crisis.}
-
-\chapter{Truncated Industrialization}
-\textit{13 pages. Epigraph: Fajnzylber (1983). Case study: The missing dense subgraph.}
-
-\chapter{The Neo-Structuralist Synthesis}
-\textit{12 pages. Epigraph: Ocampo (2009). Case study: High $\Gamma$ + high ECI $=$ growth with equity.}
-
-\chapter{Algorithmic $W^I$}
-\textit{12 pages. Case study: The algorithmic $W^I$ in the Global South.}
-
-\chapter{The General Case}
-\textit{12 pages. Epigraph: Furtado (1961). Case study: Furtado's return.}
+\subfile{chapters/chapter24}
+\subfile{chapters/chapter25}
+\subfile{chapters/chapter26}
+\subfile{chapters/chapter27}
+\subfile{chapters/chapter28}
 
 
 %% =====================================================================

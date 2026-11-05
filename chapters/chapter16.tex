@@ -1,71 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 16: The Global Weight Matrix}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 16} \\[0.5em]
-\LARGE The Global Weight Matrix \\[0.3em]
-\large\textit{Center, Periphery, and the Spectral Structure of World Trade}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{15}}{}
+\chapter{The Global Weight Matrix}\label{ch:16}
+\chaptersubtitle{Center, Periphery, and the Spectral Structure of World Trade}
 \begin{quote}
 \textit{``Las ventajas del progreso t\'{e}cnico se han concentrado principalmente en los centros industriales, sin propagarse a la periferia del sistema econ\'{o}mico mundial en medida suficiente.''}\\[0.3em]
 \textnormal{[``The advantages of technical progress have concentrated principally in the industrial centers, without propagating to the periphery of the world economic system in sufficient measure.'']}\\
@@ -90,14 +27,14 @@ Everything in Chapters~1--15 applies. The only difference is that $N$ is now 200
 
 %% =====================================================================
 \section{The Global Production Network}
-\label{sec:global_WP}
+\label{ch16:sec:global_WP}
 %% =====================================================================
 
 \subsection{From Bilateral Trade to the Weight Matrix}
 
-\begin{definition}[Global Production Weight Matrix]\label{def:global_WP}
+\begin{definition}[Global Production Weight Matrix]\label{ch16:def:global_WP}
 Let $X_{cc'}$ be the total exports from country $c'$ to country $c$ (in USD). The \textbf{global production weight matrix} is:
-\begin{equation}\label{eq:global_WP}
+\begin{equation}\label{ch16:eq:global_WP}
 W^P_{cc'} = \frac{X_{cc'}}{\sum_{c''} X_{cc''}}, \qquad c \neq c'.
 \end{equation}
 Entry $W^P_{cc'}$ is the share of country $c$'s imports that comes from country $c'$. Row-stochastic by construction ($\sum_{c'} W^P_{cc'} = 1$ for each $c$, where the diagonal captures domestic absorption).
@@ -105,7 +42,7 @@ Entry $W^P_{cc'}$ is the share of country $c$'s imports that comes from country 
 
 For $N \approx 200$ countries and data from the OECD Inter-Country Input-Output (ICIO) tables or the BACI trade database, $W^P_{\text{global}}$ is a $200 \times 200$ row-stochastic matrix.
 
-\begin{proposition}[Properties of $W^P_{\text{global}}$]\label{prop:global_properties}
+\begin{proposition}[Properties of $W^P_{\text{global}}$]\label{ch16:prop:global_properties}
 The empirical $W^P_{\text{global}}$ has the following properties:
 \begin{enumerate}
 \item \textbf{Not doubly stochastic.} Column sums vary enormously: the US column sum is $\approx 0.15$ (15\% of world imports come from the US); Bolivia's is $\approx 0.001$. The world does not depend on Bolivia the way Bolivia depends on the world.
@@ -174,11 +111,11 @@ The empirical $W^P_{\text{global}}$ has the following properties:
 
 \subsection{The Global Leontief Inverse}
 
-\begin{definition}[Global Leontief Inverse]\label{def:global_leontief}
+\begin{definition}[Global Leontief Inverse]\label{ch16:def:global_leontief}
 The \textbf{global Leontief inverse} is $(I - \gamma W^P_{\text{global}})^{-1}$, where $\gamma \in (0, 1/\rho(W^P))$ scales the input intensity. Entry $\ell_{cc'}$ measures the total output generated in country $c$ by a unit increase in final demand in country $c'$, including all rounds of indirect effects through the global supply chain.
 \end{definition}
 
-\begin{proposition}[Hirschman's Linkages as Column Sums]\label{prop:linkages}
+\begin{proposition}[Hirschman's Linkages as Column Sums]\label{ch16:prop:linkages}
 \begin{enumerate}
 \item Country $c'$'s \textbf{backward linkage} is $BL_{c'} = \sum_c \ell_{cc'}$: the total global output generated by one unit of $c'$'s final demand. High $BL$: $c'$'s demand stimulates many countries. Low $BL$: $c'$'s demand stays local.
 \item Country $c$'s \textbf{forward linkage} is $FL_c = \sum_{c'} \ell_{cc'}$: how much $c$'s output is used (directly and indirectly) in satisfying final demand everywhere. High $FL$: $c$ is an essential input provider. Low $FL$: $c$ produces final goods consumed locally.
@@ -186,7 +123,7 @@ The \textbf{global Leontief inverse} is $(I - \gamma W^P_{\text{global}})^{-1}$,
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Global Linkages, 2018]\label{ex:global_linkages}
+\begin{example}[Global Linkages, 2018]\label{ch16:ex:global_linkages}
 Using OECD ICIO data (67 economies, 36 industries):
 
 \begin{center}
@@ -212,24 +149,24 @@ The center has $BL$ and $FL$ both above average: it generates demand AND supplie
 
 %% =====================================================================
 \section{Economic Complexity as Spectral Measurement}
-\label{sec:ECI}
+\label{ch16:sec:ECI}
 %% =====================================================================
 
 \subsection{From Trade Data to the Specialization Matrix}
 
 The Economic Complexity Index (ECI) is a dimensionality-reduction method that extracts the leading non-trivial spectral structure from the global trade matrix. It is the empirical counterpart to this book's theoretical framework.
 
-\begin{definition}[Specialization Matrix and RCA]\label{def:RCA}
+\begin{definition}[Specialization Matrix and RCA]\label{ch16:def:RCA}
 Let $X_{cp}$ be the export value of product $p$ from country $c$. The \textbf{Revealed Comparative Advantage} is:
-\begin{equation}\label{eq:RCA}
+\begin{equation}\label{ch16:eq:RCA}
 R_{cp} = \frac{X_{cp}/X_c}{X_p/X},
 \end{equation}
 where $X_c = \sum_p X_{cp}$, $X_p = \sum_c X_{cp}$, and $X = \sum_{c,p} X_{cp}$. A country has comparative advantage in product $p$ if $R_{cp} > 1$. The binary specialization matrix: $M_{cp} = \mathbf{1}[R_{cp} \geq 1]$.
 \end{definition}
 
-\begin{definition}[The Proximity Matrix and Product Space]\label{def:proximity}
+\begin{definition}[The Proximity Matrix and Product Space]\label{ch16:def:proximity}
 The \textbf{proximity} between products $p$ and $p'$ is:
-\begin{equation}\label{eq:proximity}
+\begin{equation}\label{ch16:eq:proximity}
 \phi_{pp'} = \frac{\sum_c M_{cp}M_{cp'}}{\max(M_p, M_{p'})},
 \end{equation}
 where $M_p = \sum_c M_{cp}$ is the ubiquity of product $p$. The \textbf{product space} is the network with products as nodes and $\phi_{pp'}$ as edge weights.
@@ -240,21 +177,21 @@ The product space IS $W^P$ at the product level. Its topology --- dense core of 
 
 \subsection{The ECI as the Second Eigenvector}
 
-\begin{definition}[Economic Complexity Index]\label{def:ECI}
+\begin{definition}[Economic Complexity Index]\label{ch16:def:ECI}
 Define the country-country matrix:
-\begin{equation}\label{eq:Mcc}
+\begin{equation}\label{ch16:eq:Mcc}
 \tilde{M}_{cc'} = \sum_p \frac{M_{cp}M_{c'p}}{M_c \cdot M_p},
 \end{equation}
 where $M_c = \sum_p M_{cp}$ is diversity. $\tilde{M}_{cc'}$ measures the similarity between countries $c$ and $c'$ based on their shared products, weighted by product ubiquity. This matrix is row-stochastic.
 
 The \textbf{ECI} is the second eigenvector of $\tilde{M}$:
-\begin{equation}\label{eq:ECI}
+\begin{equation}\label{ch16:eq:ECI}
 \tilde{M}\mathbf{v}_2 = \lambda_2 \mathbf{v}_2, \qquad \text{ECI}_c = \frac{v_{2,c} - \text{mean}(v_2)}{\text{stdev}(v_2)}.
 \end{equation}
 The first eigenvector is trivial ($\ones$, since $\tilde{M}$ is row-stochastic). The second eigenvector IS the leading non-trivial spectral structure --- the direction along which the global $W^P$ most departs from the competitive benchmark $\frac{1}{N}\ones\ones'$.
 \end{definition}
 
-\begin{theorem}[ECI and the Spectral Gap]\label{thm:ECI_gamma}
+\begin{theorem}[ECI and the Spectral Gap]\label{ch16:thm:ECI_gamma}
 The ECI satisfies:
 \begin{enumerate}
 \item $\text{ECI}_c$ is proportional to the country's position along the principal axis of structural differentiation in global trade. High ECI = diverse, complex exports (machinery, chemicals, pharmaceuticals). Low ECI = concentrated, simple exports (oil, minerals, raw agriculture).
@@ -273,7 +210,7 @@ Japan ($\text{ECI} \approx 2.3$) is deep in the core: diversified, complex, dens
 
 \subsection{ECI Predicts Growth: A Structural Explanation}
 
-\begin{proposition}[Why ECI Predicts Growth]\label{prop:ECI_growth}
+\begin{proposition}[Why ECI Predicts Growth]\label{ch16:prop:ECI_growth}
 Hausman, Hidalgo et al.\ (2009) showed that ECI predicts future GDP growth, controlling for current GDP. The structural explanation:
 \begin{enumerate}
 \item High ECI $\Leftrightarrow$ large domestic $\Gamma(W^P)$ $\Leftrightarrow$ strong inter-sectoral linkages $\Leftrightarrow$ growth propagates across sectors (Chapter~3).
@@ -287,16 +224,16 @@ The standard explanation: ``ECI proxies for human capital and institutions.'' Th
 
 %% =====================================================================
 \section{ECI Predicts Inequality: The Casillero Vac\'{i}o}
-\label{sec:inequality}
+\label{ch16:sec:inequality}
 %% =====================================================================
 
-\begin{proposition}[ECI and Inequality --- Hartmann et al.\ (2017)]\label{prop:ECI_inequality}
+\begin{proposition}[ECI and Inequality --- Hartmann et al.\ (2017)]\label{ch16:prop:ECI_inequality}
 Countries with high ECI have lower income inequality (Gini), controlling for GDP per capita. The relationship is robust to multiple specifications and data sources.
 \end{proposition}
 
-\begin{theorem}[The Structural Explanation for the ECI-Inequality Link]\label{thm:ECI_inequality}
+\begin{theorem}[The Structural Explanation for the ECI-Inequality Link]\label{ch16:thm:ECI_inequality}
 From the welfare loss decomposition (Chapter~2):
-\begin{equation}\label{eq:loss_ECI}
+\begin{equation}\label{ch16:eq:loss_ECI}
 L_{\text{power}} = \frac{\kappa N}{2}\Var(\pi_i)\Phi^2 \leq \frac{\kappa\Phi^2}{2}\frac{1 - \Gamma}{\Gamma}.
 \end{equation}
 
@@ -346,26 +283,26 @@ This is why inequality in Latin America is structural, not just distributional: 
 
 %% =====================================================================
 \section{Relatedness and the Global $W^P$ Dynamics}
-\label{sec:relatedness}
+\label{ch16:sec:relatedness}
 %% =====================================================================
 
 \subsection{The Principle of Relatedness as Global Path Dependence}
 
-\begin{definition}[Relatedness Density]\label{def:relatedness}
+\begin{definition}[Relatedness Density]\label{ch16:def:relatedness}
 Country $c$'s \textbf{relatedness density} to product $p$ is:
-\begin{equation}\label{eq:relatedness}
+\begin{equation}\label{ch16:eq:relatedness}
 \omega_{cp} = \frac{\sum_{p'} M_{cp'}\phi_{pp'}}{\sum_{p'}\phi_{pp'}}.
 \end{equation}
 This is the fraction of related products that $c$ already produces. High $\omega_{cp}$: country $c$ has the capabilities to produce $p$. Low $\omega_{cp}$: the capabilities are missing.
 \end{definition}
 
-\begin{proposition}[The Principle of Relatedness as Chapter~13 Applied Globally]\label{prop:relatedness_global}
+\begin{proposition}[The Principle of Relatedness as Chapter~13 Applied Globally]\label{ch16:prop:relatedness_global}
 The probability that country $c$ develops RCA in product $p$ (enters the product) is increasing in $\omega_{cp}$ (Hidalgo et al., 2007). This IS the path-dependence theorem of Chapter~13: edge creation is proximity-dominated ($p_1 \gg p_2, p_3$), so new edges form near existing edges. Countries diversify into products related to their current exports, not into random products.
 
 The global consequence: countries on the dense core of the product space (high $\omega_{cp}$ for many products) diversify rapidly, increasing their ECI, which increases their $\Gamma$, which reduces their inequality. Countries on the sparse periphery (low $\omega_{cp}$ for core products) diversify slowly or not at all, remaining trapped with low ECI, low $\Gamma$, and high inequality.
 \end{proposition}
 
-\begin{example}[Relatedness Density: Bolivia vs.\ South Korea, 2018]\label{ex:relatedness}
+\begin{example}[Relatedness Density: Bolivia vs.\ South Korea, 2018]\label{ch16:ex:relatedness}
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
@@ -387,12 +324,12 @@ Korea's average relatedness to core products is 9 times Bolivia's. Korea can div
 
 %% =====================================================================
 \section{The Terms of Trade: A Spectral Property}
-\label{sec:terms}
+\label{ch16:sec:terms}
 %% =====================================================================
 
-\begin{theorem}[Prebisch-Singer as a Spectral Result]\label{thm:prebisch_singer}
+\begin{theorem}[Prebisch-Singer as a Spectral Result]\label{ch16:thm:prebisch_singer}
 In the global bargaining equilibrium (Chapter~7 applied to countries):
-\begin{equation}\label{eq:global_bargaining}
+\begin{equation}\label{ch16:eq:global_bargaining}
 x_c^* = \frac{\Omega_{\text{global}}}{N} + \frac{1}{\kappa}\left(\pi_c(W^P_{\text{global}}) - \frac{1}{N}\right).
 \end{equation}
 
@@ -401,7 +338,7 @@ The terms of trade of country $c$ are determined by $\pi_c$: countries with high
 The Prebisch-Singer hypothesis --- that the terms of trade of primary commodity exporters deteriorate over time --- is the dynamic version: as the global $W^P$ evolves (Chapter~13), the core's $\pi$ increases (the core adds dense linkages) and the periphery's $\pi$ decreases (the periphery adds only sparse commodity edges). The terms-of-trade deterioration is the Perron eigenvector shifting toward the core.
 \end{theorem}
 
-\begin{example}[Bolivia's Terms of Trade, 1960--2023]\label{ex:bot_terms}
+\begin{example}[Bolivia's Terms of Trade, 1960--2023]\label{ch16:ex:bot_terms}
 Bolivia's commodity export prices (gas, tin, zinc, soy) have experienced long-run terms-of-trade deterioration interspersed with commodity booms (1970s, 2003--2014). During booms: $x_{\text{Bolivia}}$ rises, but $\pi_{\text{Bolivia}}$ does not change (commodity booms increase $\boldsymbol{\omega}$ but not $W^P$ --- the edges don't change, only the prices on existing edges). After booms: $x_{\text{Bolivia}}$ returns to the pre-boom trajectory because $\boldsymbol{\pi}$ never changed.
 
 The gas nationalization of 2006 changed some edges of $W^P$ (rerouted gas revenue from MNCs to the treasury). But it did not add cross-sector domestic linkages. Bolivia's ECI in 2006: $-0.85$. In 2018: $-0.80$. Twelve years of gas revenue redistributed via transfers, almost zero structural change.
@@ -410,12 +347,12 @@ The gas nationalization of 2006 changed some edges of $W^P$ (rerouted gas revenu
 
 %% =====================================================================
 \section{The Three Networks at Global Scale}
-\label{sec:three_global}
+\label{ch16:sec:three_global}
 %% =====================================================================
 
 The global economy has three networks, just as the domestic economy does.
 
-\begin{proposition}[Global Three-Network Structure]\label{prop:three_global}
+\begin{proposition}[Global Three-Network Structure]\label{ch16:prop:three_global}
 \begin{enumerate}
 \item $W^P_{\text{global}}$: the trade/production network. Measured by ICIO, BACI, or COMTRADE data. Core-periphery topology. ECI is its second eigenvector.
 
@@ -434,7 +371,7 @@ The global spectral structure tells the same story at all three layers. $W^P$: t
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch16:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -454,7 +391,7 @@ The global spectral structure tells the same story at all three layers. $W^P$: t
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch16:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{16.\arabic*}, leftmargin=3em]
@@ -462,7 +399,7 @@ The global spectral structure tells the same story at all three layers. $W^P$: t
 \item \textbf{Build the global $W^P$.} Using BACI trade data (available at \texttt{cepii.fr}):
 \begin{enumerate}
 \item Download bilateral trade data for 2018. Aggregate to 50 countries.
-\item Construct $W^P_{cc'}$ (Definition~\ref{def:global_WP}). Verify row-stochasticity.
+\item Construct $W^P_{cc'}$ (Definition~\ref{ch16:def:global_WP}). Verify row-stochasticity.
 \item Compute column sums. Which country has the largest? Smallest?
 \item Compute $\boldsymbol{\pi}$ (power iteration, Appendix~6A). Plot $\pi_c$ vs.\ GDP per capita. What is the correlation?
 \item Compute $\Gamma$. Compare with the competitive benchmark $\Gamma = 1$.
@@ -526,7 +463,7 @@ The global spectral structure tells the same story at all three layers. $W^P$: t
 
 \subsection*{Appendix 16A: The ECI as a Spectral Method}
 \addcontentsline{toc}{subsection}{Appendix 16A: ECI as Spectral Method}
-\label{app:ECI}
+\label{ch16:app:ECI}
 
 \paragraph{Derivation.} Start with the binary specialization matrix $M$ ($C \times P$). Define diversity $M_c = \sum_p M_{cp}$ and ubiquity $M_p = \sum_c M_{cp}$. The coupled equations:
 \begin{equation}
@@ -542,7 +479,7 @@ Substituting: $K_c = \sum_{c'} \tilde{M}_{cc'} K_{c'}$ where $\tilde{M}_{cc'} = 
 
 \subsection*{Appendix 16B: The Global Leontief Inverse from ICIO Data}
 \addcontentsline{toc}{subsection}{Appendix 16B: Global Leontief Inverse}
-\label{app:leontief}
+\label{ch16:app:leontief}
 
 \paragraph{The ICIO table.} The OECD Inter-Country Input-Output table provides $A_{cs, c's'}$: the amount of output from sector $s'$ in country $c'$ used as input per unit of output of sector $s$ in country $c$. This is the global technical coefficients matrix, of dimension $(N_c \times N_s)^2$ (e.g., $67 \times 36 = 2412$ rows and columns).
 
@@ -560,16 +497,16 @@ This chapter's case study pairs the two most influential structuralist contribut
 
 \textbf{Prebisch (1949): The global $W^P$ is asymmetric.} Prebisch's manifesto asserted that the global economy has a structure --- that the pattern of trade is not the symmetric exchange of classical trade theory but an asymmetric system where the center exports manufactures (high linkages, complex, diversified) and the periphery exports primary commodities (low linkages, simple, concentrated). In this chapter's notation: $W^P_{\text{global}}$ has core-periphery topology, $\boldsymbol{\pi}_{\text{center}} \gg \boldsymbol{\pi}_{\text{periphery}}$, and $\Gamma$ is small. The ECI IS the empirical measure of where each country sits on Prebisch's axis.
 
-Prebisch also predicted that the terms of trade of primary exporters would deteriorate over time (the Prebisch-Singer hypothesis). Theorem~\ref{thm:prebisch_singer} shows that this is a spectral result: as the global $W^P$ evolves, the core adds dense linkages (increasing $\pi_{\text{center}}$) while the periphery adds only sparse commodity edges (leaving $\pi_{\text{periphery}}$ stagnant or declining). The terms-of-trade trend is the shadow of the Perron eigenvector.
+Prebisch also predicted that the terms of trade of primary exporters would deteriorate over time (the Prebisch-Singer hypothesis). Theorem~\ref{ch16:thm:prebisch_singer} shows that this is a spectral result: as the global $W^P$ evolves, the core adds dense linkages (increasing $\pi_{\text{center}}$) while the periphery adds only sparse commodity edges (leaving $\pi_{\text{periphery}}$ stagnant or declining). The terms-of-trade trend is the shadow of the Perron eigenvector.
 
 \textbf{Hirschman (1958): Linkages are the mechanism.} Where Prebisch described the asymmetry, Hirschman identified the mechanism: backward and forward linkages. Industries with strong linkages generate demand for their suppliers (backward) and provide inputs for their customers (forward). The development strategy should target high-linkage industries --- the ``key sectors'' whose column sums in $(I-A)^{-1}$ are largest.
 
-In this chapter's notation: Hirschman's backward linkages are the column sums of the Leontief inverse (Proposition~\ref{prop:linkages}). His key-sector criterion is the condition $BL_p > \bar{BL}$ AND $FL_p > \bar{FL}$. The product space (Hidalgo et al., 2007) is the network visualization of the proximity matrix among all products --- which is Hirschman's idea of ``related industries'' rendered over 5,000 products using export data.
+In this chapter's notation: Hirschman's backward linkages are the column sums of the Leontief inverse (Proposition~\ref{ch16:prop:linkages}). His key-sector criterion is the condition $BL_p > \bar{BL}$ AND $FL_p > \bar{FL}$. The product space (Hidalgo et al., 2007) is the network visualization of the proximity matrix among all products --- which is Hirschman's idea of ``related industries'' rendered over 5,000 products using export data.
 
 \textbf{The synthesis: ECI = Prebisch's position + Hirschman's mechanism.} The ECI measures Prebisch's center-periphery position (where a country sits on the second eigenvector). The product space measures Hirschman's linkage structure (which products are connected to which, and how densely). Relatedness density measures the feasibility of Hirschman's strategy: can this country reach the high-linkage products from where it currently stands?
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Concept} & \textbf{Prebisch (1949)} & \textbf{Hirschman (1958)} \\
 \midrule
@@ -577,10 +514,10 @@ Core claim & Global economy is asymmetric & Linkages drive development \\
 Formal object & $\boldsymbol{\pi}_{\text{center}} \gg \boldsymbol{\pi}_{\text{periphery}}$ & $BL_p = \sum_c \ell_{cp}$ \\
 Empirical measure & ECI (second eigenvector) & Column sums of $(I-A)^{-1}$ \\
 Policy implication & Structural change, not just trade & Target high-linkage sectors \\
-This chapter & Thm.~\ref{thm:ECI_gamma}, Thm.~\ref{thm:prebisch_singer} & Prop.~\ref{prop:linkages}, Ex.~\ref{ex:global_linkages} \\
+This chapter & Thm.~\ref{ch16:thm:ECI_gamma}, Thm.~\ref{ch16:thm:prebisch_singer} & Prop.~\ref{ch16:prop:linkages}, Ex.~\ref{ch16:ex:global_linkages} \\
 Product space role & Country position on the map & The map itself \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Prebisch wrote from Buenos Aires in 1949. Hirschman wrote from Bogot\'{a} in 1958 (he had served as an economic advisor in Colombia). Neither had trade data for 5,000 products, dimensionality-reduction algorithms, or the spectral theory needed to formalize their intuitions. What they had was the intuition that the global economy has a structure, that the structure determines who benefits from trade, and that the structure can be changed by policy. The ECI and the product space are the empirical realization of their program. This chapter gives both programs their eigenvalues.
@@ -600,6 +537,5 @@ Prebisch wrote from Buenos Aires in 1949. Hirschman wrote from Bogot\'{a} in 195
 \textbf{Global input-output:} OECD ICIO tables (\texttt{oecd.org/sti/ind/inter-country-input-output-tables.htm}). Timmer et al.\ (2015), ``An Illustrated User Guide to the World Input-Output Database,'' \textit{Review of International Economics}.
 
 \textbf{The structuralist tradition:} Prebisch (1949), the manifesto. Hirschman (1958), \textit{The Strategy of Economic Development}, Chapters~6--7. Singer (1950), ``The Distribution of Gains between Investing and Borrowing Countries,'' \textit{AER}.
-
 
 \end{document}

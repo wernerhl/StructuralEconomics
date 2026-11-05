@@ -1,73 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{float}
-\usepackage{array}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\newcommand{\K}{\mathbf{K}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\Cov}{Cov}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 4: What the Standard Model Assumes}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 4} \\[0.5em]
-\LARGE What the Standard Model Assumes \\[0.3em]
-\large\textit{Six Properties of One Matrix}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{3}}{}
+\chapter{What the Standard Model Assumes}\label{ch:04}
+\chaptersubtitle{Six Properties of One Matrix}
 \begin{quote}
 \textit{``El subdesarrollo no es un `momento' ni una `etapa' en la evoluci\'{o}n de una sociedad aislada y aut\'{o}noma, sino parte del proceso hist\'{o}rico global de desarrollo del capitalismo.''}\\[0.3em]
 \textnormal{[``Underdevelopment is not a `moment' or a `stage' in the evolution of an isolated and autonomous society, but part of the global historical process of capitalist development.'']}\\
@@ -85,12 +20,12 @@ This is the hinge. Part~I ends here. Part~II begins with $W$ as an object to be 
 
 %% =====================================================================
 \section{The Six Assumptions}
-\label{sec:six}
+\label{ch04:sec:six}
 %% =====================================================================
 
 Recall from Chapter~1 that the competitive interaction matrix $W^{CE} = \frac{1}{N}\ones\ones'$ has five properties: doubly stochastic, symmetric, rank~1, equal centrality, maximal spectral gap. To these we add a sixth assumption that is not a property of $W^{CE}$ itself but of the model that uses it: preferences are exogenous.
 
-\begin{definition}[The Six Assumptions of the Standard Model]\label{def:six}
+\begin{definition}[The Six Assumptions of the Standard Model]\label{ch04:def:six}
 The standard competitive model assumes:
 \begin{enumerate}
 \item[\textbf{A1.}] \textbf{No utility externalities.} $W^U = 0$ (or equivalently $\gamma_U = 0$). Agent $i$'s utility depends only on $x_i$.
@@ -107,7 +42,7 @@ We now examine each assumption in detail.
 
 %% =====================================================================
 \section{A1: No Utility Externalities ($W^U = 0$)}
-\label{sec:A1}
+\label{ch04:sec:A1}
 %% =====================================================================
 
 \subsection{The Formal Condition}
@@ -126,9 +61,9 @@ Large anonymous markets for standardized goods. The buyer of a barrel of oil on 
 
 \textbf{Network effects.} Adoption of a technology by agent $j$ raises the value of the technology for agent $i$ (telephones, social media, payment systems). $W^U_{ij} > 0$ for complementary users.
 
-\begin{proposition}[Welfare Cost of Ignoring $W^U$]\label{prop:A1_cost}
+\begin{proposition}[Welfare Cost of Ignoring $W^U$]\label{ch04:prop:A1_cost}
 When $W^U \neq 0$ and $\gamma_U > 0$, the competitive equilibrium (which ignores $W^U$) generates a welfare loss of:
-\begin{equation}\label{eq:A1_loss}
+\begin{equation}\label{ch04:eq:A1_loss}
 L_{A1} = \gamma_U^2 \cdot \Var(c_j^U) \cdot \Psi,
 \end{equation}
 where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality in the utility network (Chapter~2, Proposition~2.4).
@@ -139,7 +74,7 @@ where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality i
 
 %% =====================================================================
 \section{A2: Exogenous Production Structure ($W^P$ Given)}
-\label{sec:A2}
+\label{ch04:sec:A2}
 %% =====================================================================
 
 \subsection{The Formal Condition}
@@ -158,7 +93,7 @@ Short-run analysis. In a given year, a steel plant requires a specific amount of
 
 \textbf{FDI and global value chains.} When a multinational opens an assembly plant, it inserts new rows and columns into the domestic $A$, connecting the domestic economy to the global production network. The entries of $A$ reflect corporate decisions, not just technology.
 
-\begin{proposition}[Endogenous $W^P$ Changes the Growth Trajectory]\label{prop:A2_growth}
+\begin{proposition}[Endogenous $W^P$ Changes the Growth Trajectory]\label{ch04:prop:A2_growth}
 In the multi-sector growth model of Chapter~3, a change $\Delta A$ in the technical coefficients shifts the steady-state capital vector by:
 \begin{equation}
 \Delta \K^* \approx S(I - \gamma W^P)^{-1} \cdot \gamma \Delta A \cdot (I - \gamma W^P)^{-1} \mathbf{f}(\K^*) \cdot (\text{Jacobian terms}).
@@ -171,7 +106,7 @@ The effect is amplified by the Leontief inverse \textit{twice} --- once for the 
 
 %% =====================================================================
 \section{A3: No Information Network ($W^I$ Absent)}
-\label{sec:A3}
+\label{ch04:sec:A3}
 %% =====================================================================
 
 \subsection{The Formal Condition}
@@ -190,7 +125,7 @@ Financial markets with mandatory disclosure, standardized goods with transparent
 
 \textbf{Aspiration formation.} The girl in Potos\'{i} does not observe the ``true'' return to education. She observes the returns \textit{in her network} --- her mother, her school friends, her cousin in Buenos Aires, her TikTok feed. Her perceived returns are $W^I$-weighted averages of the returns experienced by her reference group. This shapes her aspirations, her investment in education, and ultimately her economic outcomes.
 
-\begin{proposition}[Epistemic Power and Belief Convergence]\label{prop:A3_beliefs}
+\begin{proposition}[Epistemic Power and Belief Convergence]\label{ch04:prop:A3_beliefs}
 Under DeGroot learning on an information network $W^I$ (row-stochastic, irreducible, aperiodic):
 \begin{equation}
 \lim_{t \to \infty} \mathbf{b}^{(t)} = (\boldsymbol{\pi}^I)' \mathbf{b}^{(0)} \cdot \ones,
@@ -203,7 +138,7 @@ where $\boldsymbol{\pi}^I$ is the left Perron eigenvector of $W^I$. The long-run
 
 %% =====================================================================
 \section{A4: Anonymous Market Interaction ($W^{\text{market}} = \frac{1}{N}\ones\ones'$)}
-\label{sec:A4}
+\label{ch04:sec:A4}
 %% =====================================================================
 
 \subsection{The Formal Condition}
@@ -222,7 +157,7 @@ Markets with many small agents, homogeneous goods, free entry and exit, and comp
 
 \textbf{Bargaining.} In thin markets (few participants, differentiated goods, relationship-specific investments), prices are determined by bilateral bargaining rather than anonymous market clearing. The allocation depends on relative bargaining power, which is a function of the network position (Chapter~7).
 
-\begin{proposition}[Welfare Loss from Market Power]\label{prop:A4_loss}
+\begin{proposition}[Welfare Loss from Market Power]\label{ch04:prop:A4_loss}
 When $W^{\text{market}} \neq \frac{1}{N}\ones\ones'$, the competitive equilibrium does not obtain. The bargaining equilibrium (Chapter~7) generates allocations:
 \begin{equation}
 x_i^* = \frac{\Omega}{N} + \frac{1}{\kappa}\left(\pi_i(W) - \frac{1}{N}\right),
@@ -235,7 +170,7 @@ with welfare loss $L_{A4} = \frac{\kappa N}{2}\Var(\pi_i)\Phi^2$ (Chapter~2, Pro
 
 %% =====================================================================
 \section{A5: Equal Power ($\boldsymbol{\pi} = \frac{1}{N}\ones$)}
-\label{sec:A5}
+\label{ch04:sec:A5}
 %% =====================================================================
 
 \subsection{The Formal Condition}
@@ -250,9 +185,9 @@ Economies where interactions are dense, symmetric, and relatively uniform. Small
 
 Everywhere that A1--A4 fail. Unequal power is not a separate assumption --- it is the \textit{consequence} of any departure from A1--A4. When $W^U$ has clustered externalities, $W^P$ is block-diagonal, $W^I$ is star-shaped, or $W^{\text{market}}$ is concentrated, the composite $W$ is not doubly stochastic, and $\boldsymbol{\pi} \neq \frac{1}{N}\ones$.
 
-\begin{proposition}[Power Decomposition]\label{prop:A5_decomp}
+\begin{proposition}[Power Decomposition]\label{ch04:prop:A5_decomp}
 The Perron eigenvector of the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ satisfies:
-\begin{equation}\label{eq:power_decomp}
+\begin{equation}\label{ch04:eq:power_decomp}
 \pi_i = \alpha_U \underbrace{\sum_j \pi_j W^U_{ji}}_{\text{social power}} + \alpha_P \underbrace{\sum_j \pi_j W^P_{ji}}_{\text{production power}} + \alpha_I \underbrace{\sum_j \pi_j W^I_{ji}}_{\text{epistemic power}}.
 \end{equation}
 An agent's total power is the weighted sum of power directed toward her through all three channels: how much powerful agents care about her ($W^U$), depend on her output ($W^P$), and listen to her signals ($W^I$).
@@ -267,7 +202,7 @@ The equation is self-referential: $\pi_i$ depends on $\pi_j$ for all $j$ who poi
 
 %% =====================================================================
 \section{A6: Exogenous Preferences ($\theta_i$ Fixed)}
-\label{sec:A6}
+\label{ch04:sec:A6}
 %% =====================================================================
 
 \subsection{The Formal Condition}
@@ -288,9 +223,9 @@ Short-run analysis with stable social environments. If nothing in the agent's in
 
 \textbf{Advertising and media.} $W^I$ is deliberately shaped by actors who benefit from specific preference configurations. Beverage companies don't advertise to inform; they advertise to change $\theta$.
 
-\begin{proposition}[The Formation Equation (Preview)]\label{prop:A6_formation}
+\begin{proposition}[The Formation Equation (Preview)]\label{ch04:prop:A6_formation}
 When $\theta_i$ evolves according to the information network:
-\begin{equation}\label{eq:formation_preview}
+\begin{equation}\label{ch04:eq:formation_preview}
 \theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta} + \mu\left(\sum_j W^I_{ij} r_{j,t} - r^*\right),
 \end{equation}
 where $\rho \in (0,1)$ is persistence, $\bar{\theta}$ is a long-run anchor, $r_{j,t}$ is the return observed from agent $j$, and $r^*$ is the reference return. The term $\sum_j W^I_{ij} r_{j,t}$ is the $W^I$-weighted average of observed returns: what you see depends on who you watch.
@@ -303,7 +238,7 @@ This equation is developed in full in Chapter~10. Its key implication: \textit{t
 
 %% =====================================================================
 \section{The Assumptions Together}
-\label{sec:together}
+\label{ch04:sec:together}
 %% =====================================================================
 
 \begin{vizpanel}{Six assumptions, one heatmap}
@@ -335,7 +270,7 @@ This equation is developed in full in Chapter~10. Its key implication: \textit{t
 
 The six assumptions are not independent. They form a logical hierarchy:
 
-\begin{proposition}[The Hierarchy of Assumptions]\label{prop:hierarchy}
+\begin{proposition}[The Hierarchy of Assumptions]\label{ch04:prop:hierarchy}
 \begin{enumerate}
 \item A1--A3 are about the \textbf{existence} of the three networks. The standard model denies that $W^U$ matters, takes $W^P$ as exogenous, and ignores $W^I$ entirely.
 \item A4 is about the \textbf{symmetry} of the market mechanism. Given that $W^U$ and $W^I$ are absent, the remaining interaction (through prices) is assumed to be anonymous and equal.
@@ -355,7 +290,7 @@ Structural economics is the systematic relaxation of this sentence.
 
 %% =====================================================================
 \section{The Structural Program}
-\label{sec:program}
+\label{ch04:sec:program}
 %% =====================================================================
 
 Part~II of this book introduces the three networks ($W^U$, $W^P$, $W^I$) as distinct objects, derives power from the Perron eigenvector, and computes the bargaining equilibrium --- relaxing A1, A3, A4, and A5.
@@ -386,12 +321,12 @@ Each row of this table is a chapter (or group of chapters). Each cell is a resea
 
 %% =====================================================================
 \section{How Far Is the Real World from $W^{CE}$?}
-\label{sec:how_far}
+\label{ch04:sec:how_far}
 %% =====================================================================
 
 A natural question: are we tilting at windmills? How badly do the assumptions fail in practice?
 
-\begin{proposition}[Empirical Departures]\label{prop:empirical}
+\begin{proposition}[Empirical Departures]\label{ch04:prop:empirical}
 For each assumption, we can define a scalar measure of departure and estimate it from data:
 \begin{center}
 \begin{tabular}{clcc}
@@ -486,7 +421,7 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch04:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -504,7 +439,7 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch04:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{4.\arabic*}, leftmargin=3em]
@@ -563,7 +498,7 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 
 \subsection*{Appendix 4A: Composite Matrices and Their Perron Eigenvectors}
 \addcontentsline{toc}{subsection}{Appendix 4A: Composite Matrices}
-\label{app:composite}
+\label{ch04:app:composite}
 
 \paragraph{The composite.} Given three nonnegative matrices $W^U, W^P, W^I$ (each $N \times N$) and weights $\alpha_U + \alpha_P + \alpha_I = 1$ with $\alpha_k \geq 0$:
 \begin{equation}
@@ -597,7 +532,7 @@ Their argument maps directly onto the six assumptions of this chapter.
 \textbf{Part 3: The theory is part of the structure.} Sunkel and Paz argued --- anticipating Quijano by three decades --- that the economic theories taught at the center and exported to the periphery are not neutral analytical tools but products of the center's structural position. The theory of comparative advantage, the Heckscher-Ohlin model, the welfare theorems --- these are theorems about $W = \frac{1}{N}\ones\ones'$, which is the center's idealization of a world that serves the center's interests. Teaching these theorems in La Paz without noting that they assume a specific $W$ is an act of epistemic power: it naturalizes the assumption that makes the welfare theorems hold, thereby legitimating the structure that the theorems describe.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Sunkel \& Paz's argument} & \textbf{This chapter's assumption} & \textbf{Formal object} \\
 \midrule
@@ -607,7 +542,7 @@ National disintegration & A4: market not symmetric & Block-diagonal domestic $W$
 Transnational integration & A2: $W^P$ changes endogenously & Elite cross-border linkages \\
 Theory is part of structure & A6: preferences exogenous & $W^I$ shapes beliefs about theory \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Sunkel and Paz's book is the structuralist critique organized as a textbook. This chapter is the same critique organized as a table of matrix properties. The mathematics adds precision; the diagnosis was always theirs.
@@ -627,6 +562,5 @@ Sunkel and Paz's book is the structuralist critique organized as a textbook. Thi
 \textbf{Endogenous preferences:} Bowles (1998), ``Endogenous Preferences: The Cultural Consequences of Markets and Other Economic Institutions,'' \textit{JEL}; Bisin and Verdier (2001), ``The Economics of Cultural Transmission and the Dynamics of Preferences,'' \textit{JET}.
 
 \textbf{The structuralist critique:} Sunkel and Paz (1970), \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}, M\'{e}xico: Siglo XXI / ILPES (the definitive systematic treatment; the full text in Spanish is available through CEPAL's digital repository). Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina,'' \textit{Estudios Internacionales} 4(16), pp.~3--61.
-
 
 \end{document}

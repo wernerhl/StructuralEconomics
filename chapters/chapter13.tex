@@ -1,71 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 13: How Networks Evolve}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 13} \\[0.5em]
-\LARGE How Networks Evolve \\[0.3em]
-\large\textit{The Dynamics of Structural Change}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{12}}{}
+\chapter{How Networks Evolve}\label{ch:13}
+\chaptersubtitle{The Dynamics of Structural Change}
 \begin{quote}
 \textit{``La internacionalizaci\'{o}n de la econom\'{i}a tiene como contrapartida la desintegraci\'{o}n nacional: al mismo tiempo que se van creando v\'{i}nculos intensos entre los n\'{u}cleos din\'{a}micos de los pa\'{i}ses subdesarrollados y el sistema econ\'{o}mico internacional, se van desarticulando los v\'{i}nculos entre esos n\'{u}cleos y el resto de la econom\'{i}a nacional.''}\\[0.3em]
 \textnormal{[``The internationalization of the economy has as its counterpart national disintegration: at the same time that intense links are created between the dynamic nuclei of underdeveloped countries and the international economic system, the links between those nuclei and the rest of the national economy are dismantled.'']}\\
@@ -81,16 +18,16 @@ This chapter develops the general theory of network evolution. The central resul
 
 %% =====================================================================
 \section{Three Mechanisms of Network Change}
-\label{sec:mechanisms}
+\label{ch13:sec:mechanisms}
 %% =====================================================================
 
 \subsection{Edge Creation}
 
 New edges form when agents establish new connections. In $W^P$: a firm opens a supply contract with a new input provider. In $W^U$: a migrant forms a friendship in a new city. In $W^I$: a student enrolls in a university and begins receiving signals from a new reference group.
 
-\begin{definition}[Edge Creation Process]\label{def:creation}
+\begin{definition}[Edge Creation Process]\label{ch13:def:creation}
 The probability that a new edge $(i, j)$ forms in period $t+1$ depends on three factors:
-\begin{equation}\label{eq:creation}
+\begin{equation}\label{ch13:eq:creation}
 \Pr(\Delta W_{ij,t+1} > 0 \mid W_t) = p_0 + p_1 \cdot \underbrace{d(i, j; W_t)}_{\text{network distance}} + p_2 \cdot \underbrace{s(i, j; \x_t^*)}_{\text{surplus from connection}} + p_3 \cdot \underbrace{q(i, j; W^I_t)}_{\text{information about } j},
 \end{equation}
 where:
@@ -110,15 +47,15 @@ The three factors create a strong path dependence. New edges form near existing 
 
 Existing edges break when the surplus from maintaining them turns negative, or when an exogenous shock disrupts the connection.
 
-\begin{definition}[Edge Destruction Process]\label{def:destruction}
+\begin{definition}[Edge Destruction Process]\label{ch13:def:destruction}
 An existing edge $(i, j)$ is destroyed in period $t+1$ with probability:
-\begin{equation}\label{eq:destruction}
+\begin{equation}\label{ch13:eq:destruction}
 \Pr(W_{ij,t+1} = 0 \mid W_{ij,t} > 0) = \delta_0 + \delta_1 \cdot \underbrace{\max(0, -s(i, j; \x_t^*))}_{\text{negative surplus}} + \delta_2 \cdot \underbrace{\sigma_{ij,t}}_{\text{exogenous shock}},
 \end{equation}
 where $\delta_0$ is the baseline destruction rate (natural turnover), $s < 0$ means the link is unprofitable, and $\sigma_{ij,t}$ is an exogenous shock (a crisis, a policy change, a natural disaster that severs a trade route).
 \end{definition}
 
-\begin{example}[Bolivia's Gas Nationalization as Edge Destruction and Creation]\label{ex:gas}
+\begin{example}[Bolivia's Gas Nationalization as Edge Destruction and Creation]\label{ch13:ex:gas}
 Bolivia's nationalization of gas in 2006 was a simultaneous edge destruction and edge creation event in $W^P$:
 
 \textbf{Destruction:} The edges from domestic gas production to foreign MNC headquarters ($W^P_{\text{Bolivia, MNC}}$) were weakened. Foreign companies lost operational control. The profits channel (surplus flowing from Bolivia to MNC shareholders) was partially severed.
@@ -133,9 +70,9 @@ Bolivia's nationalization of gas in 2006 was a simultaneous edge destruction and
 
 The strength of existing edges changes continuously as the economic environment evolves.
 
-\begin{definition}[Edge Reweighting]\label{def:reweighting}
+\begin{definition}[Edge Reweighting]\label{ch13:def:reweighting}
 The weight of an existing edge evolves according to:
-\begin{equation}\label{eq:reweighting}
+\begin{equation}\label{ch13:eq:reweighting}
 W_{ij,t+1} = W_{ij,t} + \eta \cdot \frac{\partial s(i,j)}{\partial W_{ij}} + \nu_{ij,t},
 \end{equation}
 where $\eta > 0$ governs the speed of adjustment and $\nu_{ij,t}$ is noise. Profitable connections strengthen ($\partial s / \partial W > 0$); unprofitable connections weaken.
@@ -144,23 +81,23 @@ where $\eta > 0$ governs the speed of adjustment and $\nu_{ij,t}$ is noise. Prof
 
 %% =====================================================================
 \section{The General Network Evolution Equation}
-\label{sec:evolution}
+\label{ch13:sec:evolution}
 %% =====================================================================
 
 Combining creation, destruction, and reweighting, the network evolves according to:
 
-\begin{definition}[Network Evolution Equation]\label{def:evolution}
-\begin{equation}\label{eq:evolution}
+\begin{definition}[Network Evolution Equation]\label{ch13:def:evolution}
+\begin{equation}\label{ch13:eq:evolution}
 W_{t+1} = \underbrace{(1 - D_t) \circ W_t}_{\text{surviving edges}} + \underbrace{C_t \circ \tilde{W}_{t+1}}_{\text{new edges}} + \underbrace{\eta \cdot S_t}_{\text{reweighting}},
 \end{equation}
 where $\circ$ is the Hadamard (element-wise) product, $D_t$ is the $N \times N$ destruction probability matrix, $C_t$ is the creation probability matrix, $\tilde{W}_{t+1}$ is the weight assigned to newly created edges, and $S_t = [\partial s(i,j)/\partial W_{ij}]$ is the surplus gradient matrix.
 \end{definition}
 
-\begin{theorem}[The Co-Evolutionary System]\label{thm:coevolution}
+\begin{theorem}[The Co-Evolutionary System]\label{ch13:thm:coevolution}
 The complete structural economics model is a co-evolutionary system in $(W_t, \boldsymbol{\theta}_t)$:
 \begin{align}
-\boldsymbol{\theta}_{t+1} &= \Phi(\boldsymbol{\theta}_t; W_t) \quad \text{(formation equation, Chapter~10)}, \label{eq:coev_theta} \\
-W_{t+1} &= \Psi(W_t; \x^*(\boldsymbol{\theta}_t, W_t)) \quad \text{(network evolution equation)}, \label{eq:coev_W}
+\boldsymbol{\theta}_{t+1} &= \Phi(\boldsymbol{\theta}_t; W_t) \quad \text{(formation equation, Chapter~10)}, \label{ch13:eq:coev_theta} \\
+W_{t+1} &= \Psi(W_t; \x^*(\boldsymbol{\theta}_t, W_t)) \quad \text{(network evolution equation)}, \label{ch13:eq:coev_W}
 \end{align}
 where $\x^*(\boldsymbol{\theta}_t, W_t)$ is the bargaining equilibrium at period $t$.
 
@@ -176,12 +113,12 @@ When we analyzed the bargaining equilibrium (Chapters~6--7), we held $W$ and $\b
 
 %% =====================================================================
 \section{Structural Equilibrium}
-\label{sec:structural_eq}
+\label{ch13:sec:structural_eq}
 %% =====================================================================
 
 \subsection{Definition}
 
-\begin{definition}[Structural Equilibrium]\label{def:structural_eq}
+\begin{definition}[Structural Equilibrium]\label{ch13:def:structural_eq}
 A \textbf{structural equilibrium} is a triple $(W^*, \boldsymbol{\theta}^*, \x^*)$ satisfying:
 \begin{enumerate}
 \item $\x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*, \boldsymbol{\omega})$ (bargaining equilibrium),
@@ -191,7 +128,7 @@ A \textbf{structural equilibrium} is a triple $(W^*, \boldsymbol{\theta}^*, \x^*
 All three equations are simultaneously satisfied. The weight matrix produces the allocation and preferences that reproduce the weight matrix.
 \end{definition}
 
-\begin{theorem}[Existence of Structural Equilibrium]\label{thm:existence}
+\begin{theorem}[Existence of Structural Equilibrium]\label{ch13:thm:existence}
 Under regularity conditions (continuous $\Phi$, $\Psi$, $h$; compact domains; bounded weights), at least one structural equilibrium exists.
 \end{theorem}
 
@@ -202,7 +139,7 @@ Define the composite map $\Xi: (W, \boldsymbol{\theta}) \mapsto (\Psi(W; h(\bold
 
 \subsection{Multiple Structural Equilibria}
 
-\begin{proposition}[Multiplicity]\label{prop:multiplicity}
+\begin{proposition}[Multiplicity]\label{ch13:prop:multiplicity}
 The co-evolutionary system generically admits multiple structural equilibria. Two important types:
 
 \textbf{The integrated equilibrium.} $W^*$ has large $\Gamma$ (well-connected), $\boldsymbol{\theta}^*$ is approximately uniform (homogeneous preferences), $\x^*$ is close to equal division. Cross-block edges are sustained by positive surplus. This equilibrium is self-reinforcing: the connected structure produces high returns for all agents, which sustains the preferences that support the connections, which maintains the structure.
@@ -210,7 +147,7 @@ The co-evolutionary system generically admits multiple structural equilibria. Tw
 \textbf{The fragmented equilibrium.} $W^*$ is approximately block-diagonal (small $\Gamma$), $\boldsymbol{\theta}^*$ is stratified (different preferences per block), $\x^*$ is highly unequal. Cross-block edges do not form because the surplus is too low (the traditional block's agents cannot afford the investment needed to link to the modern block). This equilibrium is also self-reinforcing: the disconnected structure produces low returns in the traditional block, which forms low aspirations, which prevents investment in cross-block links, which maintains disconnection.
 \end{proposition}
 
-\begin{example}[Two Structural Equilibria for Bolivia]\label{ex:bolivia_two}
+\begin{example}[Two Structural Equilibria for Bolivia]\label{ch13:ex:bolivia_two}
 $N = 6$: Gas block (agents 1--2), Urban block (agents 3--4), Rural block (agents 5--6). Parameters: $\rho = 0.85$, $\mu = 0.2$, $\eta = 0.05$, $p_1 = 0.3$ (proximity dominates edge creation).
 
 \textbf{Equilibrium A (Fragmented):}
@@ -297,13 +234,13 @@ Same economy, same parameters. Two self-reinforcing structures. Which obtains de
 
 %% =====================================================================
 \section{The Principle of Relatedness}
-\label{sec:relatedness}
+\label{ch13:sec:relatedness}
 %% =====================================================================
 
-The edge creation process (Definition~\ref{def:creation}) implies that new edges form near existing edges. This has a powerful consequence: the network's evolution is path-dependent.
+The edge creation process (Definition~\ref{ch13:def:creation}) implies that new edges form near existing edges. This has a powerful consequence: the network's evolution is path-dependent.
 
-\begin{theorem}[Path Dependence of Network Evolution]\label{thm:path_dependence}
-If edge creation is dominated by proximity ($p_1 \gg p_2, p_3$ in~\eqref{eq:creation}), then:
+\begin{theorem}[Path Dependence of Network Evolution]\label{ch13:thm:path_dependence}
+If edge creation is dominated by proximity ($p_1 \gg p_2, p_3$ in~\eqref{ch13:eq:creation}), then:
 \begin{enumerate}
 \item $W_{t+1}$ is structurally similar to $W_t$: new edges connect agents who are already close in the network.
 \item The spectral gap $\Gamma_t$ changes slowly: $|\Gamma_{t+1} - \Gamma_t| \leq C \cdot \|W_{t+1} - W_t\|$.
@@ -319,7 +256,7 @@ If edge creation is dominated by proximity ($p_1 \gg p_2, p_3$ in~\eqref{eq:crea
 \begin{prebisch}[The principle of relatedness as structural lock-in]
 The principle of relatedness (Hidalgo et al., 2007; Hidalgo, 2021) states that the probability a region enters a new economic activity increases with the number of related activities already present. In the product space, countries diversify into products near their current exports, not into distant products.
 
-This IS Theorem~\ref{thm:path_dependence} applied to $W^P$. The production network evolves through proximity-dominated edge creation: you can produce what is ``near'' what you already produce. Bolivia produces gas (a product on the periphery of the product space, few connections to other products). The nearest products are other extractive commodities (mining, basic chemicals). The distant products are machinery, electronics, pharmaceuticals --- the dense core of the product space where $\Gamma$ is high.
+This IS Theorem~\ref{ch13:thm:path_dependence} applied to $W^P$. The production network evolves through proximity-dominated edge creation: you can produce what is ``near'' what you already produce. Bolivia produces gas (a product on the periphery of the product space, few connections to other products). The nearest products are other extractive commodities (mining, basic chemicals). The distant products are machinery, electronics, pharmaceuticals --- the dense core of the product space where $\Gamma$ is high.
 
 The principle of relatedness is simultaneously the mechanism of industrial deepening (in the center: you diversify into related products, building an ever-denser $W^P$) and the mechanism of structural lock-in (in the periphery: you diversify into related commodities, staying on the sparse periphery of $W^P$). The same mechanism produces integration in the center and fragmentation in the periphery. This is not a paradox --- it is a property of the proximity kernel: diversification follows edges, and the edge structure is dense in the core and sparse on the periphery.
 \end{prebisch}
@@ -327,12 +264,12 @@ The principle of relatedness is simultaneously the mechanism of industrial deepe
 
 %% =====================================================================
 \section{Integration and Disintegration}
-\label{sec:integration}
+\label{ch13:sec:integration}
 %% =====================================================================
 
 \subsection{When Does $\Gamma$ Increase?}
 
-\begin{proposition}[Conditions for Structural Integration]\label{prop:integration}
+\begin{proposition}[Conditions for Structural Integration]\label{ch13:prop:integration}
 $\Gamma_{t+1} > \Gamma_t$ (the spectral gap increases --- the economy becomes more integrated) if and only if the net effect of edge creation, destruction, and reweighting increases the relative weight of cross-block edges compared to within-block edges.
 
 Sufficient conditions:
@@ -345,7 +282,7 @@ Sufficient conditions:
 
 \subsection{When Does $\Gamma$ Decrease?}
 
-\begin{proposition}[Conditions for Structural Disintegration]\label{prop:disintegration}
+\begin{proposition}[Conditions for Structural Disintegration]\label{ch13:prop:disintegration}
 $\Gamma_{t+1} < \Gamma_t$ (the spectral gap decreases --- the economy fragments) when:
 \begin{enumerate}
 \item \textbf{Cross-block edges are destroyed faster than created}: an external shock severs trade routes, a policy closes borders, a financial crisis disrupts supply chains.
@@ -361,9 +298,9 @@ Condition~3 is Sunkel's thesis: \textit{transnational integration and national d
 
 \subsection{A Phase Diagram}
 
-\begin{proposition}[Phase Diagram for $\Gamma$]\label{prop:phase}
+\begin{proposition}[Phase Diagram for $\Gamma$]\label{ch13:prop:phase}
 In the co-evolutionary system, the dynamics of $\Gamma_t$ can be approximated by:
-\begin{equation}\label{eq:gamma_dynamics}
+\begin{equation}\label{ch13:eq:gamma_dynamics}
 \Gamma_{t+1} - \Gamma_t \approx \underbrace{\eta_c \cdot s_{\text{cross}}(W_t, \x^*_t)}_{\text{integration force}} - \underbrace{\eta_d \cdot \delta_{\text{cross}}(W_t)}_{\text{fragmentation force}} - \underbrace{\eta_p \cdot (p_1 - p_1^*)}_{\text{proximity bias}},
 \end{equation}
 where $s_{\text{cross}}$ is the average cross-block surplus, $\delta_{\text{cross}}$ is the cross-block destruction rate, and $p_1 - p_1^*$ measures how much edge creation is proximity-biased relative to the threshold $p_1^*$ that would maintain the current $\Gamma$.
@@ -412,16 +349,16 @@ where $s_{\text{cross}}$ is the average cross-block surplus, $\delta_{\text{cros
 
 %% =====================================================================
 \section{Structural Change as Transition Between Equilibria}
-\label{sec:transition}
+\label{ch13:sec:transition}
 %% =====================================================================
 
-\begin{definition}[Structural Change]\label{def:structural_change}
+\begin{definition}[Structural Change]\label{ch13:def:structural_change}
 \textbf{Structural change} is a transition from one structural equilibrium $(W^*_A, \boldsymbol{\theta}^*_A, \x^*_A)$ to another $(W^*_B, \boldsymbol{\theta}^*_B, \x^*_B)$. The transition occurs when a shock or policy moves the system out of the basin of attraction of $A$ and into the basin of attraction of $B$.
 \end{definition}
 
-\begin{proposition}[The Cost of Structural Change]\label{prop:cost}
+\begin{proposition}[The Cost of Structural Change]\label{ch13:prop:cost}
 The minimum ``push'' required to transition from the fragmented equilibrium $A$ to the integrated equilibrium $B$ is:
-\begin{equation}\label{eq:push}
+\begin{equation}\label{ch13:eq:push}
 \varepsilon^* = \inf\{\|W - W^*_A\|_F : W \in \mathcal{B}(W^*_B)\},
 \end{equation}
 the Frobenius distance from the current equilibrium to the basin boundary of the target equilibrium. This cost is:
@@ -432,9 +369,9 @@ the Frobenius distance from the current equilibrium to the basin boundary of the
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Four Paths to Structural Change]\label{ex:four_paths}
+\begin{example}[Four Paths to Structural Change]\label{ch13:ex:four_paths}
 \begin{center}
-\begin{tabular}{lllc}
+\begin{tabularx}{\textwidth}{LLLc}
 \toprule
 \textbf{Mechanism} & \textbf{Historical example} & \textbf{Network change} & \textbf{$\varepsilon^*$} \\
 \midrule
@@ -443,14 +380,14 @@ Infrastructure & Trans-Siberian railway & Physical cross-block edge & Medium, pe
 Information shock & Mobile phones (Africa) & $W^I$ gains cross-block edges & Small per edge, cumulative \\
 Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustained \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 \end{example}
 
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch13:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -470,7 +407,7 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch13:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{13.\arabic*}, leftmargin=3em]
@@ -483,9 +420,9 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 \item Simulate 20 periods of evolution with and without the subsidy. Plot $\Gamma_t$ in both cases.
 \end{enumerate}
 
-\item \textbf{Structural equilibria.} For the Bolivia two-equilibrium example (Example~\ref{ex:bolivia_two}):
+\item \textbf{Structural equilibria.} For the Bolivia two-equilibrium example (Example~\ref{ch13:ex:bolivia_two}):
 \begin{enumerate}
-\item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{def:structural_eq}).
+\item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{ch13:def:structural_eq}).
 \item Compute the basin boundary: starting from $W^*_A$, increase cross-block entries by $\varepsilon$. At what $\varepsilon$ does the system transition to $W^*_B$?
 \item What is the welfare gain from the transition? Use all four criteria from Chapter~12.
 \end{enumerate}
@@ -503,7 +440,7 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 \item A country currently produces products 1 and 2. Compute relatedness density $\omega_{cp}$ for all 6 products.
 \item Under the principle of relatedness: which product is most likely to be entered next?
 \item If the policy goal is to reach product 5 (on the opposite side of the ring): how many ``steps'' are needed? How many generations (at one step per generation)?
-\item This is the product-space distance. Connect to the escape threshold $\varepsilon^*$ from Proposition~\ref{prop:cost}.
+\item This is the product-space distance. Connect to the escape threshold $\varepsilon^*$ from Proposition~\ref{ch13:prop:cost}.
 \end{enumerate}
 
 \item \textbf{Sunkel's integration/disintegration.} Model a 3-country world (Center, Periphery-Elite, Periphery-Mass) as $N = 3$. Initially $W^P$ is mildly connected. A multinational corporation creates a link between Center and Periphery-Elite:
@@ -541,7 +478,7 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 
 \subsection*{Appendix 13A: Network Distance and Proximity}
 \addcontentsline{toc}{subsection}{Appendix 13A: Network Distance}
-\label{app:distance}
+\label{ch13:app:distance}
 
 \paragraph{Geodesic distance.} The shortest-path distance $d(i, j; W)$ between agents $i$ and $j$ in the weighted network $W$ is the minimum number of edges in any path from $j$ to $i$ (unweighted) or the minimum sum of edge inverses $\sum_{e \in \text{path}} 1/W_e$ (weighted).
 
@@ -552,7 +489,7 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 
 \subsection*{Appendix 13B: Stability of Structural Equilibria}
 \addcontentsline{toc}{subsection}{Appendix 13B: Stability of Structural Equilibria}
-\label{app:stability}
+\label{ch13:app:stability}
 
 \paragraph{The Jacobian of the co-evolutionary system.} At a structural equilibrium $(W^*, \boldsymbol{\theta}^*)$, the linearized system has a block Jacobian:
 \begin{equation}
@@ -573,27 +510,27 @@ Osvaldo Sunkel's 1971 essay ``Capitalismo transnacional y desintegraci\'{o}n nac
 
 Sunkel's argument has three parts.
 
-\textbf{Part 1: Transnational integration creates cross-border elite linkages.} Multinational corporations, international financial institutions, and globally connected professional classes form dense networks that cross national borders. In the notation of this chapter: the edge creation process (Definition~\ref{def:creation}) generates new edges between elite agents in different countries. The global $W^P$ becomes denser among elite nodes. The proximity mechanism (Theorem~\ref{thm:path_dependence}) reinforces these links: once an elite network exists, new members are drawn from agents who are already ``close'' to existing members --- shared education (Harvard, LSE), shared language (English), shared cultural consumption (the same media, the same conferences). The global elite converges to a single information network $W^I_{\text{global elite}}$ with high $N_{\text{eff}}$ and a shared consensus.
+\textbf{Part 1: Transnational integration creates cross-border elite linkages.} Multinational corporations, international financial institutions, and globally connected professional classes form dense networks that cross national borders. In the notation of this chapter: the edge creation process (Definition~\ref{ch13:def:creation}) generates new edges between elite agents in different countries. The global $W^P$ becomes denser among elite nodes. The proximity mechanism (Theorem~\ref{ch13:thm:path_dependence}) reinforces these links: once an elite network exists, new members are drawn from agents who are already ``close'' to existing members --- shared education (Harvard, LSE), shared language (English), shared cultural consumption (the same media, the same conferences). The global elite converges to a single information network $W^I_{\text{global elite}}$ with high $N_{\text{eff}}$ and a shared consensus.
 
 \textbf{Part 2: National disintegration destroys domestic cross-block linkages.} Simultaneously, the elite's domestic connections weaken. The gas executive in La Paz trades with Houston, not with the quinoa farmer in Oruro. His information network connects him to the \textit{Wall Street Journal}, not to Radio Pac\'{i}fica. His children attend international schools, not public schools. Each of these shifts is an edge in $W^P$, $W^U$, or $W^I$ that moves from domestic-cross-block to global-elite. The domestic matrix loses cross-block entries. The domestic $\Gamma$ decreases.
 
-This is Proposition~\ref{prop:disintegration}, condition~3: selective integration. The agents who form cross-border links are precisely the agents who previously served as bridges between domestic blocks. When they exit the domestic network (or reduce their domestic engagement), the domestic blocks lose their only connections. The blocks drift apart.
+This is Proposition~\ref{ch13:prop:disintegration}, condition~3: selective integration. The agents who form cross-border links are precisely the agents who previously served as bridges between domestic blocks. When they exit the domestic network (or reduce their domestic engagement), the domestic blocks lose their only connections. The blocks drift apart.
 
 \textbf{Part 3: The five processes are one process.} Sunkel (together with Paz, 1970) had previously argued that development, underdevelopment, dependency, marginalization, and spatial inequality are ``diverse manifestations of a single process.'' The 1971 essay identified what that process IS: the rewiring of $W$ that simultaneously integrates elites across borders and disintegrates national economies within borders. Every edge created in $W_{\text{global}}$ between an elite node and the international system is, implicitly, an edge weakened in $W_{\text{domestic}}$ between that elite node and the non-elite population. The zero-sum character is not about resources (growth can be positive-sum) but about \textit{attention, links, and structural position}: an agent has a finite capacity for connections, and global connections displace domestic ones.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Sunkel's argument (1971)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Transnational integration & Cross-border edge creation & Def.~\ref{def:creation} \\
-National disintegration & Domestic cross-block edge destruction & Def.~\ref{def:destruction} \\
-Simultaneous process & $\Gamma_{\text{global}} \uparrow$ while $\Gamma_{\text{domestic}} \downarrow$ & Prop.~\ref{prop:disintegration}(3) \\
-Selective integration & Elite bridges exit domestic network & Sec.~\ref{sec:integration} \\
+Transnational integration & Cross-border edge creation & Def.~\ref{ch13:def:creation} \\
+National disintegration & Domestic cross-block edge destruction & Def.~\ref{ch13:def:destruction} \\
+Simultaneous process & $\Gamma_{\text{global}} \uparrow$ while $\Gamma_{\text{domestic}} \downarrow$ & Prop.~\ref{ch13:prop:disintegration}(3) \\
+Selective integration & Elite bridges exit domestic network & Sec.~\ref{ch13:sec:integration} \\
 Five processes, one process & One matrix rewiring, multiple observables & Key Insight \\
-Path dependence & Proximity-dominated edge creation & Thm.~\ref{thm:path_dependence} \\
+Path dependence & Proximity-dominated edge creation & Thm.~\ref{ch13:thm:path_dependence} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Sunkel wrote in 1971, before globalization was a word. The multinational corporations he described were oil companies and mineral extractors; the ``transnational elite'' was the alliance of foreign capital and domestic technocrats. Fifty years later, the MNCs are tech platforms, the transnational elite is the global professional class, and the disintegration is called ``populist backlash'' rather than ``dependency.'' The matrix is different. The mechanism is the same.
@@ -611,6 +548,5 @@ Sunkel wrote in 1971, before globalization was a word. The multinational corpora
 \textbf{Path dependence in economic geography:} Martin and Sunley (2006), ``Path Dependence and Regional Economic Evolution,'' \textit{Journal of Economic Geography}. Boschma and Frenken (2011), ``The Emerging Empirics of Evolutionary Economic Geography,'' \textit{Journal of Economic Geography}.
 
 \textbf{The structuralist tradition on structural change:} Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina,'' \textit{Estudios Internacionales} 4(16). Sunkel (1993), \textit{Development from Within: Toward a Neostructuralist Approach for Latin America}, Lynne Rienner. Ocampo (2009), ``Latin America and the Global Financial Crisis,'' \textit{Cambridge Journal of Economics}.
-
 
 \end{document}

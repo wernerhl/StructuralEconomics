@@ -1,73 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\Cov}{Cov}
-\DeclareMathOperator{\plim}{plim}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 11: The $\Psi$ Ratio: Measuring Formation}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 11} \\[0.5em]
-\LARGE The $\Psi$ Ratio: Measuring Formation \\[0.3em]
-\large\textit{Separating What the Structure Enforces from What It Forms}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{10}}{}
+\chapter{The $\Psi$ Ratio: Measuring Formation}\label{ch:11}
+\chaptersubtitle{Separating What the Structure Enforces from What It Forms}
 \begin{quote}
 \textit{``The important thing in science is not so much to obtain new facts as to discover new ways of thinking about them.''}\\
 \hfill --- William Lawrence Bragg
@@ -84,23 +19,23 @@ This is the chapter where the model meets the data. Every theorem in Chapters~9-
 
 %% =====================================================================
 \section{The Identification Problem}
-\label{sec:identification}
+\label{ch11:sec:identification}
 %% =====================================================================
 
 \subsection{Why It Is Hard}
 
 The econometrician observes behavior $x_{i,t}$ --- how much agent $i$ works, saves, invests in education, or consumes. She wants to decompose $x_{i,t}$ into:
-\begin{equation}\label{eq:decomp_obs}
+\begin{equation}\label{ch11:eq:decomp_obs}
 x_{i,t} = f(\underbrace{p_t, w_{i,t}, Z_{i,t}}_{\text{enforcement: prices, constraints}}, \;\underbrace{\theta_{i,t}}_{\text{preference}}).
 \end{equation}
 
 The problem: $\theta_{i,t}$ is unobservable. It enters the behavior function alongside prices, wages, and constraints. If $\theta$ is correlated with prices (because $W^I$ and $W^P$ overlap, or because the same structural change affects both), the enforcement and formation effects are confounded.
 
-\begin{example}[The Confound]\label{ex:confound}
+\begin{example}[The Confound]\label{ch11:ex:confound}
 Bolivia opens a gas pipeline to a rural region. Two things happen simultaneously: (1) local wages rise (enforcement: the bargaining equilibrium shifts because $W^P$ changed), and (2) young people observe higher returns to modern-sector work (formation: $W^I$ signals shift, eventually changing $\theta$). The econometrician who regresses labor supply on wages captures the enforcement effect but attributes zero to formation --- or worse, attributes the formation effect to wages (upward bias on the enforcement coefficient).
 \end{example}
 
-\begin{proposition}[The Identification Challenge]\label{prop:challenge}
+\begin{proposition}[The Identification Challenge]\label{ch11:prop:challenge}
 In a standard cross-sectional regression $x_{i,t} = \beta p_t + \gamma Z_{i,t} + \varepsilon_{i,t}$, the error term $\varepsilon_{i,t}$ contains $\theta_{i,t}$. If $\theta_{i,t}$ is correlated with $p_t$ or $Z_{i,t}$ (which it generically is when the same structural change affects prices and signals), then $\hat{\beta}$ and $\hat{\gamma}$ are biased.
 
 The direction of bias: if structural change raises both prices (enforcement) and aspirations (formation), the enforcement coefficient $\hat{\beta}$ captures part of the formation effect and is biased upward. The standard model overstates enforcement and understates formation.
@@ -111,16 +46,16 @@ The direction of bias: if structural change raises both prices (enforcement) and
 
 The key insight: enforcement and formation operate on different timescales.
 
-\begin{definition}[Timescale Separation in Data]\label{def:timescale_data}
+\begin{definition}[Timescale Separation in Data]\label{ch11:def:timescale_data}
 \begin{enumerate}
 \item \textbf{Enforcement variation}: within a cohort, across time. Agents born in the same year face different prices at different points in their life. This variation identifies the behavioral response at fixed preferences, because preferences were formed before the price change.
 \item \textbf{Formation variation}: across cohorts, within a time period. Agents of different ages observed in the same year have different preferences (because they were exposed to different $W^I$ signals during their formative years). This variation identifies the preference difference, holding current prices constant.
 \end{enumerate}
 \end{definition}
 
-\begin{theorem}[Cohort-Year Decomposition]\label{thm:cohort_year}
+\begin{theorem}[Cohort-Year Decomposition]\label{ch11:thm:cohort_year}
 Let $x_{i,c,t}$ be the behavior of agent $i$ from cohort $c$ at time $t$. The formation model implies:
-\begin{equation}\label{eq:cohort_year}
+\begin{equation}\label{ch11:eq:cohort_year}
 x_{i,c,t} = \underbrace{\alpha_t + \beta p_t + \gamma Z_{i,t}}_{\text{year effects (enforcement)}} + \underbrace{\delta_c}_{\text{cohort effect (formation)}} + \underbrace{\eta_{i,c,t}}_{\text{residual}},
 \end{equation}
 where:
@@ -130,7 +65,7 @@ where:
 \end{itemize}
 
 The $\Psi$ ratio is estimated as:
-\begin{equation}\label{eq:psi_estimate}
+\begin{equation}\label{ch11:eq:psi_estimate}
 \hat{\Psi} = \frac{\Var(\hat{\delta}_c)}{\Var(\hat{\alpha}_t + \hat{\beta}p_t)}.
 \end{equation}
 \end{theorem}
@@ -138,16 +73,16 @@ The $\Psi$ ratio is estimated as:
 
 %% =====================================================================
 \section{The Epidemiological Approach}
-\label{sec:epidemiological}
+\label{ch11:sec:epidemiological}
 %% =====================================================================
 
 \subsection{The Idea}
 
 The cleanest identification of formation effects comes from migrants. A woman who migrated from country $A$ to country $B$ faces country $B$'s prices and constraints (enforcement) but carries country $A$'s preferences (formation). Her behavior reveals the interaction of $A$'s formation with $B$'s enforcement.
 
-\begin{definition}[Epidemiological Regression]\label{def:epi}
+\begin{definition}[Epidemiological Regression]\label{ch11:def:epi}
 For female labor force participation of second-generation immigrant women (born and raised in country $B$, parents from country $A$):
-\begin{equation}\label{eq:epi}
+\begin{equation}\label{ch11:eq:epi}
 \text{LFP}_{i,A,B,t} = \alpha + \beta \cdot \text{LFP}_{A,t_0} + \gamma \cdot Z_{i,B,t} + \varepsilon_{i,t},
 \end{equation}
 where $\text{LFP}_{A,t_0}$ is the female labor force participation rate in the mother's country of origin at the time the mother emigrated.
@@ -155,7 +90,7 @@ where $\text{LFP}_{A,t_0}$ is the female labor force participation rate in the m
 
 The key coefficient is $\beta$: the sensitivity of daughter's LFP to mother's origin-country LFP, controlling for current country conditions $Z_{i,B,t}$. If $\beta = 0$: preferences don't matter, only prices (enforcement only, $\Psi = 0$). If $\beta > 0$: the mother's cultural background affects the daughter's behavior even in a different country --- formation is operating.
 
-\begin{theorem}[Identification via Epidemiological Design]\label{thm:epi_id}
+\begin{theorem}[Identification via Epidemiological Design]\label{ch11:thm:epi_id}
 Under the assumptions: (1) origin-country LFP proxies for the formation signal the mother received, (2) the daughter's current prices $Z_{i,B,t}$ are uncorrelated with origin-country LFP conditional on controls, and (3) no direct effect of origin-country conditions on the daughter except through preferences:
 \begin{equation}
 \hat{\beta} = \frac{\partial \text{LFP}_{\text{daughter}}}{\partial \theta_{\text{mother}}} \cdot \frac{\partial \theta_{\text{mother}}}{\partial \text{LFP}_{A}} \approx \rho \cdot \frac{\partial \text{LFP}}{\partial \theta},
@@ -170,7 +105,7 @@ All second-generation women in country $B$ face the same prices, the same laws, 
 
 \subsection{Empirical Results: Female Labor Force Participation}
 
-\begin{proposition}[Fern\'{a}ndez (2013) Results in Formation Notation]\label{prop:fernandez}
+\begin{proposition}[Fern\'{a}ndez (2013) Results in Formation Notation]\label{ch11:prop:fernandez}
 Using data on second-generation American women (Current Population Survey, 1970--2000) with mothers from 60+ origin countries:
 \begin{enumerate}
 \item $\hat{\beta} = 0.40$ (SE = 0.08): a 10 percentage-point increase in origin-country female LFP is associated with a 4 pp increase in daughter's LFP in the US.
@@ -180,7 +115,7 @@ Using data on second-generation American women (Current Population Survey, 1970-
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Computing $\hat{\Psi}$ for Female LFP]\label{ex:psi_lfp}
+\begin{example}[Computing $\hat{\Psi}$ for Female LFP]\label{ch11:ex:psi_lfp}
 From Fern\'{a}ndez (2013) and Fogli-Veldkamp (2011):
 
 Total variance of female LFP across cohort-year cells in the US, 1940--2000: $\Var(x_{c,t}) = 0.042$.
@@ -200,14 +135,14 @@ The formation effect is twice the enforcement effect. For every 1 pp of LFP incr
 
 %% =====================================================================
 \section{Four Applications}
-\label{sec:applications}
+\label{ch11:sec:applications}
 %% =====================================================================
 
 \subsection{Application 1: Savings Rates Across Countries}
 
 The cross-country variance of savings rates cannot be explained by interest rates, income, and demographic structure alone. A large residual remains --- conventionally attributed to ``cultural differences'' without being measured.
 
-\begin{proposition}[Formation in Savings Behavior]\label{prop:savings}
+\begin{proposition}[Formation in Savings Behavior]\label{ch11:prop:savings}
 Using the Global Preferences Survey (Falk et al., 2018) linked to national accounts:
 \begin{enumerate}
 \item Time preference (patience) varies by a factor of 3 across countries at similar income levels.
@@ -220,7 +155,7 @@ Using the Global Preferences Survey (Falk et al., 2018) linked to national accou
 
 \subsection{Application 2: Educational Aspirations in Sub-Saharan Africa}
 
-\begin{proposition}[Formation in Education]\label{prop:education}
+\begin{proposition}[Formation in Education]\label{ch11:prop:education}
 Using DHS data from 28 sub-Saharan African countries (2005--2020):
 \begin{enumerate}
 \item Mother's education is the strongest predictor of daughter's education, controlling for income, distance to school, and school quality ($\hat{\beta}_{\text{mother}} = 0.45$, SE = 0.03).
@@ -233,7 +168,7 @@ Using DHS data from 28 sub-Saharan African countries (2005--2020):
 
 \subsection{Application 3: Risk-Taking After Financial Crises}
 
-\begin{proposition}[Formation in Risk Attitudes]\label{prop:risk}
+\begin{proposition}[Formation in Risk Attitudes]\label{ch11:prop:risk}
 Using Malmendier and Nagel (2011) data (Survey of Consumer Finances, 1964--2004):
 \begin{enumerate}
 \item Individuals who experienced low stock returns during ages 18--25 hold a smaller share of their portfolio in equities decades later ($\hat{\beta}_{\text{experience}} = -0.024$ per SD of experienced return, SE = 0.006).
@@ -246,7 +181,7 @@ Using Malmendier and Nagel (2011) data (Survey of Consumer Finances, 1964--2004)
 
 \subsection{Application 4: Entrepreneurship Norms in Bolivia}
 
-\begin{proposition}[Formation in Self-Employment]\label{prop:bolivia}
+\begin{proposition}[Formation in Self-Employment]\label{ch11:prop:bolivia}
 Using Bolivia's Encuesta de Hogares (2000--2019):
 \begin{enumerate}
 \item Self-employment rates vary from 30\% (Santa Cruz) to 65\% (rural altiplano), controlling for income, education, and sector.
@@ -284,14 +219,14 @@ Using Bolivia's Encuesta de Hogares (2000--2019):
 
 %% =====================================================================
 \section{Estimating the Formation Parameters}
-\label{sec:estimation}
+\label{ch11:sec:estimation}
 %% =====================================================================
 
 \subsection{From $\hat{\Psi}$ to $(\hat{\rho}, \hat{\mu})$}
 
 The $\Psi$ ratio is a reduced-form object. To recover the structural parameters of the formation equation ($\rho$, $\mu$, $\bar{\theta}_0$), we need additional moments from the data.
 
-\begin{proposition}[Identification of Formation Parameters]\label{prop:id_params}
+\begin{proposition}[Identification of Formation Parameters]\label{ch11:prop:id_params}
 The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum_j W^I_{ij} r_{j,t} - r^*)$ is identified by three moments:
 \begin{enumerate}
 \item \textbf{Intergenerational correlation of behavior}: $\text{Corr}(x_{\text{daughter}}, x_{\text{mother}}) = \rho \cdot (\partial f / \partial \theta)^2 / \Var(x) + \text{enforcement correlation}$. After removing the enforcement correlation (using within-year variation), the residual identifies $\rho$.
@@ -302,7 +237,7 @@ The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Estimating $(\hat{\rho}, \hat{\mu})$ for Female LFP]\label{ex:rho_mu}
+\begin{example}[Estimating $(\hat{\rho}, \hat{\mu})$ for Female LFP]\label{ch11:ex:rho_mu}
 From the US LFP data:
 \begin{enumerate}
 \item \textbf{Intergenerational correlation}: $\text{Corr}(\text{LFP}_{\text{daughter}}, \text{LFP}_{\text{mother}}) \approx 0.35$ (conditional on year, education, income). Backing out: $\hat{\rho} \approx 0.62$.
@@ -331,7 +266,7 @@ $\hat{\Psi}$ & 2.08 & 0.45 & Formation $>$ enforcement \\
 
 For the full formation model of Chapter~10, the structural parameters $(\rho, \mu, \bar{\theta}_0, \boldsymbol{\beta}, \boldsymbol{\gamma})$ can be estimated by maximum likelihood or GMM.
 
-\begin{definition}[GMM Estimation of the Formation Model]\label{def:gmm}
+\begin{definition}[GMM Estimation of the Formation Model]\label{ch11:def:gmm}
 The moment conditions exploit the two-timescale structure:
 
 \textbf{Within-generation moments} (identify enforcement parameters $\boldsymbol{\beta}, \boldsymbol{\gamma}$):
@@ -358,7 +293,7 @@ The key: Stage 1 uses within-period variation (enforcement). Stage 2 uses across
 
 %% =====================================================================
 \section{Threats to Identification}
-\label{sec:threats}
+\label{ch11:sec:threats}
 %% =====================================================================
 
 \subsection{Threat 1: Correlated Shocks}
@@ -388,7 +323,7 @@ Preferences may be genetically transmitted rather than culturally transmitted. I
 
 \textbf{Response}: Adoption studies show substantial cultural transmission even absent genetic links (Sacerdote, 2007). Twin studies estimate the genetic component of preference parameters at 20--40\%, leaving 60--80\% for environmental/cultural channels (Cesarini et al., 2009). The formation model captures the 60--80\%.
 
-\begin{proposition}[Bounds on $\hat{\Psi}$ Under Identification Threats]\label{prop:bounds}
+\begin{proposition}[Bounds on $\hat{\Psi}$ Under Identification Threats]\label{ch11:prop:bounds}
 Under plausible ranges for each threat, the bias-adjusted bounds on $\hat{\Psi}$ for female LFP are:
 \begin{center}
 \begin{tabular}{lcc}
@@ -409,10 +344,10 @@ Even under worst-case assumptions, $\hat{\Psi} > 1$: formation exceeds enforceme
 
 %% =====================================================================
 \section{What $\hat{\Psi}$ Tells Us About Policy}
-\label{sec:policy}
+\label{ch11:sec:policy}
 %% =====================================================================
 
-\begin{proposition}[Policy Implications of $\hat{\Psi}$]\label{prop:policy}
+\begin{proposition}[Policy Implications of $\hat{\Psi}$]\label{ch11:prop:policy}
 \begin{enumerate}
 \item \textbf{When $\hat{\Psi} < 0.5$}: Enforcement dominates. Standard policy tools (prices, subsidies, regulations) capture most of the effect. The standard model is adequate for policy evaluation. Example: risk-taking after financial crises.
 
@@ -444,7 +379,7 @@ The $\Psi$ ratio explains why: for the behaviors targeted by structural adjustme
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch11:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -464,7 +399,7 @@ The $\Psi$ ratio explains why: for the behaviors targeted by structural adjustme
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch11:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{11.\arabic*}, leftmargin=3em]
@@ -546,7 +481,7 @@ Born 1960s & 0.60 & 0.66 & 0.72 \\
 
 \subsection*{Appendix 11A: The Cohort-Year Regression}
 \addcontentsline{toc}{subsection}{Appendix 11A: Cohort-Year Regression}
-\label{app:cohort_year}
+\label{ch11:app:cohort_year}
 
 \paragraph{The model.} Consider a panel of $N$ individuals observed across $T$ years, belonging to $C$ cohorts (defined by birth decade). The behavior of individual $i$ in cohort $c$ at time $t$:
 \begin{equation}
@@ -564,7 +499,7 @@ where $\alpha_{t'}$ are year fixed effects and $\delta_{c'}$ are cohort fixed ef
 
 \subsection*{Appendix 11B: The Epidemiological Estimator}
 \addcontentsline{toc}{subsection}{Appendix 11B: Epidemiological Estimator}
-\label{app:epi}
+\label{ch11:app:epi}
 
 \paragraph{Setup.} Individual $i$ from origin $o$ in host country $h$ at time $t$:
 \begin{equation}
@@ -599,6 +534,5 @@ where the numerator is the variance explained by origin (formation) and the deno
 \textbf{Gene-culture interaction:} Cesarini et al.\ (2009), ``Genetic Variation in Preferences for Giving and Risk Taking,'' \textit{QJE}. Sacerdote (2007), ``How Large Are the Effects from Changes in Family Environment?'' \textit{QJE}.
 
 \textbf{Structural adjustment:} Williamson (1990), ``What Washington Means by Policy Reform.'' Rodrik (2006), ``Goodbye Washington Consensus, Hello Washington Confusion,'' \textit{JEL}. For Bolivia: Morales and Sachs (1990), ``Bolivia's Economic Crisis,'' in Sachs (ed.), \textit{Developing Country Debt and the World Economy}.
-
 
 \end{document}

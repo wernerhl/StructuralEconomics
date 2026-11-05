@@ -1,71 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 19: Scale Invariance --- Five Processes, One Process}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 19} \\[0.5em]
-\LARGE Scale Invariance \\[0.3em]
-\large\textit{Five Processes, One Process}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{18}}{}
+\chapter{Scale Invariance}\label{ch:19}
+\chaptersubtitle{Five Processes, One Process}
 \begin{quote}
 \textit{``El desarrollo, el subdesarrollo, la dependencia, la marginalidad y la desigualdad espacial son manifestaciones diversas de un proceso \'{u}nico.''}\\[0.3em]
 \textnormal{[``Development, underdevelopment, dependence, marginality, and spatial inequality are diverse manifestations of a single process.'']}\\
@@ -83,7 +20,7 @@ Sunkel and Paz (1970) stated this in prose: development, underdevelopment, depen
 
 %% =====================================================================
 \section{The Three Scales}
-\label{sec:three_scales}
+\label{ch19:sec:three_scales}
 %% =====================================================================
 
 \subsection{Notation}
@@ -110,7 +47,7 @@ Each scale has its own weight matrices $(W^P_s, W^I_s, W^U_s)$ for $s \in \{G, N
 
 \subsection{The Same Structure at Every Scale}
 
-\begin{proposition}[Structural Isomorphism Across Scales]\label{prop:isomorphism}
+\begin{proposition}[Structural Isomorphism Across Scales]\label{ch19:prop:isomorphism}
 At all three scales, the weight matrix satisfies:
 \begin{enumerate}
 \item \textbf{Not doubly stochastic}: column sums vary widely. $\max_j \sum_i W_{ij} / \min_j \sum_i W_{ij} \gg 1$.
@@ -121,9 +58,9 @@ At all three scales, the weight matrix satisfies:
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Bolivia at Three Scales]\label{ex:bolivia_three}
+\begin{example}[Bolivia at Three Scales]\label{ch19:ex:bolivia_three}
 \begin{center}
-\begin{tabular}{lccc}
+\begin{tabularx}{\textwidth}{Lccc}
 \toprule
 Property & Global & National & Individual \\
 \midrule
@@ -133,7 +70,7 @@ Number of blocks & 3 (core/semi/periph) & 3 (gas/formal/informal) & 3+ (gender $
 $\sigma_B$ & $\approx 0.55$ & 0.62 & $\approx 0.50$ \\
 $N_{\text{eff}}(W^I)$ & 3--5 & 3.2 & $\approx 4$ \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 The numbers are remarkably similar. The domestic spectral gap ($\Gamma = 0.13$) is slightly smaller than the global ($\Gamma = 0.20$): Bolivia's internal structure is \textit{more} fragmented than the global economy. The between-block share of inequality is comparable at all three scales (50--62\%). The information $N_{\text{eff}}$ is approximately 3--5 at every scale: at the global level, 3--5 institutions shape the economic consensus; at the national level, 3 media ecosystems; at the individual level, 3--5 reference persons shape each agent's beliefs.
@@ -142,10 +79,10 @@ The numbers are remarkably similar. The domestic spectral gap ($\Gamma = 0.13$) 
 
 %% =====================================================================
 \section{The Scale-Invariance Theorem}
-\label{sec:theorem}
+\label{ch19:sec:theorem}
 %% =====================================================================
 
-\begin{theorem}[Scale Invariance of the Structural Model]\label{thm:scale_invariance}
+\begin{theorem}[Scale Invariance of the Structural Model]\label{ch19:thm:scale_invariance}
 Let $(W_G, W_N, W_I)$ be the weight matrices at the global, national, and individual scales. If:
 \begin{enumerate}
 \item Edge formation is proximity-dominated at all scales ($p_1 \gg p_2, p_3$ in Chapter~13's creation process).
@@ -181,25 +118,25 @@ Remove any one of these forces and the scale invariance breaks. But all three ar
 
 %% =====================================================================
 \section{The Nesting Structure}
-\label{sec:nesting}
+\label{ch19:sec:nesting}
 %% =====================================================================
 
 The three scales are not independent. They are nested: the individual-level $W_I$ aggregates to produce the national-level $W_N$, which aggregates to produce the global-level $W_G$.
 
-\begin{definition}[Nested Weight Matrices]\label{def:nesting}
+\begin{definition}[Nested Weight Matrices]\label{ch19:def:nesting}
 Let $\mathcal{P}_s$ be the partition of individuals into sectors, and $\mathcal{P}_c$ be the partition of individuals into countries. The national weight matrix $W_N$ is the block-aggregation of $W_I$:
-\begin{equation}\label{eq:nesting_N}
+\begin{equation}\label{ch19:eq:nesting_N}
 W^N_{ss'} = \frac{\sum_{i \in s, j \in s'} W^I_{ij}}{\sum_{i \in s} \sum_{j} W^I_{ij}},
 \end{equation}
 and the global weight matrix $W_G$ is the block-aggregation of $W_I$ across countries:
-\begin{equation}\label{eq:nesting_G}
+\begin{equation}\label{ch19:eq:nesting_G}
 W^G_{cc'} = \frac{\sum_{i \in c, j \in c'} W^I_{ij}}{\sum_{i \in c} \sum_j W^I_{ij}}.
 \end{equation}
 \end{definition}
 
-\begin{theorem}[Power Nesting]\label{thm:nesting}
+\begin{theorem}[Power Nesting]\label{ch19:thm:nesting}
 The individual-level Perron eigenvector $\boldsymbol{\pi}_I$ factors approximately as:
-\begin{equation}\label{eq:nesting_pi}
+\begin{equation}\label{ch19:eq:nesting_pi}
 \pi_{I,i} \approx \pi_{G,c(i)} \cdot \pi_{N,s(i)|c(i)} \cdot \pi_{\text{within},i|s(i),c(i)},
 \end{equation}
 where $c(i)$ is agent $i$'s country, $s(i)$ is her sector, $\pi_{G,c}$ is the country's global power, $\pi_{N,s|c}$ is the sector's national power within the country, and $\pi_{\text{within},i|s,c}$ is the agent's within-sector power (determined by individual attributes --- gender, race, etc.).
@@ -209,7 +146,7 @@ where $c(i)$ is agent $i$'s country, $s(i)$ is her sector, $\pi_{G,c}$ is the co
 If $W_I$ is approximately the Kronecker product $W_G \otimes W_{N|c} \otimes W_{\text{within}|s,c}$ (the individual-level matrix decomposes into three independent layers), then the Perron eigenvector is the Kronecker product of the three scale-specific Perron eigenvectors. The approximation holds when the within-block structure is approximately independent of the between-block structure at each level --- which is reasonable when the scales are sufficiently separated (individuals interact mostly within their sector, sectors interact mostly within their country).
 \end{proof}
 
-\begin{example}[An Indigenous Woman in Potos\'{i}]\label{ex:potosi}
+\begin{example}[An Indigenous Woman in Potos\'{i}]\label{ch19:ex:potosi}
 Agent $i$: an indigenous woman working in informal commerce in Potos\'{i}, Bolivia.
 
 \textbf{Global power}: Bolivia's $\pi_G \approx 0.0005$ (Chapter~16). Out of every dollar of global structural power, Bolivia holds 0.05 cents.
@@ -279,12 +216,12 @@ The ratio: $\pi_{I,\text{German}}/\pi_{I,\text{Potos\'{i}}} \approx 0.0112/(1.15
 
 %% =====================================================================
 \section{Five Processes, One Matrix Property}
-\label{sec:five}
+\label{ch19:sec:five}
 %% =====================================================================
 
 Sunkel and Paz (1970) identified five phenomena that they argued were ``diverse manifestations of a single process.'' Each has a precise representation as a property of the multi-scale weight matrix.
 
-\begin{theorem}[Five Processes as Matrix Properties]\label{thm:five}
+\begin{theorem}[Five Processes as Matrix Properties]\label{ch19:thm:five}
 \begin{enumerate}
 \item \textbf{Development} (at any scale): $\Gamma_s$ is large and increasing. The weight matrix is becoming more connected. Growth propagates across nodes. $\boldsymbol{\pi}_s$ is becoming more equal.
 
@@ -298,7 +235,7 @@ Sunkel and Paz (1970) identified five phenomena that they argued were ``diverse 
 \end{enumerate}
 
 All five are properties of the \textbf{same} multi-scale weight matrix $(W_G, W_N, W_I)$:
-\begin{equation}\label{eq:five}
+\begin{equation}\label{ch19:eq:five}
 \text{Development} = \text{high } \Gamma, \quad \text{Under-development} = \text{low } \Gamma, \quad \text{Dependence} = \text{asymmetric } W,
 \end{equation}
 \begin{equation}
@@ -322,10 +259,10 @@ The five phenomena do not have five explanations. They have one: the spectral st
 
 %% =====================================================================
 \section{Cross-Scale Feedback}
-\label{sec:feedback}
+\label{ch19:sec:feedback}
 %% =====================================================================
 
-\begin{proposition}[Cross-Scale Reinforcement]\label{prop:cross_scale}
+\begin{proposition}[Cross-Scale Reinforcement]\label{ch19:prop:cross_scale}
 The three scales reinforce each other:
 \begin{enumerate}
 \item \textbf{Global $\to$ national}: A country's position in $W_G$ (low $\pi_G$) constrains its domestic $\Gamma_N$. Countries with low global power face balance-of-payments constraints, commodity-dependent export structures, and IMF conditionality that prevents the domestic structural investments needed to raise $\Gamma_N$ (the ``original sin'' of peripheral economies).
@@ -340,7 +277,7 @@ The three scales reinforce each other:
 The four feedback loops form a vicious circle: low global position $\to$ low domestic $\Gamma$ $\to$ low individual $\pi$ $\to$ low national $\Gamma$ $\to$ low global position. Breaking the circle at any one scale has limited effect unless the other scales respond. This is why comprehensive structural reform (all scales, all networks) is needed, and why piecemeal interventions produce piecemeal results.
 \end{proposition}
 
-\begin{example}[Bolivia's Vicious Circle]\label{ex:vicious}
+\begin{example}[Bolivia's Vicious Circle]\label{ch19:ex:vicious}
 \begin{enumerate}
 \item \textbf{Global}: Bolivia's $\pi_G = 0.0005$ (Chapter~16). Gas exports on the periphery of the product space. Low ECI $= -0.8$.
 \item \textbf{National}: $\Gamma_N = 0.13$. Three disconnected blocks. $\sigma_B = 0.62$.
@@ -355,12 +292,12 @@ The circle is self-reinforcing. The gas nationalization of 2006 attempted to bre
 
 %% =====================================================================
 \section{The Scale at Which to Intervene}
-\label{sec:intervention}
+\label{ch19:sec:intervention}
 %% =====================================================================
 
-\begin{proposition}[The Binding Scale]\label{prop:binding}
+\begin{proposition}[The Binding Scale]\label{ch19:prop:binding}
 The optimal scale of intervention is the one where the marginal return to increasing $\Gamma$ is highest. Define the \textbf{binding scale} as:
-\begin{equation}\label{eq:binding}
+\begin{equation}\label{ch19:eq:binding}
 s^* = \argmax_{s \in \{G, N, I\}} \frac{\partial L_{\text{total}}}{\partial \Gamma_s},
 \end{equation}
 where $L_{\text{total}}$ is the total welfare loss across all scales.
@@ -383,7 +320,7 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch19:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -403,12 +340,12 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch19:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{19.\arabic*}, leftmargin=3em]
 
-\item \textbf{Three-scale comparison.} Using Bolivia data: reproduce Example~\ref{ex:bolivia_three}. For each scale, compute $\Gamma$, $\max\pi/\min\pi$, and $\sigma_B$. Plot all three on a single chart. Are they similar?
+\item \textbf{Three-scale comparison.} Using Bolivia data: reproduce Example~\ref{ch19:ex:bolivia_three}. For each scale, compute $\Gamma$, $\max\pi/\min\pi$, and $\sigma_B$. Plot all three on a single chart. Are they similar?
 
 \item \textbf{Power nesting.} Choose three Bolivian agents: (a) a mestizo male in gas, (b) an indigenous male in agriculture, (c) an indigenous female in informal commerce. Compute $\pi_I$ for each using the nesting formula. What are the pairwise ratios?
 
@@ -440,7 +377,7 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 
 \subsection*{Appendix 19A: The Kronecker Factorization}
 \addcontentsline{toc}{subsection}{Appendix 19A: Kronecker Factorization}
-\label{app:kronecker}
+\label{ch19:app:kronecker}
 
 \paragraph{Setup.} Consider an $N$-agent economy where agents are grouped into $C$ countries, each with $S$ sectors and $K$ individuals per sector ($N = CSK$). If the individual-level weight matrix factors as $W_I \approx W_G \otimes W_{N|c} \otimes W_{\text{within}|s,c}$, then:
 \begin{equation}
@@ -458,7 +395,7 @@ The binding scale for $\Gamma_I$ is the scale with the smallest spectral gap: th
 
 \subsection*{Appendix 19B: Spectral Gap of Nested Block Matrices}
 \addcontentsline{toc}{subsection}{Appendix 19B: Nested Block Matrices}
-\label{app:nested}
+\label{ch19:app:nested}
 
 \paragraph{Two-level nesting.} Consider a matrix with $k$ blocks at level 1, each containing $m$ sub-blocks at level 2. Within level-2 sub-blocks: weight $w_2$. Between level-2 sub-blocks within the same level-1 block: weight $w_1$. Between level-1 blocks: weight $w_0$.
 
@@ -481,25 +418,25 @@ Osvaldo Sunkel's third appearance in this book (after Chapter~4 with Paz, and Ch
 
 Sunkel made this argument in \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (1970, with Pedro Paz) and elaborated it in subsequent work. The claim was methodological as much as substantive: he argued that the fragmentation of development economics into sub-fields (trade theory for dependence, growth theory for development, poverty analysis for marginality, regional science for spatial inequality) was itself an obstacle to understanding. The phenomena are connected because the structure that produces them is connected.
 
-\textbf{The formal vindication.} Theorem~\ref{thm:five} proves Sunkel's claim: all five phenomena are properties of the same multi-scale weight matrix, produced by the same dynamic mechanism. Development is high $\Gamma$. Underdevelopment is low $\Gamma$. Dependence is asymmetric $W$. Marginality is $\pi_i \approx 0$. Spatial inequality is $\Var_r(\Gamma_r)$. There are not five problems. There is one matrix, viewed from five angles.
+\textbf{The formal vindication.} Theorem~\ref{ch19:thm:five} proves Sunkel's claim: all five phenomena are properties of the same multi-scale weight matrix, produced by the same dynamic mechanism. Development is high $\Gamma$. Underdevelopment is low $\Gamma$. Dependence is asymmetric $W$. Marginality is $\pi_i \approx 0$. Spatial inequality is $\Var_r(\Gamma_r)$. There are not five problems. There is one matrix, viewed from five angles.
 
 \textbf{The policy implication.} If the five phenomena have one cause (the spectral structure of $W$), they have one cure: increase $\Gamma$ at the binding scale. The sub-field fragmentation of development economics generates sub-field-specific policy recommendations: trade policy for dependence, growth policy for underdevelopment, social policy for marginality, fiscal transfers for spatial inequality. Each addresses one symptom without addressing the cause. The structural approach generates one recommendation: brighten the dark off-diagonal entries of $W$, at the scale where $\Gamma$ is lowest.
 
 \textbf{Why this matters for Bolivia.} Bolivia has active policies addressing all five phenomena separately: gas revenue redistribution (underdevelopment), trade agreements (dependence), social transfers (marginality), regional investment (spatial inequality), and recent growth (development). None has substantially changed $\Gamma$. The dashboard (Chapter~17) confirms: 30 years of policy, $\Gamma$ moved from 0.10 to 0.13. Five policies, zero structural change, because none targeted the weight matrix directly.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Sunkel's claim (1970)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Five processes, one process & Five properties of $W$ & Thm.~\ref{thm:five} \\
-Scale invariance & Same $\Gamma$ at every scale & Thm.~\ref{thm:scale_invariance} \\
+Five processes, one process & Five properties of $W$ & Thm.~\ref{ch19:thm:five} \\
+Scale invariance & Same $\Gamma$ at every scale & Thm.~\ref{ch19:thm:scale_invariance} \\
 The single process & Co-evolutionary dynamics & Ch.~13 mechanism \\
-Nesting & $\pi_I = \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$ & Thm.~\ref{thm:nesting} \\
-Cross-scale feedback & Vicious circle & Prop.~\ref{prop:cross_scale} \\
-Policy: unified, not fragmented & Increase $\Gamma$ at binding scale & Prop.~\ref{prop:binding} \\
+Nesting & $\pi_I = \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$ & Thm.~\ref{ch19:thm:nesting} \\
+Cross-scale feedback & Vicious circle & Prop.~\ref{ch19:prop:cross_scale} \\
+Policy: unified, not fragmented & Increase $\Gamma$ at binding scale & Prop.~\ref{ch19:prop:binding} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Sunkel wrote in Chilean exile after the 1973 coup. The five processes he described --- development for Santiago's elite, underdevelopment for the rural south, dependence on US copper companies, marginality of the Mapuche, spatial inequality between the capital and the periphery --- were all visible from his window. Fifty years later, the same processes operate at the same scales. The matrix has different entries. The structure is the same. This chapter proves that it could not be otherwise, because the mechanisms that produce it are the same at every scale.
@@ -517,6 +454,5 @@ Sunkel wrote in Chilean exile after the 1973 coup. The five processes he describ
 \textbf{The structuralist synthesis:} Sunkel and Paz (1970), \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}, Mexico: Siglo XXI. Sunkel (1993), \textit{Development from Within}. CEPAL (2012), \textit{Structural Change for Equality}, the institutional codification of the multi-scale structural approach.
 
 \textbf{Cross-scale interactions:} Acemoglu and Robinson (2012), \textit{Why Nations Fail}, Chapters~3--5 (how colonial institutions at the global scale shape domestic institutions). For the formal theory: Acemoglu et al.\ (2015), ``Systemic Risk and Stability in Financial Networks,'' \textit{AER}.
-
 
 \end{document}

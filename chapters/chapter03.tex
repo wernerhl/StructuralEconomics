@@ -1,102 +1,12 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\newtcolorbox{vizpanel}[1][]{
-  colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\newcommand{\y}{\mathbf{y}}
-\newcommand{\K}{\mathbf{K}}
-\newcommand{\bsigma}{\boldsymbol{\sigma}}
-\newcommand{\btheta}{\boldsymbol{\theta}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-
-\newtcolorbox{intuition}[1][]{
-  colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\newtcolorbox{keyinsight}[1][]{
-  colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight},
-  sharp corners, boxrule=0.5pt
-}
-
-\newtcolorbox{prebisch}[1][]{
-  colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 3: Growth and Distribution in Matrix Form}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 3} \\[0.5em]
-\LARGE Growth and Distribution in Matrix Form \\[0.3em]
-\large\textit{Why Growth Makes Some Countries Rich and Others More Unequal}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{2}}{}
+\chapter{Growth and Distribution in Matrix Form}\label{ch:03}
+\chaptersubtitle{Why Growth Makes Some Countries Rich and Others More Unequal}
 \begin{quote}
 \textit{``Los enormes beneficios que derivan de la creciente productividad no han llegado a la periferia en medida comparable a la que han logrado disfrutar las poblaciones de los grandes pa\'{i}ses industriales. De ah\'{i} las diferencias tan acentuadas en los niveles de vida de las masas de \'{e}stos y de aqu\'{e}llos y las notorias discrepancias entre sus respectivas fuerzas de capitalizaci\'{o}n.''}\\[0.3em]
 \textnormal{[``The enormous benefits derived from increasing productivity have not reached the periphery in a measure comparable to that enjoyed by the peoples of the great industrial countries. Hence the great differences in standards of living, and the manifest discrepancies in their respective capacities for capital accumulation.'']}\\
 \hfill --- Ra\'{u}l Prebisch, \textit{El desarrollo econ\'{o}mico de la Am\'{e}rica Latina} (1949)
-\end{quote}
-
-\vspace{0.5em}
-
-\begin{quote}
-\textit{``Che boludo, it's obvious.''}\\[0.3em]
-\hfill --- What Prebisch would have said about this chapter
 \end{quote}
 
 \vspace{1em}
@@ -112,7 +22,7 @@ The central result: whether growth reduces or increases inequality depends on th
 
 %% =====================================================================
 \section{The Standard Story: One Sector, One Country}
-\label{sec:solow}
+\label{ch03:sec:solow}
 %% =====================================================================
 
 \subsection{Solow in One Paragraph}
@@ -122,7 +32,7 @@ The Solow growth model says: a country accumulates capital, capital produces out
 The model has one sector, one representative agent, and one production function: $Y_t = K_t^\alpha (A_t L_t)^{1-\alpha}$, where $K$ is capital, $L$ is labor, $A$ is technology, and $\alpha \in (0,1)$ is the capital share. The savings rate $s$ is exogenous. Capital accumulates as $K_{t+1} = sY_t + (1-\delta)K_t$.
 
 In per-effective-worker terms ($k = K/(AL)$), the dynamics reduce to one equation:
-\begin{equation}\label{eq:solow}
+\begin{equation}\label{ch03:eq:solow}
 k_{t+1} = \frac{s k_t^\alpha + (1-\delta)k_t}{(1+g)(1+n)},
 \end{equation}
 where $g$ is the growth rate of technology and $n$ is population growth. The steady state $k^*$ satisfies $sf(k^*) = (\delta + g + n)k^*$.
@@ -138,17 +48,17 @@ What Solow misses is everything structural. There is one sector, so there is no 
 
 To introduce structure, we move from the Solow model to the overlapping-generations (OLG) framework, where savings decisions are made by \textit{different groups} with \textit{different parameters}.
 
-\begin{example}[A Two-Group Economy]\label{ex:two_group}
+\begin{example}[A Two-Group Economy]\label{ch03:ex:two_group}
 Consider an economy with two groups: $M$ (men) and $F$ (women), each comprising half the population. Each agent lives two periods: young (work, earn, save) and old (consume savings).
 
 A young agent of group $g \in \{M, F\}$ has utility over young and old consumption:
-\begin{equation}\label{eq:OLG_utility}
+\begin{equation}\label{ch03:eq:OLG_utility}
 U^g = \ln(c^{g,y}) + \theta^g \ln(c^{g,o}),
 \end{equation}
 where $\theta^g > 0$ is the \textbf{patience parameter}---how much group $g$ values future consumption relative to present consumption.
 
 The budget constraints are $c^{g,y} + s^g = w_t$ (young: consume or save out of wage income) and $c^{g,o} = (1 + r_{t+1})s^g$ (old: consume return on savings). The optimal savings rate is:
-\begin{equation}\label{eq:savings_rate}
+\begin{equation}\label{ch03:eq:savings_rate}
 \sigma(\theta^g) = \frac{\theta^g}{1 + \theta^g}.
 \end{equation}
 
@@ -156,7 +66,7 @@ A group with higher $\theta$ (more patient) saves a larger fraction of income. I
 \end{example}
 
 Aggregate capital next period is:
-\begin{equation}\label{eq:K_OLG}
+\begin{equation}\label{ch03:eq:K_OLG}
 K_{t+1} = \frac{1}{2}\bigl[\sigma(\theta^M_t) + \sigma(\theta^F_t)\bigr](1-\alpha)K_t^\alpha.
 \end{equation}
 
@@ -171,7 +81,7 @@ For now, $\theta^g$ is a parameter. Later, it becomes an output of $W^I$.
 
 %% =====================================================================
 \section{Multi-Sector Growth: The Production Network}
-\label{sec:multi_sector}
+\label{ch03:sec:multi_sector}
 %% =====================================================================
 
 Now we introduce multiple sectors. This is where the Leontief system from Chapter~1 becomes dynamic.
@@ -194,39 +104,39 @@ This is exactly Prebisch's center-periphery argument applied within a country. T
 \subsection{The Multi-Sector Solow Model}
 
 Consider $N$ sectors, each with its own capital stock $K_{it}$, labor force $L_i$, and production function. Sector $i$ produces:
-\begin{equation}\label{eq:sector_production}
+\begin{equation}\label{ch03:eq:sector_production}
 Y_{it} = K_{it}^{\alpha_i} L_i^{1-\alpha_i} + \gamma \sum_{j=1}^N W^P_{ij} Y_{jt},
 \end{equation}
 where the second term captures production spillovers: sector $i$'s output benefits from sector $j$'s output, weighted by $W^P_{ij}$ (the input-output coefficient).
 
 In matrix form, stacking all sectors:
-\begin{equation}\label{eq:output_system}
+\begin{equation}\label{ch03:eq:output_system}
 \mathbf{Y}_t = \mathbf{f}(\K_t, \mathbf{L}) + \gamma W^P \mathbf{Y}_t,
 \end{equation}
 where $\mathbf{f}$ is the vector of Cobb-Douglas production functions. Solving for $\mathbf{Y}_t$ (as in Chapter~1):
-\begin{equation}\label{eq:output_solution}
+\begin{equation}\label{ch03:eq:output_solution}
 \mathbf{Y}_t = (I - \gamma W^P)^{-1}\mathbf{f}(\K_t, \mathbf{L}).
 \end{equation}
 
 This is the Leontief system made dynamic: at each period $t$, output is determined by capital (which accumulates) filtered through the production network (which amplifies through the Leontief inverse).
 
 Capital accumulates sector by sector:
-\begin{equation}\label{eq:capital_dynamics}
+\begin{equation}\label{ch03:eq:capital_dynamics}
 K_{i,t+1} = s_i Y_{it} + (1-\delta_i) K_{it},
 \end{equation}
 where $s_i$ is sector $i$'s savings (reinvestment) rate and $\delta_i$ is depreciation. In matrix form:
-\begin{equation}\label{eq:capital_vector}
+\begin{equation}\label{ch03:eq:capital_vector}
 \K_{t+1} = S \mathbf{Y}_t + (I - \Delta)\K_t,
 \end{equation}
 where $S = \text{diag}(s_1, \ldots, s_N)$ and $\Delta = \text{diag}(\delta_1, \ldots, \delta_N)$.
 
 Substituting the output equation:
-\begin{equation}\label{eq:growth_system}
+\begin{equation}\label{ch03:eq:growth_system}
 \K_{t+1} = S(I - \gamma W^P)^{-1}\mathbf{f}(\K_t, \mathbf{L}) + (I - \Delta)\K_t.
 \end{equation}
 
 \begin{keyinsight}
-Equation~\eqref{eq:growth_system} is the multi-sector growth equation. It says: next period's capital depends on this period's capital, transformed by two structural objects:
+Equation~\eqref{ch03:eq:growth_system} is the multi-sector growth equation. It says: next period's capital depends on this period's capital, transformed by two structural objects:
 \begin{itemize}
 \item $(I - \gamma W^P)^{-1}$: the Leontief inverse, which amplifies each sector's output through inter-sectoral linkages.
 \item $S$: the savings matrix, which determines how much of each sector's output is reinvested.
@@ -252,7 +162,7 @@ which is degenerate (trivial steady state at zero without technological progress
 
 %% =====================================================================
 \section{When Does Growth Reduce Inequality? The Kuznets Question}
-\label{sec:kuznets}
+\label{ch03:sec:kuznets}
 %% =====================================================================
 
 \subsection{The Standard Answer}
@@ -265,7 +175,7 @@ The matrix framework explains why: it depends on $W^P$.
 
 \subsection{The Structural Answer: It Depends on $W^P$}
 
-\begin{example}[Two Economies, Same Technology, Different $W^P$]\label{ex:two_WP}
+\begin{example}[Two Economies, Same Technology, Different $W^P$]\label{ch03:ex:two_WP}
 Consider two economies, each with $N = 2$ sectors: Modern ($M$) and Traditional ($T$). Both have the same technology:
 \begin{equation}
 Y_M = K_M^{0.4} L_M^{0.6}, \qquad Y_T = K_T^{0.3} L_T^{0.7}.
@@ -288,7 +198,7 @@ The sectors barely interact. Modern imports its inputs and exports its output. T
 Now give both economies a productivity shock in the Modern sector: $A_M$ doubles.
 \end{example}
 
-\begin{example}[Continued: The Propagation]\label{ex:propagation}
+\begin{example}[Continued: The Propagation]\label{ch03:ex:propagation}
 The Leontief inverse for Economy A:
 \begin{equation}
 L_A = (I - \gamma W^P_A)^{-1} \approx \begin{pmatrix} 1.05 & 0.27 \\ 0.21 & 1.05 \end{pmatrix} \quad (\text{with } \gamma = 1).
@@ -306,8 +216,8 @@ The same shock in Modern generates $1.01$ in Modern and only $0.02$ in Tradition
 After 10 periods of compounding, Economy A shows both sectors growing (Traditional pulled up by its linkages to Modern). Economy B shows Modern growing and Traditional stagnant---the productivity gap \textit{widens} with growth.
 \end{example}
 
-\begin{proposition}[Growth Propagation and the Spectral Gap]\label{prop:propagation}
-Consider the multi-sector growth model~\eqref{eq:growth_system} with $N$ sectors and production network $W^P$. A productivity shock in sector $j$ propagates to sector $i$ with magnitude proportional to the $(i,j)$-th entry of the Leontief inverse $(I - \gamma W^P)^{-1}$.
+\begin{proposition}[Growth Propagation and the Spectral Gap]\label{ch03:prop:propagation}
+Consider the multi-sector growth model~\eqref{ch03:eq:growth_system} with $N$ sectors and production network $W^P$. A productivity shock in sector $j$ propagates to sector $i$ with magnitude proportional to the $(i,j)$-th entry of the Leontief inverse $(I - \gamma W^P)^{-1}$.
 
 The average cross-sector propagation is bounded by:
 \begin{equation}
@@ -331,7 +241,7 @@ Averaging over the $N(N-1)$ off-diagonal entries gives the bound. For the norm b
 
 %% =====================================================================
 \section{Structural Heterogeneity: The Block-Diagonal Economy}
-\label{sec:heterogeneity}
+\label{ch03:sec:heterogeneity}
 %% =====================================================================
 
 \subsection{Pinto's Diagnosis}
@@ -342,9 +252,9 @@ This was not a transitional phase. It was a stable configuration. Growth did not
 
 We now formalize this.
 
-\begin{definition}[Structural Heterogeneity]\label{def:heterogeneity}
+\begin{definition}[Structural Heterogeneity]\label{ch03:def:heterogeneity}
 An economy with production network $W^P$ has \textbf{structural heterogeneity of degree $k$} if $W^P$ is approximately block-diagonal with $k$ blocks:
-\begin{equation}\label{eq:block_diagonal}
+\begin{equation}\label{ch03:eq:block_diagonal}
 W^P \approx \begin{pmatrix} W^P_{11} & \varepsilon_{12} \\ \varepsilon_{21} & W^P_{22} \end{pmatrix},
 \end{equation}
 where $W^P_{11}$ and $W^P_{22}$ are the within-block (within-sector) linkage matrices and $\varepsilon_{12}, \varepsilon_{21}$ are the cross-block linkages, with $\|\varepsilon_{12}\|, \|\varepsilon_{21}\| \ll \|W^P_{11}\|, \|W^P_{22}\|$.
@@ -352,7 +262,7 @@ where $W^P_{11}$ and $W^P_{22}$ are the within-block (within-sector) linkage mat
 Degree $k = 1$: the economy is structurally integrated (one block). Degree $k = 2$: the economy has a dual structure (Pinto's case). Degree $k > 2$: multiple disconnected sectors.
 \end{definition}
 
-\begin{example}[Bolivia: A Degree-2 Economy]\label{ex:bolivia}
+\begin{example}[Bolivia: A Degree-2 Economy]\label{ch03:ex:bolivia}
 Bolivia's production structure can be stylized as two blocks:
 
 \textbf{Block 1 (Modern):} Gas extraction, mining, large-scale agriculture (soybeans), financial services. High capital intensity, high productivity, strong linkages to global markets, weak linkages to the domestic traditional sector.
@@ -423,8 +333,8 @@ The multiplier gap---the difference in off-diagonal entries of the Leontief inve
 
 \subsection{The Spectral Signature of Heterogeneity}
 
-\begin{proposition}[Spectral Properties of Block-Diagonal Economies]\label{prop:block_spectral}
-Let $W^P$ be approximately block-diagonal with $k = 2$ blocks as in~\eqref{eq:block_diagonal}. Then:
+\begin{proposition}[Spectral Properties of Block-Diagonal Economies]\label{ch03:prop:block_spectral}
+Let $W^P$ be approximately block-diagonal with $k = 2$ blocks as in~\eqref{ch03:eq:block_diagonal}. Then:
 \begin{enumerate}
 \item The eigenvalues of $W^P$ are approximately the union of the eigenvalues of $W^P_{11}$ and $W^P_{22}$, plus perturbation terms of order $\|\varepsilon\|$.
 \item The spectral gap $\Gamma(W^P) = \rho(W^P) - |\lambda_2(W^P)|$ is small when the two blocks have similar spectral radii: $\Gamma \approx |\rho(W^P_{11}) - \rho(W^P_{22})| + O(\|\varepsilon\|)$.
@@ -451,16 +361,16 @@ The spectral gap of $W^P$ is a single number that summarizes Pinto's entire stru
 
 %% =====================================================================
 \section{Does Growth Trickle Down? A Formal Answer}
-\label{sec:trickle}
+\label{ch03:sec:trickle}
 %% =====================================================================
 
 \subsection{The Trickle-Down Hypothesis in Matrix Form}
 
 The ``trickle-down'' hypothesis says: growth in the modern sector benefits the traditional sector through market linkages---increased demand for traditional products, higher wages that spread through labor mobility, technology transfer. In our framework, trickle-down is the claim that the off-diagonal entries of the Leontief inverse are large enough that modern-sector growth significantly raises traditional-sector output.
 
-\begin{proposition}[The Trickle-Down Condition]\label{prop:trickle}
+\begin{proposition}[The Trickle-Down Condition]\label{ch03:prop:trickle}
 Growth in sector $j$ (the modern sector) ``trickles down'' to sector $i$ (the traditional sector) if and only if:
-\begin{equation}\label{eq:trickle}
+\begin{equation}\label{ch03:eq:trickle}
 \ell_{ij} = [(I - \gamma W^P)^{-1}]_{ij} > \tau,
 \end{equation}
 where $\tau > 0$ is a threshold representing ``economically meaningful'' propagation. This is equivalent to requiring that there exists a chain of production linkages from $j$ to $i$ with sufficient cumulative strength.
@@ -481,7 +391,7 @@ Bolivia's gas sector fails on all three counts. It does not buy inputs from the 
 
 Here is where the formation model connects to the growth model. Suppose the government, observing that gas growth does not trickle down, intervenes with a fiscal transfer: tax the modern sector and redistribute to the traditional sector. (This is, in essence, what Bolivia has done since 2006 with gas revenue-funded transfers like Renta Dignidad and Bono Juancito Pinto.)
 
-\begin{proposition}[Transfer Perversity Under Structural Heterogeneity]\label{prop:transfer_perversity}
+\begin{proposition}[Transfer Perversity Under Structural Heterogeneity]\label{ch03:prop:transfer_perversity}
 In a block-diagonal economy with structural heterogeneity, an unconditional transfer $\tau$ from the modern sector to the traditional sector:
 \begin{enumerate}
 \item \textbf{Raises traditional-sector income} (direct effect: $+\tau$).
@@ -503,7 +413,7 @@ This is not an argument against transfers. Transfers reduce poverty and they sho
 
 %% =====================================================================
 \section{The Three Scales}
-\label{sec:three_scales}
+\label{ch03:sec:three_scales}
 %% =====================================================================
 
 We can now see the three-scale structure that Chapter~16 will develop fully:
@@ -525,7 +435,7 @@ Prebisch saw this at the global scale. Pinto saw it at the national scale. Neith
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch03:sec:summary}
 %% =====================================================================
 
 This chapter established five results:
@@ -533,7 +443,7 @@ This chapter established five results:
 \begin{enumerate}
 \item The \textbf{standard Solow model} assumes one sector and one savings rate. It predicts convergence. The real world has multiple sectors with heterogeneous productivity and differential savings, and convergence is conditional on the structure of inter-sectoral linkages.
 
-\item The \textbf{multi-sector growth model}~\eqref{eq:growth_system} embeds the Leontief system in a dynamic framework. Growth propagation depends on the production network $W^P$ through the Leontief inverse $(I - \gamma W^P)^{-1}$.
+\item The \textbf{multi-sector growth model}~\eqref{ch03:eq:growth_system} embeds the Leontief system in a dynamic framework. Growth propagation depends on the production network $W^P$ through the Leontief inverse $(I - \gamma W^P)^{-1}$.
 
 \item The \textbf{Kuznets question}---does growth reduce inequality?---has a structural answer: it depends on $W^P$. Connected economies (large spectral gap, large off-diagonal Leontief entries) propagate growth across sectors. Disconnected economies (small spectral gap, block-diagonal $W^P$) concentrate growth in the modern sector.
 
@@ -545,7 +455,7 @@ This chapter established five results:
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch03:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{3.\arabic*}, leftmargin=3em]
@@ -577,7 +487,7 @@ W^P = \begin{pmatrix} 0.10 & 0.20 & 0.05 \\ 0.15 & 0.10 & 0.15 \\ 0.05 & 0.10 & 
 \item Relate to Bolivia's gas sector.
 \end{enumerate}
 
-\item \textbf{Transfer vs.\ structural policy.} Using Bolivia example (Example~\ref{ex:bolivia}):
+\item \textbf{Transfer vs.\ structural policy.} Using Bolivia example (Example~\ref{ch03:ex:bolivia}):
 \begin{enumerate}
 \item Suppose the government transfers 10\% of modern-sector output to the traditional sector. What happens to traditional-sector income? To the cross-sector productivity gap?
 \item Now suppose the government spends the same 10\% building linkages: $\varepsilon_{12}$ and $\varepsilon_{21}$ in $W^P$ increase from 0.03 to 0.10. Recompute the Leontief inverse. What happens to the cross-sector propagation?
@@ -623,7 +533,7 @@ where $r_t$ is the return on savings and $\lambda_t < 1$ is the signal discount 
 
 \subsection*{Appendix 3A: Block Matrices and Their Eigenvalues}
 \addcontentsline{toc}{subsection}{Appendix 3A: Block Matrices and Their Eigenvalues}
-\label{app:block}
+\label{ch03:app:block}
 
 \paragraph{Block matrices.} A \textbf{block matrix} is a matrix partitioned into rectangular submatrices. A $2 \times 2$ block matrix:
 \begin{equation}
@@ -639,7 +549,7 @@ where $A$ is $n_1 \times n_1$, $D$ is $n_2 \times n_2$, $B$ is $n_1 \times n_2$,
 
 In plain language: small cross-block linkages produce small changes in eigenvalues. The qualitative structure (two competing modes, small spectral gap) is preserved under small perturbation. This is why structural heterogeneity is robust: adding a few weak linkages between the gas sector and the quinoa sector does not fundamentally change the spectral structure. The economy remains approximately block-diagonal until the cross-block linkages are comparable in strength to the within-block linkages.
 
-\paragraph{Example.} For Bolivia's stylized $W^P$ from Example~\ref{ex:bolivia}:
+\paragraph{Example.} For Bolivia's stylized $W^P$ from Example~\ref{ch03:ex:bolivia}:
 \begin{equation}
 W^P = \begin{pmatrix} 0.15 & 0.03 \\ 0.02 & 0.20 \end{pmatrix}.
 \end{equation}
@@ -648,7 +558,7 @@ Block-diagonal part: $\text{diag}(0.15, 0.20)$ with eigenvalues $0.15$ and $0.20
 
 Full matrix eigenvalues (from the characteristic equation $\lambda^2 - 0.35\lambda + 0.0294 = 0$): $\lambda_1 \approx 0.204$, $\lambda_2 \approx 0.144$. Spectral gap: $0.060$. Close to the block-diagonal approximation ($0.05$), confirming that the perturbation is small.
 
-Compare with the connected case ($W^P_{\text{connected}}$ from Example~\ref{ex:bolivia}):
+Compare with the connected case ($W^P_{\text{connected}}$ from Example~\ref{ch03:ex:bolivia}):
 \begin{equation}
 W^P_{\text{connected}} = \begin{pmatrix} 0.15 & 0.15 \\ 0.15 & 0.20 \end{pmatrix}.
 \end{equation}
@@ -658,11 +568,11 @@ Eigenvalues: $\lambda_1 \approx 0.325$, $\lambda_2 \approx 0.025$. Spectral gap:
 
 \subsection*{Appendix 3B: Convergence in Multi-Sector Growth Models}
 \addcontentsline{toc}{subsection}{Appendix 3B: Convergence in Multi-Sector Growth Models}
-\label{app:convergence}
+\label{ch03:app:convergence}
 
 \paragraph{The convergence question.} In the one-sector Solow model, the economy converges to a unique steady state at rate $\beta = (1-\alpha)(\delta + g + n)$. In the multi-sector model, convergence depends on the eigenvalues of the \textit{Jacobian of the growth mapping} evaluated at the steady state.
 
-\paragraph{The growth mapping.} Define $G(\K) = S(I - \gamma W^P)^{-1}\mathbf{f}(\K) + (I - \Delta)\K$ from equation~\eqref{eq:growth_system}. The Jacobian at steady state $\K^*$ is:
+\paragraph{The growth mapping.} Define $G(\K) = S(I - \gamma W^P)^{-1}\mathbf{f}(\K) + (I - \Delta)\K$ from equation~\eqref{ch03:eq:growth_system}. The Jacobian at steady state $\K^*$ is:
 \begin{equation}
 J = DG(\K^*) = S(I - \gamma W^P)^{-1}F'(\K^*) + (I - \Delta),
 \end{equation}
@@ -700,23 +610,23 @@ In this chapter's notation: the domestic production network $W^P$ has at least t
 
 \textbf{Part 2: Import-substitution industrialization added new layers of heterogeneity without eliminating old ones.} The ISI strategy, which CEPAL had championed, successfully built a modern industrial sector in several Latin American countries (Brazil, Mexico, Argentina). But Pinto observed that this modern sector coexisted with the pre-existing traditional sector rather than absorbing it. The economy became more complex --- more blocks in the matrix --- without becoming more \textit{connected}. The off-diagonal entries of $W^P$ remained small. He called this ``modernizaci\'{o}n excluyente'' --- exclusionary modernization.
 
-This is the dynamic result from Section~\ref{sec:trickle}: new blocks can be added to a block-diagonal matrix (new sectors created through ISI) without increasing the spectral gap, if the new blocks connect only to themselves and to the global economy rather than to the pre-existing traditional sector. The Leontief inverse gains new rows and columns, but the off-diagonal entries between the new modern block and the old traditional block remain dark. The heatmap gets bigger without getting brighter.
+This is the dynamic result from Section~\ref{ch03:sec:trickle}: new blocks can be added to a block-diagonal matrix (new sectors created through ISI) without increasing the spectral gap, if the new blocks connect only to themselves and to the global economy rather than to the pre-existing traditional sector. The Leontief inverse gains new rows and columns, but the off-diagonal entries between the new modern block and the old traditional block remain dark. The heatmap gets bigger without getting brighter.
 
 \textbf{Part 3: The structural policy implication.} Pinto's prescription was not more ISI (adding more blocks) but structural integration: building the cross-block linkages that would allow productivity gains in the modern sector to propagate to the traditional sector. In the language of this chapter: the policy goal is to increase the off-diagonal entries of $W^P$ --- to make the heatmap brighter off the diagonal --- which increases the spectral gap $\Gamma$, which reduces the between-group welfare loss (Proposition~3.3 in Chapter~2), which makes growth broadly shared rather than enclave-concentrated.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Pinto's argument} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Tripartite structure & Block-diagonal $W^P$ with 2--3 blocks & Sec.~\ref{sec:heterogeneity} \\
-Productivity ratio 20:1 & $\bar{\omega}_{\text{modern}} / \bar{\omega}_{\text{traditional}} \gg 1$ & Example~\ref{ex:bolivia} \\
-ISI adds blocks, not links & New blocks with dark cross-entries & Eq.~\eqref{eq:block_diagonal} \\
+Tripartite structure & Block-diagonal $W^P$ with 2--3 blocks & Sec.~\ref{ch03:sec:heterogeneity} \\
+Productivity ratio 20:1 & $\bar{\omega}_{\text{modern}} / \bar{\omega}_{\text{traditional}} \gg 1$ & Example~\ref{ch03:ex:bolivia} \\
+ISI adds blocks, not links & New blocks with dark cross-entries & Eq.~\eqref{ch03:eq:block_diagonal} \\
 Exclusionary modernization & Growth stays in bright blocks & $\ell_{ij} \approx 0$ for $i \neq j$ \\
-Small spectral gap & $\Gamma(W^P) \approx |\rho_1 - \rho_2|$ small & Prop.~\ref{prop:block_spectral} \\
-Structural integration & Increase off-diagonal entries & Example~\ref{ex:bolivia}: $0.03 \to 0.15$ \\
+Small spectral gap & $\Gamma(W^P) \approx |\rho_1 - \rho_2|$ small & Prop.~\ref{ch03:prop:block_spectral} \\
+Structural integration & Increase off-diagonal entries & Example~\ref{ch03:ex:bolivia}: $0.03 \to 0.15$ \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Pinto's essay is 18 pages. The mathematical content of those 18 pages is a $2 \times 2$ block-diagonal matrix, its Leontief inverse, and its spectral gap. He did not have the notation. He had the diagnosis.
@@ -736,6 +646,5 @@ Pinto's essay is 18 pages. The mathematical content of those 18 pages is a $2 \t
 \textbf{The CEPAL tradition:} Prebisch (1950), start here. Furtado (1961), \textit{Development and Underdevelopment}. Ocampo, Rada, and Taylor (2009), \textit{Growth and Policy in Developing Countries: A Structuralist Approach}. Bielschowsky (2009), ``Sixty Years of ECLAC.''
 
 \textbf{Bolivia:} Morales and Sachs (1990), ``Bolivia's Economic Crisis'' for the structural adjustment context. Weisbrot, Ray, and Johnston (2009), ``Bolivia: The Economy Under Morales'' for the resource-transfer period. The National Statistics Institute (INE) input-output tables for the data.
-
 
 \end{document}

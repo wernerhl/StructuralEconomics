@@ -1,72 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\Cov}{Cov}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 12: Welfare Under Endogenous Preferences}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 12} \\[0.5em]
-\LARGE Welfare Under Endogenous Preferences \\[0.3em]
-\large\textit{When the Ruler Is Made of Rubber}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{11}}{}
+\chapter{Welfare Under Endogenous Preferences}\label{ch:12}
+\chaptersubtitle{When the Ruler Is Made of Rubber}
 \begin{quote}
 \textit{``The deprived people tend to come to terms with their deprivation because of the sheer necessity of survival, and they may, as a result, lack the courage to demand any radical change, and may even adjust their desires and expectations to what they unambitiously see as feasible.''}\\
 \hfill --- Amartya Sen, \textit{Development as Freedom} (1999)
@@ -87,12 +23,12 @@ This is the problem. It has no easy solution. This chapter develops four approac
 
 %% =====================================================================
 \section{The Circularity Problem}
-\label{sec:circularity}
+\label{ch12:sec:circularity}
 %% =====================================================================
 
 \subsection{Statement}
 
-\begin{definition}[The Welfare Circularity]\label{def:circularity}
+\begin{definition}[The Welfare Circularity]\label{ch12:def:circularity}
 In the formation model:
 \begin{enumerate}
 \item The weight matrix $W$ determines the allocation $\x^*$ (through the bargaining equilibrium).
@@ -102,11 +38,11 @@ In the formation model:
 The circularity: $W$ produces both the object being evaluated ($\x^*$) and the criterion for evaluation ($\boldsymbol{\theta}^*$). A structure that produces low allocations AND low aspirations can appear ``optimal'' by its own standards.
 \end{definition}
 
-\begin{theorem}[The Satisfaction Paradox]\label{thm:paradox}
+\begin{theorem}[The Satisfaction Paradox]\label{ch12:thm:paradox}
 In the LQ formation model with block-diagonal $W^I$: each block $b$ has a steady state $(\theta_b^*, x_b^*)$ where reported welfare $U(x_b^*, \theta_b^*)$ is locally maximized. That is: given preferences $\theta_b^*$, the allocation $x_b^*$ is the best the agent can achieve under the power structure $\boldsymbol{\pi}$.
 
 Consequently: the agent in the low-return block ($b = T$) reports satisfaction comparable to the agent in the high-return block ($b = M$), despite receiving a substantially smaller allocation:
-\begin{equation}\label{eq:paradox}
+\begin{equation}\label{ch12:eq:paradox}
 U(x_T^*, \theta_T^*) \approx U(x_M^*, \theta_M^*), \quad \text{even though} \quad x_T^* \ll x_M^*.
 \end{equation}
 \end{theorem}
@@ -126,7 +62,7 @@ This is Sen's ``adaptive preferences'' argument, formalized. It is also the reas
 
 \subsection{A Worked Example}
 
-\begin{example}[Satisfaction in Two Sectors]\label{ex:satisfaction}
+\begin{example}[Satisfaction in Two Sectors]\label{ch12:ex:satisfaction}
 From Example~10.1 (Bolivia three-block economy). $\kappa = 0.5$.
 
 \begin{center}
@@ -200,7 +136,7 @@ The endogenous preferences compress the welfare gap from ``catastrophic'' to ``m
 
 %% =====================================================================
 \section{Four Approaches to the Problem}
-\label{sec:approaches}
+\label{ch12:sec:approaches}
 %% =====================================================================
 
 There is no consensus on how to evaluate welfare when preferences are endogenous. This section presents four approaches, ordered from most conservative (closest to standard welfare economics) to most radical (most departure from preference sovereignty).
@@ -208,15 +144,15 @@ There is no consensus on how to evaluate welfare when preferences are endogenous
 
 \subsection{Approach 1: Laundered Preferences}
 
-\begin{definition}[Laundered Preferences --- Goodin (1986)]\label{def:laundered}
+\begin{definition}[Laundered Preferences --- Goodin (1986)]\label{ch12:def:laundered}
 \textbf{Laundered preferences} are preferences that have been ``cleaned'' of the influence of unjust structures. Agent $i$'s laundered preference $\hat{\theta}_i$ is the preference she would have formed under a ``just'' information network $W^I_{\text{just}}$:
-\begin{equation}\label{eq:laundered}
+\begin{equation}\label{ch12:eq:laundered}
 \hat{\theta}_i = \bar{\theta}_0 + \frac{\mu}{1-\rho}\left(\sum_j W^I_{\text{just},ij} r_j^* - r^*\right).
 \end{equation}
 Welfare is evaluated using laundered preferences: $\hat{W}(\x) = \sum_i U_i(x_i, \hat{\theta}_i)$.
 \end{definition}
 
-\begin{proposition}[Properties of Laundered Welfare]\label{prop:laundered}
+\begin{proposition}[Properties of Laundered Welfare]\label{ch12:prop:laundered}
 \begin{enumerate}
 \item If $W^I_{\text{just}} = \frac{1}{N}\ones\ones'$ (democratic information network), then $\hat{\theta}_i = \hat{\theta}$ for all $i$: all agents have the same laundered preference. Welfare reduces to $\sum_i U_i(x_i, \hat{\theta})$, evaluated at the preference that would prevail if everyone observed the same $W^I$-weighted returns.
 \item The laundered welfare function ranks allocations differently from the endogenous welfare function whenever $W^I_{\text{actual}} \neq W^I_{\text{just}}$.
@@ -233,9 +169,9 @@ Welfare is evaluated using laundered preferences: $\hat{W}(\x) = \sum_i U_i(x_i,
 
 \subsection{Approach 2: Opportunity-Based Welfare (Sen's Capabilities)}
 
-\begin{definition}[Capability Welfare]\label{def:capability}
+\begin{definition}[Capability Welfare]\label{ch12:def:capability}
 Instead of evaluating the allocation $\x$ against preferences $\boldsymbol{\theta}$, evaluate the \textbf{opportunity set} $\mathcal{O}_i$: the set of allocations agent $i$ \textit{could achieve} under the power structure.
-\begin{equation}\label{eq:capability}
+\begin{equation}\label{ch12:eq:capability}
 \mathcal{O}_i = \left\{x \in \R_+ : x = h(\pi_i, \theta, \omega_i) \text{ for some achievable } \theta\right\}.
 \end{equation}
 Welfare is measured by the ``size'' of the opportunity set: $C_i = \text{measure}(\mathcal{O}_i)$.
@@ -243,9 +179,9 @@ Welfare is measured by the ``size'' of the opportunity set: $C_i = \text{measure
 
 The critical move: the achievable $\theta$ is not restricted to $\theta_i^*$ (the preference actually formed under the current $W^I$) but includes all $\theta$ that \textit{could} be formed under any accessible $W^I$. If agent $i$ could, in principle, connect to the modern sector's $W^I$ and form $\theta_M^*$, then the allocations achievable under $\theta_M^*$ are in her opportunity set --- even if she currently has $\theta_T^*$.
 
-\begin{proposition}[Capability Welfare in the Formation Model]\label{prop:capability}
+\begin{proposition}[Capability Welfare in the Formation Model]\label{ch12:prop:capability}
 Define agent $i$'s capability as:
-\begin{equation}\label{eq:cap_formal}
+\begin{equation}\label{ch12:eq:cap_formal}
 C_i = \max_{\theta \in [\theta^*_{\min}, \theta^*_{\max}]} h(\pi_i, \theta, \omega_i),
 \end{equation}
 where $[\theta^*_{\min}, \theta^*_{\max}]$ is the range of steady-state preferences achievable under different $W^I$ configurations. Then:
@@ -267,9 +203,9 @@ Capability deprivation is a \textit{joint} constraint on power and information. 
 
 \subsection{Approach 3: Multi-Criteria Welfare}
 
-\begin{definition}[Multi-Criteria Welfare]\label{def:multi}
+\begin{definition}[Multi-Criteria Welfare]\label{ch12:def:multi}
 Evaluate welfare under multiple preference vectors simultaneously:
-\begin{equation}\label{eq:multi}
+\begin{equation}\label{ch12:eq:multi}
 W(\x) = \left(W_1(\x, \boldsymbol{\theta}^*), \; W_2(\x, \hat{\boldsymbol{\theta}}), \; W_3(\x, \bar{\theta}_0\ones), \; W_4(\x, \boldsymbol{\theta}^*_{\text{full}})\right),
 \end{equation}
 where:
@@ -282,7 +218,7 @@ where:
 An allocation $\x$ is \textbf{robustly superior} to $\x'$ if $W_k(\x) \geq W_k(\x')$ for all $k = 1, \ldots, 4$ with strict inequality for at least one.
 \end{definition}
 
-\begin{proposition}[Robust Partial Ordering]\label{prop:robust}
+\begin{proposition}[Robust Partial Ordering]\label{ch12:prop:robust}
 The multi-criteria approach generates a partial order on allocations. The partial order is strict (some allocations are robustly ranked) but incomplete (some pairs cannot be ranked without choosing a specific welfare criterion).
 
 Under the formation model, the following are robustly ranked:
@@ -296,9 +232,9 @@ Under the formation model, the following are robustly ranked:
 
 \subsection{Approach 4: Process-Based Welfare}
 
-\begin{definition}[Process Welfare]\label{def:process}
+\begin{definition}[Process Welfare]\label{ch12:def:process}
 Evaluate not the allocation but the \textbf{formation process}. A structure $(W, W^I)$ is welfare-superior to $(W', W'^I)$ if:
-\begin{equation}\label{eq:process}
+\begin{equation}\label{ch12:eq:process}
 \Gamma(W) > \Gamma(W') \quad \text{and} \quad N_{\text{eff}}(W^I) > N_{\text{eff}}(W'^I),
 \end{equation}
 where $\Gamma$ is the spectral gap (Chapter~6) and $N_{\text{eff}}$ is the effective sample size of the information network (Chapter~8).
@@ -313,12 +249,12 @@ This approach does not tell you whether a specific allocation is good. It tells 
 
 %% =====================================================================
 \section{The Structural Welfare Theorem}
-\label{sec:theorem}
+\label{ch12:sec:theorem}
 %% =====================================================================
 
 We can now state the chapter's main result: a welfare ranking that is robust across all four approaches.
 
-\begin{theorem}[The Structural Welfare Theorem]\label{thm:structural_welfare}
+\begin{theorem}[The Structural Welfare Theorem]\label{ch12:thm:structural_welfare}
 Let $W_A$ and $W_B$ be two weight matrices for the same economy (same $N$, same $\boldsymbol{\omega}$, same production functions). Let $\x^*_A, \boldsymbol{\theta}^*_A$ and $\x^*_B, \boldsymbol{\theta}^*_B$ be the corresponding steady-state allocations and preferences. If:
 \begin{enumerate}
 \item $\Gamma(W_A) > \Gamma(W_B)$ (A has a larger spectral gap),
@@ -349,14 +285,14 @@ This is the ``engineer's answer'' to the philosopher's problem: you do not need 
 
 %% =====================================================================
 \section{Three Uncomfortable Implications}
-\label{sec:implications}
+\label{ch12:sec:implications}
 %% =====================================================================
 
 \subsection{Implication 1: Satisfaction Surveys Are Structurally Biased}
 
-\begin{proposition}[Satisfaction Bias]\label{prop:satisfaction}
+\begin{proposition}[Satisfaction Bias]\label{ch12:prop:satisfaction}
 In a formation model with block-diagonal $W^I$, the correlation between satisfaction ($U_i(x_i^*, \theta_i^*)$) and allocation ($x_i^*$) is attenuated by the aspiration adjustment:
-\begin{equation}\label{eq:satisfaction_bias}
+\begin{equation}\label{ch12:eq:satisfaction_bias}
 \text{Corr}(U_i, x_i) = \frac{\text{Corr}_{\text{true}} \cdot (1 - \mathcal{M}\beta_{\text{eff}})}{1 + \mathcal{M}^2\beta_{\text{eff}}^2\Var(r)},
 \end{equation}
 where $\mathcal{M}$ is the formation multiplier. When $\mathcal{M}$ is large, satisfaction is nearly uncorrelated with allocation: the preference adjustment absorbs the allocation difference.
@@ -367,15 +303,15 @@ This explains the Easterlin paradox (within-country, richer people are happier; 
 
 \subsection{Implication 2: Policy Evaluation Is Time-Inconsistent}
 
-\begin{proposition}[Time-Inconsistent Evaluation]\label{prop:time_inconsistent}
+\begin{proposition}[Time-Inconsistent Evaluation]\label{ch12:prop:time_inconsistent}
 A policy that changes $W^I$ at time $t = 0$ is evaluated differently at $t = 0$ (before preferences adjust) and at $t = T$ (after preferences adjust to the new $W^I$):
-\begin{equation}\label{eq:time_inconsistent}
+\begin{equation}\label{ch12:eq:time_inconsistent}
 W_0 = \sum_i U_i(x^*_{0,i}, \theta^*_{\text{old},i}) \quad \neq \quad W_T = \sum_i U_i(x^*_{T,i}, \theta^*_{\text{new},i}).
 \end{equation}
 The policy may be welfare-reducing under $\theta^*_{\text{old}}$ (people are less satisfied immediately, because their aspirations have not yet adjusted upward) but welfare-improving under $\theta^*_{\text{new}}$ (after aspirations adjust, people demand and receive more).
 \end{proposition}
 
-\begin{example}[Education Policy]\label{ex:education_policy}
+\begin{example}[Education Policy]\label{ch12:ex:education_policy}
 Bolivia introduces a program that exposes rural girls to modern-sector role models (changing $W^I$). Immediately ($t = 0$): the girls' aspirations are still low ($\theta^*_{\text{old}}$), and they evaluate their unchanged allocation positively. No immediate welfare gain.
 
 After one generation ($t = 1$): the girls who were exposed have formed higher aspirations ($\theta^*_{\text{new}} > \theta^*_{\text{old}}$). They invest more in education, earn higher returns, and evaluate their \textit{improved} allocation against their \textit{higher} aspirations. Satisfaction may not increase --- but capabilities do.
@@ -386,7 +322,7 @@ A cost-benefit analysis at $t = 0$ finds the program has no benefit (no satisfac
 
 \subsection{Implication 3: Consent Is Not Sufficient}
 
-\begin{proposition}[The Consent Problem]\label{prop:consent}
+\begin{proposition}[The Consent Problem]\label{ch12:prop:consent}
 In a formation model: agents in the traditional sector will not demand structural change, because their preferences (formed under block-diagonal $W^I$) are calibrated to the status quo. The absence of demand for change does not indicate that the current structure is welfare-maximizing --- it indicates that the structure has successfully formed the preferences that accept it.
 
 Formally: the set of policies that are Pareto-improving under endogenous preferences $\boldsymbol{\theta}^*$ is a \textit{strict subset} of the policies that are Pareto-improving under laundered preferences $\hat{\boldsymbol{\theta}}$ or capability welfare. Consent-based evaluation (``did anyone object?'') systematically approves structures that restrict information.
@@ -403,7 +339,7 @@ This is not an argument for paternalism. It is an argument for \textit{structura
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch12:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -421,12 +357,12 @@ This is not an argument for paternalism. It is an argument for \textit{structura
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch12:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{12.\arabic*}, leftmargin=3em]
 
-\item \textbf{The satisfaction paradox.} Using Example~\ref{ex:satisfaction}: compute $U(x_b^*, \theta)$ for all three blocks under $\theta = 0.8, 0.9, 1.0, 1.1, 1.2$. For each $\theta$: which block is worst off? Plot the welfare gap (gas minus rural) as a function of $\theta$. What happens to the gap as $\theta$ decreases?
+\item \textbf{The satisfaction paradox.} Using Example~\ref{ch12:ex:satisfaction}: compute $U(x_b^*, \theta)$ for all three blocks under $\theta = 0.8, 0.9, 1.0, 1.1, 1.2$. For each $\theta$: which block is worst off? Plot the welfare gap (gas minus rural) as a function of $\theta$. What happens to the gap as $\theta$ decreases?
 
 \item \textbf{Laundered preferences.} For the Bolivia three-block economy: compute laundered preferences $\hat{\theta}_i$ under $W^I_{\text{just}} = \frac{1}{9}\ones\ones'$. Compare the welfare ranking under endogenous vs.\ laundered preferences. Does the ranking change?
 
@@ -436,7 +372,7 @@ This is not an argument for paternalism. It is an argument for \textit{structura
 
 \item \textbf{The Easterlin paradox.} Simulate 10 countries with different $W^I$ (ranging from $N_{\text{eff}} = 2$ to $N_{\text{eff}} = 10$), different steady-state allocations $\x^*$, and endogenous preferences $\boldsymbol{\theta}^*$. Compute: (a) the cross-country correlation of GDP per capita with average satisfaction, (b) the within-country correlation of income with satisfaction. Which is larger? Why?
 
-\item \textbf{Time-inconsistent evaluation.} Reproduce Example~\ref{ex:education_policy}: simulate a two-block economy where $W^I$ changes at $t = 0$. Compute the welfare trajectory $W_t = \sum_i U_i(x_t^*, \theta_t)$ for $t = 0, 1, \ldots, 20$. At what $t$ does the policy first appear welfare-improving? How does this depend on $\rho$?
+\item \textbf{Time-inconsistent evaluation.} Reproduce Example~\ref{ch12:ex:education_policy}: simulate a two-block economy where $W^I$ changes at $t = 0$. Compute the welfare trajectory $W_t = \sum_i U_i(x_t^*, \theta_t)$ for $t = 0, 1, \ldots, 20$. At what $t$ does the policy first appear welfare-improving? How does this depend on $\rho$?
 
 \item \textbf{Sen vs.\ Bentham.} An economy has two agents: a landlord ($\pi = 0.8$, $\theta^*_L = 1.2$) and a worker ($\pi = 0.2$, $\theta^*_W = 0.7$). Same endowment, $\kappa = 0.5$, $\Omega = 10$.
 \begin{enumerate}
@@ -457,7 +393,7 @@ This is not an argument for paternalism. It is an argument for \textit{structura
 
 \subsection*{Appendix 12A: Welfare Functions with Endogenous Preferences}
 \addcontentsline{toc}{subsection}{Appendix 12A: Welfare Functions}
-\label{app:welfare}
+\label{ch12:app:welfare}
 
 \paragraph{The standard approach.} Social welfare is $W(\x) = \sum_i \alpha_i U_i(x_i, \theta_i)$, where $\alpha_i$ are welfare weights and $\theta_i$ are preferences. Both $\alpha_i$ and $\theta_i$ are taken as given. The welfare function is well-defined and the ranking is complete (any two allocations can be compared).
 
@@ -474,13 +410,13 @@ This is not an argument for paternalism. It is an argument for \textit{structura
 
 \subsection*{Appendix 12B: The Structural Welfare Theorem --- Full Proof}
 \addcontentsline{toc}{subsection}{Appendix 12B: Full Proof}
-\label{app:proof}
+\label{ch12:app:proof}
 
 \paragraph{Setup.} Two economies $(W_A, W^I_A)$ and $(W_B, W^I_B)$ with the same $N$, $\boldsymbol{\omega}$, $\kappa$, $\bar{\theta}_0$, $\rho$, $\mu$. Assume: $\Gamma_A > \Gamma_B$, $\Delta_A < \Delta_B$, $N_{\text{eff},A} > N_{\text{eff},B}$.
 
 \paragraph{Proof of (d) --- Process welfare.} Immediate from the assumptions.
 
-\paragraph{Proof of (c) --- Capability welfare.} Higher $\Gamma$ implies $\Var(\pi_i)$ is smaller (Chapter~6, bound~\eqref{eq:gap_bound}). More equal $\boldsymbol{\pi}$ means: for any $\theta$, the allocation $h(\pi_i, \theta, \omega_i)$ is closer to $\Omega/N$ for all $i$. The maximum of $h$ over $\theta$ (the capability) is larger for agents with $\pi_i$ closer to $1/N$, and the sum $\sum_i C_i$ is maximized when $\pi_i = 1/N$ (by Jensen's inequality, since $h$ is concave in $\pi_i$ near $1/N$).
+\paragraph{Proof of (c) --- Capability welfare.} Higher $\Gamma$ implies $\Var(\pi_i)$ is smaller (Chapter~6, bound~\eqref{ch12:eq:gap_bound}). More equal $\boldsymbol{\pi}$ means: for any $\theta$, the allocation $h(\pi_i, \theta, \omega_i)$ is closer to $\Omega/N$ for all $i$. The maximum of $h$ over $\theta$ (the capability) is larger for agents with $\pi_i$ closer to $1/N$, and the sum $\sum_i C_i$ is maximized when $\pi_i = 1/N$ (by Jensen's inequality, since $h$ is concave in $\pi_i$ near $1/N$).
 
 \paragraph{Proof of (b) --- Laundered welfare.} Laundered preferences are fixed at $\hat{\theta}_i = \theta_i^*(W^I_{\text{just}})$, independent of the economy being evaluated. Under fixed $\hat{\boldsymbol{\theta}}$, the welfare loss is $L = \frac{\kappa N}{2}\Var(\pi_i)\Phi^2$ (Chapter~2). Since $\Var(\pi_i)$ is smaller under $W_A$ (from the $\Gamma$ bound), $L_A < L_B$.
 
@@ -498,27 +434,27 @@ Sen's framework maps onto the formation model in three specific ways.
 
 \textbf{Part 1: Adaptive preferences as a failure of welfare economics.} Sen identified ``adaptive preferences'' --- the phenomenon where the deprived adjust their expectations downward, reporting satisfaction with objectively inadequate conditions --- as the fundamental challenge to utilitarian welfare economics. A woman who has never been to school does not desire schooling; a worker who has never had a union does not miss collective bargaining; a society that has never experienced democracy does not demand it. Utility-based welfare analysis concludes: no deprivation, because no unsatisfied desire.
 
-In the formation model: this is Theorem~\ref{thm:paradox}. The traditional sector's $\theta_T^* < \theta_M^*$ because $W^I$ is block-diagonal. The satisfaction gap ($U_T^*/U_M^*$) is compressed relative to the allocation gap ($x_T^*/x_M^*$) by the factor $\theta_T^*/\theta_M^*$. The compression IS the adaptive preference. The mathematics makes it measurable: the compression factor equals the ratio of formation-adjusted to anchor preferences.
+In the formation model: this is Theorem~\ref{ch12:thm:paradox}. The traditional sector's $\theta_T^* < \theta_M^*$ because $W^I$ is block-diagonal. The satisfaction gap ($U_T^*/U_M^*$) is compressed relative to the allocation gap ($x_T^*/x_M^*$) by the factor $\theta_T^*/\theta_M^*$. The compression IS the adaptive preference. The mathematics makes it measurable: the compression factor equals the ratio of formation-adjusted to anchor preferences.
 
 \textbf{Part 2: Capabilities as an alternative evaluative space.} Sen proposed measuring development by what people are \textit{free to do and be} (``functionings'' and ``capabilities'') rather than by what they have or how they feel. A person who chooses to fast has the capability to eat; a person who starves does not. The distinction matters because the first person's ``preference'' for fasting is exercised from a position of freedom; the second's ``preference'' for accepting hunger is formed by necessity.
 
-In Definition~\ref{def:capability}, the capability set $\mathcal{O}_i$ formalizes this: it is the set of allocations achievable under varying preferences. The agent who could form $\theta_M^*$ but currently has $\theta_T^*$ (because of $W^I$ constraints) has a larger capability set than one who faces both low $\theta$ and low $\pi$. The structural constraints on capability are twofold: power ($\pi_i$) limits what you can \textit{get}; information ($W^I$) limits what you can \textit{want}.
+In Definition~\ref{ch12:def:capability}, the capability set $\mathcal{O}_i$ formalizes this: it is the set of allocations achievable under varying preferences. The agent who could form $\theta_M^*$ but currently has $\theta_T^*$ (because of $W^I$ constraints) has a larger capability set than one who faces both low $\theta$ and low $\pi$. The structural constraints on capability are twofold: power ($\pi_i$) limits what you can \textit{get}; information ($W^I$) limits what you can \textit{want}.
 
 \textbf{Part 3: Development as structural change.} Sen argued that development should expand capabilities, not maximize utility. In the formation model: expanding capabilities means increasing $\Gamma$ (more equal power) and $N_{\text{eff}}$ (more democratic information). These are structural properties of $W$ and $W^I$, not properties of individuals. The capability approach evaluates the \textit{matrix}, not the allocation vector.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Sen's concept} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Adaptive preferences & $\theta_T^* < \theta_M^*$ from block-diagonal $W^I$ & Thm.~\ref{thm:paradox} \\
-Satisfaction paradox & $U_T^* \approx U_M^*$ despite $x_T^* \ll x_M^*$ & Ex.~\ref{ex:satisfaction} \\
-Capability set & $\mathcal{O}_i = \{x : x = h(\pi_i, \theta, \omega_i)\}$ & Def.~\ref{def:capability} \\
-Freedom to choose & $\theta$ ranges over all achievable preferences & Prop.~\ref{prop:capability} \\
+Adaptive preferences & $\theta_T^* < \theta_M^*$ from block-diagonal $W^I$ & Thm.~\ref{ch12:thm:paradox} \\
+Satisfaction paradox & $U_T^* \approx U_M^*$ despite $x_T^* \ll x_M^*$ & Ex.~\ref{ch12:ex:satisfaction} \\
+Capability set & $\mathcal{O}_i = \{x : x = h(\pi_i, \theta, \omega_i)\}$ & Def.~\ref{ch12:def:capability} \\
+Freedom to choose & $\theta$ ranges over all achievable preferences & Prop.~\ref{ch12:prop:capability} \\
 Capability deprivation & Low $\pi_i$ + block-diagonal $W^I$ & Joint structural constraint \\
-Development as freedom & Increase $\Gamma$ and $N_{\text{eff}}$ & Thm.~\ref{thm:structural_welfare} \\
+Development as freedom & Increase $\Gamma$ and $N_{\text{eff}}$ & Thm.~\ref{ch12:thm:structural_welfare} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Sen wrote in philosophical prose. He famously resisted formalization, arguing that the capabilities approach cannot be reduced to a single metric. The formation model does not reduce it to a single metric --- Approach~2 (capability welfare) is one of four criteria, and the multi-criteria approach (Approach~3) explicitly preserves the irreducibility that Sen insisted upon. What the model adds is \textit{measurement}: the aspiration compression factor, the capability set boundaries, the structural conditions ($\Gamma$, $N_{\text{eff}}$) under which capabilities expand. Sen's diagnosis is correct. The formation model makes it computable.
@@ -538,6 +474,5 @@ Sen wrote in philosophical prose. He famously resisted formalization, arguing th
 \textbf{The Easterlin paradox:} Easterlin (1974), ``Does Economic Growth Improve the Human Lot?'' Stevenson and Wolfers (2008), ``Economic Growth and Subjective Well-Being,'' \textit{BPEA}. Clark, Frijters, and Shields (2008), ``Relative Income, Happiness, and Utility,'' \textit{JEL}.
 
 \textbf{Policy evaluation under endogenous preferences:} Bernheim and Rangel (2009), ``Beyond Revealed Preference: Choice-Theoretic Foundations for Behavioral Welfare Economics,'' \textit{QJE}. Sugden (2004), ``The Opportunity Criterion,'' \textit{Economics and Philosophy}.
-
 
 \end{document}

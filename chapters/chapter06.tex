@@ -1,83 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\newtcolorbox{vizpanel}[1][]{
-  colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-
-\newtcolorbox{intuition}[1][]{
-  colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1},
-  sharp corners, boxrule=0.5pt
-}
-\newtcolorbox{keyinsight}[1][]{
-  colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight},
-  sharp corners, boxrule=0.5pt
-}
-\newtcolorbox{prebisch}[1][]{
-  colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 6: Centrality, Power, and the Perron Vector}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 6} \\[0.5em]
-\LARGE Centrality, Power, and the Perron Vector \\[0.3em]
-\large\textit{Where Power Comes From}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{5}}{}
+\chapter{Centrality, Power, and the Perron Vector}\label{ch:06}
+\chaptersubtitle{Where Power Comes From}
 \begin{quote}
 \textit{``En el capitalismo perif\'{e}rico, la apropiaci\'{o}n del excedente econ\'{o}mico est\'{a} \'{i}ntimamente ligada a las relaciones de poder entre los distintos estratos sociales.''}\\[0.3em]
 \textnormal{[``In peripheral capitalism, the appropriation of the economic surplus is intimately linked to the power relations between different social strata.'']}\\
@@ -109,14 +34,14 @@ By the end, the student will know where power comes from (the network), how to c
 
 %% =====================================================================
 \section{Who Matters? Four Attempts at an Answer}
-\label{sec:who_matters}
+\label{ch06:sec:who_matters}
 %% =====================================================================
 
 \subsection{A Small Economy}
 
 Consider five agents in a production network:
 
-\begin{equation}\label{eq:W5}
+\begin{equation}\label{ch06:eq:W5}
 W = \begin{pmatrix}
 0.2 & 0.4 & 0.1 & 0.0 & 0.0 \\
 0.3 & 0.1 & 0.2 & 0.1 & 0.0 \\
@@ -137,7 +62,7 @@ Four different answers emerge from four different ways of measuring importance. 
 
 The simplest measure: how many connections does each agent have?
 
-\begin{definition}[Degree Centrality]\label{def:degree}
+\begin{definition}[Degree Centrality]\label{ch06:def:degree}
 For a weight matrix $W$, agent $i$'s \textbf{in-degree} is the column sum $d_i^{\text{in}} = \sum_{j} W_{ji}$ (total weight that others place on $i$). The \textbf{out-degree} is the row sum $d_i^{\text{out}} = \sum_j W_{ij}$ (total weight that $i$ places on others).
 \end{definition}
 
@@ -164,9 +89,9 @@ Degree counts \textit{direct} connections: how many people depend on you (in-deg
 
 Degree counts direct connections. A more sophisticated measure counts \textit{all} paths --- direct and indirect.
 
-\begin{definition}[Katz Centrality]\label{def:katz}
+\begin{definition}[Katz Centrality]\label{ch06:def:katz}
 Agent $i$'s \textbf{Katz centrality} is:
-\begin{equation}\label{eq:katz}
+\begin{equation}\label{ch06:eq:katz}
 c_i^{\text{Katz}} = \sum_{k=1}^{\infty} \delta^k \sum_{j=1}^N (W^k)_{ji} = \left[(I - \delta W')^{-1} - I\right]_{i} \cdot \ones,
 \end{equation}
 where $\delta \in (0, 1/\rho(W))$ is a decay parameter that downweights longer paths, and $(W^k)_{ji}$ is the total weight of all paths of length $k$ from $i$ to $j$.
@@ -183,9 +108,9 @@ Katz improves on degree by counting indirect connections. But it still has a fla
 
 \subsection{Attempt 3: Ask the Neighbors (Bonacich Centrality)}
 
-\begin{definition}[Bonacich Centrality]\label{def:bonacich}
+\begin{definition}[Bonacich Centrality]\label{ch06:def:bonacich}
 Agent $i$'s \textbf{Bonacich centrality} is the $i$-th component of:
-\begin{equation}\label{eq:bonacich}
+\begin{equation}\label{ch06:eq:bonacich}
 \mathbf{c}^{\text{Bon}} = (I - \beta W')^{-1} W' \ones = (I - \beta W')^{-1} \mathbf{d}^{\text{in}},
 \end{equation}
 where $\beta \in (-1/\rho(W), 1/\rho(W))$ is a parameter and $\mathbf{d}^{\text{in}} = W'\ones$ is the in-degree vector.
@@ -214,29 +139,29 @@ This is circular. The power of agent $i$ depends on the power of agents $j$ who 
 
 But this circularity is not a bug. It is a feature. The circularity defines a \textit{fixed-point equation}: we seek a vector $\boldsymbol{\pi}$ such that the power of each agent equals the total power directed toward her.
 
-\begin{definition}[Eigenvector Centrality --- Left Perron Eigenvector]\label{def:eigenvector}
+\begin{definition}[Eigenvector Centrality --- Left Perron Eigenvector]\label{ch06:def:eigenvector}
 Agent $i$'s \textbf{eigenvector centrality} (or \textbf{structural power}) is $\pi_i$, the $i$-th component of the vector $\boldsymbol{\pi}$ satisfying:
-\begin{equation}\label{eq:perron_def}
+\begin{equation}\label{ch06:eq:perron_def}
 \boldsymbol{\pi}' W = \rho(W) \cdot \boldsymbol{\pi}',
 \end{equation}
 with $\boldsymbol{\pi} \geq 0$ and $\|\boldsymbol{\pi}\|_1 = \sum_i \pi_i = 1$.
 
 Equivalently, for each agent:
-\begin{equation}\label{eq:perron_component}
+\begin{equation}\label{ch06:eq:perron_component}
 \pi_i = \frac{1}{\rho(W)} \sum_{j=1}^N \pi_j W_{ji}.
 \end{equation}
 \end{definition}
 
 \begin{intuition}[Reading the equation]
-Equation~\eqref{eq:perron_component} says: agent $i$'s power is proportional to the sum, over all agents $j$, of (a) $j$'s power $\pi_j$ times (b) how much $j$ depends on $i$ (that is, $W_{ji}$). You are powerful if powerful agents point toward you.
+Equation~\eqref{ch06:eq:perron_component} says: agent $i$'s power is proportional to the sum, over all agents $j$, of (a) $j$'s power $\pi_j$ times (b) how much $j$ depends on $i$ (that is, $W_{ji}$). You are powerful if powerful agents point toward you.
 
 The factor $1/\rho(W)$ is just normalization --- it ensures $\sum_i \pi_i = 1$.
 
 This is the recursive definition we wanted: power depends on the power of those who depend on you. The Perron-Frobenius theorem (next section) guarantees that this circular definition has a unique solution.
 \end{intuition}
 
-\begin{example}[Computing Power for the Five-Agent Economy]\label{ex:five_power}
-For the matrix $W$ in~\eqref{eq:W5}, the left Perron eigenvector (computed iteratively --- see Appendix~6A) is:
+\begin{example}[Computing Power for the Five-Agent Economy]\label{ch06:ex:five_power}
+For the matrix $W$ in~\eqref{ch06:eq:W5}, the left Perron eigenvector (computed iteratively --- see Appendix~6A) is:
 \begin{equation}
 \boldsymbol{\pi} \approx (0.122, \; 0.226, \; 0.257, \; 0.214, \; 0.181).
 \end{equation}
@@ -305,16 +230,16 @@ All four agree that Agent~3 is the most important, but they disagree on the rest
 
 %% =====================================================================
 \section{The Perron-Frobenius Theorem}
-\label{sec:PF}
+\label{ch06:sec:PF}
 %% =====================================================================
 
-The recursive definition of eigenvector centrality~\eqref{eq:perron_def} raises an obvious question: does it have a solution? Is the solution unique? Is it positive (do all agents have nonnegative power)?
+The recursive definition of eigenvector centrality~\eqref{ch06:eq:perron_def} raises an obvious question: does it have a solution? Is the solution unique? Is it positive (do all agents have nonnegative power)?
 
 The answer to all three is yes, and the proof is the Perron-Frobenius theorem --- the single most important result in matrix theory for economics.
 
 \subsection{Statement}
 
-\begin{theorem}[Perron-Frobenius]\label{thm:PF}
+\begin{theorem}[Perron-Frobenius]\label{ch06:thm:PF}
 Let $W$ be an $N \times N$ nonnegative matrix ($W_{ij} \geq 0$ for all $i, j$). Then:
 
 \textbf{Part I (Perron, 1907):} If $W > 0$ (all entries strictly positive):
@@ -354,7 +279,7 @@ The theorem requires two conditions: nonnegativity ($W \geq 0$, which is natural
 
 \subsection{Proof Sketch}
 
-The full proof is in Appendix~\ref{app:PF_proof}. Here we give the key ideas for the positive case ($W > 0$).
+The full proof is in Appendix~\ref{ch06:app:PF_proof}. Here we give the key ideas for the positive case ($W > 0$).
 
 \textbf{Step 1: The map $T$.} Define $T(\mathbf{u}) = W\x / \|W\x\|_1$ for $\x \geq 0$, $\x \neq 0$. This maps the positive simplex $\Delta = \{\x \geq 0 : \|\x\|_1 = 1\}$ to itself (because $W > 0$ ensures $W\x > 0$).
 
@@ -369,16 +294,16 @@ The full proof is in Appendix~\ref{app:PF_proof}. Here we give the key ideas for
 
 %% =====================================================================
 \section{Properties of the Power Vector}
-\label{sec:properties}
+\label{ch06:sec:properties}
 %% =====================================================================
 
 \subsection{Six Propositions About Power}
 
-\begin{proposition}[Power Sums to One]\label{prop:power_sum}
+\begin{proposition}[Power Sums to One]\label{ch06:prop:power_sum}
 $\sum_{i=1}^N \pi_i = 1$. Power is a distribution: it sums to 100\%. An agent's power $\pi_i$ can be interpreted as her ``share of total structural influence.''
 \end{proposition}
 
-\begin{proposition}[Equal Power iff Doubly Stochastic]\label{prop:equal_power}
+\begin{proposition}[Equal Power iff Doubly Stochastic]\label{ch06:prop:equal_power}
 $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power for all agents) if and only if $W$ is \textbf{doubly stochastic} (every row sum and every column sum equals 1).
 \end{proposition}
 
@@ -389,38 +314,38 @@ $(\Rightarrow)$: If $\boldsymbol{\pi} = \frac{1}{N}\ones$, then $\frac{1}{N}\one
 \end{proof}
 
 \begin{intuition}[The deepest result in this chapter]
-Proposition~\ref{prop:equal_power} is the mathematical foundation of the entire book. It says: \textit{power is equal if and only if the interaction matrix is doubly stochastic.} The competitive model assumes $W^{CE} = \frac{1}{N}\ones\ones'$ (doubly stochastic), so power is equal, so the welfare theorems hold. Any deviation from doubly stochastic creates power asymmetry. The welfare theorems fail because someone has more power than others.
+Proposition~\ref{ch06:prop:equal_power} is the mathematical foundation of the entire book. It says: \textit{power is equal if and only if the interaction matrix is doubly stochastic.} The competitive model assumes $W^{CE} = \frac{1}{N}\ones\ones'$ (doubly stochastic), so power is equal, so the welfare theorems hold. Any deviation from doubly stochastic creates power asymmetry. The welfare theorems fail because someone has more power than others.
 
 The question ``why don't the welfare theorems hold in the real world?'' has a precise answer: because the real $W$ is not doubly stochastic. The column sums are not equal. Some agents receive more total weight than others. That asymmetry is power.
 \end{intuition}
 
-\begin{proposition}[Power is Monotone in Connections]\label{prop:monotone}
+\begin{proposition}[Power is Monotone in Connections]\label{ch06:prop:monotone}
 If $W_{ji}$ increases (agent $j$ places more weight on agent $i$) while all other entries are adjusted to maintain row-stochasticity, then $\pi_i$ weakly increases. Being depended upon by more people, or more heavily, raises your power.
 \end{proposition}
 
-\begin{proposition}[Power Concentrates in Stars]\label{prop:star_power}
+\begin{proposition}[Power Concentrates in Stars]\label{ch06:prop:star_power}
 In a star network with hub $h$: $\pi_h = 1 - O(1/N)$, i.e., the hub captures almost all the power as $N$ grows. The spectral gap $\Gamma \to 0$.
 \end{proposition}
 
-\begin{proposition}[Power Fragments in Block-Diagonal Networks]\label{prop:block_power}
+\begin{proposition}[Power Fragments in Block-Diagonal Networks]\label{ch06:prop:block_power}
 If $W$ is approximately block-diagonal with $k$ blocks, $\boldsymbol{\pi}$ is approximately concentrated on the block with the largest spectral radius, with weights proportional to the internal Perron eigenvector of that block.
 \end{proposition}
 
-\begin{proposition}[The Welfare Theorem Revisited]\label{prop:welfare_revisited}
+\begin{proposition}[The Welfare Theorem Revisited]\label{ch06:prop:welfare_revisited}
 In the economy from Chapters~1--5, the competitive equilibrium is Pareto efficient if and only if the composite weight matrix $W$ is doubly stochastic (equivalently, if and only if $\boldsymbol{\pi} = \frac{1}{N}\ones$). When power is unequal, the equilibrium is inefficient, and the direction of inefficiency is determined by $\boldsymbol{\pi}$: powerful agents consume too much relative to the efficient allocation, and powerless agents consume too little.
 \end{proposition}
 
 
 %% =====================================================================
 \section{The Spectral Gap}
-\label{sec:gap}
+\label{ch06:sec:gap}
 %% =====================================================================
 
 \subsection{Definition and Meaning}
 
-\begin{definition}[Spectral Gap]\label{def:gap}
+\begin{definition}[Spectral Gap]\label{ch06:def:gap}
 The \textbf{spectral gap} of $W$ is:
-\begin{equation}\label{eq:gap}
+\begin{equation}\label{ch06:eq:gap}
 \Gamma = \rho(W) - |\lambda_2(W)|,
 \end{equation}
 where $\rho(W)$ is the largest eigenvalue (the Perron root) and $|\lambda_2(W)|$ is the second-largest eigenvalue in magnitude.
@@ -438,7 +363,7 @@ The spectral gap is the single most informative structural diagnostic in this bo
 \item \textbf{Structural integrity.} Large $\Gamma$ means the network is well-connected: there is one dominant ``mode'' and the system behaves as a unified whole. Small $\Gamma$ means competing modes: the network is approximately reducible (block-diagonal), and different parts of the system can evolve independently.
 \end{enumerate}
 
-\begin{example}[Spectral Gap Across Topologies]\label{ex:gap}
+\begin{example}[Spectral Gap Across Topologies]\label{ch06:ex:gap}
 For $N = 10$:
 
 \begin{center}
@@ -527,12 +452,12 @@ The spectral gap of Bolivia's domestic $W^P$ measures internal structural hetero
 
 %% =====================================================================
 \section{Power in Practice}
-\label{sec:practice}
+\label{ch06:sec:practice}
 %% =====================================================================
 
 \subsection{Where Does Power Come From?}
 
-The Perron eigenvector gives us a precise answer. From equation~\eqref{eq:perron_component}:
+The Perron eigenvector gives us a precise answer. From equation~\eqref{ch06:eq:perron_component}:
 \begin{equation}
 \pi_i = \frac{1}{\rho} \sum_{j=1}^N \pi_j W_{ji}.
 \end{equation}
@@ -553,7 +478,7 @@ Wealth is what you have --- your endowment $\omega_i$, your capital $K_i$, your 
 
 Power is where you sit --- your position in $W$. Power cannot be redistributed by transfers, because transfers change $\boldsymbol{\omega}$ but not $W$. The Perron eigenvector is a property of the matrix, not of the endowment vector.
 
-\begin{example}[A Rich Farmer and a Poor Minister]\label{ex:rich_poor}
+\begin{example}[A Rich Farmer and a Poor Minister]\label{ch06:ex:rich_poor}
 Suppose agent 1 is a wealthy farmer ($w_1 = 100$) and agent 2 is a poor government minister ($w_2 = 10$). In a $2 \times 2$ economy with:
 \begin{equation}
 W = \begin{pmatrix} 0.8 & 0.2 \\ 0.9 & 0.1 \end{pmatrix},
@@ -572,7 +497,7 @@ The farmer is rich AND powerful. The minister is poor AND less powerful. This is
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch06:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -590,12 +515,12 @@ The farmer is rich AND powerful. The minister is poor AND less powerful. This is
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch06:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{6.\arabic*}, leftmargin=3em]
 
-\item \textbf{Computing centralities.} For the five-agent economy~\eqref{eq:W5}:
+\item \textbf{Computing centralities.} For the five-agent economy~\eqref{ch06:eq:W5}:
 \begin{enumerate}
 \item Compute all four centrality measures (degree, Katz with $\delta = 0.5$, Bonacich with $\beta = 0.3$, eigenvector). Use Python.
 \item Do they agree on the ranking? Where do they disagree?
@@ -657,7 +582,7 @@ W = \begin{pmatrix} 0 & 0 & 0.5 & 0.5 \\ 0 & 0 & 0.5 & 0.5 \\ 0.5 & 0.5 & 0 & 0 
 
 \subsection*{Appendix 6A: Computing the Perron Eigenvector}
 \addcontentsline{toc}{subsection}{Appendix 6A: Computing the Perron Eigenvector}
-\label{app:computing}
+\label{ch06:app:computing}
 
 \paragraph{Power iteration.} The simplest algorithm:
 \begin{enumerate}
@@ -698,9 +623,9 @@ def spectral_gap(W):
 
 \subsection*{Appendix 6B: Proof of Perron-Frobenius (Positive Case)}
 \addcontentsline{toc}{subsection}{Appendix 6B: Proof of Perron-Frobenius (Positive Case)}
-\label{app:PF_proof}
+\label{ch06:app:PF_proof}
 
-We prove Theorem~\ref{thm:PF} for the case $W > 0$ (all entries strictly positive). The irreducible case requires additional machinery (see Horn and Johnson, 2012, Chapter~8).
+We prove Theorem~\ref{ch06:thm:PF} for the case $W > 0$ (all entries strictly positive). The irreducible case requires additional machinery (see Horn and Johnson, 2012, Chapter~8).
 
 \paragraph{Setup.} Let $W > 0$ be $N \times N$ with all entries strictly positive. Define the positive cone $\mathcal{K} = \{\x \in \R^N : x_i > 0 \text{ for all } i\}$ and the simplex $\Delta = \{\x \in \mathcal{K} : \|\x\|_1 = 1\}$.
 
@@ -738,27 +663,27 @@ In 1981, at the age of eighty, Ra\'{u}l Prebisch published \textit{Capitalismo P
 
 The book's argument maps directly onto this chapter's formal framework.
 
-\textbf{Part 1: The surplus and its appropriation.} Prebisch defined the \textit{excedente econ\'{o}mico} (economic surplus) as the difference between total output and the consumption necessary to sustain the labor force. In a capitalist economy, the surplus is not distributed by a planner; it is \textit{appropriated} through a power structure. The agents who appropriate the most surplus are not necessarily the most productive --- they are the ones with the strongest structural position. In this chapter's notation: the surplus allocation is proportional to the Perron eigenvector $\boldsymbol{\pi}(W)$. The agents with the highest $\pi_i$ capture the largest share, regardless of their marginal product. Proposition~\ref{prop:equal_power} states the condition under which appropriation equals contribution: $W$ must be doubly stochastic. Prebisch's entire book is an argument that peripheral $W$ is not doubly stochastic.
+\textbf{Part 1: The surplus and its appropriation.} Prebisch defined the \textit{excedente econ\'{o}mico} (economic surplus) as the difference between total output and the consumption necessary to sustain the labor force. In a capitalist economy, the surplus is not distributed by a planner; it is \textit{appropriated} through a power structure. The agents who appropriate the most surplus are not necessarily the most productive --- they are the ones with the strongest structural position. In this chapter's notation: the surplus allocation is proportional to the Perron eigenvector $\boldsymbol{\pi}(W)$. The agents with the highest $\pi_i$ capture the largest share, regardless of their marginal product. Proposition~\ref{ch06:prop:equal_power} states the condition under which appropriation equals contribution: $W$ must be doubly stochastic. Prebisch's entire book is an argument that peripheral $W$ is not doubly stochastic.
 
 \textbf{Part 2: Power is relational, not individual.} Prebisch explicitly rejected the neoclassical view that factor payments reflect marginal products. In peripheral capitalism, wages are held below marginal product not because of market imperfections (in the neoclassical sense) but because \textit{the power structure of the labor market favors employers}. The employer's structural position --- monopsony in thin labor markets, control over hiring and firing in the absence of unions, political connections that shape regulation --- gives her a Perron weight $\pi_{\text{employer}} \gg 1/N$. The worker's structural position --- limited outside options, geographic immobility, dependence on a single employer --- gives $\pi_{\text{worker}} \ll 1/N$. The wage is determined not by the intersection of supply and demand curves but by the bargaining equilibrium of Chapter~7, with weights from the Perron eigenvector of this chapter.
 
-This is exactly equation~\eqref{eq:perron_component}: $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$. The worker's power is low because the powerful agents who ``point toward'' her (her employers) do not depend heavily on her individually ($W_{ji}$ small for any specific worker $j$). The employer's power is high because workers depend heavily on her ($W_{ij}$ large for many workers $i$). The recursion --- power comes from being depended upon by the powerful --- is the mathematical content of Prebisch's argument that ``power relations between social strata'' determine surplus appropriation.
+This is exactly equation~\eqref{ch06:eq:perron_component}: $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$. The worker's power is low because the powerful agents who ``point toward'' her (her employers) do not depend heavily on her individually ($W_{ji}$ small for any specific worker $j$). The employer's power is high because workers depend heavily on her ($W_{ij}$ large for many workers $i$). The recursion --- power comes from being depended upon by the powerful --- is the mathematical content of Prebisch's argument that ``power relations between social strata'' determine surplus appropriation.
 
-\textbf{Part 3: The political economy of structural reproduction.} Prebisch argued that the power structure reproduces itself politically: those who appropriate the surplus use part of it to maintain the institutions (legal frameworks, education systems, media) that sustain their structural position. In the notation of Chapters~5 and~8: the powerful invest in $W^I$ (shaping information flows to justify the existing distribution) and in $W^P$ (maintaining production structures that keep their Perron weight high). The spectral gap $\Gamma$ measures how entrenched this reproduction is: small $\Gamma$ means highly concentrated power that is difficult to dislodge (Proposition~\ref{prop:star_power}).
+\textbf{Part 3: The political economy of structural reproduction.} Prebisch argued that the power structure reproduces itself politically: those who appropriate the surplus use part of it to maintain the institutions (legal frameworks, education systems, media) that sustain their structural position. In the notation of Chapters~5 and~8: the powerful invest in $W^I$ (shaping information flows to justify the existing distribution) and in $W^P$ (maintaining production structures that keep their Perron weight high). The spectral gap $\Gamma$ measures how entrenched this reproduction is: small $\Gamma$ means highly concentrated power that is difficult to dislodge (Proposition~\ref{ch06:prop:star_power}).
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Prebisch's argument (1981)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Surplus appropriated by power & $\boldsymbol{\pi}(W)$ governs allocation & Def.~\ref{def:eigenvector} \\
-Power is relational, not individual & $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$ (recursive) & Eq.~\eqref{eq:perron_component} \\
-Equal pay iff symmetric interaction & $\boldsymbol{\pi} = \frac{1}{N}\ones$ iff doubly stochastic & Prop.~\ref{prop:equal_power} \\
-Power concentrates in hubs & Star: $\pi_h \to 1$ as $N \to \infty$ & Prop.~\ref{prop:star_power} \\
-Structure reproduces itself & Small $\Gamma$ = entrenched power & Ex.~\ref{ex:gap} \\
-Power $\neq$ wealth & $\boldsymbol{\pi}$ is property of $W$, not $\boldsymbol{\omega}$ & Ex.~\ref{ex:rich_poor} \\
+Surplus appropriated by power & $\boldsymbol{\pi}(W)$ governs allocation & Def.~\ref{ch06:def:eigenvector} \\
+Power is relational, not individual & $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$ (recursive) & Eq.~\eqref{ch06:eq:perron_component} \\
+Equal pay iff symmetric interaction & $\boldsymbol{\pi} = \frac{1}{N}\ones$ iff doubly stochastic & Prop.~\ref{ch06:prop:equal_power} \\
+Power concentrates in hubs & Star: $\pi_h \to 1$ as $N \to \infty$ & Prop.~\ref{ch06:prop:star_power} \\
+Structure reproduces itself & Small $\Gamma$ = entrenched power & Ex.~\ref{ch06:ex:gap} \\
+Power $\neq$ wealth & $\boldsymbol{\pi}$ is property of $W$, not $\boldsymbol{\omega}$ & Ex.~\ref{ch06:ex:rich_poor} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Prebisch was eighty when he wrote this. He had spent three decades building institutions (CEPAL, UNCTAD, ILPES) and two decades watching those institutions' prescriptions --- import substitution, regional integration, international commodity agreements --- partially succeed and partially fail. \textit{Capitalismo Perif\'{e}rico} was his attempt to explain why: the structural policies he had championed changed $W^P$ (the production network) but did not change the \textit{power structure} that determined who appropriated the gains. The Perron eigenvector shifted, but not enough, because the other networks ($W^U$, $W^I$) reproduced the old $\boldsymbol{\pi}$.

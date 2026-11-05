@@ -1,71 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 17: Domestic Structural Diagnostics}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 17} \\[0.5em]
-\LARGE Domestic Structural Diagnostics \\[0.3em]
-\large\textit{Reading the National Heatmap}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{16}}{}
+\chapter{Domestic Structural Diagnostics}\label{ch:17}
+\chaptersubtitle{Reading the National Heatmap}
 \begin{quote}
 \textit{``La heterogeneidad estructural se manifiesta en la coexistencia de actividades econ\'{o}micas con niveles de productividad correspondientes a distintas \'{e}pocas hist\'{o}ricas.''}\\[0.3em]
 \textnormal{[``Structural heterogeneity manifests itself in the coexistence of economic activities with productivity levels corresponding to distinct historical epochs.'']}\\
@@ -100,20 +37,20 @@ Bolivia is the case study throughout. Not because Bolivia is special, but becaus
 
 %% =====================================================================
 \section{Instrument 1: The Domestic Spectral Gap}
-\label{sec:gamma}
+\label{ch17:sec:gamma}
 %% =====================================================================
 
 \subsection{Estimation from I-O Tables}
 
-\begin{definition}[Domestic Spectral Gap]\label{def:domestic_gamma}
+\begin{definition}[Domestic Spectral Gap]\label{ch17:def:domestic_gamma}
 Given the domestic input-output matrix $A$ (from INE, CEPAL, or OECD ICIO), construct the domestic production weight matrix:
-\begin{equation}\label{eq:domestic_WP}
+\begin{equation}\label{ch17:eq:domestic_WP}
 W^P_{ss'} = \frac{A_{ss'}}{\sum_{s''} A_{ss''}},
 \end{equation}
 where $s, s'$ index domestic sectors. The \textbf{domestic spectral gap} is $\Gamma(W^P_{\text{domestic}}) = 1 - |\lambda_2(W^P)|$.
 \end{definition}
 
-\begin{example}[Bolivia's Domestic $\Gamma$, 2016]\label{ex:bolivia_gamma}
+\begin{example}[Bolivia's Domestic $\Gamma$, 2016]\label{ch17:ex:bolivia_gamma}
 Using Bolivia's 2016 I-O table from INE (35 sectors aggregated to 12 for tractability):
 
 \begin{center}
@@ -209,18 +146,18 @@ For comparison: South Korea's $\Gamma \approx 0.45$; Germany's $\Gamma \approx 0
 
 %% =====================================================================
 \section{Instrument 2: Between-Block Variance}
-\label{sec:between}
+\label{ch17:sec:between}
 %% =====================================================================
 
-\begin{definition}[Between-Block Variance]\label{def:between}
+\begin{definition}[Between-Block Variance]\label{ch17:def:between}
 Partition the economy into $k$ blocks (identified from the spectral decomposition of $W^P$ or from sectoral groupings). Let $\bar{y}_b$ be the mean output per worker in block $b$, $N_b$ the employment in block $b$, and $\bar{y}$ the national average. The \textbf{between-block variance} is:
-\begin{equation}\label{eq:between}
+\begin{equation}\label{ch17:eq:between}
 V_B = \sum_{b=1}^k \frac{N_b}{N}(\bar{y}_b - \bar{y})^2.
 \end{equation}
 The \textbf{between-block share} of total inequality is $\sigma_B = V_B / V_{\text{total}}$.
 \end{definition}
 
-\begin{proposition}[Between-Block Share as Structural Inequality]\label{prop:between}
+\begin{proposition}[Between-Block Share as Structural Inequality]\label{ch17:prop:between}
 From Chapter~2, Proposition~2.5: the welfare loss from block disconnection is $L_{\text{block}} = \frac{\kappa}{2}NV_B$. The between-block share $\sigma_B$ measures the fraction of inequality that is \textbf{structural} --- produced by the disconnection of the blocks --- as opposed to \textbf{residual} --- inequality within blocks that could be addressed by within-block markets.
 
 When $\sigma_B$ is large: most inequality is between blocks (structural). Transfers within blocks reduce the residual; only cross-block linkages reduce the structural component.
@@ -228,7 +165,7 @@ When $\sigma_B$ is large: most inequality is between blocks (structural). Transf
 When $\sigma_B$ is small: most inequality is within blocks. The economy's problem is not structural heterogeneity but within-sector inequality (which may still have structural causes at a finer scale).
 \end{proposition}
 
-\begin{example}[Bolivia's Between-Block Inequality, 2019]\label{ex:bolivia_between}
+\begin{example}[Bolivia's Between-Block Inequality, 2019]\label{ch17:ex:bolivia_between}
 Using Bolivia's Encuesta de Hogares 2019. Three blocks: (1) Hydrocarbons/Mining/Government ($N_1 = 0.08N$, $\bar{y}_1 = 18{,}500$ Bs/month), (2) Formal urban ($N_2 = 0.35N$, $\bar{y}_2 = 5{,}200$ Bs/month), (3) Informal/Rural ($N_3 = 0.57N$, $\bar{y}_3 = 1{,}800$ Bs/month).
 
 National mean: $\bar{y} = 0.08 \times 18{,}500 + 0.35 \times 5{,}200 + 0.57 \times 1{,}800 = 4{,}326$ Bs.
@@ -256,14 +193,14 @@ Bolivia's modern pole (gas/mining/government) has average income 10 times the pr
 
 %% =====================================================================
 \section{Instrument 3: The Domestic Perron Eigenvector}
-\label{sec:perron}
+\label{ch17:sec:perron}
 %% =====================================================================
 
-\begin{definition}[Domestic Power Distribution]\label{def:domestic_pi}
+\begin{definition}[Domestic Power Distribution]\label{ch17:def:domestic_pi}
 The \textbf{domestic power distribution} is the left Perron eigenvector $\boldsymbol{\pi}$ of the domestic composite weight matrix $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$. The \textbf{power Gini} is the Gini coefficient of $\pi_1, \ldots, \pi_N$.
 \end{definition}
 
-\begin{example}[Bolivia's Domestic $\boldsymbol{\pi}$]\label{ex:bolivia_pi}
+\begin{example}[Bolivia's Domestic $\boldsymbol{\pi}$]\label{ch17:ex:bolivia_pi}
 Approximating $\boldsymbol{\pi}$ from the domestic $W^P$ (12 sectors):
 
 \begin{center}
@@ -301,18 +238,18 @@ This IS the power asymmetry that enters the bargaining allocation (Chapter~7). T
 
 %% =====================================================================
 \section{Instrument 4: The Domestic $N_{\text{eff}}(W^I)$}
-\label{sec:neff}
+\label{ch17:sec:neff}
 %% =====================================================================
 
-\begin{definition}[Domestic Information Effective Sample Size]\label{def:domestic_neff}
+\begin{definition}[Domestic Information Effective Sample Size]\label{ch17:def:domestic_neff}
 Given a proxy for the domestic information network $W^I$ (from media data, social network data, or education enrollment data), the \textbf{domestic $N_{\text{eff}}$} is:
-\begin{equation}\label{eq:domestic_neff}
+\begin{equation}\label{ch17:eq:domestic_neff}
 N_{\text{eff}}(W^I) = \frac{1}{\sum_j (\pi^I_j)^2},
 \end{equation}
 where $\boldsymbol{\pi}^I$ is the Perron eigenvector of $W^I$.
 \end{definition}
 
-\begin{example}[Bolivia's $N_{\text{eff}}$]\label{ex:bolivia_neff}
+\begin{example}[Bolivia's $N_{\text{eff}}$]\label{ch17:ex:bolivia_neff}
 Approximating $W^I$ from media concentration data. Bolivia has three main media ecosystems:
 \begin{enumerate}
 \item State media (Radio Patria Nueva, Bolivia TV, Cambio): dominant in the altiplano and valleys. $\pi^I \approx 0.35$.
@@ -331,10 +268,10 @@ For comparison: the US has $N_{\text{eff}} \approx 15$--$20$ (diverse media ecos
 
 %% =====================================================================
 \section{Instrument 5: The Domestic $\Psi$ Ratio}
-\label{sec:psi}
+\label{ch17:sec:psi}
 %% =====================================================================
 
-\begin{definition}[Domestic $\Psi$]\label{def:domestic_psi}
+\begin{definition}[Domestic $\Psi$]\label{ch17:def:domestic_psi}
 The domestic $\Psi$ ratio for a target behavior (female LFP, savings, education enrollment) is estimated from the cohort-year decomposition of Chapter~11:
 \begin{equation}
 \hat{\Psi}_{\text{domestic}} = \frac{\Var(\hat{\delta}_c)}{\Var(\hat{\alpha}_t)},
@@ -342,7 +279,7 @@ The domestic $\Psi$ ratio for a target behavior (female LFP, savings, education 
 where $\hat{\delta}_c$ is the cohort effect and $\hat{\alpha}_t$ is the year effect.
 \end{definition}
 
-\begin{example}[Bolivia's $\Psi$ for Self-Employment]\label{ex:bolivia_psi}
+\begin{example}[Bolivia's $\Psi$ for Self-Employment]\label{ch17:ex:bolivia_psi}
 From Chapter~11 (Proposition~11.5): Bolivia's self-employment rate varies from 30\% (Santa Cruz) to 65\% (rural altiplano). Using EH data (2000--2019), the cohort-year decomposition gives:
 
 $\Var(\hat{\delta}_c) = 0.028$ (cohort component: norms about self-employment differ across generations). $\Var(\hat{\alpha}_t) = 0.018$ (year component: labor market conditions change across time).
@@ -368,10 +305,10 @@ Education enrollment & $\approx 0.7$ & Enforcement (slight) \\
 
 %% =====================================================================
 \section{The Structural Health Dashboard}
-\label{sec:dashboard}
+\label{ch17:sec:dashboard}
 %% =====================================================================
 
-\begin{definition}[Structural Health Dashboard]\label{def:dashboard}
+\begin{definition}[Structural Health Dashboard]\label{ch17:def:dashboard}
 The \textbf{structural health dashboard} for a national economy reports five numbers:
 \begin{center}
 \begin{tabular}{llll}
@@ -389,7 +326,7 @@ Formation ratio & $\Psi$ & --- & Formation channel strength \\
 The first four instruments have clear benchmarks (the competitive economy $W^{CE}$). The fifth ($\Psi$) is descriptive: it tells you how much the formation channel matters, not whether it is ``too large'' or ``too small.''
 \end{definition}
 
-\begin{example}[Bolivia's Dashboard, 2019]\label{ex:dashboard}
+\begin{example}[Bolivia's Dashboard, 2019]\label{ch17:ex:dashboard}
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
@@ -456,14 +393,14 @@ A single number --- $\Gamma$ --- contains most of the information. But the dashb
 
 %% =====================================================================
 \section{Structural Change Over Time}
-\label{sec:time}
+\label{ch17:sec:time}
 %% =====================================================================
 
-\begin{proposition}[Tracking Structural Health]\label{prop:tracking}
+\begin{proposition}[Tracking Structural Health]\label{ch17:prop:tracking}
 The dashboard can be computed for multiple years to track structural change. The trajectory of $(\Gamma_t, \sigma_{B,t}, G(\boldsymbol{\pi}_t), N_{\text{eff},t})$ over time reveals whether the economy is integrating or fragmenting.
 \end{proposition}
 
-\begin{example}[Bolivia 1990--2019: Structural Trajectory]\label{ex:trajectory}
+\begin{example}[Bolivia 1990--2019: Structural Trajectory]\label{ch17:ex:trajectory}
 \begin{center}
 \begin{tabular}{lcccc}
 \toprule
@@ -494,7 +431,7 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch17:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -512,12 +449,12 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch17:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{17.\arabic*}, leftmargin=3em]
 
-\item \textbf{Compute Bolivia's $\Gamma$.} Download Bolivia's I-O table from INE (or use the OECD ICIO). Aggregate to 8--12 sectors. Construct $W^P$. Compute the eigenvalues and $\Gamma$. Compare with the estimate in Example~\ref{ex:bolivia_gamma}.
+\item \textbf{Compute Bolivia's $\Gamma$.} Download Bolivia's I-O table from INE (or use the OECD ICIO). Aggregate to 8--12 sectors. Construct $W^P$. Compute the eigenvalues and $\Gamma$. Compare with the estimate in Example~\ref{ch17:ex:bolivia_gamma}.
 
 \item \textbf{Between-block variance.} Using Bolivia's EH 2019:
 \begin{enumerate}
@@ -527,7 +464,7 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 \item Which partition gives the highest $\sigma_B$? What does this tell you about the ``natural'' block structure?
 \end{enumerate}
 
-\item \textbf{Power-employment ratio.} Reproduce Example~\ref{ex:bolivia_pi}:
+\item \textbf{Power-employment ratio.} Reproduce Example~\ref{ch17:ex:bolivia_pi}:
 \begin{enumerate}
 \item Compute $\boldsymbol{\pi}$ from the domestic $W^P$.
 \item Compute the power-employment ratio $\pi_s/\text{share}_s$ for each sector.
@@ -543,7 +480,7 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 \item Compare with Bolivia's $N_{\text{eff}} = 3.2$.
 \end{enumerate}
 
-\item \textbf{Bolivia's structural trajectory.} Reproduce Example~\ref{ex:trajectory} using multiple years of I-O data (if available) or EH data:
+\item \textbf{Bolivia's structural trajectory.} Reproduce Example~\ref{ch17:ex:trajectory} using multiple years of I-O data (if available) or EH data:
 \begin{enumerate}
 \item Compute $\sigma_B$ for 2000, 2005, 2010, 2015, 2019. Plot the trajectory.
 \item Is there a structural break at 2006 (nationalization)? At 2009 (new constitution)?
@@ -560,7 +497,7 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 
 \item \textbf{Bolivia's escape plan.} Synthesize the entire book for Bolivia:
 \begin{enumerate}
-\item Current position: dashboard from Example~\ref{ex:dashboard}. ECI $\approx -0.8$ (Chapter~16). Product-space position: sparse periphery.
+\item Current position: dashboard from Example~\ref{ch17:ex:dashboard}. ECI $\approx -0.8$ (Chapter~16). Product-space position: sparse periphery.
 \item Binding constraints: which instrument is furthest from benchmark? ($\Gamma$ at 0.13 vs.\ benchmark 1.0 --- the spectral gap is the binding constraint.)
 \item Operator sequence (Chapter~15): information $\to$ institutions $\to$ education $\to$ infrastructure $\to$ ISI-B.
 \item Political feasibility (Chapter~14): which coalition would support this sequence? Is the current coalition ($\{M, W\}$ or $\{B, M, W\}$) compatible?
@@ -578,7 +515,7 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 
 \subsection*{Appendix 17A: Estimating $W^P$ from I-O Tables}
 \addcontentsline{toc}{subsection}{Appendix 17A: Estimating $W^P$}
-\label{app:estimation}
+\label{ch17:app:estimation}
 
 \paragraph{The data.} A national I-O table reports $Z_{ss'}$: the intermediate consumption of sector $s$'s output used by sector $s'$ as input. Total output of sector $s$ is $X_s = \sum_{s'} Z_{ss'} + Y_s$ (intermediate sales + final demand).
 
@@ -593,7 +530,7 @@ The Prebisch-Fajnzylber diagnosis: Bolivia redistributed within the casillero va
 
 \subsection*{Appendix 17B: Estimating $\sigma_B$ from Household Surveys}
 \addcontentsline{toc}{subsection}{Appendix 17B: Estimating $\sigma_B$}
-\label{app:sigma}
+\label{ch17:app:sigma}
 
 \paragraph{The data.} Household surveys (Bolivia's EH, Brazil's PNAD, Mexico's ENIGH) report individual income and sector of employment. Block assignment: classify each individual into a block based on sector, formality status, or geographic location.
 
@@ -624,7 +561,7 @@ In this chapter's notation: the casillero vac\'{i}o is the region of the (ECI, G
 The dashboard of this chapter operationalizes Pinto's diagnosis ($\sigma_B$ measures heterogeneity) and Fajnzylber's prognosis ($\Gamma$ predicts whether the casillero vac\'{i}o can be escaped).
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Concept} & \textbf{Pinto (1970)} & \textbf{Fajnzylber (1990)} \\
 \midrule
@@ -636,7 +573,7 @@ Dashboard instrument & $\sigma_B$, $G(\boldsymbol{\pi})$ & $\Gamma$, ECI \\
 Policy implication & Build cross-block linkages & Raise ECI (``competitividad aut\'{e}ntica'') \\
 Bolivia 2019 & $\sigma_B = 0.62$, three strata visible & $\Gamma = 0.13$, ECI $= -0.8$ \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Pinto diagnosed the disease. Fajnzylber predicted its consequence. This chapter provides the laboratory: five instruments that measure the disease, track its evolution, and identify the structural interventions that could cure it. The instruments are computable from publicly available data (I-O tables, household surveys, trade data, media concentration indices). Any country can run the diagnostic. Bolivia's results --- $\Gamma = 0.13$, $\sigma_B = 0.62$, $G(\boldsymbol{\pi}) = 0.52$ --- are the quantitative confirmation of what Pinto and Fajnzylber described in prose fifty years ago.
@@ -654,6 +591,5 @@ Pinto diagnosed the disease. Fajnzylber predicted its consequence. This chapter 
 \textbf{Structural diagnostics methods:} CEPAL's Structural Change Index (various publications). UNIDO's Competitive Industrial Performance Index. The Economic Complexity Observatory (\texttt{oec.world}).
 
 \textbf{Bolivia data:} INE (Instituto Nacional de Estad\'{i}stica): I-O tables, Encuesta de Hogares. UDAPE (Unidad de An\'{a}lisis de Pol\'{i}ticas Sociales y Econ\'{o}micas): social indicators. The World Bank's Development Indicators for cross-country comparison.
-
 
 \end{document}

@@ -1,0 +1,140 @@
+%% structecon.sty --- single shared preamble for Structural Economics
+%% Loaded by structural_economics_book.tex; every chapter is a subfile of it,
+%% so chapters compile standalone with exactly the same definitions.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{structecon}[2026/11/05 Structural Economics shared preamble]
+
+%% ---------------------------------------------------------------------
+%% Packages
+%% ---------------------------------------------------------------------
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{mathpazo}
+\RequirePackage[margin=1.15in]{geometry}
+\RequirePackage{setspace}
+\RequirePackage{amsmath,amsthm,amssymb}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{tabularx}
+\RequirePackage{longtable}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\RequirePackage{tcolorbox}
+\RequirePackage{float}
+\RequirePackage{graphicx}
+\RequirePackage{titlesec}
+\RequirePackage{emptypage}
+\RequirePackage{hyperref}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black,
+  urlcolor=blue!70!black}
+%% Bold math in section titles: give hyperref a plain-text fallback so
+%% \boldsymbol in \section{...} no longer errors in PDF bookmarks.
+\pdfstringdefDisableCommands{\def\boldsymbol#1{#1}}
+
+%% ---------------------------------------------------------------------
+%% Layout
+%% ---------------------------------------------------------------------
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+\setlength{\headheight}{15pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape\leftmark}
+\fancyhead[RO]{\small\itshape\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\part}[display]
+  {\centering\Huge\bfseries}
+  {\Large\textsc{Part \thepart}}
+  {0.5em}
+  {}
+\titlespacing*{\part}{0pt}{-30pt}{40pt}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
+
+%% Subtitle printed under each \chapter heading
+\newcommand{\chaptersubtitle}[1]{%
+  \vspace*{-1.5em}{\large\itshape #1\par}\vspace{1.5em}}
+
+%% Wide mapping tables: full text width, wrapping columns
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+%% ---------------------------------------------------------------------
+%% Theorem-like environments (numbered per chapter: Proposition 6.4)
+%%   Theorem / Proposition / Lemma / Corollary: proved in the text or an
+%%     appendix.
+%%   Conjecture: a precise claim not proved here, with a testable content.
+%%   Stylized fact / Empirical result: claims about data, with a source.
+%% ---------------------------------------------------------------------
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{conjecture}[definition]{Conjecture}
+\newtheorem{example}[definition]{Example}
+\newtheorem{stylizedfact}[definition]{Stylized Fact}
+\newtheorem{empiricalresult}[definition]{Empirical Result}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+%% ---------------------------------------------------------------------
+%% Boxes
+%% ---------------------------------------------------------------------
+% Blue: mathematical intuition. Usage: \begin{intuition}[Title]
+\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
+  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
+% Orange: chapter punchlines. Usage: \begin{keyinsight}
+\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners,
+  boxrule=0.5pt}
+% Green: results that formalize CEPAL concepts. Usage: \begin{prebisch}[Title]
+\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
+  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners,
+  boxrule=0.5pt}
+% Gray: visualization panels. Usage: \begin{vizpanel}{Title}
+% (mandatory argument: the title appears in the title bar)
+\newtcolorbox{vizpanel}[1]{colback=gray!4, colframe=gray!50!black,
+  fonttitle=\bfseries, title={Visualization: #1}, sharp corners,
+  boxrule=0.5pt}
+% Green: case study box (optional). Usage: \begin{structroots}[Title]
+\newtcolorbox{structroots}[1][]{colback=green!3, colframe=green!40!black,
+  fonttitle=\bfseries, title={Structuralist Case Study: #1}, sharp corners,
+  boxrule=0.5pt}
+
+%% Tag for tables/examples whose numbers are illustrative, not data
+\newcommand{\illustrative}{\textsc{[Illustrative]}}
+
+%% ---------------------------------------------------------------------
+%% Notation (see the notation table in the front matter)
+%% ---------------------------------------------------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\p}{\mathbf{p}}
+\newcommand{\w}{\mathbf{w}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\K}{\mathbf{K}}
+\newcommand{\bsigma}{\boldsymbol{\sigma}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bpi}{\boldsymbol{\pi}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\plim}{plim}
+\DeclareMathOperator{\tr}{tr}
+% Structural diagnostics (defined in Chapter 1, Section "Conventions")
+\newcommand{\Neff}{N_{\text{eff}}}          % effective number of agents, 1/sum pi_i^2
+\newcommand{\Gap}{\Gamma}                    % spectral gap 1-|lambda_2| (mixing speed)
+\newcommand{\Wce}{W^{\text{CE}}}             % benchmark (1/N) 1 1'
+
+\endinput

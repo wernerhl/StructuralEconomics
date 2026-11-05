@@ -1,72 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\Cov}{Cov}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 18: The Individual Scale --- Gender, Race, and Structure}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 18} \\[0.5em]
-\LARGE The Individual Scale \\[0.3em]
-\large\textit{Gender, Race, and the Edges You Are Not Allowed to Form}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{17}}{}
+\chapter{The Individual Scale}\label{ch:18}
+\chaptersubtitle{Gender, Race, and the Edges You Are Not Allowed to Form}
 \begin{quote}
 \textit{``La clasificaci\'{o}n social de la poblaci\'{o}n mundial seg\'{u}n la idea de raza es, sin duda, el m\'{a}s eficaz instrumento de dominaci\'{o}n social inventado en los \'{u}ltimos 500 a\~{n}os.''}\\[0.3em]
 \textnormal{[``The social classification of the world population according to the idea of race is, without a doubt, the most effective instrument of social domination invented in the last 500 years.'']}\\
@@ -92,24 +28,24 @@ The central result: node attributes create \textbf{assortative mixing} --- the t
 
 %% =====================================================================
 \section{Node Attributes and the Constrained Weight Matrix}
-\label{sec:attributes}
+\label{ch18:sec:attributes}
 %% =====================================================================
 
 \subsection{Formalization}
 
-\begin{definition}[Node Attributes]\label{def:attributes}
+\begin{definition}[Node Attributes]\label{ch18:def:attributes}
 Each agent $i$ has a vector of \textbf{node attributes} $\mathbf{a}_i = (a_{i1}, a_{i2}, \ldots, a_{iK})$, where $a_{ik} \in \{0, 1, \ldots, C_k\}$ for categorical attributes (gender, race, language) or $a_{ik} \in \R$ for continuous attributes (age, education level). The attribute vector is exogenous to the model (for now --- Chapter~27 considers algorithmic classification).
 \end{definition}
 
-\begin{definition}[Attribute-Constrained Weight Matrix]\label{def:constrained_W}
+\begin{definition}[Attribute-Constrained Weight Matrix]\label{ch18:def:constrained_W}
 Node attributes constrain $W$ through an \textbf{assortative mixing function} $\phi: \mathbf{a}_i \times \mathbf{a}_j \to [0, 1]$ that scales the maximum feasible edge weight:
-\begin{equation}\label{eq:constrained}
+\begin{equation}\label{ch18:eq:constrained}
 W_{ij} \leq \phi(\mathbf{a}_i, \mathbf{a}_j) \cdot W^{\max}_{ij},
 \end{equation}
 where $W^{\max}_{ij}$ is the edge weight that would prevail absent the attribute constraint (from pure economic surplus, proximity, and information as in Chapter~13). When $\phi(\mathbf{a}_i, \mathbf{a}_j) = 1$ for all pairs: attributes do not constrain the network. When $\phi = 0$ for some pairs: those edges are forbidden.
 \end{definition}
 
-\begin{example}[Gender as an Attribute Constraint]\label{ex:gender}
+\begin{example}[Gender as an Attribute Constraint]\label{ch18:ex:gender}
 In a labor market with strong gender norms: $\phi_{\text{gender}}(M, M) = 1$, $\phi_{\text{gender}}(F, F) = 1$, $\phi_{\text{gender}}(M, F) = \phi_{\text{gender}}(F, M) = \lambda_g$, where $\lambda_g \in [0, 1]$ measures gender openness. When $\lambda_g = 1$: no gender barrier. When $\lambda_g = 0$: complete gender segregation. When $\lambda_g = 0.3$ (a typical developing-country estimate): cross-gender professional linkages are 70\% weaker than same-gender ones.
 
 The effect on $W^P$: women's production edges are confined to female-dominated sectors. $W^P$ becomes approximately block-diagonal by gender, with within-gender blocks brighter than cross-gender entries. The spectral gap $\Gamma$ drops. Women's Perron eigenvector weight $\pi^F$ falls below $N_F / N$ (women have less structural power than their population share warrants).
@@ -117,9 +53,9 @@ The effect on $W^P$: women's production edges are confined to female-dominated s
 The effect on $W^I$: women's information edges are confined to female-dominated social circles. $W^I$ becomes gender-assortative. The girl in Potos\'{i} observes mostly female outcomes: low returns to education (because women in her network face constrained $W^P$, reducing their realized returns). Her formation signal is $W^I$-weighted, and $W^I$ shows her a biased sample. She forms low aspirations --- not because she is less capable but because her information network IS the constraint.
 \end{example}
 
-\begin{proposition}[Assortative Mixing Reduces $\Gamma$]\label{prop:assortative}
+\begin{proposition}[Assortative Mixing Reduces $\Gamma$]\label{ch18:prop:assortative}
 For any attribute $k$ with assortative mixing parameter $\lambda_k \in [0, 1]$:
-\begin{equation}\label{eq:assortative_gamma}
+\begin{equation}\label{ch18:eq:assortative_gamma}
 \Gamma(W(\lambda_k)) \leq \Gamma(W(\lambda_k = 1)),
 \end{equation}
 with equality if and only if $\lambda_k = 1$ (no attribute constraint) or the attribute groups have identical internal network structures.
@@ -134,14 +70,14 @@ When $\lambda_k < 1$, the cross-group entries of $W$ are scaled down by $\lambda
 
 %% =====================================================================
 \section{Gender}
-\label{sec:gender}
+\label{ch18:sec:gender}
 %% =====================================================================
 
 \subsection{The Gender Gap as a Spectral Property}
 
-\begin{theorem}[Gender Power Gap]\label{thm:gender_gap}
+\begin{theorem}[Gender Power Gap]\label{ch18:thm:gender_gap}
 In an economy with $N_M$ men and $N_F$ women, where cross-gender edges are constrained by $\lambda_g \in [0, 1]$:
-\begin{equation}\label{eq:gender_pi}
+\begin{equation}\label{ch18:eq:gender_pi}
 \frac{\pi^F_{\text{avg}}}{\pi^M_{\text{avg}}} = \frac{\sum_{j \in F} \pi_j / N_F}{\sum_{j \in M} \pi_j / N_M} \leq 1,
 \end{equation}
 with equality if and only if (i) $\lambda_g = 1$ or (ii) the male and female subnetworks have identical internal structures and equal connection to external nodes.
@@ -154,7 +90,7 @@ The gender power ratio depends on:
 \end{enumerate}
 \end{theorem}
 
-\begin{example}[Bolivia's Gender Structure]\label{ex:bolivia_gender}
+\begin{example}[Bolivia's Gender Structure]\label{ch18:ex:bolivia_gender}
 Using Bolivia's EH 2019. Approximate $W^P$ by gender:
 
 \begin{center}
@@ -180,15 +116,15 @@ Estimated $\pi^F_{\text{avg}} / \pi^M_{\text{avg}} \approx 0.58$: women have 58\
 
 \subsection{The Formation Effect of Gender Norms}
 
-\begin{proposition}[Gender Norms as a Formation Constraint]\label{prop:gender_formation}
+\begin{proposition}[Gender Norms as a Formation Constraint]\label{ch18:prop:gender_formation}
 Gender norms constrain $W^I$ by gender: women observe disproportionately female outcomes. The formation equation for female agents:
-\begin{equation}\label{eq:gender_formation}
+\begin{equation}\label{ch18:eq:gender_formation}
 \theta^F_{i,t+1} = \rho\theta^F_{i,t} + (1-\rho)\bar{\theta} + \mu\left(\sum_j W^I_{ij}r_{j,t} - r^*\right),
 \end{equation}
 where $W^I_{ij}$ is gender-assortative ($W^I_{\text{F,F}} \gg W^I_{\text{F,M}}$). The signal $\sum_j W^I_{ij}r_{j,t}$ is a biased sample: it overweights female returns (low, because $\pi^F$ is low) and underweights male returns (high).
 
 The steady-state gender preference gap:
-\begin{equation}\label{eq:gender_theta_gap}
+\begin{equation}\label{ch18:eq:gender_theta_gap}
 \theta^{*F} - \theta^{*M} = \frac{\mu}{1-\rho}\left(\bar{r}^F(\lambda_g) - \bar{r}^M(\lambda_g)\right),
 \end{equation}
 where $\bar{r}^F < \bar{r}^M$ because women face a constrained $W^P$ that produces lower returns. The preference gap IS the aspiration gap: women form lower aspirations because they observe lower returns, which are lower because their structural position is constrained by gender norms.
@@ -256,20 +192,20 @@ Addressing the gender gap through any single channel is insufficient. Raising wa
 
 %% =====================================================================
 \section{Race and Ethnicity}
-\label{sec:race}
+\label{ch18:sec:race}
 %% =====================================================================
 
 \subsection{Race as a Multi-Layer Constraint}
 
-\begin{definition}[Racial Assortative Mixing]\label{def:racial_mixing}
+\begin{definition}[Racial Assortative Mixing]\label{ch18:def:racial_mixing}
 Let agents be classified into $R$ racial/ethnic groups. The racial mixing function is:
-\begin{equation}\label{eq:racial_mixing}
+\begin{equation}\label{ch18:eq:racial_mixing}
 \phi_{\text{race}}(r_i, r_j) = \begin{cases} 1 & \text{if } r_i = r_j, \\ \lambda_r & \text{if } r_i \neq r_j, \end{cases}
 \end{equation}
 where $\lambda_r \in [0, 1]$ is the cross-racial openness parameter. Unlike gender (which has a biological component in reproduction), racial classification is entirely socially constructed (Quijano, 2000). The parameter $\lambda_r$ is therefore a property of the social system, not of biology.
 \end{definition}
 
-\begin{proposition}[Race Constrains All Three Networks Simultaneously]\label{prop:race_three}
+\begin{proposition}[Race Constrains All Three Networks Simultaneously]\label{ch18:prop:race_three}
 In most societies, racial assortative mixing operates on $W^U$, $W^P$, and $W^I$ simultaneously with correlated $\lambda_r$ values:
 \begin{enumerate}
 \item $W^U$: interracial social bonds are weaker ($\lambda_r^U \approx 0.2$--$0.4$ in the Americas). Who you care about is structured by race.
@@ -280,7 +216,7 @@ In most societies, racial assortative mixing operates on $W^U$, $W^P$, and $W^I$
 The correlation $\lambda_r^U \approx \lambda_r^P \approx \lambda_r^I$ means the Perron eigenvectors of all three networks are aligned: racial minorities have low power in $W^U$, low power in $W^P$, AND low epistemic power in $W^I$. This is Quijano's ``coloniality of power operating on every plane'' --- formalized as aligned assortative mixing across all three network layers.
 \end{proposition}
 
-\begin{example}[Bolivia's Ethnic Structure]\label{ex:bolivia_ethnic}
+\begin{example}[Bolivia's Ethnic Structure]\label{ch18:ex:bolivia_ethnic}
 Bolivia's 2012 Census: 41\% self-identified as indigenous (Quechua 21\%, Aymara 15\%, other 5\%), 59\% as mestizo or white.
 
 Approximate $\lambda_r$ values for Bolivia:
@@ -315,16 +251,16 @@ Indigenous Bolivians are 41\% of the population but hold approximately 33\% of s
 
 \subsection{The Intersectionality Theorem}
 
-\begin{theorem}[Intersectional Power Gap]\label{thm:intersectionality}
+\begin{theorem}[Intersectional Power Gap]\label{ch18:thm:intersectionality}
 When multiple attributes $(a_1, a_2, \ldots, a_K)$ simultaneously constrain $W$ through assortative mixing functions $\phi_1, \phi_2, \ldots, \phi_K$, the composite constraint is:
-\begin{equation}\label{eq:intersectional}
+\begin{equation}\label{ch18:eq:intersectional}
 \phi(\mathbf{a}_i, \mathbf{a}_j) = \prod_{k=1}^K \phi_k(a_{ik}, a_{jk}).
 \end{equation}
 
 The cross-group edge weight for agents who differ on multiple attributes is the PRODUCT of the individual constraints. Agents who differ on two attributes face a constraint of $\lambda_1 \cdot \lambda_2$; on three: $\lambda_1 \cdot \lambda_2 \cdot \lambda_3$.
 
 Consequence: the power gap is \textbf{multiplicative, not additive}. An indigenous woman in Bolivia faces:
-\begin{equation}\label{eq:bolivia_intersection}
+\begin{equation}\label{ch18:eq:bolivia_intersection}
 \phi_{\text{indigenous woman, mestizo man}} = \lambda_r \cdot \lambda_g \approx 0.35 \times 0.30 = 0.105.
 \end{equation}
 Her cross-group edge weight to a mestizo man is 10.5\% of the unconstrained maximum. She is triply trapped: her $W^P$ is constrained by both gender and race; her $W^I$ is constrained by both; her $W^U$ is constrained by both. The blocks are nested.
@@ -343,12 +279,12 @@ This is why intersectional disadvantage is qualitatively different from single-d
 
 %% =====================================================================
 \section{The Formation Trap at the Individual Scale}
-\label{sec:formation_individual}
+\label{ch18:sec:formation_individual}
 %% =====================================================================
 
-\begin{theorem}[Attribute-Mediated Self-Confirming Preferences]\label{thm:attribute_trap}
+\begin{theorem}[Attribute-Mediated Self-Confirming Preferences]\label{ch18:thm:attribute_trap}
 When $W^I$ is assortative on attribute $k$ (with $\lambda_k < 1$), agents in the disadvantaged group form steady-state preferences:
-\begin{equation}\label{eq:attribute_formation}
+\begin{equation}\label{ch18:eq:attribute_formation}
 \theta^*_{\text{disadv}} = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{r}_{\text{disadv}}(\lambda_k) - r^*\right) < \theta^*_{\text{adv}} = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{r}_{\text{adv}}(\lambda_k) - r^*\right),
 \end{equation}
 because $\bar{r}_{\text{disadv}} < \bar{r}_{\text{adv}}$ (the disadvantaged group faces a constrained $W^P$ that produces lower returns, and the assortative $W^I$ ensures they observe mainly their own group's returns).
@@ -361,7 +297,7 @@ The preference gap $\Delta\theta^* = \theta^*_{\text{adv}} - \theta^*_{\text{dis
 \end{enumerate}
 \end{theorem}
 
-\begin{example}[Gender Aspiration Gap in Bolivia]\label{ex:gender_aspiration}
+\begin{example}[Gender Aspiration Gap in Bolivia]\label{ch18:ex:gender_aspiration}
 Using the Global Findex 2021 for Bolivia:
 \begin{center}
 \begin{tabular}{lcc}
@@ -388,24 +324,24 @@ The formation channel is 2.3 times the enforcement channel. Removing credit cons
 
 %% =====================================================================
 \section{The Welfare Cost of Attribute Constraints}
-\label{sec:welfare}
+\label{ch18:sec:welfare}
 %% =====================================================================
 
-\begin{theorem}[Welfare Loss from Assortative Mixing]\label{thm:welfare_attribute}
+\begin{theorem}[Welfare Loss from Assortative Mixing]\label{ch18:thm:welfare_attribute}
 The total welfare loss from attribute constraint $k$ with mixing parameter $\lambda_k$:
-\begin{equation}\label{eq:welfare_attribute}
+\begin{equation}\label{ch18:eq:welfare_attribute}
 L(\lambda_k) = \underbrace{\frac{\kappa N}{2}\Var(\pi_i(\lambda_k))\Phi^2}_{L_{\text{power}}(\lambda_k)} + \underbrace{\frac{\mu^2\Var(c_j(\lambda_k))\Psi}{(1-\rho)^2}}_{L_{\text{formation}}(\lambda_k)},
 \end{equation}
 where $L_{\text{power}}$ is the static welfare loss from power asymmetry (Chapter~2) and $L_{\text{formation}}$ is the additional loss from the preference gap produced by the formation model.
 
 The welfare gain from eliminating the attribute constraint ($\lambda_k \to 1$):
-\begin{equation}\label{eq:gain}
+\begin{equation}\label{ch18:eq:gain}
 \Delta L = L(\lambda_k) - L(1) > 0.
 \end{equation}
 This is the \textbf{cost of discrimination}: the welfare loss attributable to the social classification system, decomposed into power and formation components.
 \end{theorem}
 
-\begin{example}[The Cost of Gender Discrimination in Bolivia]\label{ex:cost}
+\begin{example}[The Cost of Gender Discrimination in Bolivia]\label{ch18:ex:cost}
 Using the estimates from this chapter: $\lambda_g \approx 0.3$, $\pi^F_{\text{avg}}/\pi^M_{\text{avg}} = 0.58$, $\hat{\Psi} = 2.3$, $\rho = 0.85$, $\kappa = 0.5$, $N = 11$ million.
 
 $L_{\text{power}}(\lambda_g = 0.3)$: from the gender power gap, $\Var(\pi_i)$ is approximately 0.003 higher than under $\lambda_g = 1$. $L_{\text{power}} \approx 0.5 \times 11M \times 0.003 \times \Phi^2$.
@@ -420,10 +356,10 @@ The formation channel triples the welfare cost of gender discrimination. Standar
 
 %% =====================================================================
 \section{Policy: Changing $\lambda$}
-\label{sec:policy}
+\label{ch18:sec:policy}
 %% =====================================================================
 
-\begin{proposition}[Policy Instruments for Attribute Constraints]\label{prop:policy_attributes}
+\begin{proposition}[Policy Instruments for Attribute Constraints]\label{ch18:prop:policy_attributes}
 \begin{center}
 \begin{tabular}{llll}
 \toprule
@@ -445,7 +381,7 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch18:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -467,7 +403,7 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch18:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{18.\arabic*}, leftmargin=3em]
@@ -526,20 +462,20 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 
 \subsection*{Appendix 18A: Assortative Mixing and Spectral Gap}
 \addcontentsline{toc}{subsection}{Appendix 18A: Assortative Mixing}
-\label{app:assortative}
+\label{ch18:app:assortative}
 
 \paragraph{Setup.} Partition $N$ agents into $G$ groups based on attribute $k$. Within-group edge weight: $W_{ij} = w_{\text{in}}$ for $a_i = a_j$. Cross-group edge weight: $W_{ij} = w_{\text{cross}} = \lambda_k \cdot w_{\text{in}}$. Row-normalize: within-group agents have weight $w_{\text{in}}/(N_g w_{\text{in}} + (N - N_g)\lambda_k w_{\text{in}})$.
 
-\paragraph{Eigenvalues.} For $G = 2$ groups of equal size: $\lambda_1 = 1$ (trivial), $\lambda_2 = (1 - \lambda_k)/(1 + \lambda_k)$ (the assortative-mixing eigenvalue). The spectral gap: $\Gamma = 1 - (1-\lambda_k)/(1+\lambda_k) = 2\lambda_k/(1+\lambda_k)$. This is monotonically increasing in $\lambda_k$, confirming Proposition~\ref{prop:assortative}.
+\paragraph{Eigenvalues.} For $G = 2$ groups of equal size: $\lambda_1 = 1$ (trivial), $\lambda_2 = (1 - \lambda_k)/(1 + \lambda_k)$ (the assortative-mixing eigenvalue). The spectral gap: $\Gamma = 1 - (1-\lambda_k)/(1+\lambda_k) = 2\lambda_k/(1+\lambda_k)$. This is monotonically increasing in $\lambda_k$, confirming Proposition~\ref{ch18:prop:assortative}.
 
 \paragraph{Perron eigenvector.} For asymmetric groups ($N_1 \neq N_2$) with different internal densities: the Perron eigenvector assigns more weight to the group with higher internal density and more external connections. This formalizes the ``structural advantage'' of the dominant group.
 
 
 \subsection*{Appendix 18B: The Multiplicative Structure of Intersectionality}
 \addcontentsline{toc}{subsection}{Appendix 18B: Intersectionality}
-\label{app:intersectionality}
+\label{ch18:app:intersectionality}
 
-\paragraph{Independence assumption.} Theorem~\ref{thm:intersectionality} assumes that the mixing functions are independent: $\phi_k$ does not depend on attributes $k' \neq k$. This is approximately true when gender discrimination and racial discrimination operate through different mechanisms (e.g., gender norms are cultural while racial discrimination is institutional). It fails when the mechanisms interact (e.g., racial stereotypes about gender roles differ across groups).
+\paragraph{Independence assumption.} Theorem~\ref{ch18:thm:intersectionality} assumes that the mixing functions are independent: $\phi_k$ does not depend on attributes $k' \neq k$. This is approximately true when gender discrimination and racial discrimination operate through different mechanisms (e.g., gender norms are cultural while racial discrimination is institutional). It fails when the mechanisms interact (e.g., racial stereotypes about gender roles differ across groups).
 
 \paragraph{Non-independent case.} When $\phi$ is not separable: $\phi(\mathbf{a}_i, \mathbf{a}_j) \neq \prod_k \phi_k(a_{ik}, a_{jk})$. The interaction can be either reinforcing (the constraint on indigenous women is worse than the product predicts) or compensating (e.g., indigenous women benefit from specific solidarity networks that partially offset the double constraint). The reinforcing case produces even lower Perron weights for the multiply-disadvantaged; the compensating case produces less extreme outcomes.
 
@@ -553,16 +489,16 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 
 This chapter's case study pairs the two structuralist thinkers who brought race and labor exploitation to the center of structural analysis: Quijano's coloniality of power and Marini's superexploitation. Together they provide the theory for what this chapter formalizes as attribute-constrained weight matrices.
 
-\textbf{Quijano (2000): Race as the master attribute.} Quijano's essay ``Colonialidad del poder'' argued that the colonial invention of race was the foundational structuring principle of the modern world-system --- more fundamental than class, nationality, or gender. The racial classification imposed during the conquest (European/Indian/Black/Mestizo) did not merely describe physical differences; it \textit{organized} the entire pattern of social interaction. In this chapter's notation: race is the node attribute with the broadest scope --- it constrains $W^U$, $W^P$, and $W^I$ simultaneously, with low $\lambda_r$ values across all three layers. The alignment of constraints (Proposition~\ref{prop:race_three}) is what makes racial classification so effective as an ``instrument of domination'': it produces consistent power asymmetry across every dimension of interaction.
+\textbf{Quijano (2000): Race as the master attribute.} Quijano's essay ``Colonialidad del poder'' argued that the colonial invention of race was the foundational structuring principle of the modern world-system --- more fundamental than class, nationality, or gender. The racial classification imposed during the conquest (European/Indian/Black/Mestizo) did not merely describe physical differences; it \textit{organized} the entire pattern of social interaction. In this chapter's notation: race is the node attribute with the broadest scope --- it constrains $W^U$, $W^P$, and $W^I$ simultaneously, with low $\lambda_r$ values across all three layers. The alignment of constraints (Proposition~\ref{ch18:prop:race_three}) is what makes racial classification so effective as an ``instrument of domination'': it produces consistent power asymmetry across every dimension of interaction.
 
-Quijano's second claim was that coloniality \textit{survived} independence. The formal colonial apparatus was dismantled, but the racial classification continued to structure social interaction. In the formation model: racial assortative mixing ($\lambda_r < 1$) produces self-confirming preference gaps (Theorem~\ref{thm:attribute_trap}). Indigenous communities form aspirations calibrated to indigenous-sector returns, which are lower because their $W^P$ is constrained by $\lambda_r$. The preferences persist with half-life $\ln 2/\ln(1/\rho)$ generations (Chapter~9). Colonial racial classifications imposed 500 years ago are still visible in the preference data because $\rho \approx 0.85$--$0.90$ implies a half-life of 130--170 years --- long enough for the colonial preference formation to be only 2--3 half-lives in the past.
+Quijano's second claim was that coloniality \textit{survived} independence. The formal colonial apparatus was dismantled, but the racial classification continued to structure social interaction. In the formation model: racial assortative mixing ($\lambda_r < 1$) produces self-confirming preference gaps (Theorem~\ref{ch18:thm:attribute_trap}). Indigenous communities form aspirations calibrated to indigenous-sector returns, which are lower because their $W^P$ is constrained by $\lambda_r$. The preferences persist with half-life $\ln 2/\ln(1/\rho)$ generations (Chapter~9). Colonial racial classifications imposed 500 years ago are still visible in the preference data because $\rho \approx 0.85$--$0.90$ implies a half-life of 130--170 years --- long enough for the colonial preference formation to be only 2--3 half-lives in the past.
 
 \textbf{Marini (1973): Superexploitation as $\pi_{\text{worker}} \ll 1/N$, amplified by race.} Marini's superexploitation (Chapter~7's case study) was defined as $\pi_{\text{worker}} \ll 1/N$: workers receive less than their marginal product because their structural position is weak. This chapter adds the racial dimension: within the worker class, racial minorities face an additional constraint ($\lambda_r < 1$) that further reduces their Perron weight. Indigenous workers are \textit{superexploited among the superexploited}: $\pi_{\text{indigenous worker}} < \pi_{\text{mestizo worker}} \ll 1/N$.
 
-The combination of Marini's class analysis and Quijano's racial analysis produces the intersectionality theorem (Theorem~\ref{thm:intersectionality}): the indigenous working-class woman faces the product $\lambda_r \times \lambda_g \times \lambda_c$ of three constraints, giving her a Perron weight that is a small fraction of the unconstrained value. Her superexploitation is not the sum of race, gender, and class disadvantages but their product.
+The combination of Marini's class analysis and Quijano's racial analysis produces the intersectionality theorem (Theorem~\ref{ch18:thm:intersectionality}): the indigenous working-class woman faces the product $\lambda_r \times \lambda_g \times \lambda_c$ of three constraints, giving her a Perron weight that is a small fraction of the unconstrained value. Her superexploitation is not the sum of race, gender, and class disadvantages but their product.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Concept} & \textbf{Quijano (2000)} & \textbf{Marini (1973)} \\
 \midrule
@@ -574,7 +510,7 @@ Formation link & Racial $W^I$ produces self-confirming & Low $\pi \to$ low retur
 Intersectionality & Race + gender + class = product & Superexploitation within superexploitation \\
 Bolivia & $\lambda_r \approx 0.35$, $\pi^{\text{indig}}/\pi^{\text{mestizo}} = 0.57$ & $\pi_{\text{worker}}/\pi_{\text{avg}} \approx 0.6$ \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Quijano wrote from Lima. Marini wrote from exile. Neither had the Perron eigenvector. But both understood that the social classification system --- race for Quijano, class for Marini --- is not a label attached to individuals. It is a structural property of the weight matrix: a constraint on which edges can exist, which determines who has power, which determines who gets what, which reproduces the classification. The circularity is the structure. This chapter gives it its eigenvalues.
@@ -594,6 +530,5 @@ Quijano wrote from Lima. Marini wrote from exile. Neither had the Perron eigenve
 \textbf{Decolonial theory:} Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina.'' Mignolo (2000), \textit{Local Histories/Global Designs}. Walsh (2007), ``Interculturalidad y colonialidad del poder,'' in Castro-G\'{o}mez and Grosfoguel (eds.), \textit{El giro decolonial}.
 
 \textbf{Assortative mixing in networks:} Newman (2003), ``Mixing Patterns in Networks,'' \textit{Physical Review E}. Currarini, Jackson, and Pin (2009), ``An Economic Model of Friendship,'' \textit{Econometrica}.
-
 
 \end{document}

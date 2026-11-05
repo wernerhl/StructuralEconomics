@@ -1,84 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\newtcolorbox{vizpanel}[1][]{
-  colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\newcommand{\y}{\mathbf{y}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-
-\newtcolorbox{intuition}[1][]{
-  colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1},
-  sharp corners, boxrule=0.5pt
-}
-\newtcolorbox{keyinsight}[1][]{
-  colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight},
-  sharp corners, boxrule=0.5pt
-}
-\newtcolorbox{prebisch}[1][]{
-  colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1},
-  sharp corners, boxrule=0.5pt
-}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 5: The Three Networks}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 5} \\[0.5em]
-\LARGE The Three Networks \\[0.3em]
-\large\textit{Where the Structure Enters the Model}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{4}}{}
+\chapter{The Three Networks}\label{ch:05}
+\chaptersubtitle{Where the Structure Enters the Model}
 \begin{quote}
 \textit{``Por dependencia entendemos una situaci\'{o}n en la cual la econom\'{i}a de ciertos pa\'{i}ses est\'{a} condicionada por el desarrollo y la expansi\'{o}n de otra econom\'{i}a a la cual la primera est\'{a} sometida.''}\\[0.3em]
 \textnormal{[``By dependence we mean a situation in which the economy of certain countries is conditioned by the development and expansion of another economy to which the former is subjected.'']}\\
@@ -117,7 +41,7 @@ The standard model collapses all three to $\frac{1}{N}\ones\ones'$ or ignores th
 
 %% =====================================================================
 \section{Before the Math: Three Stories}
-\label{sec:stories}
+\label{ch05:sec:stories}
 %% =====================================================================
 
 \subsection{The Utility Network: Keeping Up and Falling Behind}
@@ -155,16 +79,16 @@ This is $W^I$: the network through which signals about the world reach you, filt
 
 %% =====================================================================
 \section{The Utility Network $W^U$}
-\label{sec:WU}
+\label{ch05:sec:WU}
 %% =====================================================================
 
 \subsection{Utility with Externalities}
 
 In Chapter~1, agent $i$'s utility depended only on her own consumption: $U_i(x_i)$. We now let it depend on everyone else's consumption too, weighted by the utility network.
 
-\begin{definition}[Utility with Social Externalities]\label{def:utility_WU}
+\begin{definition}[Utility with Social Externalities]\label{ch05:def:utility_WU}
 Agent $i$'s utility is:
-\begin{equation}\label{eq:utility_WU}
+\begin{equation}\label{ch05:eq:utility_WU}
 V_i(x_1, \ldots, x_N) = U_i(x_i) + \gamma_U \sum_{j \neq i} W^U_{ij} \, U_j(x_j),
 \end{equation}
 where:
@@ -176,7 +100,7 @@ where:
 \end{definition}
 
 In matrix form, stacking the $N$ agents:
-\begin{equation}\label{eq:V_matrix}
+\begin{equation}\label{ch05:eq:V_matrix}
 \mathbf{V} = \mathbf{U} + \gamma_U W^U \mathbf{U} = (I + \gamma_U W^U)\mathbf{U},
 \end{equation}
 where $\mathbf{U} = (U_1(x_1), \ldots, U_N(x_N))'$ is the vector of private utilities and $\mathbf{V}$ is the vector of social utilities.
@@ -187,7 +111,7 @@ Without $W^U$ (the standard model), your happiness depends only on your own cons
 The parameter $\gamma_U$ controls how much you care about others overall. When $\gamma_U = 0$, we are back to the standard model regardless of $W^U$. When $\gamma_U > 0$, the structure of $W^U$ matters: \textit{who} you care about --- not just \textit{how much} --- shapes the equilibrium.
 \end{intuition}
 
-\begin{example}[Three Vendors on Calle Comercio]\label{ex:vendors}
+\begin{example}[Three Vendors on Calle Comercio]\label{ch05:ex:vendors}
 Mar\'{i}a ($i = 1$), Rosa ($j = 2$), Carlos ($j = 3$). Quadratic private utility: $U_i = x_i - \frac{1}{2}x_i^2$.
 
 \begin{equation}
@@ -220,8 +144,8 @@ Three common confusions:
 
 \subsection{Properties of $W^U$}
 
-\begin{proposition}[Basic Properties of the Utility Network]\label{prop:WU_properties}
-For the utility externality model~\eqref{eq:utility_WU}:
+\begin{proposition}[Basic Properties of the Utility Network]\label{ch05:prop:WU_properties}
+For the utility externality model~\eqref{ch05:eq:utility_WU}:
 \begin{enumerate}
 \item \textbf{Diagonal is zero}: $W^U_{ii} = 0$ by convention (own utility is captured by $U_i$, not by the externality term).
 \item \textbf{Row sums need not equal 1}: the total externality weight $\sum_j W^U_{ij}$ varies across agents. A ``social'' agent (Mar\'{i}a) has high row sum; an ``isolated'' agent has low row sum.
@@ -237,7 +161,7 @@ The distinction between $W^U = 0$ (standard model) and $W^U = \frac{1}{N}\ones\o
 
 %% =====================================================================
 \section{The Production Network $W^P$}
-\label{sec:WP}
+\label{ch05:sec:WP}
 %% =====================================================================
 
 \subsection{From Chapter 1 to Chapter 5}
@@ -246,7 +170,7 @@ We have already met $W^P$ --- it is the input-output matrix $A$ from Chapters~1 
 
 Here we develop $W^P$ as one of three networks, clarify what it shares with $W^U$ and $W^I$ and how it differs, and show how all three interact in the same economy.
 
-\begin{definition}[Production Network]\label{def:WP}
+\begin{definition}[Production Network]\label{ch05:def:WP}
 The \textbf{production network} $W^P$ is the $N \times N$ matrix where $W^P_{ij} \geq 0$ is the production externality of agent (or sector) $j$ on agent $i$: how much $j$'s output contributes to $i$'s production.
 
 In the inter-sectoral interpretation, $W^P_{ij}$ is the technical coefficient: units of good $j$ required per unit of good $i$'s output.
@@ -255,7 +179,7 @@ In the inter-agent interpretation, $W^P_{ij}$ captures production spillovers: ho
 \end{definition}
 
 The output equation from Chapter~3:
-\begin{equation}\label{eq:output_WP}
+\begin{equation}\label{ch05:eq:output_WP}
 \mathbf{Y} = \mathbf{f}(\mathbf{K}, \mathbf{L}) + \gamma_P W^P \mathbf{Y} \qquad \Rightarrow \qquad \mathbf{Y} = (I - \gamma_P W^P)^{-1}\mathbf{f}(\mathbf{K}, \mathbf{L}),
 \end{equation}
 where $(I - \gamma_P W^P)^{-1}$ is the Leontief inverse and $\gamma_P > 0$ scales the strength of inter-sectoral linkages.
@@ -263,7 +187,7 @@ where $(I - \gamma_P W^P)^{-1}$ is the Leontief inverse and $\gamma_P > 0$ scale
 
 \subsection{$W^P$ vs.\ $W^U$: Different Channels, Different Matrices}
 
-\begin{example}[Why They Differ: The Gas Engineer]\label{ex:gas_engineer}
+\begin{example}[Why They Differ: The Gas Engineer]\label{ch05:ex:gas_engineer}
 Consider Patricia, a petroleum engineer working for YPFB in Tarija. She interacts with two groups: her coworkers at the gas plant (production network) and her family and friends in Cochabamba (utility network).
 
 Patricia's \textbf{production network} $W^P$: high weights on the gas plant operators, the pipeline maintenance crew, the Brazilian equipment supplier, the Argentine gas buyer. Low or zero weights on the quinoa farmer in Oruro, the api vendor in La Paz, her mother in Cochabamba. The production network is organized by the technology of gas extraction, not by social bonds.
@@ -294,7 +218,7 @@ Standard model & $W^U = 0$ & Varies (I-O tables exist) \\
 
 %% =====================================================================
 \section{The Information Network $W^I$}
-\label{sec:WI}
+\label{ch05:sec:WI}
 %% =====================================================================
 
 \subsection{The Missing Network}
@@ -303,7 +227,7 @@ $W^U$ has been studied (under the name ``social preferences'' or ``other-regardi
 
 It exists. It is not $W^U$ and it is not $W^P$. And it is arguably the most important of the three.
 
-\begin{definition}[Information Network]\label{def:WI}
+\begin{definition}[Information Network]\label{ch05:def:WI}
 The \textbf{information network} $W^I$ is the $N \times N$ row-stochastic matrix where $W^I_{ij} \geq 0$ is the weight that agent $i$ places on agent $j$'s signals when forming beliefs about the world. Row-stochasticity ($\sum_j W^I_{ij} = 1$ for all $i$) means that each agent's attention is a probability distribution over other agents: you allocate 100\% of your attention, and $W^I$ describes how.
 \end{definition}
 
@@ -320,21 +244,21 @@ In the DeGroot learning model (developed in Chapter~8), repeated application of 
 
 Suppose each agent starts with an initial belief $b_i^{(0)}$ about some quantity (the return on education, the value of saving, the probability of success in the modern sector). At each period, agents update their beliefs by taking a weighted average of their neighbors' beliefs:
 
-\begin{equation}\label{eq:DeGroot}
+\begin{equation}\label{ch05:eq:DeGroot}
 \mathbf{b}^{(t+1)} = W^I \mathbf{b}^{(t)}.
 \end{equation}
 
 This is the DeGroot learning model. It is extremely simple: just multiply the belief vector by $W^I$ at each step. Yet its implications are profound.
 
-\begin{proposition}[DeGroot Convergence]\label{prop:DeGroot}
+\begin{proposition}[DeGroot Convergence]\label{ch05:prop:DeGroot}
 If $W^I$ is row-stochastic, aperiodic, and strongly connected (every agent can reach every other agent through a chain of positive weights), then:
-\begin{equation}\label{eq:DeGroot_limit}
+\begin{equation}\label{ch05:eq:DeGroot_limit}
 \lim_{t \to \infty} (W^I)^t = \ones \boldsymbol{\pi}',
 \end{equation}
 where $\boldsymbol{\pi} = (\pi_1, \ldots, \pi_N)'$ is the \textbf{left Perron eigenvector} of $W^I$: the unique vector satisfying $\boldsymbol{\pi}' W^I = \boldsymbol{\pi}'$ with $\sum_i \pi_i = 1$.
 
 All agents converge to the same belief:
-\begin{equation}\label{eq:consensus}
+\begin{equation}\label{ch05:eq:consensus}
 b_i^{(\infty)} = \boldsymbol{\pi}'\mathbf{b}^{(0)} = \sum_{j=1}^N \pi_j b_j^{(0)} \quad \text{for all } i.
 \end{equation}
 The long-run belief is a weighted average of the initial beliefs, with weights given by $\boldsymbol{\pi}$.
@@ -346,7 +270,7 @@ Everyone eventually agrees --- but they agree on a \textit{weighted average} of 
 The Perron eigenvector $\boldsymbol{\pi}$ is the \textbf{structural power} of each agent in the information network. It is not a choice or an attribute of the agent. It is a property of the network topology --- a property of $W^I$.
 \end{intuition}
 
-\begin{example}[Luisa's Information Network]\label{ex:Luisa}
+\begin{example}[Luisa's Information Network]\label{ch05:ex:Luisa}
 Luisa in Potos\'{i}, $N = 5$ reference agents: Mother ($j=1$), School friend ($j=2$), Cousin in Buenos Aires ($j=3$), TikTok feed ($j=4$), Teacher ($j=5$).
 
 \begin{equation}
@@ -371,29 +295,29 @@ Prebisch saw this as ``ideological dependency.'' We can now measure it: it is th
 
 %% =====================================================================
 \section{The Three Networks Together}
-\label{sec:together}
+\label{ch05:sec:together}
 %% =====================================================================
 
 \subsection{The Full Model}
 
 We now write the economy with all three networks active simultaneously.
 
-\begin{definition}[The Three-Network Economy]\label{def:full_model}
+\begin{definition}[The Three-Network Economy]\label{ch05:def:full_model}
 An economy with $N$ agents, $L$ goods, and three networks $(W^U, W^P, W^I)$ is defined by:
 
 \textbf{Preferences} (shaped by $W^U$ and, indirectly, by $W^I$):
-\begin{equation}\label{eq:full_utility}
+\begin{equation}\label{ch05:eq:full_utility}
 V_i(\mathbf{x}) = U_i(x_i; \theta_i) + \gamma_U \sum_{j \neq i} W^U_{ij} U_j(x_j; \theta_j),
 \end{equation}
 where $\theta_i$ is agent $i$'s preference parameter, which in the formation model (Chapter~10) evolves according to $W^I$.
 
 \textbf{Production} (shaped by $W^P$):
-\begin{equation}\label{eq:full_production}
+\begin{equation}\label{ch05:eq:full_production}
 \mathbf{Y} = (I - \gamma_P W^P)^{-1} \mathbf{f}(\mathbf{K}, \mathbf{L}).
 \end{equation}
 
 \textbf{Beliefs} (shaped by $W^I$):
-\begin{equation}\label{eq:full_beliefs}
+\begin{equation}\label{ch05:eq:full_beliefs}
 \mathbf{b}^{(t+1)} = W^I \mathbf{b}^{(t)}.
 \end{equation}
 
@@ -506,7 +430,7 @@ This divergence creates both opportunities and tensions:
 
 %% =====================================================================
 \section{Canonical Topologies}
-\label{sec:topologies}
+\label{ch05:sec:topologies}
 %% =====================================================================
 
 Any of the three networks can have any topology. But certain topologies appear again and again across economic settings. We catalog the most important ones and develop intuition for reading their structural properties.
@@ -591,14 +515,14 @@ Several additional topologies appear in applications:
 
 %% =====================================================================
 \section{The Composite Weight Matrix}
-\label{sec:composite}
+\label{ch05:sec:composite}
 %% =====================================================================
 
 In many applications, the three networks operate simultaneously and interact. We define the composite.
 
-\begin{definition}[Composite Weight Matrix]\label{def:composite}
+\begin{definition}[Composite Weight Matrix]\label{ch05:def:composite}
 The \textbf{composite weight matrix} is:
-\begin{equation}\label{eq:composite}
+\begin{equation}\label{ch05:eq:composite}
 W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I, \quad \alpha_U + \alpha_P + \alpha_I = 1,
 \end{equation}
 where $\alpha_U, \alpha_P, \alpha_I \geq 0$ are the relative importance of each channel.
@@ -606,7 +530,7 @@ where $\alpha_U, \alpha_P, \alpha_I \geq 0$ are the relative importance of each 
 
 The composite $W$ is the single matrix that summarizes the overall structure of economic interaction. Its Perron eigenvector $\boldsymbol{\pi}(W)$ is the \textbf{power vector}: agent $i$'s structural power is $\pi_i$, determined jointly by her position in all three networks.
 
-\begin{proposition}[Power from the Composite]\label{prop:composite_power}
+\begin{proposition}[Power from the Composite]\label{ch05:prop:composite_power}
 If $W$ is irreducible and aperiodic, the left Perron eigenvector $\boldsymbol{\pi}$ of the composite $W$ satisfies:
 \begin{equation}
 \pi_i = \alpha_U \sum_j \pi_j W^U_{ji} + \alpha_P \sum_j \pi_j W^P_{ji} + \alpha_I \sum_j \pi_j W^I_{ji}.
@@ -624,7 +548,7 @@ Your structural power $\pi_i$ is high if:
 This is recursive: power begets power, through the Perron eigenvector's self-referential definition. This is the mathematical content of ``privilege reproduces itself.'' It is not a moral judgment. It is a theorem about nonnegative matrices.
 \end{intuition}
 
-\begin{example}[Power in La Paz]\label{ex:LaPaz}
+\begin{example}[Power in La Paz]\label{ch05:ex:LaPaz}
 Consider three agents: a Cabinet Minister ($i=1$), a Gas Executive ($i=2$), and a Market Vendor ($i=3$).
 
 Utility network (who cares about whom):
@@ -707,12 +631,12 @@ This is the power structure of La Paz in three numbers.
 
 %% =====================================================================
 \section{What the Standard Model Assumes}
-\label{sec:standard_revisited}
+\label{ch05:sec:standard_revisited}
 %% =====================================================================
 
 We can now state precisely what the standard competitive model assumes about the three networks.
 
-\begin{proposition}[The Standard Model as a Network Assumption]\label{prop:standard}
+\begin{proposition}[The Standard Model as a Network Assumption]\label{ch05:prop:standard}
 The standard competitive model assumes:
 \begin{enumerate}
 \item $W^U = 0$ (no utility externalities).
@@ -736,7 +660,7 @@ This is the complete structural program. The rest of the book develops each rela
 
 %% =====================================================================
 \section{Summary}
-\label{sec:summary}
+\label{ch05:sec:summary}
 %% =====================================================================
 
 \begin{enumerate}
@@ -756,12 +680,12 @@ This is the complete structural program. The rest of the book develops each rela
 
 %% =====================================================================
 \section{Exercises}
-\label{sec:exercises}
+\label{ch05:sec:exercises}
 %% =====================================================================
 
 \begin{enumerate}[label=\textbf{5.\arabic*}, leftmargin=3em]
 
-\item \textbf{Utility externalities.} For the three-vendor economy (Example~\ref{ex:vendors}), with $\gamma_U = 0.5$:
+\item \textbf{Utility externalities.} For the three-vendor economy (Example~\ref{ch05:ex:vendors}), with $\gamma_U = 0.5$:
 \begin{enumerate}
 \item Compute $V_2$ and $V_3$ (Rosa's and Carlos's social utilities).
 \item A social planner maximizes $\sum_i V_i$. Show that the planner's optimal allocation differs from the competitive equilibrium (which maximizes $\sum_i U_i$). Who gets more under the planner?
@@ -787,7 +711,7 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 \item Starting from $\mathbf{b}^{(0)} = (0, 0.5, 1)'$, compute $\mathbf{b}^{(t)}$ for $t = 1, 2, 5, 10, 50$. Verify convergence to $\boldsymbol{\pi}'\mathbf{b}^{(0)}$.
 \end{enumerate}
 
-\item \textbf{The phone as structural change.} Luisa's pre-phone $W^I$ and post-phone $W^I$ from Example~\ref{ex:Luisa}. Extend to $N = 5$ agents (Mother, Friend, Cousin, TikTok, Teacher) where each agent also has a $W^I$ row (Mother listens to: herself 0.6, friend 0.2, teacher 0.2; etc.).
+\item \textbf{The phone as structural change.} Luisa's pre-phone $W^I$ and post-phone $W^I$ from Example~\ref{ch05:ex:Luisa}. Extend to $N = 5$ agents (Mother, Friend, Cousin, TikTok, Teacher) where each agent also has a $W^I$ row (Mother listens to: herself 0.6, friend 0.2, teacher 0.2; etc.).
 \begin{enumerate}
 \item Construct the full $5 \times 5$ pre-phone and post-phone $W^I$.
 \item Compute the Perron eigenvector for both. How does epistemic power shift?
@@ -810,7 +734,7 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 \item What would it take (in terms of $W^I$ entries) for the periphery's belief to survive?
 \end{enumerate}
 
-\item \textbf{Bolivia: composite power.} Using Bolivia's three-agent model (Example~\ref{ex:LaPaz}):
+\item \textbf{Bolivia: composite power.} Using Bolivia's three-agent model (Example~\ref{ch05:ex:LaPaz}):
 \begin{enumerate}
 \item Vary $\alpha_P$ from 0 to 1 (holding $\alpha_U / \alpha_I$ constant). Plot $\pi_3$ (Vendor's power) as a function of $\alpha_P$. When does the Vendor have the most power? The least?
 \item Interpret: in what kind of economy does the market vendor matter most? When does she become invisible?
@@ -828,7 +752,7 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 
 \subsection*{Appendix 5A: Graph Theory for Economists}
 \addcontentsline{toc}{subsection}{Appendix 5A: Graph Theory for Economists}
-\label{app:graphs}
+\label{ch05:app:graphs}
 
 A \textbf{directed graph} (digraph) $G = (V, E)$ consists of a set of \textit{vertices} (nodes, agents) $V = \{1, \ldots, N\}$ and a set of \textit{edges} (links, connections) $E \subseteq V \times V$. An edge $(i, j)$ means agent $i$ is connected to agent $j$.
 
@@ -859,7 +783,7 @@ The \textit{adjacency matrix} $A$ is binary: $A_{ij} = 1$ if there is an edge fr
 
 \subsection*{Appendix 5B: Stochastic Matrices and the Perron Eigenvector}
 \addcontentsline{toc}{subsection}{Appendix 5B: Stochastic Matrices and the Perron Eigenvector}
-\label{app:stochastic}
+\label{ch05:app:stochastic}
 
 \paragraph{Row-stochastic matrices.} A nonnegative matrix $W$ is \textbf{row-stochastic} if $W\ones = \ones$: every row sums to 1. This means each row is a probability distribution. In the context of $W^I$, row-stochasticity means each agent allocates 100\% of her attention across all agents (including possibly herself).
 
@@ -910,7 +834,7 @@ In 1970, Theot\^{o}nio dos Santos published ``The Structure of Dependence'' in t
 \textbf{Regime 3: Technological-industrial dependence (post-WWII).} Multinational corporations invest in industries oriented toward the internal market of the underdeveloped countries. The topology becomes more complex: MNCs create \textbf{bridging nodes} that connect the domestic $W^P$ to the global $W^P$ through intra-firm trade. The domestic matrix acquires new blocks (the MNC-owned modern sector), but these blocks connect outward to headquarters rather than inward to the traditional domestic sector. This is Sunkel's ``transnational integration and national disintegration'' as a matrix rewiring: cross-country edges among elite nodes strengthen while within-country edges between modern and traditional blocks weaken. The information network $W^I$ becomes layered: the MNC subsidiary receives technical knowledge from headquarters ($W^I_{\text{subsidiary, HQ}}$ large) but does not transmit local knowledge back ($W^I_{\text{HQ, subsidiary}} \approx 0$).
 
 \begin{center}
-\begin{tabular}{llll}
+\begin{tabularx}{\textwidth}{LLLL}
 \toprule
 \textbf{Dos Santos's regime} & \textbf{Topology of $W$} & \textbf{Power structure} & \textbf{$\Gamma$} \\
 \midrule
@@ -918,7 +842,7 @@ Colonial & Star & $\pi_{\text{metropole}} \approx 1$ & $\approx 0$ \\
 Financial-industrial & Multi-hub & $\pi_{\text{centers}} \gg \pi_{\text{periphery}}$ & Small \\
 Technological-industrial & Complex asymmetric & $\pi_{\text{MNC}} > \pi_{\text{domestic elite}} \gg \pi_{\text{traditional}}$ & Small \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 The taxonomy's power is its specificity: each regime generates a \textit{different} heatmap, a different Perron eigenvector, and a different spectral gap, even though all three are ``dependent.'' The colonial heatmap has one blazing column. The financial-industrial heatmap has several bright columns and dim periphery. The technological-industrial heatmap has a complex block structure with MNC bridging nodes creating cross-border links while domestic cross-block links remain dark.
@@ -944,6 +868,5 @@ The three networks of this chapter --- $W^U$, $W^P$, $W^I$ --- are the analytica
 \textbf{Prebisch and information dependency:} Prebisch (1950) on ideological dependency. Cardoso and Faletto (1969), \textit{Dependency and Development in Latin America}. For the modern formalization: Acemoglu et al.\ (2010), ``Spread of (Mis)information in Social Networks,'' \textit{Games and Economic Behavior}.
 
 \textbf{Dependency theory:} Dos Santos (1970), ``The Structure of Dependence,'' \textit{AER} 60(2), pp.~231--236 (the six pages that define the taxonomy formalized in the case study above). Dos Santos (1978), \textit{Imperialismo y Dependencia}, M\'{e}xico: Era. Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional,'' \textit{Estudios Internacionales} 4(16).
-
 
 \end{document}

@@ -1,69 +1,8 @@
-\documentclass[12pt,a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{mathpazo}
-\usepackage[margin=1.15in]{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{titlesec}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{fancyhdr}
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tikz}
-\usepackage{array}
-\usepackage{float}
-
-\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
-
-\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{example}[definition]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[definition]{Remark}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\ones}{\mathbf{1}}
-\newcommand{\x}{\mathbf{x}}
-\DeclareMathOperator{\Var}{Var}
-
-\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
-  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
-  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
-  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
-\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
-  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
-
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\itshape Chapter 28: The General Case}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-
-\title{\vspace{-1cm}\textbf{Chapter 28} \\[0.5em]
-\LARGE The General Case \\[0.3em]
-\large\textit{Where the Standard Model Is the Special Case, and Structure Is Everything Else}}
-\author{}
-\date{}
-
+\documentclass[../structural_economics_book.tex]{subfiles}
 \begin{document}
-\maketitle
-\thispagestyle{fancy}
-
+\ifSubfilesClassLoaded{\setcounter{chapter}{27}}{}
+\chapter{The General Case}\label{ch:28}
+\chaptersubtitle{Where the Standard Model Is the Special Case, and Structure Is Everything Else}
 \begin{quote}
 \textit{``O subdesenvolvimento n\~{a}o constitui uma etapa necess\'{a}ria do processo de forma\c{c}\~{a}o das economias capitalistas modernas. \'{E}, em si, um processo particular, resultante da penetra\c{c}\~{a}o de empresas capitalistas modernas em estruturas arcaicas.''}\\[0.3em]
 \textnormal{[``Underdevelopment does not constitute a necessary stage in the formation of modern capitalist economies. It is, in itself, a particular process, resulting from the penetration of modern capitalist enterprises into archaic structures.'']}\\
@@ -77,14 +16,14 @@ This is the last chapter. It has one purpose: to state the book's thesis in fina
 
 %% =====================================================================
 \section{The Thesis}
-\label{sec:thesis}
+\label{ch28:sec:thesis}
 %% =====================================================================
 
-\begin{theorem}[The General Case]\label{thm:general}
+\begin{theorem}[The General Case]\label{ch28:thm:general}
 The neoclassical model is the special case $W = \frac{1}{N}\ones\ones'$. Structural economics is the general case where $W$ is any row-stochastic nonneg\-ative matrix.
 
 Every result in this book follows from the departure of $W$ from $\frac{1}{N}\ones\ones'$:
-\begin{equation}\label{eq:departure}
+\begin{equation}\label{ch28:eq:departure}
 \Delta(W) = W - \frac{1}{N}\ones\ones'.
 \end{equation}
 
@@ -98,16 +37,20 @@ This is not a metaphor. It is a mathematical statement. Every chapter is a theor
 
 %% =====================================================================
 \section{Twenty-Seven Corollaries}
-\label{sec:corollaries}
+\label{ch28:sec:corollaries}
 %% =====================================================================
 
-\begin{proposition}[The Book in One Page]\label{prop:book}
-\begin{center}
-\small
-\begin{tabular}{rlp{7.5cm}}
+\subsection*{The Book in One Page}\label{ch28:prop:book}
+{\small
+\begin{longtable}{@{}r>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{9.6cm}@{}}
 \toprule
-\textbf{Ch.} & \textbf{Result} & \textbf{Statement as a property of $\Delta(W)$} \\
+\textbf{Ch.} & \textbf{Result} & \textbf{Statement in terms of $W$} \\
 \midrule
+\endfirsthead
+\toprule
+\textbf{Ch.} & \textbf{Result} & \textbf{Statement in terms of $W$} \\
+\midrule
+\endhead
 1 & Matrix reformulation & Every economy has a $W$. The neoclassical model assumes $\Delta(W) = 0$. \\
 2 & Welfare theorems & FWT holds iff $\Delta(W) = 0$. Failure modes: $L = L_{\text{power}} + L_{\text{ext}} + L_{\text{int}}$. \\
 3 & Growth \& distribution & Multi-sector Solow: $\Gamma$ determines whether growth propagates or stays in the enclave. \\
@@ -136,19 +79,18 @@ This is not a metaphor. It is a mathematical statement. Every chapter is a theor
 26 & Synthesis & Growth with equity: $\Gamma > \Gamma^*$ AND ECI $> 0$ AND $N_{\text{eff}} > N^*_{\text{eff}}$. \\
 27 & Algorithms & The recommendation system is an operator on $W^I$ with an objective function set elsewhere. \\
 \bottomrule
-\end{tabular}
-\end{center}
-\end{proposition}
+\end{longtable}
+}
 
 
 %% =====================================================================
 \section{What Furtado Knew}
-\label{sec:furtado}
+\label{ch28:sec:furtado}
 %% =====================================================================
 
 Celso Furtado's 1961 thesis --- that underdevelopment is not a stage but a structure --- is the sentence that generated this book. Every chapter is an elaboration.
 
-\begin{proposition}[Furtado's Thesis as a Theorem]\label{prop:furtado}
+\begin{proposition}[Furtado's Thesis as a Theorem]\label{ch28:prop:furtado}
 Furtado (1961) made three claims:
 \begin{enumerate}
 \item \textbf{Underdevelopment is not the absence of development.} It is a specific structural configuration: $W \neq W^{CE}$ in a particular way (block-diagonal, with a modern enclave connected to the global economy and a traditional sector connected to itself). This is Chapter~3's block-diagonal $W^P$ with small cross-block $\Gamma$.
@@ -160,7 +102,7 @@ Furtado (1961) made three claims:
 
 Every chapter in this book is a formalization of one of these three claims:
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Furtado's claim} & \textbf{Formal content} & \textbf{Chapters} \\
 \midrule
@@ -172,7 +114,7 @@ Measurement & SAMs, $W^I$, $W^U$, trajectories & 16--23 \\
 Scale invariance & Same at all scales & 19 \\
 Contemporary & Algorithmic $W^I$ & 27 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 \end{proposition}
 
@@ -187,12 +129,12 @@ This is the same relationship as between Euclidean and non-Euclidean geometry. E
 
 %% =====================================================================
 \section{What Bolivia Taught Us}
-\label{sec:bolivia}
+\label{ch28:sec:bolivia}
 %% =====================================================================
 
 Bolivia appeared in every chapter --- not because Bolivia is the only developing country, but because it exhibits every structural pathology at a scale that the mathematics can detect.
 
-\begin{example}[Bolivia: The Structural Portrait, Complete]\label{ex:final}
+\begin{example}[Bolivia: The Structural Portrait, Complete]\label{ch28:ex:final}
 \begin{center}
 \begin{tabular}{lccl}
 \toprule
@@ -227,7 +169,7 @@ Precision is the gift structural economics offers. The standard model says: ``ge
 
 %% =====================================================================
 \section{What the Book Does Not Do}
-\label{sec:limits}
+\label{ch28:sec:limits}
 %% =====================================================================
 
 Intellectual honesty requires stating the limits.
@@ -245,7 +187,7 @@ Intellectual honesty requires stating the limits.
 
 %% =====================================================================
 \section{The Structuralist Research Program}
-\label{sec:program}
+\label{ch28:sec:program}
 %% =====================================================================
 
 This book opens a research program, not closes one. Ten questions for the next generation:
@@ -275,7 +217,7 @@ This book opens a research program, not closes one. Ten questions for the next g
 
 %% =====================================================================
 \section{The Last Equation}
-\label{sec:last}
+\label{ch28:sec:last}
 %% =====================================================================
 
 The book began with one equation (Chapter~1):
@@ -284,7 +226,7 @@ W^{CE} = \frac{1}{N}\ones\ones'.
 \end{equation}
 
 It ends with its generalization:
-\begin{equation}\label{eq:last}
+\begin{equation}\label{ch28:eq:last}
 W = W^{CE} + \Delta(W).
 \end{equation}
 
@@ -303,8 +245,7 @@ One matrix. Everything else follows.
 \vspace{2em}
 
 \begin{center}
-\rule{5cm}{0.4pt}\\[1em]
-\textit{For my daughter --- the park I care about most.}
+\rule{5cm}{0.4pt}
 \end{center}
 
 
@@ -333,7 +274,7 @@ In this book: this is the formation model (Chapters~9--10). Preferences are endo
 In this book: this is Part~IV (Chapters~13--15) and the neo-structuralist synthesis (Chapter~26). The operator design framework (Chapter~15) provides the engineering manual that Furtado's diagnosis called for. The sequencing theorem ($\Psi$-ordered: information first, structure second, industrial policy third) is the implementation protocol. The three conditions of the Growth-Equity Theorem ($\Gamma > \Gamma^*$, ECI $> 0$, $N_{\text{eff}} > N^*_{\text{eff}}$) are the success criteria.
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Furtado (1961/1974)} & \textbf{This book's formalization} & \textbf{Chapter} \\
 \midrule
@@ -346,7 +287,7 @@ Structural change needed & Operators on $W$, not on $\boldsymbol{\omega}$ & 15 \
 Simultaneity required & Three conditions, three pillars & 26 \\
 The general case & $W$ is any row-stochastic matrix & 28 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 Furtado wrote in exile, in French and Portuguese, for audiences that could not give him tenure or citations. He died in 2004, the year before Evo Morales was elected and five years before Hidalgo and Hausmann published the Atlas of Economic Complexity. He did not see the product space, the ECI, or the formation experiments that would validate his intuitions. He did not have the Perron eigenvector, the spectral gap, or the DeGroot model.
@@ -364,6 +305,5 @@ But he had the thesis: the neoclassical model is the special case, and structure
 \textbf{The structuralist tradition, complete:} Prebisch (1949), the manifesto. Furtado (1961), the thesis. Pinto (1970), the diagnosis. Sunkel (1971), the integration/disintegration. Tavares (1972), the autopsy. Marini (1973), the exploitation. Fajnzylber (1983/1990), the truncation and the empty box. Cardoso and Faletto (1969), the politics. Quijano (2000), the coloniality. Sen (1999), the capabilities. CEPAL (2012), the institutional synthesis. Ocampo (2009), the policy synthesis. Hidalgo et al.\ (2007/2009), the empirical measurement.
 
 And this book.
-
 
 \end{document}
