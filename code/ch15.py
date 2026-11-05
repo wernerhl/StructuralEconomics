@@ -181,3 +181,49 @@ for jj in (1, 2):                                    # ISI-A and ISI-B direction
     fd = (gap(K2 / K2.sum(1)[:, None]) - gap(Kh)) / s_
     assert abs(fd - np.sum(Gh * Eh)) < 1e-4
     print(f"ISI direction a_M1,{jj+1}: first-order dGamma = {np.sum(Gh*Eh):+.4f}, finite difference = {fd:+.4f}")
+
+# ---------------------------------------------------------------------------
+# Sourced Bolivia values quoted in Chapter 15 (data/processed/*.csv, csv module)
+import csv
+import os
+
+DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed")
+
+
+def read_csv(name):
+    with open(os.path.join(DATA, name), newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def check(label, value, text, nd):
+    print(f"  {label}: {value:.6g} -> text {text}")
+    assert abs(value - text) <= 0.5 * 10 ** -nd + 1e-9, (label, value, text)
+
+
+print("\n== Sourced: INE input-output (book12, domestic, input shares)")
+bsum = read_csv("bolivia_io_summary.csv")
+for base, year, v in [("1990", "2006", 0.518), ("1990", "2013", 0.484), ("2017", "2019", 0.467)]:
+    r = [x for x in bsum if x["base"] == base and x["year"] == year and x["aggregation"] == "book12"
+         and x["flows"] == "domestic" and x["normalization"] == "input_shares"]
+    assert len(r) == 1
+    check(f"Gamma {year}", float(r[0]["Gamma"]), v, 3)
+sf = {x["book12"]: x for x in read_csv("bolivia_io_sector_facts.csv") if x["base"] == "2017" and x["year"] == "2019"}
+check("hydrocarbons domestic inputs / output", float(sf["Hydrocarbons"]["dom_int_inputs_per_output"]), 0.225, 3)
+check("manufacturing domestic inputs / output", float(sf["Manufacturing"]["dom_int_inputs_per_output"]), 0.558, 3)
+check("hydrocarbons export share (%)", 100 * float(sf["Hydrocarbons"]["export_share_of_output"]), 70, 0)
+check("hydrocarbons compensation / VA (%)", 100 * float(sf["Hydrocarbons"]["comp_share_of_va"]), 6, 0)
+pih = [float(x["pi"]) for x in read_csv("bolivia_io_pi.csv") if x["base"] == "2017" and x["year"] == "2019"
+       and x["aggregation"] == "book12" and x["flows"] == "domestic" and x["normalization"] == "input_shares"
+       and x["sector"] == "Hydrocarbons"]
+check("pi hydrocarbons 2019", pih[0], 0.039, 3)
+
+print("\n== Sourced: complexity (Growth Lab HS92) and export shares (WDI)")
+e = [x for x in read_csv("eci_facts.csv") if x["country"] == "BOL" and x["year"] == "2019"][0]
+check("ECI Bolivia 2019", float(e["eci_hs92"]), -1.30, 2)
+assert int(e["eci_rank_hs92"]) == 131
+pci = {(x["product_hs92_code"], x["year"]): float(x["pci"]) for x in read_csv("pci_selected_products.csv")}
+for code, v in [("2711", -2.23), ("2608", -1.67), ("1201", -1.81)]:
+    check(f"PCI {code} 2019", pci[(code, "2019")], v, 2)
+facts = {x["fact_id"]: float(x["value"]) for x in read_csv("bolivia_facts.csv")}
+check("fuel exports % 2019", facts["BOL_fuel_exports_share_2019"], 32.1, 1)
+check("ores and metals exports % 2019", facts["BOL_ores_metals_exports_share_2019"], 28.7, 1)
