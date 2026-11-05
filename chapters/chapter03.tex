@@ -90,7 +90,7 @@ Now we introduce multiple sectors. This is where the Leontief system from Chapte
 
 \subsection{Gas and the Traditional Economy}
 
-Stylize Bolivia as two economies. The first is the gas economy: capital-intensive, high-productivity, connected to global commodity markets, a large share of export revenue in boom years and a small share of employment. The second is the traditional economy (potatoes, llamas, small-scale agriculture, informal commerce): labor-intensive, low-productivity, producing mainly for domestic markets, and employing most of the population. (These are qualitative descriptions; Exercise~3.5 and Chapter~17 ask for the actual shares from INE data.)
+Stylize Bolivia as two economies. The first is the gas economy: capital-intensive, high-productivity, connected to global commodity markets, a large share of export revenue in boom years and a small share of employment. The second is the traditional economy (potatoes, llamas, small-scale agriculture, informal commerce): labor-intensive, low-productivity, producing mainly for domestic markets, and employing most of the population. The data bear out the contrast. Fuels were 54.5\% of Bolivia's merchandise exports in 2013, at the height of the boom, 32.1\% in 2019 and 18.9\% in 2024 (WDI series TX.VAL.FUEL.ZS.UN; \citealp{worldbank2026wdi}). Mining and quarrying, hydrocarbons included, employed 1.3\% of workers in 2019, against 27.4\% in agriculture and 17.1\% in commerce (ILOSTAT, employment by ISIC section; \citealp{ilo2026ilostat}). Chapter~17 gives the full sectoral picture from INE's supply-use tables.
 
 A dollar of investment in the gas sector produces output that is sold internationally, generates fiscal revenue, and feeds back into the gas sector (maintenance, exploration, expansion). Very little of it flows to traditional producers. A dollar of investment in traditional agriculture feeds local consumption, local transport, local markets --- but generates little fiscal revenue and few export earnings.
 
@@ -100,6 +100,8 @@ The answer depends on the structure of $A$ --- the input-output matrix. If the g
 
 \begin{prebisch}[The enclave economy]
 This is exactly Prebisch's center-periphery argument applied within a country. The gas sector is the ``center'' of the Bolivian economy---high productivity, strong international linkages, favorable terms of trade (when commodity prices are high). The traditional sector is the ``periphery''---low productivity, weak linkages, dependent on domestic demand. Pinto's contribution was to see that this center-periphery structure exists \textit{inside} peripheral countries, not just between countries. Bolivia is peripheral in the global economy \textit{and} internally heterogeneous. The gas sector's relationship to the traditional sector replicates, at national scale, the center's relationship to the periphery at global scale.
+
+One qualification is forced by the data. ``Center'' here means productivity and export earnings, not a central position in the \textit{domestic} production network. In INE's 2019 supply-use table the hydrocarbons sector sits at the periphery of the domestic $W^P$: its Perron weight is $\pi = 0.039$, well below the uniform share $1/11 \approx 0.091$. It exports 70\% of its output, buys only 0.225 of domestic intermediate inputs per unit of output (manufacturing: 0.558), and pays 6\% of its value added as compensation of employees (INE supply-use tables, base 2017; author's calculations, \texttt{data/compute/compute\_bolivia\_io.py}; \citealp{ine2026sut}). That is Prebisch's and Pinto's enclave, measured by $\boldsymbol{\pi}$ and by export orientation. Its rents reach the rest of the economy through the fiscal system (the direct hydrocarbons tax, IDH), not through production linkages.
 \end{prebisch}
 
 
@@ -167,7 +169,7 @@ Finding $\K^*$ is a fixed-point problem; with $\alpha_i < 1$, diminishing return
 
 Simon \citet{kuznets1955economic} proposed that inequality first rises and then falls with development --- the ``inverted-U'' hypothesis. The mechanism: early industrialization moves workers out of a low-income, relatively equal agricultural sector into a higher-income, more unequal industrial sector. While the shift is under way, the gap between the sectors raises overall inequality; once most workers have moved, that between-sector component shrinks and overall inequality falls.
 
-The inverted-U has been one of the most tested hypotheses in economics. The evidence is mixed at best: cross-country data show no robust inverted-U, and the within-country trajectories vary enormously. Some countries (South Korea, Taiwan) grew rapidly and reduced inequality. Others (Brazil in the 1960s--70s) grew and saw inequality rise. Bolivia is a warning against easy stories: its measured income inequality fell substantially during the 2006--14 gas boom (World Bank Poverty and Inequality Platform; SEDLAC), even though the gas sector remained an enclave in input-output terms. Any structural account has to confront that fact, and the transfer discussion in Section~\ref{ch03:sec:trickle} does.
+The inverted-U has been one of the most tested hypotheses in economics. The evidence is mixed at best: cross-country data show no robust inverted-U, and the within-country trajectories vary enormously. Some countries (South Korea, Taiwan) grew rapidly and reduced inequality. Others (Brazil in the 1960s--70s) grew and saw inequality rise. Bolivia is a warning against easy stories. The Gini of per-capita household income fell from 0.600 in 2005 to 0.426 in 2019 (INE, Encuestas de Hogares; the World Bank's Poverty and Inequality Platform gives 0.585 and 0.416, \citealp{worldbank2026pip}), and extreme poverty fell from 38.2\% in 2005 to 15.2\% in 2018 (INE, poverty lines of 2005--2018). Over the same years the gas sector remained an enclave in input-output terms (Section~\ref{ch03:sec:multi_sector}), and the integration of the domestic production network barely moved: $\Gamma(W^P)$ was 0.518 in 2006 and 0.484 in 2013 (12 sectors, input shares; INE input-output matrices, base 1990; author's calculations, \texttt{data/compute/compute\_bolivia\_io.py}; \citealp{ine2026sut}). Large equity gains came without any rise in structural integration. Any structural account has to confront that fact, and the transfer discussion in Section~\ref{ch03:sec:trickle} does.
 
 The matrix framework offers one part of the explanation: propagation depends on $A$.
 
@@ -256,8 +258,8 @@ where $A_{11}$ and $A_{22}$ are the within-block linkage matrices and $\varepsil
 Degree $k = 1$: the economy is structurally integrated (one block). Degree $k = 2$: the economy has a dual structure (Pinto's case). Degree $k > 2$: multiple disconnected sectors.
 \end{definition}
 
-\begin{example}[Bolivia: A Degree-2 Economy]\label{ch03:ex:bolivia}
-\illustrative\ Bolivia's production structure can be stylized as two blocks:
+\begin{example}[A Stylized Degree-2 Economy: Gas and Tradition]\label{ch03:ex:bolivia}
+\illustrative\ A dual economy of the kind Pinto described, with Bolivian sector names, can be stylized as two blocks. This is a stylized economy, not an estimate of Bolivia's structure; the end of this section compares it with the measured one.
 
 \textbf{Block 1 (Modern):} Gas extraction, mining, large-scale agriculture (soybeans), financial services. High capital intensity, high productivity, strong linkages to global markets, weak linkages to the domestic traditional sector.
 
@@ -265,7 +267,7 @@ Degree $k = 1$: the economy is structurally integrated (one block). Degree $k = 
 
 The stylized coefficient matrix (rows: Modern, Traditional), with numbers chosen for illustration rather than estimated:
 \begin{equation}
-A_{\text{Bolivia}} = \begin{pmatrix} 0.15 & 0.03 \\ 0.02 & 0.20 \end{pmatrix}.
+A_{\text{dual}} = \begin{pmatrix} 0.15 & 0.03 \\ 0.02 & 0.20 \end{pmatrix}.
 \end{equation}
 
 Within the modern sector, linkages are moderate ($0.15$): gas companies buy services from financial firms, mining needs transport. Within the traditional sector, linkages are strong ($0.20$): the farmer sells to the market seller who buys from the small manufacturer. But cross-sector linkages are tiny: the modern sector buys $0.03$ of traditional inputs per unit of output (it imports its equipment rather than buying from Bolivian workshops), and the traditional sector buys $0.02$ of modern inputs. The cross-block mass is $\chi = 0.05/0.40 = 0.125$.
@@ -277,7 +279,7 @@ L \approx \begin{pmatrix} 1.18 & 0.03 \\ 0.04 & 1.25 \end{pmatrix}.
 
 A unit impulse to the gas sector (column 1) generates 1.18 units of output in the modern sector and 0.04 in the traditional sector. Almost none of the growth propagates. The enclave multiplier is 1.22; of this, 96.4\% stays in the modern sector.
 
-Compare with a hypothetical connected Bolivia where both cross-sector coefficients are $0.15$ ($\chi = 0.46$):
+Compare with a hypothetical connected version of the same economy, where both cross-sector coefficients are $0.15$ ($\chi = 0.46$):
 \begin{equation}
 A_{\text{connected}} = \begin{pmatrix} 0.15 & 0.15 \\ 0.15 & 0.20 \end{pmatrix}, \quad L_{\text{connected}} \approx \begin{pmatrix} 1.22 & 0.23 \\ 0.23 & 1.29 \end{pmatrix}.
 \end{equation}
@@ -285,18 +287,18 @@ A_{\text{connected}} = \begin{pmatrix} 0.15 & 0.15 \\ 0.15 & 0.20 \end{pmatrix},
 \end{example}
 
 \begin{prebisch}[The multiplier gap is the development gap]
-The difference between the two Bolivias above is not technology, not savings rates, not human capital, not institutions in the Acemoglu-Robinson sense. It is the \textit{structure of inter-sectoral linkages} --- the cross-block entries of $A$. Both economies have the same production functions, the same capital, the same labor. They differ only in how connected the sectors are. And this difference produces, over time, radically different development trajectories.
+The difference between the two economies above is not technology, not savings rates, not human capital, not institutions in the Acemoglu-Robinson sense. It is the \textit{structure of inter-sectoral linkages} --- the cross-block entries of $A$. Both economies have the same production functions, the same capital, the same labor. They differ only in how connected the sectors are. And this difference produces, over time, radically different development trajectories.
 
 This is a reinterpretation of Prebisch in the linkage language of Hirschman, not Prebisch's own mechanism. Prebisch explained the deterioration of the periphery's terms of trade by asymmetric wage and price behavior over the trade cycle and by different income elasticities of demand for primary goods and manufactures. The linkage argument adds a quantity side: when the center grows, its interconnected production structure amplifies the growth internally; when the periphery grows, its disconnected structure leaks the growth externally (through commodity export revenues that purchase imported manufactures) without amplifying it internally.
 
 The multiplier gap --- the difference in off-diagonal entries of the Leontief inverse between a connected and a disconnected economy --- is one measurable part of the development gap. It is computable. It is a property of $A$. And it can be changed.
 \end{prebisch}
 
-\begin{vizpanel}{Bolivia's two possible Leontief inverses}
+\begin{vizpanel}{Two possible Leontief inverses of a stylized dual economy}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\s{1.3}
-%% Enclave Bolivia: L = (1.18, 0.03; 0.04, 1.25); one colour scale for both panels (0 .. 1.29)
+%% Stylized enclave: L = (1.18, 0.03; 0.04, 1.25); one colour scale for both panels (0 .. 1.29)
 \foreach \i/\j/\v/\lab/\tc in {1/1/91/1.18/white, 1/2/2/0.03/black, 2/1/3/0.04/black, 2/2/97/1.25/white} {
   \fill[blue!\v, draw=white, line width=0.3pt]
     ({(\j-1)*\s}, {(2-\i)*\s}) rectangle +(\s,\s);
@@ -307,7 +309,7 @@ The multiplier gap --- the difference in off-diagonal entries of the Leontief in
 
 \node[font=\Large] at (3.7, 0.65) {vs.};
 
-%% Connected Bolivia: L = (1.22, 0.23; 0.23, 1.29)
+%% Connected version: L = (1.22, 0.23; 0.23, 1.29)
 \begin{scope}[xshift=5.2cm]
 \foreach \i/\j/\v/\lab/\tc in {1/1/94/1.22/white, 1/2/18/0.23/black, 2/1/18/0.23/black, 2/2/100/1.29/white} {
   \fill[blue!\v, draw=white, line width=0.3pt]
@@ -326,7 +328,7 @@ The multiplier gap --- the difference in off-diagonal entries of the Leontief in
 
 \subsection{The Spectral Signature of Heterogeneity}
 
-Coupling between blocks has a spectral signature, but it lives in the row-normalized \textit{production weight matrix} $W^P = D^{-1}A$ (input-cost shares; Chapter~1, Section~\ref{ch01:sec:conventions}), not in $A$ itself. The spectral radius and second eigenvalue of $A$ mostly track the overall level of the linkages: scaling $A$ by $c$ scales $\rho(A) - |\lambda_2(A)|$ by $c$, and the fully disconnected $A = \text{diag}(0.6, 0.05)$ has $\rho - |\lambda_2| = 0.55$, larger than either Bolivia. $W^P$ removes the scale.
+Coupling between blocks has a spectral signature, but it lives in the row-normalized \textit{production weight matrix} $W^P = D^{-1}A$ (input-cost shares; Chapter~1, Section~\ref{ch01:sec:conventions}), not in $A$ itself. The spectral radius and second eigenvalue of $A$ mostly track the overall level of the linkages: scaling $A$ by $c$ scales $\rho(A) - |\lambda_2(A)|$ by $c$, and the fully disconnected $A = \text{diag}(0.6, 0.05)$ has $\rho - |\lambda_2| = 0.55$, larger than either version of the stylized economy. $W^P$ removes the scale.
 
 \begin{proposition}[Coupling, Integration and Block Weights]\label{ch03:prop:block_spectral}
 Let every row of $A$ be nonzero, so that $W^P = D^{-1}A$ is row-stochastic.
@@ -344,13 +346,15 @@ In (2) the block weights depend only on the \textit{ratio} $a/b$; multiplying bo
 
 More generally, in a nearly completely decomposable $W^P$ \citep{simon1961aggregation} the Perron weights of the blocks are set, to first order in the coupling, by the balance of cross-block flows rather than by their level; for two sectors this is exactly part~(2).
 
-For Bolivia, $W^P = \begin{pmatrix} 0.833 & 0.167 \\ 0.091 & 0.909\end{pmatrix}$, so $\Gamma = 0.26$. For the connected Bolivia, $W^P = \begin{pmatrix} 0.50 & 0.50 \\ 0.43 & 0.57\end{pmatrix}$ and $\Gamma = 0.93$. The production Perron vector of the enclave is $(0.35, 0.65)$: in the production reading, the traditional sector carries the larger weight, because the modern sector relies on it for a larger share of its inputs ($0.167$) than it relies on the modern sector ($0.091$). Integration and power are different questions.
+For the stylized dual economy, $W^P = \begin{pmatrix} 0.833 & 0.167 \\ 0.091 & 0.909\end{pmatrix}$, so $\Gamma = 0.26$. For its connected version, $W^P = \begin{pmatrix} 0.50 & 0.50 \\ 0.43 & 0.57\end{pmatrix}$ and $\Gamma = 0.93$. The production Perron vector of the enclave is $(0.35, 0.65)$: in the production reading, the traditional sector carries the larger weight, because the modern sector relies on it for a larger share of its inputs ($0.167$) than it relies on the modern sector ($0.091$). Integration and power are different questions.
 
 \begin{intuition}[What this says in words]
 A nearly block-diagonal economy integrates slowly: an impulse that starts in one block takes a long time to reach the other, so productivity differences across blocks persist. The spectral gap of the row-normalized $W^P$ measures exactly that speed, and for two sectors it equals the total cross-sector input share.
 
 What the gap does \textit{not} measure is who benefits. Strengthening every cross-block linkage in proportion speeds up integration without changing the block weights; changing the \textit{direction} of dependence changes the weights. Pinto's structural heterogeneity is a statement about coupling --- measured by the cross-block mass $\chi(A)$ and, in the row-normalized network, by $\Gamma(W^P)$ --- not about power.
 \end{intuition}
+
+\paragraph{What the data say.} On the integration coordinate the stylized economy is wrong about Bolivia. INE's 2019 supply-use table, aggregated to the book's 12 sectors (domestic flows, input shares), gives $\Gamma(W^P) = 0.467$, not 0.26, with $\Neff = 6.48$ of 11 sectors. On the ISIC-based aggregation used for cross-country comparison, Bolivia's $\Gamma$ is 0.475, inside the range of the comparators in the OECD ICIO tables for the same year: USA 0.463, Korea 0.511, Germany 0.544, Chile 0.557, China 0.582, Mexico 0.649 (INE supply-use tables, base 2017, \citealp{ine2026sut}; OECD ICIO 2023, \citealp{oecd2023icio}; author's calculations, \texttt{data/compute/compute\_bolivia\_io.py} and \texttt{compute\_oecd\_io.py}). A single $\Gamma$ also depends on aggregation and normalization: Bolivia's 2019 value ranges from 0.33 to 0.69 across input and sales shares, with and without the diagonal, at 12 and 39 sectors. Bolivia's dualism is real, but aggregate $\Gamma$ does not detect it, and it does not separate Bolivia's development path from Korea's. The enclave shows up instead in where the gas sector sits in the network and where its output goes (Section~\ref{ch03:sec:multi_sector}). Chapter~17 gives the full table.
 
 
 %% =====================================================================
@@ -378,7 +382,7 @@ Trickle-down fails when $\ell_{ij}$ is small---when the Leontief inverse has sma
 \item \textbf{The enclave}: the modern sector is connected to the \textit{global} economy but disconnected from the \textit{domestic} economy. Its linkages point outward (imports, exports) rather than inward (domestic input purchases, domestic sales).
 \end{enumerate}
 
-In the stylization of Example~\ref{ch03:ex:bolivia}, Bolivia's gas sector fails on all three counts: it buys few inputs from the domestic traditional sector (case 1), there are few intermediate sectors linking gas to traditional agriculture (case 2), and its linkages run to export pipelines and international commodity markets rather than to Bolivian workshops (case 3). Chapter~17 asks how far the actual input-output tables bear this out.
+In the stylization of Example~\ref{ch03:ex:bolivia}, Bolivia's gas sector fails on all three counts: it buys few inputs from the domestic traditional sector (case 1), there are few intermediate sectors linking gas to traditional agriculture (case 2), and its linkages run to export pipelines and international commodity markets rather than to Bolivian workshops (case 3). The 2019 supply-use table bears out cases 1 and 3 for the hydrocarbons sector: it buys 0.225 of domestic intermediate inputs per unit of output, against 0.558 for manufacturing, and exports 70\% of its output (Section~\ref{ch03:sec:multi_sector}). Chapter~17 examines the rest.
 \end{intuition}
 
 \subsection{The Transfer Perversity Result}
@@ -443,9 +447,9 @@ This chapter established five results:
 
 \item The \textbf{multi-sector growth model}~\eqref{ch03:eq:growth_system} embeds the Leontief system in a dynamic framework. Growth propagation depends on the technical coefficients $A$ through the Leontief inverse $(I - \gamma A')^{-1}$; the reduced form transmits demand-side impulses upstream, while cost shocks travel downstream through the price dual.
 
-\item The \textbf{Kuznets question}---does growth reduce inequality?---has a structural part of its answer: it depends on $A$. Connected economies (large cross-block entries, large off-diagonal Leontief entries) propagate growth across sectors. Disconnected economies (nearly block-diagonal $A$) concentrate growth in the modern sector. Measured inequality also depends on transfers and labor markets, as Bolivia's falling Gini during the gas boom shows.
+\item The \textbf{Kuznets question}---does growth reduce inequality?---has a structural part of its answer: it depends on $A$. Connected economies (large cross-block entries, large off-diagonal Leontief entries) propagate growth across sectors. Disconnected economies (nearly block-diagonal $A$) concentrate growth in the modern sector. Measured inequality also depends on transfers and labor markets, as Bolivia shows: its Gini fell from 0.600 (2005) to 0.426 (2019) while $\Gamma(W^P)$ stayed roughly flat.
 
-\item \textbf{Structural heterogeneity} (Pinto) is a nearly block-diagonal $A$ with weak cross-block linkages, measured by the cross-block mass $\chi(A)$. In the row-normalized $W^P = D^{-1}A$ it shows up as slow integration: for two sectors, $\Gamma(W^P)$ equals the total cross-sector input share. The gap measures integration, not who holds power. The stylized Bolivia is a degree-2 case.
+\item \textbf{Structural heterogeneity} (Pinto) is a nearly block-diagonal $A$ with weak cross-block linkages, measured by the cross-block mass $\chi(A)$. In the row-normalized $W^P = D^{-1}A$ it shows up as slow integration: for two sectors, $\Gamma(W^P)$ equals the total cross-sector input share. The gap measures integration, not who holds power. The stylized dual economy is a degree-2 case; Bolivia's measured 12-sector $\Gamma(W^P)$ (0.467 in 2019) is not small, so its enclave shows up in $\boldsymbol{\pi}$ and export orientation, not in $\Gamma$.
 
 \item \textbf{Transfers do not change $A$}. They alleviate poverty within the traditional sector without building the inter-sectoral linkages that would make growth propagate. Structural policy changes the matrix. Transfer policy changes the endowment vector.
 \end{enumerate}
@@ -485,7 +489,7 @@ A = \begin{pmatrix} 0.10 & 0.20 & 0.05 \\ 0.15 & 0.10 & 0.15 \\ 0.05 & 0.10 & 0.
 \item Relate to Bolivia's gas sector.
 \end{enumerate}
 
-\item \textbf{Transfer vs.\ structural policy.} Using Bolivia example (Example~\ref{ch03:ex:bolivia}):
+\item \textbf{Transfer vs.\ structural policy.} Using the stylized dual economy (Example~\ref{ch03:ex:bolivia}):
 \begin{enumerate}
 \item Suppose the government transfers 10\% of modern-sector output to the traditional sector. What happens to traditional-sector income? To the cross-sector productivity gap?
 \item Now suppose the government spends the same 10\% building linkages: the cross-sector coefficients of $A$ (0.03 and 0.02) increase to 0.10. Recompute the Leontief inverse. What happens to the cross-sector propagation?
@@ -547,7 +551,7 @@ where $A$ is $n_1 \times n_1$, $D$ is $n_2 \times n_2$, $B$ is $n_1 \times n_2$,
 
 In plain language: small cross-block linkages produce small changes in eigenvalues (when the eigenvector matrix is well conditioned). The qualitative structure (two slowly mixing modes, small spectral gap of $W^P$) is preserved under small perturbation. This is why structural heterogeneity is robust: adding a few weak linkages between the gas sector and the traditional sector does not fundamentally change the spectral structure. The economy remains approximately block-diagonal until the cross-block linkages are comparable in strength to the within-block linkages.
 
-\paragraph{Example.} For Bolivia's stylized coefficient matrix from Example~\ref{ch03:ex:bolivia}:
+\paragraph{Example.} For the stylized dual-economy coefficient matrix of Example~\ref{ch03:ex:bolivia}:
 \begin{equation}
 A = \begin{pmatrix} 0.15 & 0.03 \\ 0.02 & 0.20 \end{pmatrix}.
 \end{equation}
@@ -600,7 +604,7 @@ Pinto's thesis has three parts, each of which maps to a result in this chapter.
 \textbf{Part 1: The peripheral economy is not one economy but three.} Pinto identified a tripartite structure within Latin American countries: a ``primitive'' stratum (with productivity levels comparable to colonial times), a ``modern pole'' (with productivity levels comparable to the industrialized countries), and an ``intermediate'' stratum (near the national average). The productivity ratio between the modern pole and the primitive stratum was very large (the figure of 20:1 often attributed to the essay needs checking against the text).
 % TODO-VERIFY: Pinto (1970), El Trimestre Economico 37(145): check the productivity ratios he reports for the three strata, the "modernizacion excluyente" label, and the essay's page length. Crucially, this was not a simple urban-rural divide --- the modern pole included urban enclaves (export platforms, MNC subsidiaries) while the intermediate stratum included both urban industry and commercial agriculture.
 
-In this chapter's notation: the domestic coefficient matrix $A$ has at least two blocks (we simplified to two for tractability), with \textit{weak cross-block entries} --- a small cross-block mass $\chi(A)$. The tripartite structure is a nearly block-diagonal matrix with three blocks of very different productivity. The spectral gap $\Gamma(W^P)$ of the row-normalized matrix is small because the coupling between blocks is weak: impulses mix slowly across them.
+In this chapter's notation: the domestic coefficient matrix $A$ has at least two blocks (we simplified to two for tractability), with \textit{weak cross-block entries} --- a small cross-block mass $\chi(A)$. The tripartite structure is a nearly block-diagonal matrix with three blocks of very different productivity. The spectral gap $\Gamma(W^P)$ of the row-normalized matrix is small because the coupling between blocks is weak: impulses mix slowly across them. Whether measured production networks show this at the level of aggregate sectors is a separate, empirical question; for Bolivia at 12 sectors they do not (Section~\ref{ch03:sec:heterogeneity}).
 
 \textbf{Part 2: Import-substitution industrialization added new layers of heterogeneity without eliminating old ones.} The ISI strategy, which CEPAL had championed, successfully built a modern industrial sector in several Latin American countries (Brazil, Mexico, Argentina). But Pinto observed that this modern sector coexisted with the pre-existing traditional sector rather than absorbing it. The economy became more complex --- more blocks in the matrix --- without becoming more \textit{connected}. The off-diagonal entries of $W^P$ remained small. He called this ``modernizaci\'{o}n excluyente'' --- exclusionary modernization.
 

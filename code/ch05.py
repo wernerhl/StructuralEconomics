@@ -5,6 +5,26 @@ import numpy as np
 
 np.set_printoptions(precision=4, suppress=True)
 
+# ---- Sourced data (data/processed, retrieved 2026-11-05; see data/README.md) ----
+import csv, pathlib
+DATA = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
+def rows(name):
+    with open(DATA / name, newline="", encoding="utf-8") as f: return list(csv.DictReader(f))
+def fact(fid):
+    return float(next(r["value"] for r in rows("bolivia_facts.csv") if r["fact_id"] == fid))
+def bol_summary(year, agg, norm="input_shares", flows="domestic", base=None):
+    base = base or ("2017" if int(year) >= 2017 else "1990")
+    return next(r for r in rows("bolivia_io_summary.csv") if (r["base"], r["year"], r["aggregation"], r["flows"], r["normalization"]) == (base, str(year), agg, flows, norm))
+def oecd_summary(iso, year=2019, agg="book12_isic", edition="ICIO2023"):
+    return next(r for r in rows("oecd_io_summary.csv") if (r["edition"], r["country"], r["year"], r["aggregation"], r["flows"], r["normalization"]) == (edition, iso, str(year), agg, "domestic", "input_shares"))
+def bol_pi(sector, year=2019, agg="book12"):
+    return float(next(r["pi"] for r in rows("bolivia_io_pi.csv") if (r["base"], r["year"], r["aggregation"], r["flows"], r["normalization"], r["sector"]) == ("2017", str(year), agg, "domestic", "input_shares", sector)))
+def sector_fact(sector, col, year=2019):
+    return float(next(r[col] for r in rows("bolivia_io_sector_facts.csv") if (r["base"], r["year"], r["book12"]) == ("2017", str(year), sector)))
+def check(label, value, text, nd):
+    """Assert that the sourced value rounds to the number printed in the text (nd decimals)."""
+    print("  %-58s %10.4f  text: %s" % (label, value, text)); assert round(value, nd) == round(text, nd), (label, value, text)
+
 
 def perron(W):
     vals, vecs = np.linalg.eig(W.T)
@@ -108,4 +128,8 @@ for _ in range(300):
     b0 = rng.random(n)
     assert np.allclose(np.linalg.matrix_power(Wd, 3000) @ b0, pd @ b0)
 print("ok: 300 random strongly connected aperiodic W^I converge to 1 pi'")
+print("\n== Sourced Bolivia values quoted in Sec. block-diagonal (dual economy)")
+check("Gamma 2019 Bolivia, book12 (INE)", float(bol_summary(2019, "book12")["Gamma"]), 0.467, 3)
+check("pi hydrocarbons 2019, book12 W^P", bol_pi("Hydrocarbons"), 0.039, 3)
+check("hydrocarbons % of output exported 2019", 100 * sector_fact("Hydrocarbons", "export_share_of_output"), 70, 0)
 print("all assertions passed")

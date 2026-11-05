@@ -4,6 +4,26 @@ W^P = D^-1 A (row-stochastic input shares).  Run: python3 code/ch03.py (numpy on
 import numpy as np
 np.set_printoptions(precision=4, suppress=True)
 def hdr(s): print("\n== " + s)
+# ---- Sourced data (data/processed, retrieved 2026-11-05; see data/README.md) ----
+import csv, pathlib
+DATA = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
+def rows(name):
+    with open(DATA / name, newline="", encoding="utf-8") as f: return list(csv.DictReader(f))
+def fact(fid):
+    return float(next(r["value"] for r in rows("bolivia_facts.csv") if r["fact_id"] == fid))
+def bol_summary(year, agg, norm="input_shares", flows="domestic", base=None):
+    base = base or ("2017" if int(year) >= 2017 else "1990")
+    return next(r for r in rows("bolivia_io_summary.csv") if (r["base"], r["year"], r["aggregation"], r["flows"], r["normalization"]) == (base, str(year), agg, flows, norm))
+def oecd_summary(iso, year=2019, agg="book12_isic", edition="ICIO2023"):
+    return next(r for r in rows("oecd_io_summary.csv") if (r["edition"], r["country"], r["year"], r["aggregation"], r["flows"], r["normalization"]) == (edition, iso, str(year), agg, "domestic", "input_shares"))
+def bol_pi(sector, year=2019, agg="book12"):
+    return float(next(r["pi"] for r in rows("bolivia_io_pi.csv") if (r["base"], r["year"], r["aggregation"], r["flows"], r["normalization"], r["sector"]) == ("2017", str(year), agg, "domestic", "input_shares", sector)))
+def sector_fact(sector, col, year=2019):
+    return float(next(r[col] for r in rows("bolivia_io_sector_facts.csv") if (r["base"], r["year"], r["book12"]) == ("2017", str(year), sector)))
+def check(label, value, text, nd):
+    """Assert that the sourced value rounds to the number printed in the text (nd decimals)."""
+    print("  %-58s %10.4f  text: %s" % (label, value, text)); assert round(value, nd) == round(text, nd), (label, value, text)
+
 def Linv(A, g=1.0): return np.linalg.inv(np.eye(len(A)) - g * A.T)
 def WP(A): return A / A.sum(1, keepdims=True)
 def perron(W):
@@ -89,4 +109,31 @@ for _ in range(300):
                 for r in range(1, n) for S in itertools.combinations(range(n), r) if pr[list(S)].sum() <= .5 + 1e-12)
     assert Phi_c ** 2 / 2 - 1e-10 <= 1 - l2 <= 2 * Phi_c + 1e-10 and gap(Wr) <= 2 * Phi_c + 1e-10
 print("all randomized proof checks passed")
+hdr("Sourced Bolivia values quoted in the text (Sec. multi_sector, kuznets, heterogeneity, trickle; summary)")
+check("fuel exports % merch. exports 2013 (WDI)", fact("BOL_fuel_exports_share_2013"), 54.5, 1)
+check("fuel exports % merch. exports 2019 (WDI)", fact("BOL_fuel_exports_share_2019"), 32.1, 1)
+check("fuel exports % merch. exports 2024 (WDI)", fact("BOL_fuel_exports_share_2024"), 18.9, 1)
+check("employment share mining & quarrying 2019 (ILOSTAT)", fact("BOL_emp_share_mining_quarrying_incl_hydrocarbons_2019"), 1.3, 1)
+check("employment share agriculture 2019 (ILOSTAT)", fact("BOL_emp_share_agriculture_2019"), 27.4, 1)
+check("employment share commerce 2019 (ILOSTAT)", fact("BOL_emp_share_commerce_2019"), 17.1, 1)
+s19 = bol_summary(2019, "book12"); N = int(s19["N"])
+check("pi hydrocarbons 2019, book12 W^P", bol_pi("Hydrocarbons"), 0.039, 3)
+check("uniform share 1/N, N = 11", 1 / N, 0.091, 3); assert N == 11 and bol_pi("Hydrocarbons") < 1 / N
+check("hydrocarbons % of output exported 2019", 100 * sector_fact("Hydrocarbons", "export_share_of_output"), 70, 0)
+check("hydrocarbons domestic inputs per unit output 2019", sector_fact("Hydrocarbons", "dom_int_inputs_per_output"), 0.225, 3)
+check("manufacturing domestic inputs per unit output 2019", sector_fact("Manufacturing", "dom_int_inputs_per_output"), 0.558, 3)
+check("hydrocarbons compensation % of VA 2019", 100 * sector_fact("Hydrocarbons", "comp_share_of_va"), 6, 0)
+check("Gini INE 2005", fact("BOL_INE_gini_2005"), 0.600, 3); check("Gini INE 2019", fact("BOL_INE_gini_2019"), 0.426, 3)
+check("Gini PIP 2005", fact("BOL_PIP_gini_2005"), 0.585, 3); check("Gini PIP 2019", fact("BOL_PIP_gini_2019"), 0.416, 3)
+check("extreme poverty 2005, old lines (INE)", fact("BOL_INE_extreme_poverty_oldline_2005"), 38.2, 1)
+check("extreme poverty 2018, old lines (INE)", fact("BOL_INE_extreme_poverty_oldline_2018"), 15.2, 1)
+check("Gamma 2006, book12, base 1990", float(bol_summary(2006, "book12")["Gamma"]), 0.518, 3)
+check("Gamma 2013, book12, base 1990", float(bol_summary(2013, "book12")["Gamma"]), 0.484, 3)
+check("Gamma 2019, book12", float(s19["Gamma"]), 0.467, 3); check("N_eff 2019, book12", float(s19["Neff"]), 6.48, 2)
+check("Gamma 2019, book12_isic", float(bol_summary(2019, "book12_isic")["Gamma"]), 0.475, 3)
+for iso, g in [("USA", .463), ("KOR", .511), ("DEU", .544), ("CHL", .557), ("CHN", .582), ("MEX", .649)]:
+    check("Gamma 2019 %s, ICIO 2023 book12_isic" % iso, float(oecd_summary(iso)["Gamma"]), g, 3)
+gs = [float(bol_summary(2019, agg, nm)["Gamma"]) for agg in ("book12", "detail39")
+      for nm in ("input_shares", "input_shares_zero_diag", "sales_shares", "sales_shares_zero_diag")]
+check("Gamma 2019 range over 8 variants: min", min(gs), 0.33, 2); check("Gamma 2019 range over 8 variants: max", max(gs), 0.69, 2)
 print("\nall assertions passed")
