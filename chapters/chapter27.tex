@@ -6,17 +6,18 @@
 \begin{quote}
 \textit{``The algorithms that determine what you see are not neutral. They are structural interventions on the information network --- operators on $W^I$ with objectives that may have nothing to do with your welfare or your society's development.''}\\
 \hfill --- This book
+% TODO: BOOK.md asks for a sourced epigraph from a thinker in the original language; replace this self-quotation (do not invent one).
 \end{quote}
 
 \vspace{1em}
 
 Every chapter until now has treated $W^I$ as shaped by human institutions: media organizations, schools, social networks, community structures. This chapter confronts the twenty-first century's structural novelty: $W^I$ is now substantially designed by algorithms.
 
-Recommendation systems on Facebook, TikTok, YouTube, Google, and WhatsApp determine what billions of people see, whom they hear, and which signals enter their formation equation. These algorithms are operators on $W^I$ --- they add, remove, and reweight information edges in real time. They are the most powerful $W^I$ operators ever deployed, operating at a scale and speed that no human institution has ever achieved.
+Recommendation systems on Facebook, Instagram, TikTok, YouTube, and Google determine what billions of people see, whom they hear, and which signals enter their formation equation. (WhatsApp, the dominant platform in much of Latin America, is different: messages arrive in chronological order from contacts and groups, with no ranking algorithm. Its $W^I$ is shaped by group membership and forwarding, not by a recommender, so the results of this chapter apply to it only indirectly.) These algorithms are operators on $W^I$ --- they add, remove, and reweight information edges in real time. They operate at a scale and speed that no human institution has achieved.
 
 The question for structural economics: do these algorithms increase or decrease $N_{\text{eff}}$? Do they break assortative mixing or reinforce it? Do they connect the quinoa farmer in Potos\'{i} to the engineer in Santa Cruz, or do they lock each into a personalized information silo?
 
-The answer: it depends entirely on the algorithm's objective function. And that objective function is not set by the farmer, the engineer, or the Bolivian state. It is set by firms in Menlo Park, Beijing, and Mountain View.
+The answer: it depends on the algorithm's objective function --- and on what users themselves choose, which the evidence below shows matters at least as much. And that objective function is not set by the farmer, the engineer, or the Bolivian state. It is set by firms in Menlo Park, Beijing, and Mountain View.
 
 
 %% =====================================================================
@@ -36,15 +37,15 @@ where $\boldsymbol{\eta}$ are the algorithm's parameters (learned from data to m
 The algorithm modifies $W^I$ by choosing which content from source $j$ to show user $i$. If the algorithm shows $i$ more content from $j$: $W^{I'}_{ij} > W^I_{ij}$ (the edge strengthens). If it suppresses content from $j$: $W^{I'}_{ij} < W^I_{ij}$ (the edge weakens).
 \end{definition}
 
-\begin{proposition}[The Algorithm's Objective Determines $W^I$'s Structure]\label{ch27:prop:objective}
+\begin{conjecture}[The Algorithm's Objective Shapes $W^I$'s Structure]\label{ch27:prop:objective}
 Three objective functions produce qualitatively different $W^I$ structures:
 
-\textbf{Objective 1: Maximize engagement} (the standard commercial objective). The algorithm shows $i$ content that maximizes $i$'s time on platform. Engagement is maximized by content that is emotionally arousing, confirms existing beliefs, and comes from sources similar to $i$. This produces \textbf{assortative amplification}: $W^{I'}_{ij}$ is large when $i$ and $j$ are similar (same demographic, same beliefs, same consumption pattern). The algorithm reinforces the existing block structure of $W^I$ and may decrease $N_{\text{eff}}$.
+\textbf{Objective 1: Maximize engagement} (the standard commercial objective). The algorithm shows $i$ content that maximizes $i$'s time on platform. Engagement is maximized by content that is emotionally arousing, confirms existing beliefs, and comes from sources similar to $i$. This produces \textbf{assortative amplification}: $W^{I'}_{ij}$ is large when $i$ and $j$ are similar (same demographic, same beliefs, same consumption pattern). The algorithm reinforces the existing block structure of $W^I$, lowering cross-group mixing $\lambda_k$ and integration $\Gamma$ (Proposition~\ref{ch27:thm:echo}); by itself, block reinforcement need not change $\Neff$ (Remark~\ref{ch27:rem:gap_neff}).
 
-\textbf{Objective 2: Maximize information accuracy} (a hypothetical public-interest objective). The algorithm shows $i$ content from the most accurate and diverse sources. This produces \textbf{bridge-building}: $W^{I'}_{ij}$ is large when $j$ has information that $i$ lacks (cross-block edges). The algorithm breaks assortative mixing and increases $N_{\text{eff}}$.
+\textbf{Objective 2: Maximize information accuracy} (a hypothetical public-interest objective). The algorithm shows $i$ content from the most accurate and diverse sources. This produces \textbf{bridge-building}: $W^{I'}_{ij}$ is large when $j$ has information that $i$ lacks (cross-block edges). The algorithm breaks assortative mixing and raises $\lambda_k$ and $\Gamma$.
 
-\textbf{Objective 3: Maximize advertiser revenue} (a variant of engagement). Similar to Objective 1 but weighted by the commercial value of the user's attention. This produces \textbf{stratified exposure}: high-value users (urban, educated, high-income) see diverse, high-quality content; low-value users (rural, less-educated, low-income) see lower-quality, more assortative content. The algorithm increases $N_{\text{eff}}$ for the elite and decreases it for the periphery.
-\end{proposition}
+\textbf{Objective 3: Maximize advertiser revenue} (a variant of engagement). Similar to Objective 1 but weighted by the commercial value of the user's attention. This produces \textbf{stratified exposure}: high-value users (urban, educated, high-income) see diverse, high-quality content; low-value users (rural, less-educated, low-income) see lower-quality, more assortative content. The algorithm raises the diversity of the elite's feeds and lowers that of the periphery's. (Diversity of a single user's feed is the row entropy $H_i = -\sum_j W^I_{ij}\ln W^I_{ij}$, or its exponential $e^{H_i}$, the effective number of sources user $i$ sees. $\Neff$ is a property of the whole network and has no per-user version.)
+\end{conjecture}
 
 \begin{intuition}[The algorithm IS the new organic intellectual]
 In Gramsci's framework (Chapter~24), the ``organic intellectual'' is the agent with high $\pi^I$ who produces the narratives that sustain the hegemony. In the algorithmic era, the organic intellectual is the recommendation system: it determines which narratives reach which audiences, with what frequency, and in what context. The algorithm has $\pi^I$ that dwarfs any human journalist, professor, or politician --- it reaches billions of users simultaneously and personalizes the message for each.
@@ -60,28 +61,39 @@ The difference: Gramsci's organic intellectual had an ideology (a preferred $W^I
 
 \subsection{Effect 1: Echo Chambers and the Formation Trap}
 
-\begin{theorem}[Algorithmic Amplification of Assortative Mixing]\label{ch27:thm:echo}
-If the algorithm maximizes engagement and engagement is increasing in belief-confirmatory content, then:
-\begin{equation}\label{ch27:eq:echo}
-\lambda_k^{I'}(\mathcal{A}) \leq \lambda_k^I \quad \text{for all attributes } k,
+A precise version needs a model of what the algorithm does. The simplest is \textbf{multiplicative engagement ranking}: the algorithm reweights the organic feed by expected engagement and renormalizes,
+\begin{equation}\label{ch27:eq:reweight}
+W^{I'}_{ij} = \frac{W^I_{ij}\,e_{ij}}{\sum_l W^I_{il}\,e_{il}},
 \end{equation}
-where $\lambda_k^{I'}$ is the cross-group mixing parameter after algorithmic filtering. The algorithm reduces cross-group information exposure, making $W^I$ more block-diagonal.
+where $e_{ij} > 0$ is the expected engagement of user $i$ with content from source $j$. Belief confirmation means $e_{ij} = e_s$ when $i$ and $j$ share attribute $k$ (same group) and $e_{ij} = e_c < e_s$ otherwise.
 
-Consequence for the formation model: the self-confirming trap (Theorem~10.3) becomes deeper. The aspiration gap between groups widens because each group sees a more biased sample of returns. The $\Psi$ ratio increases (the formation channel becomes more dominant). The welfare cost of discrimination (Chapter~18) rises.
-\end{theorem}
+\begin{proposition}[Engagement Ranking Lowers Mixing on the Sorted Attribute]\label{ch27:thm:echo}
+Under \eqref{ch27:eq:reweight} with group-level engagement $e_s > e_c$ on attribute $k$, a user whose organic cross-group share is $\lambda_i$ ends with
+\begin{equation}\label{ch27:eq:echo}
+\lambda_i' = \frac{\lambda_i\, e_c}{\lambda_i\, e_c + (1 - \lambda_i)\, e_s} < \lambda_i \qquad (0 < \lambda_i < 1).
+\end{equation}
+For two equal groups with uniform weights inside and across ($W^I$ doubly stochastic), $\Gamma = 2\lambda$ for $\lambda \le \tfrac12$, so integration falls with $\lambda$, while $\boldsymbol{\pi}^I$ stays uniform and $\Neff = N$.
+\end{proposition}
+\begin{proof}
+Row $i$'s cross-group mass after reweighting is $\lambda_i e_c$ and its own-group mass $(1-\lambda_i)e_s$; normalize. The inequality is $e_c < \lambda_i e_c + (1-\lambda_i)e_s$, true since $e_s > e_c$. For two equal blocks of size $m$ with within weight $(1-\lambda)/m$ and cross weight $\lambda/m$, the eigenvalues are $1$, $1-2\lambda$ and $0$; the matrix is doubly stochastic, so $\boldsymbol{\pi}$ is uniform.
+\end{proof}
 
-\begin{example}[Bolivia: Facebook and the Urban-Rural Information Divide]\label{ch27:ex:facebook}
-Bolivia has 7 million Facebook users (2023). The recommendation algorithm shows users content similar to what they have previously engaged with. Urban Bolivians engage with commercial media, political commentary, and global content. Rural Bolivians engage with local community posts, agricultural content, and regional news.
+The result holds for the attribute the algorithm sorts on. It does \emph{not} extend to ``all attributes $k$'', as an earlier draft claimed. In \texttt{code/ch27.py}, the organic feed is homophilous by geography only, urban users mostly hold belief $L$ and rural users mostly $R$, and the algorithm triples the weight of same-belief content. Cross-belief exposure falls from 0.426 to 0.218, but rural users who hold the urban majority's belief (and urban users with the rural majority's belief) see their cross-geography exposure \emph{rise} from 0.217 to 0.371: the algorithm sends them to like-minded sources in the other region.
 
-The algorithm amplifies this difference: urban users see progressively more urban content; rural users see progressively more rural content. The cross-group mixing parameter $\lambda_{\text{urban-rural}}^I$, already low ($\approx 0.22$, Chapter~21), may decrease further under algorithmic filtering.
+Consequence for the formation model, on the sorted attribute: the self-confirming trap of Chapter~10 becomes deeper. The aspiration gap between groups widens because each group sees a more biased sample of returns. In the formation model, the $\Psi$ ratio increases (the formation channel becomes more dominant) and the welfare cost of discrimination (Chapter~18) rises.
 
-Estimated effect: $\Delta\lambda_{\text{urban-rural}}^I \approx -0.05$ to $-0.10$ (the algorithm reduces cross-group exposure by 20--45\% relative to a chronological feed). The formation model predicts: the aspiration gap between urban and rural populations widens by $\mu/(1-\rho) \times \Delta\lambda \times \Delta\bar{r} \approx 0.03$--$0.06$ preference units per generation.
+\begin{example}[Bolivia: Facebook and the Urban-Rural Information Divide \illustrative]\label{ch27:ex:facebook}
+Bolivia has on the order of 7 million Facebook users (early 2020s; source to be added). The recommendation algorithm shows users content similar to what they have previously engaged with. Urban Bolivians engage with commercial media, political commentary, and global content. Rural Bolivians engage with local community posts, agricultural content, and regional news.
+
+The algorithm amplifies this difference: urban users see progressively more urban content; rural users see progressively more rural content. The cross-group mixing parameter between rural indigenous women and urban audiences, already low ($\lambda \approx 0.22$, Chapter~21), may decrease further under algorithmic filtering.
+
+Illustrative effect: by \eqref{ch27:eq:echo}, an engagement premium of same-group content $e_s/e_c$ between 1.38 and 2.07 lowers $\lambda$ from 0.22 to between 0.17 and 0.12, i.e.\ $\Delta\lambda \approx -0.05$ to $-0.10$ (a 23--45\% cut in cross-group exposure relative to the organic feed; \texttt{code/ch27.py}). In the formation model, the steady-state aspiration gap between urban and rural populations widens by $\frac{\mu}{1-\rho}\,|\Delta\lambda|\,\Delta\bar{r}$, which is 0.03--0.06 preference units for $\rho = 0.85$ and an illustrative $\mu\Delta\bar{r} = 0.09$.
 \end{example}
 
 
 \subsection{Effect 2: Epistemic Power Concentration}
 
-\begin{proposition}[Algorithmic Concentration of $\boldsymbol{\pi}^I$]\label{ch27:prop:concentration}
+\begin{conjecture}[Algorithmic Concentration of $\boldsymbol{\pi}^I$]\label{ch27:prop:concentration}
 Engagement-maximizing algorithms produce \textbf{winner-take-all dynamics} in $W^I$: a small number of viral content producers capture a large share of attention, while the vast majority of voices are suppressed. The Perron eigenvector $\boldsymbol{\pi}^I$ becomes more concentrated:
 \begin{equation}\label{ch27:eq:concentration}
 N_{\text{eff}}(W^{I'}) \leq N_{\text{eff}}(W^I).
@@ -89,22 +101,79 @@ N_{\text{eff}}(W^{I'}) \leq N_{\text{eff}}(W^I).
 
 The mechanism: the algorithm amplifies content with high initial engagement (likes, shares, comments). Content from well-connected, emotionally compelling sources gets shown to more users, generating more engagement, generating more amplification. Content from less-connected sources (community radio, local journalists, indigenous-language media) gets suppressed because it generates less engagement.
 
-The consequence: Bolivia's $\pi^I_{\text{community}}$ (already 0.05, Chapter~21) may decline further as algorithmic curation redirects attention to high-engagement commercial content. The $N_{\text{eff}}^I$ drops from 3.4 toward 2.5--3.0.
-\end{proposition}
+The consequence: Bolivia's $\pi^I_{\text{community}}$ (already 0.05, Chapter~21) may decline further as algorithmic curation redirects attention to high-engagement commercial content, and $N_{\text{eff}}^I$ could drop from 3.4 toward 2.5--3.0 (illustrative).
+\end{conjecture}
+
+\begin{remark}[Echo chambers and viral hubs move $\Gamma$ and $\Neff$ differently]\label{ch27:rem:gap_neff}
+The two effects of engagement ranking are different matrix operations and register differently on the two diagnostics (Proposition~\ref{ch06:prop:gap-power-independent}). In the six-user, two-group network of \texttt{code/ch27.py} ($\lambda = 0.22$: $\Gamma = 0.44$, $\Neff = 6$):
+\begin{itemize}
+\item an \emph{echo chamber} that lowers $\lambda$ to 0.12 halves integration ($\Gamma = 0.24$) but leaves power untouched ($\Neff = 6$);
+\item a \emph{viral hub} that takes a share $a$ of everyone's attention concentrates power ($\Neff = 3.74$ at $a = 0.3$, $1.98$ at $a = 0.6$) while \emph{raising} integration ($\Gamma = 0.61$, $0.78$): a hub everyone listens to mixes fast.
+\end{itemize}
+A dashboard that read $\Gamma$ as ``structural health'' would score the winner-take-all platform as an improvement. Monitoring must track both: $\Gamma$ (or $\lambda_k$) for fragmentation, $\Neff$ for concentration. Note also that a hub can \emph{raise} cross-group exposure for some groups (rural users who all follow one urban viral source see more urban content), another reason the ``for all $k$'' claim fails.
+\end{remark}
+
+\begin{vizpanel}{Echo chamber vs.\ viral hub: two different matrices \illustrative}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\def\s{0.3}
+%% shading = round(100 W_ij / 0.704), code/ch27.py
+\foreach \panel/\xs/\wi/\wc/\title/\diag in {
+  0/0/37/10/{Baseline, $\lambda = 0.22$}/{$\Gamma = 0.44$, $\Neff = 6.00$},
+  1/2.9/42/6/{Echo chamber, $\lambda = 0.12$}/{$\Gamma = 0.24$, $\Neff = 6.00$}} {
+  \begin{scope}[xshift=\xs cm]
+  \foreach \i in {1,...,6} {
+    \foreach \j in {1,...,6} {
+      \pgfmathtruncatemacro{\same}{((\i<=3 && \j<=3) || (\i>=4 && \j>=4)) ? 1 : 0}
+      \ifnum\same=1 \def\bp{\wi}\else \def\bp{\wc}\fi
+      \fill[blue!\bp, draw=gray!40, line width=0.2pt] ({(\j-1)*\s}, {(6-\i)*\s}) rectangle +(\s,\s);
+    }
+  }
+  \node[font=\scriptsize\bfseries, above] at ({3*\s}, {6*\s}) {\title};
+  \node[font=\scriptsize, below] at ({3*\s}, 0) {\diag};
+  \end{scope}
+}
+\begin{scope}[xshift=5.8cm]
+\foreach \i in {1,...,6} {
+  \foreach \j in {1,...,6} {
+    \pgfmathtruncatemacro{\bp}{(\j==1 && \i<=3) ? 100 : ((\j==1) ? 89 : (((\i<=3 && \j<=3) || (\i>=4 && \j>=4)) ? 15 : 4))}
+    \fill[blue!\bp, draw=gray!40, line width=0.2pt] ({(\j-1)*\s}, {(6-\i)*\s}) rectangle +(\s,\s);
+  }
+}
+\node[font=\scriptsize\bfseries, above] at ({3*\s}, {6*\s}) {Viral hub, $a = 0.6$};
+\node[font=\scriptsize, below] at ({3*\s}, 0) {$\Gamma = 0.78$, $\Neff = 1.98$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small Rows are users, columns are the sources they attend to; darker blue is more weight. Users 1--3 and 4--6 are two groups. The echo chamber darkens the diagonal blocks (less mixing, lower $\Gamma$) but keeps every column equally important ($\Neff = 6$). The viral hub darkens one column: everyone listens to source~1, power concentrates ($\Neff \approx 2$), and $\Gamma$ rises. $\Gamma$ measures integration; $\Neff$ measures concentration; they are independent.
+\end{vizpanel}
 
 
 \subsection{Effect 3: Cross-Border Information Integration}
 
-\begin{proposition}[The Paradox of Algorithmic Globalization]\label{ch27:prop:paradox}
+\begin{conjecture}[The Paradox of Algorithmic Globalization]\label{ch27:prop:paradox}
 Algorithms also create cross-border information edges that did not previously exist. A TikTok user in El Alto can watch a Korean entrepreneur, a Brazilian farmer, or an Indian programmer. The algorithm sometimes shows content from radically different contexts, creating $W^I$ edges that span the global product space.
 
-This is Sunkel's integration/disintegration (Chapter~13) applied to $W^I$: the algorithm simultaneously integrates globally (showing diverse international content to some users) and fragments domestically (personalizing feeds within national populations). The net effect on domestic $N_{\text{eff}}$ is ambiguous:
-\begin{equation}\label{ch27:eq:paradox}
-\Delta N_{\text{eff}}^I = \underbrace{\Delta N_{\text{eff}}^{\text{global}}}_{\text{positive (new sources)}} + \underbrace{\Delta N_{\text{eff}}^{\text{domestic}}}_{\text{negative (echo chambers)}}.
-\end{equation}
+This is Sunkel's integration/disintegration (Chapter~13) applied to $W^I$: the algorithm simultaneously integrates globally (showing diverse international content to some users) and fragments domestically (personalizing feeds within national populations). The net effect on the domestic network is ambiguous. New cross-border sources spread attention over more outlets (raising $\Neff^I$); viral concentration lowers it (Conjecture~\ref{ch27:prop:concentration}); personalization lowers cross-group mixing (Proposition~\ref{ch27:thm:echo}). $\Neff$ is not additive across these channels, so the net effect must be computed on the combined matrix, not summed.
 
-For urban educated Bolivians: the global effect may dominate (exposure to international entrepreneurship, technology, ideas). For rural indigenous Bolivians: the domestic effect may dominate (locked into algorithmically reinforced local content). The algorithm increases $N_{\text{eff}}$ for the elite and decreases it for the periphery --- amplifying the compound disadvantage of Chapter~19.
-\end{proposition}
+For urban educated Bolivians, the global effect may dominate the diversity of their feeds ($e^{H_i}$ rises: exposure to international entrepreneurship, technology, ideas). For rural indigenous Bolivians, the domestic effect may dominate (locked into algorithmically reinforced local content; $e^{H_i}$ falls). Feed diversity would then rise for the elite and fall for the periphery --- amplifying the compound disadvantage of Chapter~19.
+\end{conjecture}
+
+\begin{remark}[Reconciling with Chapter~24]\label{ch27:rem:ch24}
+Chapter~24 argued that new digital channels helped break the information monopoly of Bolivia's MAS hegemony in 2019, i.e.\ that they \emph{raised} $\Neff^I$. This chapter argues that engagement ranking can \emph{lower} it. Both can be true, because they operate at different levels: \emph{across} channels, digital media add outlets that no coalition controls (state media lose weight, so $\Neff^I$ rises); \emph{within} a ranked platform, attention concentrates on a few viral sources (so $\Neff^I$ can fall). Which dominates is an empirical question for each country and period, and the answer can change as platforms mature.
+\end{remark}
+
+\subsection{What the Evidence Says}
+
+The empirical literature is more mixed than the echo-chamber narrative suggests, and its best evidence comes from the United States:
+\begin{itemize}
+\item On Facebook in 2014, users' own choices reduced their exposure to cross-cutting news more than the ranking algorithm did (Bakshy, Messing and Adamic, 2015, \textit{Science}).
+\item In the 2020 U.S.\ election experiments run with Meta, replacing the ranked feed with a chronological one, or reducing exposure to like-minded sources, did not measurably reduce polarization over three months (Guess et al., 2023, \textit{Science}; Nyhan et al., 2023, \textit{Nature}), although ideological segregation in news exposure was high, especially in Pages and Groups (Gonz\'{a}lez-Bail\'{o}n et al., 2023, \textit{Science}).
+\item Twitter's ranking algorithm amplified the mainstream political right more than the left in six of seven countries studied (Husz\'{a}r et al., 2022, \textit{PNAS}); Facebook's algorithm limited exposure to counter-attitudinal news (Levy, 2021, \textit{AER}).
+\end{itemize}
+In the Global South the dominant channel is often not a ranked feed at all. Misinformation in Brazil's 2018 election and in India circulated largely through WhatsApp groups (Machado et al., 2019; Resende et al., 2019; Badrinathan, 2021, \textit{APSR}); the UN fact-finding mission on Myanmar (2018) identified Facebook as a major vector of hate speech; and in Bolivia, Facebook removed in 2020 a network of inauthentic accounts targeting Bolivian politics that it attributed to the U.S.\ firm CLS Strategies. Proposition~\ref{ch27:thm:echo} is therefore a statement about one mechanism, whose size is an empirical question.
+% TODO-VERIFY: details of the 2020 Facebook takedown (date, attribution) against Facebook's CIB report and DFRLab.
 
 
 %% =====================================================================
@@ -116,7 +185,8 @@ For urban educated Bolivians: the global effect may dominate (exposure to intern
 The structure of $W^I$ --- who sees what --- is a \textbf{public good} in the structural model: it determines the formation of preferences for the entire population, which determines the welfare loss (Chapter~2), the formation multiplier (Chapter~10), and the political equilibrium (Chapter~24). No individual user can choose the aggregate $W^I$ structure; it is the emergent outcome of billions of algorithmic decisions.
 \end{definition}
 
-\begin{proposition}[Four Regulatory Instruments]\label{ch27:prop:regulation}
+\begin{remark}[Four Regulatory Instruments]\label{ch27:prop:regulation}
+Four instruments are available:
 \begin{enumerate}
 \item \textbf{Transparency requirements}: Mandate disclosure of the algorithmic objective function and its effect on $W^I$ structure ($\Delta\lambda_k$, $\Delta N_{\text{eff}}$). If users and regulators can observe what the algorithm does to $W^I$, they can demand changes.
 
@@ -124,14 +194,14 @@ The structure of $W^I$ --- who sees what --- is a \textbf{public good} in the st
 
 \item \textbf{Public-interest algorithms}: Develop and deploy alternative recommendation systems with Objective~2 (maximize information accuracy/diversity) rather than Objective~1 (maximize engagement). These could be operated by public broadcasters, educational institutions, or platform cooperatives.
 
-\item \textbf{$N_{\text{eff}}$ monitoring}: Track $N_{\text{eff}}(W^I)$ over time (Chapter~21) and treat declines as a regulatory trigger. If the algorithmically-mediated $N_{\text{eff}}$ falls below a threshold, regulatory intervention is warranted.
+\item \textbf{$N_{\text{eff}}$ monitoring}: Track $N_{\text{eff}}(W^I)$ over time (Chapter~21) and treat declines as a regulatory trigger. If the algorithmically-mediated $N_{\text{eff}}$ falls below a threshold, regulatory intervention is warranted. Track $\Gamma$ or $\lambda_k$ alongside it (Remark~\ref{ch27:rem:gap_neff}): they detect fragmentation, which $\Neff$ misses.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 \begin{keyinsight}
-The algorithmic $W^I$ is the most important structural development of the twenty-first century. For the first time in history, the information network that shapes preference formation is designed by a small number of firms, operating at global scale, with objectives that are not aligned with any development goal.
+The algorithmic $W^I$ is one of the major structural developments of the twenty-first century. A large part of the information network that shapes preference formation is now designed by a small number of firms, operating at global scale, with objectives that are not aligned with any development goal.
 
-The structural economics framework provides the language: the algorithm is an operator on $W^I$. Its effect is measurable ($\Delta\lambda_k$, $\Delta N_{\text{eff}}$, $\Delta\Psi$). Its welfare cost is computable (Chapter~18's welfare loss formula, amplified by $1 + \Psi$). And its regulation is an operator design problem (Chapter~15): choose the algorithmic parameters $\boldsymbol{\eta}$ that maximize $N_{\text{eff}}$ subject to commercial viability.
+The structural economics framework provides the language: the algorithm is an operator on $W^I$. Its effect is measurable ($\Delta\lambda_k$, $\Delta\Gamma$, $\Delta N_{\text{eff}}$, $\Delta\Psi$) --- and the two dimensions, fragmentation and concentration, must be measured separately. Its welfare cost is computable within the model (Chapter~18's welfare loss formula, amplified by $1 + \Psi$). And its regulation is an operator design problem (Chapter~15): choose the algorithmic parameters $\boldsymbol{\eta}$ that keep both $\lambda_k$ and $N_{\text{eff}}$ above floors, subject to commercial viability.
 
 The framework transforms the debate from ``social media is good/bad'' to: ``what is the algorithm's effect on $\lambda_k$, $N_{\text{eff}}$, and $\Psi$, and does that effect move the structural trajectory toward or away from the growth-with-equity zone of Chapter~26?''
 \end{keyinsight}
@@ -144,7 +214,7 @@ The framework transforms the debate from ``social media is good/bad'' to: ``what
 
 \subsection{AI as Measurement Tool}
 
-\begin{proposition}[AI for Structural Diagnostics]\label{ch27:prop:ai_measurement}
+\begin{remark}[AI for Structural Diagnostics]\label{ch27:prop:ai_measurement}
 Machine learning techniques can improve the measurement of all three weight matrices:
 \begin{enumerate}
 \item $W^P$: Satellite imagery + NLP on firm registries can estimate production linkages in real time, filling gaps between benchmark I-O tables (Chapter~20).
@@ -152,26 +222,26 @@ Machine learning techniques can improve the measurement of all three weight matr
 \item $W^U$: Sentiment analysis of social media posts can estimate solidarity patterns ($W^U_{\text{digital}}$, Chapter~22), supplementing survey-based measures.
 \item The structural trajectory (Chapter~23) can be computed in near-real-time rather than at annual frequency.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 
 \subsection{AI as Structural Operator}
 
-\begin{proposition}[AI-Powered Structural Intervention]\label{ch27:prop:ai_operator}
+\begin{remark}[AI-Powered Structural Intervention]\label{ch27:prop:ai_operator}
 AI can also serve as a deliberate operator on $W^I$ for development purposes:
 \begin{enumerate}
-\item \textbf{Personalized mentoring at scale}: AI systems that connect aspiring entrepreneurs in the traditional sector with role models, market information, and technical knowledge from the modern sector. This is the $\mathcal{L}_{\text{info}}$ operator (Chapter~15) deployed through an AI system rather than a human program.
+\item \textbf{Mentoring at scale}: AI systems that connect would-be entrepreneurs in the traditional sector with role models, market information, and technical knowledge from the modern sector. This is the $\mathcal{L}_{\text{info}}$ operator (Chapter~15) deployed through an AI system rather than a human program.
 \item \textbf{Adaptive education}: AI tutoring systems that adjust content to the learner's context while exposing them to cross-group knowledge ($\Delta\lambda^I > 0$).
 \item \textbf{Market information}: AI systems that provide real-time price and demand information to rural producers, creating $W^I$ edges from the traditional sector to the market that the assortative structure suppresses.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 \begin{prebisch}[The new center-periphery]
 The algorithmic $W^I$ creates a new center-periphery structure that operates alongside the trade-based $W^P$:
 
 \textbf{The algorithmic center}: Firms in Silicon Valley, Shenzhen, and a few other nodes control the parameters $\boldsymbol{\eta}$ of the global $W^I$. Their $\pi^I$ is enormous: a single change to Facebook's algorithm can shift the formation signals received by 3 billion people.
 
-\textbf{The algorithmic periphery}: Every other country is a consumer of algorithmic $W^I$ designed elsewhere. Bolivia's $W^I$ is shaped by algorithms trained on US engagement data, optimized for US advertising markets, and deployed globally without adaptation to Bolivian development needs.
+\textbf{The algorithmic periphery}: Every other country is a consumer of algorithmic $W^I$ designed elsewhere. Bolivia's $W^I$ is shaped by algorithms designed, tuned and optimized for advertising markets elsewhere, and deployed without regard to Bolivian development needs. (How much local data and local adaptation enter these systems is not public, which is itself the point of the transparency instrument above.)
 
 This is Prebisch's center-periphery thesis applied to $W^I$: the center produces the information infrastructure; the periphery consumes it. The ``terms of trade'' in $W^I$ are the exchange of attention (from the periphery) for algorithmic curation (from the center). The formation signals that Bolivian youth receive are filtered through an objective function designed in Menlo Park.
 
@@ -185,17 +255,15 @@ The structuralist response: just as Prebisch advocated for ISI to reduce $W^P$ d
 %% =====================================================================
 
 \begin{enumerate}
-\item Recommendation algorithms are \textbf{operators on $W^I$}: they determine who sees what, with effects measurable as $\Delta\lambda_k$, $\Delta N_{\text{eff}}$, and $\Delta\Psi$.
+\item Recommendation algorithms are \textbf{operators on $W^I$}: they determine who sees what, with effects measurable as $\Delta\lambda_k$, $\Delta\Gamma$, $\Delta N_{\text{eff}}$, and $\Delta\Psi$. WhatsApp, central in Latin America, is not a recommender; its $W^I$ is shaped by groups and forwarding.
 
-\item \textbf{Engagement-maximizing algorithms} amplify assortative mixing ($\lambda_k \downarrow$), concentrate epistemic power ($N_{\text{eff}} \downarrow$), and deepen the formation trap ($\Psi \uparrow$). The welfare cost is computable.
+\item Under multiplicative \textbf{engagement ranking}, cross-group mixing falls on the attribute the algorithm sorts on, $\lambda' = \lambda e_c/(\lambda e_c + (1-\lambda)e_s)$, and so does $\Gamma$; mixing on other attributes can rise. Echo chambers lower $\Gamma$ but need not change $\Neff$; viral hubs lower $\Neff$ but \emph{raise} $\Gamma$. Monitor both.
 
-\item The \textbf{paradox}: algorithms simultaneously integrate globally (cross-border content) and fragment domestically (echo chambers). The net effect differs by social position: elite $N_{\text{eff}}$ rises; peripheral $N_{\text{eff}}$ falls.
+\item The \textbf{evidence} is mixed: in the U.S., user choice matters as much as ranking, and chronological feeds did not reduce polarization in the 2020 experiments; in the Global South, messaging groups and coordinated campaigns matter as much as feeds. Across channels digital media can raise $\Neff^I$ (Chapter~24) while ranking concentrates attention within platforms.
 
-\item \textbf{Regulation}: transparency, diversity mandates, public-interest algorithms, $N_{\text{eff}}$ monitoring. The framework transforms the debate from ``good/bad'' to measurable structural effects.
+\item With belief-dependent $W^I(\bb)$, a primitive $W^I(\bb^*)$ forces consensus; persistent disagreement requires a reducible $W^I(\bb^*)$, i.e.\ clusters, as in bounded-confidence models. \textbf{Regulation}: transparency, diversity mandates, public-interest algorithms, and monitoring of both $\lambda_k$ and $N_{\text{eff}}$.
 
-\item \textbf{AI as tool}: machine learning can improve measurement of all three $W$'s in near-real-time. AI can also serve as a development operator (personalized mentoring, adaptive education, market information).
-
-\item The \textbf{algorithmic center-periphery}: Silicon Valley designs the global $W^I$; the periphery consumes it. Information sovereignty requires building domestic algorithmic capacity --- the information-age capital goods sector.
+\item The \textbf{algorithmic center-periphery}: a few firms design the global $W^I$; the periphery consumes it. AI can also measure all three $W$'s and serve as a development operator; information sovereignty requires building domestic algorithmic capacity --- the information-age capital goods sector.
 \end{enumerate}
 
 
@@ -206,9 +274,9 @@ The structuralist response: just as Prebisch advocated for ISI to reduce $W^P$ d
 
 \begin{enumerate}[label=\textbf{27.\arabic*}, leftmargin=3em]
 
-\item \textbf{Algorithmic $\Delta\lambda$.} For a $4 \times 4$ $W^I$ (urban men, urban women, rural men, rural women): simulate the effect of an engagement-maximizing algorithm that increases within-group exposure by 20\% and decreases cross-group exposure by 15\%. Compute $\Delta\lambda_k$ for gender and geography. Compute $\Delta N_{\text{eff}}$.
+\item \textbf{Algorithmic $\Delta\lambda$.} For a $4 \times 4$ $W^I$ (urban men, urban women, rural men, rural women): simulate the effect of an engagement-maximizing algorithm that increases within-group exposure by 20\% and decreases cross-group exposure by 15\% (then renormalize rows). Compute $\Delta\lambda_k$ for gender and geography, $\Delta\Gamma$, and $\Delta N_{\text{eff}}$. Why is $\Delta N_{\text{eff}} = 0$ if the four groups are equal-sized and the matrix is symmetric?
 
-\item \textbf{The echo chamber theorem.} Prove Theorem~\ref{ch27:thm:echo}: if engagement is maximized by belief-confirmatory content, show that $\lambda_k^{I'} \leq \lambda_k^I$ under the standard collaborative-filtering algorithm.
+\item \textbf{The echo chamber result.} (a) Reproduce the proof of Proposition~\ref{ch27:thm:echo} for user-specific engagement $e_{ij}$ that is higher for same-group sources. (b) Construct a two-attribute example (geography and belief) in which sorting on belief raises some group's cross-geography exposure, and check it against \texttt{code/ch27.py}. (c) Replace multiplicative reweighting by ``show only the top-$K$ sources by engagement''. Does the result still hold?
 
 \item \textbf{Bolivia's digital divide.} Using internet penetration data by department and demographic group: estimate the fraction of Bolivia's population whose $W^I$ is algorithmically mediated (vs.\ traditional media/word-of-mouth). How does this fraction correlate with $N_{\text{eff}}$ estimates from Chapter~21?
 
@@ -216,7 +284,7 @@ The structuralist response: just as Prebisch advocated for ISI to reduce $W^P$ d
 
 \item \textbf{AI mentoring simulation.} Design an AI-powered mentoring system for rural Bolivian entrepreneurs. Specify: (a) the $\Delta W^I$ edges it creates, (b) the expected $\Delta\lambda^I$ and $\Delta N_{\text{eff}}$, (c) the formation model prediction for $\Delta\theta^*$ after one generation.
 
-\item \textbf{Algorithmic center-periphery.} Using Alexa/SimilarWeb data: estimate the fraction of Bolivia's internet traffic that goes to US-based platforms (Google, Facebook, YouTube, TikTok) vs.\ domestic content. What fraction of Bolivia's $W^I$ is algorithmically designed abroad?
+\item \textbf{Algorithmic center-periphery.} Using SimilarWeb or a comparable web-traffic panel (Alexa was retired in 2022): estimate the fraction of Bolivia's internet traffic that goes to US-based platforms (Google, Facebook, YouTube, TikTok) vs.\ domestic content. What fraction of Bolivia's $W^I$ is algorithmically designed abroad?
 
 \item \textbf{The policy frontier.} Compare four regulatory regimes: (a) no regulation (current), (b) transparency only, (c) diversity mandates ($\lambda_k^{\min} = 0.3$), (d) public-interest algorithm. For each: estimate the effect on $N_{\text{eff}}$, the political feasibility, and the cost. Which regime best advances Bolivia's structural trajectory?
 \end{enumerate}
@@ -235,9 +303,9 @@ The structuralist response: just as Prebisch advocated for ISI to reduce $W^P$ d
 
 \paragraph{Collaborative filtering.} The standard recommendation algorithm estimates a user-content affinity matrix $R \approx UV'$, where $U$ is a user-factor matrix and $V$ is a content-factor matrix (matrix factorization, analogous to the SVD of the specialization matrix in Chapter~16). Content shown to user $i$ is drawn from the rows of $V$ with highest inner product $\mathbf{u}_i' \mathbf{v}_j$.
 
-\paragraph{Effect on $W^I$.} The user-factor matrix $U$ clusters users by ``type'' (implicit demographic, behavioral, or preference clusters). Content from source $j$ is shown to user $i$ only if $\mathbf{u}_i \approx \mathbf{u}_j$ (similar type). This produces assortative $W^I$: users see content from similar users. The mixing parameter is $\lambda_k^{I'} \approx \exp(-d(\bar{\mathbf{u}}_g, \bar{\mathbf{u}}_{g'}))$, where $d$ is the distance between group-average user factors. When groups are distinct in the factor space (different demographics, different languages, different consumption patterns): $d$ is large and $\lambda^{I'}$ is small.
+\paragraph{Effect on $W^I$.} The user-factor matrix $U$ clusters users by ``type'' (implicit demographic, behavioral, or preference clusters), and the content factor $\mathbf{v}_j$ of source $j$ comes to resemble the factors of $j$'s existing audience. Content from $j$ is therefore ranked high for user $i$ when $\mathbf{u}_i'\mathbf{v}_j$ is high, which tends to happen when $i$ resembles $j$'s audience. This produces assortative $W^I$. A convenient (assumed, not derived) parametrization of the result is $\lambda_k^{I'} \approx \exp(-d(\bar{\mathbf{u}}_g, \bar{\mathbf{u}}_{g'}))$, where $d$ is the distance between group-average user factors: when groups are distinct in the factor space (different demographics, languages, consumption patterns), $d$ is large and $\lambda^{I'}$ is small.
 
-\paragraph{Formal proof of Theorem~\ref{ch27:thm:echo}.} Under collaborative filtering with engagement maximization: the optimal $R^*$ maximizes $\sum_i \sum_j R^*_{ij} \cdot p_{ij}$, where $p_{ij}$ is the probability that user $i$ engages with content from source $j$. If $p_{ij}$ is decreasing in the ``distance'' between $i$ and $j$ (different group, different beliefs $\to$ less engagement), then $R^*_{ij}$ assigns more weight to within-group content. The induced $W^{I'}$ has $\lambda_k^{I'} \leq \lambda_k^I$.
+\paragraph{From ranking scores to $W^I$.} Collaborative filtering produces predicted engagement $\hat e_{ij} = \mathbf{u}_i'\mathbf{v}_j$; a ranked feed then allocates attention increasingly in $\hat e_{ij}$. Equation~\eqref{ch27:eq:reweight} is the case where attention is proportional to organic weight times engagement; Proposition~\ref{ch27:thm:echo} is proved for it. Maximizing a \emph{linear} objective $\sum_j R_{ij}\hat e_{ij}$ over a row-stochastic $R$ is not a useful model: its solution puts all of $i$'s attention on the single highest-$\hat e$ source, which may lie in the other group, so no monotone statement about $\lambda$ follows from it.
 
 
 \subsection*{Appendix 27B: The DeGroot Model with Algorithmic Intermediation}
@@ -250,9 +318,9 @@ The structuralist response: just as Prebisch advocated for ISI to reduce $W^P$ d
 \end{equation}
 where $W^I(\mathbf{b}_t)$ is the algorithmically modified information matrix (the algorithm adjusts the feed based on current beliefs/engagement patterns). This is a \textit{nonlinear} dynamical system: the matrix changes with the state.
 
-\paragraph{Fixed points.} A fixed point $\mathbf{b}^*$ satisfies $\mathbf{b}^* = W^I(\mathbf{b}^*)\mathbf{b}^*$: beliefs are a consensus of the information network that the beliefs themselves produced. This is a deeper form of the self-confirming trap: the algorithm creates the $W^I$ that produces the beliefs that the algorithm was designed to serve.
+\paragraph{Fixed points.} A fixed point $\mathbf{b}^*$ satisfies $\mathbf{b}^* = W^I(\mathbf{b}^*)\mathbf{b}^*$, i.e.\ $\mathbf{b}^*$ is a right eigenvector of $W^I(\mathbf{b}^*)$ for the eigenvalue 1. Two facts follow from Perron--Frobenius. (i) Every consensus vector $\mathbf{b}^* = c\ones$ is a fixed point, for any $W^I$. (ii) If $W^I(\mathbf{b}^*)$ is irreducible, the eigenvalue 1 is simple with eigenvector $\ones$, so $\mathbf{b}^*$ \emph{must} be a consensus. Persistent disagreement is possible only if $W^I(\mathbf{b}^*)$ is \emph{reducible}: the population splits into closed groups that put no weight on each other. This is a deeper form of the self-confirming trap: the algorithm creates the $W^I$ that produces the beliefs that the algorithm was designed to serve.
 
-\paragraph{Multiple equilibria.} The nonlinear system can have multiple fixed points: a ``diverse'' equilibrium (where $W^I(\mathbf{b}^*)$ has high $N_{\text{eff}}$ because beliefs are varied, so the algorithm shows diverse content) and a ``polarized'' equilibrium (where $W^I(\mathbf{b}^*)$ has low $N_{\text{eff}}$ because beliefs are clustered, so the algorithm shows confirmatory content). The polarized equilibrium is absorbing under engagement-maximization: once beliefs cluster, the algorithm reinforces the clustering, preventing return to the diverse equilibrium.
+\paragraph{Multiple equilibria: bounded confidence.} An earlier draft described a ``diverse'' equilibrium in which beliefs stay varied while $W^I(\mathbf{b}^*)$ remains well connected. By (ii) this is impossible. The correct dichotomy is \emph{consensus} versus \emph{clusters}. The canonical model is bounded confidence (Hegselmann and Krause, 2002; Deffuant et al., 2000): $W^I_{ij}(\mathbf{b}) > 0$ iff $|b_i - b_j| \le \varepsilon$, with equal weights on all such $j$. Beliefs converge in finite time to clusters more than $\varepsilon$ apart, and the clusters are absorbing: once separated, they never interact again. In \texttt{code/ch27.py}, 60 agents with uniform initial beliefs end in 9 clusters for $\varepsilon = 0.05$, 2 for $\varepsilon = 0.15$ and full consensus for $\varepsilon = 0.30$. Engagement ranking acts like a smaller $\varepsilon$: it cuts the weight on distant sources, and with it the bridges that would have produced consensus. Note what ``diversity'' means here: a high-$\Neff$, well-connected $W^I(\mathbf{b}^*)$ goes with \emph{agreement}; persistent variety of beliefs goes with a fragmented, reducible network.
 
 
 %% =====================================================================
@@ -260,17 +328,17 @@ where $W^I(\mathbf{b}_t)$ is the algorithmically modified information matrix (th
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Algorithmic $W^I$}
 %% =====================================================================
 
-This chapter's case study departs from the historical structuralist tradition to address a contemporary structural phenomenon. The algorithmic $W^I$ is arguably the most significant structural development since the colonial imposition of the racial classification system (Quijano, Chapter~18): both are externally imposed structures that shape $W^I$ for entire populations without their consent.
+This chapter's case study departs from the historical structuralist tradition to address a contemporary structural phenomenon. The algorithmic $W^I$ invites a comparison with the colonial imposition of the racial classification system (Quijano, Chapter~18): both are structures designed outside the society that shape $W^I$ for entire populations without their consent. The comparison is about structure, not about the scale of harm.
 
 Three observations ground the structural analysis.
 
-\textbf{First: the speed of $W^I$ transformation is unprecedented.} Bolivia went from zero social media users to 7 million in 12 years (2010--2022). In Chapter~23's terms: $W^I$ underwent a structural break --- not gradual evolution but a discrete regime change. The algorithmic $W^I$ did not grow out of the existing information structure; it replaced it. For urban Bolivians under 35, the algorithmic feed IS $W^I$ ($\omega_d = 0.50$, Chapter~21). This happened faster than any previous structural change in the book: faster than ISI, faster than nationalization, faster than the colonial imposition.
+\textbf{First: the speed of $W^I$ transformation is unusual.} Bolivia went from a small online minority around 2010 to roughly 7 million users of a single platform in the early 2020s (order of magnitude; source to be added). In Chapter~23's terms: $W^I$ underwent a structural break --- not gradual evolution but a discrete regime change. The digital $W^I$ did not simply grow out of the existing information structure; for many users it displaced it. For urban Bolivians under 35, digital channels carry about half of $W^I$ ($\omega_d = 0.50$, Chapter~21), much of it through WhatsApp groups rather than ranked feeds. This happened faster than the other structural changes in the book: faster than ISI or nationalization.
 
-\textbf{Second: the structural effects are unmeasured.} Despite the speed and scale of the $W^I$ transformation, no developing country systematically monitors $N_{\text{eff}}$, $\lambda_k$, or $\Psi$ in the algorithmic $W^I$. The measurement infrastructure of Chapter~21 exists in principle but has not been deployed. We are flying blind: the most powerful $W^I$ operator in history is operating without structural monitoring.
+\textbf{Second: the structural effects are unmeasured.} Despite the speed and scale of the $W^I$ transformation, we know of no developing country that systematically monitors $N_{\text{eff}}$, $\lambda_k$, or $\Psi$ in the algorithmic $W^I$. The measurement infrastructure of Chapter~21 exists in principle but has not been deployed, and the platforms' own data are largely closed to outside researchers. A very powerful $W^I$ operator is operating without structural monitoring.
 
-\textbf{Third: the regulatory capacity is asymmetric.} The EU regulates algorithmic platforms (the Digital Services Act, 2022). The US debates regulation. The Global South --- where the structural effects may be largest (because $N_{\text{eff}}$ was already low and attribute constraints were already severe) --- has essentially no regulatory capacity. Bolivia's telecommunications regulator (ATT) has no mandate, tools, or data to assess the structural effects of Facebook's algorithm on Bolivia's $W^I$.
+\textbf{Third: the regulatory capacity is asymmetric.} The EU regulates algorithmic platforms (the Digital Services Act, 2022). The US debates regulation. In the Global South, where the structural effects may be largest (because $N_{\text{eff}}$ was already low and attribute constraints were already severe), capacity is uneven: Brazil's electoral court has negotiated agreements with platforms and its Supreme Court has acted against them, and India regulates intermediaries under its 2021 IT Rules, but most smaller countries have little capacity. To our knowledge, Bolivia's telecommunications regulator (ATT) has no mandate, tools, or data to assess the structural effects of platform algorithms on Bolivia's $W^I$.
 
-The structuralist response is clear: treat algorithmic $W^I$ as a structural variable that requires measurement (Chapter~21), monitoring (Chapter~23), and regulation (this chapter's Proposition~\ref{ch27:prop:regulation}). The alternative is to cede the formation of Bolivian preferences to an algorithm designed in Menlo Park --- the information-age equivalent of ceding the production structure to a colonial power.
+The structuralist response is clear: treat algorithmic $W^I$ as a structural variable that requires measurement (Chapter~21), monitoring (Chapter~23), and regulation (this chapter's Remark~\ref{ch27:prop:regulation}). The alternative is to cede an important part of the formation of Bolivian preferences to algorithms designed elsewhere for other purposes.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
@@ -281,7 +349,7 @@ External control of $W$ & Colonial administration & Platform algorithms \\
 Center-periphery & Trade asymmetry ($W^P$) & Information asymmetry ($W^I$) \\
 Hegemonic formation & State media, schools & Engagement-maximizing feeds \\
 Counter-hegemony & Community radio, movements & Public-interest algorithms? \\
-Regulatory response & ISI, nationalization & Diversity mandates, $N_{\text{eff}}$ monitoring \\
+Regulatory response & ISI, nationalization & Diversity mandates, $\lambda_k$ and $N_{\text{eff}}$ monitoring \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -294,7 +362,11 @@ Regulatory response & ISI, nationalization & Diversity mandates, $N_{\text{eff}}
 
 \textbf{Algorithmic curation and society:} Pariser (2011), \textit{The Filter Bubble}. Sunstein (2017), \textit{\#Republic: Divided Democracy in the Age of Social Media}. Zuboff (2019), \textit{The Age of Surveillance Capitalism}.
 
-\textbf{Echo chambers and polarization:} Levy (2021), ``Social Media, News Consumption, and Polarization,'' \textit{AER}. Allcott et al.\ (2020), ``The Welfare Effects of Social Media,'' \textit{AER}. Bail et al.\ (2018), ``Exposure to Opposing Views on Social Media Can Increase Political Polarization,'' \textit{PNAS}.
+\textbf{Echo chambers and polarization:} Levy (2021), ``Social Media, News Consumption, and Polarization,'' \textit{AER}. Allcott et al.\ (2020), ``The Welfare Effects of Social Media,'' \textit{AER}. Bail et al.\ (2018), ``Exposure to Opposing Views on Social Media Can Increase Political Polarization,'' \textit{PNAS}. Bakshy, Messing, and Adamic (2015), ``Exposure to Ideologically Diverse News and Opinion on Facebook,'' \textit{Science}. Guess et al.\ (2023), ``How Do Social Media Feed Algorithms Affect Attitudes and Behavior in an Election Campaign?'' \textit{Science}. Nyhan et al.\ (2023), ``Like-Minded Sources on Facebook Are Prevalent but Not Polarizing,'' \textit{Nature}. Gonz\'{a}lez-Bail\'{o}n et al.\ (2023), ``Asymmetric Ideological Segregation in Exposure to Political News on Facebook,'' \textit{Science}. Husz\'{a}r et al.\ (2022), ``Algorithmic Amplification of Politics on Twitter,'' \textit{PNAS}. Golub and Jackson (2012), ``How Homophily Affects the Speed of Learning and Best-Response Dynamics,'' \textit{QJE}.
+
+\textbf{Opinion dynamics:} Hegselmann and Krause (2002), ``Opinion Dynamics and Bounded Confidence,'' \textit{Journal of Artificial Societies and Social Simulation}. Deffuant et al.\ (2000), ``Mixing Beliefs among Interacting Agents,'' \textit{Advances in Complex Systems}. Dandekar, Goel, and Lee (2013), ``Biased Assimilation, Homophily, and the Dynamics of Polarization,'' \textit{PNAS}.
+
+\textbf{Global South:} Machado et al.\ (2019), ``A Study of Misinformation in WhatsApp Groups with a Focus on the Brazilian Presidential Elections''; Resende et al.\ (2019), ``(Mis)Information Dissemination in WhatsApp''; Badrinathan (2021), ``Educative Interventions to Combat Misinformation: Evidence from a Field Experiment in India,'' \textit{APSR}.
 
 \textbf{AI and development:} Acemoglu and Johnson (2023), \textit{Power and Progress: Our Thousand-Year Struggle over Technology and Prosperity}. World Bank (2019), \textit{World Development Report: The Changing Nature of Work}. For the Global South specifically: Arora (2019), \textit{The Next Billion Users: Digital Life Beyond the West}.
 

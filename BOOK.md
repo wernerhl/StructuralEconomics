@@ -147,7 +147,7 @@ Every chapter uses these box types. They are defined once, in `structecon.sty`; 
 | 20–23 | Taylor | *Structuralist Macroeconomics* 1983 | SAMs as weight matrices |
 | 24 | Gramsci + Skocpol | Hegemony + state crisis | Counter-hegemony as alternative $W^I$ |
 | 25 | Fajnzylber | *Industrialización trunca* 1983 | Missing dense subgraph = truncated $W^P$ |
-| 26 | Ocampo | Neo-structuralist synthesis 2009 | High $\Gamma$ + high ECI = growth with equity |
+| 26 | Ocampo | Neo-structuralist synthesis (2007; Ocampo, Rada & Taylor 2009) | Conjecture: integration (Γ) + capabilities (ECI) + information diversity (N_eff) for growth with equity |
 | 27 | — | AI chapter, contemporary | Algorithmic $W^I$ |
 | 28 | Furtado | Return to 1961 thesis | The general case restated |
 | Appendix | All 15 | Full translation table | Prose → equation mapping |

@@ -6,61 +6,73 @@
 \begin{quote}
 \textit{``El desaf\'{i}o fundamental del desarrollo latinoamericano es el de transformar las estructuras productivas en un contexto de creciente equidad social.''}\\[0.3em]
 \textnormal{[``The fundamental challenge of Latin American development is to transform productive structures in a context of growing social equity.'']}\\
-\hfill --- Jos\'{e} Antonio Ocampo, ``La macroeconom\'{i}a de la bonanza econ\'{o}mica latinoamericana'' (2009)
+\hfill --- Jos\'{e} Antonio Ocampo, ``La macroeconom\'{i}a de la bonanza econ\'{o}mica latinoamericana,'' \textit{Revista de la CEPAL} 93 (2007)
+% TODO-VERIFY: this sentence reads like CEPAL (1990), Transformacion productiva con equidad, and may not appear in Ocampo (2007). Locate it with a page, or replace with a sourced passage from Ocampo, Rada and Taylor (2009).
 \end{quote}
 
 \vspace{1em}
 
 This chapter states the book's policy conclusion. Twenty-five chapters have built the framework: the weight matrix, the Perron eigenvector, the spectral gap, the formation model, the co-evolutionary dynamics, the measurement infrastructure, the political economy. What does it all add up to?
 
-One theorem: \textit{growth with equity requires high $\Gamma$ and high ECI simultaneously}. Neither alone is sufficient. High ECI without high $\Gamma$: Brazil (complex but unequal). High $\Gamma$ without high ECI: Cuba (equal but stagnant). Both together: South Korea, Taiwan, the Nordic countries. The intersection is small but achievable.
+One conjecture: \textit{sustained growth with equity requires high $\Gamma$ and high ECI simultaneously}, together with a diverse information network. Neither alone is sufficient. High ECI without high $\Gamma$: Brazil (complex but unequal). High $\Gamma$ without high ECI: Cuba (equal but stagnant). Both together: South Korea, Taiwan, the Nordic countries. The intersection is small but achievable.
 
-Ocampo's neo-structuralism --- the synthesis of Prebisch's structuralism, CEPAL's institutional wisdom, and modern open-economy macroeconomics --- provides the policy framework. This chapter translates it into the spectral language of this book and asks: what would it take for Bolivia to enter the intersection?
+Ocampo's neo-structuralism --- the synthesis of Prebisch's structuralism, CEPAL's institutional wisdom, and modern open-economy macroeconomics --- provides the policy framework. This chapter translates it into the language of this book --- with the caveat that the translation is ours, and that Ocampo's own framework is not built around these three variables (see the case study) --- and asks: what would it take for Bolivia to enter the intersection? All country values are \illustrative{} and consistent with Chapters~23--25 (\texttt{code/ch26.py}).
 
 
 %% =====================================================================
-\section{The Growth-Equity Theorem}
+\section{The Growth-Equity Conjecture}
 \label{ch26:sec:theorem}
 %% =====================================================================
 
-\begin{theorem}[Growth with Equity]\label{ch26:thm:growth_equity}
-In the structural model, sustained growth with declining inequality requires:
+The conjecture involves three objects that live on \emph{different} matrices. Keeping them apart is the first requirement of a testable statement.
 \begin{enumerate}
-\item $\Gamma(W^P) > \Gamma^*$ \textbf{(structural integration)}: the domestic spectral gap exceeds a threshold above which growth propagates across blocks. The threshold $\Gamma^* \approx 0.30$--$0.35$ (estimated from the cross-country relationship between $\Gamma$ and the Gini coefficient --- the spectral bound from Chapter~16).
-
-\item $\text{ECI} > 0$ \textbf{(productive complexity)}: the economy is in the dense core of the global product space (Chapter~16). This ensures: (a) high Leontief multipliers (growth propagates globally), (b) positive terms-of-trade trend ($\pi_G$ increasing), (c) diversified export base (resilience to commodity shocks).
-
-\item $N_{\text{eff}}(W^I) > N^*_{\text{eff}}$ \textbf{(information democracy)}: the information network is diverse enough that the formation channel produces aspirations calibrated to the full range of economic opportunities, not just the local block. The threshold $N^*_{\text{eff}} \approx 8$--$12$ (estimated from the relationship between $N_{\text{eff}}$ and $\Psi$ --- below this threshold, the formation channel dominates enforcement, producing self-confirming traps).
+\item \textbf{Integration} $\Gamma_c := \Gamma(W^P_c)$, the spectral gap of country $c$'s domestic input-share matrix $W^P_c = D^{-1}A_c$, computed on a common sector classification for all countries (e.g., OECD ICIO). It measures how fast shocks and demand propagate across sectors (Chapter~6), not how power is distributed.
+\item \textbf{Complexity} $\text{ECI}_c$, computed from the \emph{global} country $\times$ product matrix $M$ ($M_{cp} = 1$ if $c$ exports $p$ with revealed comparative advantage): ECI is the standardized eigenvector for the second-largest eigenvalue of
+\[
+\tilde{M} = D^{-1}MU^{-1}M',
+\]
+where $D$ and $U$ are the diagonal matrices of country diversity and product ubiquity (Chapter~16). ECI is \emph{not} a function of $W^P_c$, and it is z-scored across countries each year: $\text{ECI}_c > 0$ means ``above the world mean'', a positional condition that roughly half of all countries fail by construction.
+\item \textbf{Information diversity} $\Neff(W^I_c) = 1/\sum_j(\pi^I_j)^2$ for the domestic information network (Chapter~21). Compare it across countries only on a common node set, or as $\Neff/N$.
 \end{enumerate}
+None of the three measures the concentration of production power $\boldsymbol{\pi}^P$; that is a fourth coordinate, $G(\boldsymbol{\pi}^P)$ or $\Neff(\boldsymbol{\pi}^P)$, independent of $\Gamma$ (Proposition~\ref{ch06:prop:gap-power-independent}).
 
-The three conditions are jointly necessary. Violating any one produces a specific pathology:
+\begin{conjecture}[Growth with Equity]\label{ch26:conj:growth_equity}
+Sustained growth with declining inequality requires:
+\begin{enumerate}
+\item $\Gamma_c > \Gamma^*$ \textbf{(structural integration)}: growth propagates across blocks instead of staying in an enclave. Illustrative threshold $\Gamma^* \approx 0.30$.
+
+\item $\text{ECI}_c > 0$ \textbf{(productive complexity)}: the economy is in the dense core of the global product space (Chapter~16), giving diversification options, rising terms of trade and resilience to commodity shocks.
+
+\item $\Neff(W^I_c) > N^*_{\text{eff}}$ \textbf{(information democracy)}: the information network is diverse enough that the formation channel produces aspirations calibrated to the full range of economic opportunities, not just the local block. Illustrative threshold $N^*_{\text{eff}} \approx 8$.
+\end{enumerate}
+The thresholds are placeholders, not estimates: estimating them requires the cross-country data of Exercise~26.1. Violating any one condition is conjectured to produce a specific pathology:
 \begin{center}
 \begin{tabular}{lcccl}
 \toprule
-Condition violated & $\Gamma$ & ECI & $N_{\text{eff}}$ & Pathology \\
+Condition violated & $\Gamma$ & ECI & $N_{\text{eff}}$ & Pathology (illustrative example) \\
 \midrule
-(1) only & Low & High & High & Growth without equity (early China) \\
-(2) only & High & Low & High & Equity without growth (Cuba) \\
-(3) only & High & High & Low & Fragile growth (authoritarian dev.) \\
+(1) only & Low & High & High & Growth without equity (Brazil, Mexico) \\
+(2) only & High & Low & High & Equity without growth (---) \\
+(3) only & High & High & Low & Fragile growth (China; Korea before 1987) \\
 (1) and (2) & Low & Low & High & Stagnation (Bolivia) \\
-(1) and (3) & Low & High & Low & Enclave extraction (Venezuela) \\
-(2) and (3) & High & Low & Low & Trapped equality (subsistence) \\
-All three & Low & Low & Low & Structural collapse \\
-None & High & High & High & Growth with equity (Korea, Nordics) \\
+(1) and (3) & Low & High & Low & Enclave industrialization (---) \\
+(2) and (3) & High & Low & Low & Trapped equality (Cuba) \\
+All three & Low & Low & Low & Structural collapse (Venezuela, 2010s) \\
+None & High & High & High & Growth with equity (Korea today, Nordics) \\
 \bottomrule
 \end{tabular}
 \end{center}
-\end{theorem}
+\end{conjecture}
 
-\begin{proof}[Proof sketch]
-(1) From Chapter~2: the welfare loss from power inequality is $L_{\text{power}} = \frac{\kappa N}{2}\Var(\pi_i)\Phi^2$, bounded by $(1-\Gamma)/\Gamma$. For $L_{\text{power}}$ to be small (equity), $\Gamma$ must be large. For growth to propagate (growth), $\Gamma$ must exceed the percolation threshold at which the Leontief multiplier cascade reaches all sectors (Chapter~3).
+\begin{remark}[Status of the conjecture]\label{ch26:rem:status}
+An earlier draft presented this as a theorem, with a proof of condition~(1) from the claim that $\Gamma$ bounds the distributional loss $L_{\text{power}} = (\kappa N/2)\Phi^2\Var(\boldsymbol{\pi})$. That claim is false in both directions (\texttt{code/ch26.py}): the rank-one matrix $\ones\boldsymbol{\pi}'$ with $\boldsymbol{\pi} = (0.97, 0.01, 0.01, 0.01)$ has $\Gamma = 1$ and $\Var(\boldsymbol{\pi}) = 0.173$, close to the maximum $3/16$; a doubly stochastic, weakly coupled block matrix has $\Gamma = 0.02$ and perfectly uniform $\boldsymbol{\pi}$. High $\Gamma$ is neither necessary nor sufficient for equal power. What remains is weaker and empirical: integration plausibly matters for equity through \emph{between-block} inequality $\sigma_B$ (growth reaches the traditional blocks), complexity through the growth path, and information diversity through formation (Chapters~8--11, 24). Each link is a hypothesis to be tested, not a derived result.
+\end{remark}
 
-(2) From Chapters~16 and 25: ECI determines the economy's position in the global $W^P$, which determines the terms of trade, the Leontief multiplier, and the diversification feasibility. Low ECI $\Rightarrow$ commodity dependence $\Rightarrow$ cyclical growth $\Rightarrow$ no structural change ($\Delta\Gamma \approx 0$, Chapter~23). High ECI $\Rightarrow$ dense-core position $\Rightarrow$ structural growth $\Rightarrow$ $\Delta\Gamma > 0$.
+\begin{remark}[Confronting Korea]\label{ch26:rem:korea}
+The conjecture's own leading example contradicts it as a statement about \emph{all} episodes of growth with equity. Korea grew fast with low and stable inequality from the 1960s, yet it was ruled by authoritarian governments with controlled media until 1987, violating condition~(3); on Chapter~23's illustrative path its $\Gamma$ stayed below $\Gamma^* = 0.30$ until about 1980, violating condition~(1); and its ECI in the 1960s, when it exported wigs, plywood and textiles, was probably not above the world mean (check with the Atlas SITC series from 1962). Taiwan is similar. Two readings are possible. Either the conjecture is false as a necessity claim, or it concerns \emph{sustaining} growth with equity beyond middle income, where early land reform and mass education (which Korea and Taiwan had) can substitute for integration and information diversity for a time. The second reading is narrower and still testable: it predicts that countries in Korea's 1970s position which did not later raise $\Gamma$ and $\Neff^I$ stalled.
+\end{remark}
 
-(3) From Chapters~8--11: low $N_{\text{eff}}$ produces concentrated epistemic power, self-confirming traps, and high $\Psi$. Even with high $\Gamma$ and high ECI, if $N_{\text{eff}}$ is low, the formation channel can sustain preferences that accept inequality (the hegemony of Chapter~24), making the equity gains fragile.
-\end{proof}
-
-\begin{vizpanel}{The growth-equity condition in $(\Gamma, \text{ECI})$ space}
+\begin{vizpanel}{The growth-equity conjecture in $(\Gamma, \text{ECI})$ space \illustrative}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \draw[->] (0,0) -- (7,0) node[right, font=\small] {$\Gamma$};
@@ -69,6 +81,7 @@ None & High & High & High & Growth with equity (Korea, Nordics) \\
 %% Target zone
 \fill[green!12] (3,0) rectangle (7,4);
 \node[font=\scriptsize, green!50!black] at (5, 3.2) {Growth with Equity};
+\node[font=\tiny, green!50!black] at (5, 2.85) {(Fajnzylber's \textit{casillero})};
 
 %% Thresholds
 \draw[red, dashed, thick] (3, -2) -- (3, 4);
@@ -76,20 +89,19 @@ None & High & High & High & Growth with equity (Korea, Nordics) \\
 \draw[red, dashed, thick] (0, 0) -- (7, 0);
 \node[font=\tiny, red, right] at (7, 0) {$\text{ECI} = 0$};
 
-%% Countries
+%% Countries (illustrative; x = 10*Gamma, code/ch26.py)
 \foreach \cx/\cy/\lab in {
-  1.3/-0.8/BOL, 2.5/0.8/BRA, 2.0/-0.3/COL, 2.8/0.2/MEX,
-  4.5/2.1/KOR, 5.2/2.3/JPN, 5.0/1.8/DEU, 4.0/1.5/CZE,
-  3.5/0.3/CHL, 1.5/0.5/ARG, 1.0/-0.5/VEN,
+  1.3/-0.8/BOL, 2.5/0.8/BRA, 2.0/-0.3/COL, 2.8/1.0/MEX,
+  4.5/2.1/KOR, 5.6/2.3/JPN, 5.2/1.8/DEU, 4.0/1.5/CZE,
+  2.8/0.3/CHL, 1.5/0.5/ARG, 1.0/-0.5/VEN,
   4.2/0.8/MYS, 3.8/1.2/POL,
-  1.8/1.0/CHN} {
+  3.5/1.0/CHN} {
   \fill[blue!50!black] (\cx, \cy) circle (1.5pt);
   \node[font=\tiny, above right] at (\cx, \cy) {\lab};
 }
 
-%% Casillero vacio
-\draw[gray, dashed] (0, 0) -- (3, 0) -- (3, -2);
-\node[font=\scriptsize, gray] at (1.5, -1.3) {\textit{casillero vac\'{i}o}};
+%% Lower-left quadrant
+\node[font=\scriptsize, gray] at (1.5, -1.5) {stagnation};
 
 %% Bolivia arrow
 \draw[->, thick, red!60!black] (1.3, -0.8) -- (3.5, 0.5);
@@ -97,7 +109,7 @@ None & High & High & High & Growth with equity (Korea, Nordics) \\
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The green zone is the growth-with-equity region: $\Gamma > \Gamma^*$ AND $\text{ECI} > 0$. Korea, Japan, Germany, Czech Republic are inside. Bolivia is in the lower-left: low $\Gamma$, negative ECI. The red arrow shows the path Bolivia would need to traverse. The gray dashed region is the casillero vac\'{i}o: low $\Gamma$, accessible ECI --- structurally blocked from equity. Brazil has positive ECI but low $\Gamma$: complexity without integration. Chile approaches the threshold but is not yet inside.
+\small The green zone is the region of conditions (1)--(2): $\Gamma > \Gamma^* = 0.30$ and $\text{ECI} > 0$. It is the cell that Fajnzylber's (1990) \textit{casillero vac\'{i}o} refers to: the combination of growth \emph{and} equity that no Latin American country occupied in 1965--84. Korea, Japan, Germany, the Czech Republic, Poland and Malaysia are inside; so is China, which fails condition (3) (low $\Neff^I$), a reminder that the panel shows only two of the three conditions. Bolivia is in the lower-left: low $\Gamma$, negative ECI. The red arrow shows the path Bolivia would need to traverse. Brazil and Mexico have positive ECI but low $\Gamma$: complexity without integration (Mexico's assembly-based complexity is Chapter~25's imported core). Chile ($\Gamma = 0.28$, as in Chapter~23) approaches the threshold but is not yet inside. All coordinates are illustrative (\texttt{code/ch26.py}).
 \end{vizpanel}
 
 
@@ -107,7 +119,7 @@ None & High & High & High & Growth with equity (Korea, Nordics) \\
 %% =====================================================================
 
 \begin{definition}[The Neo-Structuralist Policy Package]\label{ch26:def:package}
-Ocampo's neo-structuralist synthesis, translated into the operator language of Chapter~15, consists of five simultaneous interventions targeting the three conditions of Theorem~\ref{ch26:thm:growth_equity}:
+This chapter's policy package, inspired by Ocampo's neo-structuralist synthesis and written in the operator language of Chapter~15, consists of eight interventions grouped in three \emph{policy pillars} targeting the three conditions of Conjecture~\ref{ch26:conj:growth_equity}. (These pillars are the chapter's, not Ocampo's; his are discussed in the case study.)
 
 \textbf{Pillar 1: Productive transformation} (raise ECI).
 \begin{enumerate}
@@ -132,7 +144,7 @@ Ocampo's neo-structuralist synthesis, translated into the operator language of C
 \end{enumerate}
 \end{definition}
 
-\begin{proposition}[The Three Pillars Are Complementary]\label{ch26:prop:complementary}
+\begin{conjecture}[The Three Pillars Are Complementary]\label{ch26:prop:complementary}
 The three pillars reinforce each other:
 \begin{enumerate}
 \item Productive transformation (ECI $\uparrow$) creates cross-block edges that raise $\Gamma$: new industries connect sectors that were previously disconnected.
@@ -141,7 +153,7 @@ The three pillars reinforce each other:
 \end{enumerate}
 
 The complementarity means that the return to each pillar is increasing in the level of the others. Investing in productive transformation without social cohesion (Brazil's path) produces growth without equity. Investing in social cohesion without productive transformation (Cuba's path) produces equity without growth. Only the joint investment produces both.
-\end{proposition}
+\end{conjecture}
 
 
 %% =====================================================================
@@ -149,11 +161,11 @@ The complementarity means that the return to each pillar is increasing in the le
 \label{ch26:sec:bolivia}
 %% =====================================================================
 
-\begin{example}[A 30-Year Structural Plan for Bolivia]\label{ch26:ex:plan}
+\begin{example}[A 30-Year Structural Plan for Bolivia \illustrative]\label{ch26:ex:plan}
 
-\textbf{Current position} (2019): $\Gamma = 0.13$, ECI $= -0.80$, $N_{\text{eff}} = 3.2$, $\sigma_B = 0.62$.
+\textbf{Current position} (2019): $\Gamma = 0.13$, ECI $= -0.80$, $N_{\text{eff}} = 3.4$ (Chapter~21), $\sigma_B = 0.62$.
 
-\textbf{Target} (2050): $\Gamma \geq 0.35$, ECI $\geq 0$, $N_{\text{eff}} \geq 8$, $\sigma_B \leq 0.30$.
+\textbf{Target} (2055): $\Gamma \geq 0.35$, ECI $\geq 0$, $N_{\text{eff}} \geq 8$, $\sigma_B \leq 0.30$.
 
 \textbf{Phase 1 (2025--2035): Foundation.}
 
@@ -192,7 +204,7 @@ Pillar 1 (low-$\Psi$ operators, now feasible because Phases 1--2 created the pre
 
 Expected effect by 2055: $\Gamma \approx 0.35$, ECI $\approx 0$, $N_{\text{eff}} \approx 8$, $\sigma_B \approx 0.30$.
 
-\textbf{Total cost}: approximately \$17B over 30 years (\$570M/year). For context: Bolivia's annual GDP is approximately \$40B. The plan requires sustained investment of $\approx 1.4\%$ of GDP per year in structural transformation. This is comparable to South Korea's investment in the HCI drive (1.5--2\% of GDP) and significantly less than the gas revenue Bolivia earned during the 2006--2014 boom (\$3--5B/year).
+\textbf{Total cost}: approximately \$17B over 30 years (\$570M/year). For context: Bolivia's annual GDP is approximately \$40B. The plan requires sustained investment of $\approx 1.4\%$ of GDP per year in structural transformation. This is far smaller than the resources South Korea mobilized for its Heavy and Chemical Industrialization drive, which absorbed most manufacturing investment in the late 1970s, and well below the order of magnitude of Bolivia's annual gas revenue during the 2006--2014 boom (several billion dollars a year).
 
 \textbf{Political feasibility} (Chapter~14): Phase 1 is politically easy (education, broadband, and mentoring have broad support --- no coalition's $\pi$ is directly threatened). Phase 2 is harder (infrastructure and industrial investment require fiscal commitment and threaten import-dependent interests). Phase 3 is hardest (industrial policy targeting the dense subgraph requires a developmental-state coalition that does not yet exist in Bolivia).
 
@@ -200,13 +212,13 @@ The sequencing exploits the formation amplifier: Phase 1 changes $W^I$ and prefe
 \end{example}
 
 \begin{keyinsight}
-The neo-structuralist synthesis is one theorem and one plan:
+The neo-structuralist synthesis, in this book's terms, is one conjecture and one plan:
 
-\textbf{The theorem}: growth with equity requires $\Gamma > \Gamma^*$, ECI $> 0$, and $N_{\text{eff}} > N^*_{\text{eff}}$ simultaneously. This is not a wish list --- it is a mathematical condition derived from the spectral gap bound (Chapter~2), the product space structure (Chapter~16), and the formation model (Chapter~10).
+\textbf{The conjecture}: sustained growth with equity requires $\Gamma > \Gamma^*$, ECI $> 0$, and $N_{\text{eff}} > N^*_{\text{eff}}$ simultaneously. It is a precise, testable claim built on three measurable objects --- not a theorem, and not yet an estimate: the thresholds are placeholders, and Korea's early decades already strain it (Remark~\ref{ch26:rem:korea}).
 
-\textbf{The plan}: three pillars (productive transformation, structural integration, social cohesion), sequenced by $\Psi$ (information first, infrastructure second, industrial policy third), financed by sustained investment of $\approx 1.5\%$ of GDP.
+\textbf{The plan}: three policy pillars (productive transformation, structural integration, social cohesion), sequenced by $\Psi$ (information first, infrastructure second, industrial policy third), financed by sustained investment of $\approx 1.4\%$ of GDP.
 
-Every element of the plan corresponds to a specific operator from Chapter~15 targeting a specific entry of $W$. Every expected effect is derived from the theorems of the book. The plan is not aspirational prose. It is an engineering specification for a weight matrix.
+Every element of the plan corresponds to a specific operator from Chapter~15 targeting a specific entry of $W$. The expected effects are illustrative magnitudes, not derived results; turning them into estimates is the work of Exercises~26.4--26.6. That is what separates an engineering specification from aspirational prose: every number has a place where it can be checked.
 \end{keyinsight}
 
 
@@ -215,16 +227,16 @@ Every element of the plan corresponds to a specific operator from Chapter~15 tar
 \label{ch26:sec:neither}
 %% =====================================================================
 
-\begin{proposition}[The Insufficiency of Both Alternatives]\label{ch26:prop:insufficiency}
-\textbf{The neoliberal prescription} (Washington Consensus): liberalize trade, privatize, deregulate. In operator terms: remove $W^P$ edges (tariff barriers) and let the market create new ones. The assumption: the market will create the ``right'' $W^P$ (the one that maximizes efficiency). The result: the market creates $W^P$ edges dominated by proximity (Chapter~13, the principle of relatedness), which means the existing structure reproduces itself. Commodity exporters liberalize into more commodity export. $\Gamma$ does not change. ECI does not change. The prescription fails condition (1) and (2) of Theorem~\ref{ch26:thm:growth_equity}.
+\begin{remark}[The Insufficiency of Both Alternatives]\label{ch26:prop:insufficiency}
+\textbf{The neoliberal prescription} (Washington Consensus): liberalize trade, privatize, deregulate. In operator terms: remove the barriers (tariffs, controls) that shaped $W^P$ and let the market create new edges. The assumption: the market will create the ``right'' $W^P$ (the one that maximizes efficiency). The result: the market creates $W^P$ edges dominated by proximity (Chapter~13, the principle of relatedness), which means the existing structure reproduces itself. Commodity exporters liberalize into more commodity export. $\Gamma$ does not change. ECI does not change. The prescription fails condition (1) and (2) of Conjecture~\ref{ch26:conj:growth_equity}.
 
-\textbf{The populist prescription}: nationalize resources, redistribute revenue, expand social programs. In operator terms: change $\boldsymbol{\omega}$ (endowment redistribution) without changing $W$. The result: poverty falls, inequality falls (temporarily), but $\Gamma$ does not change (Chapter~17: Bolivia's 30-year trajectory). When the commodity cycle turns, the gains reverse. The prescription fails condition (1) because it does not raise $\Gamma$.
+\textbf{The populist prescription}: nationalize resources, redistribute revenue, expand social programs. In operator terms: change $\boldsymbol{\omega}$ (endowment redistribution) without changing $W$. The result: poverty falls and inequality falls --- in Bolivia substantially, and so far without reversal --- but $\Gamma$ does not change (Chapter~17: Bolivia's 30-year trajectory). The chapter's claim is that gains financed by commodity revenue are fiscally fragile when the cycle turns; whether they reverse is an empirical question that Bolivia's post-2014 data will answer. The prescription fails condition (1) because it does not raise $\Gamma$.
 
-\textbf{The neo-structuralist synthesis}: change $W$ itself --- the production structure ($W^P$), the information structure ($W^I$), and the solidarity structure ($W^U$) --- through deliberate, sequenced operator design. This addresses all three conditions simultaneously and produces permanent structural change rather than temporary redistribution.
-\end{proposition}
+\textbf{The neo-structuralist synthesis}: change $W$ itself --- the production structure ($W^P$), the information structure ($W^I$), and the solidarity structure ($W^U$) --- through deliberate, sequenced operator design. It aims at all three conditions simultaneously, seeking permanent structural change rather than redistribution alone.
+\end{remark}
 
-\begin{prebisch}[From Prebisch to Ocampo: 60 years of one argument]
-The structuralist argument has been remarkably consistent across 60 years:
+\begin{prebisch}[From Prebisch to Ocampo: one argument across generations]
+The structuralist argument has been consistent across six decades:
 
 \textbf{Prebisch (1949)}: The global economy is asymmetric ($W^P_{\text{global}}$ is not doubly stochastic). The periphery must industrialize to change its structural position.
 
@@ -234,13 +246,13 @@ The structuralist argument has been remarkably consistent across 60 years:
 
 \textbf{Fajnzylber (1983/1990)}: The industrialization was truncated --- the capital goods sector is missing. The casillero vac\'{i}o is the consequence.
 
-\textbf{CEPAL (2012)}: Structural change for equality --- redistribution without structural change is unsustainable.
-
 \textbf{Ocampo (2009)}: The synthesis --- productive transformation plus social equity, achieved through deliberate industrial policy, macroeconomic management, and institutional strengthening.
 
-\textbf{This book (2027)}: The general case. The neoclassical model is $W = \frac{1}{N}\ones\ones'$. Structural economics is the general case where $W$ is any row-stochastic matrix. Every structuralist insight from Prebisch to Ocampo is a theorem about the spectral properties of $W$.
+\textbf{CEPAL (2012)}: Structural change for equality --- redistribution without structural change is unsustainable.
 
-The argument is one argument, stated with increasing mathematical precision over 78 years: \textit{structure matters, structure can be changed, and changing it requires different tools than the ones the standard model recommends.}
+\textbf{This book (2027)}: The benchmark model abstracts from structure: anonymous interaction through markets ($W^{\text{mkt}} = \ones\mathbf{s}'$, with $\Wce = \frac{1}{N}\ones\ones'$ as its equal-endowment case) and no externalities. Structural economics studies non-anonymous $W$ --- its integration $\Gamma$ and its distribution of power $\boldsymbol{\pi}$, two independent coordinates --- and how both are produced and changed. Many structuralist insights from Prebisch to Ocampo can be restated as claims about these coordinates: a few as theorems, more as testable conjectures.
+
+The argument is one argument, stated with increasing precision over 78 years: \textit{structure matters, structure can be changed, and changing it requires different tools than the ones the standard model recommends.}
 \end{prebisch}
 
 
@@ -250,11 +262,11 @@ The argument is one argument, stated with increasing mathematical precision over
 %% =====================================================================
 
 \begin{enumerate}
-\item \textbf{Growth with equity} requires three simultaneous conditions: $\Gamma > \Gamma^*$ (structural integration), $\text{ECI} > 0$ (productive complexity), $N_{\text{eff}} > N^*_{\text{eff}}$ (information democracy). Neither alone suffices.
+\item The \textbf{growth-equity conjecture}: sustained growth with equity requires $\Gamma > \Gamma^*$ (integration of the domestic input-share matrix), $\text{ECI} > 0$ (complexity, computed from the global export matrix and positional by construction) and $N_{\text{eff}} > N^*_{\text{eff}}$ (information diversity). It is testable, not proved; the old proof rested on a false $\Gamma$--$\Var(\boldsymbol{\pi})$ bound, and Korea's early decades violate conditions (1) and (3).
 
 \item The \textbf{neo-structuralist policy package} has three pillars: productive transformation (raise ECI), structural integration (raise $\Gamma$), social cohesion (raise $N_{\text{eff}}$, reduce attribute constraints). The pillars are complementary.
 
-\item \textbf{Bolivia's 30-year plan}: \$17B, three phases ($W^I$ first, infrastructure second, industrial policy third), expected to reach $\Gamma \approx 0.35$, ECI $\approx 0$, $N_{\text{eff}} \approx 8$ by 2055. Cost: 1.4\% of GDP/year.
+\item \textbf{Bolivia's 30-year plan} (illustrative): \$17B, three phases ($W^I$ first, infrastructure second, industrial policy third), aiming at $\Gamma \approx 0.35$, ECI $\approx 0$, $N_{\text{eff}} \approx 8$ by 2055. Cost: 1.4\% of GDP/year.
 
 \item \textbf{Neither neoliberalism nor populism} addresses all three conditions. Neoliberalism changes prices but not structure. Populism changes endowments but not structure. The neo-structuralist synthesis changes $W$ itself.
 
@@ -269,9 +281,9 @@ The argument is one argument, stated with increasing mathematical precision over
 
 \begin{enumerate}[label=\textbf{26.\arabic*}, leftmargin=3em]
 
-\item \textbf{The three conditions.} For 30 countries: estimate $\Gamma$ (from ECI as proxy), ECI (from OEC), and $N_{\text{eff}}$ (from media concentration data). Plot each country in the $(\Gamma, \text{ECI})$ plane. Identify which countries satisfy all three conditions and which violate one or more.
+\item \textbf{The three conditions.} For 30 countries: estimate $\Gamma$ from the row-normalized domestic input-share matrices of the OECD ICIO tables (same sector classification for all), ECI from the Atlas of Economic Complexity, and $N_{\text{eff}}$ from media concentration data. Why must $\Gamma$ \emph{not} be proxied by ECI? Plot each country in the $(\Gamma, \text{ECI})$ plane. Identify which countries satisfy all three conditions and which violate one or more.
 
-\item \textbf{Pathology classification.} Classify the following countries using the pathology table from Theorem~\ref{ch26:thm:growth_equity}: (a) Brazil (high ECI, low $\Gamma$), (b) Cuba (high $\Gamma$, low ECI), (c) Venezuela (low $\Gamma$, moderate ECI, low $N_{\text{eff}}$), (d) Costa Rica (moderate $\Gamma$, moderate ECI, high $N_{\text{eff}}$), (e) Bolivia.
+\item \textbf{Pathology classification.} Classify the following countries using the pathology table from Conjecture~\ref{ch26:conj:growth_equity}: (a) Brazil (high ECI, low $\Gamma$), (b) Cuba (high $\Gamma$, low ECI; what data would you need to check either?), (c) Venezuela (low $\Gamma$, low ECI, low $N_{\text{eff}}$), (d) Costa Rica (moderate $\Gamma$, moderate ECI, high $N_{\text{eff}}$), (e) Bolivia.
 
 \item \textbf{Complementarity.} Simulate a 3-variable system $(\Gamma_t, \text{ECI}_t, N_{\text{eff},t})$ with complementary dynamics: $\Delta\Gamma_{t+1} = f(\Gamma_t, \text{ECI}_t, N_{\text{eff},t})$ increasing in all three. Compare: (a) investing in all three simultaneously, (b) investing in one at a time. Which reaches the target zone faster?
 
@@ -301,24 +313,24 @@ The argument is one argument, stated with increasing mathematical precision over
 \addcontentsline{toc}{subsection}{Appendix 26A: Growth-Equity Frontier}
 \label{ch26:app:frontier}
 
-\paragraph{Definition.} The growth-equity frontier is the set of $(\Gamma, \text{Gini})$ pairs achievable under the structural model. From the spectral bound (Chapter~2): $\text{Gini} \geq g(\Gamma)$, where $g$ is a decreasing function. The frontier is the lower envelope: the minimum Gini achievable for each $\Gamma$.
+\paragraph{Definition.} The growth-equity frontier is the lower envelope of observed $(\Gamma, \text{Gini})$ pairs: the lowest Gini observed at each level of integration. There is no theorem that bounds Gini by a function of $\Gamma$ (the claimed spectral bound of Chapter~2 is false; see Remark~\ref{ch26:rem:status}). The hypothesis is empirical: that the envelope $g(\Gamma)$ is decreasing.
 
-\paragraph{Estimation.} The frontier $g(\Gamma)$ can be estimated from cross-country data by quantile regression: $\text{Gini}_{c,5\%} = a + b\Gamma_c + c\Gamma_c^2$ (the 5th percentile of Gini given $\Gamma$). This gives the best-case inequality for each level of structural integration.
+\paragraph{Estimation.} The envelope can be estimated by quantile regression, e.g.\ $Q_{0.05}(\text{Gini}_c \mid \Gamma_c) = a + b\Gamma_c + c\Gamma_c^2$. This is a conditional quantile, not a bound: about 5\% of observations lie below it by construction, and a quadratic need not be monotone, so check $g' < 0$ over the observed range rather than assume it.
 
-\paragraph{Distance to frontier.} Country $c$'s distance to the frontier: $d_c = \text{Gini}_c - g(\Gamma_c)$. When $d_c \approx 0$: the country is at the frontier (its inequality is as low as its structure allows). When $d_c > 0$: the country has ``excess inequality'' beyond what its structure requires --- there is room for redistribution within the existing structure. When $d_c$ is large: both structural change ($\Delta\Gamma$) and redistribution ($\Delta\omega$) are needed.
+\paragraph{Distance to frontier.} Country $c$'s distance to the frontier: $d_c = \text{Gini}_c - g(\Gamma_c)$. When $d_c \approx 0$, the country's inequality is as low as that of the most equal countries with similar integration; further equality would require more integration ($\Delta\Gamma$). When $d_c > 0$, the country has ``excess inequality'' relative to its peers, and redistribution within the existing structure ($\Delta\omega$) has room to work; the larger $d_c$, the more room.
 
 
 \subsection*{Appendix 26B: The Complementarity Condition}
 \addcontentsline{toc}{subsection}{Appendix 26B: Complementarity}
 \label{ch26:app:complementarity}
 
-\paragraph{Formal statement.} The three conditions are complementary if:
+\paragraph{Formal statement.} Let $V(\Gamma, \text{ECI}, N_{\text{eff}})$ be a reduced-form social welfare function ($V$, not $W$, to avoid a clash with the weight matrix). The three conditions are complementary if $V$ is supermodular:
 \begin{equation}
-\frac{\partial^2 W}{\partial\Gamma\,\partial\text{ECI}} > 0, \quad \frac{\partial^2 W}{\partial\Gamma\,\partial N_{\text{eff}}} > 0, \quad \frac{\partial^2 W}{\partial\text{ECI}\,\partial N_{\text{eff}}} > 0,
+\frac{\partial^2 V}{\partial\Gamma\,\partial\text{ECI}} > 0, \quad \frac{\partial^2 V}{\partial\Gamma\,\partial N_{\text{eff}}} > 0, \quad \frac{\partial^2 V}{\partial\text{ECI}\,\partial N_{\text{eff}}} > 0.
 \end{equation}
-where $W$ is the welfare function. This holds in the structural model because: (i) high ECI creates the cross-block edges that raise $\Gamma$ (the dense subgraph IS the bridge), (ii) high $N_{\text{eff}}$ supports the aspiration formation that makes structural investment politically feasible, (iii) high $\Gamma$ creates the domestic market and supply chains that support complex production (high ECI).
+This is an assumption (Conjecture~\ref{ch26:prop:complementary}), not a derived property. The arguments usually offered for it --- (i) high ECI creates cross-block edges that raise $\Gamma$ (if the dense core is a bridge; Chapter~25), (ii) high $N_{\text{eff}}$ supports the aspiration formation that makes structural investment politically feasible, (iii) high $\Gamma$ creates the domestic market and supply chains that support complex production --- are dynamic causal links between the three variables. They motivate supermodularity of the payoff but are a different claim, and each needs its own evidence.
 
-\paragraph{Implication for investment.} The complementarity means the marginal return to investing in any one pillar is increasing in the level of the other two. The optimal investment rule: invest in the pillar with the highest marginal return given the current levels of the other two. In practice, this means starting with the cheapest pillar ($N_{\text{eff}}$, through information policy) and gradually shifting to the more expensive pillars ($\Gamma$ through infrastructure, ECI through industrial policy) as the preconditions develop.
+\paragraph{Implication for investment.} Supermodularity means the marginal return to investing in any one pillar rises with the level of the other two, so piecemeal reforms understate the return to joint reform. It does \emph{not} by itself say where to start. The sequence used in this chapter (information first) comes from a separate argument --- Chapter~15's ordering by $\Psi$ and by cost --- and is only as good as that argument.
 
 
 %% =====================================================================
@@ -328,31 +340,31 @@ where $W$ is the welfare function. This holds in the structural model because: (
 
 Jos\'{e} Antonio Ocampo (b.\ 1952), Colombia's former Finance Minister and CEPAL Executive Secretary, has been the leading architect of neo-structuralism --- the synthesis of classical structuralism (Prebisch, Furtado, Pinto) with modern macroeconomics that retains the structuralist emphasis on productive transformation while incorporating lessons from the debt crises of the 1980s, the Washington Consensus era, and the commodity boom of the 2000s.
 
-Ocampo's synthesis, developed across numerous publications (2004, 2009, 2012, 2014), has three pillars that correspond directly to this chapter's three conditions.
+Ocampo's synthesis, developed across numerous publications and most systematically in Ocampo, Rada and Taylor (2009), \textit{Growth and Policy in Developing Countries: A Structuralist Approach}, has three pillars. They overlap with this chapter's three conditions only in part, and the differences matter.
 
-\textbf{Pillar 1: Productive transformation.} Ocampo argues that ``the quality of what you produce matters'' --- an empirical restatement of the ECI condition. Countries that produce complex goods grow faster, generate more employment, and distribute income more equally than countries that export commodities. The policy implication: industrial policy is not a relic of the ISI era but a necessity for structural transformation.
+\textbf{Pillar 1: Productive structure dynamics.} Growth is driven by changes in the production structure: innovation (new activities and the upgrading of existing ones) and the complementarities, or linkages, among sectors that let those changes spread. The related claim that ``what you export matters'' is Hausmann, Hwang and Rodrik's (2007); ECI is its later measurement. In this book's terms, Ocampo's innovation corresponds most closely to condition (2) (ECI) and his complementarities to condition (1) (integration $\Gamma$). The policy implication: industrial policy is not a relic of the ISI era but a necessity for structural transformation.
 
-\textbf{Pillar 2: Macroeconomic management for structural change.} Ocampo's distinctive contribution: macroeconomic policy (fiscal, monetary, exchange rate) should be designed not just for stability but for structural transformation. Counter-cyclical fiscal policy prevents the commodity booms from being wasted on consumption (Chapter~23's structural-cyclical decomposition). Real exchange rate management prevents ``Dutch disease'' (commodity exports appreciating the currency and destroying manufacturing competitiveness).
+\textbf{Pillar 2: Macroeconomic management for structural change.} Ocampo's distinctive contribution: macroeconomic policy (fiscal, monetary, exchange rate) should be designed not just for stability but for structural transformation. Counter-cyclical fiscal policy prevents the commodity booms from being wasted on consumption (Chapter~23's structural-cyclical decomposition). Real exchange rate management prevents ``Dutch disease'' (commodity exports appreciating the currency and destroying manufacturing competitiveness), and the balance-of-payments constraint on growth must be managed rather than ignored. This pillar has \emph{no} counterpart among the conjecture's three conditions: in the language of this book it concerns the stability of the trajectory (Chapter~23), not the structure of $W$.
 
-\textbf{Pillar 3: Social equity as a condition for growth.} Ocampo reverses the conventional sequence (``grow first, redistribute later''): equity is not a consequence of growth but a \textit{precondition} for it. In this book's terms: high $N_{\text{eff}}$ and low attribute constraints ($\lambda_k$) are necessary for the human capital base, domestic demand, and political stability that structural transformation requires.
+\textbf{Pillar 3: Social equity as a condition for growth.} Ocampo reverses the conventional sequence (``grow first, redistribute later''): equity is not a consequence of growth but a \textit{precondition} for it. Ocampo's equity concerns income distribution, social protection and rights. Condition (3) of the conjecture --- information diversity $N_{\text{eff}}$ --- is this book's addition, not his; the closest link is our claim that low attribute constraints ($\lambda_k$) and diverse information are needed for the human capital base, domestic demand and political stability that structural transformation requires.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
-\textbf{Ocampo's synthesis} & \textbf{This chapter's condition} & \textbf{Book reference} \\
+\textbf{Ocampo's synthesis} & \textbf{This book's object} & \textbf{Book reference} \\
 \midrule
-Productive transformation & ECI $> 0$ & Ch.~16, 25 \\
-Quality of what you produce & Dense subgraph $\mathcal{D}$ & Ch.~25 \\
+Innovation, productive transformation & ECI $> 0$; dense subgraph $\mathcal{D}$ & Ch.~16, 25 \\
+Complementarities (linkages) & Integration $\Gamma > \Gamma^*$ & Ch.~6, 17, 25 \\
 Counter-cyclical policy & $\Delta\pi^S$ vs.\ $\Delta\pi^C$ & Ch.~23 \\
-Macro for structural change & $v_\Gamma > 0$ sustained & Ch.~23 \\
-Social equity as precondition & $N_{\text{eff}} > N^*_{\text{eff}}$, $\lambda_k \uparrow$ & Ch.~18, 21 \\
-Three pillars are complementary & $\partial^2 W / \partial\Gamma\,\partial\text{ECI} > 0$ & App.~26B \\
-Growth with equity & $\Gamma > \Gamma^*$ + ECI $> 0$ + $N_{\text{eff}} > N^*$ & Thm.~\ref{ch26:thm:growth_equity} \\
+Macro for structural change, BoP constraint & No counterpart in the conjecture; $v_\Gamma > 0$ sustained & Ch.~23 \\
+Social equity as precondition & Partly: $\lambda_k \uparrow$; $N_{\text{eff}} > N^*_{\text{eff}}$ is our addition & Ch.~18, 21 \\
+Complementarity of policies & Supermodular $V$ (assumed) & App.~26B \\
+Growth with equity & $\Gamma > \Gamma^*$ + ECI $> 0$ + $N_{\text{eff}} > N^*$ & Conj.~\ref{ch26:conj:growth_equity} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry; Furtado explained the reproduction; Pinto measured the heterogeneity; Fajnzylber identified the missing piece; CEPAL documented the stagnation; Ocampo synthesized the prescription. This book gives the synthesis its mathematical foundation. The weight matrix IS Prebisch's structure; the spectral gap IS Pinto's heterogeneity measure; the ECI IS Fajnzylber's truncation index; the formation model IS Furtado's cultural dependency; and the three conditions of Theorem~\ref{ch26:thm:growth_equity} ARE Ocampo's three pillars, stated as a theorem.
+Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry; Furtado explained the reproduction; Pinto measured the heterogeneity; Fajnzylber identified the missing piece; CEPAL documented the stagnation; Ocampo synthesized the prescription. This book offers the synthesis a formal language. The weight matrix represents Prebisch's structure; the spectral gap measures the integration whose absence Pinto called structural heterogeneity; ECI is closely related to, but distinct from, Fajnzylber's truncation (Chapter~25); the formation model represents Furtado's cultural dependency. Conjecture~\ref{ch26:conj:growth_equity} borrows two of Ocampo's pillars, adds one of its own, and leaves his macroeconomics aside --- a precise claim that the next generation of data can confirm or refute.
 
 
 %% =====================================================================
@@ -360,10 +372,10 @@ Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry;
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Ocampo:} Ocampo (2004), ``Latin America's Growth and Equity Frustrations During Structural Reforms,'' \textit{JEP}. Ocampo (2009), ``Latin America and the Global Financial Crisis,'' \textit{Cambridge Journal of Economics}. Ocampo and Ros (2011), \textit{The Oxford Handbook of Latin American Economics}. Ocampo (2014), ``The Latin American Debt Crisis in Historical Perspective,'' in Appleyard and Field (eds.), \textit{International Economics}.
+\textbf{Ocampo:} Ocampo (2004), ``Latin America's Growth and Equity Frustrations During Structural Reforms,'' \textit{JEP}. Ocampo (2007), ``La macroeconom\'{i}a de la bonanza econ\'{o}mica latinoamericana,'' \textit{Revista de la CEPAL} 93. Ocampo, Rada, and Taylor (2009), \textit{Growth and Policy in Developing Countries: A Structuralist Approach}, Columbia University Press. Ocampo (2009), ``Latin America and the Global Financial Crisis,'' \textit{Cambridge Journal of Economics}. Ocampo and Ros (2011), \textit{The Oxford Handbook of Latin American Economics}. Ocampo (2014), ``The Latin American Debt Crisis in Historical Perspective,'' in Stiglitz and Heymann (eds.), \textit{Life After Debt}.
 
 \textbf{Neo-structuralism:} CEPAL (2012), \textit{Structural Change for Equality}. CEPAL (2016), \textit{Horizons 2030: Equality at the Centre of Sustainable Development}. Bielschowsky (2009), ``Sixty Years of ECLAC,'' \textit{CEPAL Review} 97.
 
-\textbf{Growth with equity:} Rodrik (2007), \textit{One Economics, Many Recipes}. Stiglitz (2002), \textit{Globalization and Its Discontents}. Lin and Chang (2009), ``Should Industrial Policy in Developing Countries Conform to Comparative Advantage?'' \textit{Development Policy Review} (the debate between the two approaches).
+\textbf{Growth with equity:} Hausmann, Hwang, and Rodrik (2007), ``What You Export Matters,'' \textit{Journal of Economic Growth}. Rodrik (2007), \textit{One Economics, Many Recipes}. Stiglitz (2002), \textit{Globalization and Its Discontents}. Lin and Chang (2009), ``Should Industrial Policy in Developing Countries Conform to Comparative Advantage?'' \textit{Development Policy Review} (the debate between the two approaches).
 
 \end{document}

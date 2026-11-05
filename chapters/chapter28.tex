@@ -7,11 +7,12 @@
 \textit{``O subdesenvolvimento n\~{a}o constitui uma etapa necess\'{a}ria do processo de forma\c{c}\~{a}o das economias capitalistas modernas. \'{E}, em si, um processo particular, resultante da penetra\c{c}\~{a}o de empresas capitalistas modernas em estruturas arcaicas.''}\\[0.3em]
 \textnormal{[``Underdevelopment does not constitute a necessary stage in the formation of modern capitalist economies. It is, in itself, a particular process, resulting from the penetration of modern capitalist enterprises into archaic structures.'']}\\
 \hfill --- Celso Furtado, \textit{Desenvolvimento e Subdesenvolvimento} (1961)
+% TODO-VERIFY: this wording may come from Teoria e Politica do Desenvolvimento Economico (1967) rather than the 1961 book; the canonical 1961 line is "um processo historico autonomo, e nao uma etapa ...". Check both editions and give a page.
 \end{quote}
 
 \vspace{1em}
 
-This is the last chapter. It has one purpose: to state the book's thesis in final form and show that every result in the previous 27 chapters is a corollary of a single proposition.
+This is the last chapter. It has three purposes: to state the book's thesis in its final, corrected form; to restate each chapter's result in terms of $W$ and the primitives it adds; and to turn what the book has not done into a research programme.
 
 
 %% =====================================================================
@@ -19,65 +20,69 @@ This is the last chapter. It has one purpose: to state the book's thesis in fina
 \label{ch28:sec:thesis}
 %% =====================================================================
 
-\begin{theorem}[The General Case]\label{ch28:thm:general}
-The neoclassical model is the special case $W = \frac{1}{N}\ones\ones'$. Structural economics is the general case where $W$ is any row-stochastic nonneg\-ative matrix.
+\begin{remark}[Framing Principle: The General Case]\label{ch28:thm:general}
+The benchmark competitive model abstracts from social structure. Agents interact anonymously, through prices: aggregate demand weights each agent by her expenditure share $s_i$, so the implied interaction matrix is rank one, $W^{\text{mkt}} = \ones\mathbf{s}'$, with $\Gamma = 1$ and $\boldsymbol{\pi} = \mathbf{s}$. With equal endowments it is $\Wce = \frac{1}{N}\ones\ones'$. Utility interdependence is absent ($W^U = 0$, no externalities), which is what the First Welfare Theorem needs; it holds for \emph{any} wealth distribution $\mathbf{s}$ (Chapter~1, Section~\ref{ch01:sec:conventions}).
 
-Every result in this book follows from the departure of $W$ from $\frac{1}{N}\ones\ones'$:
+Structural economics studies the general case: non-anonymous, row-stochastic interaction matrices $W$ --- production, information and utility networks --- and how they are produced and changed. Every $W$ can be written as
 \begin{equation}\label{ch28:eq:departure}
-\Delta(W) = W - \frac{1}{N}\ones\ones'.
+W = \Wce + \Delta(W), \qquad \Delta(W) := W - \tfrac{1}{N}\ones\ones',
 \end{equation}
+and the departure is summarized by two coordinates that are independent of each other (Proposition~\ref{ch06:prop:gap-power-independent}):
+\begin{itemize}
+\item \textbf{power distance} $d_\pi = \tfrac12\|\boldsymbol{\pi} - \tfrac{1}{N}\ones\|_1$, or equivalently $\Neff/N$, which measures how unequally the structure distributes power;
+\item \textbf{integration deficit} $1 - \Gamma$, which measures how slowly shocks, beliefs and demand propagate across the network.
+\end{itemize}
+Neither determines outcomes alone. Allocations, beliefs, preferences and welfare depend on $W$ \emph{and} on primitives that are not functions of $\Delta(W)$: the bargaining surplus $\Phi$ and curvature $\kappa$, the formation parameters $\rho$ and $\mu$, endowments, the technical coefficients $A$, the coalition game, the product space.
+\end{remark}
 
-When $\Delta(W) = 0$: the First Welfare Theorem holds, the Perron eigenvector is uniform, preferences are exogenous, growth propagates symmetrically, coalitions are unnecessary, and there is nothing for structural economics to study.
-
-When $\Delta(W) \neq 0$: everything in this book follows.
-\end{theorem}
-
-This is not a metaphor. It is a mathematical statement. Every chapter is a theorem about $\Delta(W)$:
+This is a framing principle, not a theorem: the decomposition~\eqref{ch28:eq:departure} holds for every matrix, so its content lies entirely in the maps from $W$ and the primitives to outcomes. Those maps are what the previous 27 chapters study --- some with theorems, more with conjectures and illustrative calculations.
 
 
 %% =====================================================================
-\section{Twenty-Seven Corollaries}
+\section{The Book in One Page}
 \label{ch28:sec:corollaries}
 %% =====================================================================
 
-\subsection*{The Book in One Page}\label{ch28:prop:book}
+\label{ch28:prop:book}
+The table restates each chapter's main result in terms of $W$ and lists the primitives, beyond $W$, on which it depends. Integration is $\Gamma$; power is $\boldsymbol{\pi}$, with concentration measured by $\Neff$, $\Var(\boldsymbol{\pi})$ or $G(\boldsymbol{\pi})$. Bolivian values are illustrative.
+
 {\small
-\begin{longtable}{@{}r>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{9.6cm}@{}}
+\begin{longtable}{@{}r>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{7.6cm}>{\raggedright\arraybackslash}p{3.1cm}@{}}
 \toprule
-\textbf{Ch.} & \textbf{Result} & \textbf{Statement in terms of $W$} \\
+\textbf{Ch.} & \textbf{Topic} & \textbf{Result in terms of $W$} & \textbf{Primitives $X$} \\
 \midrule
 \endfirsthead
 \toprule
-\textbf{Ch.} & \textbf{Result} & \textbf{Statement in terms of $W$} \\
+\textbf{Ch.} & \textbf{Topic} & \textbf{Result in terms of $W$} & \textbf{Primitives $X$} \\
 \midrule
 \endhead
-1 & Matrix reformulation & Every economy has a $W$. The neoclassical model assumes $\Delta(W) = 0$. \\
-2 & Welfare theorems & FWT holds iff $\Delta(W) = 0$. Failure modes: $L = L_{\text{power}} + L_{\text{ext}} + L_{\text{int}}$. \\
-3 & Growth \& distribution & Multi-sector Solow: $\Gamma$ determines whether growth propagates or stays in the enclave. \\
-4 & Standard model assumptions & Six assumptions A1--A6 are equivalent to $\Delta(W) = 0$. \\
-5 & Three networks & $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$. Three layers, one composite. \\
-6 & Power & The Perron eigenvector $\boldsymbol{\pi}$ IS power. $\Var(\pi_i) > 0$ iff $\Delta(W) \neq 0$. \\
-7 & Bargaining & $x_i^* = \Omega/N + (\pi_i - 1/N)/\kappa$. The allocation departs from equality by $\Delta\boldsymbol{\pi}$. \\
-8 & Beliefs & DeGroot convergence through $W^I$. $N_{\text{eff}} = 1/\sum(\pi_j^I)^2$. \\
-9 & Preferences & $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum W^I_{ij}r_j - r^*)$. Preferences are endogenous to $W^I$. \\
-10 & Formation model & The complete dynamical system: $\boldsymbol{\theta} \to \x^* \to \mathbf{r} \to \boldsymbol{\theta}$. Multiple steady states from $\Delta(W^I) \neq 0$. \\
-11 & $\Psi$ ratio & $\hat{\Psi} = F/E$: the formation channel is measurable and often dominant. \\
-12 & Welfare & The ruler is rubber: $W^I$ produces the preferences that evaluate $W^P$. Four approaches. \\
-13 & Network evolution & $W_{t+1} = \Psi(W_t; \x^*_t)$. Proximity dominates. Block-diagonal structures absorb. \\
-14 & Coalitions & Coalitions form to change $\Delta\boldsymbol{\pi}$. The political Coase theorem fails because $W$ IS the enforcement. \\
-15 & Operator design & $\max_{\Delta W} \Gamma(W + \Delta W)$. Five operators, $\Psi$-ordered. \\
-16 & Global $W^P$ & ECI is the second eigenvector of the global trade matrix. $\Gamma \approx 0.20$. \\
-17 & Domestic diagnostics & Five instruments: $\Gamma, \sigma_B, G(\boldsymbol{\pi}), N_{\text{eff}}, \Psi$. Bolivia: $\Gamma = 0.13$. \\
-18 & Gender \& race & Node attributes constrain $W$ through assortative mixing. Intersectionality is multiplicative. \\
-19 & Scale invariance & Same $\Gamma$, same $\boldsymbol{\pi}$, same dynamics at every scale. $\pi_I \approx \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$. \\
-20 & SAMs & The SAM IS $W$. Row-normalize and compute. \\
-21 & $W^I$ measurement & Media overlap, reference groups, social networks, digital traces. Bolivia: $N_{\text{eff}} = 3.4$. \\
-22 & $W^U$ measurement & Transfers, experiments, voting, surveys. Bolivia: $N_{\text{eff}}^U = 2.8$. \\
-23 & Time series & The structural trajectory. Bolivia: 34 years, $\Delta\Gamma = 0.03$. SCI $= 0.075$. \\
-24 & Hegemony & Hegemony is a fixed point where $W^I$ produces consent for $W^P$. Counter-hegemony is $\Delta W^I$. \\
-25 & Truncation & The missing dense subgraph accounts for 72\% of Bolivia's welfare loss. \\
-26 & Synthesis & Growth with equity: $\Gamma > \Gamma^*$ AND ECI $> 0$ AND $N_{\text{eff}} > N^*_{\text{eff}}$. \\
-27 & Algorithms & The recommendation system is an operator on $W^I$ with an objective function set elsewhere. \\
+1 & Matrix notation & Allocation, production and interaction as matrices. The benchmark is anonymous market interaction $W^{\text{mkt}} = \ones\mathbf{s}'$; $\Wce$ is its equal-endowment case. & Endowments, preferences \\
+2 & Welfare theorems & FWT holds for any $\mathbf{s}$ given complete markets, price-taking and no externalities ($W^U = 0$). Unequal $\boldsymbol{\pi}$ is distributional: $L_{\text{power}} = (\kappa N/2)\Phi^2\Var(\boldsymbol{\pi})$. & $\kappa$, $\Phi$, $U$ \\
+3 & Growth \& distribution & Growth spreads across blocks at a speed set by the integration of $W^P$; multipliers come from $A$, not from $W$. & $A$, saving, technology \\
+4 & Benchmark assumptions & The benchmark's assumptions restated as restrictions on $W$: anonymity, $W^U = 0$, preferences not formed through $W^I$. & --- \\
+5 & Three networks & $W^P$, $W^I$, $W^U$; a composite $\sum_k \alpha_k W^k$ exists only on a common node set. & $\alpha_k$ \\
+6 & Power & $\boldsymbol{\pi}' W = \boldsymbol{\pi}'$; $\boldsymbol{\pi}$ uniform iff $W$ doubly stochastic; $\Gamma$ and $\boldsymbol{\pi}$ independent. & Reading of $\boldsymbol{\pi}$ \\
+7 & Bargaining & With $\boldsymbol{\pi}$ as Nash weights (an assumption): $x_i = \Omega/N + (\pi_i - 1/N)\Phi$. & $d_i$, $S$, $\Phi$ \\
+8 & Beliefs & DeGroot consensus $b^* = \boldsymbol{\pi}'\bb^{(0)}$, reached at a speed set by $\Gamma(W^I)$; $\Neff = 1/\sum(\pi_j^I)^2$. & $\bb^{(0)}$ \\
+9 & Preferences & $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum_j W^I_{ij}r_j - r^*)$: preferences formed through $W^I$. & $\rho$, $\mu$, $\bar{\theta}_0$, $r^*$ \\
+10 & Formation model & The loop $\boldsymbol{\theta} \to \x^* \to \mathbf{r} \to \boldsymbol{\theta}$; its steady states depend on $W^I$ and on the feedback parameters. & $\rho$, $\mu$, returns \\
+11 & $\Psi$ ratio & $\hat{\Psi} = F/E$ separates formation from enforcement. & Identification design \\
+12 & Welfare & $W^I$ shapes the preferences that evaluate $W^P$ (``the ruler is rubber''). & Welfare criterion \\
+13 & Network evolution & $W_{t+1} = \Psi(W_t; \x^*_t)$: proximity-driven edge creation and destruction. & Creation, destruction rates \\
+14 & Coalitions & Coalitions form to change $\boldsymbol{\pi}$; outcomes depend on the coalition game. & Game form \\
+15 & Operator design & Choose $\Delta W$ to raise integration and to lower concentration; because $\Gamma \perp \boldsymbol{\pi}$, raising $\Gamma$ alone never costs anyone power. & Budget, costs \\
+16 & Global $W^P$ & Global input and trade shares; ECI comes from the country $\times$ product matrix $M$, not from $W$. & $M$, RCA rule \\
+17 & Domestic diagnostics & $\Gamma$, $\sigma_B$, $G(\boldsymbol{\pi})$, $\Neff$, $\Psi$, read separately. Bolivia: $\Gamma = 0.13$. & Data, aggregation \\
+18 & Gender \& race & Node attributes constrain $W$ through assortative mixing $\lambda_k$; intersectionality is the interaction term. & $\lambda_k$ \\
+19 & Scale invariance & $\pi_I \approx \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$ across scales. & Nesting of scales \\
+20 & SAMs & A row-normalized SAM is a $W$; multipliers come from the SAM coefficient matrix. & SAM accounts \\
+21 & $W^I$ measurement & Media overlap, reference groups, social networks, digital traces. Bolivia: $\Neff = 3.4$. & Survey design \\
+22 & $W^U$ measurement & Transfers, experiments, voting, surveys. Bolivia: $\Neff^U = 2.8$ (different node set). & Survey design \\
+23 & Time series & Per-period $\Gamma_t$ does not control $W_t\cdots W_s$: use $\tau_1$, the realized-product gap and the absolute probability sequence. Bolivia: $\Delta\Gamma \approx 0.02$ in 34 years; SCI $= 0.075$. & Filter, $\Gamma^{\text{ref}}$ \\
+24 & Hegemony & Hegemonic equilibrium: $W^I$-formed consent for $W^P$. Under conformity, counter-hegemony succeeds past a saddle-node threshold; the cycle is a conjecture. & $\rho$, $\beta$, $s$ \\
+25 & Truncation & Removing a bridge set bounds $\Gamma$ by twice the remaining conductance; that the capital-goods core is a bridge is a conjecture. Truncation: 55--86\% of Bolivia's integration deficit. & $\phi$, counterfactual $\Gamma$ \\
+26 & Synthesis & Conjecture: sustained growth with equity needs $\Gamma > \Gamma^*$, ECI $> 0$ and $\Neff > N^*_{\text{eff}}$. & Thresholds \\
+27 & Algorithms & Engagement ranking lowers $\lambda_k$ and $\Gamma$ on the sorted attribute; viral hubs lower $\Neff$ but raise $\Gamma$. & Engagement $e_{ij}$ \\
 \bottomrule
 \end{longtable}
 }
@@ -90,24 +95,24 @@ This is not a metaphor. It is a mathematical statement. Every chapter is a theor
 
 Celso Furtado's 1961 thesis --- that underdevelopment is not a stage but a structure --- is the sentence that generated this book. Every chapter is an elaboration.
 
-\begin{proposition}[Furtado's Thesis as a Theorem]\label{ch28:prop:furtado}
-Furtado (1961) made three claims:
+\begin{remark}[Furtado's Thesis in the Language of $W$]\label{ch28:prop:furtado}
+Furtado (1961) made three claims. Their translation is ours, and it is a reinterpretation rather than a proof:
 \begin{enumerate}
-\item \textbf{Underdevelopment is not the absence of development.} It is a specific structural configuration: $W \neq W^{CE}$ in a particular way (block-diagonal, with a modern enclave connected to the global economy and a traditional sector connected to itself). This is Chapter~3's block-diagonal $W^P$ with small cross-block $\Gamma$.
+\item \textbf{Underdevelopment is not the absence of development.} It is a specific structural configuration, the product of the \emph{interaction} of a modern sector, tied to the world economy, with an archaic one. In $W$ terms it has \emph{two} features that the book's two coordinates keep apart: weak productive integration between the blocks (small $\Gamma(W^P)$, Chapter~3) \emph{and} a strong extraction channel through which surplus flows from the archaic to the modern sector, which concentrates power ($\boldsymbol{\pi}$ far from uniform, Chapter~6). Low integration and high concentration coexist; neither implies the other.
 
-\item \textbf{The structure reproduces itself.} Underdevelopment is a stable fixed point, not a transient state. The mechanisms of reproduction are: proximity-dominated edge formation (Chapter~13), self-confirming preferences (Chapter~10), coalition dynamics that protect the incumbent $W$ (Chapter~14), and hegemonic formation that produces consent (Chapter~24).
+\item \textbf{The structure reproduces itself.} Underdevelopment is a stable fixed point, not a transient state. The mechanisms of reproduction are: proximity-driven edge formation (Chapter~13), self-confirming preferences (Chapter~10), coalition dynamics that protect the incumbent $W$ (Chapter~14), and hegemonic formation that produces consent (Chapter~24).
 
 \item \textbf{The structure can be changed, but not by the standard tools.} Price adjustments, trade liberalization, and transfers do not change $W$. They change $\boldsymbol{\omega}$ (endowments) and relative prices within the existing structure. Changing $W$ requires the operators of Chapter~15: information policy, institutional reform, education, infrastructure, and industrial policy, sequenced by $\Psi$ and constrained by the political economy of Chapter~14.
 \end{enumerate}
 
-Every chapter in this book is a formalization of one of these three claims:
+Every chapter in this book develops one of these three claims:
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Furtado's claim} & \textbf{Formal content} & \textbf{Chapters} \\
 \midrule
-Not a stage but a structure & $W \neq W^{CE}$, block-diagonal & 1--4 \\
-Self-reproducing & Stable fixed point of co-evol.\ system & 5--12, 24 \\
+Not a stage but a structure & Non-anonymous $W$: low $\Gamma$ and concentrated $\boldsymbol{\pi}$ & 1--4 \\
+Self-reproducing & Stable fixed point of the co-evolutionary system & 5--12, 24 \\
 Changeable but not by standard tools & Operators on $W$, not on $\boldsymbol{\omega}$ & 13--15, 25--26 \\
 \midrule
 Measurement & SAMs, $W^I$, $W^U$, trajectories & 16--23 \\
@@ -116,14 +121,14 @@ Contemporary & Algorithmic $W^I$ & 27 \\
 \bottomrule
 \end{tabularx}
 \end{center}
-\end{proposition}
+\end{remark}
 
 \begin{intuition}[Why ``the general case'']
-The neoclassical model assumes a specific $W$: $W = \frac{1}{N}\ones\ones'$. This is not a simplification --- it is a claim about the world. The claim is that social structure does not matter for economic outcomes: all agents interact symmetrically, all information flows freely, all preferences are formed independently. This claim is empirically false for every economy ever measured (Chapter~17: no country has $\Gamma = 1$).
+The benchmark Arrow--Debreu model abstracts from social structure: agents interact anonymously through prices ($W^{\text{mkt}} = \ones\mathbf{s}'$), there are no externalities ($W^U = 0$), and preferences are taken as given rather than formed through $W^I$. This is a deliberate abstraction, not a mistake, and modern economics has relaxed each part of it --- production-network macroeconomics (Long and Plosser, 1983; Acemoglu, Carvalho, Ozdaglar and Tahbaz-Salehi, 2012; Baqaee and Farhi, 2019), network learning (DeGroot, 1974; Golub and Jackson, 2010, 2012) and endogenous preferences already work with general $W$. Those literatures are this book's allies.
 
-Structural economics does not ``add'' structure to the neoclassical model. It \textit{removes a restriction}. The neoclassical model restricts $W$ to the $N^{-1}\ones\ones'$ manifold --- a set of measure zero in the space of all row-stochastic matrices. Structural economics allows $W$ to be anywhere in the space. The neoclassical model is the special case. Structural economics is the general case.
+What structural economics adds is a single language for the three networks at once, and a structuralist agenda for it: who holds power in $W$, how $W$ forms the preferences that judge it, and how $W$ can be changed. In that sense it \textit{removes a restriction}: the anonymous benchmark restricts $W$ to rank-one matrices $\ones\mathbf{s}'$, a set of measure zero among row-stochastic matrices, and structural economics allows $W$ to be anywhere.
 
-This is the same relationship as between Euclidean and non-Euclidean geometry. Euclid assumed flat space (the ``parallel postulate''). Riemann allowed curvature. Euclid is the special case $\kappa = 0$. Riemannian geometry is the general case. Similarly: the neoclassical model assumes a flat weight matrix ($\Gamma = 1$, all entries equal). Structural economics allows curvature ($\Gamma < 1$, entries unequal). The neoclassical model is the special case $\Gamma = 1$.
+The geometric analogy (Euclid as the flat special case of Riemann) holds only in part. The benchmark is not identified by a single number: $\Gamma = 1$ holds for every rank-one $W = \ones\boldsymbol{\pi}'$, including the dictatorship $\ones\mathbf{e}_1'$. The ``flat'' case needs two coordinates: full integration ($\Gamma = 1$) \emph{and} equal power ($\boldsymbol{\pi} = \tfrac{1}{N}\ones$). Structure is a departure in either coordinate, and the two can move independently.
 \end{intuition}
 
 
@@ -134,7 +139,7 @@ This is the same relationship as between Euclidean and non-Euclidean geometry. E
 
 Bolivia appeared in every chapter --- not because Bolivia is the only developing country, but because it exhibits every structural pathology at a scale that the mathematics can detect.
 
-\begin{example}[Bolivia: The Structural Portrait, Complete]\label{ch28:ex:final}
+\begin{example}[Bolivia: The Structural Portrait, Complete \illustrative]\label{ch28:ex:final}
 \begin{center}
 \begin{tabular}{lccl}
 \toprule
@@ -152,19 +157,19 @@ $\pi_G$ (global power) & 0.0005 & $1/N_G$ & 16 \\
 $v_\Gamma$ (structural velocity) & $+0.01$/decade & & 23 \\
 SCI (1990--2019) & 0.075 & 1.00 & 23 \\
 \midrule
-\multicolumn{4}{l}{Power ratio: indigenous woman (Potos\'{i}) to German engineer $\approx$ 1 : 1{,}000} \\
-\multicolumn{4}{l}{Truncation penalty: 72\% of total welfare loss} \\
+\multicolumn{4}{l}{Power ratio: indigenous woman (Potos\'{i}) to German engineer $\approx$ 1 : 1{,}000 (Chapter~19)} \\
+\multicolumn{4}{l}{Truncation: 55--86\% of the integration deficit (72\% at $\Gamma(0) = 0.35$)} \\
 \multicolumn{4}{l}{30-year trajectory: massive poverty reduction, near-zero structural change} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-This table is the structural health record of an economy. Every number is computable from publicly available data. Every number tells the same story: Bolivia's weight matrix is far from $\frac{1}{N}\ones\ones'$, and it has not moved substantially closer in 34 years.
+This table is the structural health record of an economy. Every number in it is meant to be computable from publicly available data; in this edition they are illustrative placeholders, reproduced by the chapter scripts in \texttt{code/}, and replacing them with sourced estimates is the first item of the research programme below. Read together they tell one story: Bolivia's $W$ is poorly integrated and its power is concentrated, and neither coordinate has moved much in 34 years.
 \end{example}
 
-The numbers are damning. But they are also hopeful, because they are \textit{specific}. The structural diagnosis does not say ``Bolivia is poor.'' It says: ``Bolivia's spectral gap is 0.13 because the capital goods sector is missing ($\tau = 0.98$), the information network has 3.4 effective voices, and the formation channel produces self-confirming preferences ($\Psi = 1.56$). The binding constraint is the truncation. The optimal intervention sequence is information $\to$ education $\to$ infrastructure $\to$ industrial policy, at a cost of \$17B over 30 years (1.4\% of GDP/year). The political precondition is a coalition shift enabled by Phase~1's $W^I$ reforms.''
+The numbers are damning. But they are also hopeful, because they are \textit{specific}. The structural diagnosis does not say ``Bolivia is poor.'' It says: ``Bolivia's spectral gap is 0.13, plausibly because the capital goods sector is missing ($\tau = 0.98$; Conjecture~\ref{ch25:thm:truncation}); the information network has 3.4 effective voices; and the formation channel produces self-confirming preferences ($\Psi = 1.56$). If the truncation conjecture holds, the binding constraint is the truncation. The optimal intervention sequence is information $\to$ education $\to$ infrastructure $\to$ industrial policy, at a cost of \$17B over 30 years (1.4\% of GDP/year). The political precondition is a coalition shift enabled by Phase~1's $W^I$ reforms.''
 
-Precision is the gift structural economics offers. The standard model says: ``get the prices right.'' The structuralist tradition says: ``change the structure.'' This book says: ``here is the structure, here are its eigenvalues, here is what is wrong, and here is the engineering specification for fixing it.''
+Precision is the gift structural economics offers. The standard model says: ``get the prices right.'' The structuralist tradition says: ``change the structure.'' This book says: ``here is the structure, here are its eigenvalues and its distribution of power, here is what we conjecture is wrong, and here is a specification for fixing it that the data can check.''
 
 
 %% =====================================================================
@@ -176,13 +181,17 @@ Intellectual honesty requires stating the limits.
 
 \textbf{1. The model is static in important ways.} The co-evolutionary system (Chapter~13) is a difference equation, not a continuous-time model with stochastic shocks, financial frictions, or expectations. The formation model (Chapter~10) has a single preference parameter per agent. Reality has many. The model captures the structural skeleton; it does not capture the flesh.
 
-\textbf{2. The empirical estimates are rough.} $\Gamma$, $N_{\text{eff}}$, and $\Psi$ are estimated from imperfect proxies (I-O tables that are updated every 5--10 years, media surveys with small samples, cohort-year decompositions that rely on strong identifying assumptions). The structural health dashboard is a first approximation. Better data and better methods will refine the estimates --- but the framework is robust to the specific numbers.
+\textbf{2. The empirical estimates are rough.} $\Gamma$, $N_{\text{eff}}$, and $\Psi$ are estimated from imperfect proxies (I-O tables that are updated every 5--10 years, media surveys with small samples, cohort-year decompositions that rely on strong identifying assumptions). The structural health dashboard is a first approximation. Most country values in Chapters~16--27 are illustrative placeholders, internally consistent but not yet estimated from documented data. The qualitative claims do not hinge on any single number; the quantitative ones (thresholds such as $\Gamma^*$ and $N^*_{\text{eff}}$, shares such as the truncation penalty) do, and they stand or fall with the estimates.
 
-\textbf{3. The political economy is underdeveloped.} Chapter~14's coalition model is a one-shot game. Real political dynamics involve repeated interaction, institutions, ideology, identity, and contingency. The hegemonic cycle (Chapter~24) is a sketch, not a fully specified model. The book identifies the political constraint but does not solve it.
+\textbf{3. The political economy is underdeveloped.} Chapter~14's coalition model is a one-shot game. Real political dynamics involve repeated interaction, institutions, ideology, identity, and contingency. The hegemonic cycle (Chapter~24) is a conjecture, not a fully specified model. Reading $\boldsymbol{\pi}$ as bargaining power is an assumption; network-bargaining theory (Manea, 2011; Abreu and Manea, 2012) shows that bargaining payoffs need not equal eigenvector centrality. The book identifies the political constraint but does not solve it.
 
 \textbf{4. Culture is underspecified.} The formation model reduces culture to a preference parameter $\theta$ formed through $W^I$. Real culture involves narratives, identities, rituals, languages, cosmologies --- things that do not reduce to a scalar. The model captures the \textit{mechanism} of cultural transmission (network-mediated signal processing) but not the \textit{content}.
 
 \textbf{5. The book is about structure, not about people.} Every example features an ``indigenous woman in Potos\'{i}'' or a ``gas executive in Santa Cruz'' as a node in a matrix. Real people are not nodes. They have names, histories, hopes, contradictions, and dignity that no eigenvalue can capture. The structural portrait is necessary but not sufficient. The engineer who designs the bridge still needs to talk to the people who will cross it.
+
+\textbf{6. Many central claims are conjectures.} The book proves what can be proved: the properties of $\boldsymbol{\pi}$ and $\Gamma$, the independence of the two, the Dobrushin and Hajnal results for time-varying $W$, the saddle-node of counter-hegemony, the bridge bound on $\Gamma$, the echo-chamber result under engagement ranking. Several of its most important claims --- that truncation lowers integration (Chapter~25), that growth with equity needs integration, complexity and information diversity together (Chapter~26), that hegemonies cycle (Chapter~24) --- are conjectures. Korea's early growth with equity under low integration and controlled media already strains the second. The mathematics says what would follow if they hold; the data must decide whether they do.
+
+\textbf{7. Structure has (at least) two dimensions.} An earlier draft of this book used the spectral gap $\Gamma$ as a single measure of ``distance from the textbook.'' It is not: $\Gamma$ measures integration, and power is measured by $\boldsymbol{\pi}$; any degree of concentration is compatible with any spectral gap. No single number summarizes $W$, and a dashboard that reports only $\Gamma$ will score a winner-take-all network as healthy.
 
 
 %% =====================================================================
@@ -190,16 +199,16 @@ Intellectual honesty requires stating the limits.
 \label{ch28:sec:program}
 %% =====================================================================
 
-This book opens a research program, not closes one. Ten questions for the next generation:
+This book opens a research program; it does not close one. Each limit above is also a question. Ten for the next generation:
 
 \begin{enumerate}
-\item \textbf{Estimation}: How to estimate $W^P$, $W^I$, $W^U$ at high frequency and fine spatial resolution, using big data, satellite imagery, and digital trace data?
+\item \textbf{Estimation} (limit 2): Replace every illustrative number with a sourced estimate, computed by public code from INE, OECD ICIO, the Atlas of Economic Complexity and household surveys. Then estimate $W^P$, $W^I$, $W^U$ at high frequency and fine spatial resolution, using big data, satellite imagery, and digital trace data, with bootstrap error bands.
 
 \item \textbf{Identification of $\Psi$}: Better designs for separating enforcement from formation. Randomized $W^I$ interventions (following Bernard et al., 2014) in multiple countries.
 
-\item \textbf{The dense subgraph}: What is the minimum viable capital-goods cluster for a small economy? Can it be shared regionally (a Mercosur or Andean Community capital-goods program)?
+\item \textbf{Testing the conjectures} (limit 6): Is the capital-goods core a bridge in the product space, so that truncation lowers integration? Does sustained growth with equity require $\Gamma > \Gamma^*$, ECI $> 0$ and $\Neff > N^*_{\text{eff}}$, and where are the thresholds? What is the minimum viable capital-goods cluster for a small economy, and can it be shared regionally (a Mercosur or Andean Community program)?
 
-\item \textbf{Algorithmic $W^I$}: Real-time monitoring of $N_{\text{eff}}$ under algorithmic curation. Experimental evaluation of diversity-mandated recommendation systems.
+\item \textbf{Algorithmic $W^I$} (limit 7): Real-time monitoring of both $\lambda_k$ (fragmentation) and $N_{\text{eff}}$ (concentration) under algorithmic curation, including messaging platforms. Experimental evaluation of diversity-mandated recommendation systems in the Global South.
 
 \item \textbf{Climate and structure}: How does climate change rewire $W^P$ (through agricultural disruption, migration, infrastructure damage)? What are the structural effects of green industrial policy?
 
@@ -207,11 +216,11 @@ This book opens a research program, not closes one. Ten questions for the next g
 
 \item \textbf{Multi-country structural trajectories}: Build the dashboard for every country, every year, and track the global structural trajectory. A ``structural world development indicators'' project.
 
-\item \textbf{Political economy of operator sequencing}: Under what political conditions is the $\Psi$-ordered sequence feasible? When does the information operator create the coalition for the structural operator?
+\item \textbf{Political economy of operator sequencing} (limit 3): Under what political conditions is the $\Psi$-ordered sequence feasible? When does the information operator create the coalition for the structural operator? What microfoundation, if any, makes $\boldsymbol{\pi}$ a bargaining weight? What slow feedback, if any, makes hegemonies cycle?
 
 \item \textbf{Endogenous institutions}: How do institutions (property rights, courts, regulations) emerge from the co-evolutionary dynamics? The institutional operator (Chapter~15) is exogenous in this book; it should be endogenous.
 
-\item \textbf{The general equilibrium of structure}: A computable general equilibrium model with all three networks, the formation channel, and political equilibrium. The ``structural CGE'' that Taylor (1983) pointed toward but that no one has built.
+\item \textbf{The general equilibrium of structure} (limits 1, 4): Structuralist CGE models exist (Taylor, 1990, \textit{Socially Relevant Policy Analysis: Structuralist Computable General Equilibrium Models for the Developing World}). What does not yet exist is one with all three networks, the formation channel, time-varying $W$ and political equilibrium --- and with culture represented by more than a scalar.
 \end{enumerate}
 
 
@@ -220,26 +229,26 @@ This book opens a research program, not closes one. Ten questions for the next g
 \label{ch28:sec:last}
 %% =====================================================================
 
-The book began with one equation (Chapter~1):
+The book began with one equation (Chapter~1), the equal-endowment benchmark:
 \begin{equation}
-W^{CE} = \frac{1}{N}\ones\ones'.
+\Wce = \frac{1}{N}\ones\ones'.
 \end{equation}
 
 It ends with its generalization:
 \begin{equation}\label{ch28:eq:last}
-W = W^{CE} + \Delta(W).
+W = \Wce + \Delta(W).
 \end{equation}
 
-Every economy is the competitive benchmark plus a departure. The departure is the structure. The structure determines power ($\boldsymbol{\pi}$), allocation ($\x^*$), beliefs ($\mathbf{b}^*$), preferences ($\boldsymbol{\theta}^*$), welfare ($L$), dynamics ($\Gamma_t$), politics ($S^*$), and the formation of the next generation's preferences ($\boldsymbol{\theta}^*_{t+1}$).
+Every economy is the benchmark plus a departure. The departure is the structure, and it has two independent coordinates: how integrated the network is ($\Gamma$) and how power is distributed in it ($\boldsymbol{\pi}$). Together with the primitives of each model, the structure shapes allocation ($\x^*$), beliefs ($\mathbf{b}^*$), preferences ($\boldsymbol{\theta}^*$), distributional welfare ($L$), dynamics ($\Gamma_t$, $\tau_1$), politics ($S^*$), and the formation of the next generation's preferences ($\boldsymbol{\theta}^*_{t+1}$).
 
-The standard model studies the first term. This book studies the second.
+The benchmark model abstracts from the second term. This book studies it.
 
 \begin{keyinsight}
 Structural economics is not a school of thought. It is not a political position. It is not a regional tradition. It is the mathematics of social structure applied to economic life.
 
-The weight matrix $W$ is the object. The Perron eigenvector is the power. The spectral gap is the health. The formation model is the dynamics. The operator design is the engineering. The coalition game is the politics. The dashboard is the diagnostic. The trajectory is the history.
+The weight matrix $W$ is the object. The Perron eigenvector is the power. The spectral gap is the integration. The formation model is the dynamics. The operator design is the engineering. The coalition game is the politics. The dashboard is the diagnostic. The trajectory is the history.
 
-One matrix. Everything else follows.
+One matrix, two coordinates, and the primitives that turn them into outcomes. What follows from them is partly proved, partly conjectured, and mostly still to be measured. That is the research programme.
 \end{keyinsight}
 
 \vspace{2em}
@@ -257,42 +266,42 @@ One matrix. Everything else follows.
 
 Celso Furtado (1920--2004) appears three times in this book. In Chapter~2 (underdevelopment as a stable fixed point of $W$), in Chapter~9 (cultural dependency as endogenous preferences), and here, at the end.
 
-Furtado was the greatest economic thinker Latin America produced. He was trained in Paris (PhD at the Sorbonne, 1948), worked at CEPAL under Prebisch (1949--1957), directed SUDENE (the Northeast Brazil development agency, 1958--1964), served as Brazil's Minister of Planning (1962--1963), and was exiled by the military coup of 1964. He wrote 30 books, in Portuguese, Spanish, French, and English, across four decades. His intellectual range --- from Keynesian macroeconomics to cultural theory to institutional analysis --- anticipated almost every theme in this book.
+Furtado was one of the greatest economic thinkers Latin America produced. He was trained in Paris (doctorate at the University of Paris, 1948), worked at CEPAL under Prebisch (1949--1957), led the working group on the Northeast (GTDN, 1958) and then directed SUDENE, the Northeast Brazil development agency, from its creation in 1959 until 1964, served as Brazil's Minister of Planning (1962--1963), and lost his political rights after the military coup of 1964. In exile he held a chair at the Sorbonne (1965--1985) and visiting posts at Yale and Cambridge; back in Brazil he was Minister of Culture (1986--1988). He wrote more than 30 books, across five decades. His intellectual range --- from Keynesian macroeconomics to cultural theory to institutional analysis --- anticipated almost every theme in this book.
 
 The thesis of \textit{Desenvolvimento e Subdesenvolvimento} (1961) can now be stated in its complete form.
 
 \textbf{Claim 1: Underdevelopment is a structure, not a stage.} Rostow (1960) had argued that all economies pass through ``stages of growth'' from traditional to modern. Furtado rejected this: underdevelopment is not pre-development. It is a specific structural configuration produced by the \textit{interaction} of modern and archaic elements within a single system. The modern sector does not gradually absorb the traditional sector; it coexists with it, extracting surplus from it, and reproducing the duality.
 
-In this book: underdevelopment is a structural equilibrium (Chapter~13, Definition~13.3) with low $\Gamma$, block-diagonal $W$, and self-reproducing dynamics. It is a fixed point, not a transient state. The fixed point exists because the co-evolutionary dynamics (proximity-dominated edge creation, self-confirming preferences, coalition protection) make it stable.
+In this book: underdevelopment is a structural equilibrium (Definition~\ref{ch13:def:structural_eq}) with low integration $\Gamma$ between the modern and archaic blocks, concentrated power $\boldsymbol{\pi}$ (the surplus-extraction channel), and self-reproducing dynamics. It is a fixed point, not a transient state. The fixed point exists because the co-evolutionary dynamics (proximity-dominated edge creation, self-confirming preferences, coalition protection) make it stable.
 
-\textbf{Claim 2: The structure produces the preferences that accept it.} Furtado's deepest insight, developed in \textit{O Mito do Desenvolvimento Econ\^{o}mico} (1974): underdevelopment persists not only because of economic structure but because of cultural structure --- the patterns of consumption, aspiration, and identity that the economic structure produces. The periphery imports center consumption patterns through $W^I$ (media, advertising, education modeled on center curricula), forming preferences that are impossible to satisfy under peripheral production structures. The result: frustrated modernization, debt-fueled consumption mimicry, and political instability.
+\textbf{Claim 2: The structure produces the preferences that accept it.} Furtado's deepest insight, developed in \textit{O Mito do Desenvolvimento Econ\^{o}mico} (1974): underdevelopment persists not only because of economic structure but because of cultural structure --- the patterns of consumption that the economic structure produces and that in turn reproduce it. The high-income minority of the periphery imitates the consumption patterns of the center; producing those goods requires capital-intensive technologies imported from the center; those technologies absorb little labour and concentrate income further, which sustains the imitative minority. The ``myth'' is that the center's consumption standards could be generalized to the whole population of the periphery.
 
-In this book: this is the formation model (Chapters~9--10). Preferences are endogenous to $W^I$. The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum W^I_{ij}r_j - r^*)$ captures Furtado's mechanism exactly: agents form preferences by observing $W^I$-weighted returns. When $W^I$ is dominated by center signals (Chapter~8, epistemic Perron dominance), the formation produces center-mimicking preferences in the periphery --- Furtado's ``cultural dependency.'' The $\Psi$ ratio (Chapter~11) measures how much of observed behavior comes from this channel.
+In this book: this is the formation model (Chapters~9--10). Preferences are endogenous to $W^I$. The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum W^I_{ij}r_j - r^*)$ captures part of Furtado's mechanism: agents form preferences by observing $W^I$-weighted signals, and when $W^I$ is dominated by center signals (Chapter~8, epistemic Perron dominance), the formation produces center-mimicking preferences in the periphery --- Furtado's ``cultural dependency.'' What the formation equation does not capture is the link Furtado cared about most: from the composition of elite demand to technology choice and to the distribution of income. A faithful formalization would make the consumption basket, not a scalar aspiration, the formed object. The $\Psi$ ratio (Chapter~11) measures how much of observed behavior comes from the formation channel.
 
 \textbf{Claim 3: Structural change requires changing the structure, not the prices.} Furtado argued that neither market liberalization (which assumes the structure is efficient) nor simple redistribution (which operates within the structure) can solve underdevelopment. What is needed is structural transformation: changing the production structure ($W^P$), the information structure ($W^I$), and the institutional structure --- simultaneously and deliberately.
 
-In this book: this is Part~IV (Chapters~13--15) and the neo-structuralist synthesis (Chapter~26). The operator design framework (Chapter~15) provides the engineering manual that Furtado's diagnosis called for. The sequencing theorem ($\Psi$-ordered: information first, structure second, industrial policy third) is the implementation protocol. The three conditions of the Growth-Equity Theorem ($\Gamma > \Gamma^*$, ECI $> 0$, $N_{\text{eff}} > N^*_{\text{eff}}$) are the success criteria.
+In this book: this is Part~IV (Chapters~13--15) and the neo-structuralist synthesis (Chapter~26). The operator design framework (Chapter~15) provides the engineering manual that Furtado's diagnosis called for. The $\Psi$-ordered sequence (information first, structure second, industrial policy third) is a proposed implementation protocol. The three conditions of the growth-equity conjecture ($\Gamma > \Gamma^*$, ECI $> 0$, $N_{\text{eff}} > N^*_{\text{eff}}$) are proposed success criteria, to be tested.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Furtado (1961/1974)} & \textbf{This book's formalization} & \textbf{Chapter} \\
 \midrule
-Underdevelopment is a structure & $W \neq W^{CE}$, block-diagonal, low $\Gamma$ & 1--4 \\
+Underdevelopment is a structure & Non-anonymous $W$: low $\Gamma$, concentrated $\boldsymbol{\pi}$ & 1--4 \\
 Not a stage & Stable fixed point of co-evolutionary system & 13 \\
 Modern-archaic coexistence & Block-diagonal $W^P$, Pinto's heterogeneity & 3, 17 \\
-Cultural dependency & $W^I$ produces center-mimicking $\boldsymbol{\theta}^*$ & 9, 10 \\
+Cultural dependency & $W^I$ produces center-mimicking $\boldsymbol{\theta}^*$ (consumption link not modelled) & 9, 10 \\
 Frustrated modernization & $\theta^*_{\text{center}}$ incompatible with peripheral $W^P$ & 10, 12 \\
 Structural change needed & Operators on $W$, not on $\boldsymbol{\omega}$ & 15 \\
-Simultaneity required & Three conditions, three pillars & 26 \\
-The general case & $W$ is any row-stochastic matrix & 28 \\
+Simultaneity required & Three conditions (a conjecture), three pillars & 26 \\
+The general case & $W$ is any row-stochastic matrix; two coordinates & 28 \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Furtado wrote in exile, in French and Portuguese, for audiences that could not give him tenure or citations. He died in 2004, the year before Evo Morales was elected and five years before Hidalgo and Hausmann published the Atlas of Economic Complexity. He did not see the product space, the ECI, or the formation experiments that would validate his intuitions. He did not have the Perron eigenvector, the spectral gap, or the DeGroot model.
+Furtado wrote much of his work in exile, in Portuguese and French, from a chair in Paris. He died in 2004, the year before Evo Morales was elected and five years before Hidalgo and Hausmann's 2009 paper on economic complexity. He did not see the product space, the ECI, or the formation experiments that would test his intuitions. He did not use the Perron eigenvector, the spectral gap, or the DeGroot model.
 
-But he had the thesis: the neoclassical model is the special case, and structure is everything else. This book is the proof.
+But he had the thesis: underdevelopment is a structure, not a stage. This book offers a formal language in which to state that thesis, to prove some of its parts, and to put the rest to the test.
 
 
 %% =====================================================================
@@ -300,10 +309,10 @@ But he had the thesis: the neoclassical model is the special case, and structure
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Furtado:} Furtado (1961), \textit{Desenvolvimento e Subdesenvolvimento}, Rio de Janeiro: Fundo de Cultura. English: \textit{Development and Underdevelopment}, University of California Press, 1964. Furtado (1974), \textit{O Mito do Desenvolvimento Econ\^{o}mico}, Rio de Janeiro: Paz e Terra. English: ``The Myth of Economic Development.'' Furtado (1999), \textit{O Longo Amanhecer: Reflex\~{o}es sobre a Forma\c{c}\~{a}o do Brasil} (his intellectual autobiography). Love (1996), ``Economic Ideas and Ideologies in Latin America since 1930,'' in Bethell (ed.), \textit{Cambridge History of Latin America}, Vol.~6 (for Furtado's intellectual context).
+\textbf{Furtado:} Furtado (1961), \textit{Desenvolvimento e Subdesenvolvimento}, Rio de Janeiro: Fundo de Cultura. English: \textit{Development and Underdevelopment}, University of California Press, 1964. Furtado (1974), \textit{O Mito do Desenvolvimento Econ\^{o}mico}, Rio de Janeiro: Paz e Terra. English: ``The Myth of Economic Development.'' Furtado (1997), \textit{Obra autobiogr\'{a}fica}, 3 vols., S\~{a}o Paulo: Paz e Terra (his autobiography). Furtado (1999), \textit{O Longo Amanhecer: Reflex\~{o}es sobre a Forma\c{c}\~{a}o do Brasil} (essays). Love (1996), ``Economic Ideas and Ideologies in Latin America since 1930,'' in Bethell (ed.), \textit{Cambridge History of Latin America}, Vol.~6 (for Furtado's intellectual context).
 
-\textbf{The structuralist tradition, complete:} Prebisch (1949), the manifesto. Furtado (1961), the thesis. Pinto (1970), the diagnosis. Sunkel (1971), the integration/disintegration. Tavares (1972), the autopsy. Marini (1973), the exploitation. Fajnzylber (1983/1990), the truncation and the empty box. Cardoso and Faletto (1969), the politics. Quijano (2000), the coloniality. Sen (1999), the capabilities. CEPAL (2012), the institutional synthesis. Ocampo (2009), the policy synthesis. Hidalgo et al.\ (2007/2009), the empirical measurement.
+\textbf{The structuralist tradition, complete:} Prebisch (1949), the manifesto. Furtado (1961), the thesis. Pinto (1970), the diagnosis. Sunkel (1971), the integration/disintegration. Tavares (1972), the autopsy. Marini (1973), the exploitation. Fajnzylber (1983/1990), the truncation and the empty box. Cardoso and Faletto (1969), the politics. Quijano (2000), the coloniality. Sen (1999), the capabilities. CEPAL (2012), the institutional synthesis. Ocampo (2009), the policy synthesis. Hidalgo et al.\ (2007) and Hidalgo and Hausmann (2009), the empirical measurement. Taylor (1983, 1990), the structuralist macroeconomics and its CGE models.
 
-And this book.
+\textbf{Networks in economics:} Long and Plosser (1983); Acemoglu et al.\ (2012), ``The Network Origins of Aggregate Fluctuations,'' \textit{Econometrica}; Baqaee and Farhi (2019), ``The Macroeconomic Impact of Microeconomic Shocks,'' \textit{Econometrica}; Golub and Jackson (2010), \textit{AEJ: Microeconomics}, and (2012), \textit{QJE}; Seneta (2006), \textit{Non-negative Matrices and Markov Chains}.
 
 \end{document}

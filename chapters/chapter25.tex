@@ -7,15 +7,16 @@
 \textit{``La industrializaci\'{o}n latinoamericana se caracteriza por ser una industrializaci\'{o}n trunca: carece del n\'{u}cleo end\'{o}geno de dinamizaci\'{o}n del progreso t\'{e}cnico --- el sector de bienes de capital.''}\\[0.3em]
 \textnormal{[``Latin American industrialization is characterized as truncated industrialization: it lacks the endogenous nucleus for the dynamization of technical progress --- the capital goods sector.'']}\\
 \hfill --- Fernando Fajnzylber, \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina} (1983)
+% TODO-VERIFY: likely not verbatim. Fajnzylber's own term is "nucleo endogeno de dinamizacion tecnologica"; check the 1983 Nueva Imagen edition and give a page, or present as a paraphrase.
 \end{quote}
 
 \vspace{1em}
 
 Fajnzylber (1983) identified a specific structural absence at the heart of Latin American economies: the capital goods sector. Not just any sector --- the sector that produces the machines that produce other goods. The sector where learning-by-doing, scale economies, and technological spillovers are concentrated. The sector that, in East Asia, served as the engine of structural transformation. The sector that Latin America never developed.
 
-In this book's notation: the capital goods sector is the \textbf{dense subgraph} of the product space --- the cluster of products (machinery, precision instruments, electronics, advanced chemicals) where the proximity matrix $\phi_{pp'}$ is densest, where Hirschman's backward and forward linkages are highest, and where the Leontief multiplier is largest. It is the bright core of the heatmap. And Latin America's heatmap has a hole where that core should be.
+In this book's notation: the capital goods sector is identified with the \textbf{dense core} of the product space --- the cluster of products (machinery, metal products, electronics, chemicals) where the proximity matrix $\phi_{pp'}$ is densest. It is the bright core of the heatmap. And Latin America's heatmap has a hole where that core should be. (The identification is ours: Fajnzylber's nucleus is a sector \emph{plus} the domestic engineering and innovation capacity around it, not a set of export products.)
 
-This chapter formalizes Fajnzylber's diagnosis as a theorem about missing subgraphs and proves its consequences for $\Gamma$, ECI, growth, and inequality.
+This chapter formalizes Fajnzylber's diagnosis in terms of missing subgraphs. One distinction runs through it: a \emph{dense module} (products tightly related to each other) and a \emph{bridge} (products that connect otherwise separate clusters) have opposite effects on integration $\Gamma$. Removing a bridge provably lowers $\Gamma$; removing a dense module can raise it. Whether the capital-goods core is a bridge is therefore an empirical question, stated below as a conjecture. All country values in this chapter are \illustrative{} (reproduced by \texttt{code/ch25.py}).
 
 
 %% =====================================================================
@@ -26,22 +27,28 @@ This chapter formalizes Fajnzylber's diagnosis as a theorem about missing subgra
 \subsection{Definition}
 
 \begin{definition}[Dense Subgraph of the Product Space]\label{ch25:def:dense}
-A \textbf{dense subgraph} $\mathcal{D} \subset \{1, \ldots, P\}$ is a set of products with the property:
+Let $\phi$ be the symmetric product-proximity matrix ($\phi_{pp'} \in [0,1]$, diagonal excluded). For a set of products $S$, let $e(S) = \sum_{p < p',\ p,p' \in S}\phi_{pp'}$ be its internal weight and
+\[
+\bar{\phi}_S = \frac{2\,e(S)}{|S|(|S|-1)}
+\]
+its average internal proximity. The \textbf{dense subgraph} is the maximizer of internal weight per product,
 \begin{equation}\label{ch25:eq:dense}
-\bar{\phi}_{\mathcal{D}} = \frac{1}{|\mathcal{D}|^2}\sum_{p, p' \in \mathcal{D}} \phi_{pp'} \gg \bar{\phi}_{\text{all}},
+\mathcal{D} = \argmax_{S \subseteq \{1, \ldots, P\}} \frac{e(S)}{|S|},
 \end{equation}
-where $\bar{\phi}_{\mathcal{D}}$ is the average proximity within $\mathcal{D}$ and $\bar{\phi}_{\text{all}}$ is the average proximity in the entire product space. Products in $\mathcal{D}$ are more closely related to each other than to the rest of the product space.
+(Goldberg's densest-subgraph problem, solvable exactly by max-flow; Charikar's greedy peeling gives a 2-approximation; Appendix~\ref{ch25:app:dense}). Report alongside it the \textbf{density ratio} $\bar{\phi}_{\mathcal{D}}/\bar{\phi}_{\text{all}}$ and $|\mathcal{D}|$, and check robustness to the product classification.
 \end{definition}
 
-\begin{proposition}[The Capital Goods Cluster Is the Densest Subgraph]\label{ch25:prop:capital_goods}
-Using Hidalgo et al.'s (2007) product space with 774 products at the 4-digit HS level:
+Excluding the diagonal matters: if $\phi_{pp} = 1$ is included in an average over $|S|^2$ pairs, every single product has density 1 and the ``densest'' set is a single product. Note also what the definition does \emph{not} say: a dense set is a set whose members are related to each other; it need not be related to anything else.
+
+\begin{stylizedfact}[The Product-Space Core]\label{ch25:prop:capital_goods}
+Hidalgo et al.\ (2007) built the product space from about 775 products at the SITC (rev.~2) 4-digit level and found a densely connected core of metal products, machinery and chemicals, with a sparse periphery of primary commodities. The quantitative statements below are \illustrative{} placeholders for that structure, to be replaced by the output of Exercise~25.1:
 \begin{enumerate}
-\item The densest subgraph contains: specialized machinery (HS 84), electrical machinery (HS 85), precision instruments (HS 90), optical equipment (HS 90), organic chemicals (HS 29), and plastics in primary forms (HS 39). Average internal proximity: $\bar{\phi}_{\mathcal{D}} \approx 0.35$.
+\item The densest subgraph contains machinery (non-electrical and electrical), precision and optical instruments, metal products, organic chemicals, and plastics. Average internal proximity: $\bar{\phi}_{\mathcal{D}} \approx 0.35$.
 \item The average proximity in the full product space: $\bar{\phi}_{\text{all}} \approx 0.08$.
 \item The density ratio: $\bar{\phi}_{\mathcal{D}} / \bar{\phi}_{\text{all}} \approx 4.4$. The capital goods cluster is 4.4 times denser than the product space average.
-\item Products in $\mathcal{D}$ have the highest average PCI (Product Complexity Index): $\overline{\text{PCI}}_{\mathcal{D}} \approx 1.8$, compared with $\overline{\text{PCI}}_{\text{all}} = 0$ by construction.
+\item Products in $\mathcal{D}$ have the highest average PCI (Product Complexity Index): $\overline{\text{PCI}}_{\mathcal{D}} \approx 1.8$, compared with $\overline{\text{PCI}}_{\text{all}} = 0$ by construction (PCI is standardized across products).
 \end{enumerate}
-\end{proposition}
+\end{stylizedfact}
 
 
 \subsection{The Missing Subgraph}
@@ -51,24 +58,44 @@ A country $c$'s product space is \textbf{truncated} if it lacks the dense subgra
 \begin{equation}\label{ch25:eq:truncation}
 \tau_c = 1 - \frac{|\{p \in \mathcal{D} : M_{cp} = 1\}|}{|\mathcal{D}|} \in [0, 1].
 \end{equation}
-$\tau_c = 0$: the country has the complete dense subgraph. $\tau_c = 1$: the country has none of it. Latin America: $\tau \approx 0.70$--$0.95$. East Asia: $\tau \approx 0.10$--$0.40$. Bolivia: $\tau \approx 0.98$.
+$\tau_c = 0$: the country has the complete dense subgraph. $\tau_c = 1$: the country has none of it. Illustrative values: Latin America $\tau \approx 0.70$--$0.95$; East Asia $\tau \approx 0.10$--$0.40$; Bolivia $\tau \approx 0.98$.
 \end{definition}
 
-\begin{theorem}[The Truncation-$\Gamma$ Theorem]\label{ch25:thm:truncation}
-The domestic spectral gap is bounded above by a decreasing function of the truncation index:
+To connect the product space to integration we need an assumption about how the domestic production network relates to it.
+
+\textbf{Assumption (product-space proxy).} The domestic network of country $c$ is proxied by the proximity among the products $c$ produces: $W_c = D_c^{-1}\phi_c$, where $\phi_c$ is $\phi$ restricted to $c$'s products and $D_c = \operatorname{diag}(\phi_c\ones)$. This $W_c$ is row-stochastic and reversible, so its eigenvalues are real. (It is a proxy: the input-share matrix $W^P = D^{-1}A$ of an I-O table is a different object, and Exercise~25.3 asks how well the proxy tracks it.)
+
+For a set $S$ of $c$'s products, the \textbf{conductance} of the cut $(S, S^c)$ is $\Phi_c(S) = \phi_c(S, S^c) / \min\bigl(\mathrm{vol}(S), \mathrm{vol}(S^c)\bigr)$, where $\phi_c(S,S^c)$ is the total proximity across the cut and $\mathrm{vol}(S) = \sum_{p \in S}(\phi_c\ones)_p$.
+
+\begin{proposition}[Removing a Bridge Bounds $\Gamma$]\label{ch25:prop:bridge_bound}
+Under the proxy assumption, for every cut $(S, S^c)$ of $c$'s products,
 \begin{equation}\label{ch25:eq:truncation_bound}
-\Gamma(W^P_c) \leq f(\tau_c), \quad f'(\tau) < 0.
+\Gamma(W_c) \;\le\; 1 - \lambda_2(W_c) \;\le\; 2\,\Phi_c(S).
 \end{equation}
-Countries with high truncation (missing the dense subgraph) have low spectral gap. The dense subgraph is the structural bridge that connects multiple production blocks: its linkages reach upstream (raw materials, intermediates), downstream (final goods, services), and laterally (across technology clusters). Without it, the domestic $W^P$ is block-diagonal: the blocks exist (agriculture, services, mining) but are not connected.
-\end{theorem}
-
+Hence if $c$ lacks a set $\mathcal{B}$ of products that \emph{bridges} two clusters $S$ and $S^c$ --- so that, without $\mathcal{B}$, the direct proximity across the cut is small --- then $c$'s integration is at most twice that small conductance, however large the conductance of the same cut would be with $\mathcal{B}$ present.
+\end{proposition}
 \begin{proof}[Proof sketch]
-The dense subgraph $\mathcal{D}$ has high average proximity to all other products (by construction: it is the densest cluster, and its products connect to many other clusters). In $W^P$, these high proximities translate into strong cross-block edges. Removing $\mathcal{D}$ eliminates the cross-block edges, making $W^P$ more block-diagonal, which increases $|\lambda_2|$ and decreases $\Gamma$.
-
-Formally: let $W^P = W^P_{\mathcal{D}} + W^P_{\setminus\mathcal{D}}$, where $W^P_{\mathcal{D}}$ contains all edges involving at least one product in $\mathcal{D}$. When $\mathcal{D}$ is removed ($\tau_c = 1$), $W^P$ loses $W^P_{\mathcal{D}}$, which contains the majority of cross-block edges (because $\mathcal{D}$ is the hub). By the eigenvalue interlacing theorem, removing high-weight edges cannot increase $\Gamma$.
+The first inequality holds because $|\lambda_2| \ge \lambda_2$. The second is the easy half of Cheeger's inequality for reversible chains (Lawler and Sokal, 1988; Sinclair and Jerrum, 1989): insert the test function $f = \ones_S/\mathrm{vol}(S) - \ones_{S^c}/\mathrm{vol}(S^c)$, which is orthogonal to the stationary distribution, into the variational characterization $1 - \lambda_2 = \min_f \mathcal{E}(f,f)/\Var(f)$, and bound the ratio by $2\Phi_c(S)$.
 \end{proof}
 
-\begin{example}[The Missing Core: Bolivia vs.\ South Korea]\label{ch25:ex:missing}
+\begin{remark}[A dense module is not a bridge]\label{ch25:rem:module}
+The proposition is about bridges, not about dense sets. In \texttt{code/ch25.py}, two ten- and thirteen-product examples have a dense core $\mathcal{D}$ of four products:
+\begin{itemize}
+\item \emph{Bridge}: the core connects three periphery clusters. $\Gamma = 0.548$ with $\mathcal{D}$, $0.009$ without it; without $\mathcal{D}$ the block cut has conductance 0.006, so \eqref{ch25:eq:truncation_bound} gives $\Gamma \le 0.012$.
+\item \emph{Module}: the core is dense (density ratio 3.65) but weakly tied to a well-mixed periphery. $\Gamma = 0.218$ with $\mathcal{D}$, $0.800$ without it: removing the dense set \emph{raises} integration, because the module itself was the bottleneck.
+\end{itemize}
+The densest-subgraph algorithm finds $\mathcal{D}$ in both cases; it cannot tell them apart. The old ``truncation theorem'' (removing $\mathcal{D}$ cannot raise $\Gamma$, by interlacing) is false: interlacing applies to principal submatrices of symmetric matrices, not to renormalized row-stochastic ones.
+\end{remark}
+
+\begin{conjecture}[Truncation Lowers Integration]\label{ch25:thm:truncation}
+In the observed product space the capital-goods core is a bridge set: without it, the clusters that make up a commodity exporter's production (mining, agriculture, services) are connected only through low-conductance cuts. If so, by Proposition~\ref{ch25:prop:bridge_bound}, domestic integration is bounded above by a decreasing function of the truncation index,
+\[
+\Gamma(W_c) \le f(\tau_c), \qquad f'(\tau) < 0.
+\]
+This is testable (Exercise~25.3): measure the participation of $\mathcal{D}$'s products across clusters (betweenness, or the Guimer\`{a}--Amaral participation coefficient), compute the conductance of the commodity clusters with and without $\mathcal{D}$, and regress $\Gamma_c$ on $\tau_c$.
+\end{conjecture}
+
+\begin{example}[The Missing Core: Bolivia vs.\ South Korea \illustrative]\label{ch25:ex:missing}
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
@@ -84,7 +111,7 @@ GDP per capita (PPP, 2019) & \$8,800 & \$44,000 \\
 \end{tabular}
 \end{center}
 
-Bolivia has 2 products in the dense subgraph (tin processing, some basic chemicals). South Korea has 82. The gap is not gradual --- it is the difference between having the structural core and not having it. Bolivia's domestic $W^P$ is three disconnected blocks (gas/mining, urban services, rural agriculture) because the capital goods sector that would connect them does not exist.
+Bolivia has 2 products in the dense subgraph (tin processing, some basic chemicals). South Korea has 82. The gap is not gradual --- it is the difference between having the structural core and not having it. Bolivia's domestic $W^P$ is three weakly connected blocks (gas/mining, urban services, rural agriculture) --- weakly, not fully, disconnected, since a disconnected $W^P$ would have $\Gamma = 0$ --- and, on Conjecture~\ref{ch25:thm:truncation}, the capital goods sector that would connect them does not exist.
 \end{example}
 
 \begin{vizpanel}{The product space: Bolivia vs.\ South Korea}
@@ -140,7 +167,7 @@ Bolivia has 2 products in the dense subgraph (tin processing, some basic chemica
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Bolivia (left): the periphery is lit (commodities), but the dense core (dashed red box) is dark. This is the ``truncated'' product space --- the missing subgraph. South Korea (right): the core is the brightest region, with moderate brightness extending outward. This is the ``complete'' product space. The difference in $\Gamma$: 0.13 vs.\ 0.45.
+\small Bolivia (left): the periphery is lit (commodities), but the dense core (dashed red box) is dark. This is the ``truncated'' product space --- the missing subgraph. South Korea (right): the core is the brightest region, with moderate brightness extending outward. This is the ``complete'' product space. The panels are schematic (shading marks product presence, not matrix entries); the illustrative difference in $\Gamma$ is 0.13 vs.\ 0.45.
 \end{vizpanel}
 
 
@@ -149,7 +176,7 @@ Bolivia has 2 products in the dense subgraph (tin processing, some basic chemica
 \label{ch25:sec:why}
 %% =====================================================================
 
-\begin{proposition}[The Dense Subgraph as Structural Bridge]\label{ch25:prop:bridge}
+\begin{remark}[The Capital Goods Sector as Structural Bridge]\label{ch25:prop:bridge}
 The capital goods sector serves three structural functions that no other sector performs:
 \begin{enumerate}
 \item \textbf{Backward linkages to all sectors}: Capital goods require inputs from metals, chemicals, plastics, electronics, and precision engineering. The sector's demand creates edges to upstream blocks that would otherwise be disconnected.
@@ -159,25 +186,34 @@ The capital goods sector serves three structural functions that no other sector 
 \item \textbf{Knowledge spillovers}: The capital goods sector is where process innovation occurs --- improvements in how things are made, not just what is made. These spillovers propagate through $W^I$ (engineers and technicians who move between sectors carry knowledge) and through $W^P$ (better machines improve productivity in the sectors that use them).
 \end{enumerate}
 
-In graph-theoretic terms: the capital goods sector has the highest \textbf{betweenness centrality} in the product space. It sits on the shortest paths between the most pairs of products. Remove it, and the product space fragments into disconnected clusters.
-\end{proposition}
+In graph-theoretic terms, functions 1--2 are a claim that the capital goods sector has high \textbf{betweenness centrality} (it sits on the shortest paths between many pairs of products) and a high participation coefficient (its links are spread across clusters). If so, removing it fragments the product space into weakly connected clusters, and Proposition~\ref{ch25:prop:bridge_bound} applies. These are empirical claims about $\phi$, distinct from the density of $\mathcal{D}$ (Remark~\ref{ch25:rem:module}), and they are what Conjecture~\ref{ch25:thm:truncation} needs.
+\end{remark}
 
-\begin{theorem}[The Truncation Penalty]\label{ch25:thm:penalty}
-The welfare loss from truncation $\tau_c$ is:
+How large is the cost of truncation? An earlier draft measured it as a welfare loss proportional to $(1-\Gamma)/\Gamma$. That rested on a claimed bound of $\Var(\boldsymbol{\pi})$ by $\Gamma$, which is false: the distributional loss is $(\kappa N/2)\Phi^2\Var(\boldsymbol{\pi})$ and is unrelated to $\Gamma$ (Proposition~\ref{ch06:prop:gap-power-independent}). What $(1-\Gamma)/\Gamma$ does measure is \emph{integration}: $1/\Gamma$ is the relaxation time of $W$ (the number of periods over which a shock's footprint decays by a factor $e$, to first order), so $(1-\Gamma)/\Gamma = 1/\Gamma - 1$ is the \emph{excess relaxation time} over a fully integrated network.
+
+\begin{example}[The Truncation Penalty in Relaxation Time \illustrative]\label{ch25:thm:penalty}
+Define the truncation penalty as the part of the excess relaxation time removed by acquiring $\mathcal{D}$:
 \begin{equation}\label{ch25:eq:penalty}
-L_{\text{truncation}} = L(\Gamma(\tau_c)) - L(\Gamma(\tau_c = 0)) = \frac{\kappa\Phi^2}{2}\left[\frac{1-\Gamma(\tau_c)}{\Gamma(\tau_c)} - \frac{1-\Gamma(0)}{\Gamma(0)}\right] \cdot N.
+P_{\text{trunc}} = \frac{1-\Gamma(\tau_c)}{\Gamma(\tau_c)} - \frac{1-\Gamma(0)}{\Gamma(0)}.
 \end{equation}
-
-For Bolivia ($\tau = 0.98$, $\Gamma = 0.13$) compared with the counterfactual of having the full dense subgraph ($\Gamma \approx 0.35$):
+For Bolivia ($\tau = 0.98$, $\Gamma = 0.13$) against a counterfactual with the full dense subgraph ($\Gamma(0) \approx 0.35$):
 \begin{equation}
-L_{\text{truncation}} \propto \frac{0.87}{0.13} - \frac{0.65}{0.35} = 6.69 - 1.86 = 4.83.
+P_{\text{trunc}} = \frac{0.87}{0.13} - \frac{0.65}{0.35} = 6.69 - 1.86 = 4.83,
 \end{equation}
-
-The truncation penalty is approximately $4.83/6.69 = 72\%$ of Bolivia's total structural welfare loss. Three-quarters of Bolivia's structural problem is the missing dense subgraph.
-\end{theorem}
+which is $4.83/6.69 = 72\%$ of Bolivia's excess relaxation time. The share is driven by the assumed counterfactual $\Gamma(0)$, which nobody observes (\texttt{code/ch25.py}):
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+$\Gamma(0)$ & 0.25 & 0.30 & 0.35 & 0.45 & 0.52 \\
+Share of excess relaxation time & 55\% & 65\% & 72\% & 82\% & 86\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+Korea ($\tau = 0.18$) has $\Gamma = 0.45$ and Germany (Chapter~17) $0.52$, so the plausible range is wide: truncation accounts for somewhere between about half and nine-tenths of Bolivia's integration deficit, if Conjecture~\ref{ch25:thm:truncation} holds.
+\end{example}
 
 \begin{keyinsight}
-The missing capital goods sector is not one gap among many. It is THE structural gap. Its absence explains:
+If Conjecture~\ref{ch25:thm:truncation} holds, the missing capital goods sector is not one gap among many but the central one. Its absence would explain:
 \begin{enumerate}
 \item Why $\Gamma$ is low (the sector that bridges blocks is missing).
 \item Why $\sigma_B$ is high (without the bridge, the blocks are independent, and between-block inequality dominates).
@@ -186,7 +222,7 @@ The missing capital goods sector is not one gap among many. It is THE structural
 \item Why the product space offers few diversification paths (the dense core, which is the hub of the product space, is missing --- relatedness density to core products is near zero).
 \end{enumerate}
 
-Fajnzylber saw this in 1983. The product space literature rediscovered it in 2007. This chapter proves it as a theorem: the truncation penalty accounts for the majority of the structural welfare loss.
+Fajnzylber saw this in 1983. The product space literature rediscovered it in 2007. This chapter proves the part that is mathematics (removing a bridge bounds $\Gamma$ by twice the remaining conductance), states the part that is empirical as a conjecture, and estimates that truncation accounts for roughly 55--86\% of Bolivia's integration deficit, depending on the counterfactual.
 \end{keyinsight}
 
 
@@ -195,24 +231,26 @@ Fajnzylber saw this in 1983. The product space literature rediscovered it in 200
 \label{ch25:sec:why_truncated}
 %% =====================================================================
 
-\begin{proposition}[Three Reasons for Truncation]\label{ch25:prop:three_reasons}
+\begin{remark}[Reasons for Truncation]\label{ch25:prop:three_reasons}
 \begin{enumerate}
-\item \textbf{ISI targeted the wrong block} (Chapter~15, Tavares). Import substitution replaced consumer-goods imports with domestic production but did not substitute capital-goods imports. The ISI operator $\mathcal{L}_{\text{ISI}}$ was applied to within-block entries (consumer goods $\to$ consumer goods) rather than cross-block entries (intermediates $\to$ capital goods). The consumer block densified internally; the capital-goods block was never created.
+\item \textbf{ISI stalled before the capital-goods core} (Chapter~15, Tavares). Import substitution began with consumer goods and moved toward intermediates and capital goods, but in most countries it stalled before a domestic capital-goods sector with its own technological capacity emerged. Tavares's (1964) analysis of Brazil attributed the stalling to the external constraint and to a market narrowed by income concentration. In operator terms, $\mathcal{L}_{\text{ISI}}$ densified the consumer block internally more than it created cross-block entries (intermediates $\to$ capital goods).
 
 \item \textbf{The coalition blocked it} (Chapter~14). Capital-goods production requires massive investment, long time horizons, and state support for infant industries. The industrial bourgeoisie ($B$) preferred to import capital goods (cheaper in the short run) than to invest in producing them domestically. The coalition $\{B, M, W\}$ chose consumer ISI because it generated immediate consumer-goods availability (politically popular) rather than capital-goods production (politically costly, economically transformative).
 
 \item \textbf{The formation channel maintained the status quo} (Chapter~10). Without a domestic capital-goods sector, the information signals in $W^I$ did not include ``returns to precision engineering'' or ``opportunities in advanced manufacturing.'' Aspirations and educational investments were calibrated to the existing product space: commodities, basic manufactures, services. The formation channel produced preferences consistent with the truncated structure, preventing the demand for capital-goods capabilities from emerging endogenously.
+
+\item \textbf{Fajnzylber's own mechanisms.} Fajnzylber (1983) emphasized two further causes: an \emph{imitative consumption pattern}, in which high-income groups copied the durable-goods consumption of the United States, steering industry toward assembling those goods rather than toward the machines that make them; and the \emph{leadership of transnational corporations} in the dynamic industries, which imported their technology from headquarters and had little reason to build a local capital-goods and engineering base, while national industrial leadership remained weak.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
-\begin{example}[The Divergence: Latin America vs.\ East Asia]\label{ch25:ex:divergence}
-In 1960, Latin America (Brazil, Mexico, Argentina) and East Asia (South Korea, Taiwan) had similar structures: semi-industrialized, commodity-dependent, moderate ECI. Both pursued ISI. The divergence:
+\begin{example}[The Divergence: Latin America vs.\ East Asia \illustrative]\label{ch25:ex:divergence}
+In 1960 the large Latin American economies (Brazil, Mexico, Argentina) were richer and more industrialized than South Korea and Taiwan. Both regions pursued ISI. The divergence:
 
-\textbf{East Asia}: Targeted the dense subgraph deliberately. South Korea's Heavy and Chemical Industrialization (HCI) drive (1973--1979) created steel, shipbuilding, petrochemicals, machinery, and electronics from scratch. Taiwan's industrial parks (Hsinchu Science Park, 1980) attracted semiconductor and electronics firms. The strategy was politically costly (the Korean government bet the economy on heavy industry, with enormous fiscal risk) but structurally transformative: $\tau$ fell from $\approx 0.70$ to $\approx 0.20$ in 20 years. $\Gamma$ rose from $\approx 0.15$ to $\approx 0.40$.
+\textbf{East Asia}: Targeted the dense subgraph deliberately. South Korea's Heavy and Chemical Industrialization (HCI) drive (1973--1979) created steel, shipbuilding, petrochemicals, machinery, and electronics from scratch. Taiwan's state research institute ITRI spun off UMC (1980) and TSMC (1987), anchored in the Hsinchu Science Park (1980). The strategy was politically costly (the Korean government bet the economy on heavy industry, with enormous fiscal risk) but structurally transformative: $\tau$ fell from $\approx 0.70$ to $\approx 0.20$ in 20 years. $\Gamma$ rose from $\approx 0.25$ to $\approx 0.40$ (1973--1993, on the Korean path of Chapter~23).
 
-\textbf{Latin America}: Stopped at consumer ISI. Brazil came closest to the dense subgraph (Embraer, Petrobras's engineering capacity) but never achieved the critical mass. Mexico built maquiladoras (assembly of imported components) --- a within-block operator that imported the dense subgraph as a service rather than building it domestically. Argentina deindustrialized from the 1970s onward. Bolivia never even attempted it.
+\textbf{Latin America}: Mostly stalled at consumer and intermediate ISI. Brazil came closest: its Second National Development Plan (II PND, 1974--1979) was an explicit push into capital goods and basic inputs, and it built Embraer and Petrobras's engineering capacity. But the push was debt-financed and was cut short by the debt crisis of the 1980s before the core reached critical mass. Mexico built maquiladoras (assembly of imported components) --- a within-block operator that imported the dense subgraph as a service rather than building it domestically. Argentina deindustrialized from the 1970s onward. Bolivia never even attempted it.
 
-The result: East Asia entered the dense subgraph and achieved ``genuine competitiveness'' (Fajnzylber's term). Latin America remained truncated, with consumer manufacturing but no capital-goods core. The casillero vac\'{i}o (Chapter~16) is the consequence: without the dense subgraph, you cannot have high ECI, which means you cannot have low $\Gamma$, which means you cannot have low inequality.
+The result: East Asia entered the dense subgraph and achieved ``genuine competitiveness'' (Fajnzylber's term). Latin America remained truncated, with consumer manufacturing but no capital-goods core. The casillero vac\'{i}o (Chapter~16) --- the empty cell of growth \emph{and} equity --- is, on this chapter's conjecture and the conjecture of Chapter~26, the consequence: without the dense subgraph, ECI stays low and, if the core is a bridge, $\Gamma$ stays low, making sustained growth with equity hard to reach.
 \end{example}
 
 
@@ -221,20 +259,20 @@ The result: East Asia entered the dense subgraph and achieved ``genuine competit
 \label{ch25:sec:path}
 %% =====================================================================
 
-\begin{proposition}[Three Strategies for Building $\mathcal{D}$]\label{ch25:prop:strategies}
+\begin{remark}[Three Strategies for Building $\mathcal{D}$]\label{ch25:prop:strategies}
 \begin{enumerate}
 \item \textbf{The Korean strategy: brute-force creation.} The state invests directly in capital-goods production (steel mills, semiconductor fabs, machinery plants). High cost, high risk, high reward. Requires: a strong developmental state, fiscal capacity ($\pi_{\text{government}} > 0.2$), political insulation from short-run pressures (authoritarian or consensus-based governance). Applicable to: large economies with pre-existing manufacturing bases (Brazil, Mexico, Indonesia --- not Bolivia).
 
 \item \textbf{The Singapore strategy: attract the subgraph.} Foreign direct investment brings the dense subgraph to the country. Multinational corporations build plants that produce capital goods using domestic labor. Over time, capabilities transfer to domestic firms. Requires: human capital (educated workforce), institutional quality (property rights, contract enforcement), geographic advantage (proximity to markets). Applicable to: small open economies with high human capital (Costa Rica, Uruguay --- possibly Bolivia for specific niches).
 
-\item \textbf{The incremental strategy: grow toward $\mathcal{D}$ through the product space.} Start from current exports and diversify step by step through products with high relatedness density to the dense subgraph. Each step creates new capabilities that make the next step feasible. Requires: patience (decades), sequenced operators (Chapter~15), and political sustainability across electoral cycles. Applicable to: all countries, but slow for those far from $\mathcal{D}$ (Bolivia's average relatedness to $\mathcal{D}$ is 0.06 --- the incremental path would take 4--6 product-space steps, roughly 30--50 years per step at current velocity).
+\item \textbf{The incremental strategy: grow toward $\mathcal{D}$ through the product space.} Start from current exports and diversify step by step through products with high relatedness density to the dense subgraph. Each step creates new capabilities that make the next step feasible. Requires: patience (decades), sequenced operators (Chapter~15), and political sustainability across electoral cycles. Applicable to: all countries, but slow for those far from $\mathcal{D}$ (Bolivia's illustrative average relatedness to $\mathcal{D}$ is 0.06 --- the incremental path would take about 4 product-space steps (Example~\ref{ch25:ex:bolivia_path}), roughly 20--30 years per step at current velocity).
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
-\begin{example}[Bolivia's Incremental Path]\label{ch25:ex:bolivia_path}
+\begin{example}[Bolivia's Incremental Path \illustrative]\label{ch25:ex:bolivia_path}
 Starting from Bolivia's current exports (gas, zinc, gold, soy, quinoa):
 
-\textbf{Step 1} (adjacent, $\omega \approx 0.15$): Gas processing, zinc smelting, lithium extraction (given Bolivia's lithium reserves in the Salar de Uyuni). These add within-periphery value but begin to create basic chemical/metallurgical capabilities.
+\textbf{Step 1} (adjacent, $\omega \approx 0.15$): Gas processing, zinc smelting, lithium extraction (given Bolivia's lithium resources in the Salar de Uyuni, the largest identified resources in the world, though not the largest economically proven reserves). These add within-periphery value but begin to create basic chemical/metallurgical capabilities.
 
 \textbf{Step 2} (moderate distance, $\omega \approx 0.10$): Basic chemicals, fertilizers, processed metals. These products require capabilities developed in Step 1 and connect to agriculture (fertilizers) and construction (metals).
 
@@ -242,17 +280,17 @@ Starting from Bolivia's current exports (gas, zinc, gold, soy, quinoa):
 
 \textbf{Step 4} (entering $\mathcal{D}$, $\omega \approx 0.04$): Precision instruments, advanced chemicals, electronic components. This IS the dense subgraph. Reaching it from Bolivia's current position requires the full multi-scale structural plan from Exercise~19.7.
 
-At Bolivia's current structural velocity ($v_\Gamma = +0.01$/decade), the path to Step 4 takes approximately 80--120 years. With Korean-style acceleration ($v_\Gamma = +0.075$/decade): approximately 15--20 years. The gap between 120 years and 20 years is the gap between passive diversification and active operator design.
+At Bolivia's current structural velocity ($v_\Gamma = +0.01$/decade), the path to Step 4 takes approximately 80--120 years (4 steps of 20--30 years). If step time scales inversely with velocity (an assumption), Korean-style acceleration ($v_\Gamma = +0.075$/decade, 7.5 times faster) cuts this to approximately 11--16 years. The gap between 120 years and 20 years is the gap between passive diversification and active operator design.
 \end{example}
 
 \begin{prebisch}[From truncated to genuine competitiveness]
-Fajnzylber distinguished between ``spurious competitiveness'' (based on low wages, resource extraction, currency depreciation) and ``genuine competitiveness'' (based on knowledge, technology, and institutional quality). In this chapter's notation:
+In later work (Fajnzylber, 1988), Fajnzylber distinguished between ``spurious competitiveness'' (based on low wages, resource extraction, currency depreciation) and ``genuine competitiveness'' (based on knowledge, technology, and institutional quality). In this chapter's notation:
 
 \textbf{Spurious competitiveness}: high $\pi_c$ in $W^P_{\text{global}}$ through commodity exports. High income during booms ($\Delta\omega$), but no structural change ($\Delta\Gamma = 0$). Bolivia's gas revenue era: GDP grew 4.9\%/year; $\Gamma$ was flat.
 
 \textbf{Genuine competitiveness}: high $\pi_c$ through capital-goods and high-tech exports. The dense subgraph IS the source of genuine competitiveness: it generates learning, spillovers, and diversification opportunities that sustain growth without commodity dependence.
 
-The transition from spurious to genuine is the transition from the periphery of the product space to the dense core. It IS the increase in $\Gamma$ that Chapters~15--17 prescribe. And it requires building the missing subgraph --- the capital goods sector that Fajnzylber identified 40 years ago as the key to Latin American development.
+The transition from spurious to genuine is the transition from the periphery of the product space to the dense core. On Conjecture~\ref{ch25:thm:truncation}, it also raises $\Gamma$, as Chapters~15--17 prescribe. And it requires building the missing subgraph --- the capital goods sector that Fajnzylber identified 40 years ago as the key to Latin American development.
 \end{prebisch}
 
 
@@ -262,17 +300,15 @@ The transition from spurious to genuine is the transition from the periphery of 
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{dense subgraph} of the product space is the capital goods cluster: machinery, electronics, precision instruments, advanced chemicals. It is 4.4 times denser than the product space average and contains the highest-PCI products.
+\item The \textbf{dense subgraph} is the maximizer of internal proximity per product, $e(S)/|S|$ (Goldberg; Charikar's peeling approximates it). In the product space it is the core of machinery, metal products and chemicals (Hidalgo et al., 2007), which holds the highest-PCI products.
 
-\item \textbf{Truncated industrialization}: Latin America lacks the dense subgraph. Bolivia's truncation index: 0.98 (has 2 of $\approx$100 products in $\mathcal{D}$). Korea's: 0.18.
+\item \textbf{Truncated industrialization}: Latin America lacks the dense subgraph. Bolivia's truncation index: 0.98 (2 of $\approx$100 products in $\mathcal{D}$); Korea's: 0.18 (illustrative).
 
-\item The \textbf{Truncation-$\Gamma$ Theorem}: the spectral gap is bounded by a decreasing function of truncation. Missing the dense subgraph guarantees low $\Gamma$.
+\item \textbf{Bridges, not density, drive integration.} Removing a bridge set bounds $\Gamma$ by twice the conductance that remains (Proposition~\ref{ch25:prop:bridge_bound}); removing a dense module can \emph{raise} $\Gamma$. That the capital-goods core is a bridge, so that truncation lowers $\Gamma$, is a testable conjecture.
 
-\item The \textbf{truncation penalty} accounts for $\approx 72\%$ of Bolivia's structural welfare loss. The missing subgraph is THE structural gap.
+\item The \textbf{truncation penalty}, measured in excess relaxation time $1/\Gamma - 1$ (not in welfare), is 72\% of Bolivia's integration deficit for a counterfactual $\Gamma = 0.35$, and 55--86\% across plausible counterfactuals.
 
-\item \textbf{Three reasons}: ISI targeted the wrong block (Tavares), the coalition blocked capital-goods investment (Chapter~14), and the formation channel maintained preferences calibrated to the truncated structure.
-
-\item \textbf{Three strategies}: brute-force creation (Korea), attract FDI (Singapore), incremental product-space traversal (slow). Bolivia's incremental path: 4 steps, 80--120 years passively, 15--20 years with active operator design.
+\item \textbf{Causes and strategies.} ISI stalled before the capital-goods core (Tavares), coalitions and the formation channel kept it there, and Fajnzylber added imitative consumption and transnational leadership. Strategies: build (Korea), attract (Singapore), or grow toward $\mathcal{D}$ (Bolivia: 80--120 years passively, 11--16 with Korean-style acceleration).
 \end{enumerate}
 
 
@@ -283,11 +319,11 @@ The transition from spurious to genuine is the transition from the periphery of 
 
 \begin{enumerate}[label=\textbf{25.\arabic*}, leftmargin=3em]
 
-\item \textbf{Identify the dense subgraph.} Using OEC product-space data: compute the average proximity $\bar{\phi}$ for each HS 2-digit chapter. Which chapters have the highest internal density? Do they match the capital goods cluster?
+\item \textbf{Identify the dense subgraph.} Using the Atlas of Economic Complexity product-space data (SITC rev.~2, 4-digit): compute the average internal proximity $\bar{\phi}$ for each SITC 2-digit group, then run Charikar's peeling algorithm (Appendix~\ref{ch25:app:dense}) on the whole space. Which products form $\mathcal{D}$? Do they match the capital goods cluster? How large is the density ratio $\bar{\phi}_{\mathcal{D}}/\bar{\phi}_{\text{all}}$?
 
 \item \textbf{Truncation index.} Compute $\tau_c$ for Bolivia, Brazil, Chile, South Korea, and Germany. Rank them. Plot $\tau_c$ vs.\ ECI. Is the correlation strong?
 
-\item \textbf{The truncation-$\Gamma$ relationship.} For 30 countries: estimate $\tau_c$ (from product-space data) and $\Gamma_c$ (from I-O tables or ECI as proxy). Plot $\Gamma_c$ vs.\ $\tau_c$. Estimate $f(\tau)$ by regression. Is $f'(\tau) < 0$ as predicted?
+\item \textbf{The truncation-$\Gamma$ relationship.} For 30 countries: estimate $\tau_c$ (from product-space data) and $\Gamma_c$, both from the product-space proxy $W_c = D_c^{-1}\phi_c$ and from OECD ICIO input shares. Is $\mathcal{D}$ a bridge (compute its betweenness and the conductance of the commodity clusters with and without it)? Plot $\Gamma_c$ vs.\ $\tau_c$. Estimate $f(\tau)$ by regression. Is $f'(\tau) < 0$ as predicted?
 
 \item \textbf{Counterfactual: Bolivia with the dense subgraph.} Suppose Bolivia magically acquired RCA in the 20 highest-PCI products in $\mathcal{D}$. Recompute $\tau$, ECI, and (approximately) $\Gamma$. How much would $\Gamma$ increase? How much would $\sigma_B$ decrease?
 
@@ -300,7 +336,7 @@ The transition from spurious to genuine is the transition from the periphery of 
 \item Estimate the time required at Bolivia's current structural velocity vs.\ Korean-style velocity.
 \end{enumerate}
 
-\item \textbf{The lithium question.} Bolivia has the world's largest lithium reserves. Lithium batteries are in the dense subgraph ($\text{PCI} \approx 1.5$).
+\item \textbf{The lithium question.} Bolivia has the world's largest identified lithium resources (though not the largest proven reserves). Suppose lithium batteries are in the dense subgraph (illustrative $\text{PCI} \approx 1.5$; check the value in the Atlas).
 \begin{enumerate}
 \item Compute Bolivia's relatedness density to lithium batteries ($\omega_{c,\text{LiB}}$).
 \item What intermediate products connect Bolivia's current exports to lithium batteries?
@@ -321,22 +357,22 @@ The transition from spurious to genuine is the transition from the periphery of 
 \addcontentsline{toc}{subsection}{Appendix 25A: Dense Subgraphs}
 \label{ch25:app:dense}
 
-\paragraph{Community detection.} The dense subgraph $\mathcal{D}$ can be identified using community detection algorithms on the product space. The modularity maximization approach partitions the product space into clusters that maximize $Q = \frac{1}{2m}\sum_{pp'}[\phi_{pp'} - \gamma k_p k_{p'}/(2m)]\delta(c_p, c_{p'})$, where $m$ is the total edge weight, $k_p$ is the weighted degree of product $p$, $c_p$ is the cluster assignment, and $\gamma$ is the resolution parameter. The cluster with the highest internal density is $\mathcal{D}$.
+\paragraph{Computing $\mathcal{D}$.} Goldberg's problem $\max_S e(S)/|S|$ is solvable exactly in polynomial time by a sequence of minimum-cut computations. For large product spaces, Charikar's (2000) greedy peeling is simpler and guarantees at least half the optimal value: repeatedly delete the product with the smallest remaining weighted degree, and keep the intermediate set with the highest $e(S)/|S|$. On the ten-product example of \texttt{code/ch25.py}, peeling returns the four-product core, which coincides with the brute-force optimum ($e/|S| = 1.35$). A lower size bound $|S| \ge k$ makes the problem NP-hard; if one is needed, report peeling with the bound and state that it is a heuristic. Modularity-based community detection is an alternative, but it partitions the whole space into communities and needs a resolution parameter $\gamma$ and a density threshold to single out $\mathcal{D}$; whichever method is used, state the parameters.
 
-\paragraph{Spectral effect of subgraph removal.} If $W^P$ is partitioned into the subgraph $\mathcal{D}$ and the rest $\bar{\mathcal{D}}$, then the eigenvalue interlacing theorem (Haemers, 1995) gives:
-\begin{equation}
-\lambda_2(W^P) \leq \lambda_1(W^P_{\bar{\mathcal{D}}\bar{\mathcal{D}}}) + \|W^P_{\mathcal{D}\bar{\mathcal{D}}}\|,
-\end{equation}
-where $W^P_{\bar{\mathcal{D}}\bar{\mathcal{D}}}$ is the submatrix for the non-core products and $W^P_{\mathcal{D}\bar{\mathcal{D}}}$ captures cross-edges. When $\mathcal{D}$ is removed: $\|W^P_{\mathcal{D}\bar{\mathcal{D}}}\| = 0$ and $\lambda_2 \leq \lambda_1(W^P_{\bar{\mathcal{D}}\bar{\mathcal{D}}})$, which is close to 1 (the residual product space is nearly disconnected). Hence $\Gamma \leq 1 - \lambda_1(W^P_{\bar{\mathcal{D}}\bar{\mathcal{D}}})$, which is small.
+\paragraph{Integration after removing a set.} For a symmetric $\phi$ and $W = D^{-1}\phi$ (reversible), the eigenvalues are real and Cheeger's inequality holds:
+\[
+\frac{\Phi(W)^2}{2} \;\le\; 1 - \lambda_2(W) \;\le\; 2\,\Phi(W), \qquad \Phi(W) = \min_{S:\ \mathrm{vol}(S) \le \mathrm{vol}/2}\ \frac{\phi(S, S^c)}{\mathrm{vol}(S)}.
+\]
+Removing a set of products and renormalizing changes every row that touched it, so neither eigenvalue interlacing (which needs principal submatrices of a symmetric matrix) nor any monotonicity argument applies. What does apply is the upper bound: after removal, $\Gamma \le 2\Phi$ for every cut of the remaining products (Proposition~\ref{ch25:prop:bridge_bound}). If the removed set was the only strong connection between two clusters, the remaining conductance of that cut is small and so is $\Gamma$. If it was a dense module with few outside connections, its removal can raise $\Gamma$ (Remark~\ref{ch25:rem:module}).
 
 
 \subsection*{Appendix 25B: The Product Complexity Index and the Dense Subgraph}
 \addcontentsline{toc}{subsection}{Appendix 25B: PCI and $\mathcal{D}$}
 \label{ch25:app:PCI}
 
-\paragraph{PCI and density.} The PCI is the product-level counterpart of the ECI: the second eigenvector of the product-product similarity matrix $\tilde{M}_{pp'}$ (Chapter~16, Definition~16.2). Products with high PCI are those that are produced mainly by complex (high-ECI) countries. High-PCI products tend to cluster in the dense subgraph because: (i) they require diverse capabilities (which means they co-occur with many other complex products), and (ii) they are produced only by diversified countries (which means their presence is correlated with the presence of many other products).
+\paragraph{PCI and density.} The PCI is the product-level counterpart of the ECI: the second eigenvector of the product-product similarity matrix $\tilde{M}_{pp'}$ (Chapter~16). Products with high PCI are those that are produced mainly by complex (high-ECI) countries. High-PCI products tend to cluster in the dense subgraph because: (i) they require diverse capabilities (which means they co-occur with many other complex products), and (ii) they are produced only by diversified countries (which means their presence is correlated with the presence of many other products).
 
-\paragraph{The core-periphery structure of PCI.} Plotting PCI against product density (number of neighbors in the product space) reveals a strong positive correlation: the densest products are the most complex. The dense subgraph IS the set of high-PCI products. The periphery (low density) corresponds to low-PCI products (commodities). The truncation index $\tau_c$ therefore correlates strongly with ECI: $\text{ECI}_c \approx -a\tau_c + b$ for positive constants $a, b$.
+\paragraph{The core-periphery structure of PCI.} Plotting PCI against product density (number of neighbors in the product space) reveals a strong positive correlation: the densest products are the most complex. The dense subgraph therefore contains many of the high-PCI products, and the periphery (low density) corresponds to low-PCI products (commodities). The truncation index $\tau_c$ should then correlate negatively with ECI, roughly $\text{ECI}_c \approx -a\tau_c + b$ with $a > 0$; Exercise~25.2 tests this.
 
 
 %% =====================================================================
@@ -344,32 +380,33 @@ where $W^P_{\bar{\mathcal{D}}\bar{\mathcal{D}}}$ is the submatrix for the non-co
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Fajnzylber (1983)}
 %% =====================================================================
 
-Fernando Fajnzylber (1940--1991) was a Chilean-Mexican economist who served as director of CEPAL's Industrial Development Division. His 1983 book \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina} diagnosed the region's structural failure with a precision that anticipated the product space literature by 25 years.
+Fernando Fajnzylber (1940--1991) was a Chilean economist who worked for many years in Mexico and directed the joint CEPAL/UNIDO Industrial Development Division. His 1983 book \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina} diagnosed the region's structural failure with a precision that anticipated the product space literature by a quarter of a century.
 
-Fajnzylber's argument has three parts that map exactly onto this chapter.
+Fajnzylber's argument has three parts. The mapping below is our formal reinterpretation; where he would disagree, we say so.
 
-\textbf{Part 1: The missing ``endogenous nucleus of technical dynamism.''} Fajnzylber identified the capital goods sector as the missing piece. He showed that in every successful industrialization --- Britain, Germany, the United States, Japan --- the capital goods sector was the engine of technical progress. It was the sector where learning-by-doing was fastest, where scale economies were largest, and where spillovers to other sectors were strongest. Latin America had built consumer-goods industries (textiles, food processing, household appliances) but had never built the machines that make those goods. The ``nucleus'' was imported. In this chapter's notation: the dense subgraph $\mathcal{D}$ was missing; $\tau \approx 0.80$.
+\textbf{Part 1: The missing ``endogenous nucleus of technical dynamism.''} Fajnzylber identified the capital goods sector, together with the engineering and innovation capacity around it, as the missing piece. Comparing Latin America with the advanced economies, and above all with Japan and the East Asian newly industrializing countries, he argued that the capital goods sector was the engine of technical progress. It was the sector where learning-by-doing was fastest, where scale economies were largest, and where spillovers to other sectors were strongest. Latin America had built consumer-goods industries (textiles, food processing, household appliances) but had never built the machines that make those goods. The ``nucleus'' was imported. Two mechanisms kept it so: an imitative consumption pattern among high-income groups, and the leadership of transnational corporations in the dynamic industries (Remark~\ref{ch25:prop:three_reasons}). In this chapter's notation: the dense subgraph $\mathcal{D}$ was missing (illustratively, $\tau \approx 0.80$). The notation captures the absence, not the consumption and ownership mechanisms that produced it.
 
-\textbf{Part 2: Truncation explains the casillero vac\'{i}o.} Seven years before his 1990 paper on the empty box, Fajnzylber had already identified the mechanism: without the capital goods sector, industrialization could not generate enough inter-sectoral linkages to spread growth broadly. Consumer ISI created modern-sector jobs but did not transform the traditional sector (Tavares's diagnosis, Chapter~15). The dual economy persisted because the structural bridge (the dense subgraph) was never built. Growth without equity was the consequence: the modern sector grew (increasing average income) while the traditional sector stagnated (maintaining inequality). The casillero vac\'{i}o IS the truncation penalty.
+\textbf{Part 2: Truncation explains the casillero vac\'{i}o.} Seven years before his 1990 paper on the empty box, Fajnzylber had already identified the mechanism: without the capital goods sector, industrialization could not generate enough inter-sectoral linkages to spread growth broadly. Consumer ISI created modern-sector jobs but did not transform the traditional sector (Tavares's diagnosis, Chapter~15). The dual economy persisted because the structural bridge was never built. Growth without equity was the consequence: the modern sector grew (increasing average income) while the traditional sector stagnated (maintaining inequality). In 1990 he showed that no Latin American country occupied the cell of high growth \emph{and} high equity --- the casillero vac\'{i}o. In this chapter's terms, truncation is a candidate cause of that empty cell (Conjecture~\ref{ch25:thm:truncation}), not an identity.
 
-\textbf{Part 3: The prescription is ``genuine competitiveness.''} Fajnzylber argued that the path forward was not more ISI (which had targeted the wrong products) nor liberalization (which would expose the truncated structure to global competition it could not survive) but ``genuine competitiveness'': building the knowledge base, institutional infrastructure, and industrial capabilities needed to produce complex goods. In this chapter's notation: the prescription is to build $\mathcal{D}$ through the sequenced operators of Chapter~15, starting with information and education (which create the human-capital preconditions) and culminating in industrial policy targeting the dense subgraph.
+\textbf{Part 3: The prescription is ``genuine competitiveness.''} In his later work (1988, 1990) Fajnzylber argued that the path forward was not more ISI (which had targeted the wrong products) nor liberalization (which would expose the truncated structure to global competition it could not survive) but ``genuine competitiveness'': building the knowledge base, institutional infrastructure, and industrial capabilities needed to produce complex goods. In this chapter's notation: the prescription is to build $\mathcal{D}$ through the sequenced operators of Chapter~15, starting with information and education (which create the human-capital preconditions) and culminating in industrial policy targeting the dense subgraph.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
-\textbf{Fajnzylber (1983)} & \textbf{Formal object} & \textbf{This chapter} \\
+\textbf{Fajnzylber (1983/1990)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
 Missing capital goods sector & Truncation $\tau_c \to 1$ & Def.~\ref{ch25:def:truncated} \\
-Endogenous nucleus & Dense subgraph $\mathcal{D}$ & Def.~\ref{ch25:def:dense} \\
-Truncation $\to$ low linkages & $\tau \uparrow \Rightarrow \Gamma \downarrow$ & Thm.~\ref{ch25:thm:truncation} \\
-Casillero vac\'{i}o mechanism & Truncation penalty $\approx 72\%$ of $L$ & Thm.~\ref{ch25:thm:penalty} \\
-Spurious vs.\ genuine & Commodity $\pi$ vs.\ $\mathcal{D}$-based $\pi$ & Prebisch Connection \\
-Three strategies & Build, attract, or grow toward $\mathcal{D}$ & Prop.~\ref{ch25:prop:strategies} \\
+Endogenous nucleus & Dense subgraph $\mathcal{D}$ (plus capabilities not in the notation) & Def.~\ref{ch25:def:dense} \\
+Truncation $\to$ low linkages & Bridge removal bounds $\Gamma$; $\tau \uparrow \Rightarrow \Gamma \downarrow$ if $\mathcal{D}$ is a bridge & Prop.~\ref{ch25:prop:bridge_bound}, Conj.~\ref{ch25:thm:truncation} \\
+Size of the gap & 55--86\% of excess relaxation time & Ex.~\ref{ch25:thm:penalty} \\
+Imitative consumption, TNC leadership & Causes of truncation & Remark~\ref{ch25:prop:three_reasons} \\
+Spurious vs.\ genuine (1988) & Commodity $\pi$ vs.\ $\mathcal{D}$-based $\pi$ & Prebisch Connection \\
+Three strategies & Build, attract, or grow toward $\mathcal{D}$ & Remark~\ref{ch25:prop:strategies} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Fajnzylber died in 1991 at age 51, before seeing either the product space or the economic complexity literature that would validate his diagnosis. CEPAL named an award after him. The casillero vac\'{i}o became the defining image of the structuralist diagnosis. This chapter gives his truncated industrialization its theorem, its truncation index, and its welfare cost.
+Fajnzylber died in 1991 at age 51, before seeing either the product space or the economic complexity literature that would echo his diagnosis. The casillero vac\'{i}o became the defining image of the structuralist diagnosis. This chapter gives his truncated industrialization a truncation index, a bridge theorem, a testable conjecture, and an estimate of its cost in integration.
 
 
 %% =====================================================================
@@ -377,7 +414,7 @@ Fajnzylber died in 1991 at age 51, before seeing either the product space or the
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Fajnzylber:} Fajnzylber (1983), \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina}, Mexico: Nueva Imagen. Fajnzylber (1990), ``Industrializaci\'{o}n en Am\'{e}rica Latina: de la `caja negra' al `casillero vac\'{i}o'\,,'' \textit{Cuadernos de la CEPAL} 60. CEPAL (2006), \textit{Fernando Fajnzylber: Una visi\'{o}n renovadora del desarrollo en Am\'{e}rica Latina}.
+\textbf{Fajnzylber:} Fajnzylber (1983), \textit{La industrializaci\'{o}n trunca de Am\'{e}rica Latina}, Mexico: Nueva Imagen. Fajnzylber (1988), ``Competitividad internacional: evoluci\'{o}n y lecciones,'' \textit{Revista de la CEPAL} 36. Fajnzylber (1990), ``Industrializaci\'{o}n en Am\'{e}rica Latina: de la `caja negra' al `casillero vac\'{i}o'\,,'' \textit{Cuadernos de la CEPAL} 60. CEPAL (2006), \textit{Fernando Fajnzylber: Una visi\'{o}n renovadora del desarrollo en Am\'{e}rica Latina}.
 
 \textbf{Product space and diversification:} Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}. Hausmann, Hwang, and Rodrik (2007), ``What You Export Matters,'' \textit{JEG}. Hidalgo (2021), ``Economic Complexity Theory and Applications,'' \textit{Nature Reviews Physics}.
 
