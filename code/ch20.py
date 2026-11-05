@@ -142,3 +142,37 @@ Gx, evx = gap_and_eigs(Tx / Tx.sum(1, keepdims=True))
 Gio, _ = gap_and_eigs(Tx[:2, :2] / Tx[:2, :2].sum(1, keepdims=True))
 print(f"Gamma_IO = {Gio:.2f}, Gamma_SAM = {Gx:.2f}  (eigenvalue moduli {np.round(abs(evx),3)})")
 assert Gx < Gio
+
+print("\n=== Proof pass: Prop. Pyatt-Round hypotheses and structure ===")
+rho_ = lambda X: max(abs(np.linalg.eigvals(X)))
+print(f"rho(A_n) = {rho_(An):.3f}, rho(A*) = {rho_(As):.3f}")
+assert rho_(An) < 1 and rho_(As) < 1
+assert (M1 >= -1e-12).all() and (M2 >= -1e-12).all() and (M3 >= -1e-12).all() and (M >= 0).all()
+blk = [range(0, 4), range(4, 6), range(6, 8)]
+for a in range(3):
+    for b in range(3):
+        if a != b:
+            assert np.allclose(M3[np.ix_(blk[a], blk[b])], 0)   # M3 block-diagonal
+rng = np.random.default_rng(20)
+for trial in range(300):                                        # random circular-flow A_n
+    sz = rng.integers(1, 4, size=3); n_ = sz.sum(); o = np.r_[0, np.cumsum(sz)]
+    B = [range(o[k], o[k + 1]) for k in range(3)]
+    A_ = np.zeros((n_, n_))
+    for (r_, c_) in [(0, 0), (0, 2), (1, 0), (2, 1), (2, 2)]:
+        A_[np.ix_(B[r_], B[c_])] = rng.random((sz[r_], sz[c_]))
+    A_ = A_ / A_.sum(0, keepdims=True) * rng.uniform(0.3, 0.95, size=n_)   # column sums < 1
+    At_ = np.zeros_like(A_); At_[np.ix_(B[0], B[0])] = A_[np.ix_(B[0], B[0])]
+    At_[np.ix_(B[2], B[2])] = A_[np.ix_(B[2], B[2])]
+    Id = np.eye(n_); m1 = np.linalg.inv(Id - At_); as_ = m1 @ (A_ - At_)
+    assert rho_(as_) < 1
+    assert np.allclose(np.linalg.inv(Id - A_), np.linalg.inv(Id - as_ @ as_ @ as_) @ (Id + as_ + as_ @ as_) @ m1)
+print("factorization, nonnegativity and rho(A*) < 1 verified in 300 random circular-flow matrices")
+
+print("\n=== Proof pass: Prop. 'What the SAM adds' (3): symmetric T => real spectrum ===")
+for trial in range(300):
+    n_ = rng.integers(2, 9); X = rng.random((n_, n_)); Ts = X + X.T
+    ev_ = np.linalg.eigvals(Ts / Ts.sum(1, keepdims=True))
+    assert np.allclose(ev_.imag, 0, atol=1e-10)
+    assert np.allclose(perron(Ts / Ts.sum(1, keepdims=True)), Ts.sum(1) / Ts.sum())
+assert np.abs(ev.imag).max() > 0.5 and not np.allclose(T, T.T)
+print("real spectrum for 300 random symmetric SAMs; the chapter's SAM is asymmetric with complex eigenvalues")

@@ -114,3 +114,27 @@ rU2 = rU.copy(); rU2[3], rU2[1] = rU[1] * p[1] / p[3], rU[3] * p[3] / p[1]
 assert np.isclose((p * rU2).sum(), 1)
 rc2 = alpha @ np.vstack([rP, rI, rU2])
 print(f"if W^U favoured rural indigenous (r^U = {rU2[3]:.2f}): composite position {rc2[3]:.3f}")
+
+print("\n=== Proof pass: Prop. alignment, (a) shared Perron vector; bound fails off rank one ===")
+for trial in range(300):
+    N = rng.integers(3, 7); q = rng.dirichlet(np.ones(N))
+    def with_pi(qv):                      # Metropolis chain with stationary vector qv
+        P = rng.random((len(qv), len(qv))); P = (P + P.T) / 2; P /= P.sum(1).max() * 1.01
+        Wm = P * np.minimum(1, qv[None, :] / qv[:, None]); np.fill_diagonal(Wm, 0)
+        np.fill_diagonal(Wm, 1 - Wm.sum(1)); return Wm
+    Ls = [with_pi(q) for _ in range(3)]; a = rng.dirichlet(np.ones(3))
+    assert np.allclose(perron(sum(ak * L for ak, L in zip(a, Ls))), q)
+print("(a) verified on 300 random draws (layers sharing a stationary vector)")
+W1 = np.array([[.8, .1, .1], [.9, .1, 0], [0, .1, .9]])
+W2 = np.array([[.7, .3, 0], [.1, .5, .4], [.7, .2, .1]])
+for Wl in (W1, W2):
+    assert np.linalg.matrix_power(Wl + np.eye(3), 3).min() > 0          # irreducible
+p1, p2, pc = perron(W1), perron(W2), perron((W1 + W2) / 2)
+ratio = pc.var() / max(p1.var(), p2.var())
+print(f"non-rank-one counterexample: pi1 = {p1.round(3)}, pi2 = {p2.round(3)}, composite = {pc.round(3)}; "
+      f"Var(composite)/max Var = {ratio:.2f}")
+assert ratio > 1.5
+# two rank-one layers at correlation -1: Var = (a1 s1 - a2 s2)^2
+d = rng.normal(size=5); d -= d.mean(); q1 = 0.2 + 0.02 * d; q2 = 0.2 - 0.03 * d
+a1 = 0.4; qc = a1 * q1 + (1 - a1) * q2
+assert np.isclose(qc.var(), (a1 * q1.std() - (1 - a1) * q2.std()) ** 2)

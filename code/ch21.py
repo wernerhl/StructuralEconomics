@@ -80,3 +80,14 @@ print("\n=== Exercise 21.6: add 0.10 to the darkest raw entry (symmetrically) ==
 O2 = O.copy(); O2[0, 5] += 0.10; O2[5, 0] += 0.10
 W2 = O2 / O2.sum(1, keepdims=True)
 print(f"Gamma: {Gu:.3f} -> {gap(W2)[0]:.3f}; Neff: {neff(pu):.3f} -> {neff(perron(W2)):.3f}")
+
+print("\n=== Proof pass: Exercise 21.1 claims (pi = p, pi = reach, same Gamma) on random data ===")
+assert np.isclose(Gk, Gg)
+rng = np.random.default_rng(21)
+for trial in range(300):
+    G_, K_ = rng.integers(2, 8, size=2)
+    S_ = rng.dirichlet(np.ones(K_), size=G_); p_ = rng.dirichlet(np.ones(G_)); m_ = p_ @ S_
+    Wg_ = S_ @ np.diag(1 / m_) @ S_.T @ np.diag(p_); Wk_ = np.diag(1 / m_) @ S_.T @ np.diag(p_) @ S_
+    assert np.allclose(perron(Wg_), p_) and np.allclose(perron(Wk_), m_)
+    assert np.isclose(gap(Wg_)[0], gap(Wk_)[0])
+print("verified on 300 random audience matrices")

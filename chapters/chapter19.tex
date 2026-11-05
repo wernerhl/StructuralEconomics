@@ -116,16 +116,16 @@ The conjecture is not a theorem. The co-evolutionary map has multiple equilibria
 What \emph{can} be proved is how the spectral gap and the Perron vector behave under aggregation. This is what any comparison across scales has to control for.
 
 \begin{proposition}[Aggregation Raises the Spectral Gap]\label{ch19:prop:lumpability}
-Let $W$ be irreducible and row-stochastic on $n$ nodes, and let $\mathcal{P} = \{B_1, \ldots, B_k\}$ be a partition with indicator matrix $V$ ($n \times k$). Suppose $W$ is \textbf{exactly lumpable} with respect to $\mathcal{P}$ \citep{kemeny1960finite}: $\sum_{j \in B'} W_{ij}$ is the same for all $i \in B$, for every pair of blocks $B, B'$. Call this common value $\bar W_{BB'}$. Then:
+Let $W$ be irreducible and row-stochastic on $n$ nodes, and let $\mathcal{P} = \{B_1, \ldots, B_k\}$, $k \ge 2$, be a partition into nonempty blocks with indicator matrix $V$ ($n \times k$). Suppose $W$ is \textbf{exactly lumpable} with respect to $\mathcal{P}$ \citep{kemeny1960finite}: $\sum_{j \in B'} W_{ij}$ is the same for all $i \in B$, for every pair of blocks $B, B'$. Call this common value $\bar W_{BB'}$. Then:
 \begin{enumerate}
-\item $\bar W$ is row-stochastic and $WV = V\bar W$;
+\item $\bar W$ is row-stochastic and irreducible, and $WV = V\bar W$;
 \item every eigenvalue of $\bar W$ is an eigenvalue of $W$, so $\Gamma(\bar W) \ge \Gamma(W)$;
 \item the Perron vector aggregates by summation: $\bar\pi_B = \sum_{i \in B} \pi_i$.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1) is the definition. (2) If $\bar W x = \mu x$ with $x \ne 0$, then $W(Vx) = V\bar W x = \mu\, Vx$ and $Vx \ne 0$. So $\mu$ is an eigenvalue of $W$, and the second-largest modulus of $\bar W$ cannot exceed that of $W$. (3) $\pi' V \bar W = \pi' W V = \pi' V$, and $\pi'V$ sums to one.
+(1) For $i \in B$, $(WV)_{iB'} = \sum_{j\in B'}W_{ij} = \bar W_{BB'} = (V\bar W)_{iB'}$, and $\sum_{B'}\bar W_{BB'} = \sum_j W_{ij} = 1$. If $\bar W_{BB'} = 0$, no node of $B$ has an edge into $B'$. A path $i \to \cdots \to j$ in $W$ from $B$ to $B'$ therefore visits a sequence of blocks with positive entries of $\bar W$ between consecutive ones, so $\bar W$ is irreducible. (2) If $\bar W x = \mu x$ with $x \ne 0$, then $W(Vx) = V\bar W x = \mu\, Vx$, and $Vx \ne 0$ because the blocks are nonempty. So every eigenvalue of $\bar W$ is an eigenvalue of $W$. Both matrices are irreducible and stochastic, so $1$ is a simple eigenvalue of each \citep[Thm.~1.5]{seneta2006nonnegative}, and the second-largest modulus of each is the largest modulus among its eigenvalues other than $1$. Since $\sigma(\bar W)\setminus\{1\} \subseteq \sigma(W)\setminus\{1\}$, $|\lambda_2(\bar W)| \le |\lambda_2(W)|$. (3) $\pi' V \bar W = \pi' W V = \pi' V$, and $\pi'V \ones = \pi'\ones = 1$. By irreducibility of $\bar W$ its stationary vector is unique, so $\bar\pi = \pi'V$.
 \end{proof}
 
 Two implications follow.
@@ -168,23 +168,33 @@ These unweighted aggregates equal the lumped matrix of Proposition~\ref{ch19:pro
 \end{definition}
 
 \begin{proposition}[Power Nesting]\label{ch19:thm:nesting}
-Let $W_I$ be irreducible and row-stochastic, and partition individuals into blocks $B$ (countries, or sectors within a country). For each block let $S_B = W_{BB} + W_{B\ast}(I - W_{\ast\ast})^{-1}W_{\ast B}$ be its \emph{stochastic complement}, where $\ast$ denotes all nodes outside $B$. Let $s^{(B)}$ be the Perron vector of $S_B$, and $\xi$ the Perron vector of the $k \times k$ coupling matrix $C_{BB'} = s^{(B)\prime}W_{BB'}\ones$. Then, exactly,
+Let $W_I$ be irreducible and row-stochastic, and partition individuals into $k \ge 2$ blocks $B$ (countries, or sectors within a country). For each block let $S_B = W_{BB} + W_{B\ast}(I - W_{\ast\ast})^{-1}W_{\ast B}$ be its \emph{stochastic complement}, where $\ast$ denotes all nodes outside $B$. Then $I - W_{\ast\ast}$ is invertible, $S_B$ is irreducible and row-stochastic, and with $s^{(B)}$ the Perron vector of $S_B$ and $\xi$ the Perron vector of the $k \times k$ coupling matrix $C_{BB'} = s^{(B)\prime}W_{BB'}\ones$ (itself irreducible and row-stochastic), exactly
 \[
-\pi_{I,i} = \xi_{B(i)}\, s^{(B(i))}_i .
+\pi_{I,i} = \xi_{B(i)}\, s^{(B(i))}_i, \qquad \xi_B = \textstyle\sum_{i\in B}\pi_{I,i}.
 \]
-Applying the same identity inside each country (whose $S_c$ is itself irreducible and stochastic) gives the nested factorization
+Applying the same identity inside each country $c$, to $S_c$ and its partition into sectors, gives the nested factorization
 \begin{equation}\label{ch19:eq:nesting_pi}
 \pi_{I,i} = \underbrace{\pi_{G,c(i)}}_{\text{country share}} \cdot \underbrace{\pi_{N,s(i)|c(i)}}_{\text{sector share in } c} \cdot \underbrace{\pi_{\text{within},i|s(i),c(i)}}_{\text{individual share in } s},
 \end{equation}
-where each factor is a share that sums to one over its level.
+where each factor is a share that sums to one over its level: $\pi_{G,c} = \sum_{i\in c}\pi_{I,i}$ is the country's total power (the Perron vector of the $\pi$-weighted aggregate of Definition~\ref{ch19:def:nesting}), $\pi_{N,\cdot|c}$ is the Perron vector of the sector coupling matrix built from $S_c$, and $\pi_{\text{within},\cdot|s,c}$ is the Perron vector of the stochastic complement of sector $s$ in $S_c$. These factors coincide with the Perron vectors of the unweighted aggregates~\eqref{ch19:eq:nesting_N}--\eqref{ch19:eq:nesting_G} only in special cases, such as exact lumpability.
 \end{proposition}
 
-\begin{proof}[Proof sketch]
-This is \citeauthor{meyer1989stochastic}'s \citeyearpar{meyer1989stochastic} uncoupling theorem for stochastic complementation, applied once per level; \texttt{code/ch19.py} verifies the identity numerically.
+\begin{proof}
+This is \citeauthor{meyer1989stochastic}'s \citeyearpar{meyer1989stochastic} uncoupling theorem for stochastic complementation, applied once per level. We give the argument. Write $W$ for $W_I$ and $\pi$ for $\pi_I$, and fix a block $B$.
+
+\emph{$I - W_{\ast\ast}$ is invertible.} $(W_{\ast\ast}^n\ones)_i$ is the probability that the chain started at $i \in \ast$ stays outside $B$ for $n$ steps. By irreducibility there is a path of positive probability from $i$ into $B$ of length at most $n$, so this probability is below one for every $i$. Hence $\|W_{\ast\ast}^n\|_\infty < 1$, $\rho(W_{\ast\ast}) < 1$, and $(I - W_{\ast\ast})^{-1} = \sum_{t\ge0}W_{\ast\ast}^t \ge 0$.
+
+\emph{$S_B$ is stochastic and irreducible.} $S_B \ge 0$, and $W_{\ast B}\ones = (I - W_{\ast\ast})\ones$ gives $S_B\ones = W_{BB}\ones + W_{B\ast}\ones = \ones$. Entry $(S_B)_{ij}$ is the probability that the chain leaving $i \in B$ next enters $B$ at $j$. Cutting a path of $W$ from $i$ to $j \in B$ at its visits to $B$ shows that $S_B$ has a positive path from $i$ to $j$.
+
+\emph{Uncoupling.} Partition $\pi = (\pi_B, \pi_\ast)$. The equations $\pi'W = \pi'$ read $\pi_B' = \pi_B'W_{BB} + \pi_\ast'W_{\ast B}$ and $\pi_\ast' = \pi_B'W_{B\ast} + \pi_\ast'W_{\ast\ast}$. The second gives $\pi_\ast' = \pi_B'W_{B\ast}(I - W_{\ast\ast})^{-1}$, and substituting into the first gives $\pi_B' = \pi_B'S_B$. Since $S_B$ is irreducible its stationary vector is unique, so $\pi_B = \xi_B\, s^{(B)}$ with $\xi_B = \pi_B'\ones > 0$.
+
+\emph{Coupling.} $C \ge 0$ and $\sum_{B'}C_{BB'} = s^{(B)\prime}W_{B\cdot}\ones = s^{(B)\prime}\ones = 1$. Because $s^{(B)} = \pi_B/\xi_B > 0$, $C_{BB'} > 0$ iff $W_{BB'} \ne 0$, so $C$ inherits irreducibility from $W$. Finally $\sum_B \xi_B C_{BB'} = \sum_B \pi_B'W_{BB'}\ones = \pi_{B'}'\ones = \xi_{B'}$, so $\xi$ is the (unique) Perron vector of $C$.
+
+\emph{Nesting.} Apply the result to $W$ with the partition into countries: $\pi_i = \pi_{G,c(i)}\, s^{(c(i))}_i$. Since $S_c$ is irreducible and stochastic, apply it again to $S_c$ with the partition of $c$ into sectors: $s^{(c)}_i = \pi_{N,s(i)|c}\,\pi_{\text{within},i|s(i),c}$. (If $c$ has a single sector, the middle factor is $1$.) \texttt{code/ch19.py} verifies both levels numerically.
 \end{proof}
 
 \begin{remark}[Simon--Ando: when the factors are local]
-The identity is exact but the stochastic complements depend on the whole matrix. When cross-block coupling is weak, $W_I = W_0 + \varepsilon C$ with $W_0$ block-diagonal (individuals interact mostly within their sector, and sectors mostly within their country), \citet{simon1961aggregation} show that $s^{(B)}$ is within $O(\varepsilon)$ of the Perron vector of the diagonal block $W_{BB}$ alone. Each factor can then be measured at its own scale. In the code's example, the maximum error is $2\times10^{-2}$ at $\varepsilon = 0.1$ and $3\times10^{-4}$ at $\varepsilon = 0.001$. The exact Kronecker case of Appendix~19A is a special case that additionally requires the \emph{same} sector matrix in every country.
+The identity is exact but the stochastic complements depend on the whole matrix. When cross-block coupling is weak, $W_I = W_0 + \varepsilon C$ with $W_0$ block-diagonal and each diagonal block of $W_0$ irreducible and stochastic (individuals interact mostly within their sector, and sectors mostly within their country), \citet{simon1961aggregation} show that $s^{(B)}$ is within $O(\varepsilon)$ of the Perron vector of the diagonal block of $W_0$ alone. Each factor can then be measured at its own scale. In the code's example, the maximum error is $2\times10^{-2}$ at $\varepsilon = 0.1$ and $3\times10^{-4}$ at $\varepsilon = 0.001$. The exact Kronecker case of Appendix~19A is a special case that additionally requires the \emph{same} sector matrix in every country.
 \end{remark}
 
 \paragraph{Per-capita comparisons.} Because the factors are shares, per-person comparisons must divide by group size. If $e_{s|c}$ is the sector's employment share and $L_c$ the country's workforce, then for an individual with within-sector per-capita weight $w_i$ (mean one in the sector),
@@ -362,7 +372,7 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 
 \item \textbf{Aggregation raises $\Gamma$}: under exact lumpability, the coarse matrix's eigenvalues are a subset of the fine matrix's, so $\Gamma_{\text{coarse}} \ge \Gamma_{\text{fine}}$ and Perron weights aggregate by summation. Cross-scale comparisons of $\Gamma$ are partly mechanical.
 
-\item Individual power is \textbf{nested} exactly, through stochastic complementation: $\pi_{I,i} = \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}|s,c}$, with factors that are local under weak coupling (Simon--Ando). Per-capita comparisons must divide by group size. The Potos\'{i} vendor has about 1/100 of a gas executive's per-capita power (illustrative), and the sector factor dominates.
+\item Individual power is \textbf{nested} exactly, through stochastic complementation: $\pi_{I,i} = \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}|s,c}$, with factors that are local under weak coupling (Simon--Ando). Per-capita comparisons must divide by group size. The Potos\'{i} vendor has about 1/400 of a gas executive's per-capita power (illustrative), and the sector factor dominates.
 
 \item \textbf{Five processes, one process} (Sunkel) becomes a dictionary: development = high and rising $\Gamma$; underdevelopment = low $\Gamma$ from weak coupling; dependence = asymmetric cross-block $W$; marginality = $\pi_i \approx 0$; spatial inequality in integration = $\Var_r(\Gamma_r)$. ``One process'' is the conjectured common mechanism.
 
@@ -411,7 +421,7 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 \addcontentsline{toc}{subsection}{Appendix 19A: Kronecker Factorization}
 \label{ch19:app:kronecker}
 
-\paragraph{Setup.} Consider an $N$-agent economy where agents are grouped into $C$ countries, each with $S$ sectors and $K$ individuals per sector ($N = CSK$). Suppose the individual-level matrix factors \emph{exactly} as $W_I = W_G \otimes W_{N} \otimes W_{\text{within}}$. This is a strong assumption: it requires the same sectoral matrix $W_N$ in every country and the same within-sector matrix in every sector. Then
+\paragraph{Setup.} Consider an $N$-agent economy where agents are grouped into $C$ countries, each with $S$ sectors and $K$ individuals per sector ($N = CSK$). Suppose the individual-level matrix factors \emph{exactly} as $W_I = W_G \otimes W_{N} \otimes W_{\text{within}}$, with each factor row-stochastic and primitive (irreducible and aperiodic), so that $W_I$ is primitive too. This is a strong assumption: it requires the same sectoral matrix $W_N$ in every country and the same within-sector matrix in every sector. Then
 \begin{equation}
 \boldsymbol{\pi}_I = \boldsymbol{\pi}_G \otimes \boldsymbol{\pi}_{N} \otimes \boldsymbol{\pi}_{\text{within}},
 \end{equation}

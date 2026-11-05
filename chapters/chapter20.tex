@@ -68,17 +68,17 @@ Entry $W_{ij}$ is the share of account $i$'s total receipts that comes from acco
 \end{definition}
 
 \begin{proposition}[The Perron Vector of a Balanced SAM Is Account Size]\label{ch20:prop:pi_size}
-If the SAM is balanced, with account totals $y = T\ones = T'\ones$, then the Perron vector of $W = \operatorname{diag}(y)^{-1}T$ is
+Let the SAM $T \ge 0$ be balanced, with account totals $y = T\ones = T'\ones > 0$, and irreducible (every account is linked to every other by some chain of payments). Then the Perron vector of $W = \operatorname{diag}(y)^{-1}T$ is
 \[
 \pi = \frac{y}{\ones'y}.
 \]
 \end{proposition}
 
 \begin{proof}
-$y'\operatorname{diag}(y)^{-1}T = \ones'T = (T'\ones)' = y'$.
+$y'\operatorname{diag}(y)^{-1}T = \ones'T = (T'\ones)' = y'$, so $y/\ones'y$ is a stationary vector of $W$. $W$ has the same zero pattern as $T$, so it is irreducible and its stationary vector is unique \citep[Thm.~1.5]{seneta2006nonnegative}.
 \end{proof}
 
-So for a balanced SAM, ``structural power'' read off the row-normalized SAM is just the size of each account's turnover. Its Gini is the Gini of account totals. This is a useful check, not a finding: any claim about power that rests on this $\pi$ is a claim about size. Distributional power must come from a model of bargaining or price formation (Chapter~7), not from the accounting identity.
+The result is not new. It is the closed-system observation of \citet{brody1970proportions}, and \citet*{wirkierman2021leontief} state it explicitly for a closed input--output system mapped into a regular Markov chain: the stationary probabilities coincide with normalized activity levels. So for a balanced SAM, ``structural power'' read off the row-normalized SAM is just the size of each account's turnover. Its Gini is the Gini of account totals. This is a useful check, not a finding: any claim about power that rests on this $\pi$ is a claim about size. Distributional power must come from a model of bargaining or price formation (Chapter~7), not from the accounting identity.
 
 \begin{proposition}[The SAM Contains $W^P$ as a Submatrix]\label{ch20:prop:submatrix}
 The production-activities block $T_{PP}$ of the SAM yields the I-O matrix. In Chapter~1's orientation (row $i$ is $i$'s recipe), $a_{ij} = T_{ji}/y_i$, i.e.\ $A = (T_{PP}\operatorname{diag}(y_P)^{-1})'$, and $W^P = D^{-1}A$ is the matrix of input-cost shares. Row-normalizing $T_{PP}$ itself gives \emph{receipt} shares, a different matrix. The full SAM extends $W^P$ by including factor payments, household income, and government transfers --- the channels through which income circulates.
@@ -90,6 +90,10 @@ The full SAM-derived $W$ is \textit{larger} and \textit{richer} than $W^P$ alone
 \end{enumerate}
 The additional accounts can raise or lower the spectral gap; there is no general ordering (Example~\ref{ch20:ex:spectral}).
 \end{proposition}
+
+\begin{proof}
+By Definition~\ref{ch20:def:sam}, $T_{ji}$ for production accounts $i, j$ is the payment of activity $i$ to activity $j$, i.e.\ $i$'s purchases of input $j$, and $y_i$ is $i$'s gross output. In value units, $T_{ji}/y_i$ is the input of $j$ per unit of $i$'s output, which is $a_{ij}$ in Chapter~1's orientation. Hence $A = (T_{PP}\operatorname{diag}(y_P)^{-1})'$, and when every activity buys some intermediate input ($A\ones > 0$), $W^P = D^{-1}A$ with $D = \operatorname{diag}(A\ones)$ has entries $T_{ji}/\sum_l T_{li}$, the input-cost shares. Row-normalizing $T_{PP}$ instead divides by $\sum_l T_{il}$, receipts from other activities, which differs unless $T_{PP}$ is symmetric. The last sentence is Proposition~\ref{ch20:prop:more_structure}(3).
+\end{proof}
 
 
 %% =====================================================================
@@ -219,12 +223,12 @@ Two features stand out. First, the leading non-unit eigenvalues are a \emph{comp
 \begin{enumerate}
 \item The I-O table captures only $W^P$ (production linkages). The SAM captures the entire circular flow, including distributional channels: the separation between labor and capital income, between poor and non-poor households, and between fiscal and non-fiscal flows.
 \item For a balanced SAM, the Perron vector of the row-normalized SAM is account size (Proposition~\ref{ch20:prop:pi_size}). Distributional information lies in the \emph{coefficients} (who pays whom), which the multiplier decomposition below exploits.
-\item The spectral gap of the full SAM bears no general ordering to that of the I-O block, and complex eigenvalues signal circular flow, not blocks.
+\item The spectral gap of the full SAM bears no general ordering to that of the I-O block. Complex eigenvalues signal circular flow, not blocks: if the row-normalized balanced SAM $W$ has a non-real eigenvalue, then $T \ne T'$, i.e.\ some pair of accounts has unequal flows in the two directions. Weakly coupled blocks with symmetric flows produce only real eigenvalues.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(2) is Proposition~\ref{ch20:prop:pi_size}. (3) Example~\ref{ch20:ex:spectral} has $\Gamma_{\text{SAM}} > \Gamma_{\text{I-O}}$. A SAM whose production block is fully mixing ($\Gamma_{\text{I-O}} = 1$) but whose circular flow is nearly periodic gives the opposite ordering (\texttt{code/ch20.py} constructs one with $\Gamma_{\text{SAM}} = 0.05$). (1) is a statement about which flows are recorded.
+(2) is Proposition~\ref{ch20:prop:pi_size}. (3) Example~\ref{ch20:ex:spectral} has $\Gamma_{\text{SAM}} > \Gamma_{\text{I-O}}$. A SAM whose production block is fully mixing ($\Gamma_{\text{I-O}} = 1$) but whose circular flow is nearly periodic gives the opposite ordering (\texttt{code/ch20.py} constructs one with $\Gamma_{\text{SAM}} = 0.05$). For the eigenvalue claim, suppose $T = T'$. With $Y = \operatorname{diag}(y)$, $Y^{1/2}WY^{-1/2} = Y^{-1/2}TY^{-1/2}$ is symmetric, so $W$ is similar to a symmetric matrix and all its eigenvalues are real. Contrapositively, a non-real eigenvalue implies $T \ne T'$. The converse does not hold: an asymmetric $T$ can have a real spectrum. (1) is a statement about which flows are recorded.
 \end{proof}
 
 
@@ -244,7 +248,7 @@ M_{\text{SAM}} = (I - A_n)^{-1}.
 This is the generalized Leontief inverse. Entry $m_{ij}$ measures the total increase in account $i$'s income from a one-unit injection into account $j$, tracing the entire circular flow: production $\to$ factors $\to$ households $\to$ consumption $\to$ production $\to \ldots$
 
 \begin{proposition}[Pyatt--Round Multiplicative Decomposition]\label{ch20:prop:decomposition}
-Order the endogenous accounts as production ($P$), factors ($F$) and households ($H$). Their coefficients have the circular-flow pattern
+Order the endogenous accounts as production ($P$), factors ($F$) and households ($H$), and assume $\rho(A_n) < 1$ (every endogenous account leaks, directly or indirectly, to the exogenous accounts). Their coefficients have the circular-flow pattern
 \begin{equation}\label{ch20:eq:block_pattern}
 A_n = \begin{pmatrix} A_{PP} & 0 & A_{PH} \\ A_{FP} & 0 & 0 \\ 0 & A_{HF} & A_{HH} \end{pmatrix}:
 \end{equation}
@@ -253,7 +257,7 @@ production receives from production (intermediates) and from households (consump
 M_1 = (I - \tilde A)^{-1}, \qquad A^* = M_1 (A_n - \tilde A), \\
 M_2 = I + A^* + A^{*2}, \qquad M_3 = (I - A^{*3})^{-1}.
 \end{gather*}
-Then \citep{pyatt1979accounting}
+Then all three matrices exist and are nonnegative, $M_3$ is block-diagonal, and \citep{pyatt1979accounting}
 \begin{equation}\label{ch20:eq:pyatt_round}
 M_{\text{SAM}} = M_3\, M_2\, M_1 .
 \end{equation}
@@ -265,7 +269,15 @@ M_{\text{SAM}} = M_3\, M_2\, M_1 .
 \end{proposition}
 
 \begin{proof}
-$I - A_n = (I - \tilde A) - (A_n - \tilde A) = (I - \tilde A)(I - A^*)$, so $M_{\text{SAM}} = (I - A^*)^{-1}M_1$. Because $A_n - \tilde A$ is block-cyclic of period three (pattern~\eqref{ch20:eq:block_pattern}) and $M_1$ is block-diagonal, $A^*$ is block-cyclic too. Hence $(I - A^*)(I + A^* + A^{*2}) = I - A^{*3}$. Since $A^*$ commutes with $A^{*3}$, $(I - A^*)^{-1} = (I - A^{*3})^{-1}(I + A^* + A^{*2}) = M_3 M_2$.
+\emph{Existence.} $A_n \ge 0$ and $\rho(A_n) < 1$, so $M_{\text{SAM}} = \sum_t A_n^t \ge 0$. Since $0 \le \tilde A \le A_n$, $0 \le \tilde A^t \le A_n^t$ for every $t$, so $\sum_t \tilde A^t$ converges, $\rho(\tilde A) < 1$, and $M_1 = \sum_t \tilde A^t \ge 0$. Hence $A^* = M_1(A_n - \tilde A) \ge 0$. To see that $\rho(A^*) < 1$, use the identity $I - A_n = (I - \tilde A)(I - A^*)$ (shown below). It gives $I - A^* = M_1(I - A_n)$, which is invertible, and $(I - A^*)M_{\text{SAM}} = M_1$. So for every $m$
+\[
+\Big(\sum_{t=0}^{m}A^{*t}\Big)M_1 = \Big(\sum_{t=0}^{m}A^{*t}\Big)(I - A^*)M_{\text{SAM}} = (I - A^{*\,m+1})M_{\text{SAM}} \le M_{\text{SAM}},
+\]
+because $A^{*\,m+1}M_{\text{SAM}} \ge 0$. Multiplying on the right by $A_n - \tilde A \ge 0$ gives $\sum_{t=1}^{m+1}A^{*t} \le M_{\text{SAM}}(A_n - \tilde A)$ for all $m$. The partial sums of a nonnegative series are bounded, so $A^{*t} \to 0$ and $\rho(A^*) < 1$ (this is Varga's regular-splitting argument). Hence $\rho(A^{*3}) < 1$ and $M_3 = \sum_t A^{*3t} \ge 0$.
+
+\emph{Factorization.} $I - A_n = (I - \tilde A) - (A_n - \tilde A) = (I - \tilde A)\big(I - (I - \tilde A)^{-1}(A_n - \tilde A)\big) = (I - \tilde A)(I - A^*)$, so $M_{\text{SAM}} = (I - A^*)^{-1}M_1$. For any square matrix, $(I - A^*)(I + A^* + A^{*2}) = I - A^{*3}$. Since $A^*$ commutes with $A^{*3}$ and both $I - A^*$ and $I - A^{*3}$ are invertible, $(I - A^*)^{-1} = (I - A^{*3})^{-1}(I + A^* + A^{*2}) = M_3 M_2$.
+
+\emph{Structure.} $A_n - \tilde A$ has nonzero blocks only in positions $(P,H)$, $(F,P)$ and $(H,F)$ (pattern~\eqref{ch20:eq:block_pattern}), and $M_1$ is block-diagonal, so $A^*$ has the same block-cyclic pattern of period three. Then $A^{*3}$, and hence $M_3$, is block-diagonal: each block's own circuit through the other two.
 \end{proof}
 
 \begin{remark}[Additive form for reporting]

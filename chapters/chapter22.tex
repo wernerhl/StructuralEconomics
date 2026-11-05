@@ -229,23 +229,24 @@ When the same groups are marginal in production, information and solidarity, dis
 \begin{proposition}[Alignment and Composite Concentration]\label{ch22:thm:alignment}
 Let $W = \sum_k \alpha_k W^k$ be a composite of row-stochastic layers on a common node set, with $\alpha_k \ge 0$ and $\sum_k \alpha_k = 1$.
 \begin{enumerate}
-\item[(a)] \textbf{Shared Perron vector.} If all layers have the same Perron vector $\pi$, the composite has Perron vector $\pi$.
+\item[(a)] \textbf{Shared Perron vector.} If all layers have the same stationary vector $\pi$ and $W$ is irreducible (for instance, some layer with $\alpha_k > 0$ is irreducible), the composite has Perron vector $\pi$.
 \item[(b)] \textbf{Rank-one layers.} If $W^k = \ones\pi^{k\prime}$, then $\pi = \sum_k \alpha_k \pi^k$, and
 \[
 \Var(\pi) = \sum_{k,l}\alpha_k\alpha_l \Cov(\pi^k, \pi^l) \;\le\; \Big(\sum_k \alpha_k \sqrt{\Var(\pi^k)}\Big)^2 \;\le\; \max_k \Var(\pi^k).
 \]
-For given layer variances, $\Var(\pi)$ is increasing in every pairwise covariance. It is largest under perfect alignment (all correlations one) and smallest under anti-alignment. It never exceeds the most concentrated layer's variance.
+Here $\Var$ and $\Cov$ are taken across the $N$ nodes. For given layer variances, $\Var(\pi)$ is nondecreasing in every pairwise covariance (strictly when $\alpha_k\alpha_l > 0$). It is largest under perfect alignment (all correlations one), where the first bound holds with equality, and it falls as correlations become negative; with two layers it is smallest at correlation $-1$, where $\Var(\pi) = (\alpha_1\sigma_1 - \alpha_2\sigma_2)^2$ with $\sigma_k^2 = \Var(\pi^k)$. It never exceeds the most concentrated layer's variance.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(a) $\pi'W = \sum_k\alpha_k\pi'W^k = \pi'$. (b) For each $l$, $\big(\sum_k\alpha_k\pi^k\big)'\ones\pi^{l\prime} = \pi^{l\prime}$, so
+(a) $\pi'W = \sum_k\alpha_k\pi'W^k = \pi'$, and the stationary vector of an irreducible $W$ is unique \citep[Thm.~1.5]{seneta2006nonnegative}. (b) Let $\bar\pi = \sum_k\alpha_k\pi^k$, which sums to one. Then $W = \ones\bar\pi'$, and for each $l$, $\bar\pi'\ones\pi^{l\prime} = \pi^{l\prime}$, so
 \[
-\Big(\sum_k\alpha_k\pi^k\Big)'W = \sum_l\alpha_l\pi^{l\prime}.
-\] The first inequality is Cauchy--Schwarz, $\Cov(\pi^k,\pi^l) \le \sqrt{\Var(\pi^k)\Var(\pi^l)}$. The second holds because a weighted mean of standard deviations is at most their maximum.
+\bar\pi'W = \sum_l\alpha_l\pi^{l\prime} = \bar\pi'.
+\]
+It is the only stationary vector: $x'\ones\bar\pi' = x'$ with $x'\ones = 1$ forces $x = \bar\pi$. Every $\pi^k$ has mean $1/N$, so $\bar\pi - \ones/N = \sum_k\alpha_k(\pi^k - \ones/N)$, and expanding the square gives the variance identity. The first inequality is Cauchy--Schwarz, $\Cov(\pi^k,\pi^l) \le \sigma_k\sigma_l$, applied term by term with $\alpha_k\alpha_l \ge 0$; it gives $\sum_{k,l}\alpha_k\alpha_l\sigma_k\sigma_l = (\sum_k\alpha_k\sigma_k)^2$. The second holds because a weighted mean of standard deviations is at most their maximum. The monotonicity statements follow because each covariance enters with coefficient $\alpha_k\alpha_l \ge 0$; with two layers, $\Cov = \sigma_1\sigma_2\,\mathrm{corr}$ and $\mathrm{corr} \ge -1$.
 \end{proof}
 
-Alignment therefore makes compound disadvantage as large as it can be, but no larger than the worst single layer. In particular, an aligned composite is \emph{not} more concentrated than every layer. For layers that are not rank-one there is no closed form, but the same conclusion can be checked numerically, for example: three aligned layers with Perron vectors $(0.4, 0.3, 0.2, 0.1)$, $(0.30, 0.27, 0.23, 0.20)$ and $(0.28, 0.26, 0.24, 0.22)$ give a composite with $\Var(\pi) = 0.0028$, against $0.0125$ for the most concentrated layer. The perturbation lemma (Lemma~\ref{ch06:lem:perturbation}) gives the local effect of adding one layer to another.
+With rank-one layers, alignment therefore makes compound disadvantage as large as it can be, but no larger than the worst single layer. In particular, an aligned rank-one composite is \emph{not} more concentrated than every layer. For layers that are not rank-one there is no closed form, and the bound can fail. In \texttt{code/ch22.py}, two irreducible $3 \times 3$ layers with Perron vectors $(0.45, 0.10, 0.45)$ and $(0.49, 0.36, 0.16)$ have an equal-weight composite with Perron vector $(0.64, 0.21, 0.15)$, whose variance is $1.7$ times the larger layer variance. In other examples the bound holds: three aligned layers with Perron vectors $(0.4, 0.3, 0.2, 0.1)$, $(0.30, 0.27, 0.23, 0.20)$ and $(0.28, 0.26, 0.24, 0.22)$ give a composite with $\Var(\pi) = 0.0028$, against $0.0125$ for the most concentrated layer. The perturbation lemma (Lemma~\ref{ch06:lem:perturbation}) gives the local effect of adding one layer to another.
 
 \begin{example}[Bolivia's Network Alignment \illustrative]\label{ch22:ex:alignment}
 Four groups (urban non-indigenous, urban indigenous, rural non-indigenous, rural indigenous), with population shares $(0.35, 0.25, 0.15, 0.25)$. Rank-one layers with equal weights. Per-capita positions $r_g = \pi_g/p_g$ (illustrative values; 1 is the population average) for rural indigenous households:
@@ -357,7 +358,7 @@ which is below one when the giver is better off ($c_i > c_j$). For example, $c_i
 \[
 \Var(\pi) = \alpha_P^2\Var(\pi^P) + \alpha_U^2\Var(\pi^U) + 2\alpha_P\alpha_U\Cov(\pi^P, \pi^U)
 \]
-exactly. For given layer variances it is largest under alignment ($A = 1$), and it never exceeds $\max(\Var(\pi^P), \Var(\pi^U))$.
+exactly. For given layer variances it is largest under alignment ($A = 1$), and it never exceeds $\max(\Var(\pi^P), \Var(\pi^U))$. Both statements are for rank-one layers; for general layers the composite can be more concentrated than either layer (Section~\ref{ch22:sec:alignment}).
 
 When $A \approx -1$ (anti-aligned): the composite $\Var(\pi)$ is reduced by the negative covariance. Anti-alignment is the mathematical structure of ``compensating institutions'': if the economically powerful ($W^P$) are the socially isolated ($W^U$), the composite disadvantage is smaller than either alone.
 

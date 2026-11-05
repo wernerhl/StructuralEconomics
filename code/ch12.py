@@ -146,3 +146,57 @@ for th_, d_, k_ in [(1.1, 0.07, 0.5), (0.9, -0.2, 1.3)]:
     xx = (th_ + d_) / k_
     assert abs(th_ * xx - 0.5 * k_ * xx ** 2 - (th_ ** 2 - d_ ** 2) / (2 * k_)) < 1e-12
 print("Appendix 12B identity verified")
+
+# ---------------------------------------------------------------------------
+# Proof checks (proof pass)
+print("\n== Proof checks")
+# Prop ch12:prop:laundered (2) / ch12:prop:robust (3): W_1 and laundered W_2 rank a transfer oppositely
+Mx, kx = 0.8, 0.5
+Wx = np.array([[0.0, 1.0], [0.0, 1.0]])          # everyone watches agent 2
+xa_, xb_ = np.array([1.5, 0.5]), np.array([1.0, 1.0])
+W1 = lambda xx: v(xx - Mx * Wx @ xx, kx).sum()
+ah = Mx * xa_.mean()                              # laundered with W_just = W^CE, x_ref = xa_
+W2 = lambda xx: v(xx - ah, kx).sum()
+for xx in (xa_, xb_):
+    assert np.all(kx * (xx - Mx * Wx @ xx) < 1) and np.all(kx * (xx - ah) < 1)
+print("W1:", round(W1(xa_), 4), round(W1(xb_), 4), " laundered:", round(W2(xa_), 4), round(W2(xb_), 4))
+assert W1(xa_) > W1(xb_) and W2(xa_) < W2(xb_)
+assert abs(W1(xa_) - 0.895) < 1e-12 and abs(W1(xb_) - 0.38) < 1e-12 and abs(W2(xa_) - 0.255) < 1e-12
+# Prop ch12:thm:structural_welfare: identity for random pi, Omega, Phi, a_hat
+for _ in range(500):
+    n = rng.integers(2, 8)
+    p = rng.dirichlet(np.ones(n))
+    Om_, Ph_, kp_, ah_ = rng.uniform(1, 5), rng.uniform(0, 2), rng.uniform(0.01, 1), rng.uniform(-1, 1)
+    xx = Om_ / n + (p - 1 / n) * Ph_
+    lhs = np.sum(v(xx - ah_, kp_))
+    rhs = n * v(Om_ / n - ah_, kp_) - 0.5 * kp_ * n * Ph_ ** 2 * np.mean((p - 1 / n) ** 2)
+    assert abs(lhs - rhs) < 1e-10
+# Prop ch12:thm:paradox: random two-block checks of ratio 1 - M
+for _ in range(500):
+    xM, xT = np.sort(rng.uniform(0.1, 2, 2))[::-1]
+    M_, k_ = rng.uniform(0, 0.99), rng.uniform(0.01, 0.4)
+    sb = v((1 - M_) * xM, k_) - v((1 - M_) * xT, k_)
+    si = v(xM - M_ * (xM + xT) / 2, k_) - v(xT - M_ * (xM + xT) / 2, k_)
+    assert abs(sb / si - (1 - M_)) < 1e-9
+# Prop ch12:prop:consent: endogenous Pareto => laundered Pareto (x' >= x); converse fails
+for _ in range(2000):
+    n = rng.integers(2, 6)
+    W = rng.dirichlet(np.ones(n), size=n)
+    M_ = rng.uniform(0, 0.99)
+    y = rng.uniform(0, 1, n) * (rng.random(n) < 0.6)
+    if not y.any():
+        continue
+    dx = np.linalg.solve(np.eye(n) - M_ * W, y)   # any endogenous improvement has this form
+    assert np.all(dx >= -1e-12) and np.any(dx > 0)
+# Corollary ch12:prop:satisfaction (2): linear v, slope across block means 1 - M; integrated 1
+xs = np.array([1.3, 1.1, 1.2, 0.7, 0.5, 0.6])
+bs = np.repeat([0, 1], 3)
+Wbd = np.where(bs[:, None] == bs[None, :], 1 / 3, 0.0)
+sbd = xs - 0.8 * Wbd @ xs
+sint = xs - 0.8 * xs.mean()
+mb = lambda s: np.array([s[bs == 0].mean(), s[bs == 1].mean()])
+xm = mb(xs)
+assert abs((mb(sbd)[0] - mb(sbd)[1]) / (xm[0] - xm[1]) - 0.2) < 1e-12
+assert abs((mb(sint)[0] - mb(sint)[1]) / (xm[0] - xm[1]) - 1.0) < 1e-12
+assert abs((sbd[0] - sbd[1]) / (xs[0] - xs[1]) - 1.0) < 1e-12
+print("structural-welfare identity, paradox ratio, consent nesting, satisfaction slopes: verified")

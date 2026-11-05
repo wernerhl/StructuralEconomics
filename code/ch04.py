@@ -55,4 +55,30 @@ for a in np.linspace(0, 1, 1001):
     if prev is not None: jump = max(jump, np.abs(pa - prev).max())
     prev = pa
 print("max change of pi between alpha steps of 0.001:", round(jump, 5))
+
+hdr("Proof checks (randomized, seed 4): Props A1_cost, A2_growth (dL formula), A3_beliefs, A4_loss, A5_decomp")
+rng = np.random.default_rng(4)
+for _ in range(300):
+    n = rng.integers(2, 7)
+    A_r = rng.random((n, n)); A_r *= rng.random() * 0.9 / max(abs(np.linalg.eigvals(A_r))); g_r = rng.random() * 0.9 + 0.1
+    Lr = lambda A: np.linalg.inv(np.eye(n) - g_r * A.T); E = rng.normal(size=(n, n)) * 1e-6        # dL = L (g dA') L
+    assert np.allclose(Lr(A_r + E) - Lr(A_r), Lr(A_r) @ (g_r * E.T) @ Lr(A_r), atol=1e-10)
+    Wr = rng.random((n, n)) + .01; Wr /= Wr.sum(1, keepdims=True); pr = perron(Wr); P = np.outer(np.ones(n), pr)  # A3
+    assert np.allclose(np.linalg.matrix_power(Wr - P, 7), np.linalg.matrix_power(Wr, 7) - P)
+    ev = sorted(abs(np.linalg.eigvals(Wr)), reverse=True)
+    assert np.isclose(max(abs(np.linalg.eigvals(Wr - P))), ev[1]) and ev[1] < 1
+    b0 = rng.normal(size=n); assert np.allclose(np.linalg.matrix_power(Wr, 400) @ b0, (pr @ b0) * np.ones(n))
+    lay = [rng.random((n, n)) for _ in range(3)]; lay = [M / M.sum(1, keepdims=True) for M in lay]       # A5
+    al = rng.random(3); al /= al.sum(); Wc = sum(a * M for a, M in zip(al, lay)); pc = perron(Wc)
+    assert np.allclose(Wc.sum(1), 1) and np.allclose(pc, sum(a * (pc @ M) for a, M in zip(al, lay)))
+    k = rng.random() * 0.3 + .01; Phi = rng.random() * 2; m = 1.0                                         # A4
+    x = m + (pr - 1 / n) * Phi; Lp = n * (m - k / 2 * m ** 2) - np.sum(x - k / 2 * x ** 2)
+    assert np.isclose(Lp, k * n / 2 * Phi ** 2 * np.mean((pr - 1 / n) ** 2))
+# A1: L_ext / gamma^2 -> Var(c) Psi  (exact formula from Ch2)
+c = np.array([.5, 1.1, 0.]); k, m = .5, 1.; Psi = 3 * (1 - k * m) ** 2 / (2 * k)
+def Lext(al):
+    H = len(al) / np.sum(1 / al); return (1 - k * m) ** 2 / (2 * k) * np.sum((al - H) ** 2 / al)
+for gU in [1e-1, 1e-2, 1e-3]: print("gamma_U", gU, "L_ext/gamma^2 =", round(Lext(1 + gU * c) / gU ** 2, 6), " Var(c) Psi =", round(np.var(c) * Psi, 6))
+assert abs(Lext(1 + 1e-4 * c) / 1e-8 - np.var(c) * Psi) < 1e-3
+print("all randomized proof checks passed")
 print("\nall assertions passed")

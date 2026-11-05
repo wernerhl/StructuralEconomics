@@ -133,3 +133,41 @@ Wk = np.kron(np.kron(A, B), C)
 assert np.allclose(perron(Wk), np.kron(np.kron(perron(A), perron(B)), perron(C)))
 assert np.isclose(gap(Wk), min(gap(A), gap(B), gap(C)))
 print("pi and Gamma identities for exact Kronecker products verified")
+
+print("\n=== Proof pass: two-level nesting pi_I = pi_G * pi_N|c * pi_within (Prop. nesting) ===")
+def coupling(W, part):
+    s = [perron(stoch_complement(W, b)) for b in part]
+    Cc = np.array([[s[a] @ W[np.ix_(part[a], part[b])].sum(1) for b in range(len(part))]
+                   for a in range(len(part))])
+    assert np.allclose(Cc.sum(1), 1)
+    return perron(Cc), s
+for trial in range(100):
+    # 3 countries, each with 2 or 3 sectors of 1-3 individuals
+    layout, idx = [], 0
+    for c in range(3):
+        secs = []
+        for s_ in range(rng.integers(2, 4)):
+            m_ = int(rng.integers(1, 4)); secs.append(list(range(idx, idx + m_))); idx += m_
+        layout.append(secs)
+    n = idx
+    W = rownorm(rng.random((n, n)) ** 4)
+    pi = perron(W)
+    countries = [sum(secs, []) for secs in layout]
+    for b in countries:                                   # I - W_** invertible, S_B stochastic
+        rest = [j for j in range(n) if j not in b]
+        assert max(abs(np.linalg.eigvals(W[np.ix_(rest, rest)]))) < 1
+        assert np.allclose(stoch_complement(W, b).sum(1), 1)
+    xiG, sC = coupling(W, countries)
+    assert np.allclose(xiG, [pi[b].sum() for b in countries])
+    # pi-weighted aggregate has Perron vector = block sums
+    Wt = np.array([[pi[a] @ W[np.ix_(a, b)].sum(1) / pi[a].sum() for b in countries] for a in countries])
+    assert np.allclose(perron(Wt), xiG)
+    recon = np.zeros(n)
+    for c, secs in enumerate(layout):
+        Sc = stoch_complement(W, countries[c])
+        loc = [[countries[c].index(i) for i in sec] for sec in secs]
+        xiN, sW = coupling(Sc, loc)
+        for k_, sec in enumerate(secs):
+            recon[sec] = xiG[c] * xiN[k_] * sW[k_]
+    assert np.allclose(recon, pi)
+print("two-level factorization exact in 100 random three-country economies")

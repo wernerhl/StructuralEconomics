@@ -64,12 +64,16 @@ Large anonymous markets for standardized goods. The buyer of a barrel of oil on 
 \textbf{Network effects.} Adoption of a technology by agent $j$ raises the value of the technology for agent $i$ (telephones, social media, payment systems). $W^U_{ij} > 0$ for complementary users.
 
 \begin{proposition}[Welfare Cost of Ignoring $W^U$]\label{ch04:prop:A1_cost}
-In the one-good quadratic economy of Chapter~2, when $W^U \neq 0$ and $\gamma_U > 0$, the externality-blind allocation (which ignores $W^U$) generates a social-welfare loss of
+In the one-good quadratic economy of Chapter~2, under the hypotheses of Proposition~\ref{ch02:prop:ext_loss} ($1 - \kappa m > 0$ and an interior social optimum with $\kappa x_j < 1$), when $W^U \neq 0$ and $\gamma_U > 0$, the externality-blind allocation (which ignores $W^U$) generates a social-welfare loss of
 \begin{equation}\label{ch04:eq:A1_loss}
-L_{A1} = \gamma_U^2 \cdot \Var(c_j^U) \cdot \Psi + O(\gamma_U^3), \qquad \Psi = \frac{N(1-\kappa m)^2}{2\kappa},
+L_{A1} = \gamma_U^2 \cdot \Var(c_j^U) \cdot K_{\text{ext}} + O(\gamma_U^3), \qquad K_{\text{ext}} = \frac{N(1-\kappa m)^2}{2\kappa},
 \end{equation}
 where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality in the utility network and $m = \Omega/N$ (Chapter~2, Proposition~\ref{ch02:prop:ext_loss}, which also gives the exact formula).
 \end{proposition}
+
+\begin{proof}
+With identical $U$, the externality-blind allocation is equal division $x_j = m$. Proposition~\ref{ch02:prop:ext_loss} with $\gamma = \gamma_U$ and $c_j = c_j^U$ gives its loss as $\frac{N(1-\kappa m)^2}{2\kappa}\gamma_U^2\Var(c_j^U) + O(\gamma_U^3) = \gamma_U^2\Var(c_j^U)K_{\text{ext}} + O(\gamma_U^3)$.
+\end{proof}
 
 \textbf{Relaxed in:} Chapters~5 (the utility network defined), 7 (bargaining equilibrium with externalities), 12 (welfare under endogenous preferences).
 
@@ -104,7 +108,7 @@ The effect is amplified by the Leontief inverse \textit{twice} --- once for the 
 \end{proposition}
 
 \begin{proof}
-The steady state satisfies $\Delta\K^* = S L_\gamma \mathbf{f}(\K^*)$. Differentiate: $\Delta\, d\K = S\,(dL_\gamma)\,\mathbf{f} + S L_\gamma F' d\K$, and $dL_\gamma = L_\gamma(\gamma\, dA')L_\gamma$ (differentiate $L_\gamma(I - \gamma A') = I$). Solve for $d\K$. (For the two-sector economy of Chapter~3, Example~\ref{ch03:ex:two_WP}, raising $a_{12}$ by $0.01$ moves $\K^*$ by $(0.089, 0.269)$ by this formula and by $(0.089, 0.270)$ by direct computation; \texttt{code/ch04.py}.)
+Assume $\gamma\rho(A) < 1$, so that $L_\gamma$ exists and depends smoothly on $A$, and that $\mathbf{f}$ is continuously differentiable near $\K^* \gg 0$. The steady state solves $H(\K, A) := \Delta\K - S L_\gamma(A) \mathbf{f}(\K) = 0$, and $D_{\K}H = \Delta - SL_\gamma F'$ is invertible by hypothesis, so by the implicit function theorem the steady state is locally a $C^1$ function $\K^*(A)$. Differentiate: $\Delta\, d\K = S\,(dL_\gamma)\,\mathbf{f} + S L_\gamma F' d\K$, and $dL_\gamma = L_\gamma(\gamma\, dA')L_\gamma$ (differentiate $L_\gamma(I - \gamma A') = I$). Solve for $d\K$. (For the two-sector economy of Chapter~3, Example~\ref{ch03:ex:two_WP}, raising $a_{12}$ by $0.01$ moves $\K^*$ by $(0.089, 0.269)$ by this formula and by $(0.089, 0.270)$ by direct computation; \texttt{code/ch04.py}.)
 \end{proof}
 
 \textbf{Relaxed in:} Chapters~3 (production network in growth), 13 (how networks evolve), 15 (operator design --- policy as deliberate change of $W^P$).
@@ -140,7 +144,7 @@ where $\boldsymbol{\pi}^I$ is the left Perron eigenvector of $W^I$. The long-run
 \end{proposition}
 
 \begin{proof}
-$\mathbf{b}^{(t)} = (W^I)^t\mathbf{b}^{(0)}$. For a primitive (irreducible and aperiodic) stochastic matrix, $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ by Perron--Frobenius (Chapter~6).
+$\mathbf{b}^{(t)} = (W^I)^t\mathbf{b}^{(0)}$. For a primitive (irreducible and aperiodic) stochastic matrix, $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ by Perron--Frobenius (Chapter~6, Theorem~\ref{ch06:thm:PF}; \citealt[Thm.~8.5.1]{horn2012matrix}). Directly: write $W = W^I$, $\boldsymbol{\pi} = \boldsymbol{\pi}^I$ and $P = \ones\boldsymbol{\pi}'$. Since $W\ones = \ones$, $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$ and $\boldsymbol{\pi}'\ones = 1$, we have $WP = PW = P^2 = P$, hence $(W - P)^t = W^t - P$ for $t \ge 1$. The spectrum of $W - P$ is that of $W$ with the simple eigenvalue 1 replaced by 0, and primitivity puts every other eigenvalue of $W$ strictly inside the unit circle, so $\rho(W - P) = |\lambda_2(W)| < 1$ and $(W - P)^t \to 0$ (Chapter~1, Appendix~\ref{ch01:app:neumann}).
 \end{proof}
 
 \textbf{Relaxed in:} Chapters~5 (the information network defined), 8 (belief manipulation and epistemic power), 9--12 (the formation model, where $W^I$ shapes preferences).
@@ -172,8 +176,12 @@ When interaction is not anonymous and the surplus is divided by asymmetric Nash 
 \begin{equation}
 x_i^* = \frac{\Omega}{N} + \Bigl(\pi_i(W) - \frac{1}{N}\Bigr)\Phi,
 \end{equation}
-where $\Phi$ is the bargaining surplus, with quadratic-utility loss $L_{A4} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$ (Chapter~2, Proposition~\ref{ch02:prop:power_loss}). The loss is distributional: the bargaining outcome is Pareto efficient.
+where $\Phi$ is the bargaining surplus, with quadratic-utility loss $L_{A4} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$ (Chapter~2, Proposition~\ref{ch02:prop:power_loss}). We assume $W$ irreducible, $\Phi > 0$ and $\kappa x_i^* \le 1$ for all $i$. The loss is distributional: the bargaining outcome is Pareto efficient.
 \end{proposition}
+
+\begin{proof}
+The allocation and the loss are Chapter~1, Proposition~\ref{ch01:prop:allocation_rule}, with $\boldsymbol{\lambda} = \boldsymbol{\pi}(W)$. Pareto efficiency is Proposition~\ref{ch01:prop:nash_division}, which applies because $\pi_i > 0$ (irreducibility), $\Phi > 0$ and $\kappa x_i^* \le 1$.
+\end{proof}
 
 \textbf{Relaxed in:} Chapters~6 (centrality and power from $W$), 7 (the bargaining equilibrium).
 
@@ -196,12 +204,16 @@ Economies where interactions are dense, symmetric, and relatively uniform. Small
 Wherever the composite fails to be doubly stochastic. That happens when $W^U$ has clustered externalities, $W^I$ is star-shaped, or $W^{\text{mkt}}$ is concentrated --- but it also happens with A1--A4 intact: with unequal endowments, $W^{\text{mkt}} = \ones\mathbf{s}'$ has $\boldsymbol{\pi} = \mathbf{s} \neq \frac{1}{N}\ones$. A5 is therefore a separate assumption, and in the benchmark it amounts to equal endowments. (A block-diagonal $W^P$ by itself need not concentrate power: with balanced cross-block flows, $\boldsymbol{\pi}$ can be uniform; Chapter~3, Proposition~\ref{ch03:prop:block_spectral}.)
 
 \begin{proposition}[Power Decomposition]\label{ch04:prop:A5_decomp}
-The Perron vector of the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ (layers row-stochastic on the same node set; a market layer adds a fourth term in the same way) satisfies:
+Let the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ (layers row-stochastic on the same node set, $\alpha_k \ge 0$, $\sum_k\alpha_k = 1$; a market layer adds a fourth term in the same way) be irreducible. Its Perron vector satisfies:
 \begin{equation}\label{ch04:eq:power_decomp}
 \pi_i = \alpha_U \underbrace{\sum_j \pi_j W^U_{ji}}_{\text{social power}} + \alpha_P \underbrace{\sum_j \pi_j W^P_{ji}}_{\text{production power}} + \alpha_I \underbrace{\sum_j \pi_j W^I_{ji}}_{\text{epistemic power}}.
 \end{equation}
 An agent's total power is the weighted sum of power directed toward her through all three channels: how much powerful agents care about her ($W^U$), depend on her output ($W^P$), and listen to her signals ($W^I$).
 \end{proposition}
+
+\begin{proof}
+$W$ is row-stochastic (Appendix~\ref{ch04:app:composite}) and irreducible, so $\boldsymbol{\pi}$ exists and is unique (Chapter~6, Theorem~\ref{ch06:thm:PF}). Write the $i$-th entry of $\boldsymbol{\pi}' = \boldsymbol{\pi}'W$ and expand $W_{ji} = \alpha_U W^U_{ji} + \alpha_P W^P_{ji} + \alpha_I W^I_{ji}$. Each underbraced term is computed with the composite $\boldsymbol{\pi}$, not with the layer's own Perron vector.
+\end{proof}
 
 \begin{intuition}[Power is recursive]
 The equation is self-referential: $\pi_i$ depends on $\pi_j$ for all $j$ who point toward $i$, and $\pi_j$ depends on $\pi_k$ for all $k$ who point toward $j$, and so on. Power comes from being valued, depended upon, and listened to \textit{by other powerful agents}. This recursion is the defining feature of the Perron eigenvector and the mathematical content of ``privilege reproduces itself.''
@@ -351,7 +363,7 @@ A2 & $\|\Delta A\| / \|A\|$ (I-O change per decade) & I-O time series & $5$--$20
 A3 & $\Neff(\boldsymbol{\pi}^I)/N$ (epistemic concentration) & Media and network data & $0.2$--$0.8$ \\
 A4 & $d_\pi(W^{\text{mkt}})$ (power distance of market shares) & Market shares & $0.1$--$0.5$ \\
 A5 & $\Neff(\boldsymbol{\pi})/N$ (power concentration) & Composite $W$ & $0.3$--$0.9$ \\
-A6 & $\Psi$ ratio (formation vs.\ enforcement; Chapter~11) & Cohort-year data & $0.5$--$4.0$ \\
+A6 & $\Psi$ ratio (formation vs.\ enforcement; Definition~\ref{ch09:def:psi}, estimation in Chapter~11) & Cohort-year data & $0.5$--$4.0$ \\
 \bottomrule
 \end{tabularx}
 \caption{Departure measures for the six assumptions. \illustrative\ The ranges are placeholders chosen to be internally consistent ($\Neff/N \in [1/N, 1]$, $d_\pi \in [0, 1 - 1/N]$), not estimates from the data sources listed.}

@@ -138,4 +138,26 @@ for _ in range(3):
 Wmix = 0.2 * Ls[0] + 0.5 * Ls[1] + 0.3 * Ls[2]
 assert np.allclose(stationary(Wmix), p)
 print("ok: pi(composite) = common pi =", np.round(p, 3))
+
+print("=" * 70)
+print("Proof checks: Thm ch08:thm:degroot, Prop ch08:prop:rate, Prop ch08:prop:misinfo")
+for _ in range(300):
+    n = rng.integers(3, 8)
+    W = rng.random((n, n)) * (rng.random((n, n)) < 0.5) + 0.3 * np.roll(np.eye(n), 1, 1)
+    W[0, 0] += 0.2
+    W /= W.sum(1, keepdims=True)                 # strongly connected and aperiodic
+    p = stationary(W); P = np.outer(np.ones(n), p)
+    M = W - P
+    l2 = np.sort(np.abs(np.linalg.eigvals(W)))[-2]
+    assert np.isclose(max(abs(np.linalg.eigvals(M))), l2, atol=1e-8)
+    for t in (1, 2, 5, 17):
+        assert np.allclose(np.linalg.matrix_power(M, t), np.linalg.matrix_power(W, t) - P)
+    # misinformation: E[b*] - omega = pi_h delta, by linearity of the consensus
+    h, omega, delta = rng.integers(n), rng.random(), rng.standard_normal()
+    eps = rng.standard_normal((2000, n)) * 0.1
+    b0 = omega + eps; b0[:, h] += delta
+    bstar = b0 @ p
+    assert np.allclose(bstar, omega + p[h] * delta + eps @ p)
+    assert np.allclose(np.linalg.matrix_power(W, 4000) @ b0[0], bstar[0], atol=1e-8)
+print("ok: (W - 1pi')^t = W^t - 1pi', rho(W - 1pi') = |lambda_2|, b* = omega + pi_h delta + pi'eps")
 print("all assertions passed")

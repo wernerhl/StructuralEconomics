@@ -63,7 +63,7 @@ All agents converge to the same belief $b^*$: the $\boldsymbol{\pi}^I$-weighted 
 \end{theorem}
 
 \begin{proof}
-An irreducible, aperiodic nonnegative matrix is primitive, so by Theorem~\ref{ch06:thm:PF} (item 6) $(W^I)^t/\rho^t \to \mathbf{v}(\boldsymbol{\pi}^I)'$ with $(\boldsymbol{\pi}^I)'\mathbf{v} = 1$. For row-stochastic $W^I$, $\rho = 1$ and $\mathbf{v} = \ones$ (because $W^I\ones = \ones$), and $(\boldsymbol{\pi}^I)'\ones = 1$. Hence $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ and $\bb^{(t)} = (W^I)^t\bb^{(0)} \to \ones(\boldsymbol{\pi}^I)'\bb^{(0)}$. No diagonalizability is needed.
+An irreducible, aperiodic nonnegative matrix is primitive, so by Theorem~\ref{ch06:thm:PF} (item 6; \citealp[Thm.~1.2]{seneta2006nonnegative}) $(W^I)^t/\rho^t \to \mathbf{v}(\boldsymbol{\pi}^I)'$ with $(\boldsymbol{\pi}^I)'\mathbf{v} = 1$. For row-stochastic $W^I$, $\rho = 1$ and $\mathbf{v} = \ones$ (because $W^I\ones = \ones$), and $(\boldsymbol{\pi}^I)'\ones = 1$. Hence $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ and $\bb^{(t)} = (W^I)^t\bb^{(0)} \to \ones(\boldsymbol{\pi}^I)'\bb^{(0)}$. No diagonalizability is needed.
 \end{proof}
 
 Irreducibility can be relaxed: the same conclusion holds whenever $W^I$ has a single closed communicating class and that class is aperiodic; $\boldsymbol{\pi}^I$ is then zero outside the closed class \citep{golub2010naive}. If $W^I$ has several closed classes, as in a block-diagonal $W^I$, there is no global consensus and $\boldsymbol{\pi}^I$ is not unique.
@@ -84,7 +84,7 @@ where $|\lambda_2|$ is the second-largest eigenvalue of $W^I$ in modulus and $C$
 \end{proposition}
 
 \begin{proof}
-$\bb^{(t)} - b^*\ones = ((W^I)^t - \ones(\boldsymbol{\pi}^I)')\bb^{(0)} = (W^I - \ones(\boldsymbol{\pi}^I)')^t\bb^{(0)}$, since $W^I\ones(\boldsymbol{\pi}^I)' = \ones(\boldsymbol{\pi}^I)'W^I = (\ones(\boldsymbol{\pi}^I)')^2 = \ones(\boldsymbol{\pi}^I)'$. The matrix $W^I - \ones(\boldsymbol{\pi}^I)'$ has the eigenvalues of $W^I$ with $1$ replaced by $0$, so its spectral radius is $|\lambda_2|$, and the bound follows from the Jordan form.
+$\bb^{(t)} - b^*\ones = ((W^I)^t - \ones(\boldsymbol{\pi}^I)')\bb^{(0)} = (W^I - \ones(\boldsymbol{\pi}^I)')^t\bb^{(0)}$, since $W^I\ones(\boldsymbol{\pi}^I)' = \ones(\boldsymbol{\pi}^I)'W^I = (\ones(\boldsymbol{\pi}^I)')^2 = \ones(\boldsymbol{\pi}^I)'$. The matrix $W^I - \ones(\boldsymbol{\pi}^I)'$ has the eigenvalues of $W^I$ with $1$ replaced by $0$: it vanishes on $\operatorname{span}(\ones)$ and equals $W^I$ on the invariant complement $\{\x : (\boldsymbol{\pi}^I)'\x = 0\}$, where the eigenvalues are $\lambda_2, \ldots, \lambda_N$ because $1$ is simple. Its spectral radius is therefore $|\lambda_2| < 1$ (primitivity), and the Jordan form gives $\|(W^I - \ones(\boldsymbol{\pi}^I)')^t\| \leq C' t^{m-1}|\lambda_2|^t$, with $m$ the size of the largest Jordan block for an eigenvalue of modulus $|\lambda_2|$ ($m = 1$ if those eigenvalues are semisimple).
 \end{proof}
 
 The spectral gap $\Gamma^I = 1 - |\lambda_2|$ (Definition~\ref{ch06:def:gap}) governs the speed. Large $\Gamma^I$: consensus forms quickly (well-connected $W^I$). Small $\Gamma^I$: disagreement persists for many rounds (clustered or block-diagonal $W^I$).
@@ -173,7 +173,7 @@ Block & 0.85 & 0.85 & 0.15 & 0.15 & 0.00 \\
 \subsection{Wisdom: When Does the Consensus Get It Right?}
 
 \begin{proposition}[Accuracy of the Consensus]\label{ch08:thm:wisdom}
-Suppose the true state is $\omega$, and agent $i$'s initial belief is $b_i^{(0)} = \omega + \varepsilon_i$, where the $\varepsilon_i$ are independent, zero-mean noises with variances $\sigma_i^2$. The DeGroot consensus is:
+Let $W^I$ satisfy the hypotheses of Theorem~\ref{ch08:thm:degroot} and be fixed (not dependent on the noise). Suppose the true state is $\omega$, and agent $i$'s initial belief is $b_i^{(0)} = \omega + \varepsilon_i$, where the $\varepsilon_i$ are independent, zero-mean noises with variances $\sigma_i^2$. The DeGroot consensus is:
 \begin{equation}
 b^* = \omega + \sum_j \pi^I_j \varepsilon_j.
 \end{equation}
@@ -185,7 +185,7 @@ where $\Neff = 1/\sum_j (\pi^I_j)^2$ is the effective number of agents of Defini
 \end{proposition}
 
 \begin{proof}
-By independence, $\Var(e) = \Var(\sum_j \pi^I_j \varepsilon_j) = \sum_j (\pi^I_j)^2 \sigma_j^2 \geq \sigma_{\min}^2\sum_j (\pi^I_j)^2 = \sigma_{\min}^2/\Neff$. With equal variances the inequality is an equality, and $\sum_j (\pi^I_j)^2 \geq 1/N$ (Cauchy--Schwarz, $\sum_j \pi^I_j = 1$) with equality iff $\pi^I_j = 1/N$.
+By Theorem~\ref{ch08:thm:degroot}, $b^* = \sum_j \pi^I_j(\omega + \varepsilon_j) = \omega + \sum_j \pi^I_j\varepsilon_j$, since $\sum_j \pi^I_j = 1$; so $E[e] = 0$. By independence, $\Var(e) = \Var(\sum_j \pi^I_j \varepsilon_j) = \sum_j (\pi^I_j)^2 \sigma_j^2 \geq \sigma_{\min}^2\sum_j (\pi^I_j)^2 = \sigma_{\min}^2/\Neff$. With equal variances the inequality is an equality, and $\sum_j (\pi^I_j)^2 \geq 1/N$ (Cauchy--Schwarz, $\sum_j \pi^I_j = 1$) with equality iff $\pi^I_j = 1/N$.
 \end{proof}
 
 \citeauthor{golub2010naive}'s (\citeyear{golub2010naive}) theorem is the asymptotic counterpart: along a sequence of growing networks with independent, bounded-variance signals, the DeGroot consensus converges to the truth (the society is \textit{wise}) if and only if the influence of the most influential agent vanishes, $\max_j \pi^{I}_j \to 0$.
@@ -204,12 +204,16 @@ Suppose, for illustration, that 5\% of the population holds 90\% of epistemic we
 \subsection{Foolishness: Misinformation in Asymmetric Networks}
 
 \begin{proposition}[Misinformation Amplification]\label{ch08:prop:misinfo}
-If the hub in a star network has a biased initial belief ($b_h^{(0)} = \omega + \delta$ for some bias $\delta \neq 0$), the consensus inherits the bias:
+Let $W^I$ satisfy the hypotheses of Theorem~\ref{ch08:thm:degroot} --- for instance a star with hub $h$ --- and let initial beliefs be as in Proposition~\ref{ch08:thm:wisdom}, except that agent $h$ has a biased initial belief, $b_h^{(0)} = \omega + \delta + \varepsilon_h$ for some bias $\delta \neq 0$. Then the consensus inherits the bias:
 \begin{equation}
-b^* = \omega + \pi^I_h \delta + \text{noise}.
+b^* = \omega + \pi^I_h \delta + \sum_j \pi^I_j \varepsilon_j, \qquad E[b^*] - \omega = \pi^I_h\delta .
 \end{equation}
 The bias in the consensus is proportional to $\pi^I_h$: the hub's epistemic power. When $\pi^I_h \to 1$, the consensus reproduces the hub's bias exactly.
 \end{proposition}
+
+\begin{proof}
+By Theorem~\ref{ch08:thm:degroot}, $b^* = \sum_j \pi^I_j b_j^{(0)} = \omega\sum_j \pi^I_j + \pi^I_h\delta + \sum_j \pi^I_j\varepsilon_j$, and $\sum_j \pi^I_j = 1$. Taking expectations, with $E[\varepsilon_j] = 0$, gives the bias.
+\end{proof}
 
 This is the misinformation mechanism: a biased agent with high epistemic power contaminates the entire network. The contamination is permanent (it enters the long-run consensus) and is not self-correcting (DeGroot agents do not learn from prediction errors). The only correction is structural: change $W^I$ to reduce the hub's epistemic power.
 
@@ -240,7 +244,7 @@ subject to $W^I + \Delta W^I$ remaining row-stochastic and nonnegative. Since an
 \end{definition}
 
 \begin{proposition}[Manipulation Cost, First Order]\label{ch08:thm:manipulation}
-Let $W^I$ be irreducible with fundamental matrix $Z = (I - W^I + \ones(\boldsymbol{\pi}^I)')^{-1}$. A perturbation $tE$ with $E\ones = 0$ moves the consensus, to first order, by
+Let $W^I$ be irreducible and row-stochastic with fundamental matrix $Z = (I - W^I + \ones(\boldsymbol{\pi}^I)')^{-1}$. A perturbation $tE$ (with $E$ as in Lemma~\ref{ch06:lem:perturbation}, so $E\ones = 0$) moves the consensus $b^* = (\boldsymbol{\pi}^I)'\bb^{(0)}$, to first order in $t$, by
 \begin{equation}\label{ch08:eq:manip_result}
 db^* = t\,(\boldsymbol{\pi}^I)'EZ\bigl(\bb^{(0)} - b^*\ones\bigr), \qquad\text{so}\qquad
 t\,\|E\|_\infty \;\geq\; \frac{|b_T - b^*|}{\max_j |b_j^{(0)} - b^*|} \cdot \frac{1}{\|Z\|_\infty}

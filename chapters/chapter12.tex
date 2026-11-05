@@ -21,7 +21,7 @@ Consider an agent in the traditional sector who reports moderate satisfaction wi
 
 The problem has no easy solution. This chapter develops four approaches and states what each can and cannot do. It identifies what can be ranked robustly and what cannot. It then says plainly where a value judgment is unavoidable.
 
-\textbf{Which reading of $\theta$ is in force.} Throughout this chapter $\theta_i$ is an \textit{aspiration level} $a_i$, a reference point for one's own outcome (Chapter~9, Definition~\ref{ch09:def:theta}, ``education'' row). Utility is reference-dependent, in the spirit of \citet{genicot2017aspirations} and of the relative-income literature \citep{clark2008relative}:
+\textbf{Which reading of $\theta$ is in force.} Throughout this chapter $\theta_i$ is an \textit{aspiration level} $a_i$, a reference point for one's own outcome (Chapter~9, Definition~\ref{ch09:def:theta}, ``education'' row). Utility is reference-dependent, in the spirit of \citet{genicot2017aspirations} and of the relative-income literature \citep{clark2008relative}. Richer models of aspirations or reference consumption formed through a social network or reference group are \citet{mookherjee2010aspirations} and \citet{ghiglino2010keeping}; this chapter uses the simplest linear--quadratic version:
 \begin{equation}\label{ch12:eq:refdep}
 s_i = v(x_i - a_i), \qquad v(z) = z - \frac{\kappa}{2}z^2, \qquad \kappa z < 1 \text{ on the relevant range},
 \end{equation}
@@ -58,7 +58,7 @@ The allocation gap $x_M - x_T$ is the same in both cases. As $\mathcal{M} \to 1$
 \end{proposition}
 
 \begin{proof}
-For quadratic $v$, $v(z_1) - v(z_2) = (z_1 - z_2)\,[1 - \kappa(z_1 + z_2)/2]$. Block-diagonal: $z_b = (1 - \mathcal{M})x_b$. So the gap is $(1-\mathcal{M})(x_M - x_T)\,[1 - \kappa(1 - \mathcal{M})(x_M + x_T)/2]$. Integrated: $a = \mathcal{M}\bar{x}$ with $\bar{x} = (x_M + x_T)/2$, so $z_b = x_b - \mathcal{M}\bar{x}$. The gap is $(x_M - x_T)\,[1 - \kappa(x_M + x_T - 2\mathcal{M}\bar{x})/2] = (x_M - x_T)\,[1 - \kappa(1 - \mathcal{M})(x_M + x_T)/2]$. The brackets coincide, so the ratio is $1 - \mathcal{M}$.
+For quadratic $v$, $v(z_1) - v(z_2) = (z_1 - z_2)\,[1 - \kappa(z_1 + z_2)/2]$. Block-diagonal: $z_b = (1 - \mathcal{M})x_b$. So the gap is $(1-\mathcal{M})(x_M - x_T)\,[1 - \kappa(1 - \mathcal{M})(x_M + x_T)/2]$. Integrated: $a = \mathcal{M}\bar{x}$ with $\bar{x} = (x_M + x_T)/2$, so $z_b = x_b - \mathcal{M}\bar{x}$. The gap is $(x_M - x_T)\,[1 - \kappa(x_M + x_T - 2\mathcal{M}\bar{x})/2] = (x_M - x_T)\,[1 - \kappa(1 - \mathcal{M})(x_M + x_T)/2]$. The brackets coincide, and they are positive because each $\kappa z_b < 1$, so the denominator is nonzero ($x_M \neq x_T$) and the ratio is $1 - \mathcal{M}$.
 \end{proof}
 
 \begin{intuition}[The uncomfortable truth]
@@ -170,7 +170,7 @@ The term ``laundering'' is \citeauthor{goodin1986laundering}'s \citeyearpar{good
 \end{proposition}
 
 \begin{proof}
-(1) Rows of $\Wce$ are identical. (2) Example~\ref{ch12:ex:sen_bentham} below and Exercise~12.7 give allocations ranked differently. (3) Definition.
+(1) Rows of $\Wce$ are identical. (2) An instance: $N = 2$, $\mathcal{M} = 0.8$, $\kappa = 0.5$, everyone watches agent~2 ($W^I = \ones\mathbf{e}_2'$), $W^I_{\text{just}} = \Wce$ and $\x^{\text{ref}} = \x = (1.5, 0.5)$, so $\hat{a}_i = 0.8$. Compare $\x$ with the equal split $\x' = (1, 1)$. Endogenously, $\x - \mathbf{a}^*(\x) = (1.1, 0.1)$ and $\x' - \mathbf{a}^*(\x') = (0.2, 0.2)$, so $W_1(\x) = 0.895 > W_1(\x') = 0.38$. With laundered aspirations, $\x - \hat{\mathbf{a}} = (0.7, -0.3)$ and $\x' - \hat{\mathbf{a}} = (0.2, 0.2)$, so $\hat{W}(\x) = 0.255 < \hat{W}(\x') = 0.38$. All arguments satisfy $\kappa z < 1$ (\texttt{code/ch12.py}). (3) This restates what the definition requires as inputs.
 \end{proof}
 
 \begin{intuition}[Strength and weakness]
@@ -194,14 +194,14 @@ The critical move: $\mathcal{O}_i$ is defined by entitlements and conversion fac
 \begin{proposition}[Capability in the Formation Model]\label{ch12:prop:capability}
 \begin{enumerate}
 \item $\mathcal{O}_i$ does not depend on $a_i$: aspirations do not enter the capability set.
-\item $\mathcal{O}_i = \mathcal{O}_j$ iff $c_i e_i = c_j e_j$. With equal endowments and conversion factors, equal capability requires equal power $\pi_i = \pi_j$, but not equal aspirations.
+\item $\mathcal{O}_i = \mathcal{O}_j$ iff $c_i e_i = c_j e_j$. With equal endowments and conversion factors and $\Phi > 0$, equal capability requires equal power $\pi_i = \pi_j$, but not equal aspirations.
 \item With common $c$ and $\omega$, the \textit{sum} $\sum_i c\,e_i = c\,\Omega$ is the same for every $\boldsymbol{\pi}$. So a utilitarian sum of capabilities cannot detect power concentration. The \textit{minimum} capability $\min_i c\,e_i$ is maximized exactly at $\boldsymbol{\pi} = \frac{1}{N}\ones$.
 \item Information policy can enlarge capability sets by raising conversion factors $c_i$ (knowing which schools, jobs or programs exist), even when it changes neither power nor endowments.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1)--(2) Definition. (3) $\sum_i e_i = \sum_i\omega_i + \Phi\sum_i\pi_i = \Omega$. And $\min_i \pi_i \le 1/N$, with equality iff $\boldsymbol{\pi}$ is uniform, because the $\pi_i$ sum to 1. (4) Definition of $c_i$.
+(1)--(2) Definition. (3) $\sum_i e_i = \sum_i\omega_i + \Phi\sum_i\pi_i = \Omega$. And $\min_i c\,e_i = c(\omega + \Phi\min_i\pi_i)$ with $c, \Phi > 0$, while $\min_i \pi_i \le 1/N$, with equality iff $\boldsymbol{\pi}$ is uniform, because the $\pi_i$ sum to 1. (4) Definition of $c_i$.
 \end{proof}
 
 Part~(3) is why the capability approach resists summation. Sen's capability sets are vectors of freedoms, not quantities to be added. Measuring freedom by the size of a choice set is itself contested: \citet{pattanaik1990ranking} axiomatize ranking opportunity sets by their cardinality, and \citet{sen1991welfare} shows why that ignores the value of the options. \citet[\textit{AER}]{sugden2004opportunity} proposes an opportunity criterion that does not require coherent preferences.
@@ -233,16 +233,16 @@ An allocation $\x$ is \textbf{robustly superior} to $\x'$ if $W_k(\x) \geq W_k(\
 This is Sen's \textit{intersection quasi-ordering} \citep{sen1970collective}: rank only what every admissible criterion ranks the same way, and leave the rest unranked. Its choice-theoretic analogue is \citeauthor{bernheim2009beyond}'s \citeyearpar{bernheim2009beyond} unambiguous choice relation. There, $W^I$ plays the role of an \textit{ancillary condition} --- a feature of the decision environment that changes choices without changing the feasible set --- and $\x$ is ranked above $\x'$ only if it is chosen over $\x'$ under every welfare-relevant ancillary condition.
 
 \begin{proposition}[What Is Robustly Ranked]\label{ch12:prop:robust}
-Let $v$ be increasing and $0 \le \mathcal{M} < 1$.
+Let $v$ be strictly increasing and $0 \le \mathcal{M} < 1$.
 \begin{enumerate}
 \item If $\x \geq \x'$ componentwise with $\x \neq \x'$, then $\x$ is ranked above $\x'$ by every \textit{fixed}-aspiration criterion ($W_2$, $W_3$, $W_4$).
-\item $\x$ is ranked above $\x'$ by $W_1$ for every $v$ if $(I - \mathcal{M}W^I)(\x - \x') \geq 0$, with $\neq$. This is a stronger requirement: raising others' outcomes raises my aspirations.
+\item $\x$ is ranked above $\x'$ by $W_1$ for every strictly increasing $v$ if $(I - \mathcal{M}W^I)(\x - \x') \geq 0$, with $\neq$. This is a stronger requirement: raising others' outcomes raises my aspirations.
 \item The multi-criteria order is therefore a strict but incomplete partial order. Transfers between agents --- the core of distributional questions --- are generally \textit{not} robustly ranked.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1) Each $v(x_i - a_i)$ is increasing in $x_i$ for fixed $a_i$. (2) $x_i - a_i^*(\x) = [(I - \mathcal{M}W^I)\x]_i$, so the condition makes every argument weakly larger. (3) A transfer lowers some $x_i$, so (1) fails. Example~\ref{ch12:ex:sen_bentham} gives a transfer ranked oppositely by $W_1$ and $W_2$.
+(1) Each $v(x_i - a_i)$ is strictly increasing in $x_i$ for fixed $a_i$, so every term weakly rises and at least one strictly rises. (2) $x_i - a_i^*(\x) = [(I - \mathcal{M}W^I)\x]_i$, so the condition makes every argument weakly larger and at least one strictly larger. (3) Robust superiority is componentwise dominance of the vector $\mathbf{W}(\x)$ with one strict inequality, which is irreflexive and transitive. A transfer lowers some $x_i$, so (1) does not apply to it, and the instance in the proof of Proposition~\ref{ch12:prop:laundered}(2) is a transfer ranked oppositely by $W_1$ and $W_2$; so the order is incomplete.
 \end{proof}
 
 
@@ -275,11 +275,11 @@ Let $x_i = \Omega/N + (\pi_i - 1/N)\Phi$ (Chapter~7, Proposition~\ref{ch07:prop:
 \begin{equation}\label{ch12:eq:fixed_eval}
 \sum_i v(x_i - \hat{a}) = N\,v\!\left(\tfrac{\Omega}{N} - \hat{a}\right) - \frac{\kappa N}{2}\Phi^2\,\Var(\boldsymbol{\pi}).
 \end{equation}
-Hence, for equal $(\Omega, \Phi, \kappa, \hat{a})$, $W_A$ is ranked above $W_B$ iff $\Var(\boldsymbol{\pi}_A) < \Var(\boldsymbol{\pi}_B)$, i.e.\ iff $\Neff(\boldsymbol{\pi}_A) > \Neff(\boldsymbol{\pi}_B)$. The spectral gap plays no role.
+Hence, for equal $(\Omega, \Phi, \kappa, \hat{a})$ with $\kappa > 0$ and $\Phi \neq 0$, $W_A$ is ranked above $W_B$ iff $\Var(\boldsymbol{\pi}_A) < \Var(\boldsymbol{\pi}_B)$, i.e.\ iff $\Neff(\boldsymbol{\pi}_A) > \Neff(\boldsymbol{\pi}_B)$. The spectral gap plays no role.
 \end{proposition}
 
 \begin{proof}
-Let $z_i = x_i - \hat{a}$. Then $\sum_i z_i = \Omega - N\hat{a}$ and $\sum_i z_i^2 = N(\Omega/N - \hat{a})^2 + N\Var(\x)$, with $\Var(\x) = \Phi^2\Var(\boldsymbol{\pi})$. Substitute into $\sum_i(z_i - \frac{\kappa}{2}z_i^2)$. Finally, $\Var(\boldsymbol{\pi}) = \frac{1}{N}(1/\Neff - 1/N)$.
+Let $z_i = x_i - \hat{a}$. Then $\sum_i z_i = \Omega - N\hat{a}$ and $\sum_i z_i^2 = N(\Omega/N - \hat{a})^2 + N\Var(\x)$, with $\Var(\x) = \Phi^2\Var(\boldsymbol{\pi})$. Substitute into $\sum_i(z_i - \frac{\kappa}{2}z_i^2)$: the result is $N(\Omega/N - \hat{a}) - \frac{\kappa N}{2}(\Omega/N - \hat{a})^2 - \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$, which is~\eqref{ch12:eq:fixed_eval}. Finally, $\Var(\boldsymbol{\pi}) = \frac{1}{N}(1/\Neff - 1/N)$ is decreasing in $\Neff$.
 \end{proof}
 
 \begin{remark}[$\Gamma$ Is Not a Distributional Criterion]\label{ch12:rem:gamma}
@@ -301,21 +301,21 @@ $\sum_i (W^I\x)_i = \ones'W^I\x = \mathbf{c}'\x$.
 In the Bolivia allocation with $\mathcal{M} = 0.8$, $W_1 = 1.80$. If every agent moves 30\% of her attention to the gas block (a ``media hub'' showing elite lifestyles), $W_1$ falls to $1.26$ at the same allocation. By the endogenous criterion, the information change made everyone worse off. By the fixed criteria, nothing changed. By the process criterion, $\Neff(\boldsymbol{\pi}^I)$ fell. This is Furtado's demonstration effect (Chapter~9) in welfare terms.
 
 \begin{example}[The Criteria Disagree \illustrative]\label{ch12:ex:sen_bentham}
-Two agents: a landlord with $\pi = 0.8$ and endogenous aspiration $a_L = 4$, and a worker with $\pi = 0.2$ and $a_W = 1.5$. $\Omega = 10$, $\Phi = 4$, $v(z) = z - 0.05z^2$. The bargaining allocation is $\x = (6.2, 3.8)$. Equalizing power gives $\x' = (5, 5)$ (aspirations held at their current values).
+Two agents: a landlord with $\pi = 0.8$ and current aspiration $a_L = 4$, and a worker with $\pi = 0.2$ and $a_W = 1.5$ (taken as given; they are not of the form $\mathcal{M}W^I\x$). $\Omega = 10$, $\Phi = 4$, $v(z) = z - 0.05z^2$. The bargaining allocation is $\x = (6.2, 3.8)$. Equalizing power gives $\x' = (5, 5)$ (aspirations held at their current values).
 
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
 Criterion & $\boldsymbol{\pi} = (0.8, 0.2)$ & $\boldsymbol{\pi} = (0.5, 0.5)$ \\
 \midrule
-$W_1$: endogenous aspirations, sum & 3.99 & 3.84 \\
+Current aspirations, held fixed, sum & 3.99 & 3.84 \\
 $W_2$: laundered $\hat{a} = 3$, sum & 3.46 & 3.60 \\
-Rawlsian, endogenous aspirations ($\min_i s_i$) & 1.96 & 0.95 \\
+Rawlsian, current aspirations ($\min_i s_i$) & 1.96 & 0.95 \\
 Capability, $\min_i e_i$ & 3.80 & 5.00 \\
 \bottomrule
 \end{tabular}
 \end{center}
-The endogenous criteria rank the unequal structure higher; the laundered and capability criteria rank the equal one higher. Exercise~12.7 works through it.
+The criteria based on current aspirations rank the unequal structure higher; the laundered and capability criteria rank the equal one higher. Exercise~12.7 works through it.
 \end{example}
 
 \begin{keyinsight}
@@ -333,11 +333,14 @@ The circularity is therefore not solved; it is made explicit. Choosing a criteri
 \subsection{Implication 1: Satisfaction Surveys Can Be Structurally Biased}
 
 \begin{corollary}[Satisfaction Bias]\label{ch12:prop:satisfaction}
-In the setting of Proposition~\ref{ch12:thm:paradox}, a regression of reported satisfaction on allocation \textit{across} blocks has slope $(1 - \mathcal{M})$ times the slope with integrated aspirations. Within a block, where all agents share the block's aspiration, the satisfaction--allocation gradient is uncompressed.
+\begin{enumerate}
+\item In the setting of Proposition~\ref{ch12:thm:paradox}, the slope of reported satisfaction on allocation \textit{across} the two blocks, $(s_M - s_T)/(x_M - x_T)$, is $(1 - \mathcal{M})$ times the slope with integrated aspirations.
+\item Let allocations vary within blocks, with $W^I$ block-diagonal and uniform within blocks, so every agent of block $b$ has aspiration $a_b = \mathcal{M}\bar{x}_b$. Then within a block $s_i - s_j = v(x_i - a_b) - v(x_j - a_b)$: satisfaction differences reflect allocation differences only, with no compression factor. For linear $v$ the within-block slope is $1$, while the slope across block means is $1 - \mathcal{M}$ (and $1$ with integrated aspirations).
+\end{enumerate}
 \end{corollary}
 
 \begin{proof}
-Across blocks: Proposition~\ref{ch12:thm:paradox}. Within a block: agents share $a_b$, so differences in $s$ reflect differences in $x$ only.
+(1) Proposition~\ref{ch12:thm:paradox}. (2) Within a block all agents share $a_b$. For linear $v$, mean satisfaction in block $b$ is $\bar{x}_b - \mathcal{M}\bar{x}_b = (1 - \mathcal{M})\bar{x}_b$, and with integrated aspirations it is $\bar{x}_b - \mathcal{M}\bar{x}$.
 \end{proof}
 
 If reference groups are national (blocks are countries), the model produces the pattern \citet{easterlin1974does} described: a strong income--satisfaction gradient within countries and a compressed one across countries. The pattern itself is disputed. \citet{stevenson2008economic} find similar within- and cross-country gradients in log income. The formation model offers one mechanism, not a settled fact.
@@ -346,15 +349,15 @@ If reference groups are national (blocks are countries), the model produces the 
 \subsection{Implication 2: Evaluation Depends on the Vintage of Preferences}
 
 \begin{proposition}[Evaluation and Preference Vintage]\label{ch12:prop:time_inconsistent}
-A policy that changes $W^I$ at $t = 0$ is evaluated differently with the aspirations held at $t = 0$ (old vintage) and with those held at $t = T$ (after adjustment to the new $W^I$):
+Let $v$ be strictly increasing. A policy that changes $W^I$ at $t = 0$ can be evaluated with the aspirations held at $t = 0$ (old vintage) or with those held at $t = T$ (after adjustment to the new $W^I$):
 \begin{equation}\label{ch12:eq:time_inconsistent}
-W_0 = \sum_i v(x_{T,i} - a_{\text{old},i}) \quad \neq \quad W_T = \sum_i v(x_{T,i} - a_{\text{new},i}),
+W_0 = \sum_i v(x_{T,i} - a_{\text{old},i}) \qquad \text{versus} \qquad W_T = \sum_i v(x_{T,i} - a_{\text{new},i}).
 \end{equation}
-whenever $\mathbf{a}_{\text{new}} \neq \mathbf{a}_{\text{old}}$. In particular, an information policy that shows people higher outcomes \textit{raises} aspirations, so at a fixed allocation it \textit{lowers} measured satisfaction under the new vintage.
+The two generally differ. In particular, if $\mathbf{a}_{\text{new}} \geq \mathbf{a}_{\text{old}}$ with $\mathbf{a}_{\text{new}} \neq \mathbf{a}_{\text{old}}$, then $W_T < W_0$. An information policy that shows people higher outcomes, $(W^I_{\text{new}}\x)_i \ge (W^I_{\text{old}}\x)_i$ for all $i$ with strict inequality for some $i$, raises aspirations $\mathbf{a} = \mathcal{M}W^I\x$ (for $\mathcal{M} > 0$), so at a fixed allocation it \textit{lowers} measured satisfaction under the new vintage.
 \end{proposition}
 
 \begin{proof}
-$v$ is strictly increasing, so the satisfaction of agent $i$ falls when $a_i$ rises at fixed $x_i$.
+$v$ is strictly increasing, so the satisfaction of agent $i$ weakly falls when $a_i$ weakly rises at fixed $x_i$, and strictly falls for an agent whose $a_i$ strictly rises. Summing gives $W_T < W_0$. The last claim follows because $\mathbf{a}_{\text{new}} - \mathbf{a}_{\text{old}} = \mathcal{M}(W^I_{\text{new}} - W^I_{\text{old}})\x$.
 \end{proof}
 
 This is not time inconsistency in the Strotz sense (a planner's own plan ceasing to be optimal later). It is the classic problem of changing tastes: which self, or which generation's tastes, should evaluate the policy \citep{weizsacker1971notes,hammond1976endogenous}.
@@ -369,11 +372,11 @@ A cost--benefit analysis using \textit{new-vintage} satisfaction records a loss.
 \subsection{Implication 3: Consent Is Not Sufficient}
 
 \begin{proposition}[Endogenous Aspirations Make Consent Harder]\label{ch12:prop:consent}
-Let $v$ be strictly increasing, $0 \le \mathcal{M} < 1$, and let $W^I$ be row-stochastic. Call a change $\x \to \x'$ \textbf{endogenously Pareto-improving} if $v(x'_i - a_i^*(\x')) \ge v(x_i - a_i^*(\x))$ for all $i$, with strict inequality for some $i$, where $\mathbf{a}^*(\x) = \mathcal{M}W^I\x$. Call it \textbf{laundered Pareto-improving} if the same holds with fixed aspirations $\hat{\mathbf{a}}$. Then every endogenously Pareto-improving change is laundered Pareto-improving. The converse fails whenever some agent observes another ($W^I_{ij} > 0$ for some $i \neq j$).
+Let $v$ be strictly increasing, $0 \le \mathcal{M} < 1$, and let $W^I$ be row-stochastic. Call a change $\x \to \x'$ \textbf{endogenously Pareto-improving} if $v(x'_i - a_i^*(\x')) \ge v(x_i - a_i^*(\x))$ for all $i$, with strict inequality for some $i$, where $\mathbf{a}^*(\x) = \mathcal{M}W^I\x$. Call it \textbf{laundered Pareto-improving} if the same holds with fixed aspirations $\hat{\mathbf{a}}$. Then every endogenously Pareto-improving change is laundered Pareto-improving. The converse fails whenever $\mathcal{M} > 0$ and some agent observes another ($W^I_{ij} > 0$ for some $i \neq j$).
 \end{proposition}
 
 \begin{proof}
-Endogenous improvement means $(I - \mathcal{M}W^I)(\x' - \x) \ge 0$, with $\neq$. Since $\mathcal{M} < 1$ and $W^I$ is row-stochastic, $(I - \mathcal{M}W^I)^{-1} = \sum_k \mathcal{M}^k(W^I)^k \ge 0$, so $\x' - \x \ge 0$ with $\neq$, which is a laundered improvement. Conversely, raise only $x_j$. Agent $i$ with $W^I_{ij} > 0$ sees her aspiration rise and her satisfaction fall. For example, with two agents, $W^I = \frac12\ones\ones'$ and $\mathcal{M} = 0.8$, raising $x_2$ by $0.1$ changes the linear satisfaction terms by $(-0.04, +0.06)$.
+Because $v$ is strictly increasing, endogenous improvement means $(I - \mathcal{M}W^I)(\x' - \x) \ge 0$, with $\neq$. Since $\mathcal{M} < 1$ and $W^I$ is row-stochastic, $\rho(\mathcal{M}W^I) = \mathcal{M} < 1$ and $(I - \mathcal{M}W^I)^{-1} = \sum_k \mathcal{M}^k(W^I)^k \ge 0$, so $\x' - \x \ge 0$, and $\x' \neq \x$ because the inverse is nonsingular. For fixed $\hat{\mathbf{a}}$ this is a laundered improvement: every $v(x_i - \hat{a}_i)$ weakly rises and the one with $x'_i > x_i$ strictly rises. Conversely, raise only $x_j$ by $\varepsilon > 0$. This is a laundered improvement, but agent $i$ with $W^I_{ij} > 0$ sees her aspiration rise by $\mathcal{M}W^I_{ij}\varepsilon > 0$ and her satisfaction fall. For example, with two agents, $W^I = \frac12\ones\ones'$ and $\mathcal{M} = 0.8$, raising $x_2$ by $0.1$ changes the linear satisfaction terms by $(-0.04, +0.06)$.
 \end{proof}
 
 The nesting runs in a specific direction. Under endogenous aspirations, improvements for others are partly experienced as losses, so \textit{fewer} changes command unanimous consent. The status quo is harder to dislodge by consent. And the absence of demand for change does not show that the current structure is welfare-maximizing: in the model it can reflect aspirations that the structure itself formed. This depends on the preference model. With other specifications, such as tastes that scale marginal utility, the two Pareto sets need not be nested at all.
