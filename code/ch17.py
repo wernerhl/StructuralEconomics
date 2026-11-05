@@ -102,8 +102,9 @@ m = w @ y; VB = w @ (y - m) ** 2
 print(f"mean = {m:.0f}; V_B = {VB/1e6:.2f}M; sigma_B = V_B / 32M = {VB/32e6:.3f}; ratio y1/y3 = {y[0]/y[2]:.1f}")
 
 print("\n== N_eff of four media ecosystems (illustrative) ==")
-s = np.array([0.35, 0.40, 0.10, 0.15])
-print(f"Neff = {1/np.sum(s**2):.2f} (maximum with 4 nodes = 4); sum of shares = {s.sum():.2f}")
+s = np.array([0.34, 0.37, 0.12, 0.17])
+print(f"sum of squares = {np.sum(s**2):.4f}; Neff = {1/np.sum(s**2):.2f} (maximum with 4 nodes = 4); sum of shares = {s.sum():.2f}")
+assert abs(1/np.sum(s**2) - 3.4) < 0.05
 # audience shares = pi^I only if W^I = 1 s' (rank one), whose Gamma = 1
 WI = np.outer(np.ones(4), s)
 print(f"W^I = 1 s': pi = {perron(WI)}, Gamma = {1 - np.sort(np.abs(np.linalg.eigvals(WI)))[-2]:.3f}")
@@ -112,7 +113,7 @@ print("\n== Psi (illustrative) ==")
 print(f"Psi = 0.028/0.018 = {0.028/0.018:.2f}; enforcement share 1/(1+Psi) = {1/(1+0.028/0.018):.2f}")
 
 print("\n== Dashboard bars ==")
-for name, G_, sB, ne, ps in [("Bolivia", gap(W), 0.62, 3.2, 1.56), ("Korea", 0.45, 0.20, 12, 0.6)]:
+for name, G_, sB, ne, ps in [("Bolivia", gap(W), 0.62, 3.4, 1.56), ("Korea", 0.45, 0.20, 12, 0.6)]:
     print(f"{name}: Gamma = {G_:.2f}, 1-sigma_B = {1-sB:.2f}, 1-G(pi) = {1-(gini(p) if name=='Bolivia' else 0.28):.2f}, "
           f"Neff/20 = {ne/20:.2f}, 1/(1+Psi) = {1/(1+ps):.2f}")
-print(f"ratios: Gamma {0.45/0.13:.1f}x, sigma_B {0.62/0.20:.1f}x, G {0.52/0.28:.2f}x, Neff {12/3.2:.2f}x, Psi {1.56/0.6:.1f}x")
+print(f"ratios: Gamma {0.45/0.13:.1f}x, sigma_B {0.62/0.20:.1f}x, G {0.52/0.28:.2f}x, Neff {12/3.4:.2f}x, Psi {1.56/0.6:.1f}x")
