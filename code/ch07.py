@@ -105,7 +105,7 @@ print("enclave power share =", round(pB[:2].sum(), 3), " predicted e2/(e1+e2) ="
 print("enclave consumption =", round(xB[:2].sum(), 2), "vs 10 (",
       round(100 * (xB[:2].sum() / 10 - 1), 1), "%)")
 WBsym = np.array([[.48, .50, .01, .01], [.40, .58, .01, .01], [.01, .01, .68, .30], [.01, .01, .30, .68]])
-print("B with symmetric leakage (0.02 both ways): pi =", np.round(perron(WBsym), 3))
+print("B with symmetric leakage (0.02 both ways): pi =", np.round(perron(WBsym), 3), " Gamma =", round(gap(WBsym), 3))
 
 print("=" * 70)
 print("Exercise 7.2 (TU): Omega=3, d=(0.6,0.4,0.2), kappa=0.25")

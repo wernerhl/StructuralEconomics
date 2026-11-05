@@ -93,9 +93,9 @@ Degree counts direct connections. A more sophisticated measure counts \textit{al
 \begin{definition}[Katz Centrality]\label{ch06:def:katz}
 Agent $i$'s \textbf{Katz centrality} is:
 \begin{equation}\label{ch06:eq:katz}
-c_i^{\text{Katz}} = \sum_{k=1}^{\infty} \delta^k \sum_{j=1}^N (W^k)_{ji} = \left[(I - \delta W')^{-1} - I\right]_{i} \cdot \ones,
+c_i^{\text{Katz}} = \sum_{k=1}^{\infty} \delta^k \sum_{j=1}^N (W^k)_{ji} = \Bigl(\bigl[(I - \delta W')^{-1} - I\bigr]\ones\Bigr)_{i},
 \end{equation}
-where $\delta \in (0, 1/\rho(W))$ is a decay parameter that downweights longer paths ($\rho(W) = 1$ for row-stochastic $W$), and $(W^k)_{ji}$ is the total weight of all paths of length $k$ from $i$ to $j$.
+where $\delta \in (0, 1/\rho(W))$ is a decay parameter that downweights longer paths ($\rho(W) = 1$ for row-stochastic $W$), and $(W^k)_{ji}$ is the total weight of all paths of length $k$ from $j$ to $i$ (with the convention of Appendix~5A: an edge $j \to i$ of weight $W_{ji}$ means $j$ places weight on $i$).
 \end{definition}
 
 Katz centrality says: agent $i$ is important if many paths lead to her, directly or indirectly, weighted by length. The parameter $\delta$ ensures convergence of the Neumann series.

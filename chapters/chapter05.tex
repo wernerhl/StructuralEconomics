@@ -67,9 +67,9 @@ In matrix form, stacking the $N$ agents:
 where $\mathbf{U} = (U_1(x_1), \ldots, U_N(x_N))'$ is the vector of private utilities and $\mathbf{V}$ is the vector of social utilities.
 
 \begin{intuition}[What $W^U$ does to utility]
-Without $W^U$ (the standard model), your happiness depends only on your own consumption. With $W^U$, other people's happiness enters directly. If $W^U_{ij}$ is large and positive, you are \textit{altruistic} toward $j$: their consumption makes you happier. If we allowed $W^U_{ij} < 0$ (which some models do), you would be \textit{envious}: their consumption makes you worse off.
+Without $W^U$ (the benchmark model), your happiness depends only on your own consumption. With $W^U$, other people's happiness enters directly. If $W^U_{ij}$ is large and positive, you are \textit{altruistic} toward $j$: their consumption makes you happier. If we allowed $W^U_{ij} < 0$ (which some models do), you would be \textit{envious}: their consumption makes you worse off.
 
-The parameter $\gamma_U$ controls how much you care about others overall. When $\gamma_U = 0$, we are back to the standard model regardless of $W^U$. When $\gamma_U > 0$, the structure of $W^U$ matters: \textit{who} you care about --- not just \textit{how much} --- shapes the equilibrium.
+The parameter $\gamma_U$ controls how much you care about others overall. When $\gamma_U = 0$, we are back to the benchmark model regardless of $W^U$. When $\gamma_U > 0$, the structure of $W^U$ matters: \textit{who} you care about --- not just \textit{how much} --- shapes the equilibrium.
 \end{intuition}
 
 \begin{example}[Three Vendors on Calle Comercio]\label{ch05:ex:vendors}
@@ -117,7 +117,7 @@ For the utility externality model~\eqref{ch05:eq:utility_WU}:
 \end{remark}
 
 \begin{keyinsight}
-The distinction between $W^U = 0$ (standard model) and $W^U = \frac{1}{N}\ones\ones' - I$ (anonymous equal externalities) matters. The first says nobody's consumption affects anyone else. The second says \textit{everyone's} consumption affects everyone else \textit{equally}. Both are extreme; neither is realistic. The real $W^U$ is sparse (most pairs have zero or near-zero weight), asymmetric (compadrazgo bonds are not symmetric), and clustered (your utility network is local: family, friends, neighbors, compadres).
+The distinction between $W^U = 0$ (benchmark model) and $W^U = \frac{1}{N}\ones\ones' - I$ (anonymous equal externalities) matters. The first says nobody's consumption affects anyone else. The second says \textit{everyone's} consumption affects everyone else \textit{equally}. Both are extreme; neither is realistic. The real $W^U$ is sparse (most pairs have zero or near-zero weight), asymmetric (compadrazgo bonds are not symmetric), and clustered (your utility network is local: family, friends, neighbors, compadres).
 \end{keyinsight}
 
 
@@ -241,9 +241,9 @@ W^I_{\text{Luisa}} = \begin{pmatrix} 0.35 & 0.25 & 0.15 & 0.15 & 0.10 \end{pmatr
 
 Luisa allocates 35\% of her attention to her mother (she sees her every day, trusts her judgment), 25\% to her school friend (constant contact), 15\% to her cousin in Buenos Aires (WhatsApp, intermittent but aspirational), 15\% to TikTok (algorithmically curated, diverse signals), and 10\% to her teacher.
 
-Twenty years ago, before the phone: $W^I_{\text{Luisa, 1990}} = (0.50, 0.30, 0, 0, 0.20)$. Mother and friend dominated. The cousin in Buenos Aires had zero weight (no WhatsApp). TikTok did not exist. The information network was local: Potos\'{i} signals only.
+Before the phone --- the network a girl in her position would have had a generation earlier, labelled ``1990'' for concreteness: $W^I_{\text{Luisa, 1990}} = (0.50, 0.30, 0, 0, 0.20)$. Mother and friend dominated. The cousin in Buenos Aires had zero weight (no WhatsApp). TikTok did not exist. The information network was local: Potos\'{i} signals only.
 
-The shift from $W^I_{1990}$ to $W^I_{2020}$ is the single most important structural change in Luisa's life. It exposes her to signals about returns (her cousin's engineering career) that were previously invisible. Whether those signals change her $\theta$ (patience, investment in education) depends on the formation model in Chapter~10. But the precondition --- the change in $W^I$ --- is what makes formation change possible.
+The shift from $W^I_{1990}$ to $W^I_{2020}$ is a major structural change in Luisa's life. It exposes her to signals about returns (her cousin's engineering career) that were previously invisible. Whether those signals change her $\theta$ (patience, investment in education) depends on the formation model in Chapter~10. But the precondition --- the change in $W^I$ --- is what makes formation change possible.
 \end{example}
 
 \begin{prebisch}[Information as structural power]
@@ -490,7 +490,11 @@ W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I, \quad \alpha_U + \alpha_P + \alp
 where $\alpha_U, \alpha_P, \alpha_I \geq 0$ are the relative importance of each channel. $W$ is then row-stochastic. If the layers live on different node sets (sectors, media outlets, individuals), there is no composite.
 \end{definition}
 
-The normalization is not cosmetic. Mixing raw layers with different scales makes $\boldsymbol{\pi}$ depend on units: in the La Paz example below, doubling the raw utility intensities moves the unnormalized composite's Perron vector from $(0.311, 0.364, 0.325)$ to $(0.327, 0.388, 0.286)$, with no change in anyone's relationships.
+The normalization is not cosmetic. Mixing raw layers with different scales makes $\boldsymbol{\pi}$ depend on units: in the La Paz example below, doubling the raw utility intensities moves the Perron vector of the unnormalized composite from
+\begin{equation*}
+(0.311,\ 0.364,\ 0.325) \quad\text{to}\quad (0.327,\ 0.388,\ 0.286),
+\end{equation*}
+with no change in anyone's relationships.
 
 The composite $W$ is a single matrix that summarizes the overall structure of economic interaction. Its Perron eigenvector $\boldsymbol{\pi}(W)$ is the \textbf{power vector}: agent $i$'s structural power is $\pi_i$, determined jointly by her position in all three networks.
 
@@ -663,7 +667,7 @@ This is the structural program. The rest of the book develops each relaxation: C
 
 \item \textbf{Three networks for a factory town.} A town has $N = 4$ agents: Factory Owner ($F$), Worker ($W$), Shopkeeper ($S$), Mayor ($M$).
 \begin{enumerate}
-\item Write plausible $W^U$, $W^P$, and $W^I$ matrices (each $4 \times 4$), and row-normalize each one.
+\item Write plausible $4 \times 4$ matrices $W^U$, $W^P$ and $W^I$, and row-normalize each one.
 \item Compute the composite $W$ with equal weights $\alpha = 1/3$.
 \item Find the Perron eigenvector. Who has the most power? Explain why.
 \item Now suppose the factory closes. Which entries of $W^P$ go to zero? How does the Perron eigenvector change?
@@ -684,7 +688,11 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 \begin{enumerate}
 \item Construct the full $5 \times 5$ pre-phone and post-phone $W^I$.
 \item Compute the Perron eigenvector for both. How does epistemic power shift?
-\item If initial beliefs about ``returns to education'' are $\mathbf{b}^{(0)} = (0.3, 0.3, 0.8, 0.6, 0.7)$ (Mother and Friend think returns are low; Cousin, TikTok, Teacher think returns are high), what is the long-run consensus pre-phone? Post-phone?
+\item Let initial beliefs about ``returns to education'' be
+\begin{equation*}
+\mathbf{b}^{(0)} = (0.3,\ 0.3,\ 0.8,\ 0.6,\ 0.7)
+\end{equation*}
+(Mother and Friend think returns are low; Cousin, TikTok, Teacher think returns are high). What is the long-run consensus pre-phone? Post-phone?
 \item Interpret: how much does the phone change Luisa's long-run belief about education?
 \end{enumerate}
 
@@ -812,15 +820,17 @@ In 1970, Theot\^{o}nio dos Santos published ``The Structure of Dependence'' in t
 \textbf{Regime 3: Technological-industrial dependence (post-WWII).} Multinational corporations invest in industries oriented toward the internal market of the underdeveloped countries. The topology becomes more complex: MNCs create \textbf{bridging nodes} that connect the domestic $W^P$ to the global $W^P$ through intra-firm trade. The domestic matrix acquires new blocks (the MNC-owned modern sector), but these blocks connect outward to headquarters rather than inward to the traditional domestic sector. This anticipates what Sunkel (1971) would call ``transnational integration and national disintegration'' --- in matrix terms, a rewiring: cross-country edges among elite nodes strengthen while within-country edges between modern and traditional blocks weaken. The information network $W^I$ becomes layered: the MNC subsidiary receives technical knowledge from headquarters ($W^I_{\text{subsidiary, HQ}}$ large) but does not transmit local knowledge back ($W^I_{\text{HQ, subsidiary}} \approx 0$).
 
 \begin{center}
+{\small
 \begin{tabularx}{\textwidth}{LLLLL}
 \toprule
-\textbf{Dos Santos's regime} & \textbf{Topology of $W$} & \textbf{Concentration of power} & \textbf{Integration} & \textbf{This chapter} \\
+\textbf{Regime} & \textbf{Topology of $W$} & \textbf{Power ($\Neff$)} & \textbf{Integration ($\Gamma$)} & \textbf{This chapter} \\
 \midrule
 Colonial & Star, close to rank one ($\ones\mathbf{e}_1'$) & $\pi_{\text{metropole}} \approx 1$, $\Neff \approx 1$ & High: $\Gamma$ near 1 & Star topology; Prop.~\ref{ch05:prop:composite_power} \\
 Financial-industrial & Multi-hub & $\pi_{\text{centers}} \gg \pi_{\text{periphery}}$, $\Neff \approx$ number of hubs & Low if the hubs' spheres barely interact & Block-diagonal topology; Prop.~\ref{ch06:prop:block_power} \\
-Technological-industrial & Blocks with MNC bridges & $\pi_{\text{MNC}} > \pi_{\text{domestic elite}} \gg \pi_{\text{traditional}}$ & Low domestically (modern vs.\ traditional block), high among elite nodes & Composite $W$, Def.~\ref{ch05:def:composite}; aligned/divergent networks \\
+Technological-industrial & Blocks with MNC bridges & $\pi_{\text{MNC}} > \pi_{\text{domestic elite}} \gg \pi_{\text{traditional}}$ & Low domestically (modern vs.\ traditional block), high among elite nodes & Composite $W$, Def.~\ref{ch05:def:composite}; aligned and divergent networks \\
 \bottomrule
 \end{tabularx}
+}
 \end{center}
 
 The taxonomy's power is its specificity: each regime generates a \textit{different} heatmap and a different combination of power concentration ($\Neff$) and integration ($\Gamma$), even though all three are ``dependent.'' The two coordinates must be read separately: the most concentrated regime (colonial) is also the most integrated. The colonial heatmap has one blazing column. The financial-industrial heatmap has several bright columns and dim periphery. The technological-industrial heatmap has a complex block structure with MNC bridging nodes creating cross-border links while domestic cross-block links remain dark.
@@ -837,13 +847,13 @@ The three networks of this chapter --- $W^U$, $W^P$, $W^I$ --- offer one formali
 
 \textbf{Production networks:} See readings from Chapters~1 and~3. The comprehensive reference is now Carvalho and Tahbaz-Salehi (2019), ``Production Networks: A Primer,'' \textit{Annual Review of Economics}.
 
-\textbf{DeGroot learning:} DeGroot (1974), ``Reaching a Consensus.'' Golub and Jackson (2010), ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds,'' \textit{AEJ: Microeconomics}. This is the key paper on convergence, influence, and the Perron eigenvector in learning models.
+\textbf{DeGroot learning:} DeGroot (1974), ``Reaching a Consensus.'' Banerjee (1992), ``A Simple Model of Herd Behavior,'' \textit{QJE}. Bala and Goyal (1998), ``Learning from Neighbours,'' \textit{Review of Economic Studies}. Golub and Jackson (2010), ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds,'' \textit{AEJ: Microeconomics}. This is the key paper on convergence, influence, and the Perron eigenvector in learning models.
 
 \textbf{Network economics textbooks:} Jackson (2008), \textit{Social and Economic Networks}. Goyal (2023), \textit{Networks: An Economics Approach}. Sargent and Stachurski (2024), \textit{Economic Networks}.
 
 \textbf{The interaction of multiple networks:} Kivel\"{a} et al.\ (2014), ``Multilayer Networks,'' \textit{Journal of Complex Networks}. For the economic application: the composite $W$ is related to the ``multiplex'' framework in network science.
 
-\textbf{Prebisch and information dependency:} Prebisch (1950) on ideological dependency. Cardoso and Faletto (1969), \textit{Dependency and Development in Latin America}. For the modern formalization: Acemoglu et al.\ (2010), ``Spread of (Mis)information in Social Networks,'' \textit{Games and Economic Behavior}.
+\textbf{Dependency and information:} Cardoso and Faletto (1969), \textit{Dependency and Development in Latin America}. For the modern formalization: Acemoglu et al.\ (2010), ``Spread of (Mis)information in Social Networks,'' \textit{Games and Economic Behavior}.
 
 \textbf{Dependency theory:} Dos Santos (1970), ``The Structure of Dependence,'' \textit{AER} 60(2), pp.~231--236 (the six pages that define the taxonomy formalized in the case study above). Dos Santos (1978), \textit{Imperialismo y Dependencia}, M\'{e}xico: Era. Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional,'' \textit{Estudios Internacionales} 4(16).
 
