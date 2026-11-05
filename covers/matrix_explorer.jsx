@@ -2,40 +2,61 @@ import { useState, useMemo, useCallback } from "react";
 import * as d3 from "d3";
 
 // ─── Matrix utilities ───
-function leftPerronApprox(M, iters = 150) {
+// Stationary (left Perron) vector of a row-stochastic matrix.
+// Iterates on the lazy chain (I + M)/2, which has the same stationary vector
+// but is aperiodic, so the iteration converges even for stars and even rings.
+function leftPerronApprox(M, maxIters = 20000, tol = 1e-13) {
   const n = M.length;
-  let v = Array(n).fill(1);
-  for (let t = 0; t < iters; t++) {
-    let w = Array(n).fill(0);
+  let v = Array(n).fill(1 / n);
+  for (let t = 0; t < maxIters; t++) {
+    const w = v.map(x => 0.5 * x);
     for (let i = 0; i < n; i++)
       for (let j = 0; j < n; j++)
-        w[j] += v[i] * M[i][j];
-    const s = w.reduce((a, b) => a + Math.abs(b), 0) || 1;
-    v = w.map(x => Math.abs(x) / s);
+        w[j] += 0.5 * v[i] * M[i][j];
+    const s = w.reduce((a, b) => a + b, 0) || 1;
+    let diff = 0;
+    for (let j = 0; j < n; j++) { w[j] /= s; diff += Math.abs(w[j] - v[j]); }
+    v = w;
+    if (diff < tol) break;
   }
-  const s = v.reduce((a, b) => a + b, 0);
-  return v.map(x => x / s);
+  return v;
 }
 
-function spectralRadius(M, iters = 100) {
+// Spectral radius of a matrix via the average growth rate of ||M^k v||
+// (Gelfand's formula). Works for complex dominant eigenvalue pairs, where plain
+// power iteration oscillates. Deterministic start vector.
+function spectralRadius(M, iters = 600, burn = 200) {
   const n = M.length;
-  let v = Array.from({ length: n }, () => Math.random());
-  let rho = 0;
+  let v = Array.from({ length: n }, (_, i) => 1 + 0.37 * Math.sin(i + 1));
+  let logSum = 0, count = 0;
   for (let t = 0; t < iters; t++) {
-    let w = Array(n).fill(0);
+    const w = Array(n).fill(0);
     for (let i = 0; i < n; i++)
       for (let j = 0; j < n; j++)
         w[i] += M[i][j] * v[j];
-    rho = Math.sqrt(w.reduce((s, x) => s + x * x, 0));
-    if (rho > 0) v = w.map(x => x / rho);
+    const norm = Math.sqrt(w.reduce((s, x) => s + x * x, 0));
+    if (norm < 1e-300) return 0;
+    if (t >= burn) { logSum += Math.log(norm); count++; }
+    v = w.map(x => x / norm);
   }
-  return rho;
+  return Math.exp(logSum / count);
+}
+
+// Spectral gap Gamma = 1 - |lambda_2| of a row-stochastic matrix.
+// |lambda_2| is the spectral radius of the deflated matrix M - 1 pi'
+// (it removes the unit eigenvalue and keeps the rest of the spectrum).
+// Gamma measures integration / mixing speed, NOT concentration of power:
+// e.g. the rank-one "everyone listens to the hub" matrix has Gamma = 1.
+function spectralGap(M, pi) {
+  const D = M.map(row => row.map((x, j) => x - pi[j]));
+  return Math.max(0, 1 - spectralRadius(D));
 }
 
 function computeStats(M) {
   const n = M.length;
   const pi = leftPerronApprox(M);
   const rho = spectralRadius(M);
+  const neff = 1 / pi.reduce((a, b) => a + b * b, 0);
   const maxPi = Math.max(...pi);
   const minPi = Math.min(...pi);
   const sorted = [...pi].sort((a, b) => a - b);
@@ -56,7 +77,8 @@ function computeStats(M) {
     for (let j = 0; j < n; j++)
       if (i === j) onDiag += M[i][j]; else offDiag += M[i][j];
   
-  return { pi, rho, maxPi, minPi, gini, isRowStoch, isColStoch, isSymmetric, offDiagRatio: offDiag / (offDiag + onDiag) };
+  const gap = isRowStoch ? spectralGap(M, pi) : NaN;
+  return { pi, rho, gap, neff, maxPi, minPi, gini, isRowStoch, isColStoch, isSymmetric, offDiagRatio: offDiag / (offDiag + onDiag) };
 }
 
 // ─── Topology generators ───
@@ -74,14 +96,14 @@ const TOPOS = {
     name: "Identity (Autarky)",
     icon: "⊘",
     color: "#64748b",
-    desc: "W = I. No interaction. Each agent alone. Robinson Crusoe × N. The welfare theorems hold trivially because there is nothing to trade.",
+    desc: "W = I. No interaction. Each agent alone. Robinson Crusoe × N. No gains from trade are realized: autarky is generally not Pareto efficient. W = I is reducible, so the spectral gap is 0 and the power vector is not unique.",
     make: (n) => Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => i === j ? 1 : 0))
   },
   complete: {
     name: "Complete (Symmetric Market)",
     icon: "◉",
     color: "#2563eb",
-    desc: "W = (1/N)𝟙𝟙ᵀ. Every agent affects every other equally. Anonymous, symmetric. The Walrasian price mechanism treats all agents the same. Maximum spectral gap. Equal power.",
+    desc: "W = (1/N)𝟙𝟙ᵀ. Every agent affects every other equally. Anonymous, symmetric. This is the equal-endowment competitive benchmark (Walrasian interaction is anonymous; with unequal wealth it is 𝟙sᵀ, s = wealth shares). Spectral gap Γ = 1 and equal power — but note that Γ = 1 for ANY rank-one W = 𝟙πᵀ, however concentrated π is.",
     make: (n) => Array.from({ length: n }, () => Array(n).fill(1 / n))
   },
   ring: {
@@ -583,7 +605,8 @@ export default function MatrixExplorer() {
         {[
           { label: "N", value: n },
           { label: "ρ(W)", value: stats.rho.toFixed(3) },
-          { label: "Spectral Gap Γ", value: (stats.rho > 0.01 ? (stats.rho - stats.rho * 0.1) : 0).toFixed(3), note: true },
+          { label: "Spectral Gap Γ (integration)", value: Number.isNaN(stats.gap) ? "n/a" : stats.gap.toFixed(3), note: true },
+          { label: "N_eff (power)", value: stats.neff.toFixed(2) + " / " + stats.pi.length },
           { label: "Max Power", value: stats.maxPi.toFixed(3) },
           { label: "Power Gini", value: stats.gini.toFixed(3) },
           { label: "Off-diag mass", value: (stats.offDiagRatio * 100).toFixed(1) + "%" },
