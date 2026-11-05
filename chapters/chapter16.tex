@@ -208,7 +208,11 @@ These facts are known: \citet{mealy2019interpreting} show that ECI is the second
 \end{proposition}
 
 \begin{proof}
-(1) Row sums: $\sum_{c'}\tilde{M}_{cc'} = \sum_p \frac{M_{cp}}{M_c}\sum_{c'}\frac{M_{c'p}}{M_p} = 1$. Also $SS' = D_c^{-1/2}MD_p^{-1}M'D_c^{-1/2}$, so $\tilde{M} = D_c^{-1/2}(SS')D_c^{1/2}$ is similar to the positive semidefinite matrix $SS'$, whose eigenvalues are the squared singular values of $S$, real and nonnegative. Since $\tilde{M}$ is nonnegative and row-stochastic, its spectral radius is $1$, so they are at most $1$. (2) For each $c'$,
+(1) Row sums: $\sum_{c'}\tilde{M}_{cc'} = \sum_p \frac{M_{cp}}{M_c}\sum_{c'}\frac{M_{c'p}}{M_p} = 1$. Also
+\[
+SS' = D_c^{-1/2}MD_p^{-1}M'D_c^{-1/2}, \qquad \tilde{M} = D_c^{-1/2}(SS')D_c^{1/2},
+\]
+so $\tilde{M}$ is similar to the positive semidefinite matrix $SS'$, whose eigenvalues are the squared singular values of $S$, real and nonnegative. Since $\tilde{M}$ is nonnegative and row-stochastic, its spectral radius is $1$, so they are at most $1$. (2) For each $c'$,
 \[
 \textstyle\sum_c M_c\tilde{M}_{cc'} = \sum_p \frac{M_{c'p}}{M_p}\sum_c M_{cp} = \sum_p M_{c'p} = M_{c'}.
 \]
