@@ -268,7 +268,6 @@ The convention drifts:
 
 | Location | Problem |
 |---|---|
-| Ch4 L394–412 | Var(π^I) ≈ 0.03 for N = 20; the maximum possible value is (N−1)/N³ = 0.0024. |
 | Ch16 L189–210 (ICIO table) | Forward linkage below 1; mean backward linkage ≠ mean forward linkage; Bolivia and Ethiopia are not separate ICIO economies; "67 economies, 36 industries" matches no release. |
 | Ch16 L111 | Column sums: US ≈ 0.15 and Bolivia ≈ 0.001 cannot both hold, since columns of a row-stochastic matrix average 1. |
 | Ch17 L116–153 | Forward linkages 0.95 and 0.90; mean backward linkage ≠ mean forward linkage; "Informal" and "Household production" as I-O sectors. |
@@ -564,7 +563,7 @@ These are the most important items per chapter, beyond the cross-cutting issues 
 *Works:* the A1–A6 catalogue is a useful organizing device.
 - **L237:** compile error (`\boldsymbol` in `\section`).
 - **L338–345:** "A5 follows from A1–A4" is false (§1.3).
-- **L394–412:** "Empirical Departures" is invented and partly impossible (§3). Delete it or tag it illustrative.
+- **L394–412:** "Empirical Departures" is unsourced (§3). Tag it illustrative or source it. *(Correction: an earlier version of this review called Var(π^I) ≈ 0.03 for N = 20 impossible. It is not: the maximum of (1/N)Σ(π_i − 1/N)² is (N−1)/N² = 0.0475.)*
 - **L161–167:** "(Jacobian terms)" is not mathematics.
   - Correct derivative: dL = L·γdW·L.
   - Comparative static: ΔK* = (Δ − SLF′)⁻¹SLγΔA·Lf.
