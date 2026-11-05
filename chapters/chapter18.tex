@@ -3,6 +3,10 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{17}}{}
 \chapter{The Individual Scale}\label{ch:18}
 \chaptersubtitle{Gender, Race, and the Edges You Are Not Allowed to Form}
+% TODO-VERIFY: Quijano epigraph. Wording appears altered; likely source is the
+% opening of "Colonialidad del poder y clasificacion social", Journal of
+% World-Systems Research 6(2), 2000 (not the Lander/CLACSO essay). Check the
+% exact Spanish text and page before printing.
 \begin{quote}
 \textit{``La clasificaci\'{o}n social de la poblaci\'{o}n mundial seg\'{u}n la idea de raza es, sin duda, el m\'{a}s eficaz instrumento de dominaci\'{o}n social inventado en los \'{u}ltimos 500 a\~{n}os.''}\\[0.3em]
 \textnormal{[``The social classification of the world population according to the idea of race is, without a doubt, the most effective instrument of social domination invented in the last 500 years.'']}\\
@@ -11,6 +15,10 @@
 
 \vspace{0.3em}
 
+% TODO-VERIFY: Marini epigraph. Secondary sources place "el principio
+% fundamental de la economia subdesarrollada" in "Subdesarrollo y revolucion en
+% America Latina" (1968; in Subdesarrollo y revolucion, Siglo XXI, 1969), not in
+% Dialectica de la dependencia (1973). Verify wording, source and page.
 \begin{quote}
 \textit{``La superexplotaci\'{o}n del trabajo constituye el principio fundamental de la econom\'{i}a subdesarrollada.''}\\[0.3em]
 \textnormal{[``The superexploitation of labor constitutes the fundamental principle of the underdeveloped economy.'']}\\
@@ -23,7 +31,7 @@ Chapter~16 analyzed the global weight matrix (countries as nodes). Chapter~17 an
 
 At the individual scale, a new element enters the model: \textbf{node attributes}. Each agent $i$ carries observable characteristics --- gender, race, ethnicity, caste, language, nationality --- that constrain which edges she can form in $W^U$, $W^P$, and $W^I$. These constraints are not preferences. They are not technology. They are structural features of the weight matrix itself: certain edges are suppressed or amplified by the social classification system.
 
-The central result: node attributes create \textbf{assortative mixing} --- the tendency for agents with the same attribute to connect preferentially. When assortative mixing is strong, $W$ becomes block-diagonal with blocks defined by attributes (men/women, white/indigenous, formal/informal). The entire machinery of this book --- the spectral gap, the Perron eigenvector, the formation model, the welfare loss --- applies, but now the blocks are defined by identity rather than sector.
+The central result: node attributes create \textbf{assortative mixing} --- the tendency for agents with the same attribute to connect preferentially. When assortative mixing is strong, $W$ becomes block-diagonal with blocks defined by attributes (men/women, white/indigenous, formal/informal). The entire machinery of this book --- the spectral gap, the Perron eigenvector, the formation model, the welfare loss --- applies, but now the blocks are defined by identity rather than sector. Two results organise the chapter. Assortative mixing lowers $\Gap$ (slower integration across groups), but by itself it does \emph{not} concentrate power: with symmetric homophily the Perron vector is proportional to degree, so power gaps come from group size and from asymmetric opportunity structures, not from $\lambda$ alone.
 
 
 %% =====================================================================
@@ -46,26 +54,41 @@ where $W^{\max}_{ij}$ is the edge weight that would prevail absent the attribute
 \end{definition}
 
 \begin{example}[Gender as an Attribute Constraint]\label{ch18:ex:gender}
-In a labor market with strong gender norms: $\phi_{\text{gender}}(M, M) = 1$, $\phi_{\text{gender}}(F, F) = 1$, $\phi_{\text{gender}}(M, F) = \phi_{\text{gender}}(F, M) = \lambda_g$, where $\lambda_g \in [0, 1]$ measures gender openness. When $\lambda_g = 1$: no gender barrier. When $\lambda_g = 0$: complete gender segregation. When $\lambda_g = 0.3$ (a typical developing-country estimate): cross-gender professional linkages are 70\% weaker than same-gender ones.
+In a labor market with strong gender norms: $\phi_{\text{gender}}(M, M) = 1$, $\phi_{\text{gender}}(F, F) = 1$, $\phi_{\text{gender}}(M, F) = \phi_{\text{gender}}(F, M) = \lambda_g$, where $\lambda_g \in [0, 1]$ measures gender openness. When $\lambda_g = 1$: no gender barrier. When $\lambda_g = 0$: complete gender segregation. When $\lambda_g = 0.3$ (an illustrative value used throughout this chapter): cross-gender professional linkages are 70\% weaker than same-gender ones.
 
-The effect on $W^P$: women's production edges are confined to female-dominated sectors. $W^P$ becomes approximately block-diagonal by gender, with within-gender blocks brighter than cross-gender entries. The spectral gap $\Gamma$ drops. Women's Perron eigenvector weight $\pi^F$ falls below $N_F / N$ (women have less structural power than their population share warrants).
+The effect on $W^P$: women's production edges are confined to female-dominated sectors. $W^P$ becomes approximately block-diagonal by gender, with within-gender blocks brighter than cross-gender entries. The spectral gap $\Gamma$ drops: shocks and information cross the gender boundary slowly (Proposition~\ref{ch18:prop:assortative}). Whether women's Perron weight falls below $N_F/N$ is a separate question. It does not follow from $\lambda_g < 1$; it requires an asymmetry between the groups (Proposition~\ref{ch18:prop:homophily_power}).
 
-The effect on $W^I$: women's information edges are confined to female-dominated social circles. $W^I$ becomes gender-assortative. The girl in Potos\'{i} observes mostly female outcomes: low returns to education (because women in her network face constrained $W^P$, reducing their realized returns). Her formation signal is $W^I$-weighted, and $W^I$ shows her a biased sample. She forms low aspirations --- not because she is less capable but because her information network IS the constraint.
+The effect on $W^I$: women's information edges are confined to female-dominated social circles. $W^I$ becomes gender-assortative. A girl whose information network is gender-assortative observes mostly female outcomes: low returns to education (because women in her network face constrained $W^P$, reducing their realized returns). Her formation signal is $W^I$-weighted, and $W^I$ shows her a biased sample. She forms low aspirations --- not because she is less capable but because her information network IS the constraint.
 \end{example}
 
 \begin{proposition}[Assortative Mixing Reduces $\Gamma$]\label{ch18:prop:assortative}
-For any attribute $k$ with assortative mixing parameter $\lambda_k \in [0, 1]$:
+Let the raw interaction intensities be $K_{ij} = \phi(\mathbf{a}_i,\mathbf{a}_j)\,K^{\max}_{ij}$ and $W = D^{-1}K$ with $D = \operatorname{diag}(K\ones)$.
+\begin{enumerate}
+\item[(a)] \textbf{Two equal groups (equitable partition).} Suppose there are two groups of $n$ agents, $K^{\max}_{ij} = a$ within groups and $K^{\max}_{ij} = c$ across groups, and $\phi = 1$ within, $\lambda_k$ across. Then
 \begin{equation}\label{ch18:eq:assortative_gamma}
-\Gamma(W(\lambda_k)) \leq \Gamma(W(\lambda_k = 1)),
+\lambda_2(W) = \frac{a - \lambda_k c}{a + \lambda_k c}, \qquad \Gamma(W) = 1 - \frac{|a - \lambda_k c|}{a + \lambda_k c},
 \end{equation}
-with equality if and only if $\lambda_k = 1$ (no attribute constraint) or the attribute groups have identical internal network structures.
-
-The spectral gap is monotonically increasing in $\lambda_k$: more openness across attribute groups means higher $\Gamma$, more equal power, lower welfare loss.
+and all other eigenvalues are $0$. If $c \le a$ (unconstrained cross-group links are no stronger than within-group links), then $\Gamma = 2\lambda_k c/(a + \lambda_k c)$ is strictly increasing in $\lambda_k$ on $[0,1]$.
+\item[(b)] \textbf{General symmetric case.} If $K^{\max}$ and $\phi$ are symmetric, then for any group $S$
+\[
+\Gamma(W) \;\le\; 2\,\frac{\lambda_k C_S}{\min(A_S, A_{S^c}) + \lambda_k C_S},
+\]
+where $C_S = \sum_{i\in S,\, j\notin S} K^{\max}_{ij}$ and $A_S = \sum_{i,j\in S} K^{\max}_{ij}$. Strong assortative mixing ($\lambda_k \to 0$) therefore forces $\Gamma \to 0$.
+\end{enumerate}
 \end{proposition}
 
-\begin{proof}[Proof sketch]
-When $\lambda_k < 1$, the cross-group entries of $W$ are scaled down by $\lambda_k$. This makes $W$ more block-diagonal, which increases $|\lambda_2(W)|$ (the second eigenvalue moves closer to 1), reducing $\Gamma = 1 - |\lambda_2|$. The result follows from matrix perturbation theory: suppressing off-diagonal blocks increases the near-block-diagonal structure.
+\begin{proof}
+(a) Rows within a group are identical, so the partition into groups is equitable. The quotient (group-level) matrix is $\begin{pmatrix} \alpha & \beta \\ \beta & \alpha \end{pmatrix}$ with $\alpha = a/(a+\lambda_k c)$, $\beta = \lambda_k c/(a+\lambda_k c)$. Its eigenvalues are $1$ and $\alpha - \beta$. Vectors that sum to zero within each group are mapped to $0$. If $c \le a$ then $\lambda_k c \le a$, so $|\alpha-\beta| = (a-\lambda_k c)/(a+\lambda_k c)$, which is decreasing in $\lambda_k$.
+(b) With symmetric $K$, $W$ is reversible with $\pi_i \propto d_i = \sum_j K_{ij}$. Cheeger's inequality gives $1 - \lambda_2 \le 2\Phi$, where $\Phi$ is the conductance (Chapter~6), and $\Gamma = 1 - |\lambda_2| \le 1 - \lambda_2$. The conductance of the cut $(S, S^c)$ is $\lambda_k C_S/\min(\mathrm{vol}\,S, \mathrm{vol}\,S^c)$ with $\mathrm{vol}\,S = A_S + \lambda_k C_S$.
 \end{proof}
+
+\begin{remark}[What the proposition does not say]\label{ch18:rem:assortative_limits}
+\begin{enumerate}
+\item The hypothesis $c \le a$ in (a) matters. With $a = 0.05$ and $c = 1$ (agents interact mainly \emph{across} groups, so $W$ is close to bipartite), $\Gamma = 0.095$ at $\lambda_k = 1$, $0.40$ at $\lambda_k = 0.2$ and $1$ at $\lambda_k = 0.05$: suppressing cross-group edges \emph{raises} $\Gamma$.
+\item In case (a), $W$ is doubly stochastic, so $\bpi = \ones/N$ for every $\lambda_k > 0$. $\Gamma$ falls from $1$ to $0.46$ as $\lambda_k$ falls from $1$ to $0.3$, while power stays exactly equal. $\Gamma$ measures integration, not the distribution of power (Proposition~\ref{ch06:prop:gap-power-independent}).
+\end{enumerate}
+(Numbers: \texttt{code/ch18.py}.)
+\end{remark}
 
 
 %% =====================================================================
@@ -73,25 +96,36 @@ When $\lambda_k < 1$, the cross-group entries of $W$ are scaled down by $\lambda
 \label{ch18:sec:gender}
 %% =====================================================================
 
-\subsection{The Gender Gap as a Spectral Property}
+\subsection{Where a Gender Power Gap Can Come From}
 
-\begin{theorem}[Gender Power Gap]\label{ch18:thm:gender_gap}
-In an economy with $N_M$ men and $N_F$ women, where cross-gender edges are constrained by $\lambda_g \in [0, 1]$:
+\begin{proposition}[Homophily and Group Power]\label{ch18:prop:homophily_power}
+Let $K^{\max}$ and $\phi$ be symmetric, $K = \phi \circ K^{\max}$, and $W = D^{-1}K$ irreducible. Define the per-capita power ratio of groups $F$ and $M$ as
 \begin{equation}\label{ch18:eq:gender_pi}
-\frac{\pi^F_{\text{avg}}}{\pi^M_{\text{avg}}} = \frac{\sum_{j \in F} \pi_j / N_F}{\sum_{j \in M} \pi_j / N_M} \leq 1,
+\frac{\pi^F_{\text{avg}}}{\pi^M_{\text{avg}}} = \frac{\sum_{j \in F} \pi_j / N_F}{\sum_{j \in M} \pi_j / N_M}.
 \end{equation}
-with equality if and only if (i) $\lambda_g = 1$ or (ii) the male and female subnetworks have identical internal structures and equal connection to external nodes.
-
-The gender power ratio depends on:
 \begin{enumerate}
-\item $\lambda_g$: the cross-gender openness parameter.
-\item The internal density of $W^P_{\text{female}}$ vs.\ $W^P_{\text{male}}$: if women's sectors have fewer inter-sectoral linkages (e.g., domestic work, informal services), the female subnetwork is sparser.
-\item The external connections: which group's sectors connect to the high-linkage core.
+\item[(i)] $\pi_i = d_i/\sum_j d_j$, where $d_i = \sum_j K_{ij}$ is $i$'s total (constrained) interaction intensity. Power is proportional to degree.
+\item[(ii)] \textbf{Group size.} Suppose $K^{\max}_{ij} = 1$ for all pairs, two groups have population shares $p$ and $1-p$, and $\phi = 1$ within and $\lambda$ across groups. Then
+\begin{equation}\label{ch18:eq:minority_ratio}
+\frac{\pi^{\text{min}}_{\text{avg}}}{\pi^{\text{maj}}_{\text{avg}}} = \frac{p + \lambda(1-p)}{(1-p) + \lambda p},
+\end{equation}
+which is $<1$ if and only if $\lambda < 1$ and $p < \tfrac12$. With equal group sizes ($p = \tfrac12$) the ratio is $1$ for every $\lambda$.
+\item[(iii)] \textbf{Asymmetric opportunity structure.} With two equal groups, within-group intensities $a_F$, $a_M$ and unconstrained cross intensity $c$,
+\[
+\frac{\pi^F_{\text{avg}}}{\pi^M_{\text{avg}}} = \frac{a_F + \lambda_g c}{a_M + \lambda_g c},
+\]
+which is $<1$ iff $a_F < a_M$. Lowering $\lambda_g$ widens the gap, towards $a_F/a_M$.
 \end{enumerate}
-\end{theorem}
+\end{proposition}
 
-\begin{example}[Bolivia's Gender Structure]\label{ch18:ex:bolivia_gender}
-Using Bolivia's EH 2019. Approximate $W^P$ by gender:
+\begin{proof}
+(i) Symmetry of $K$ gives $d'D^{-1}K = \ones'K = (K\ones)' = d'$, so $d/\sum_j d_j$ is the stationary vector. (ii) and (iii) compute $d_i$ for a member of each group and apply (i).
+\end{proof}
+
+A gender gap at roughly equal population shares therefore cannot come from homophily alone. It requires the asymmetry in (iii): women channelled into sectors with fewer inter-sectoral linkages (domestic work, informal services), or weaker connections to the high-linkage core. For an ethnic minority, group size (ii) already produces a gap. With $p = 0.41$ and $\lambda_r = 0.35$, formula~\eqref{ch18:eq:minority_ratio} gives $0.84$.
+
+\begin{example}[Bolivia's Gender Structure \illustrative]\label{ch18:ex:bolivia_gender}
+Approximate employment shares by gender (illustrative values; replace with a tabulation of the Encuesta de Hogares before use):
 
 \begin{center}
 \begin{tabular}{lcc}
@@ -109,9 +143,9 @@ Government & 58\% & 42\% \\
 \end{tabular}
 \end{center}
 
-The sectors with the highest Perron weight (gas, mining, construction, government) are male-dominated. The sectors with the lowest Perron weight (domestic service, informal commerce) are female-dominated. This is not a coincidence: gender norms (the assortative mixing function $\phi_{\text{gender}}$) channel women into low-$\pi$ sectors.
+In Chapter~17's sectoral power table (Example~\ref{ch17:ex:bolivia_pi}), power \emph{per worker} is highest in hydrocarbons and mining, which are male-dominated here, and low in informal services and household production, where women are concentrated. This is the asymmetry of Proposition~\ref{ch18:prop:homophily_power}(iii). Gender norms enter twice: through $\phi_{\text{gender}}$, and through the occupational channelling that shapes the opportunity structure $K^{\max}$.
 
-Estimated $\pi^F_{\text{avg}} / \pi^M_{\text{avg}} \approx 0.58$: women have 58\% of men's structural power per capita. The gender wage gap (women earn $\approx 65\%$ of men's income) is explained in large part by the gender power gap --- the wage gap is a \textit{consequence} of the structural position gap.
+For illustration, take $\pi^F_{\text{avg}} / \pi^M_{\text{avg}} = 0.58$: women hold 58\% of men's structural power per capita. Part (iii) of the proposition reproduces this with equal group sizes, $\lambda_g = 0.3$, $c = a_M$ and a female within-block intensity of $a_F = 0.454\,a_M$. At the same densities with $\lambda_g = 1$ the ratio would be $0.73$, so in this calibration the attribute constraint accounts for only part of the gap. Whether the structural-position gap explains the gender earnings gap is a hypothesis to test, not a result of the model.
 \end{example}
 
 \subsection{The Formation Effect of Gender Norms}
@@ -121,13 +155,13 @@ Gender norms constrain $W^I$ by gender: women observe disproportionately female 
 \begin{equation}\label{ch18:eq:gender_formation}
 \theta^F_{i,t+1} = \rho\theta^F_{i,t} + (1-\rho)\bar{\theta} + \mu\left(\sum_j W^I_{ij}r_{j,t} - r^*\right),
 \end{equation}
-where $W^I_{ij}$ is gender-assortative ($W^I_{\text{F,F}} \gg W^I_{\text{F,M}}$). The signal $\sum_j W^I_{ij}r_{j,t}$ is a biased sample: it overweights female returns (low, because $\pi^F$ is low) and underweights male returns (high).
+where $W^I_{ij}$ is gender-assortative ($W^I_{\text{F,F}} \gg W^I_{\text{F,M}}$). The signal $\sum_j W^I_{ij}r_{j,t}$ is a biased sample: it overweights female returns (low, if women's opportunity structure is constrained) and underweights male returns (high).
 
-The steady-state gender preference gap:
+The steady-state gender preference gap, for given group returns $\bar r^F, \bar r^M$, is:
 \begin{equation}\label{ch18:eq:gender_theta_gap}
-\theta^{*F} - \theta^{*M} = \frac{\mu}{1-\rho}\left(\bar{r}^F(\lambda_g) - \bar{r}^M(\lambda_g)\right),
+\theta^{*F} - \theta^{*M} = \frac{\mu}{1-\rho}\left(\bar{s}^F - \bar{s}^M\right) = \frac{\mu}{1-\rho}\cdot\frac{1-\lambda_g}{1+\lambda_g}\left(\bar{r}^F - \bar{r}^M\right),
 \end{equation}
-where $\bar{r}^F < \bar{r}^M$ because women face a constrained $W^P$ that produces lower returns. The preference gap IS the aspiration gap: women form lower aspirations because they observe lower returns, which are lower because their structural position is constrained by gender norms.
+where $\bar s^g = \sum_j W^I_{ij} \bar r_j$ is the signal observed by group $g$. The second equality holds for two equal groups with $W^I$ built as in Proposition~\ref{ch18:prop:assortative}(a) with $a = c$: the own-group weight is $1/(1+\lambda_g)$. The gap vanishes if returns are equal, \emph{or} if $\lambda_g = 1$ (everyone sees the same signal). The preference gap IS the aspiration gap: women form lower aspirations because they observe lower returns, which are lower because their structural position is constrained by gender norms.
 \end{proposition}
 
 \begin{keyinsight}
@@ -168,11 +202,11 @@ Addressing the gender gap through any single channel is insufficient. Raising wa
 \node[font=\tiny, white] at ({2*\s}, {6*\s}) {Male};
 \node[font=\tiny, white] at ({6*\s}, {2*\s}) {Female};
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {$W^P$ (gender-segmented)};
-\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\lambda_g \approx 0.3$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.5) {within 55 / 35, cross 10; $\Gamma = 0.38$};
 
-%% Power bars
+%% Power bars: pi of the row-normalised matrix on the left (code/ch18.py)
 \begin{scope}[xshift=5cm]
-\foreach \k/\val/\lab in {1/0.16/M1,2/0.15/M2,3/0.14/M3,4/0.13/M4,5/0.12/F1,6/0.11/F2,7/0.10/F3,8/0.09/F4} {
+\foreach \k/\val/\lab in {1/0.1477/M1,2/0.1477/M2,3/0.1477/M3,4/0.1477/M4,5/0.1023/F1,6/0.1023/F2,7/0.1023/F3,8/0.1023/F4} {
   \pgfmathparse{\val*400}
   \edef\bp{\pgfmathresult}
   \fill[blue!\bp] (0, {(8-\k)*0.32}) rectangle ({\val*18}, {(8-\k)*0.32+0.26});
@@ -181,12 +215,12 @@ Addressing the gender gap through any single channel is insufficient. Raising wa
 \draw[red, dashed, thin] ({0.125*18}, 0) -- ({0.125*18}, 2.7);
 \node[font=\tiny, red, above] at ({0.125*18}, 2.7) {$1/N$};
 \node[below, font=\scriptsize\bfseries] at (1.5, -0.15) {$\boldsymbol{\pi}$};
-\node[below, font=\scriptsize] at (1.5, -0.5) {$\pi^F_{\text{avg}}/\pi^M_{\text{avg}} = 0.72$};
+\node[below, font=\scriptsize] at (1.5, -0.5) {$\pi^F_{\text{avg}}/\pi^M_{\text{avg}} = 0.69$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Left: $W^P$ is brighter in the male block (denser linkages in male-dominated sectors) and dimmer in the female block (sparser linkages in female-dominated sectors). Cross-gender entries are dark ($\lambda_g \approx 0.3$). Right: the Perron eigenvector. Every male agent is above $1/N$; every female agent is below. The gender power gap IS the gap between the two blocks' Perron weights.
+\small Left: raw intensities $K$, brighter in the male block (55: denser linkages in male-dominated sectors) and dimmer in the female block (35: sparser linkages in female-dominated sectors). Cross-gender entries are dark (10). Right: the Perron vector of $W = D^{-1}K$. Since $K$ is symmetric, $\pi_i \propto d_i$ (Proposition~\ref{ch18:prop:homophily_power}): $\pi = 0.148$ for each man and $0.102$ for each woman, against $1/N = 0.125$. The gap comes from the unequal block densities. With equal densities the same cross weight would give uniform $\pi$.
 \end{vizpanel}
 
 
@@ -202,78 +236,88 @@ Let agents be classified into $R$ racial/ethnic groups. The racial mixing functi
 \begin{equation}\label{ch18:eq:racial_mixing}
 \phi_{\text{race}}(r_i, r_j) = \begin{cases} 1 & \text{if } r_i = r_j, \\ \lambda_r & \text{if } r_i \neq r_j, \end{cases}
 \end{equation}
-where $\lambda_r \in [0, 1]$ is the cross-racial openness parameter. Unlike gender (which has a biological component in reproduction), racial classification is entirely socially constructed (Quijano, 2000). The parameter $\lambda_r$ is therefore a property of the social system, not of biology.
+where $\lambda_r \in [0, 1]$ is the cross-racial openness parameter. Racial classification, like gender norms, is socially constructed (Quijano, 2000). The parameter $\lambda_r$ is therefore a property of the social system, not of biology.
 \end{definition}
 
-\begin{proposition}[Race Constrains All Three Networks Simultaneously]\label{ch18:prop:race_three}
-In most societies, racial assortative mixing operates on $W^U$, $W^P$, and $W^I$ simultaneously with correlated $\lambda_r$ values:
+\begin{conjecture}[Race Constrains All Three Networks Simultaneously]\label{ch18:prop:race_three}
+In many societies, racial assortative mixing operates on $W^U$, $W^P$, and $W^I$ simultaneously, with positively correlated $\lambda_r$ values (illustrative ranges, not estimates):
 \begin{enumerate}
-\item $W^U$: interracial social bonds are weaker ($\lambda_r^U \approx 0.2$--$0.4$ in the Americas). Who you care about is structured by race.
+\item $W^U$: interracial social bonds are weaker ($\lambda_r^U \approx 0.2$--$0.4$). Who you care about is structured by race.
 \item $W^P$: labor markets are racially segmented ($\lambda_r^P \approx 0.3$--$0.6$). Racial minorities are channeled into low-$\pi$ sectors.
-\item $W^I$: media, education, and social networks are racially homophilous ($\lambda_r^I \approx 0.2$--$0.5$). The signals you receive are from your racial group.
+\item $W^I$: media, education, and social networks are racially homophilous ($\lambda_r^I \approx 0.2$--$0.5$). The signals you receive come mostly from your racial group.
 \end{enumerate}
 
-The correlation $\lambda_r^U \approx \lambda_r^P \approx \lambda_r^I$ means the Perron eigenvectors of all three networks are aligned: racial minorities have low power in $W^U$, low power in $W^P$, AND low epistemic power in $W^I$. This is Quijano's ``coloniality of power operating on every plane'' --- formalized as aligned assortative mixing across all three network layers.
-\end{proposition}
+Equal values of $\lambda_r$ across layers do not by themselves align the Perron vectors. With symmetric $\phi$, $\pi$ reflects degree (Proposition~\ref{ch18:prop:homophily_power}). What aligns them is that the \emph{same} groups are smaller, or have the sparser opportunity structure, in every layer. When that holds, racial minorities have low power in $W^U$, in $W^P$ and in $W^I$ at once. This is our formal reading of Quijano's thesis that coloniality structures every sphere of social existence: assortative mixing combined with the same asymmetry in every layer.
+\end{conjecture}
 
-\begin{example}[Bolivia's Ethnic Structure]\label{ch18:ex:bolivia_ethnic}
-Bolivia's 2012 Census: 41\% self-identified as indigenous (Quechua 21\%, Aymara 15\%, other 5\%), 59\% as mestizo or white.
+\begin{example}[Bolivia's Ethnic Structure \illustrative]\label{ch18:ex:bolivia_ethnic}
+In Bolivia's 2012 Census, about 41\% of the population aged 15 and over declared belonging (\textit{pertenencia}) to an indigenous nation or people, Quechua and Aymara being the largest. The remaining 59\% declared no such belonging. The census offered no ``mestizo'' category, an omission that was publicly contested. % TODO-VERIFY: Quechua/Aymara sub-shares against INE, Censo 2012.
 
-Approximate $\lambda_r$ values for Bolivia:
+Illustrative $\lambda_r$ values for Bolivia (the evidence column lists the kind of data that could identify each value; the numbers are not estimated from it):
 \begin{center}
-\begin{tabular}{lccc}
+\begin{tabular}{lcl}
 \toprule
-Network & $\lambda_r$ (indigenous-mestizo) & Evidence & Source \\
+Network & $\lambda_r$ (indig.--non-indig.) & Possible evidence \\
 \midrule
-$W^U$ & $\approx 0.25$ & Intermarriage rates: 15--20\% & Census 2012 \\
-$W^P$ & $\approx 0.35$ & Occupational segregation index & EH 2019 \\
-$W^I$ & $\approx 0.30$ & Language segregation in media & Media surveys \\
+$W^U$ & $\approx 0.25$ & Intermarriage rates (census) \\
+$W^P$ & $\approx 0.35$ & Occupational segregation \\
+$W^I$ & $\approx 0.30$ & Language segregation in media \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Perron weights by ethnicity (approximate, from sectoral composition):
+Illustrative per-capita power index by ethnicity (relative units):
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
-& Population share & $\pi_{\text{avg}}$ (per capita power) \\
+& Population share & $\pi_{\text{avg}}$ (per-capita index) \\
 \midrule
 Indigenous & 0.41 & 0.008 \\
-Mestizo/White & 0.59 & 0.014 \\
+Non-indigenous & 0.59 & 0.014 \\
 Ratio & 0.69 & 0.57 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Indigenous Bolivians are 41\% of the population but hold approximately 33\% of structural power ($0.41 \times 0.008 / (0.41 \times 0.008 + 0.59 \times 0.014) \approx 0.33$). The power-population ratio is 0.80 --- each indigenous person has 80\% of the structural power of a non-indigenous person. Combined with the gender gap: an indigenous woman has approximately $0.80 \times 0.58 = 0.46$ of a non-indigenous man's structural power per capita.
+Indigenous Bolivians are 41\% of the population but would hold about 28\% of structural power ($0.41 \times 0.008 / (0.41 \times 0.008 + 0.59 \times 0.014) = 0.284$). The power--population ratio is $0.284/0.41 = 0.69$, and each indigenous person has $0.008/0.014 = 0.57$ of the structural power of a non-indigenous person. Homophily alone, at $\lambda_r^P = 0.35$, gives only $0.84$ (formula~\eqref{ch18:eq:minority_ratio}). The rest of the gap would have to come from the sectoral opportunity structure. Combined with the gender ratio of Example~\ref{ch18:ex:bolivia_gender}, an indigenous woman would hold about $0.57 \times 0.58 = 0.33$ of a non-indigenous man's per-capita power (if the two factors combine multiplicatively; see Section~\ref{ch18:sec:intersection}).
 \end{example}
 
 
-\subsection{The Intersectionality Theorem}
+\subsection{Intersectionality: the Separable Baseline and the Interaction Term}
+\label{ch18:sec:intersection}
 
-\begin{theorem}[Intersectional Power Gap]\label{ch18:thm:intersectionality}
-When multiple attributes $(a_1, a_2, \ldots, a_K)$ simultaneously constrain $W$ through assortative mixing functions $\phi_1, \phi_2, \ldots, \phi_K$, the composite constraint is:
+\begin{definition}[Separable Mixing and the Intersectional Interaction]\label{ch18:thm:intersectionality}
+When several attributes $(a_1, \ldots, a_K)$ constrain $W$ through mixing functions $\phi_1, \ldots, \phi_K$, the \textbf{separable baseline} is
 \begin{equation}\label{ch18:eq:intersectional}
-\phi(\mathbf{a}_i, \mathbf{a}_j) = \prod_{k=1}^K \phi_k(a_{ik}, a_{jk}).
+\phi^{\text{sep}}(\mathbf{a}_i, \mathbf{a}_j) = \prod_{k=1}^K \phi_k(a_{ik}, a_{jk}).
 \end{equation}
+The \textbf{intersectional interaction} is the departure from it:
+\begin{equation}\label{ch18:eq:interaction}
+\iota(\mathbf{a}_i, \mathbf{a}_j) = \phi(\mathbf{a}_i, \mathbf{a}_j) - \prod_{k=1}^K \phi_k(a_{ik}, a_{jk}).
+\end{equation}
+\end{definition}
 
-The cross-group edge weight for agents who differ on multiple attributes is the PRODUCT of the individual constraints. Agents who differ on two attributes face a constraint of $\lambda_1 \cdot \lambda_2$; on three: $\lambda_1 \cdot \lambda_2 \cdot \lambda_3$.
-
-Consequence: the power gap is \textbf{multiplicative, not additive}. An indigenous woman in Bolivia faces:
+Under the separable baseline, agents who differ on two attributes face $\lambda_1 \lambda_2$, and on three $\lambda_1 \lambda_2 \lambda_3$. With the illustrative values of this chapter:
 \begin{equation}\label{ch18:eq:bolivia_intersection}
-\phi_{\text{indigenous woman, mestizo man}} = \lambda_r \cdot \lambda_g \approx 0.35 \times 0.30 = 0.105.
+\phi^{\text{sep}}_{\text{indigenous woman, non-indigenous man}} = \lambda_r \cdot \lambda_g \approx 0.35 \times 0.30 = 0.105.
 \end{equation}
-Her cross-group edge weight to a mestizo man is 10.5\% of the unconstrained maximum. She is triply trapped: her $W^P$ is constrained by both gender and race; her $W^I$ is constrained by both; her $W^U$ is constrained by both. The blocks are nested.
-\end{theorem}
+Her cross-group edge weight to a non-indigenous man is 10.5\% of the unconstrained maximum, in $W^P$, $W^I$ and $W^U$ alike: the blocks are nested.
 
-\begin{proof}
-The edge weight $W_{ij}$ is constrained by $\phi(\mathbf{a}_i, \mathbf{a}_j) \cdot W^{\max}_{ij}$. If the mixing functions are independent (the gender constraint does not depend on race, and vice versa), then the composite constraint is the product. The Perron eigenvector of $W(\phi)$ assigns lower weight to agents who face more constraints, because their edges are suppressed on multiple dimensions simultaneously. The power gap between the most- and least-constrained agents grows exponentially in the number of constraining attributes.
-\end{proof}
+Two cautions.
+\begin{enumerate}
+\item Edge suppression is not a power gap. With symmetric $\phi$ and population-weighted opportunities, Exercise~18.3 shows a per-capita power ratio of $0.84$ for the indigenous woman relative to the non-indigenous man, not $0.105$. That $0.84$ is entirely a group-size effect.
+\item The product form is the \emph{no-interaction} case. In logs it is additive: $\log\phi^{\text{sep}} = \sum_k \log\phi_k$. Crenshaw's point is precisely that the experience at an intersection is \emph{not} decomposable into single-axis effects. In this notation, intersectionality lives in $\iota \neq 0$.
+\end{enumerate}
 
-\begin{intuition}[Why intersectionality is multiplicative]
-Consider three types of discrimination: gender ($\lambda_g$), race ($\lambda_r$), and class ($\lambda_c$). Each alone reduces the cross-group edge weight modestly. But together: $\lambda_g \times \lambda_r \times \lambda_c = 0.3 \times 0.35 \times 0.4 = 0.042$. An indigenous working-class woman has less than 5\% of the unconstrained edge weight to a mestizo middle-class man. Her structural position is not ``the sum of three disadvantages'' but ``the product'' --- and products shrink much faster than sums.
+\paragraph{When separability fails.} Separability is plausible when gender and racial constraints operate through unrelated mechanisms. It fails when they interact, for example when racialised stereotypes about gender roles differ across groups. The interaction can be:
+\begin{itemize}
+\item \textbf{reinforcing} ($\iota < 0$): the constraint on indigenous women is worse than the product predicts;
+\item \textbf{compensating} ($\iota > 0$): for example, women's market and solidarity networks that partially offset the double constraint.
+\end{itemize}
+The reinforcing case produces even lower Perron weights for agents disadvantaged on several axes; the compensating case produces less extreme outcomes. Which case holds is an empirical question: estimate the full $\phi$ on the cross-classified groups and test $\iota = 0$.
 
-This is why intersectional disadvantage is qualitatively different from single-dimension disadvantage. The mathematics is clear: additivity would give $1 - (1-\lambda_g) - (1-\lambda_r) - (1-\lambda_c) = 1 - 0.7 - 0.65 - 0.6 = -0.95$ (nonsensical). Multiplicativity gives $\lambda_g \times \lambda_r \times \lambda_c = 0.042$ (small but well-defined). The product structure is not a sociological metaphor. It is a matrix property.
+\begin{intuition}[Products, logs and interactions]
+Take three constraints: gender ($\lambda_g$), race ($\lambda_r$) and class ($\lambda_c$). The separable baseline gives $\lambda_g \lambda_r \lambda_c = 0.3 \times 0.35 \times 0.4 = 0.042$: an indigenous working-class woman has about 4\% of the unconstrained edge weight to a non-indigenous middle-class man. This is equivalent to an additive model in log edge weights, so ``multiplicative'' and ``additive'' are not rival theories here. Both describe a world without intersectional interaction. What the formal model adds is a way to state the intersectional claim precisely ($\iota \ne 0$) and to test it.
 \end{intuition}
 
 
@@ -282,23 +326,30 @@ This is why intersectional disadvantage is qualitatively different from single-d
 \label{ch18:sec:formation_individual}
 %% =====================================================================
 
-\begin{theorem}[Attribute-Mediated Self-Confirming Preferences]\label{ch18:thm:attribute_trap}
-When $W^I$ is assortative on attribute $k$ (with $\lambda_k < 1$), agents in the disadvantaged group form steady-state preferences:
+\begin{proposition}[Attribute-Mediated Self-Confirming Preferences]\label{ch18:thm:attribute_trap}
+Consider two equal groups with exogenous mean returns $\bar r_{\text{adv}} > \bar r_{\text{disadv}}$. The information matrix $W^I$ gives own-group weight $1/(1+\lambda_k)$ and cross-group weight $\lambda_k/(1+\lambda_k)$. Under the formation equation~\eqref{ch18:eq:gender_formation}, steady-state preferences are
 \begin{equation}\label{ch18:eq:attribute_formation}
-\theta^*_{\text{disadv}} = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{r}_{\text{disadv}}(\lambda_k) - r^*\right) < \theta^*_{\text{adv}} = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{r}_{\text{adv}}(\lambda_k) - r^*\right),
+\theta^*_g = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{s}_g - r^*\right), \qquad \bar s_g = \tfrac{1}{1+\lambda_k}\bar r_g + \tfrac{\lambda_k}{1+\lambda_k}\bar r_{-g},
 \end{equation}
-because $\bar{r}_{\text{disadv}} < \bar{r}_{\text{adv}}$ (the disadvantaged group faces a constrained $W^P$ that produces lower returns, and the assortative $W^I$ ensures they observe mainly their own group's returns).
-
-The preference gap $\Delta\theta^* = \theta^*_{\text{adv}} - \theta^*_{\text{disadv}}$ is:
+so that
+\[
+\Delta\theta^* = \theta^*_{\text{adv}} - \theta^*_{\text{disadv}} = \mathcal{M}\,\frac{1-\lambda_k}{1+\lambda_k}\,(\bar r_{\text{adv}} - \bar r_{\text{disadv}}), \qquad \mathcal{M} = \frac{\mu}{1-\rho}.
+\]
+The preference gap is:
 \begin{enumerate}
-\item Proportional to the formation multiplier $\mathcal{M} = \mu/(1-\rho)$: sticky preferences amplify the return gap into a larger preference gap.
-\item Proportional to the return gap $\bar{r}_{\text{adv}} - \bar{r}_{\text{disadv}}$: which is itself proportional to $1 - \lambda_k$ (the degree of assortative mixing).
-\item Self-confirming: each group's preferences are rational given its $W^I$ signal.
+\item Proportional to the formation multiplier $\mathcal{M}$: sticky preferences amplify the signal gap into a larger preference gap.
+\item Proportional to the return gap, scaled by $(1-\lambda_k)/(1+\lambda_k)$. This factor equals the second eigenvalue of the group-level $W^I$ (Proposition~\ref{ch18:prop:assortative}(a) with $a=c$) and vanishes at $\lambda_k = 1$.
+\item Self-confirming: each group's preferences are consistent with its $W^I$ signal. If returns depend on $\theta$ (Exercise~18.4), the gap feeds back on itself.
 \end{enumerate}
-\end{theorem}
+\end{proposition}
 
-\begin{example}[Gender Aspiration Gap in Bolivia]\label{ch18:ex:gender_aspiration}
-Using the Global Findex 2021 for Bolivia:
+\begin{proof}
+Set $\theta_{t+1} = \theta_t$ in~\eqref{ch18:eq:gender_formation}. Then $(1-\rho)\theta^*_g = (1-\rho)\bar\theta + \mu(\bar s_g - r^*)$. Subtract the two groups' equations and use $\bar s_{\text{adv}} - \bar s_{\text{disadv}} = \frac{1-\lambda_k}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}})$.
+\end{proof}
+
+\begin{example}[Gender Aspiration Gap in Bolivia \illustrative]\label{ch18:ex:gender_aspiration}
+Illustrative figures of the kind reported in the World Bank's Global Findex database. Replace them with the published Bolivia tabulations, using the database's own indicator definitions, before use.
+% TODO-VERIFY: Findex 2021 Bolivia account ownership and business saving/borrowing by gender.
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
@@ -313,12 +364,12 @@ Using the Global Findex 2021 for Bolivia:
 
 The standard explanation: women have lower returns to business (enforcement: discrimination, credit constraints). The formation explanation: women observe lower returns in their network ($W^I$ is gender-assortative), form lower business aspirations ($\theta^{*F}_{\text{business}} < \theta^{*M}_{\text{business}}$), invest less, earn lower returns, confirming the aspirations.
 
-The $\Psi$ ratio for female business investment in Bolivia (from Chapter~11 methods, estimated from cohort variation in female business ownership):
+Suppose (illustratively) that the Chapter~11 cohort-year method, applied to female business ownership, gave
 \begin{equation}
-\hat{\Psi}_{\text{gender, business}} \approx 2.3.
+\Psi_{\text{gender, business}} = 2.3.
 \end{equation}
 
-The formation channel is 2.3 times the enforcement channel. Removing credit constraints (enforcement) addresses 30\% of the gap. Changing what women see --- role models, media representation, cross-gender mentoring (information policy on $W^I$) --- addresses 70\%.
+The formation channel would then be 2.3 times the enforcement channel. Removing credit constraints (enforcement) addresses 30\% of the gap. Changing what women see --- role models, media representation, cross-gender mentoring (information policy on $W^I$) --- addresses 70\%.
 \end{example}
 
 
@@ -327,30 +378,30 @@ The formation channel is 2.3 times the enforcement channel. Removing credit cons
 \label{ch18:sec:welfare}
 %% =====================================================================
 
-\begin{theorem}[Welfare Loss from Assortative Mixing]\label{ch18:thm:welfare_attribute}
-The total welfare loss from attribute constraint $k$ with mixing parameter $\lambda_k$:
+\begin{definition}[Welfare Cost of an Attribute Constraint]\label{ch18:thm:welfare_attribute}
+The welfare loss associated with attribute constraint $k$ (mixing parameter $\lambda_k$) is
 \begin{equation}\label{ch18:eq:welfare_attribute}
-L(\lambda_k) = \underbrace{\frac{\kappa N}{2}\Var(\pi_i(\lambda_k))\Phi^2}_{L_{\text{power}}(\lambda_k)} + \underbrace{\frac{\mu^2\Var(c_j(\lambda_k))\Psi}{(1-\rho)^2}}_{L_{\text{formation}}(\lambda_k)},
+L(\lambda_k) = \underbrace{\frac{\kappa N}{2}\,\Phi^2\,\Var(\pi(\lambda_k))}_{L_{\text{power}}(\lambda_k)} + L_{\text{formation}}(\lambda_k).
 \end{equation}
-where $L_{\text{power}}$ is the static welfare loss from power asymmetry (Chapter~2) and $L_{\text{formation}}$ is the additional loss from the preference gap produced by the formation model.
-
-The welfare gain from eliminating the attribute constraint ($\lambda_k \to 1$):
+$L_{\text{power}}$ is the exact distributional (utilitarian) loss under the allocation rule $x_i = \Omega/N + (\pi_i - 1/N)\Phi$ with quadratic utility (Proposition~\ref{ch07:prop:allocation-rule}). $L_{\text{formation}}$ is the additional loss from the preference gap produced by the formation model (Chapter~12). The \textbf{cost of discrimination} is
 \begin{equation}\label{ch18:eq:gain}
-\Delta L = L(\lambda_k) - L(1) > 0.
+\Delta L = L(\lambda_k) - L(1),
 \end{equation}
-This is the \textbf{cost of discrimination}: the welfare loss attributable to the social classification system, decomposed into power and formation components.
-\end{theorem}
+the part of the loss attributable to the attribute constraint itself, holding the opportunity structure $K^{\max}$ fixed.
+\end{definition}
 
-\begin{example}[The Cost of Gender Discrimination in Bolivia]\label{ch18:ex:cost}
-Using the estimates from this chapter: $\lambda_g \approx 0.3$, $\pi^F_{\text{avg}}/\pi^M_{\text{avg}} = 0.58$, $\hat{\Psi} = 2.3$, $\rho = 0.85$, $\kappa = 0.5$, $N = 11$ million.
+\begin{example}[The Cost of Gender Discrimination \illustrative]\label{ch18:ex:cost}
+Take two equal groups and the calibration of Example~\ref{ch18:ex:bolivia_gender}: $\pi^F_{\text{avg}}/\pi^M_{\text{avg}} = 0.58$ at $\lambda_g = 0.3$, and $0.73$ at $\lambda_g = 1$ with the same densities. Let $\kappa = 0.5$, per-capita endowment $\Omega/N = 1$ and per-capita bargaining surplus $\Phi/N = 1$.
 
-$L_{\text{power}}(\lambda_g = 0.3)$: from the gender power gap, $\Var(\pi_i)$ is approximately 0.003 higher than under $\lambda_g = 1$. $L_{\text{power}} \approx 0.5 \times 11M \times 0.003 \times \Phi^2$.
+With per-capita ratio $r$, men have $N\pi_i = 2/(1+r)$ and women $2r/(1+r)$, so $N^2\Var(\pi) = \big((1-r)/(1+r)\big)^2$. For $r = 0.58$ this is $0.0707$. Note that $\Var(\pi)$ itself is of order $1/N^2$: at $N = 11$ million its maximum possible value is $(N-1)/N^2 \approx 9 \times 10^{-8}$.
 
-$L_{\text{formation}}(\lambda_g = 0.3)$: from the gender aspiration gap, the formation loss adds approximately $(1 + \Psi)$ times the enforcement loss, i.e., $L_{\text{formation}} \approx 2.3 \times L_{\text{power}}$.
+Allocations are $x_M = 1.266$ and $x_F = 0.734$, both with $\kappa x < 1$. The per-capita power loss is
+\[
+\frac{L_{\text{power}}}{N} = \frac{\kappa}{2}\Big(\frac{\Phi}{N}\Big)^2 N^2 \Var(\pi) = 0.25 \times 0.0707 = 0.0177,
+\]
+which is 2.4\% of $U(\Omega/N) = 0.75$. At $\lambda_g = 1$ ($r = 0.73$) the loss would be $0.0062$. The cost of discrimination in the power channel is therefore $0.0114$ per capita, about 65\% of the power loss. The rest reflects the occupational opportunity structure.
 
-Total: $L_{\text{total}} \approx (1 + 2.3) \times L_{\text{power}} = 3.3 \times L_{\text{power}}$.
-
-The formation channel triples the welfare cost of gender discrimination. Standard estimates that ignore formation understate the cost by a factor of 3.3.
+If, as an illustrative assumption, the formation loss equals $\Psi$ times the power loss with $\Psi = 2.3$, then $L_{\text{total}} = (1 + \Psi)L_{\text{power}} = 3.3\,L_{\text{power}}$. An estimate that ignored formation would understate the cost by that factor. (Numbers: \texttt{code/ch18.py}.)
 \end{example}
 
 
@@ -359,8 +410,9 @@ The formation channel triples the welfare cost of gender discrimination. Standar
 \label{ch18:sec:policy}
 %% =====================================================================
 
-\begin{proposition}[Policy Instruments for Attribute Constraints]\label{ch18:prop:policy_attributes}
+\begin{remark}[Policy Instruments for Attribute Constraints]\label{ch18:prop:policy_attributes}
 \begin{center}
+\small
 \begin{tabular}{llll}
 \toprule
 \textbf{Policy} & \textbf{Target} & \textbf{Effect on $\lambda$} & \textbf{$\Psi$} \\
@@ -370,13 +422,13 @@ Equal-pay legislation & $W^P$ (prices) & $\lambda_g^P \uparrow$ indirectly & Low
 Mentoring programs & $W^I$ & $\lambda_g^I \uparrow$ & High \\
 Media representation & $W^I$ & $\lambda_g^I \uparrow$ & High \\
 Education coeducation & $W^I + W^U$ & $\lambda_g^I, \lambda_g^U \uparrow$ & High \\
-Anti-discrimination law & Institutional ($\mathcal{L}_{\text{inst}}$) & All $\lambda$ increase via norms & Medium \\
+Anti-discrimination law & Institutional & All $\lambda \uparrow$ via norms & Medium \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W^I$ policies: mentoring, media, education) then low-$\Psi$ ($W^P$ policies: quotas, equal pay). This is because changing $W^I$ shifts the aspirations of the next generation, making the enforcement interventions more effective when they arrive.
-\end{proposition}
+The sequencing logic of Section~\ref{ch15:sec:sequencing} applies: high-$\Psi$ interventions first ($W^I$ policies: mentoring, media, education) then low-$\Psi$ ($W^P$ policies: quotas, equal pay). This is because changing $W^I$ shifts the aspirations of the next generation, making the enforcement interventions more effective when they arrive. The $\Psi$ column is a qualitative ranking, not an estimate.
+\end{remark}
 
 
 %% =====================================================================
@@ -385,19 +437,15 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 %% =====================================================================
 
 \begin{enumerate}
-\item \textbf{Node attributes} (gender, race, ethnicity, caste) constrain $W$ through assortative mixing functions $\phi(\mathbf{a}_i, \mathbf{a}_j) \leq 1$. Lower $\phi$ = weaker cross-group edges = more block-diagonal $W$.
+\item \textbf{Node attributes} (gender, race, ethnicity, caste) constrain $W$ through assortative mixing functions $\phi(\mathbf{a}_i, \mathbf{a}_j) \leq 1$. Lower $\phi$ means weaker cross-group edges and a more block-diagonal $W$.
 
-\item Assortative mixing \textbf{reduces $\Gamma$}: more segregation means less structural integration, more power inequality, more welfare loss.
+\item Assortative mixing \textbf{reduces $\Gamma$}, i.e.\ integration across groups. This is exact for an equitable two-block partition when within-group links are at least as strong as cross-group links, and holds in general through the Cheeger bound. It does not by itself concentrate power: in the symmetric case $\pi$ is uniform for every $\lambda$.
 
-\item \textbf{Gender} constrains $W^P$ (occupational segregation), $W^I$ (information segregation), and $W^U$ (social segregation) simultaneously. Bolivia: women have 58\% of men's per-capita structural power.
+\item With symmetric homophily, \textbf{power is proportional to degree}. A group power gap comes from group size (minority ratio $0.84$ at $p = 0.41$, $\lambda = 0.35$) or from an asymmetric opportunity structure. It is the latter that can produce a gender gap at equal population shares (illustrative ratio 0.58).
 
-\item \textbf{Race} constrains all three networks with correlated $\lambda_r$ values. Bolivia: indigenous people hold 80\% of non-indigenous per-capita power.
+\item \textbf{Intersectionality} is the interaction term $\iota = \phi - \prod_k\phi_k$. The product of single-attribute constraints (e.g.\ $0.35 \times 0.30 = 0.105$ for the edge weight) is the separable, no-interaction baseline, and edge suppression is not the same as a power gap.
 
-\item \textbf{Intersectionality is multiplicative}: cross-group edge weight is the product of individual constraints. An indigenous woman in Bolivia: $\phi \approx 0.105$ (10.5\% of unconstrained).
-
-\item The \textbf{formation trap} operates through assortative $W^I$: disadvantaged groups observe biased signals, form lower aspirations, invest less, earn less, confirming the signal. The formation channel multiplies the welfare cost of discrimination by $(1 + \Psi)$.
-
-\item \textbf{Policy}: high-$\Psi$ interventions ($\Delta W^I$: mentoring, media) first; low-$\Psi$ ($\Delta W^P$: quotas, equal pay) second.
+\item The \textbf{formation trap} operates through assortative $W^I$: the preference gap is $\mathcal{M}\,\frac{1-\lambda}{1+\lambda}$ times the return gap. Disadvantaged groups observe biased signals, form lower aspirations, invest less and earn less, which confirms the signal. Under the illustrative assumption $L_{\text{formation}} = \Psi L_{\text{power}}$, the welfare cost of discrimination is $(1 + \Psi)$ times its power component.
 \end{enumerate}
 
 
@@ -418,23 +466,24 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 \item How much would the gender power gap close if women entered male-dominated sectors at 40\% (up from the current $\approx$10\%)?
 \end{enumerate}
 
-\item \textbf{Intersectionality.} For $N = 4$: Agent 1 (mestizo man), Agent 2 (mestizo woman), Agent 3 (indigenous man), Agent 4 (indigenous woman). $\lambda_g = 0.3$, $\lambda_r = 0.35$.
+\item \textbf{Intersectionality.} For $N = 4$ group-agents: Agent 1 (non-indigenous man), Agent 2 (non-indigenous woman), Agent 3 (indigenous man), Agent 4 (indigenous woman), with population shares $n = (0.295, 0.295, 0.205, 0.205)$. Let $\lambda_g = 0.3$ and $\lambda_r = 0.35$.
 \begin{enumerate}
-\item Write the constraint matrix $\phi(\mathbf{a}_i, \mathbf{a}_j)$ for all 16 pairs.
-\item Construct $W^P = \phi \circ W^{\max}$ where $W^{\max} = \frac{1}{4}\ones\ones'$.
-\item Compute $\boldsymbol{\pi}$. Verify that $\pi_4$ (indigenous woman) is the lowest.
-\item Compute the ratio $\pi_4/\pi_1$ (indigenous woman / mestizo man). Compare with $\lambda_g \times \lambda_r$.
+\item Write the separable constraint matrix $\phi(\mathbf{a}_i, \mathbf{a}_j)$ for all 16 pairs.
+\item First take $W^{\max} = \frac{1}{4}\ones\ones'$ and $W = D^{-1}(\phi \circ W^{\max})$. Compute $\boldsymbol{\pi}$ and show that it is uniform. Why? (Hint: row sums of $\phi$; Proposition~\ref{ch18:prop:homophily_power}.)
+\item Now weight opportunities by population, $K_{ij} = \phi_{ij}\, n_j$ (each group-agent stands for a group of size $n_j$), and $W = D^{-1}K$. Compute $\boldsymbol{\pi}$ and the per-capita power $\pi_i/n_i$. Verify that the two indigenous groups have the lowest per-capita power, and that gender makes no difference.
+\item Compute the per-capita ratio $(\pi_4/n_4)/(\pi_1/n_1)$. Compare it with $\lambda_g \lambda_r$ and with formula~\eqref{ch18:eq:minority_ratio}. What does this say about edge suppression versus power?
 \end{enumerate}
 
-\item \textbf{The formation trap.} In a 2-group economy (advantaged $A$, disadvantaged $D$) with $\lambda = 0.2$:
+\item \textbf{The formation trap.} Consider two equal groups (advantaged $A$, disadvantaged $D$) with $\lambda = 0.25$, so that after row normalisation the own-group weight is $1/(1+\lambda) = 0.8$. Let $\rho = 0.85$, $\mu = 0.3$, $\bar\theta = 1$ and $r^* = 0.1$.
 \begin{enumerate}
-\item Set up the formation model: $\theta^A_{t+1} = \rho\theta^A + (1-\rho)\bar{\theta} + \mu(0.8r^A + 0.2r^D - r^*)$ and similarly for $D$. Use $r^g = 0.05 + 0.1\theta^g$.
-\item Compute both steady states. What is $\Delta\theta^* = \theta^{*A} - \theta^{*D}$?
-\item Now set $\lambda = 0.5$ (reduce assortative mixing). Compute new steady states. By how much does $\Delta\theta^*$ shrink?
+\item Set up the formation model: $\theta^A_{t+1} = \rho\theta^A + (1-\rho)\bar{\theta} + \mu(0.8r^A + 0.2r^D - r^*)$, and similarly for $D$. Returns are $r^A = 0.05 + 0.1\theta^A$ and $r^D = 0.03 + 0.1\theta^D$: $D$'s constrained opportunity structure costs it 0.02.
+\item Compute both steady states and $\Delta\theta^* = \theta^{*A} - \theta^{*D}$.
+\item Now set $\lambda = 0.5$ (own weight $2/3$). Compute the new steady states. By how much does $\Delta\theta^*$ shrink?
 \item At what $\lambda$ does $\Delta\theta^*$ fall below 0.01?
+\item Show that if both groups had $r^g = 0.05 + 0.1\theta^g$, then $\Delta\theta^* = 0$ for every $\lambda$. Assortative information alone does not create a gap; it propagates one.
 \end{enumerate}
 
-\item \textbf{The cost of discrimination.} Using the estimates for Bolivia ($\lambda_g = 0.3$, $\Psi = 2.3$): compute the welfare loss from gender discrimination as a fraction of GDP (you will need to assume a relationship between the welfare loss $L$ and GDP). Compare with Cuberes and Teignier (2016), who estimate the GDP cost of gender gaps at 15--20\% for Bolivia.
+\item \textbf{The cost of discrimination.} Using the illustrative values of Example~\ref{ch18:ex:cost} ($\lambda_g = 0.3$, $\Psi = 2.3$): compute the welfare loss from gender discrimination as a fraction of GDP (you will need to assume a relationship between the welfare loss $L$ and GDP). Compare your answer with the order of magnitude of income losses from gender gaps in labor markets estimated in the literature (e.g., Cuberes and Teignier 2016).
 
 \item \textbf{Optimal intervention design.} For the gender gap in Bolivia:
 \begin{enumerate}
@@ -444,7 +493,7 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 \item Sequence them optimally (Chapter~15). Which goes first?
 \end{enumerate}
 
-\item \textbf{MICS data exercise.} Using UNICEF's MICS data for Bolivia (or another country):
+\item \textbf{Aspirations data exercise.} Using a household survey with a module on educational aspirations (for example a UNICEF MICS round for a country where one is available, or a national survey):
 \begin{enumerate}
 \item Compute the aspiration gap: the difference in educational aspirations (``how far in school do you want your child to go?'') between indigenous and non-indigenous mothers, controlling for income and urban/rural.
 \item Is the gap consistent with the formation model's prediction? (Larger gap where $W^I$ is more assortative.)
@@ -464,22 +513,19 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 \addcontentsline{toc}{subsection}{Appendix 18A: Assortative Mixing}
 \label{ch18:app:assortative}
 
-\paragraph{Setup.} Partition $N$ agents into $G$ groups based on attribute $k$. Within-group edge weight: $W_{ij} = w_{\text{in}}$ for $a_i = a_j$. Cross-group edge weight: $W_{ij} = w_{\text{cross}} = \lambda_k \cdot w_{\text{in}}$. Row-normalize: within-group agents have weight $w_{\text{in}}/(N_g w_{\text{in}} + (N - N_g)\lambda_k w_{\text{in}})$.
+\paragraph{Setup.} Partition $N$ agents into $G$ groups based on attribute $k$. Raw intensities are $K_{ij} = a$ within groups and $K_{ij} = \lambda_k c$ across groups, and $W = D^{-1}K$.
 
-\paragraph{Eigenvalues.} For $G = 2$ groups of equal size: $\lambda_1 = 1$ (trivial), $\lambda_2 = (1 - \lambda_k)/(1 + \lambda_k)$ (the assortative-mixing eigenvalue). The spectral gap: $\Gamma = 1 - (1-\lambda_k)/(1+\lambda_k) = 2\lambda_k/(1+\lambda_k)$. This is monotonically increasing in $\lambda_k$, confirming Proposition~\ref{ch18:prop:assortative}.
+\paragraph{Eigenvalues.} For $G = 2$ groups of equal size $n$, the group-level quotient is $\begin{pmatrix}\alpha&\beta\\\beta&\alpha\end{pmatrix}$ with $\alpha = a/(a+\lambda_k c)$ and $\beta = 1-\alpha$. Hence $\lambda_1 = 1$ and $\lambda_2 = (a - \lambda_k c)/(a + \lambda_k c)$; the remaining $N-2$ eigenvalues are $0$. With $a = c$ this gives $\lambda_2 = (1-\lambda_k)/(1+\lambda_k)$ and $\Gamma = 2\lambda_k/(1+\lambda_k)$: $0.18$, $0.46$, $0.67$ and $1$ at $\lambda_k = 0.1$, $0.3$, $0.5$ and $1$. This is monotonically increasing in $\lambda_k$, as in Proposition~\ref{ch18:prop:assortative}(a). For $c > a$ the absolute value $|\lambda_2|$ is not monotone and the conclusion can reverse (Remark~\ref{ch18:rem:assortative_limits}). The Cheeger bound of part (b) is tight in this example: $2\lambda_k c/(a + \lambda_k c)$ equals $\Gamma$.
 
-\paragraph{Perron eigenvector.} For asymmetric groups ($N_1 \neq N_2$) with different internal densities: the Perron eigenvector assigns more weight to the group with higher internal density and more external connections. This formalizes the ``structural advantage'' of the dominant group.
+\paragraph{Perron eigenvector.} With symmetric $K$, $\pi \propto K\ones$ (Proposition~\ref{ch18:prop:homophily_power}). With unequal group sizes or unequal internal densities, $\pi$ assigns more per-capita weight to the larger group or the denser one, which formalizes the ``structural advantage'' of the dominant group. Without such an asymmetry, homophily leaves $\pi$ uniform.
 
-
-\subsection*{Appendix 18B: The Multiplicative Structure of Intersectionality}
-\addcontentsline{toc}{subsection}{Appendix 18B: Intersectionality}
+\subsection*{Appendix 18B: Estimating Mixing Parameters}
+\addcontentsline{toc}{subsection}{Appendix 18B: Estimating Mixing Parameters}
 \label{ch18:app:intersectionality}
 
-\paragraph{Independence assumption.} Theorem~\ref{ch18:thm:intersectionality} assumes that the mixing functions are independent: $\phi_k$ does not depend on attributes $k' \neq k$. This is approximately true when gender discrimination and racial discrimination operate through different mechanisms (e.g., gender norms are cultural while racial discrimination is institutional). It fails when the mechanisms interact (e.g., racial stereotypes about gender roles differ across groups).
+The separable baseline and the intersectional interaction term, formerly in this appendix, are now in Section~\ref{ch18:sec:intersection}.
 
-\paragraph{Non-independent case.} When $\phi$ is not separable: $\phi(\mathbf{a}_i, \mathbf{a}_j) \neq \prod_k \phi_k(a_{ik}, a_{jk})$. The interaction can be either reinforcing (the constraint on indigenous women is worse than the product predicts) or compensating (e.g., indigenous women benefit from specific solidarity networks that partially offset the double constraint). The reinforcing case produces even lower Perron weights for the multiply-disadvantaged; the compensating case produces less extreme outcomes.
-
-\paragraph{Empirical estimation.} The mixing parameters $\lambda_k$ can be estimated from social network data (intermarriage rates, occupational segregation indices, media consumption patterns) or from labor market outcomes using the structure: $\text{wage gap} = f(\lambda_g, \lambda_r, \ldots)$ with the Perron eigenvector providing the functional form.
+\paragraph{Empirical estimation.} The mixing parameters $\lambda_k$ can be estimated from social network data (intermarriage rates, occupational segregation indices, media consumption patterns) or from labor market outcomes using the structure: $\text{wage gap} = f(\lambda_g, \lambda_r, \ldots)$ with the Perron eigenvector providing the functional form. To test separability, estimate $\phi$ on the cross-classified groups (gender $\times$ ethnicity) and test $\iota = 0$ in~\eqref{ch18:eq:interaction}; a log-linear model of edge weights with an interaction term is the natural specification.
 
 
 %% =====================================================================
@@ -489,26 +535,28 @@ The optimal sequencing (Chapter~15) applies: high-$\Psi$ interventions first ($W
 
 This chapter's case study pairs the two structuralist thinkers who brought race and labor exploitation to the center of structural analysis: Quijano's coloniality of power and Marini's superexploitation. Together they provide the theory for what this chapter formalizes as attribute-constrained weight matrices.
 
-\textbf{Quijano (2000): Race as the master attribute.} Quijano's essay ``Colonialidad del poder'' argued that the colonial invention of race was the foundational structuring principle of the modern world-system --- more fundamental than class, nationality, or gender. The racial classification imposed during the conquest (European/Indian/Black/Mestizo) did not merely describe physical differences; it \textit{organized} the entire pattern of social interaction. In this chapter's notation: race is the node attribute with the broadest scope --- it constrains $W^U$, $W^P$, and $W^I$ simultaneously, with low $\lambda_r$ values across all three layers. The alignment of constraints (Proposition~\ref{ch18:prop:race_three}) is what makes racial classification so effective as an ``instrument of domination'': it produces consistent power asymmetry across every dimension of interaction.
+\textbf{Quijano (2000): Race as the master attribute.} Quijano's essay ``Colonialidad del poder'' argued that the colonial invention of race was the foundational structuring principle of the modern world-system --- more fundamental than class, nationality, or gender. The racial classification imposed during the conquest (European/Indian/Black/Mestizo) did not merely describe physical differences; it \textit{organized} the entire pattern of social interaction. In this chapter's notation: race is the node attribute with the broadest scope --- it constrains $W^U$, $W^P$, and $W^I$ simultaneously, with low $\lambda_r$ values across all three layers (Conjecture~\ref{ch18:prop:race_three}). What makes the classification effective as an ``instrument of domination'' is not homophily alone, which by itself leaves power equal between equal-sized groups (Proposition~\ref{ch18:prop:homophily_power}). It is homophily combined with an opportunity structure that is unequal in the same direction in every layer.
 
-Quijano's second claim was that coloniality \textit{survived} independence. The formal colonial apparatus was dismantled, but the racial classification continued to structure social interaction. In the formation model: racial assortative mixing ($\lambda_r < 1$) produces self-confirming preference gaps (Theorem~\ref{ch18:thm:attribute_trap}). Indigenous communities form aspirations calibrated to indigenous-sector returns, which are lower because their $W^P$ is constrained by $\lambda_r$. The preferences persist with half-life $\ln 2/\ln(1/\rho)$ generations (Chapter~9). Colonial racial classifications imposed 500 years ago are still visible in the preference data because $\rho \approx 0.85$--$0.90$ implies a half-life of 130--170 years --- long enough for the colonial preference formation to be only 2--3 half-lives in the past.
+Quijano's second claim was that coloniality \textit{survived} independence. The formal colonial apparatus was dismantled, but the racial classification continued to structure social interaction. In the formation model, racial assortative mixing ($\lambda_r < 1$) propagates return gaps into self-confirming preference gaps (Proposition~\ref{ch18:thm:attribute_trap}). Indigenous communities that observe mainly the returns available in their own constrained opportunity structure form aspirations calibrated to those returns.
 
-\textbf{Marini (1973): Superexploitation as $\pi_{\text{worker}} \ll 1/N$, amplified by race.} Marini's superexploitation (Chapter~7's case study) was defined as $\pi_{\text{worker}} \ll 1/N$: workers receive less than their marginal product because their structural position is weak. This chapter adds the racial dimension: within the worker class, racial minorities face an additional constraint ($\lambda_r < 1$) that further reduces their Perron weight. Indigenous workers are \textit{superexploited among the superexploited}: $\pi_{\text{indigenous worker}} < \pi_{\text{mestizo worker}} \ll 1/N$.
+How long would such gaps take to fade? With half-life $\ln 2/\ln(1/\rho)$ generations (Chapter~9), $\rho = 0.85$--$0.90$ gives 4.3--6.6 generations, or roughly 110--200 years. Five centuries are therefore 2.5--4.7 half-lives. Initial conditions alone would have decayed to between 4\% and 18\% of their original size. The persistence Quijano describes therefore cannot rest on slow decay. In the model it requires that $\lambda_r$ and the unequal opportunity structure be \emph{reproduced} each generation, which is exactly his thesis that coloniality is an ongoing pattern of power, not a residue.
 
-The combination of Marini's class analysis and Quijano's racial analysis produces the intersectionality theorem (Theorem~\ref{ch18:thm:intersectionality}): the indigenous working-class woman faces the product $\lambda_r \times \lambda_g \times \lambda_c$ of three constraints, giving her a Perron weight that is a small fraction of the unconstrained value. Her superexploitation is not the sum of race, gender, and class disadvantages but their product.
+\textbf{Marini (1973): superexploitation, amplified by race.} For Marini, superexploitation means that labor-power is paid below its value, through intensified work, a longer working day and wages below what workers need to reproduce themselves. It is a Marxian value concept, not a statement about marginal products. In this book's bargaining reading (an interpretation, not Marini's own apparatus; Chapter~7), it corresponds to a weak structural position of workers, $\pi_{\text{worker}} \ll 1/N$. This chapter adds the racial dimension: within the worker class, racial minorities face an additional constraint ($\lambda_r < 1$) and a more restricted opportunity structure, which further reduce their Perron weight. Indigenous workers are \textit{superexploited among the superexploited}: $\pi_{\text{indigenous worker}} < \pi_{\text{non-indigenous worker}} \ll 1/N$.
+
+Combining Marini's class analysis with Quijano's racial analysis gives the intersectional structure of Section~\ref{ch18:sec:intersection}. Under the separable baseline, an indigenous working-class woman faces the product $\lambda_r \lambda_g \lambda_c$ of three edge constraints. Whether her position is worse still --- whether the axes interact ($\iota < 0$) --- is the empirical content of the intersectional claim.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Concept} & \textbf{Quijano (2000)} & \textbf{Marini (1973)} \\
 \midrule
-Core claim & Race structures all interaction & Workers receive $< $ marginal product \\
-Formal object & $\lambda_r < 1$ across $W^U, W^P, W^I$ & $\pi_{\text{worker}} \ll 1/N$ \\
+Core claim & Race structures all interaction & Labor-power paid below its value \\
+Formal object & $\lambda_r < 1$ plus asymmetric $K^{\max}$ across $W^U, W^P, W^I$ & $\pi_{\text{worker}} \ll 1/N$ (bargaining reading) \\
 Mechanism & Assortative mixing, aligned & Asymmetric $W^P$, weak labor position \\
-Persistence & Coloniality survives independence & Superexploitation is structural \\
+Persistence & Coloniality reproduced each generation & Superexploitation is structural \\
 Formation link & Racial $W^I$ produces self-confirming & Low $\pi \to$ low returns $\to$ low $\theta$ \\
-Intersectionality & Race + gender + class = product & Superexploitation within superexploitation \\
-Bolivia & $\lambda_r \approx 0.35$, $\pi^{\text{indig}}/\pi^{\text{mestizo}} = 0.57$ & $\pi_{\text{worker}}/\pi_{\text{avg}} \approx 0.6$ \\
+Intersectionality & Separable baseline $\prod_k\phi_k$; interaction $\iota$ & Superexploitation within superexploitation \\
+Bolivia (illustrative) & $\lambda_r \approx 0.35$, $\pi^{\text{indig}}/\pi^{\text{non-indig}} = 0.57$ & --- \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -523,12 +571,12 @@ Quijano wrote from Lima. Marini wrote from exile. Neither had the Perron eigenve
 
 \textbf{Gender and networks:} Beaman et al.\ (2012), ``Female Leadership Raises Aspirations,'' \textit{Science}. Bursztyn et al.\ (2020), ``Misperceived Social Norms: Women Working Outside the Home in Saudi Arabia,'' \textit{AER}. Cuberes and Teignier (2016), ``Aggregate Effects of Gender Gaps in the Labor Market,'' \textit{Journal of Human Capital}.
 
-\textbf{Race and economic structure:} Darity and Mason (1998), ``Evidence on Discrimination in Employment,'' \textit{JEP}. Lang and Lehmann (2012), ``Racial Discrimination in the Labor Market,'' \textit{JLE}. For Bolivia: Jimenez Pozo, Landa Casazola, and Yanz\'{o}n (2006), ``Bolivia: Indicadores de equidad \'{e}tnica,'' UDAPE.
+\textbf{Race and economic structure:} Darity and Mason (1998), ``Evidence on Discrimination in Employment,'' \textit{JEP}. Lang and Lehmann (2012), ``Racial Discrimination in the Labor Market: Theory and Empirics,'' \textit{Journal of Economic Literature}. For Bolivia: Jimenez Pozo, Landa Casazola, and Yanz\'{o}n (2006), ``Bolivia: Indicadores de equidad \'{e}tnica,'' UDAPE.
 
-\textbf{Intersectionality:} Crenshaw (1989), ``Demarginalizing the Intersection of Race and Sex,'' \textit{University of Chicago Legal Forum}. For the economic formalization: Greenwald and Stiglitz (1986) extended to multiple attribute groups.
+\textbf{Intersectionality:} Crenshaw (1989), ``Demarginalizing the Intersection of Race and Sex,'' \textit{University of Chicago Legal Forum}.
 
 \textbf{Decolonial theory:} Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina.'' Mignolo (2000), \textit{Local Histories/Global Designs}. Walsh (2007), ``Interculturalidad y colonialidad del poder,'' in Castro-G\'{o}mez and Grosfoguel (eds.), \textit{El giro decolonial}.
 
-\textbf{Assortative mixing in networks:} Newman (2003), ``Mixing Patterns in Networks,'' \textit{Physical Review E}. Currarini, Jackson, and Pin (2009), ``An Economic Model of Friendship,'' \textit{Econometrica}.
+\textbf{Assortative mixing in networks:} Newman (2003), ``Mixing Patterns in Networks,'' \textit{Physical Review E}. Currarini, Jackson, and Pin (2009), ``An Economic Model of Friendship,'' \textit{Econometrica}. Golub and Jackson (2012), ``How Homophily Affects the Speed of Learning and Best-Response Dynamics,'' \textit{QJE} --- the spectral link between homophily and integration used in Proposition~\ref{ch18:prop:assortative}.
 
 \end{document}

@@ -6,7 +6,8 @@
 \begin{quote}
 \textit{``O processo de substitui\c{c}\~{a}o de importa\c{c}\~{o}es pode ser entendido como um processo de desenvolvimento `parcial' e `fechado' que, respondendo \`{a}s restri\c{c}\~{o}es do com\'{e}rcio exterior, procurou repetir aceleradamente, em condi\c{c}\~{o}es hist\'{o}ricas distintas, a experi\^{e}ncia de industrializa\c{c}\~{a}o dos pa\'{i}ses desenvolvidos.''}\\[0.3em]
 \textnormal{[``The process of import substitution can be understood as a `partial' and `closed' development process that, responding to foreign trade constraints, sought to repeat at an accelerated pace, under distinct historical conditions, the industrialization experience of the developed countries.'']}\\
-\hfill --- Maria da Concei\c{c}\~{a}o Tavares, ``Auge e decl\'{i}nio do processo de substitui\c{c}\~{a}o de importa\c{c}\~{o}es no Brasil'' (1972)
+\hfill --- Maria da Concei\c{c}\~{a}o Tavares, ``Auge e decl\'{i}nio do processo de substitui\c{c}\~{a}o de importa\c{c}\~{o}es no Brasil'' (1964; in Tavares 1972)
+% TODO-VERIFY: first published in Spanish, "Auge y declinacion del proceso de sustitucion de importaciones en el Brasil", CEPAL Boletin Economico de America Latina IX(1), 1964; check the Portuguese wording and page in Da substituicao de importacoes ao capitalismo financeiro (Zahar, 1972).
 \end{quote}
 
 \vspace{1em}
@@ -15,9 +16,9 @@ Chapter~13 showed how networks evolve stochastically. Chapter~14 showed who deci
 
 The answer is operator design: the systematic construction of structural changes that move $W$ toward a target. The ``operator'' is the policy instrument --- a tariff, an infrastructure investment, an education reform, a media regulation --- and the ``design'' is the choice of which entries of $W$ to modify, by how much, and in what sequence.
 
-This chapter treats structural policy as an engineering problem. The objective function is the spectral gap $\Gamma$ (or a welfare-weighted variant). The constraints are the feasibility set $\mathcal{F}(S)$ from Chapter~14. The decision variable is $\Delta W$. The solution is the optimal structural intervention: the $\Delta W$ that maximizes $\Gamma$ (or minimizes $\Var(\pi_i)$, or maximizes $N_{\text{eff}}$) given the political constraints.
+This chapter treats structural policy as an engineering problem. The decision variable is $\Delta W$; the constraints are the feasibility set $\mathcal{F}(S)$ from Chapter~14 and row-stochasticity. The objective must say what the planner wants, and the conventions of Chapter~1 (Section~\ref{ch01:sec:conventions}) separate two different targets: \emph{power}, measured by the concentration of $\boldsymbol{\pi}$ ($\Var(\boldsymbol{\pi})$, the power Gini, $\Neff$ or $d_\pi = \frac12\|\boldsymbol{\pi} - \ones/N\|_1$), and \emph{integration}, measured by the spectral gap $\Gamma$ (the speed at which shocks and signals mix). The two are independent (Proposition~\ref{ch06:prop:gap-power-independent}), and a third target, output, is measured from the technical-coefficient matrix $A$, not from $W$.
 
-This is where the product space meets the weight matrix. Where Hirschman's ``big push'' gets its eigenvalues. Where ISI becomes matrix algebra.
+This is where the product space meets the weight matrix, and where ISI becomes matrix algebra. It is also where the book meets a rigorous literature it should build on: optimal industrial policy in production networks (Liu, 2019) and the optimization of the spectral gap (Boyd, Diaconis and Xiao, 2004).
 
 
 %% =====================================================================
@@ -28,9 +29,9 @@ This is where the product space meets the weight matrix. Where Hirschman's ``big
 \subsection{Three Objectives}
 
 \begin{definition}[The Operator Design Problem]\label{ch15:def:operator}
-Given the current weight matrix $W$, a budget $B > 0$ (the maximum Frobenius norm of the intervention), and a feasibility set $\mathcal{F}$, the \textbf{operator design problem} is:
+Given the current weight matrix $W$, a budget $B > 0$ on the size of the intervention, measured in a norm $\|\cdot\|$ (Frobenius or $\ell_1$, below), and a feasibility set $\mathcal{F}$, the \textbf{operator design problem} is:
 \begin{equation}\label{ch15:eq:operator}
-\max_{\Delta W \in \mathcal{F}} \; \Omega(\Delta W) \quad \text{subject to} \quad \|\Delta W\|_F \leq B, \quad W + \Delta W \geq 0, \quad (W + \Delta W)\ones = \ones,
+\max_{\Delta W \in \mathcal{F}} \; \Omega(\Delta W) \quad \text{subject to} \quad \|\Delta W\| \leq B, \quad W + \Delta W \geq 0, \quad (W + \Delta W)\ones = \ones,
 \end{equation}
 where $\Omega(\Delta W)$ is the objective function and the constraints ensure that $W + \Delta W$ remains a valid row-stochastic nonnegative matrix.
 \end{definition}
@@ -38,46 +39,67 @@ where $\Omega(\Delta W)$ is the objective function and the constraints ensure th
 Three natural objectives:
 
 \begin{enumerate}
-\item \textbf{Maximize $\Gamma$}: increase the spectral gap, making the economy more integrated and power more equal.
+\item \textbf{Maximize $\Gamma$}: increase the spectral gap, making the economy more integrated --- shocks, prices and signals propagate across blocks faster. This objective says nothing about who holds power.
 \begin{equation}\label{ch15:eq:obj_gamma}
 \Omega_1(\Delta W) = \Gamma(W + \Delta W) - \Gamma(W).
 \end{equation}
 
-\item \textbf{Minimize $\Var(\pi_i)$}: reduce power inequality directly.
+\item \textbf{Minimize $\Var(\boldsymbol{\pi})$} (or the power Gini, or $d_\pi$): reduce power inequality directly.
 \begin{equation}\label{ch15:eq:obj_var}
-\Omega_2(\Delta W) = -\left[\Var(\pi_i(W + \Delta W)) - \Var(\pi_i(W))\right].
+\Omega_2(\Delta W) = -\left[\Var(\boldsymbol{\pi}(W + \Delta W)) - \Var(\boldsymbol{\pi}(W))\right].
 \end{equation}
 
-\item \textbf{Maximize total output} $(I - \gamma W^P)^{-1}\mathbf{d}$: Hirschman's objective --- invest where the Leontief multiplier is largest.
+\item \textbf{Maximize total output}: invest where the Leontief multiplier is largest. Output is computed from the technical coefficients $A$ (row $i$ is sector $i$'s recipe; balance $\y = A'\y + \mathbf{d}$), with an intervention $\Delta A$ on input coefficients:
 \begin{equation}\label{ch15:eq:obj_output}
-\Omega_3(\Delta W^P) = \ones'(I - \gamma(W^P + \Delta W^P))^{-1}\mathbf{d} - \ones'(I - \gamma W^P)^{-1}\mathbf{d}.
+\Omega_3(\Delta A) = \ones'(I - (A + \Delta A)')^{-1}\mathbf{d} - \ones'(I - A')^{-1}\mathbf{d}.
 \end{equation}
+It cannot be computed from the row-stochastic $W^P = D^{-1}A$: for every row-stochastic $W$, $(I - \gamma W)^{-1}\ones = \ones/(1-\gamma)$, so with $\mathbf{d} = \ones$ the ``multiplier'' $\ones'(I - \gamma W)^{-1}\ones = N/(1-\gamma)$ is the same for every feasible $\Delta W$.
 \end{enumerate}
 
-\begin{intuition}[Three objectives, one intuition]
-All three objectives point in the same direction: \textit{brighten the dark off-diagonal entries of $W$}. Adding cross-block edges increases $\Gamma$ (objective 1), reduces $\Var(\pi_i)$ (objective 2), and increases the Leontief multiplier (objective 3). The differences are in which edges to brighten first, and by how much.
+\begin{intuition}[Three objectives, three answers]
+The three objectives do \emph{not} point in the same direction. Adding cross-block edges raises $\Gamma$; whether it lowers $\Var(\boldsymbol{\pi})$ depends on whether the new edge sends weight toward the low-power block; and whether it raises output depends on the input intensity of the supplier. Example~\ref{ch15:ex:isi} shows a cross-block edge that wins on $\Gamma$ and on power but loses on the multiplier. And Proposition~\ref{ch15:prop:pi_path} shows that $\Gamma$ can be pushed all the way to $1$ without moving $\boldsymbol{\pi}$ at all.
 \end{intuition}
+
+\begin{proposition}[Integration Without Redistribution]\label{ch15:prop:pi_path}
+Let $W$ be irreducible and row-stochastic with Perron vector $\boldsymbol{\pi}$ and second-largest eigenvalue modulus $|\lambda_2|$. For $t \in [0, 1]$, the matrix $W_t = (1-t)W + t\,\ones\boldsymbol{\pi}'$ is row-stochastic, has $\boldsymbol{\pi}(W_t) = \boldsymbol{\pi}$, and has $\Gamma(W_t) = 1 - (1-t)|\lambda_2|$.
+\end{proposition}
+
+\begin{proof}
+$\boldsymbol{\pi}'W_t = (1-t)\boldsymbol{\pi}' + t\boldsymbol{\pi}' = \boldsymbol{\pi}'$. If $W\mathbf{v} = \lambda\mathbf{v}$ with $\lambda \neq 1$, then $\boldsymbol{\pi}'\mathbf{v} = 0$, so $\ones\boldsymbol{\pi}'\mathbf{v} = 0$ and $W_t\mathbf{v} = (1-t)\lambda\mathbf{v}$ (the same holds for generalized eigenvectors). The non-unit eigenvalues of $W_t$ are therefore $(1-t)\lambda_k$. This is Proposition~\ref{ch06:prop:gap-power-independent} applied along a path.
+\end{proof}
+
+For a random $4 \times 4$ matrix in \texttt{code/ch15.py}, $\Gamma$ rises from $0.541$ to $0.656$, $0.771$ and $0.885$ at $t = 0.25, 0.5, 0.75$ while $\Var(\boldsymbol{\pi})$ stays at $0.0066$. Raising integration never \emph{requires} anyone to give up power. Power redistribution is a separate objective, $\Omega_2$, with its own political cost (Section~\ref{ch15:sec:political}).
 
 
 \subsection{The First-Order Solution}
 
-\begin{theorem}[Optimal Edge Selection]\label{ch15:thm:optimal_edge}
-For objective $\Omega_1$ (maximize $\Gamma$), the first-order optimal intervention under a budget constraint allocates the entire budget to the single edge $(i^*, j^*)$ that has the largest marginal effect on $\Gamma$:
-\begin{equation}\label{ch15:eq:optimal_edge}
-(i^*, j^*) = \argmax_{(i,j)} \left|\frac{\partial \Gamma}{\partial W_{ij}}\right|.
-\end{equation}
-
-The sensitivity of $\Gamma$ to a perturbation in $W_{ij}$ is (from Appendix~8B):
+By Lemma~\ref{ch06:lem:perturbation}, if $\lambda_2$ is simple and no other eigenvalue except its conjugate has modulus $|\lambda_2|$, then $\Gamma$ is differentiable and, for a perturbation in direction $E$,
 \begin{equation}\label{ch15:eq:gamma_sensitivity}
-\frac{\partial \Gamma}{\partial W_{ij}} \approx \frac{(\pi_i^L \cdot v_{2,j}^R - \pi_i^L \cdot v_{1,j}^R \cdot \text{correction})}{1 - \lambda_2},
+\frac{d\Gamma(W + tE)}{dt}\Big|_{t=0} = -\frac{\operatorname{Re}\!\big(\bar\lambda_2\,\mathbf{u}_2'E\mathbf{v}_2\big)}{|\lambda_2|} = \sum_{i,j} G_{ij}E_{ij}, \qquad G_{ij} := -\frac{\operatorname{Re}\!\big(\bar\lambda_2\,u_{2,i}v_{2,j}\big)}{|\lambda_2|},
 \end{equation}
-where $v_{2,j}^R$ is the $j$-th component of the second right eigenvector and $\pi_i^L$ is the $i$-th component of the left Perron eigenvector.
-\end{theorem}
+with left and right eigenvectors normalized biorthogonally ($\mathbf{u}_k'\mathbf{v}_l = \delta_{kl}$). Feasible directions satisfy $E\ones = 0$, so the entries of $G$ matter only through differences within a row: moving weight from $(i, \ell)$ to $(i, j)$ changes $\Gamma$ at rate $G_{ij} - G_{i\ell}$.
 
-\begin{intuition}[Which edge to add]
-The optimal edge connects an agent who is central (high $\pi_i^L$ --- she amplifies any signal through the network) to an agent whose position in the second eigenvector is extreme ($v_{2,j}^R$ far from zero --- she is on the ``boundary'' between blocks). This edge bridges the two competing modes of the matrix (the two blocks that the spectral gap measures the distance between).
+\begin{proposition}[Optimal First-Order Intervention]\label{ch15:thm:optimal_edge}
+Maximize the linearized objective $\sum_{ij}G_{ij}\Delta W_{ij}$ subject to $\Delta W\ones = 0$ and the budget, ignoring the nonnegativity constraint (valid for small $B$ when the relevant entries of $W$ are positive).
+\begin{enumerate}
+\item \textbf{$\ell_1$ budget} ($\sum_{ij}|\Delta W_{ij}| \leq B$): the optimum moves $B/2$ of weight within a single row, from the entry with the smallest $G_{i\ell}$ to the entry with the largest $G_{ij}$, in the row $i$ where $G_{ij} - G_{i\ell}$ is largest:
+\begin{equation}\label{ch15:eq:optimal_edge}
+(i^*, j^*, \ell^*) = \argmax_{i,\,j,\,\ell}\; (G_{ij} - G_{i\ell}).
+\end{equation}
+\item \textbf{Frobenius budget} ($\|\Delta W\|_F \leq B$): the optimum spreads over all entries, $\Delta W^* = B\,\tilde G/\|\tilde G\|_F$, where $\tilde G = G - \frac{1}{N}G\ones\ones'$ is $G$ with each row centered.
+\end{enumerate}
+\end{proposition}
 
-In words: connect a powerful agent in block~A to a peripheral agent in block~B who is closest to the boundary. This is the ``bridge builder'' strategy: the optimal structural intervention is not to connect the most peripheral agent to the most central one (which might seem intuitive) but to connect a moderately central agent in one block to a boundary agent in the other.
+\begin{proof}
+The feasible set is a polytope (case 1) or an ellipsoid (case 2) intersected with the subspace $\{E: E\ones = 0\}$. (1) A linear function attains its maximum over a polytope at a vertex. The vertices of $\{E : E\ones = 0, \|E\|_1 \leq B\}$ are the minimal-support elements $\pm\frac{B}{2}(\mathbf{e}_i\mathbf{e}_j' - \mathbf{e}_i\mathbf{e}_\ell')$, on which the objective equals $\pm\frac{B}{2}(G_{ij} - G_{i\ell})$. (2) Over a Euclidean ball within a subspace, a linear function is maximized along the projection of its gradient onto the subspace, which is $\tilde G$.
+\end{proof}
+
+The single-edge answer is therefore an artefact of the $\ell_1$ budget. With the same Frobenius norm $B = 0.05$, the projected-gradient step raises $\Gamma$ by $0.053$ in the example of \texttt{code/ch15.py}, against $0.041$ for the best single move. For symmetric (reversible) $W$ on a fixed graph, maximizing $\Gamma$ exactly --- not just to first order --- is a convex problem (the fastest-mixing Markov chain of Boyd, Diaconis and Xiao, 2004, solvable as a semidefinite program). For non-symmetric $W$, $|\lambda_2|$ is neither convex nor Lipschitz, and only local methods are available.
+
+\begin{intuition}[Which edge to add: connect the cores]
+Where are the large entries of $G$? The second eigenvectors $\mathbf{u}_2$ and $\mathbf{v}_2$ describe the slowest mode of the matrix: they are roughly constant, with opposite signs, on the two weakly connected blocks, and close to zero on agents who sit \emph{between} the blocks. So $|u_{2,i}|$ and $|v_{2,j}|$ are largest \emph{deep inside} the blocks, not on the boundary.
+
+When $\lambda_2 > 0$, $G_{ij} > 0$ exactly when $u_{2,i}$ and $v_{2,j}$ have opposite signs: the best new edge runs from an agent deep in block~A to an agent deep in block~B. In the six-agent example of \texttt{code/ch15.py} (two blocks and one bridge agent), the scaled second left eigenvector is $(1, 1, -0.04, -0.65, -0.65, -0.65)$: the bridge agent has an entry near zero. The best edge runs from a core agent of block~A to a core agent of block~B ($d\Gamma/dt = 0.252$); the best edge into the bridge agent achieves only $0.032$. The optimal structural intervention is not the ``bridge builder'' who links boundary agents, but a direct link between the cores of the two blocks.
 \end{intuition}
 
 
@@ -99,33 +121,55 @@ The \textbf{import-substitution operator} $\mathcal{L}_{\text{ISI}}$ modifies $W
 where $\delta_{ij}^{\text{dom}} > 0$ for domestic $(i,j)$ pairs (new domestic supply chains) and $\delta_{ij}^{\text{for}} > 0$ for foreign $(i,j)$ pairs (reduced import dependency).
 \end{definition}
 
-\begin{proposition}[Effect of ISI on $\Gamma$]\label{ch15:prop:isi_gamma}
-The ISI operator increases domestic $\Gamma$ if and only if:
+\begin{proposition}[Effect of ISI on $\Gamma$, to First Order]\label{ch15:prop:isi_gamma}
+Let the domestic $\Gamma$ be the spectral gap of the domestic block of $W^P$ with rows renormalized, and suppose its $\lambda_2$ satisfies the hypotheses of~\eqref{ch15:eq:gamma_sensitivity}. To first order in the $\delta$'s, the ISI operator increases domestic $\Gamma$ if and only if:
 \begin{equation}\label{ch15:eq:isi_condition}
-\sum_{(i,j) \in \text{domestic}} \delta_{ij}^{\text{dom}} \frac{\partial\Gamma}{\partial W^P_{ij}} > \sum_{(i,j) \in \text{foreign}} \delta_{ij}^{\text{for}} \frac{\partial\Gamma}{\partial W^P_{ij}}.
+\sum_{(i,j) \in \text{domestic}} \delta_{ij}^{\text{dom}} G_{ij} > \sum_{(i,j) \in \text{foreign}} \delta_{ij}^{\text{for}} G_{ij},
 \end{equation}
-That is: the $\Gamma$-increasing effect of new domestic edges must exceed the $\Gamma$-decreasing effect of severed foreign edges. This condition fails if the new domestic edges are within-block (connecting agents who were already connected) rather than cross-block (connecting the modern and traditional sectors).
+where $G$ is the gradient in~\eqref{ch15:eq:gamma_sensitivity} (rows rebalanced so that $\Delta W^P\ones = 0$).
+That is: the $\Gamma$-increasing effect of new domestic edges must exceed the $\Gamma$-decreasing effect of severed foreign edges. This condition typically fails if the new domestic edges are within-block (connecting agents who were already connected) rather than cross-block (connecting the modern and traditional sectors).
 \end{proposition}
 
+\begin{proof}
+Apply~\eqref{ch15:eq:gamma_sensitivity} to the direction $E = \delta^{\text{dom}} - \delta^{\text{for}}$.
+\end{proof}
+
 \begin{example}[ISI That Works vs.\ ISI That Doesn't]\label{ch15:ex:isi}
-$N = 4$: Modern (M1, M2), Traditional (T1, T2). Current $W^P$ is block-diagonal with $\Gamma = 0.08$.
+$N = 4$: Modern (M1, M2), Traditional (T1, T2). Domestic technical coefficients (row $i$ is sector $i$'s recipe; the rest of each unit of output is imports and value added) and the input-share matrix $W^P = D^{-1}A$ are
+\[
+A = \begin{pmatrix}
+0.33 & 0.25 & 0.01 & 0.01 \\
+0.25 & 0.33 & 0.01 & 0.01 \\
+0.012 & 0.012 & 0.15 & 0.126 \\
+0.012 & 0.012 & 0.126 & 0.15
+\end{pmatrix}, \qquad
+W^P = \begin{pmatrix}
+0.550 & 0.417 & 0.017 & 0.017 \\
+0.417 & 0.550 & 0.017 & 0.017 \\
+0.040 & 0.040 & 0.500 & 0.420 \\
+0.040 & 0.040 & 0.420 & 0.500
+\end{pmatrix}.
+\]
+$W^P$ is nearly block-diagonal, with $\Gamma = 0.113$ and $\boldsymbol{\pi} = (0.353, 0.353, 0.147, 0.147)$: the traditional sectors buy more from the modern block than they sell to it, so the modern sectors hold more power. Total output with $\mathbf{d} = \ones$ is $\ones'(I - A')^{-1}\mathbf{d} = 7.826$.
 
-\textbf{ISI-A (within-block):} Tariff on imports substituted by Modern sector. New edge: $\Delta W^P_{M1, M2} = +0.10$. This strengthens the \textit{within}-block link. Effect on $\Gamma$: $\Delta\Gamma \approx +0.01$. Negligible. The modern sector densifies internally without connecting to the traditional sector.
+Both policies replace imported inputs of M1 with $0.05$ of domestic input per unit of M1's output.
 
-\textbf{ISI-B (cross-block):} Tariff on imports substituted by Traditional-sector inputs to the Modern sector. New edge: $\Delta W^P_{M1, T1} = +0.10$. This creates a \textit{cross}-block link. Effect on $\Gamma$: $\Delta\Gamma \approx +0.12$. Twelve times larger. The traditional sector now supplies the modern sector, creating the linkage that makes growth propagate.
+\textbf{ISI-A (within-block):} the substitute comes from the modern sector: $\Delta a_{M1, M2} = +0.05$. This strengthens the \textit{within}-block link. Effect on $\Gamma$: $-0.001$. The modern sector densifies internally without connecting to the traditional sector.
+
+\textbf{ISI-B (cross-block):} the substitute comes from the traditional sector: $\Delta a_{M1, T1} = +0.05$. This creates a \textit{cross}-block link. Effect on $\Gamma$: $+0.037$. The traditional sector now supplies the modern sector, creating the linkage that makes shocks and demand propagate across blocks.
 
 \begin{center}
 \begin{tabular}{lcccc}
 \toprule
-& $\Delta W^P$ target & $\Delta\Gamma$ & $\Delta\Var(\pi_i)$ & Hirschman multiplier \\
+& Target & $\Delta\Gamma$ & $\Delta\Var(\boldsymbol{\pi})$ & $\Delta$ total output \\
 \midrule
-ISI-A (within) & $W^P_{M1,M2}$ & $+0.01$ & $-0.001$ & $+0.05$ \\
-ISI-B (cross) & $W^P_{M1,T1}$ & $+0.12$ & $-0.015$ & $+0.22$ \\
+ISI-A (within) & $a_{M1,M2}$ & $-0.001$ & $+0.0010$ & $+0.312$ \\
+ISI-B (cross) & $a_{M1,T1}$ & $+0.037$ & $-0.0103$ & $+0.181$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-ISI-B dominates ISI-A on all three objectives. The same budget, the same tariff rate, radically different structural effects --- because the edge targets different entries of $W^P$.
+ISI-B dominates on integration and on power: it raises $\Gamma$ and nearly eliminates the power gap ($\boldsymbol{\pi}$ becomes $(0.265, 0.268, 0.245, 0.223)$). ISI-A wins on the output multiplier, because the modern supplier is itself input-intensive. Same budget, same tariff, different structural effects --- and no single objective ranks them (\texttt{code/ch15.py}).
 \end{example}
 
 
@@ -138,18 +182,18 @@ The \textbf{infrastructure operator} $\mathcal{L}_{\text{infra}}$ creates new ed
 \end{equation}
 \end{definition}
 
-Infrastructure is the literal ``edge creation'' operator: a road between two regions IS an edge in $W^P$. The operator design problem for infrastructure is: which road to build?
+Infrastructure is the literal ``edge creation'' operator: a road between two regions creates an edge in $W^P$. The operator design problem for infrastructure is: which road to build?
 
-\begin{proposition}[Optimal Road Placement]\label{ch15:prop:road}
-The road that maximizes $\Gamma$ connects the two blocks (or subnetworks) that are currently most poorly connected and whose connection would create the largest cross-block surplus. Formally: the optimal road connects agents $i^*$ and $j^*$ that maximize $|\partial\Gamma / \partial W^P_{ij}|$ among all pairs with $W^P_{ij} \approx 0$.
-\end{proposition}
+\begin{corollary}[Optimal Road Placement]\label{ch15:prop:road}
+To first order and under an $\ell_1$ budget, the road that maximizes $\Gamma$ creates the edge $(i^*, j^*)$ with the largest $G_{ij} - G_{i\ell}$ among pairs with $W^P_{ij} \approx 0$ (Proposition~\ref{ch15:thm:optimal_edge}): typically a link between the cores of the two most weakly connected blocks.
+\end{corollary}
 
 \begin{prebisch}[Hirschman's linkage argument as operator design]
-Hirschman (1958) argued that investment should target sectors with the strongest backward and forward linkages --- the highest column sums in $(I - A)^{-1}$. In operator-design language: Hirschman's prescription is to add edges \textit{to} the sector with the highest column sum (backward linkage = the sector that generates the most upstream demand) and \textit{from} the sector with the highest row sum (forward linkage = the sector whose output is used most widely).
+Hirschman (1958) was the leading critic of the balanced-growth ``big push'' (Rosenstein-Rodan, 1943). He argued instead for unbalanced growth: invest in sectors with strong backward and forward linkages, so that the pressures they create induce further investment. He measured linkages with direct input-output coefficients (Chenery and Watanabe, 1958); the Leontief-inverse indices --- column sums of $(I - A')^{-1}$ for backward linkages --- are Rasmussen's (1956). Both are computed from the technical coefficients $A$, never from the row-stochastic $W^P$, whose Leontief inverse has identical row sums for every sector.
 
-Hirschman's answer and the spectral-gap answer ($\max \partial\Gamma / \partial W^P_{ij}$) do not always agree. Hirschman targets the \textit{most connected} sector (highest column sum); the spectral-gap criterion targets the \textit{boundary between blocks}. When the most connected sector is in the already-dense core, Hirschman's investment deepens the core without bridging to the periphery. The spectral-gap criterion always bridges.
+Hirschman's answer and the spectral-gap answer (Proposition~\ref{ch15:thm:optimal_edge}) do not always agree. Hirschman targets the sector with the strongest linkages; the spectral-gap criterion targets the edge that connects the cores of weakly coupled blocks. When the high-linkage sector is in the already-dense core, Hirschman's investment deepens the core without bridging to the periphery; the spectral-gap criterion bridges, but by itself ignores output (Example~\ref{ch15:ex:isi}).
 
-The difference matters in practice. Bolivia's highest-linkage sector is gas/mining (high column sum in the Leontief inverse --- lots of upstream demand). Hirschman says: invest in gas. The spectral-gap criterion says: invest in the \textit{edge between gas and the traditional sector} --- the processing plant, the local supply contract, the vocational training program that connects quinoa farmers to the gas-sector labor market.
+Hirschman himself singled out mining and other primary-export enclaves as \emph{low}-linkage activities, and later (1977) added fiscal and consumption linkages to the list. For Bolivia his framework does not say ``invest in gas''; it says that gas generates mainly a fiscal linkage, and asks what that revenue is spent on. The spectral-gap criterion adds: invest in the \textit{edge between gas and the traditional sector} --- the processing plant, the local supply contract, the vocational training program that connects quinoa farmers to the gas-sector labor market.
 \end{prebisch}
 
 
@@ -180,7 +224,7 @@ The \textbf{information operator} $\mathcal{L}_{\text{info}}$ modifies $W^I$ wit
 
 Information policy does not change production or endowments. It changes who sees what. Its effect is entirely through the formation channel --- but as Chapter~10 showed, the formation channel can be the dominant one ($\Psi > 1$).
 
-\begin{example}[The Smartphone as Information Operator]\label{ch15:ex:smartphone}
+\begin{example}[The Smartphone as Information Operator \illustrative]\label{ch15:ex:smartphone}
 A program distributes smartphones to 1,000 rural households. Each phone adds edges from the rural block to the urban/modern block in $W^I$:
 \begin{equation}
 \Delta W^I_{\text{rural}_i, \text{urban}_j} \approx 0.05 \quad \text{for each connected pair}.
@@ -190,9 +234,9 @@ A program distributes smartphones to 1,000 rural households. Each phone adds edg
 
 \textbf{Formation effect (one generation):} Rural agents now observe modern-sector returns. Their steady-state preference shifts from $\theta^*_T = 0.92$ toward $\theta^*_M = 1.09$. New steady state (with $\rho = 0.85$): $\theta^*_T = 0.96$ (partial convergence). Investment increases. Returns increase. The next generation's $\theta$ shifts further.
 
-\textbf{Long-run effect (three generations):} $\theta^*_T \to 1.01$. The preference gap closes by 60\%. The allocation gap closes by 40\% (the remaining 60\% requires also changing $W^P$ and $\boldsymbol{\pi}$).
+\textbf{Long-run effect (three generations):} $\theta^*_T \to 1.01$. The preference gap $1.09 - 0.92 = 0.17$ closes by $0.09$, i.e.\ by 53\% (24\% after one generation). The rest of the allocation gap requires also changing $W^P$ and $\boldsymbol{\pi}$.
 
-\textbf{$\Psi$ for this intervention:} $\approx 4.2$. The formation effect is four times the enforcement effect (which is zero). Standard evaluation gives $\text{benefit} = 0$. The formation model gives $\text{benefit} = 0.04 \times N_{\text{treated}} \times (\text{income gain per unit } \Delta\theta)$.
+\textbf{$\Psi$ for this intervention:} undefined. The enforcement effect is zero, so the ratio $\Psi$ of formation to enforcement has a zero denominator: this is a pure formation intervention. Standard evaluation gives $\text{benefit} = 0$. The formation model gives a long-run benefit of $0.09 \times N_{\text{treated}} \times (\text{income gain per unit } \Delta\theta)$.
 \end{example}
 
 
@@ -216,32 +260,30 @@ Secure property rights reduce the destruction rate of production edges: $\delta_
 \label{ch15:sec:sequencing}
 %% =====================================================================
 
-\begin{theorem}[Optimal Sequencing]\label{ch15:thm:sequencing}
-When the budget allows multiple interventions over time, the optimal sequence of operators satisfies:
+\begin{conjecture}[Sequencing \illustrative]\label{ch15:thm:sequencing}
+When the budget allows multiple interventions over time, a natural heuristic is the greedy rule
 \begin{equation}\label{ch15:eq:sequencing}
-\mathcal{L}^*_t = \argmax_{\mathcal{L} \in \{\text{ISI, infra, HC, info, inst}\}} \frac{\Delta\Gamma(\mathcal{L} \mid W_t)}{\text{cost}(\mathcal{L})},
+\mathcal{L}^*_t = \argmax_{\mathcal{L} \in \{\text{ISI, infra, HC, info, inst}\}} \frac{\Delta\Omega(\mathcal{L} \mid W_t)}{\text{cost}(\mathcal{L})},
 \end{equation}
-with the dynamic constraint that each intervention changes $W_t$ (and therefore changes the marginal effect of subsequent interventions).
-
-The optimal sequence is generally:
+where $\Omega$ is an objective defined on \emph{all} layers (e.g.\ a weighted combination of $\Gamma(W^P)$, $\Var(\boldsymbol{\pi})$ and the formation gain, since the information operator leaves $W^P$, and hence $\Gamma(W^P)$, unchanged), with the dynamic constraint that each intervention changes $W_t$ and therefore the marginal effect of subsequent ones. A greedy rule is not optimal in general; it is optimal for special objectives (e.g.\ when marginal gains are diminishing in the submodular sense). We conjecture that, for plausible values of $\Psi$, the resulting sequence is:
 \begin{enumerate}
-\item \textbf{First, information policy} ($\mathcal{L}_{\text{info}}$): cheapest per unit of $\Delta\Gamma$ (because it operates on $W^I$, which has the highest formation multiplier), and it relaxes the political constraint by shifting preferences toward structural change.
+\item \textbf{First, information policy} ($\mathcal{L}_{\text{info}}$): cheap per unit of formation gain (it operates on $W^I$, which has the highest formation multiplier), and it relaxes the political constraint by shifting preferences toward structural change.
 \item \textbf{Second, institutional reform} ($\mathcal{L}_{\text{inst}}$): reduces the destruction rate of future edges, making subsequent investments more durable.
 \item \textbf{Third, education/training} ($\mathcal{L}_{\text{HC}}$): dual operator, creates edges in both $W^P$ and $W^I$.
 \item \textbf{Fourth, infrastructure} ($\mathcal{L}_{\text{infra}}$): creates physical $W^P$ edges. Expensive, but by this point the institutional and informational preconditions are in place.
 \item \textbf{Fifth, ISI/industrial policy} ($\mathcal{L}_{\text{ISI}}$): the most expensive and politically fraught, but by this point the political coalition has shifted (because $W^I$ changed preferences in step 1, which changed coalition incentives per Chapter~14).
 \end{enumerate}
-\end{theorem}
+\end{conjecture}
 
 \begin{keyinsight}
-The optimal sequencing theorem inverts the conventional wisdom. The standard approach starts with the ``hard'' infrastructure and industrial policy, then adds the ``soft'' information and institutional elements later. The formation model says the opposite: start with information (change what people see), then institutions (change the rules), then education (change what people can do), then infrastructure (change the physical connections), and finally industrial policy (change the production structure).
+The sequencing conjecture inverts the conventional wisdom. The standard approach starts with the ``hard'' infrastructure and industrial policy, then adds the ``soft'' information and institutional elements later. The formation model suggests the opposite: start with information (change what people see), then institutions (change the rules), then education (change what people can do), then infrastructure (change the physical connections), and finally industrial policy (change the production structure).
 
-The reason is the formation amplifier. Each step's effectiveness depends on the $\Psi$ ratio: information interventions have $\Psi \sim 3$--$5$; institutional reforms have $\Psi \sim 1$--$2$; infrastructure has $\Psi \sim 0.5$--$1$. Starting with the high-$\Psi$ interventions produces the preference changes that make the low-$\Psi$ interventions politically feasible and economically effective.
+The reason is the formation amplifier. Each step's effectiveness depends on the $\Psi$ ratio. With illustrative values --- information $\Psi \sim 3$--$5$, institutions $\Psi \sim 1$--$2$, infrastructure $\Psi \sim 0.5$--$1$ --- starting with the high-$\Psi$ interventions produces the preference changes that make the low-$\Psi$ interventions politically feasible and economically effective. Estimating these $\Psi$ values (Chapter~11) is what would turn the conjecture into a policy rule.
 
-This is why South Korea's sequence worked (education $\to$ institutions $\to$ industrial policy) and Bolivia's gas nationalization was insufficient (industrial policy without prior information/institutional change). The nationalization changed $W^P$ but not $W^I$: the structure changed, but the preferences didn't follow because the formation preconditions weren't in place.
+History is suggestive, not decisive. South Korea's sequence is usually summarized as land reform and mass education first, export promotion in the 1960s, and the heavy-and-chemical-industry drive in the 1970s --- education and institutions before industrial policy, though not in exactly the order of the conjecture. Bolivia's gas nationalization was industrial policy without prior information or institutional change: it changed $W^P$ but not $W^I$, and the formation preconditions were not in place.
 \end{keyinsight}
 
-\begin{vizpanel}{Optimal sequencing: $\Psi$-ordered operators}
+\begin{vizpanel}{Conjectured sequencing: $\Psi$-ordered operators}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 %% Timeline
@@ -276,7 +318,7 @@ This is why South Korea's sequence worked (education $\to$ institutions $\to$ in
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Operators ordered by $\Psi$: highest-$\Psi$ first. The red curve shows $\Gamma_t$ rising --- steeply at first (cheap information interventions with large formation multipliers) and more gradually later (expensive industrial policy with smaller multipliers). Start soft, finish hard.
+\small Operators ordered by (illustrative) $\Psi$: highest-$\Psi$ first. The red curve is schematic and shows $\Gamma_t$ rising --- steeply at first (cheap information interventions with large formation multipliers) and more gradually later (expensive industrial policy with smaller multipliers). Start soft, finish hard.
 \end{vizpanel}
 
 
@@ -287,20 +329,20 @@ This is why South Korea's sequence worked (education $\to$ institutions $\to$ in
 
 The product space (Hidalgo et al., 2007) can now be interpreted as a map of feasible operators on $W^P$.
 
-\begin{proposition}[Product Space as Feasibility Constraint]\label{ch15:prop:product_space}
-The proximity matrix $\phi_{pp'}$ (co-export probability between products) defines the feasibility of ISI operators: the probability that adding domestic production of product $p'$ succeeds is increasing in $\sum_p M_{cp}\phi_{pp'}$ (the relatedness density). Products in the dense core of the product space (machinery, chemicals, electronics) are feasible targets for economies that already produce related products. Products on the sparse periphery (minerals, agricultural commodities) offer few diversification paths.
+\begin{stylizedfact}[Product Space as Feasibility Constraint]\label{ch15:prop:product_space}
+The probability that a country develops comparative advantage in product $p'$ is increasing in its relatedness density $\sum_p M_{cp}\phi_{pp'}/\sum_p\phi_{pp'}$, where $\phi_{pp'}$ is the co-export proximity of products (Hidalgo et al., 2007). Products in the dense core of the product space (machinery, chemicals, electronics) are feasible targets for economies that already produce related products. Products on the sparse periphery (minerals, agricultural commodities) offer few diversification paths.
+\end{stylizedfact}
 
-The operator-design interpretation: the product space IS the graph of $\partial\Gamma / \partial W^P_{ij}$ for the global production network. Dense-core products have high $\partial\Gamma / \partial W^P$ because adding them creates many cross-sector linkages. Peripheral products have low $\partial\Gamma / \partial W^P$ because adding them connects to few other products.
-\end{proposition}
+The operator-design interpretation needs care. The product space is a network of \emph{capability similarity} between products, built from co-export patterns; it is not the input-output network $W^P$, and its edges are not input flows. It enters operator design as a constraint on which ISI operators are \emph{feasible} (likely to succeed), not as a map of $\partial\Gamma/\partial W^P$. Whether a new core product also raises $\Gamma(W^P)$ depends on its input-output links, which must be read from $A$.
 
-\begin{example}[Bolivia in the Product Space]\label{ch15:ex:bolivia_ps}
-Bolivia's current export basket: natural gas, zinc, gold, soy, quinoa --- all on the sparse periphery of the product space. Relatedness density to the dense core (machinery, electronics, pharmaceuticals): $\omega_{c,\text{core}} \approx 0.08$ (among the lowest in Latin America).
+\begin{example}[Bolivia in the Product Space \illustrative]\label{ch15:ex:bolivia_ps}
+Bolivia's current export basket: natural gas, zinc, gold, soy, quinoa --- all on the sparse periphery of the product space. Relatedness density to the dense core (machinery, electronics, pharmaceuticals): low; we use $\omega_{c,\text{core}} \approx 0.08$ for illustration (compute the actual value in Exercise~\ref{ch15:ex:ps_data}).
 
-\textbf{Conventional ISI:} Target products adjacent in the product space --- gas processing, zinc smelting, soy flour. These increase domestic value added but do not connect to the dense core. They add edges within the peripheral block of $W^P$. $\Delta\Gamma \approx 0.02$. Modest.
+\textbf{Conventional ISI:} Target products adjacent in the product space --- gas processing, zinc smelting, soy flour. These increase domestic value added but do not connect to the dense core. They add edges within the peripheral block of $W^P$. Illustratively, $\Delta\Gamma \approx 0.02$. Modest.
 
 \textbf{Leapfrog strategy:} Target products in the dense core --- pharmaceuticals, automotive parts, food processing machinery. These are distant in the product space (low relatedness density). The probability of success is low unless accompanied by massive human capital investment ($\mathcal{L}_{\text{HC}}$) and information rewiring ($\mathcal{L}_{\text{info}}$). But if successful: $\Delta\Gamma \approx 0.15$. Transformative.
 
-\textbf{The sequencing solution:} (1) Information policy first: expose Bolivian engineers and technicians to the dense core (scholarships, technical exchanges, FDI in assembly operations). (2) Then education: build the capabilities (vocational training in the target sectors). (3) Then infrastructure: connect the production zones. (4) Then ISI: tariff protection for infant industries with cross-block linkages. This is the South Korean sequence, adapted to Bolivian conditions.
+\textbf{The sequencing solution:} (1) Information policy first: expose Bolivian engineers and technicians to the dense core (scholarships, technical exchanges, FDI in assembly operations). (2) Then education: build the capabilities (vocational training in the target sectors). (3) Then infrastructure: connect the production zones. (4) Then ISI: tariff protection for infant industries with cross-block linkages. This is the order of Conjecture~\ref{ch15:thm:sequencing}, adapted to Bolivian conditions.
 \end{example}
 
 
@@ -309,35 +351,35 @@ Bolivia's current export basket: natural gas, zinc, gold, soy, quinoa --- all on
 \label{ch15:sec:political}
 %% =====================================================================
 
-\begin{theorem}[Politically Constrained Optimal Operator]\label{ch15:thm:political}
-The optimal structural intervention under the political constraint from Chapter~14 is:
+\begin{definition}[Politically Constrained Operator Design]\label{ch15:thm:political}
+Let $S^*$ be the winning coalition (Chapter~14). For an objective $\Omega_k$ ($k = 1, 2$), the politically constrained problem is
 \begin{equation}\label{ch15:eq:political_optimal}
-\Delta W^* = \argmax_{\Delta W \in \mathcal{F}(S^*)} \Gamma(W + \Delta W),
+\Delta W^*_{\text{con}} = \argmax_{\Delta W \in \mathcal{F}(S^*)} \Omega_k(\Delta W) \quad \text{subject to} \quad \Delta\pi_i(W, \Delta W) \geq 0 \ \text{ for all } i \in S^*,
 \end{equation}
-where $S^*$ is the winning coalition and $\mathcal{F}(S^*)$ is its feasibility set. The solution differs from the unconstrained optimum because $\mathcal{F}(S^*)$ excludes structural changes that reduce any coalition member's power:
-\begin{equation}\label{ch15:eq:political_constraint}
-\Delta\pi_i(W, \Delta W) \geq 0 \quad \text{for all } i \in S^*.
-\end{equation}
-
-The politically constrained optimum is generically \textit{less than} the unconstrained optimum: the coalition sacrifices some $\Delta\Gamma$ to protect its members' power. The gap between constrained and unconstrained is the \textbf{political cost of structural reform}.
-\end{theorem}
-
-\begin{proposition}[The Political Cost]\label{ch15:prop:political_cost}
-The political cost of structural reform is:
+together with the budget and row-stochasticity constraints of~\eqref{ch15:eq:operator}. The \textbf{political cost of structural reform} is
 \begin{equation}\label{ch15:eq:political_cost}
-C_{\text{political}} = \Gamma^*_{\text{unconstrained}} - \Gamma^*_{\text{constrained}} \geq 0.
+C_{\text{political}} = \Omega^*_{k,\text{unconstrained}} - \Omega^*_{k,\text{constrained}} \geq 0,
 \end{equation}
+which is nonnegative because the constrained feasible set is a subset of the unconstrained one.
+\end{definition}
 
-This cost is:
-\begin{enumerate}
-\item \textbf{Large when power is concentrated}: the winning coalition is small and powerful, and protecting each member's $\pi_i$ constrains the feasible $\Delta W$ severely.
-\item \textbf{Small when power is equal}: the winning coalition is broad (near the grand coalition), and the political constraint is weak.
-\item \textbf{Zero when the efficient $W$ also increases every agent's power}: this happens only if $W$ is already doubly stochastic (in which case no structural reform is needed) or if the reform is Pareto-improving in both allocation and power (rare).
-\end{enumerate}
+\begin{proposition}[Integration Carries No Political Cost]\label{ch15:prop:political_cost}
+For the integration objective $\Omega_1$ (maximize $\Gamma$), the direction $E = \ones\boldsymbol{\pi}' - W$ satisfies the political constraint with equality for every coalition. Hence the constrained optimum is at least $1 - (1 - \bar t)|\lambda_2|$, with $\bar t = \min\{1, B/\|\ones\boldsymbol{\pi}' - W\|\}$; and if the budget allows $\bar t = 1$, both the constrained and the unconstrained optimum equal $\Gamma = 1$, so $C_{\text{political}} = 0$.
 \end{proposition}
 
-\begin{intuition}[Why structural reform is slow]
-The political cost theorem explains why structural reform is slow even when the social returns are enormous. The unconstrained optimum might be $\Delta\Gamma = +0.20$ (a road connecting the gas enclave to the traditional economy). But the gas/government coalition blocks the road because it would reduce their power: $\Delta\pi_{\text{gas}} < 0$. The constrained optimum is $\Delta\Gamma = +0.05$ (a road that connects two urban areas, acceptable to the coalition). The gap of 0.15 is the political cost.
+\begin{proof}
+Along $W + tE = (1-t)W + t\,\ones\boldsymbol{\pi}'$, Proposition~\ref{ch15:prop:pi_path} gives $\Delta\boldsymbol{\pi} = 0$ and $\Gamma = 1 - (1-t)|\lambda_2|$. The path is row-stochastic and nonnegative, and $\Gamma \leq 1$ always.
+\end{proof}
+
+So no coalition ever has to give up power to let the economy integrate: a ``political cost'' measured in $\Gamma$ is an artefact of reading $\Gamma$ as power. The political constraint bites on \emph{redistribution}. For the power objective $\Omega_2$ we conjecture that the cost is:
+\begin{enumerate}
+\item \textbf{Large when power is concentrated}: the winning coalition is small and powerful, and protecting each member's $\pi_i$ rules out most variance-reducing $\Delta W$.
+\item \textbf{Small when power is equal}: the winning coalition is broad (near the grand coalition), and the political constraint is weak.
+\item \textbf{Zero} if $W$ is already doubly stochastic ($\boldsymbol{\pi}$ uniform, so there is nothing to redistribute), or if the reform raises every member's $\pi_i$ (rare, since $\sum_i\Delta\pi_i = 0$).
+\end{enumerate}
+
+\begin{intuition}[Why redistributive reform is slow \illustrative]
+The political cost explains why reform that redistributes power is slow even when the social returns are large. The unconstrained optimum for $\Omega_2$ might be a road connecting the gas enclave to the traditional economy that lowers the power Gini by $0.20$. The gas/government coalition blocks it because it would reduce their power: $\Delta\pi_{\text{gas}} < 0$. The constrained optimum is a road that connects two urban areas, acceptable to the coalition, lowering the power Gini by $0.05$. The gap of $0.15$ is the political cost. The same coalition has no reason to block an intervention that raises integration while leaving $\boldsymbol{\pi}$ unchanged (Proposition~\ref{ch15:prop:political_cost}).
 
 The only way to close the gap is to change the coalition. Chapter~14 showed that coalitions change when $\boldsymbol{\pi}$ changes. And $\boldsymbol{\pi}$ changes slowly because $W$ changes slowly (Chapter~13). The circle: $W$ is hard to change because the powerful block change $\to$ the powerful are powerful because of $W$ $\to$ $W$ is hard to change. Breaking the circle requires an exogenous shock, an information intervention that shifts preferences and coalition incentives, or the slow accumulation of cross-block edges that eventually tips the power balance.
 \end{intuition}
@@ -349,17 +391,15 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{operator design problem} maximizes $\Gamma$ (or $-\Var(\pi_i)$, or output multiplier) subject to a budget and row-stochasticity constraints. The first-order solution targets the edge with the largest $\partial\Gamma / \partial W_{ij}$.
+\item The \textbf{operator design problem} chooses $\Delta W$ subject to a budget, feasibility and row-stochasticity. Its objective must say what is targeted: \emph{integration} ($\Gamma$), \emph{power} ($\Var(\boldsymbol{\pi})$, power Gini, $d_\pi$), or \emph{output} (computed from $A$, not from $W$). These targets are independent: $\Gamma$ can be raised to $1$ along a path that leaves $\boldsymbol{\pi}$ unchanged.
 
-\item \textbf{Five operator types}: ISI (replace foreign with domestic edges), infrastructure (physical edges), education (dual $W^P + W^I$ edges), information policy ($W^I$ only), and institutional reform (change the rules of edge dynamics).
+\item The \textbf{first-order solution} uses the complex-safe gradient of $|\lambda_2|$. Under an $\ell_1$ budget it moves weight within one row (a single new edge); under a Frobenius budget it spreads over all entries. The best new edges connect the \emph{cores} of weakly coupled blocks, not their boundary agents.
 
-\item \textbf{ISI that works} creates cross-block edges (modern $\leftrightarrow$ traditional). ISI that fails creates within-block edges (deepens the modern sector without connecting it). The spectral-gap criterion distinguishes them.
+\item \textbf{Five operator types}: ISI (replace foreign with domestic edges), infrastructure (physical edges), education (dual $W^P + W^I$ edges), information policy ($W^I$ only), and institutional reform (change the rules of edge dynamics). \textbf{ISI that works} for integration and power creates cross-block edges (modern $\leftrightarrow$ traditional); ISI that deepens only the modern block can still win on the output multiplier.
 
-\item \textbf{Optimal sequencing} is $\Psi$-ordered: start with high-$\Psi$ operators (information, institutions, education) that are cheap and create the preconditions for low-$\Psi$ operators (infrastructure, industrial policy).
+\item \textbf{Sequencing} is conjectured to be $\Psi$-ordered: start with high-$\Psi$ operators (information, institutions, education) that create the preconditions for low-$\Psi$ operators (infrastructure, industrial policy). The product space constrains which ISI operators are feasible.
 
-\item The \textbf{product space} is the operator map for $W^P$: it shows which edges are feasible (high relatedness density) and which are transformative (connect to the dense core).
-
-\item The \textbf{political constraint} reduces the feasible $\Delta\Gamma$: the winning coalition protects its members' power. The political cost is $\Gamma^*_{\text{unconstrained}} - \Gamma^*_{\text{constrained}}$.
+\item The \textbf{political constraint} never prevents integration (no coalition need lose power for $\Gamma$ to rise); it bites on redistribution. The political cost of reducing $\Var(\boldsymbol{\pi})$ is $\Omega^*_{2,\text{unc}} - \Omega^*_{2,\text{con}}$.
 \end{enumerate}
 
 
@@ -370,11 +410,11 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 
 \begin{enumerate}[label=\textbf{15.\arabic*}, leftmargin=3em]
 
-\item \textbf{Optimal edge selection.} For a $4 \times 4$ block-diagonal $W^P$ (two blocks of 2): compute $\partial\Gamma / \partial W^P_{ij}$ for all $(i,j)$ pairs. Which edge maximizes $\Delta\Gamma$ per unit of budget? Is it within-block or cross-block?
+\item \textbf{Optimal edge selection.} For a $4 \times 4$ nearly block-diagonal $W^P$ (two blocks of 2, cross-block weight $0.02$ in each row; an exactly block-diagonal matrix has a repeated unit eigenvalue, so $\Gamma$ is not differentiable there): compute the gradient $G_{ij}$ of~\eqref{ch15:eq:gamma_sensitivity} for all $(i,j)$ pairs. Which move of weight within a row maximizes $\Delta\Gamma$ per unit of $\ell_1$ budget? Is it within-block or cross-block?
 
-\item \textbf{ISI-A vs.\ ISI-B.} Reproduce Example~\ref{ch15:ex:isi}: for a given budget $B = 0.10$, compute the effect on $\Gamma$, $\Var(\pi_i)$, and the Leontief multiplier of (a) adding the edge within the modern block, (b) adding the edge from modern to traditional. Which dominates?
+\item \textbf{ISI-A vs.\ ISI-B.} Reproduce Example~\ref{ch15:ex:isi}: starting from the printed $A$, compute the effect on $\Gamma$, $\Var(\boldsymbol{\pi})$, and total output $\ones'(I - A')^{-1}\ones$ of (a) $\Delta a_{M1,M2} = 0.05$, (b) $\Delta a_{M1,T1} = 0.05$. Which objective does each win? Find an input intensity for the traditional sectors at which ISI-B also wins on output.
 
-\item \textbf{The smartphone operator.} Reproduce Example~\ref{ch15:ex:smartphone}: for a two-block economy, add $\Delta W^I = 0.05$ cross-block edges. Simulate the formation dynamics for 5 generations. Compute the steady-state $\Delta\theta$ and $\Delta x$. What is $\Psi$?
+\item \textbf{The smartphone operator.} Reproduce Example~\ref{ch15:ex:smartphone}: for a two-block economy, add $\Delta W^I = 0.05$ cross-block edges. Simulate the formation dynamics for 5 generations. Compute the steady-state $\Delta\theta$ and $\Delta x$. Why is $\Psi$ not defined for this intervention?
 
 \item \textbf{Sequencing.} For a $6 \times 6$ Bolivia model (gas, urban, rural blocks), compare:
 \begin{enumerate}
@@ -383,7 +423,7 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 \item Simulate both sequences for 10 periods. Plot $\Gamma_t$ for each. Which sequence reaches $\Gamma = 0.30$ first?
 \end{enumerate}
 
-\item \textbf{Bolivia in the product space.} Using OEC data (\texttt{oec.world}) for Bolivia:
+\item \textbf{Bolivia in the product space.}\label{ch15:ex:ps_data} Using OEC data (\texttt{oec.world}) for Bolivia:
 \begin{enumerate}
 \item List Bolivia's top 10 exports and their position in the product space (core vs.\ periphery).
 \item Compute relatedness density to three target products: lithium batteries, food processing machinery, pharmaceutical intermediates.
@@ -393,13 +433,13 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 
 \item \textbf{Hirschman vs.\ spectral gap.} For the Bolivia I-O table (from Exercise~1.7):
 \begin{enumerate}
-\item Compute Hirschman's backward linkages (column sums of Leontief inverse).
-\item Compute $\partial\Gamma / \partial W^P_{ij}$ for all edges.
+\item Compute backward linkages (column sums of $(I - A')^{-1}$) from the technical coefficients $A$, and check that the same computation on $W^P = D^{-1}A$ is uninformative.
+\item Compute the gradient $G_{ij}$ of $\Gamma(W^P)$ for all edges.
 \item Do the two criteria agree on where to invest? Where do they disagree?
 \item When would Hirschman's criterion lead to the wrong investment?
 \end{enumerate}
 
-\item \textbf{Political cost.} For the $N = 4$ Bolivia model: the winning coalition is $\{$Gas, Government$\}$ ($\pi_1 + \pi_2 = 0.65$). Compute (a) the unconstrained optimal $\Delta W$ and $\Gamma^*_{\text{unc}}$, (b) the constrained optimal (subject to $\Delta\pi_1 \geq 0, \Delta\pi_2 \geq 0$) and $\Gamma^*_{\text{con}}$. What is the political cost? What coalition change would reduce it?
+\item \textbf{Political cost.} For the $N = 4$ Bolivia model: the winning coalition is $\{$Gas, Government$\}$ ($\pi_1 + \pi_2 = 0.65$). (a) Show that for the objective $\Gamma$ the political cost is zero once the budget reaches $\|\ones\boldsymbol{\pi}' - W\|$ (Proposition~\ref{ch15:prop:political_cost}). (b) For the objective $\Var(\boldsymbol{\pi})$, compute the unconstrained optimum and the constrained optimum (subject to $\Delta\pi_1 \geq 0, \Delta\pi_2 \geq 0$) under a budget $B = 0.1$, numerically. What is the political cost? What coalition change would reduce it?
 \end{enumerate}
 
 
@@ -414,25 +454,21 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 \addcontentsline{toc}{subsection}{Appendix 15A: Sensitivity of $\Gamma$}
 \label{ch15:app:sensitivity}
 
-\paragraph{Setup.} Let $W$ have eigenvalues $1 = \lambda_1 > |\lambda_2| \geq \cdots \geq |\lambda_N|$. The spectral gap is $\Gamma = 1 - |\lambda_2|$. We want $\partial\Gamma / \partial W_{ij}$.
+\paragraph{Hypotheses.} $W$ is irreducible and row-stochastic, with eigenvalues ordered $1 = \lambda_1, |\lambda_2| \geq \cdots \geq |\lambda_N|$ and $\Gamma = 1 - |\lambda_2|$. $\lambda_2$ is simple, and no eigenvalue other than $\lambda_2$ and its conjugate has modulus $|\lambda_2|$. (Otherwise $\Gamma$ is the maximum of several smooth branches and has only one-sided directional derivatives; this happens, e.g., at an exactly block-diagonal $W$ or when $\lambda_2 = -\lambda_3$.)
 
-\paragraph{First-order perturbation.} For a small perturbation $\Delta W$ that preserves row-stochasticity:
+\paragraph{Eigenvalue perturbation.} By Lemma~\ref{ch06:lem:perturbation}, for a perturbation $W + tE$,
 \begin{equation}
-\Delta\lambda_k \approx \mathbf{u}_k' \Delta W \mathbf{v}_k,
+\frac{d\lambda_k}{dt} = \mathbf{u}_k' E \mathbf{v}_k, \qquad \frac{d|\lambda_k|}{dt} = \frac{\operatorname{Re}\big(\bar\lambda_k\,\mathbf{u}_k'E\mathbf{v}_k\big)}{|\lambda_k|},
 \end{equation}
-where $\mathbf{u}_k, \mathbf{v}_k$ are the left and right eigenvectors of $W$ for eigenvalue $\lambda_k$, normalized so $\mathbf{u}_k'\mathbf{v}_k = 1$.
+where $\mathbf{u}_k, \mathbf{v}_k$ are left and right eigenvectors, normalized biorthogonally ($\mathbf{u}_k'\mathbf{v}_l = \delta_{kl}$, e.g.\ the rows of $V^{-1}$). The expression $-\text{sign}(\lambda_2)\,d\lambda_2$ is correct only for real $\lambda_2$; for complex $\lambda_2$ it is wrong. In \texttt{code/ch15.py}, $\lambda_2 = -0.004 + 0.216i$: the finite difference and the formula above both give $d\Gamma/dt = -0.2213$, while the sign formula gives $0.3492$.
 
-For a single-edge perturbation $\Delta W_{ij} = \varepsilon$ (and $\Delta W_{i\ell} = -\varepsilon/(N-1)$ for $\ell \neq j$ to maintain row-stochasticity):
-\begin{equation}
-\frac{\partial\lambda_k}{\partial W_{ij}} = u_{k,i} \cdot v_{k,j} - \frac{1}{N-1}\sum_{\ell \neq j} u_{k,i} \cdot v_{k,\ell}.
-\end{equation}
+\paragraph{The compensation direction.} A ``partial derivative'' $\partial\Gamma/\partial W_{ij}$ is not defined on the set of row-stochastic matrices; only directional derivatives along $E$ with $E\ones = 0$ are. The direction must be stated. Two common choices:
+\begin{itemize}
+\item \emph{Pairwise:} $E = \mathbf{e}_i(\mathbf{e}_j - \mathbf{e}_\ell)'$ moves weight from $(i,\ell)$ to $(i,j)$; the rate is $G_{ij} - G_{i\ell}$, with $G$ as in~\eqref{ch15:eq:gamma_sensitivity}. Feasible if $W_{i\ell} > 0$.
+\item \emph{Uniform:} $E_{ij} = 1$, $E_{i\ell} = -1/(N-1)$ for $\ell \neq j$; the rate is $G_{ij} - \frac{1}{N-1}\sum_{\ell \neq j}G_{i\ell}$. Feasible only if every $W_{i\ell} > 0$ --- often violated in sparse input-output matrices, where only one-sided derivatives exist.
+\end{itemize}
 
-\paragraph{Sensitivity of $\Gamma$.} Since $\Gamma = 1 - |\lambda_2|$:
-\begin{equation}
-\frac{\partial\Gamma}{\partial W_{ij}} = -\text{sign}(\lambda_2)\frac{\partial\lambda_2}{\partial W_{ij}} = -\text{sign}(\lambda_2)\left[u_{2,i}v_{2,j} - \frac{u_{2,i}}{N-1}\sum_{\ell \neq j}v_{2,\ell}\right].
-\end{equation}
-
-\paragraph{Interpretation.} The sensitivity is large when $u_{2,i}$ is large (agent $i$ is important in the second left eigenvector --- she is a ``boundary'' agent between blocks) and $v_{2,j}$ is extreme (agent $j$ is at the far end of the second right eigenvector --- she is deep in one block). The optimal edge connects a boundary agent to a deep-block agent.
+\paragraph{Interpretation.} With $\lambda_2 > 0$, $G_{ij} = -\lambda_2 u_{2,i}v_{2,j}/|\lambda_2| = -u_{2,i}v_{2,j}$: the rate is large and positive when $u_{2,i}$ and $v_{2,j}$ are large in magnitude and of opposite sign. Both vectors are nearly constant on each weakly coupled block and close to zero on agents between blocks, so the optimal edge connects an agent deep in one block to an agent deep in the other --- the cores, not the boundary.
 
 
 \subsection*{Appendix 15B: Constrained Optimization on the Stochastic Matrix Space}
@@ -445,42 +481,44 @@ For a single-edge perturbation $\Delta W_{ij} = \varepsilon$ (and $\Delta W_{i\e
 \begin{equation}
 W_{t+1} = \text{Proj}_{\mathcal{W}}\left(W_t + \eta \nabla_W \Gamma(W_t)\right),
 \end{equation}
-where $\text{Proj}_{\mathcal{W}}$ projects onto $\mathcal{W}$ by (i) setting negative entries to zero and (ii) normalizing each row to sum to 1.
+where $\text{Proj}_{\mathcal{W}}$ is the Euclidean projection onto $\mathcal{W}$. It acts row by row: each row is projected onto the probability simplex by sorting its entries and subtracting a common threshold, then clipping at zero (Duchi et al., 2008). ``Set negatives to zero and renormalize'' is a different, non-Euclidean map, and does not give a projected-gradient method. The gradient itself exists only under the hypotheses of Appendix~15A.
 
-\paragraph{Sinkhorn projection.} When the target is doubly stochastic (the welfare-theorems benchmark), Sinkhorn's algorithm (alternating row and column normalization) converges to the closest doubly stochastic matrix in KL-divergence.
+\paragraph{Sinkhorn projection.} When the target is a doubly stochastic matrix --- equivalently, uniform power $\boldsymbol{\pi} = \ones/N$ (Chapter~6); $\Wce$ is one such matrix, but not the only one --- Sinkhorn's algorithm (alternating row and column normalization) converges, if $W$ has total support, to the doubly stochastic matrix $D_1WD_2$ that is closest to $W$ in KL-divergence among those with the same zero pattern. It is a power-equalizing operator; it need not raise $\Gamma$.
+
+\paragraph{Exact optimization of the gap.} For symmetric $W$ supported on a fixed graph, the second-largest eigenvalue modulus is a convex function of $W$, and minimizing it (maximizing $\Gamma$) is the fastest-mixing Markov chain problem, solvable as a semidefinite program (Boyd, Diaconis and Xiao, 2004). For non-symmetric $W$, $|\lambda_2|$ is neither convex nor Lipschitz, and the first-order methods above are local.
 
 
 %% =====================================================================
 \subsection*{Structuralist Case Study: Tavares's ISI as Structural Engineering}
-\addcontentsline{toc}{subsection}{Structuralist Case Study: Tavares (1972)}
+\addcontentsline{toc}{subsection}{Structuralist Case Study: Tavares (1964/1972)}
 %% =====================================================================
 
-Maria da Concei\c{c}\~{a}o Tavares (1930--2024) was a Portuguese-born Brazilian economist who became one of the most influential structuralist thinkers of the twentieth century. Her 1972 essay ``Auge e decl\'{i}nio do processo de substitui\c{c}\~{a}o de importa\c{c}\~{o}es no Brasil'' (published in her collection \textit{Da substitui\c{c}\~{a}o de importa\c{c}\~{o}es ao capitalismo financeiro}) provided the definitive analytical autopsy of Brazilian ISI --- not as a policy failure but as a \textbf{specific operator applied to $W^P$ that succeeded at its immediate objective and failed at its structural one}.
+Maria da Concei\c{c}\~{a}o Tavares (1930--2024) was a Portuguese-born Brazilian economist who became one of the most influential structuralist thinkers of the twentieth century. Her essay on the rise and decline of import substitution in Brazil, first published in Spanish in CEPAL's \textit{Bolet\'{i}n Econ\'{o}mico de Am\'{e}rica Latina} (1964) and reprinted in Portuguese as ``Auge e decl\'{i}nio do processo de substitui\c{c}\~{a}o de importa\c{c}\~{o}es no Brasil'' in her collection \textit{Da substitui\c{c}\~{a}o de importa\c{c}\~{o}es ao capitalismo financeiro} (1972), provided the definitive analytical autopsy of Brazilian ISI --- not as a policy failure but as a \textbf{specific operator applied to $W^P$ that succeeded at its immediate objective and failed at its structural one}.
 
-Tavares's argument has three parts that map directly onto this chapter's framework.
+Tavares's argument has three parts. Parts~1 and~2 are hers; Part~3 is this book's reinterpretation of her diagnosis in the chapter's framework.
 
-\textbf{Part 1: ISI was a response to a balance-of-payments constraint, not a development strategy.} Tavares argued that Brazil's ISI was not a deliberate plan to industrialize but a ``forced march'' triggered by external bottlenecks: the Great Depression collapsed export revenues, WWII interrupted imports, and the Korean War destabilized commodity prices. Each crisis forced the domestic production of goods previously imported. In operator-design notation: each crisis was an exogenous edge destruction in $W^P_{\text{global}}$ (severed import edges), which triggered compensating edge creation in $W^P_{\text{domestic}}$ (new domestic supply chains). The ISI operator $\mathcal{L}_{\text{ISI}}$ was applied reactively, not optimally.
+\textbf{Part 1: ISI was a response to a balance-of-payments constraint, not a development strategy.} Tavares argued that Brazil's ISI was not a deliberate plan to industrialize but a response to \emph{estrangulamento externo} --- the recurrent external strangulation of the capacity to import: the Great Depression collapsed export revenues, WWII interrupted imports, and the Korean War destabilized commodity prices. Each crisis forced the domestic production of goods previously imported. In operator-design notation: each crisis was an exogenous edge destruction in $W^P_{\text{global}}$ (severed import edges), which triggered compensating edge creation in $W^P_{\text{domestic}}$ (new domestic supply chains). The ISI operator $\mathcal{L}_{\text{ISI}}$ was applied reactively, not optimally.
 
-\textbf{Part 2: ISI created new blocks without connecting them.} The import-substitution process successfully built a modern industrial sector (automobiles, steel, chemicals, machinery). But --- and this is Tavares's crucial insight --- the new industrial sector connected primarily to \textit{itself} and to the global supply chain for capital goods, not to the pre-existing traditional economy. In operator-design terms: ISI applied $\mathcal{L}_{\text{ISI}}$ of type A (within-block), not type B (cross-block). The modern block densified internally ($W^P_{M,M}$ increased), but the edges between the modern and traditional blocks ($W^P_{M,T}$) remained dark. Pinto's structural heterogeneity was not resolved by ISI --- it was \textit{replicated at a higher level of complexity}. The tripartite economy (modern/intermediate/traditional) became a quadripartite economy (ISI-modern/export-modern/intermediate/traditional).
+\textbf{Part 2: Each round of substitution recreated the constraint.} The import-substitution process successfully built a modern industrial sector (automobiles, steel, chemicals, machinery). But each round of substitution shifted the composition of imports toward intermediate and capital goods that the new industries needed, so that imports became less compressible and the external constraint returned in a new form. Tavares also stressed the limits set by the size and distribution of the internal market and by financing. The new industrial sector depended on \textit{itself} and on imported capital goods, and connected weakly to the pre-existing traditional economy. In operator-design terms: ISI applied $\mathcal{L}_{\text{ISI}}$ of type A (within-block), not type B (cross-block). The modern block densified internally ($W^P_{M,M}$ increased), but the edges between the modern and traditional blocks ($W^P_{M,T}$) remained dark. Pinto's structural heterogeneity was not resolved by ISI --- it was \textit{replicated at a higher level of complexity}. The tripartite economy (modern/intermediate/traditional) became a quadripartite economy (ISI-modern/export-modern/intermediate/traditional).
 
-\textbf{Part 3: The ``decline'' of ISI was a spectral property.} Tavares showed that ISI's growth rate declined not because of ``inefficiency'' (the neoliberal critique) but because the domestic Leontief multiplier converged to a limit: once the easy substitutions were made (consumer goods, light industry), the remaining imports (capital goods, intermediate inputs) required capabilities that could only be acquired through cross-block linkages that ISI had not created. The Leontief inverse $(I - \gamma W^P)^{-1}$ had bright entries \textit{within} the modern block but dark entries \textit{between} the modern and traditional blocks. The output multiplier plateaued because the cross-block entries were near zero. In this chapter's notation: ISI maximized within-block $\Gamma$ without increasing total $\Gamma$.
+\textbf{Part 3 (our reinterpretation): The ``decline'' of ISI as a structural property.} Tavares did not use input-output multipliers or spectral language. In this chapter's terms, her diagnosis says that ISI's growth slowed not because of ``inefficiency'' (the later neoliberal critique) but because the domestic multiplier ran into a limit: once the easy substitutions were made (consumer goods, light industry), the remaining imports (capital goods, intermediate inputs) required capabilities that could only be acquired through cross-block linkages that ISI had not created. The Leontief inverse $(I - A')^{-1}$ had bright entries \textit{within} the modern block but dark entries \textit{between} the modern and traditional blocks, so the multiplier plateaued, and the integration of the domestic economy ($\Gamma$ of $W^P$) barely rose. Tavares herself did not conclude that stagnation was permanent: with Serra (``M\'{a}s all\'{a} del estancamiento,'' 1971) she argued against the stagnationist thesis, showing how a concentrated income distribution could sustain a new growth pattern --- a reminder that integration and distribution are separate coordinates.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
-\textbf{Tavares's argument (1972)} & \textbf{Formal object} & \textbf{This chapter} \\
+\textbf{Tavares's argument (1964/1972)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-ISI as forced response to crises & Reactive $\mathcal{L}_{\text{ISI}}$, not optimal & Def.~\ref{ch15:def:isi} \\
-New blocks without cross-links & ISI-A (within-block), not ISI-B (cross) & Ex.~\ref{ch15:ex:isi} \\
-Structural heterogeneity replicated & $\Gamma_{\text{domestic}}$ unchanged despite new block & Prop.~\ref{ch15:prop:isi_gamma} \\
-Multiplier plateau & $(I-\gamma W^P)^{-1}$ converges with dark cross-entries & Sec.~\ref{ch15:sec:product_space} \\
-``Decline'' is spectral saturation & Within-block $\Gamma$ at maximum, total $\Gamma$ stagnant & Thm.~\ref{ch15:thm:optimal_edge} \\
+ISI as response to external strangulation & Reactive $\mathcal{L}_{\text{ISI}}$, not optimal & Def.~\ref{ch15:def:isi} \\
+Constraint recreated by import composition & Foreign edges shift to capital goods & Def.~\ref{ch15:def:isi} \\
+New sector without cross-links & ISI-A (within-block), not ISI-B (cross) & Ex.~\ref{ch15:ex:isi} \\
+Structural heterogeneity replicated & $\Gamma_{\text{domestic}}$ barely rises & Prop.~\ref{ch15:prop:isi_gamma} \\
+Multiplier plateau (our reading) & $(I - A')^{-1}$ with dark cross-entries & Ex.~\ref{ch15:ex:isi} \\
 Cross-block ISI needed & ISI-B: modern inputs from traditional sector & Ex.~\ref{ch15:ex:isi} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Tavares's essay was written in 1963 (first published) and expanded in 1972. She later served as a federal deputy in Brazil and continued to influence economic policy until her death in 2024. Her diagnosis of ISI --- that it failed not because it was wrong in principle but because it applied the operator to the wrong entries of the matrix --- remains the most precise structural analysis of Latin American industrialization. The operator-design framework of this chapter is, in a sense, the engineering manual that Tavares's diagnosis called for: given that ISI-A fails and ISI-B works, which edges should the operator target, in what sequence, and under what political constraints?
+Tavares's essay appeared in 1964 and was reprinted in the 1972 collection. She later served as a federal deputy in Brazil and continued to influence economic policy until her death in 2024. Read through this chapter's lens, her diagnosis of ISI is that it ran into limits not because it was wrong in principle but because the operator was applied to the wrong entries of the matrix, under a binding external constraint. The operator-design framework of this chapter is, in a sense, the engineering manual that Tavares's diagnosis called for: which edges should the operator target, for which objective, in what sequence, and under what political constraints?
 
 
 %% =====================================================================
@@ -488,13 +526,15 @@ Tavares's essay was written in 1963 (first published) and expanded in 1972. She 
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Industrial policy:} Rodrik (2004), ``Industrial Policy for the Twenty-First Century,'' CEPR Discussion Paper. Hausmann and Rodrik (2003), ``Economic Development as Self-Discovery,'' \textit{JDE}. Chang (2002), \textit{Kicking Away the Ladder}.
+\textbf{Industrial policy:} Liu (2019), ``Industrial Policies in Production Networks,'' \textit{QJE} --- the rigorous version of this chapter's question: which sectors to subsidize, derived from the Leontief inverse. Juh\'{a}sz, Lane, and Rodrik (2024), ``The New Economics of Industrial Policy,'' \textit{Annual Review of Economics}. Lane (2025), ``Manufacturing Revolutions: Industrial Policy and Industrialization in South Korea,'' \textit{QJE}. Rodrik (2004), ``Industrial Policy for the Twenty-First Century,'' CEPR Discussion Paper. Rodrik (2008), ``Normalizing Industrial Policy,'' Commission on Growth and Development Working Paper. Hausmann and Rodrik (2003), ``Economic Development as Self-Discovery,'' \textit{JDE}. Hausmann, Hwang, and Rodrik (2007), ``What You Export Matters,'' \textit{Journal of Economic Growth}. Chang (2002), \textit{Kicking Away the Ladder}.
 
 \textbf{The product space and structural transformation:} Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}. Hidalgo and Hausmann (2009), ``The Building Blocks of Economic Complexity,'' \textit{PNAS}. Hausmann et al.\ (2014), \textit{The Atlas of Economic Complexity}, MIT Press.
 
-\textbf{Optimal network design:} Jackson (2008), \textit{Social and Economic Networks}, Chapter~11. For spectral methods in network design: Boyd (2006), ``Fastest Mixing Markov Chain on a Graph,'' \textit{SIAM Review}.
+\textbf{Optimal network design:} Jackson (2008), \textit{Social and Economic Networks}, Chapter~11. For spectral methods in network design: Boyd, Diaconis, and Xiao (2004), ``Fastest Mixing Markov Chain on a Graph,'' \textit{SIAM Review}. For projection onto the simplex: Duchi, Shalev-Shwartz, Singer, and Chandra (2008), ``Efficient Projections onto the $\ell_1$-Ball for Learning in High Dimensions,'' \textit{ICML}.
 
-\textbf{The structuralist tradition on ISI:} Tavares (1972), \textit{Da substitui\c{c}\~{a}o de importa\c{c}\~{o}es ao capitalismo financeiro}, Rio de Janeiro: Zahar (the primary source). Furtado (1959), \textit{Forma\c{c}\~{a}o Econ\^{o}mica do Brasil}, Chapters~30--33. Hirschman (1968), ``The Political Economy of Import-Substituting Industrialization in Latin America,'' \textit{QJE}.
+\textbf{Linkages:} Hirschman (1958), \textit{The Strategy of Economic Development}. Rasmussen (1956), \textit{Studies in Inter-Sectoral Relations}. Chenery and Watanabe (1958), ``International Comparisons of the Structure of Production,'' \textit{Econometrica}. Rosenstein-Rodan (1943), ``Problems of Industrialisation of Eastern and South-Eastern Europe,'' \textit{Economic Journal}.
+
+\textbf{The structuralist tradition on ISI:} Tavares (1964), ``Auge y declinaci\'{o}n del proceso de sustituci\'{o}n de importaciones en el Brasil,'' \textit{Bolet\'{i}n Econ\'{o}mico de Am\'{e}rica Latina} IX(1). Tavares and Serra (1971), ``M\'{a}s all\'{a} del estancamiento,'' \textit{El Trimestre Econ\'{o}mico}. Tavares (1972), \textit{Da substitui\c{c}\~{a}o de importa\c{c}\~{o}es ao capitalismo financeiro}, Rio de Janeiro: Zahar (the primary source). Furtado (1959), \textit{Forma\c{c}\~{a}o Econ\^{o}mica do Brasil}, Chapters~30--33. Hirschman (1968), ``The Political Economy of Import-Substituting Industrialization in Latin America,'' \textit{QJE}.
 
 \textbf{South Korea's industrial policy:} Amsden (1989), \textit{Asia's Next Giant: South Korea and Late Industrialization}. Wade (1990), \textit{Governing the Market}. For the reciprocal control mechanisms (the state disciplines firms, not just subsidizes them): Amsden's concept maps directly to $\mathcal{L}_{\text{inst}}$ with $\delta_1$ (destruction of inefficient edges) as the enforcement mechanism.
 

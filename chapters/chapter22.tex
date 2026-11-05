@@ -4,9 +4,12 @@
 \chapter{Measuring the Utility Network}\label{ch:22}
 \chaptersubtitle{Who Cares About Whom, and How Much}
 \begin{quote}
-\textit{``La solidaridad no es un sentimiento superficial, es la determinaci\'{o}n firme y perseverante de empe\~{n}arse por el bien com\'{u}n.''}\\[0.3em]
-\textnormal{[``Solidarity is not a superficial feeling; it is the firm and persevering determination to commit oneself to the common good.'']}\\
-\hfill --- attributed to various Latin American social movements
+% TODO-VERIFY: Spanish wording against the official Spanish text of Sollicitudo Rei
+% Socialis, n. 38, on vatican.va (the earlier draft omitted "por los males de tantas
+% personas, cercanas o lejanas" and attributed the line to "Latin American social movements").
+\textit{``[La solidaridad] no es, pues, un sentimiento superficial por los males de tantas personas, cercanas o lejanas. Al contrario, es la determinaci\'{o}n firme y perseverante de empe\~{n}arse por el bien com\'{u}n.''}\\[0.3em]
+\textnormal{[``[Solidarity] is not, then, a superficial feeling about the misfortunes of so many people, near or far. On the contrary, it is the firm and persevering determination to commit oneself to the common good.'']}\\
+\hfill --- John Paul II, \textit{Sollicitudo Rei Socialis}, \S 38 (1987)
 \end{quote}
 
 \vspace{1em}
@@ -24,14 +27,14 @@ The chapter develops five measurement strategies, applies them to Bolivia, and s
 %% =====================================================================
 
 \begin{definition}[The Utility Network --- Recall]\label{ch22:def:recall}
-From Chapter~5: agent $i$'s utility is $U_i(\x) = u_i(x_i) + \sum_{j \neq i} W^U_{ij} u_j(x_j)$. Entry $W^U_{ij} \in [0, 1]$ is the weight agent $i$ places on agent $j$'s utility. When $W^U_{ij} = 1/N$ for all $j$: $i$ cares equally about everyone (utilitarian). When $W^U_{ij} = 0$: $i$ is indifferent to $j$'s welfare. When $W^U_{ij}$ is large for a small set of $j$'s (family, community): $i$ cares intensely but narrowly.
+From Chapter~5: agent $i$'s utility is $U_i(\x) = u_i(x_i) + \sum_{j \neq i} W^U_{ij} u_j(x_j)$. Entry $W^U_{ij} \in [0, 1]$ is the weight agent $i$ places on agent $j$'s utility. When $W^U_{ij} = 1$ for all $j \ne i$: $i$ weights everyone's utility as her own (utilitarian). Equal weights below one (e.g.\ $1/N$) are impartial but weaker concern. When $W^U_{ij} = 0$: $i$ is indifferent to $j$'s welfare. When $W^U_{ij}$ is large for a small set of $j$'s (family, community): $i$ cares intensely but narrowly. Raw $W^U$ need not be row-stochastic (Proposition~\ref{ch05:prop:WU_properties}). Perron-based statistics ($\pi^U$, $\Neff$, $\Gamma$) use the row-normalized $D^{-1}W^U$, which records the \emph{direction} of concern; the row sums record its \emph{intensity}.
 \end{definition}
 
-\begin{proposition}[$W^U$ Determines Externality Centrality]\label{ch22:prop:externality}
-From Chapter~5, Proposition~5.3: agent $j$'s externality centrality $c_j = \sum_i W^U_{ij}$ measures how much the rest of society cares about $j$'s welfare. When $c_j$ is high: $j$'s welfare matters to many people. When $c_j$ is low: $j$ is socially invisible --- her suffering does not register in others' utility.
+\begin{remark}[$W^U$ Determines Externality Centrality]\label{ch22:prop:externality}
+Following Definition~\ref{ch02:def:ext_centrality}, agent $j$'s externality centrality $c_j = \sum_i W^U_{ij}$ measures how much the rest of society cares about $j$'s welfare. When $c_j$ is high: $j$'s welfare matters to many people. When $c_j$ is low: $j$ is socially invisible --- her suffering does not register in others' utility.
 
-The welfare loss decomposition (Chapter~2) includes $L_{\text{ext}} = \frac{\kappa}{2}\Var(c_j)\Phi^2$: when externality centrality is unequal (some people are cared about more than others), there is a welfare loss from the mismatch between who needs resources and who receives social support.
-\end{proposition}
+The welfare loss decomposition (Chapter~2) includes $L_{\text{ext}} = \frac{\kappa}{2}\Var(c_j)\Phi^2$: when externality centrality is unequal (some people are cared about more than others), there is a welfare loss from the mismatch between who needs resources and who receives social support. (Chapter~18 uses the same object inside $L_{\text{formation}}$; the two uses should be reconciled when the Chapter~2 decomposition is finalized.)
+\end{remark}
 
 
 %% =====================================================================
@@ -46,28 +49,56 @@ Private transfers (remittances, gifts, informal loans, in-kind support) reveal w
 \begin{equation}\label{ch22:eq:transfer_WU}
 \hat{W}^U_{ij} \propto \frac{\tau_{ij}}{\sum_k \tau_{ik}}.
 \end{equation}
-The transfer from $i$ to $j$ is proportional to $i$'s concern for $j$, conditional on $j$'s need and $i$'s capacity.
+Under pure altruism, the transfer from $i$ to $j$ reflects $i$'s concern for $j$, conditional on $j$'s need and $i$'s capacity. Transfer shares therefore confound concern with need. They also confound altruism with exchange and insurance motives (Appendix~22A).
 \end{definition}
 
-\begin{example}[Bolivia's Transfer Network, EH 2019]\label{ch22:ex:transfers}
-Bolivia's EH records private transfers between household groups. Aggregating to 6 groups:
+\begin{example}[A Transfer Network for Bolivia \illustrative]\label{ch22:ex:transfers}
+Bolivia's Encuesta de Hogares records transfers \emph{received}, by type of source (other households in the country, remittances from abroad). It does not record the recipient group of transfers sent, so the matrix below cannot be read off it: it is the kind of matrix a dyadic transfer module would produce. Rows give each group's domestic transfers by recipient group (shares).
 
 \begin{center}
 \small
-\begin{tabular}{l|cccccc}
+\begin{tabular}{l|cccc}
 \toprule
-From $\downarrow$ / To $\to$ & Urban NI & Urban Indig & Rural NI & Rural Indig & Abroad & Gov't \\
+From $\downarrow$ / To $\to$ & Urban NI & Urban Indig & Rural NI & Rural Indig \\
 \midrule
-Urban NI & 0.45 & 0.08 & 0.05 & 0.02 & 0.35 & 0.05 \\
-Urban Indig & 0.10 & 0.40 & 0.05 & 0.25 & 0.15 & 0.05 \\
-Rural NI & 0.08 & 0.03 & 0.50 & 0.10 & 0.22 & 0.07 \\
-Rural Indig & 0.03 & 0.15 & 0.07 & 0.55 & 0.10 & 0.10 \\
+Urban NI & 0.750 & 0.133 & 0.083 & 0.033 \\
+Urban Indig & 0.125 & 0.500 & 0.062 & 0.312 \\
+Rural NI & 0.113 & 0.042 & 0.704 & 0.141 \\
+Rural Indig & 0.038 & 0.187 & 0.088 & 0.688 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Key patterns: (1) Strong within-group solidarity: diagonal entries range from 0.40 to 0.55. People transfer mostly to their own group. (2) Cross-ethnic transfers are low: Urban NI $\to$ Rural Indigenous = 0.02. (3) Remittances abroad are significant for urban populations ($0.35$ and $0.15$), draining solidarity from the domestic network (Sunkel's integration/disintegration applied to $W^U$). (4) Rural indigenous communities show the strongest within-group solidarity (0.55) and the weakest cross-group solidarity.
+Key patterns:
+\begin{enumerate}
+\item Strong within-group transfers: own-group shares range from 0.50 to 0.75.
+\item Cross-ethnic transfers are low. Urban NI $\to$ Rural Indigenous is 0.033. Overall, $\lambda^U_{\text{ethnicity}} = 0.20$ (mean cross-ethnic share over mean within-ethnic share), and $\lambda^U_{\text{geography}} = 0.28$.
+\item Urban indigenous households send 31\% of their transfers to rural indigenous households: kinship networks that span the urban--rural divide.
+\end{enumerate}
+The group-level matrix has $\Gamma = 0.30$ and $\Neff = 3.85$ of 4. Transfers are strongly assortative, slowing integration, but the direction of concern is not concentrated on any one group. Remittances are a separate, exogenous inflow: Bolivia is a net \emph{recipient} of remittances, so they add to, rather than drain, households' resources. (Numbers: \texttt{code/ch22.py}.)
 \end{example}
+
+\begin{vizpanel}{Transfer shares among four groups}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\def\s{1.0}
+%% Cell intensity = round(100 * transfer share), printed by code/ch22.py
+\foreach \row [count=\i] in {{75,13,8,3},{12,50,6,31},{11,4,70,14},{4,19,9,69}} {
+  \foreach \bp [count=\j] in \row {
+    \fill[blue!\bp, draw=white, line width=0.3pt] ({(\j-1)*\s}, {(4-\i)*\s}) rectangle +(\s,\s);
+    \node[font=\tiny] at ({(\j-0.5)*\s}, {(4-\i+0.5)*\s}) {\bp};
+  }
+}
+\foreach \lab [count=\k] in {U-NI,U-Ind,R-NI,R-Ind} {
+  \node[font=\tiny, left] at (0, {(4-\k+0.5)*\s}) {\lab};
+  \node[font=\tiny, above] at ({(\k-0.5)*\s}, {4*\s}) {\lab};
+}
+\node[below, font=\scriptsize] at ({2*\s}, -0.1) {$\Gamma = 0.30$, $\Neff = 3.85$ of 4};
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small The illustrative transfer-share matrix of Example~\ref{ch22:ex:transfers}, with stronger blue for larger shares; cell labels are shares in percent. The bright diagonal is within-group solidarity. The off-diagonal cell linking urban and rural indigenous households (31\%) is the one strong cross-block link; cross-ethnic cells are faint.
+\end{vizpanel}
 
 
 \subsection{Strategy 2: Dictator Games and Experimental Measures}
@@ -75,58 +106,48 @@ Key patterns: (1) Strong within-group solidarity: diagonal entries range from 0.
 \begin{definition}[Experimentally-Elicited $W^U$]\label{ch22:def:experimental}
 Dictator games, public goods games, and trust games elicit $W^U$ directly:
 \begin{enumerate}
-\item \textbf{Dictator game}: Agent $i$ receives an endowment and can share any portion with agent $j$. The share $s_{ij} = \text{amount given to } j / \text{endowment}$ estimates $W^U_{ij}$.
+\item \textbf{Dictator game}: Agent $i$ receives an endowment $E$ and can give any amount $x$ to agent $j$. The share $s_{ij} = x/E$ is informative about $W^U_{ij}$ but is not equal to it. With log utility, $i$ maximizes $\log(E - x) + W^U_{ij}\log x$, so $s_{ij} = W^U_{ij}/(1 + W^U_{ij})$ and
+\[
+W^U_{ij} = \frac{s_{ij}}{1 - s_{ij}} .
+\]
+Other utility functions give other mappings, and giving in the lab also reflects norms and experimenter demand.
 \item \textbf{Modified dictator game with group variation}: Vary the identity of the recipient (same ethnicity vs.\ different; same community vs.\ different). The difference in giving reveals the assortative structure of $W^U$.
 \end{enumerate}
 \end{definition}
 
-\begin{example}[Experimental Evidence from Bolivia]\label{ch22:ex:experimental}
-Using data from lab-in-the-field experiments in Bolivian communities (Cardenas, 2003; Henrich et al., 2010):
+\begin{example}[A Directed Dictator Game \illustrative]\label{ch22:ex:experimental}
+Hypothetical results of the modified dictator game, of the kind a Bolivian field experiment could produce. No existing study is the source. Cardenas (2003) worked in rural Colombia. Henrich et al.\ (2010) included the Tsimane of lowland Bolivia but did not vary the recipient's ethnicity or community. For directed giving to identified network partners, see Leider et al.\ (2009) and Ligon and Schechter (2012).
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
-Recipient type & Mean share given & Implied $W^U$ \\
+Recipient type & Mean share given $s$ & $W^U = s/(1-s)$ \\
 \midrule
-Same community, same ethnicity & 0.38 & High \\
-Same community, different ethnicity & 0.25 & Moderate \\
-Different community, same ethnicity & 0.22 & Moderate \\
-Different community, different ethnicity & 0.12 & Low \\
-Anonymous stranger & 0.18 & Baseline \\
+Same community, same ethnicity & 0.38 & 0.61 \\
+Same community, different ethnicity & 0.25 & 0.33 \\
+Different community, same ethnicity & 0.22 & 0.28 \\
+Different community, different ethnicity & 0.12 & 0.14 \\
+Anonymous stranger & 0.18 & 0.22 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Community membership matters more than ethnicity: same-community, different-ethnicity (0.25) exceeds different-community, same-ethnicity (0.22). The geographic proximity effect is stronger than the ethnic effect for $W^U$, though both are significant. The assortative mixing parameters: $\lambda_{\text{community}}^U \approx 0.45$, $\lambda_{\text{ethnicity}}^U \approx 0.55$.
+In this illustration, community membership matters more than ethnicity: giving to a different-ethnicity member of one's own community (0.25) exceeds giving to a same-ethnicity member of another community (0.22). On the $W^U$ scale, the implied mixing parameters are $\lambda^U_{\text{community}} \approx 0.41$--$0.46$ and $\lambda^U_{\text{ethnicity}} \approx 0.48$--$0.54$; the range comes from which cell is held fixed. (The anonymous stranger may come from the respondent's own community, so that baseline need not be the lowest.) (Numbers: \texttt{code/ch22.py}.)
 \end{example}
 
 
 \subsection{Strategy 3: Voting and Collective Action}
 
 \begin{definition}[Revealed Solidarity from Collective Action]\label{ch22:def:collective}
-Voting for redistributive policies reveals cross-group solidarity: a voter who supports transfers from her group to another group reveals $W^U_{ij} > 0$ for members of the recipient group. Let $v_{gp}$ be the vote share of group $g$ for policy $p$ that transfers from $g$ to $g'$:
+Voting for redistributive policies is informative about cross-group solidarity: a voter who supports transfers from her group to another group, against her material interest, reveals $W^U_{ij} > 0$ for members of the recipient group. Votes, however, bundle many motives (material interest, partisanship, regional identity, views on the other provisions on the ballot), and group-level vote shares must be inferred from aggregate returns by ecological inference. Let $v_{gp}$ be the vote share of group $g$ for policy $p$ that transfers from $g$ to $g'$:
 \begin{equation}\label{ch22:eq:voting_WU}
 \hat{W}^U_{gg'} \propto v_{gp(\text{transfer to } g')}.
 \end{equation}
 \end{definition}
 
 \begin{example}[Bolivia's 2009 Constitutional Referendum]\label{ch22:ex:referendum}
-The 2009 constitutional referendum included provisions for indigenous autonomy and land redistribution. The vote revealed cross-group solidarity:
+The January 2009 referendum approved the new constitution, which includes provisions for indigenous autonomy, with about 61\% of the national vote. A separate question set a maximum size for landholdings. The constitution was rejected in the eastern lowland departments, Santa Cruz among them. % TODO-VERIFY: national and departmental results (Corte Nacional Electoral, 2009).
 
-\begin{center}
-\begin{tabular}{lcc}
-\toprule
-Group & Approval rate & Implied $W^U$ toward indigenous \\
-\midrule
-Urban indigenous & 92\% & Very high \\
-Rural indigenous & 95\% & Very high (self-interest + solidarity) \\
-Urban mestizo & 62\% & Moderate \\
-Rural non-indigenous & 45\% & Low \\
-Santa Cruz elite & 28\% & Very low \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-The voting pattern reveals the $W^U$ structure: the elite opposes redistribution toward indigenous communities ($W^U_{\text{elite, indigenous}} \approx 0$), while urban mestizo populations show moderate solidarity ($W^U \approx 0.15$--$0.20$).
+Official results are reported by territory, not by ethnicity or class. Group-level approval rates would have to be estimated by ecological inference from municipal returns and census composition. Even then, they would not isolate $W^U$. Low approval in a group mixes material interest, opposition to other provisions (notably on regional autonomy), and partisanship. High approval among indigenous voters mixes self-interest and solidarity. A credible voting-based measure of $W^U$ needs variation in which group benefits from a measure, holding the voter's own stake fixed.
 \end{example}
 
 
@@ -138,13 +159,13 @@ The Bogardus Social Distance Scale and its variants ask respondents about their 
 More specific surveys ask: ``How concerned are you about the welfare of [group X]?'' on a Likert scale. The response directly estimates $W^U_{ig}$.
 \end{definition}
 
-\begin{example}[Bolivia: Latinobar\'{o}metro Social Cohesion Data]\label{ch22:ex:social_cohesion}
-From Latinobar\'{o}metro 2018, the question ``How much do you trust people from [group]?'' (1--4 scale):
+\begin{example}[Group-Specific Trust \illustrative]\label{ch22:ex:social_cohesion}
+Hypothetical responses to a group-specific trust module, ``How much do you trust people from [group]?'' (1--4 scale). Standard regional surveys such as Latinobar\'{o}metro ask about generalized interpersonal trust, so a module like this would have to be added. % TODO-VERIFY: whether any Latinobarometro wave has a group-specific trust battery for Bolivia.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{Lcccc}
 \toprule
-Respondent group & Trust: own group & Trust: other ethnic & Trust: other class & Trust: foreigners \\
+Respondent group & Own group & Other ethnic & Other class & Foreigners \\
 \midrule
 Indigenous & 3.2 & 2.4 & 1.8 & 1.5 \\
 Mestizo & 3.0 & 2.6 & 2.2 & 2.0 \\
@@ -153,27 +174,30 @@ Upper class & 3.4 & 2.1 & 1.5 & 2.5 \\
 \end{tabularx}
 \end{center}
 
-The pattern is consistent with the other sources: high within-group trust (diagonal), moderate cross-ethnic trust (off-diagonal), low cross-class trust. The upper class trusts foreigners more than they trust the domestic lower class --- Sunkel's integration/disintegration operating on $W^U$: the elite's social bonds connect outward (to the global class) more than downward (to the domestic poor).
+The illustrative pattern: high within-group trust (diagonal), moderate cross-ethnic trust (off-diagonal), low cross-class trust. In this hypothetical table, upper-class respondents trust foreigners more than they trust other classes at home. If real data showed this, it would be Sunkel's transnational integration with national disintegration operating on $W^U$: social bonds that connect outward more than across the domestic class structure.
 \end{example}
 
 
 \subsection{Strategy 5: Fiscal Revealed Preference}
 
 \begin{definition}[Fiscal $W^U$]\label{ch22:def:fiscal}
-The tax-and-transfer system reveals the \textit{aggregate} $W^U$ of the polity: taxes paid by group $g$ that finance transfers to group $g'$ imply $W^U_{gg'} > 0$ at the societal level. Define:
+The tax-and-transfer system reveals the polity's \textit{aggregate} allocation rule. Taxes paid by group $g$ that finance transfers to group $g'$ are, at most, a revealed social-welfare weight in the inverse-optimal-tax sense (e.g., Bourguignon and Spadaro, 2012). They are not any individual's $W^U$: they reflect political bargaining, institutions and who controls the fiscal process. With that caveat, define:
 \begin{equation}\label{ch22:eq:fiscal_WU}
 W^U_{\text{fiscal}, gg'} = \frac{\text{net transfer from } g \text{ to } g'}{\text{total fiscal capacity of } g}.
 \end{equation}
 \end{definition}
 
-\begin{example}[Bolivia's Fiscal $W^U$, 2019]\label{ch22:ex:fiscal}
-Using MEFP data on taxes and transfers by household group:
+\begin{example}[Bolivia's Fiscal Channel \illustrative]\label{ch22:ex:fiscal}
+Orders of magnitude, to be checked against MEFP data. % TODO-VERIFY: IDH revenue, Bono Juancito Pinto and Renta Dignidad outlays for the chosen year (MEFP).
+\begin{itemize}
+\item The direct hydrocarbons tax (IDH) raises on the order of 8 billion Bs, paid by the gas sector (and ultimately by its export customers).
+\item The Bono Juancito Pinto (a school-attendance transfer per pupil) distributes about 0.5 billion Bs.
+\item The Renta Dignidad (a universal non-contributory pension for residents aged 60 and over) distributes about 3.5 billion Bs.
+\end{itemize}
 
-The gas tax (IDH) generates approximately 8 billion Bs, paid effectively by the gas sector (and ultimately by global consumers). The Bono Juancito Pinto (school attendance transfer) distributes approximately 0.5 billion Bs to poor households. The Renta Dignidad (universal pension) distributes 3.5 billion Bs, mostly to rural elderly.
+Illustrative fiscal incidence of gas revenue: about 12\% reaches poor households through transfers, about 8\% reaches non-poor households (public salaries, urban infrastructure), and about 25\% is reinvested in the sector. These are shares of a sector's tax revenue, not utility weights of the gas sector: a sector has no utility.
 
-Fiscal $W^U_{\text{gas} \to \text{poor}}$: approximately 0.12 (12\% of gas revenue reaches poor households through transfers). Fiscal $W^U_{\text{gas} \to \text{non-poor}}$: approximately 0.08 (public salaries, infrastructure in urban areas). Fiscal $W^U_{\text{gas} \to \text{gas}}$: approximately 0.25 (reinvestment in the sector).
-
-The fiscal $W^U$ is less assortative than the private $W^U$: the state redistributes across groups more than individuals do. But the fiscal channel is smaller than the private channel: total government transfers are approximately 15 billion Bs, while total private transfers (including remittances) are approximately 10 billion Bs. The private $W^U$ (highly assortative) dominates the fiscal $W^U$ (moderately redistributive) in aggregate.
+The fiscal channel is less assortative than the private channel: the state redistributes across groups more than households do. In aggregate it is also larger, with government transfers of about 15 billion Bs against about 10 billion Bs of private transfers (mostly remittances received from abroad). So the more redistributive channel is the bigger one, but the private channel is where cross-group concern, or its absence, shows directly.
 \end{example}
 
 
@@ -186,53 +210,12 @@ The fiscal $W^U$ is less assortative than the private $W^U$: the state redistrib
 \begin{equation}\label{ch22:eq:composite}
 W^U = \omega_\tau W^U_{\text{transfer}} + \omega_v W^U_{\text{voting}} + \omega_s W^U_{\text{survey}} + \omega_f W^U_{\text{fiscal}},
 \end{equation}
-where the weights reflect the relative importance of each channel in determining who actually receives social support.
+where the weights reflect the relative importance of each channel in determining who actually receives social support. As for $W^I$ (Chapter~21), the composite exists only if every layer is a row-stochastic matrix on the \emph{same} node set. The five strategies above produce matrices on different node sets: four groups for transfers, territorial units for votes, survey groups, fiscal categories. They must first be mapped to a common set of groups.
 \end{definition}
 
-\begin{example}[Bolivia's Composite $W^U$ Parameters]\label{ch22:ex:composite}
-\begin{center}
-\begin{tabular}{lcc}
-\toprule
-Parameter & Estimate & Source \\
-\midrule
-$N_{\text{eff}}(W^U)$ & 2.8 & Composite $W^U$ \\
-$\Gamma(W^U)$ & 0.11 & Spectral gap \\
-$\lambda_{\text{ethnicity}}^U$ & 0.30 & Transfer + experimental data \\
-$\lambda_{\text{class}}^U$ & 0.18 & Fiscal + voting data \\
-$\lambda_{\text{geography}}^U$ & 0.35 & Transfer + survey data \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-$W^U$ is the most concentrated of the three networks: $N_{\text{eff}}^U = 2.8 < N_{\text{eff}}^I = 3.4 < N_{\text{eff}}^P \approx 8$. People's caring is more narrowly concentrated than their information consumption, which is more narrowly concentrated than their economic transactions. This ordering matters: the welfare loss from $W^U$ asymmetry ($L_{\text{ext}}$) can be large even when $W^P$ is moderately integrated.
-\end{example}
-
-\begin{vizpanel}{Bolivia's three networks: $N_{\text{eff}}$ comparison}
-\begin{center}
-\begin{tikzpicture}[scale=1]
-%% Three bars for Neff
-\fill[blue!40] (0, 0) rectangle (1.5, {8*0.4});
-\node[font=\scriptsize, above] at (0.75, {8*0.4}) {$N_{\text{eff}}^P \approx 8$};
-\node[font=\scriptsize, below] at (0.75, -0.2) {$W^P$};
-
-\fill[blue!55] (2.5, 0) rectangle (4.0, {3.4*0.4});
-\node[font=\scriptsize, above] at (3.25, {3.4*0.4}) {$N_{\text{eff}}^I = 3.4$};
-\node[font=\scriptsize, below] at (3.25, -0.2) {$W^I$};
-
-\fill[blue!70] (5.0, 0) rectangle (6.5, {2.8*0.4});
-\node[font=\scriptsize, above] at (5.75, {2.8*0.4}) {$N_{\text{eff}}^U = 2.8$};
-\node[font=\scriptsize, below] at (5.75, -0.2) {$W^U$};
-
-%% Benchmark
-\draw[red, dashed] (0, {200*0.02}) -- (7, {200*0.02});
-\node[font=\tiny, red, right] at (7, {200*0.02}) {$N$ (benchmark)};
-
-\draw[->] (-0.3, 0) -- (-0.3, 4.5) node[above, font=\tiny] {$N_{\text{eff}}$};
-\end{tikzpicture}
-\end{center}
-\vspace{-0.5em}
-\small Bolivia's three networks ordered by concentration. $W^P$ (production) is the least concentrated: approximately 8 effective sectors. $W^I$ (information) is more concentrated: 3.4 effective voices. $W^U$ (caring) is the most concentrated: 2.8 effective solidarity groups. All are far below the benchmark ($N$). The bottleneck hierarchy: caring $<$ information $<$ production.
-\end{vizpanel}
+\begin{remark}[Comparing networks]\label{ch22:ex:composite}
+It is tempting to rank the three networks by $\Neff$ and conclude that ``caring is the most concentrated network''. But $\Neff$ lies in $[1, n]$, so counts on node sets of different size (four groups, five outlets, dozens of sectors) cannot be ranked. The comparable statistic is $\Neff/n$ on each layer's own node set, or $\Neff$ on a common node set. On this chapter's illustrative transfer matrix, $\Neff/n = 0.96$. The utility layer is strongly \emph{assortative} ($\lambda^U_{\text{ethnicity}} = 0.20$, $\Gamma = 0.30$), but the direction of concern is not concentrated: integration and concentration are different coordinates (Proposition~\ref{ch06:prop:gap-power-independent}).
+\end{remark}
 
 
 %% =====================================================================
@@ -240,37 +223,55 @@ $W^U$ is the most concentrated of the three networks: $N_{\text{eff}}^U = 2.8 < 
 \label{ch22:sec:alignment}
 %% =====================================================================
 
-\begin{theorem}[Network Alignment and Compound Disadvantage]\label{ch22:thm:alignment}
-When the three networks are aligned ($W^P$, $W^I$, and $W^U$ have similar block structures --- the same groups are marginalized in all three), the composite Perron eigenvector is maximally concentrated:
-\begin{equation}\label{ch22:eq:alignment}
-\Var(\pi_{\text{composite}}) \geq \max\left(\Var(\pi^P), \Var(\pi^I), \Var(\pi^U)\right).
-\end{equation}
-When the networks are misaligned (different groups are central in different networks), the composite $\Var(\pi)$ can be smaller than any individual network's $\Var(\pi)$: cross-network compensation reduces compound disadvantage.
-\end{theorem}
+When the same groups are marginal in production, information and solidarity, disadvantage compounds. How much does alignment concentrate the composite Perron vector? The answer is exact in one important case.
 
-\begin{example}[Bolivia's Network Alignment]\label{ch22:ex:alignment}
-For Bolivia's indigenous rural women:
+\begin{proposition}[Alignment and Composite Concentration]\label{ch22:thm:alignment}
+Let $W = \sum_k \alpha_k W^k$ be a composite of row-stochastic layers on a common node set, with $\alpha_k \ge 0$ and $\sum_k \alpha_k = 1$.
+\begin{enumerate}
+\item[(a)] \textbf{Shared Perron vector.} If all layers have the same Perron vector $\pi$, the composite has Perron vector $\pi$.
+\item[(b)] \textbf{Rank-one layers.} If $W^k = \ones\pi^{k\prime}$, then $\pi = \sum_k \alpha_k \pi^k$, and
+\[
+\Var(\pi) = \sum_{k,l}\alpha_k\alpha_l \Cov(\pi^k, \pi^l) \;\le\; \Big(\sum_k \alpha_k \sqrt{\Var(\pi^k)}\Big)^2 \;\le\; \max_k \Var(\pi^k).
+\]
+For given layer variances, $\Var(\pi)$ is increasing in every pairwise covariance. It is largest under perfect alignment (all correlations one) and smallest under anti-alignment. It never exceeds the most concentrated layer's variance.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) $\pi'W = \sum_k\alpha_k\pi'W^k = \pi'$. (b) For each $l$, $\big(\sum_k\alpha_k\pi^k\big)'\ones\pi^{l\prime} = \pi^{l\prime}$, so
+\[
+\Big(\sum_k\alpha_k\pi^k\Big)'W = \sum_l\alpha_l\pi^{l\prime}.
+\] The first inequality is Cauchy--Schwarz, $\Cov(\pi^k,\pi^l) \le \sqrt{\Var(\pi^k)\Var(\pi^l)}$. The second holds because a weighted mean of standard deviations is at most their maximum.
+\end{proof}
+
+Alignment therefore makes compound disadvantage as large as it can be, but no larger than the worst single layer. The earlier claim that the aligned composite is \emph{more} concentrated than every layer is false. For layers that are not rank-one, there is no closed form. A non-rank-one counterexample: three aligned layers with Perron vectors $(0.4, 0.3, 0.2, 0.1)$, $(0.30, 0.27, 0.23, 0.20)$ and $(0.28, 0.26, 0.24, 0.22)$ give a composite with $\Var(\pi) = 0.0028$, against $0.0125$ for the most concentrated layer. The perturbation lemma (Lemma~\ref{ch06:lem:perturbation}) gives the local effect of adding one layer to another.
+
+\begin{example}[Bolivia's Network Alignment \illustrative]\label{ch22:ex:alignment}
+Four groups (urban non-indigenous, urban indigenous, rural non-indigenous, rural indigenous), with population shares $(0.35, 0.25, 0.15, 0.25)$. Rank-one layers with equal weights. Per-capita positions $r_g = \pi_g/p_g$ (illustrative values; 1 is the population average) for rural indigenous households:
+
 \begin{center}
-\begin{tabular}{lccc}
+\begin{tabular}{lcc}
 \toprule
-Network & Relative position & $\pi / (1/N)$ & Disadvantage \\
+Network & Relative position & $r_{\text{rural indig.}}$ \\
 \midrule
-$W^P$ & Low-linkage sectors & 0.46 & Production marginality \\
-$W^I$ & Assortative, word-of-mouth & 0.35 & Information marginality \\
-$W^U$ & Within-community only & 0.30 & Caring marginality \\
+$W^P$ & Low-linkage sectors & 0.46 \\
+$W^I$ & Assortative, word-of-mouth & 0.35 \\
+$W^U$ & Within-community only & 0.30 \\
 \midrule
-Composite & All aligned & $\approx 0.25$ & Maximum compound \\
+Composite & All aligned & 0.37 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-All three networks assign low centrality to the same group. The alignment amplifies compound disadvantage: the indigenous rural woman is marginal in production, information, AND solidarity simultaneously. If the networks were misaligned --- if, say, indigenous communities had high $W^U$ centrality (strong solidarity networks that compensated for weak $W^P$) --- the composite disadvantage would be smaller. Bolivia's problem is that the alignment is nearly perfect: the colonial racial hierarchy (Quijano, Chapter~18) structured all three networks in the same direction.
+By part (b) of Proposition~\ref{ch22:thm:alignment}, the composite position is the weighted average of the layers' positions: it lies \emph{between} them, not below all of them. Alignment shows up in the correlations of the group-level Perron vectors: $0.96$ ($P$, $U$), $0.98$ ($P$, $I$) and $0.99$ ($I$, $U$).
+
+Now suppose the utility layer were anti-aligned on this group, with rural indigenous households at $r^U = 1.00$ because their strong solidarity networks make them central in $W^U$. Their composite position would rise from $0.37$ to $0.60$. Cross-network compensation of this kind is the mathematical form of ``compensating institutions''. Whether Bolivia's networks are aligned is an empirical question; the colonial racial hierarchy (Quijano, Chapter~18) gives reasons to expect alignment, and the ayllu (below) reasons to expect compensation. (Numbers: \texttt{code/ch22.py}.)
 \end{example}
 
 \begin{keyinsight}
-The three networks are analytically separable ($W^P$, $W^I$, $W^U$) but empirically correlated. The correlation is not accidental: the same historical processes (colonialism, racial classification, patriarchy, geographic isolation) shaped all three networks simultaneously. The structuralist diagnosis is not ``this economy has a bad $W^P$'' or ``a bad $W^I$'' or ``a bad $W^U$'' but ``the same structural forces produced block-diagonal structure in all three, aligned on the same axis.'' The intervention must address the alignment, not just one network in isolation.
+The three networks are analytically separable ($W^P$, $W^I$, $W^U$) and plausibly correlated in practice: the same historical processes (colonialism, racial classification, patriarchy, geographic isolation) shaped all three. The structuralist hypothesis is not ``this economy has a bad $W^P$'' or ``a bad $W^I$'' or ``a bad $W^U$'', but ``the same structural forces produced block-diagonal structure in all three, aligned on the same axis''. If that is right, interventions must address the alignment, not just one network in isolation.
 
-This is why Chapters~20--22 are a trilogy: measuring each network separately is necessary but not sufficient. The structural diagnosis requires measuring all three and computing the composite --- because the welfare loss (Chapter~2) depends on the composite $W$, not on any single layer.
+This is why Chapters~20--22 are a trilogy: measuring each network separately is necessary but not sufficient. The structural diagnosis requires measuring all three \emph{on a common node set} and computing the composite --- because the welfare loss (Chapter~2) depends on the composite $W$, not on any single layer.
 \end{keyinsight}
 
 
@@ -280,15 +281,15 @@ This is why Chapters~20--22 are a trilogy: measuring each network separately is 
 %% =====================================================================
 
 \begin{enumerate}
-\item $W^U$ measures who cares about whom. It is estimated from five sources: \textbf{private transfers} (remittances, gifts), \textbf{experiments} (dictator games), \textbf{voting} (support for redistributive policies), \textbf{surveys} (trust, social distance), and \textbf{fiscal data} (tax-and-transfer flows).
+\item $W^U$ measures who cares about whom. Five sources are informative about it: \textbf{private transfers}, \textbf{experiments} (directed dictator games, with $W = s/(1-s)$ under log altruism), \textbf{voting}, \textbf{surveys} (trust, social distance) and \textbf{fiscal data}. Each confounds concern with something else: need, exchange and insurance motives, norms, partisanship, or political bargaining.
 
-\item $W^U$ is the \textbf{most concentrated} of the three networks: $N_{\text{eff}}^U = 2.8 < N_{\text{eff}}^I = 3.4 < N_{\text{eff}}^P \approx 8$ for Bolivia.
+\item From transfer data, the altruism FOC identifies $W^U_{ij} = (c_j/c_i)^\sigma$ for pairs with positive transfers, and only a bound for pairs without. Separating altruism from exchange and insurance needs dyadic data and exclusion restrictions.
 
-\item Private $W^U$ is \textbf{highly assortative}: solidarity flows within ethnic, geographic, and class groups. The fiscal $W^U$ is less assortative but smaller in magnitude.
+\item Private $W^U$ is \textbf{highly assortative} in the chapter's illustrative transfer matrix ($\lambda^U_{\text{ethnicity}} = 0.20$, $\Gamma = 0.30$) without being concentrated ($\Neff/n = 0.96$). $\Neff$ can be compared across networks only on a common node set or as $\Neff/n$. The fiscal channel is less assortative and, in aggregate, larger.
 
-\item The three networks are \textbf{aligned} for Bolivia's disadvantaged groups: the same people are marginal in production, information, and solidarity. Alignment amplifies compound disadvantage.
+\item \textbf{Alignment}: with rank-one layers, the composite Perron vector is the weighted average of the layers', so its variance rises with the layers' covariances but never exceeds the most concentrated layer's. Alignment maximizes compound disadvantage, and anti-alignment (``compensating institutions'') reduces it.
 
-\item The welfare loss depends on the \textbf{composite} $W$, not on any single layer. Measuring all three is necessary for accurate structural diagnosis.
+\item The welfare loss depends on the \textbf{composite} $W$, which exists only when all layers are measured on a common node set. Andean institutions such as the ayllu show that solidarity networks can be both dense within communities and federated across them, so their place in the composite is an empirical question.
 \end{enumerate}
 
 
@@ -299,19 +300,19 @@ This is why Chapters~20--22 are a trilogy: measuring each network separately is 
 
 \begin{enumerate}[label=\textbf{22.\arabic*}, leftmargin=3em]
 
-\item \textbf{Transfer-revealed $W^U$.} Using Bolivia's EH 2019: identify all reported private transfers (remittances, gifts, in-kind). Construct a $4 \times 4$ transfer matrix (urban NI, urban indigenous, rural NI, rural indigenous). Row-normalize. Compute $\Gamma$ and $N_{\text{eff}}$.
+\item \textbf{Transfer-revealed $W^U$.} Using Bolivia's EH: identify all reported transfers \emph{received} (from other households, remittances, in-kind) by recipient group (urban NI, urban indigenous, rural NI, rural indigenous). Explain why these data do not identify the sender group, and what a dyadic module would add. Then, for the illustrative matrix of Example~\ref{ch22:ex:transfers}, compute $\Gamma$, $\boldsymbol{\pi}$, $N_{\text{eff}}$ and $\lambda^U_{\text{ethnicity}}$. (Answers: \texttt{code/ch22.py}.)
 
 \item \textbf{Experimental design.} Design a modified dictator game for a Bolivian community that estimates $W^U_{ij}$ varying by: (a) ethnicity, (b) geography, (c) gender. How many treatments do you need? What sample size?
 
-\item \textbf{Fiscal $W^U$.} Using MEFP budget data: trace the flow of the IDH (gas tax) through the fiscal system. What fraction reaches each household group? Construct $W^U_{\text{fiscal}}$.
+\item \textbf{Fiscal $W^U$.} Using MEFP budget data: trace the flow of the IDH (gas tax) through the fiscal system. What fraction reaches each household group? Construct $W^U_{\text{fiscal}}$, and explain why it is a revealed allocation rule of the polity rather than anyone's utility weights.
 
-\item \textbf{The alignment test.} For Bolivia: compute $\boldsymbol{\pi}^P$ (from Ch.~20 SAM), $\boldsymbol{\pi}^I$ (from Ch.~21), $\boldsymbol{\pi}^U$ (from this chapter). Compute the correlation between the three vectors. Is the correlation positive (aligned) or negative (compensating)?
+\item \textbf{The alignment test.} For Bolivia: map $W^P$ (Ch.~20 SAM), $W^I$ (Ch.~21) and $W^U$ (this chapter) to a common set of four household groups. Compute $\boldsymbol{\pi}^P$, $\boldsymbol{\pi}^I$ and $\boldsymbol{\pi}^U$ and the correlations between them. Is the correlation positive (aligned) or negative (compensating)?
 
 \item \textbf{Misalignment as policy.} Suppose a policy strengthens $W^U$ for indigenous communities (solidarity programs, mutual aid networks) without changing $W^P$ or $W^I$. This creates misalignment. Simulate: compute the composite $\boldsymbol{\pi}$ before and after. Does compound disadvantage decrease?
 
-\item \textbf{Cross-country comparison.} Using Latinobar\'{o}metro trust data for Bolivia, Chile, and Uruguay: estimate $W^U_{\text{survey}}$ for each. Which country has the highest $N_{\text{eff}}^U$? Does it correlate with income inequality?
+\item \textbf{Cross-country comparison.} Using Latinobar\'{o}metro trust data for Bolivia, Chile, and Uruguay: estimate a survey-based $W^U$ for each, on the same set of groups. Which country has the highest $N_{\text{eff}}^U/n$, and the highest $\Gamma$? Do they correlate with income inequality?
 
-\item \textbf{The complete measurement.} Combine Chapters~20--22: for Bolivia, you now have $W^P$ (SAM), $W^I$ (media + surveys), $W^U$ (transfers + voting + surveys). Compute the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ with weights from Chapter~5. Compute the composite $\Gamma$, $\boldsymbol{\pi}$, and the welfare loss decomposition $L = L_{\text{power}} + L_{\text{ext}} + L_{\text{interaction}}$. What fraction of Bolivia's welfare loss comes from each component?
+\item \textbf{The complete measurement.} Combine Chapters~20--22: for Bolivia, you now have $W^P$ (SAM), $W^I$ (media + surveys), $W^U$ (transfers + voting + surveys). Map all three to a common node set (household groups), and compute the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ with weights from Chapter~5. Compute the composite $\Gamma$, $\boldsymbol{\pi}$, and the welfare loss decomposition $L = L_{\text{power}} + L_{\text{ext}} + L_{\text{interaction}}$. What fraction of Bolivia's welfare loss comes from each component?
 \end{enumerate}
 
 
@@ -326,27 +327,40 @@ This is why Chapters~20--22 are a trilogy: measuring each network separately is 
 \addcontentsline{toc}{subsection}{Appendix 22A: Transfer Inference}
 \label{ch22:app:transfer}
 
-\paragraph{The structural model of transfers.} Agent $i$ with income $y_i$ maximizes $u(c_i) + \sum_j W^U_{ij} u(c_j)$ subject to $c_i + \sum_j \tau_{ij} = y_i$ and $c_j = y_j + \sum_k \tau_{kj} - \sum_k \tau_{jk}$. The first-order condition for optimal transfer $\tau_{ij}^*$:
+\paragraph{The structural model of transfers.} Agent $i$ with income $y_i$ maximizes $u(c_i) + \sum_j W^U_{ij} u(c_j)$ subject to $c_i + \sum_j \tau_{ij} = y_i$ and $c_j = y_j + \sum_k \tau_{kj} - \sum_k \tau_{jk}$. The first-order condition for the transfer $\tau_{ij}^* \ge 0$:
 \begin{equation}
-u'(c_i^*) = W^U_{ij} u'(c_j^*) \quad \text{if } \tau_{ij}^* > 0.
+u'(c_i^*) \ge W^U_{ij}\, u'(c_j^*), \quad \text{with equality if } \tau_{ij}^* > 0.
 \end{equation}
 
-With CRRA utility $u(c) = c^{1-\sigma}/(1-\sigma)$: $W^U_{ij} = (c_i/c_j)^\sigma$ for pairs with positive transfers. This allows inference of $W^U_{ij}$ from observed consumption levels and transfer amounts.
+With CRRA utility $u(c) = c^{1-\sigma}/(1-\sigma)$, $u'(c) = c^{-\sigma}$, so for pairs with positive transfers
+\[
+W^U_{ij} = \left(\frac{c_j}{c_i}\right)^{\sigma},
+\]
+which is below one when the giver is better off ($c_i > c_j$). For example, $c_i = 3$, $c_j = 1$, $\sigma = 2$ gives $W^U_{ij} = 1/9$; the inverted formula $(c_i/c_j)^\sigma$ would give 9. The condition identifies $W^U_{ij}$ from consumption levels alone, given $\sigma$. For pairs with $\tau_{ij} = 0$ it gives only the bound $W^U_{ij} \le (c_j/c_i)^\sigma$.
 
-\paragraph{Identification.} The challenge: $\tau_{ij} = 0$ does not necessarily mean $W^U_{ij} = 0$; it may mean the transfer cost exceeds the gain. A Tobit or Heckman selection model separates the extensive margin (whether to transfer) from the intensive margin (how much).
+\paragraph{Identification.} Three problems.
+\begin{enumerate}
+\item \textbf{Corner solutions.} $\tau_{ij} = 0$ does not mean $W^U_{ij} = 0$: the transfer cost may exceed the gain. A Tobit or Heckman selection model separates the extensive margin (whether to transfer) from the intensive margin (how much), but it needs an exclusion restriction, i.e.\ a variable that shifts the cost of transferring without shifting concern.
+\item \textbf{Other motives.} Transfers are also driven by exchange (payment for services; Cox, 1987), by informal insurance under limited commitment (Ligon, Thomas and Worrall, 2002), and by mixtures of altruism and imperfect commitment within families (Foster and Rosenzweig, 2001). These motives predict different responses of transfers to the recipient's income, which is how the literature tells them apart.
+\item \textbf{Dyadic data.} Transfer networks are dyadic. Estimation should use dyadic regressions with dyad-robust standard errors (Fafchamps and Gubert, 2007) and, where possible, directed games with real network partners (Leider et al., 2009; Ligon and Schechter, 2012).
+\end{enumerate}
 
 
 \subsection*{Appendix 22B: Network Alignment and Composite Eigenvalues}
 \addcontentsline{toc}{subsection}{Appendix 22B: Network Alignment}
 \label{ch22:app:alignment}
 
-\paragraph{The composite weight matrix.} $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ with $\alpha_U + \alpha_P + \alpha_I = 1$. The Perron eigenvector of $W$ is not generally the weighted average of the individual Perron eigenvectors (the Perron eigenvector is not a linear operator).
+\paragraph{The composite weight matrix.} $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ with $\alpha_U + \alpha_P + \alpha_I = 1$. All layers must be row-stochastic on a common node set. The map $W \mapsto \pi(W)$ is nonlinear, so the Perron vector of $W$ is not generally the weighted average of the layers' Perron vectors. Two exceptions are proved in Proposition~\ref{ch22:thm:alignment}: a shared Perron vector, and rank-one layers.
 
-\paragraph{Alignment as eigenvector correlation.} Define the alignment coefficient: $A = \text{Corr}(\boldsymbol{\pi}^P, \boldsymbol{\pi}^U)$. When $A \approx 1$ (aligned): the same agents are central in both networks. The composite $\Var(\pi)$ is approximately $\bar{\alpha}^2(\Var(\pi^P) + \Var(\pi^U) + 2\text{Cov}(\pi^P, \pi^U))$, which is maximized when the covariance is positive (alignment).
+\paragraph{Alignment as eigenvector correlation.} Define the alignment coefficient: $A = \text{Corr}(\boldsymbol{\pi}^P, \boldsymbol{\pi}^U)$. When $A \approx 1$ (aligned): the same agents are central in both networks. For rank-one layers (taking two of them),
+\[
+\Var(\pi) = \alpha_P^2\Var(\pi^P) + \alpha_U^2\Var(\pi^U) + 2\alpha_P\alpha_U\Cov(\pi^P, \pi^U)
+\]
+exactly. For given layer variances it is largest under alignment ($A = 1$), and it never exceeds $\max(\Var(\pi^P), \Var(\pi^U))$.
 
 When $A \approx -1$ (anti-aligned): the composite $\Var(\pi)$ is reduced by the negative covariance. Anti-alignment is the mathematical structure of ``compensating institutions'': if the economically powerful ($W^P$) are the socially isolated ($W^U$), the composite disadvantage is smaller than either alone.
 
-\paragraph{Bolivia's alignment coefficient.} $A(\boldsymbol{\pi}^P, \boldsymbol{\pi}^U) \approx 0.75$ (strongly aligned). $A(\boldsymbol{\pi}^P, \boldsymbol{\pi}^I) \approx 0.68$ (strongly aligned). $A(\boldsymbol{\pi}^I, \boldsymbol{\pi}^U) \approx 0.82$ (very strongly aligned: information power and caring power track each other closely). The average alignment is $\bar{A} \approx 0.75$: Bolivia's networks reinforce each other.
+\paragraph{Bolivia's alignment coefficients.} They can be computed only once the three layers are measured on a common node set; no such estimate exists yet. In the illustrative four-group example (Example~\ref{ch22:ex:alignment}), the correlations are $A(\pi^P, \pi^U) = 0.96$, $A(\pi^P, \pi^I) = 0.98$ and $A(\pi^I, \pi^U) = 0.99$.
 
 
 %% =====================================================================
@@ -354,28 +368,35 @@ When $A \approx -1$ (anti-aligned): the composite $\Var(\pi)$ is reduced by the 
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Andean Solidarity Networks}
 %% =====================================================================
 
-The measurement of $W^U$ in Bolivia cannot be divorced from the Andean institution of the \textit{ayllu}: the traditional community-based organization that governed land, labor, and social relations in the highlands for centuries before and after the Spanish conquest. The ayllu is a living institution of structured solidarity --- a $W^U$ with specific properties that the measurement tools of this chapter can capture.
+The measurement of $W^U$ in Bolivia cannot be divorced from the Andean institution of the \textit{ayllu}: the community-based organization that has governed land, labor and social relations in the highlands since before the Spanish conquest and continues to do so, in changed forms, today. The ayllu is a living institution of structured solidarity, and it tests the measurement tools of this chapter. We follow John Murra's reconstruction of Andean economic organization, and the historians and anthropologists who extended it.
 
-\textbf{The ayllu as a high-internal, low-external $W^U$.} The ayllu's organizing principles --- reciprocity (\textit{ayni}: I help you today, you help me tomorrow), complementarity (\textit{mink'a}: collective labor for community projects), and ecological complementarity (vertical control of multiple altitudinal floors) --- generate dense within-community solidarity. In this chapter's notation: $W^U_{\text{within-ayllu}} \approx 0.5$--$0.7$ (very high), while $W^U_{\text{across-ayllu}} \approx 0.05$--$0.15$ (very low). The ayllu is a bright block on the diagonal of $W^U$, with dark off-diagonal entries.
+\textbf{Dense within, federated across.} Several principles organize the ayllu:
+\begin{itemize}
+\item reciprocity (\textit{ayni}: labor or goods given now, to be returned in kind later);
+\item \textit{mink'a}: labor provided at a household's or the community's request, typically compensated with food, drink or produce (Alberti and Mayer, 1974);
+\item communal work obligations;
+\item Murra's ``vertical archipelago'' (1972): a community's control of multiple ecological floors, often far apart.
+\end{itemize}
+These generate dense within-community solidarity: in this chapter's notation, a bright diagonal block of $W^U$. But the ayllu was never simply a closed block. Verticality linked distant ecological zones. Ayllus were nested in larger units (\textit{markas} and the moieties above them), and today they are federated: the Consejo Nacional de Ayllus y Markas del Qullasuyu (CONAMAQ) and the Katarista-influenced peasant confederation CSUTCB organize across communities and regions. The mobilizations of 2000--2005 drew heavily on such community and union federations. % TODO-VERIFY: founding dates (CONAMAQ 1997; CSUTCB 1979) and the federations' role in 2000-2005.
+In matrix terms, the ayllu combines strong within-block weights with \emph{institutionalized} cross-block links. It is a counterexample to the presumption that strong local solidarity must mean fragmentation.
 
-This structure is simultaneously a source of resilience (the community provides insurance, social support, and collective action capacity that the market does not) and a source of structural fragmentation (the high internal solidarity comes at the cost of low cross-community solidarity, which keeps $\Gamma(W^U)$ small and prevents the formation of broader coalitions).
+\textbf{Colonial disruption.} Historians document how the colonial order reorganized this structure. The Toledan \textit{reducciones} resettled dispersed populations into new towns. The \textit{mita} and tribute were levied through community authorities, mobilizing within-community obligations for extraction (Stern, 1982; Platt, 1982). In network terms, colonial rule cut some cross-block links (the vertical archipelagos) and redirected within-block obligations upward to a colonial hierarchy. How far this made $W^U$ more block-diagonal than before is a historical question we flag rather than settle.
 
-\textbf{The colonial disruption.} The Spanish colonial system (\textit{reducción}, \textit{mita}, \textit{encomienda}) deliberately weakened inter-ayllu connections while exploiting within-ayllu solidarity for labor extraction. In network terms: the colonial system destroyed cross-block edges in $W^U$ (and $W^P$) while preserving within-block edges that could be mobilized for tribute and forced labor. The result was a $W^U$ that was even more block-diagonal than pre-colonial, with the additional feature that the blocks were nested within a colonial hierarchy that directed surplus extraction upward.
+\textbf{Contemporary measurement.} The tools of this chapter could measure the ayllu's solidarity directly: directed dictator games with recipients from inside and outside the community (Example~\ref{ch22:ex:experimental} shows the design, with illustrative numbers), dyadic transfer modules, and records of communal labor. Their cross-community entries matter as much as the diagonal: a federated solidarity network can have both a bright diagonal and a high $\Gamma(W^U)$. The formation model offers one account of persistence: solidarity norms ($\theta_{\text{solidarity}}$) are reproduced each generation through community information networks, with half-life $\ln 2 / \ln(1/\rho)$ generations, about 4 at $\rho = 0.85$.
 
-\textbf{Contemporary persistence.} The ayllu structure survives in modified form. The experimental evidence (Example~\ref{ch22:ex:experimental}: same-community giving $= 0.38$ vs.\ different-community $= 0.12$) measures the persistence of ayllu-like solidarity. The transfer data (Example~\ref{ch22:ex:transfers}: within-group $= 0.55$ for rural indigenous) confirms it. The formation model explains the persistence: solidarity norms ($\theta_{\text{solidarity}}$) are formed through assortative $W^I$ (Chapter~21: $\lambda_{\text{ethnicity}}^I = 0.28$) and persist with half-life $\ln 2 / \ln(1/\rho)$ generations. The ayllu's solidarity norms are reproduced each generation through the information network that is itself structured by the ayllu.
-
-The policy implication is nuanced. Strengthening the ayllu's within-community solidarity (increasing $W^U_{\text{within}}$) is valuable for insurance and resilience but does not increase $\Gamma(W^U)$. Building cross-community solidarity (increasing $W^U_{\text{across}}$) is harder but structurally necessary. The operator design (Chapter~15) would target the dark cross-block entries of $W^U$: inter-community exchange programs, regional federations of ayllus, shared infrastructure that creates cross-community economic linkages.
+The policy implication follows. Within-community solidarity is valuable for insurance and resilience. Cross-community links already exist in the ayllu federations, and policy can build on them (inter-community exchange, regional federations, shared infrastructure) rather than treat community solidarity as an obstacle. And if indigenous communities are central in $W^U$ while marginal in $W^P$, the networks are partly \emph{anti-aligned} --- the compensating case of Proposition~\ref{ch22:thm:alignment}.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Andean concept} & \textbf{Formal object} & \textbf{Measurement} \\
 \midrule
-Ayni (reciprocity) & High $W^U_{\text{within}}$ & Transfer data, dictator games \\
-Mink'a (collective labor) & High $W^U_{\text{within}}$ (community level) & Collective action frequency \\
-Ayllu boundary & Block structure of $W^U$ & Cross-community transfer rate \\
-Colonial disruption & $W^U_{\text{across}} \downarrow$ while $W^U_{\text{within}}$ preserved & Historical analysis \\
+Ayni (reciprocity) & High $W^U_{\text{within}}$ & Dyadic transfer data, directed dictator games \\
+Mink'a (requested labor) & Within-community exchange of labor & Records of labor exchange \\
+Verticality and federation (Murra; CONAMAQ) & Institutionalized cross-block links, higher $\Gamma(W^U)$ & Cross-community transfer and labor rates \\
+Colonial reorganization & Cross-block links cut; obligations redirected upward & Historical analysis \\
 Contemporary persistence & $\rho \approx 0.85$, half-life $\approx 4$ gen. & Cohort comparison \\
+Compensation & Anti-alignment of $W^U$ with $W^P$ & Prop.~\ref{ch22:thm:alignment} \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -388,9 +409,9 @@ Contemporary persistence & $\rho \approx 0.85$, half-life $\approx 4$ gen. & Coh
 
 \textbf{Social preferences and networks:} Fehr and Schmidt (1999), ``A Theory of Fairness, Competition, and Cooperation,'' \textit{QJE}. Charness and Rabin (2002), ``Understanding Social Preferences with Simple Tests,'' \textit{QJE}. Leider et al.\ (2009), ``Directed Altruism and Enforced Reciprocity in Social Networks,'' \textit{QJE}.
 
-\textbf{Transfers and informal insurance:} Townsend (1994), ``Risk and Insurance in Village India,'' \textit{Econometrica}. Ligon, Thomas, and Worrall (2002), ``Informal Insurance Arrangements with Limited Commitment,'' \textit{REStud}. For Bolivia: Godoy et al.\ (2007), ``Do Modern Forms of Human Capital Matter in Primitive Economies?'' \textit{Economics of Education Review}.
+\textbf{Transfers and informal insurance:} Townsend (1994), ``Risk and Insurance in Village India,'' \textit{Econometrica}. Ligon, Thomas, and Worrall (2002), ``Informal Insurance Arrangements with Limited Commitment,'' \textit{REStud}. Cox (1987), ``Motives for Private Income Transfers,'' \textit{JPE}. Foster and Rosenzweig (2001), ``Imperfect Commitment, Altruism, and the Family: Evidence from Transfer Behavior in Low-Income Rural Areas,'' \textit{REStat}. Fafchamps and Gubert (2007), ``The Formation of Risk Sharing Networks,'' \textit{JDE}. Ligon and Schechter (2012), ``Motives for Sharing in Social Networks,'' \textit{JDE}. Bourguignon and Spadaro (2012), ``Tax--Benefit Revealed Social Preferences,'' \textit{Journal of Economic Inequality}.
 
-\textbf{Andean institutions:} Murra (1972), ``El control vertical de un m\'{a}ximo de pisos ecol\'{o}gicos en la econom\'{i}a de las sociedades andinas.'' Alberti and Mayer (1974), \textit{Reciprocidad e intercambio en los Andes peruanos}. Patzi Paco (2004), \textit{Sistema comunal: una propuesta alternativa al sistema liberal}.
+\textbf{Andean institutions:} Murra (1972), ``El control vertical de un m\'{a}ximo de pisos ecol\'{o}gicos en la econom\'{i}a de las sociedades andinas.'' Alberti and Mayer (1974), \textit{Reciprocidad e intercambio en los Andes peruanos}. Patzi Paco (2004), \textit{Sistema comunal: una propuesta alternativa al sistema liberal}. Platt (1982), \textit{Estado boliviano y ayllu andino}. Stern (1982), \textit{Peru's Indian Peoples and the Challenge of Spanish Conquest}.
 
 \textbf{Experimental economics in developing countries:} Henrich et al.\ (2010), ``Markets, Religion, Community Size, and the Evolution of Fairness and Punishment,'' \textit{Science}. Cardenas (2003), ``Real Wealth and Experimental Cooperation,'' \textit{Journal of Development Economics}.
 

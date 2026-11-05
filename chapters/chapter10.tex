@@ -3,6 +3,10 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{9}}{}
 \chapter{The Formal Formation Model}\label{ch:10}
 \chaptersubtitle{The Complete Dynamic System}
+% TODO-VERIFY: epigraph wording not located. The 1969 original is in Spanish
+% (Dependencia y desarrollo en America Latina, Mexico: Siglo XXI); the Portuguese
+% edition is Zahar (1970). Per BOOK.md, quote the language of the cited edition,
+% with page, or re-date the attribution to the Portuguese edition (1970).
 \begin{quote}
 \textit{``As situa\c{c}\~{o}es de depend\^{e}ncia na Am\'{e}rica Latina contempor\^{a}nea sup\~{o}em um modo de articula\c{c}\~{a}o entre a din\^{a}mica econ\^{o}mica e a a\c{c}\~{a}o social que \'{e} distinto tanto da expans\~{a}o dos centros como daquela dos pa\'{i}ses coloniais.''}\\[0.3em]
 \textnormal{[``The situations of dependence in contemporary Latin America presuppose a mode of articulation between economic dynamics and social action that is distinct both from the expansion of the centers and from that of the colonial countries.'']}\\
@@ -33,58 +37,69 @@ This is the chapter that makes the book's title operational. An economy is not j
 \subsection{Three Equations}
 
 \begin{definition}[The Formation Model]\label{ch10:def:model}
-The \textbf{formation model} consists of three components operating in sequence within each generation $t$:
+The \textbf{formation model} consists of three components operating in sequence within each generation $t$ (one period is one generation, as in Chapter~9):
 
-\textbf{Equation 1: The Bargaining Equilibrium.} Given power $\boldsymbol{\pi}(W)$, preferences $\boldsymbol{\theta}_t$, and endowments $\boldsymbol{\omega}$:
+\textbf{Equation 1: The Bargaining Equilibrium.} Given power $\boldsymbol{\pi}$, preferences $\boldsymbol{\theta}_t$, and endowments $\boldsymbol{\omega}$:
 \begin{equation}\label{ch10:eq:bargaining}
-x_{i,t}^* = h(\pi_i, \theta_{i,t}, \omega_i) = \frac{\Omega}{N} + \frac{1}{\kappa}\left(\pi_i - \frac{1}{N}\right) + \frac{\theta_{i,t} - \bar{\theta}_t}{N\kappa}\Phi,
+x_{i,t}^* = h_i(\boldsymbol{\pi}, \boldsymbol{\theta}_t, \boldsymbol{\omega}) = \omega_i + \pi_i\Phi + \phi\,(\theta_{i,t} - \bar{\theta}_t),
+\qquad \bar{\theta}_t = \frac{1}{N}\sum_j \theta_{j,t}.
 \end{equation}
-where $\bar{\theta}_t = \frac{1}{N}\sum_j \theta_{j,t}$ and $\Phi > 0$ is a scaling factor. The first correction is from power (Chapter~7); the second is from preference heterogeneity. An agent who is more patient/ambitious than average ($\theta_{i,t} > \bar{\theta}_t$) invests more and consumes less in the current period.
+This is the transferable-utility allocation rule of Chapter~7 (Proposition~\ref{ch07:prop:allocation-rule}), $x_i = d_i + \pi_i(S - \sum_j d_j)$. Here $\Phi = S - \sum_j d_j > 0$ is the bargaining surplus. The disagreement payoff is $d_i = \omega_i + \phi(\theta_{i,t} - \bar{\theta}_t)$: an agent who is more patient or ambitious than average ($\theta_{i,t} > \bar{\theta}_t$) has a better outside option, and $\phi \geq 0$ measures by how much. The preference term is a reduced-form \textbf{assumption}; it sums to zero, so $\sum_i x_{i,t}^* = \sum_i\omega_i + \Phi =: \Omega$. With equal endowments, the rule reduces to $x_i = \Omega/N + (\pi_i - 1/N)\Phi + \phi(\theta_i - \bar{\theta})$. Power $\boldsymbol{\pi}$ is the Perron vector of the bargaining layer (Chapter~7), which none of the policies in this chapter changes.
 
 \textbf{Equation 2: The Return Function.} The allocation produces observable returns:
 \begin{equation}\label{ch10:eq:returns}
-r_{i,t} = g_i(x_{i,t}^*, \x_{-i,t}^*) = \alpha_i + \beta_i x_{i,t}^* + \gamma_i \sum_j W^P_{ij} x_{j,t}^*,
+r_{i,t} = g_i(\x_t^*) = \alpha_i + \beta_i x_{i,t}^* + \gamma_i \sum_j W^P_{ij} x_{j,t}^*,
 \end{equation}
-where $\alpha_i$ is a sector-specific baseline, $\beta_i$ is the private return to investment, and $\gamma_i \sum_j W^P_{ij} x_{j,t}^*$ is the network spillover: your return depends on what your production neighbors invest. This is the Leontief amplifier from Chapter~3.
+where $\alpha_i$ is a sector-specific baseline, $\beta_i$ is the private return to resources, and $\gamma_i \sum_j W^P_{ij} x_{j,t}^*$ is the network spillover: your return depends on the resources of your suppliers, weighted by the input shares $W^P$.
 
-\textbf{Equation 3: The Formation Equation.} Observed returns update preferences for the next generation:
+\textbf{Equation 3: The Formation Equation} (Chapter~9). Observed returns update preferences for the next generation:
 \begin{equation}\label{ch10:eq:formation}
-\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu\left(\sum_j W^I_{ij} r_{j,t} - r^*\right).
+\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\theta^{\circ} + \mu\left(\sum_j W^I_{ij} r_{j,t} - r^*\right).
 \end{equation}
+We write $\theta^{\circ}$ for the anchor ($\bar{\theta}$ in Chapter~9), to keep it distinct from the cross-sectional mean $\bar{\theta}_t$.
 \end{definition}
 
-The three equations form a map $\Phi: \R^N_+ \to \R^N_+$:
+The three equations form a map $T: \R^N \to \R^N$:
 \begin{equation}\label{ch10:eq:map}
-\boldsymbol{\theta}_{t+1} = \Phi(\boldsymbol{\theta}_t) \equiv \rho\boldsymbol{\theta}_t + (1-\rho)\bar{\theta}_0\ones + \mu\left(W^I \mathbf{g}(\mathbf{h}(\boldsymbol{\pi}, \boldsymbol{\theta}_t, \boldsymbol{\omega})) - r^*\ones\right).
+\boldsymbol{\theta}_{t+1} = T(\boldsymbol{\theta}_t) \equiv \rho\boldsymbol{\theta}_t + (1-\rho)\theta^{\circ}\ones + \mu\left(W^I \mathbf{g}(\mathbf{h}(\boldsymbol{\pi}, \boldsymbol{\theta}_t, \boldsymbol{\omega})) - r^*\ones\right).
 \end{equation}
 
-This is a nonlinear dynamical system in $\boldsymbol{\theta}$. The weight matrices $(W, W^P, W^I)$ and parameters $(\rho, \mu, \bar{\theta}_0, r^*, \kappa, \boldsymbol{\alpha}, \boldsymbol{\beta}, \boldsymbol{\gamma})$ are structural. The dynamics are in $\boldsymbol{\theta}$.
+The structural objects are the weight matrices $W^P$ and $W^I$, the power vector $\boldsymbol{\pi}$, and the parameters
+\[
+(\rho, \mu, \theta^{\circ}, r^*, \Phi, \phi, \boldsymbol{\alpha}, \boldsymbol{\beta}, \boldsymbol{\gamma}).
+\] The dynamics are in $\boldsymbol{\theta}$. With the affine $h$ and $g$ above, $T$ is affine. Nonlinear return functions (Section~\ref{ch10:sec:stability}) make it nonlinear.
 
 \begin{intuition}[The loop in words]
-\textbf{Generation $t$}: You arrive with preferences $\theta_{i,t}$ inherited from your parents' generation and your own early-life signals. Given those preferences and your structural power $\pi_i$, the bargaining equilibrium determines your allocation $x_{i,t}^*$. Your allocation, combined with the production network, produces your return $r_{i,t}$. Your children observe your return (and your neighbors' returns, weighted by $W^I$). They form preferences $\theta_{i,t+1}$ based on what they saw. They enter the next generation's bargaining equilibrium. The loop continues.
+\textbf{Generation $t$}: You arrive with preferences $\theta_{i,t}$ inherited from your parents' generation and your own early-life signals. Given those preferences and the power structure $\boldsymbol{\pi}$, the bargaining equilibrium determines your allocation $x_{i,t}^*$. Your allocation, combined with the production network, produces your return $r_{i,t}$. Your children observe your return (and your neighbors' returns, weighted by $W^I$). They form preferences $\theta_{i,t+1}$ based on what they saw. They enter the next generation's bargaining equilibrium. The loop continues.
 
-\textbf{The standard model} runs this loop once (at $t = 0$, with $\boldsymbol{\theta}_0$ given) and stops. The formation model runs it forever.
+\textbf{The benchmark model} runs this loop once (at $t = 0$, with $\boldsymbol{\theta}_0$ given) and stops. The formation model runs it forever.
 \end{intuition}
 
 
 \subsection{The Linearized System}
 
-For analysis, linearize around a candidate steady state $\boldsymbol{\theta}^*$. Let $\boldsymbol{\delta}_t = \boldsymbol{\theta}_t - \boldsymbol{\theta}^*$. The Jacobian of the map $\Phi$ at $\boldsymbol{\theta}^*$:
-
+Let $C := \operatorname{diag}(\boldsymbol{\beta}) + \operatorname{diag}(\boldsymbol{\gamma})W^P$ be the Jacobian of the return function, and $P := I - \frac{1}{N}\ones\ones'$ the centering matrix. Because $h$ depends on $\theta_i - \bar{\theta}$, its Jacobian is $D_{\boldsymbol{\theta}}\mathbf{h} = \phi P$, not a diagonal matrix. The Jacobian of $T$ is therefore
 \begin{equation}\label{ch10:eq:jacobian}
-J = D\Phi(\boldsymbol{\theta}^*) = \rho I + \mu W^I G' H',
+J = DT = \rho I + \mu\phi\, W^I C P.
 \end{equation}
-where $G' = \text{diag}(\partial g_i / \partial x_i) + \gamma W^P$ is the Jacobian of the return function (incorporating network spillovers) and $H' = \text{diag}(\partial h_i / \partial \theta_i)$ is the Jacobian of the bargaining equilibrium with respect to preferences.
+In the affine model $J$ is constant. With nonlinear returns, $C$ is replaced by $D\mathbf{g}$ evaluated at the steady state.
 
 \begin{proposition}[Structure of the Jacobian]\label{ch10:prop:jacobian}
-The Jacobian $J$ has three components:
-\begin{equation}\label{ch10:eq:J_decomp}
-J = \underbrace{\rho I}_{\text{persistence}} + \underbrace{\mu \beta_{\text{eff}} \cdot W^I \cdot \text{diag}(H')}_{\text{direct formation}} + \underbrace{\mu \gamma_{\text{eff}} \cdot W^I W^P \cdot \text{diag}(H')}_{\text{network-amplified formation}},
-\end{equation}
-where $\beta_{\text{eff}}$ and $\gamma_{\text{eff}}$ are effective return parameters.
-
-The spectral radius of $J$ determines stability: $\rho(J) < 1$ implies the steady state is stable. The eigenvalues of $J$ combine the eigenvalues of $W^I$, $W^P$, and the persistence $\rho$ in a nontrivial way.
+\begin{enumerate}
+\item The Jacobian decomposes as
+\[
+J = \underbrace{\rho I}_{\text{persistence}} + \underbrace{\mu\phi\, W^I \operatorname{diag}(\boldsymbol{\beta}) P}_{\text{direct formation}} + \underbrace{\mu\phi\, W^I \operatorname{diag}(\boldsymbol{\gamma}) W^P P}_{\text{network-amplified formation}}.
+\]
+\item $J\ones = \rho\ones$: $\rho$ is always an eigenvalue of $J$, with eigenvector $\ones$.
+\item A uniform shift of all preferences, $\boldsymbol{\theta} \mapsto \boldsymbol{\theta} + c\ones$, changes no allocation and no return. It decays at rate $\rho$ and is never amplified by the loop. The loop can amplify only \textit{relative} preferences.
+\end{enumerate}
 \end{proposition}
+
+\begin{proof}
+(1) Expand $C$. (2) $P\ones = 0$. (3) $\mathbf{h}(\boldsymbol{\theta} + c\ones) = \mathbf{h}(\boldsymbol{\theta})$ because $h$ depends on $\theta_i - \bar{\theta}$. So the signal is unchanged, and $T(\boldsymbol{\theta} + c\ones) = T(\boldsymbol{\theta}) + \rho c\ones$.
+\end{proof}
+
+Part~(3) is a substantive result, not a technicality. In this model there is no economy-wide ``virtuous circle'' of rising aspirations: preferences matter for allocations only relative to others', so a society-wide rise in ambition buys nothing in the bargaining equilibrium and is not self-reinforcing. Virtuous and vicious circles are \textit{relative}: between blocks, classes, or regions.
 
 
 %% =====================================================================
@@ -94,62 +109,76 @@ The spectral radius of $J$ determines stability: $\rho(J) < 1$ implies the stead
 
 \subsection{Existence and Characterization}
 
-A steady state is a fixed point $\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*)$. From~\eqref{ch10:eq:map}:
+A steady state is a fixed point $\boldsymbol{\theta}^* = T(\boldsymbol{\theta}^*)$. From~\eqref{ch10:eq:map}:
 \begin{equation}\label{ch10:eq:steady_state}
-(1 - \rho)(\boldsymbol{\theta}^* - \bar{\theta}_0\ones) = \mu\left(W^I\mathbf{g}(\mathbf{h}(\boldsymbol{\pi}, \boldsymbol{\theta}^*, \boldsymbol{\omega})) - r^*\ones\right).
+(1 - \rho)(\boldsymbol{\theta}^* - \theta^{\circ}\ones) = \mu\left(W^I\mathbf{g}(\mathbf{h}(\boldsymbol{\pi}, \boldsymbol{\theta}^*, \boldsymbol{\omega})) - r^*\ones\right).
 \end{equation}
 
 Agent by agent:
 \begin{equation}\label{ch10:eq:steady_i}
-\theta_i^* = \bar{\theta}_0 + \frac{\mu}{1-\rho}\left(\sum_j W^I_{ij} g_j(h_j(\pi_j, \theta_j^*, \omega_j)) - r^*\right).
+\theta_i^* = \theta^{\circ} + \frac{\mu}{1-\rho}\left(\sum_j W^I_{ij} r_j^* - r^*\right).
 \end{equation}
 
-The steady-state preference deviates from the anchor by $\frac{\mu}{1-\rho}$ times the $W^I$-weighted return gap. The ratio $\frac{\mu}{1-\rho}$ is the \textbf{formation multiplier}: how strongly the network signal amplifies into long-run preferences.
+The steady-state preference deviates from the anchor by $\frac{\mu}{1-\rho}$ times the $W^I$-weighted return gap. The ratio $\frac{\mu}{1-\rho}$ is the \textbf{formation multiplier}: how strongly the network signal moves long-run preferences, holding returns fixed.
 
 \begin{definition}[Formation Multiplier]\label{ch10:def:multiplier}
 The \textbf{formation multiplier} is:
 \begin{equation}\label{ch10:eq:multiplier}
 \mathcal{M} = \frac{\mu}{1-\rho}.
 \end{equation}
-When $\mathcal{M}$ is large (strong signal sensitivity and/or persistent preferences), small differences in network-observed returns produce large differences in steady-state preferences. When $\mathcal{M}$ is small, the anchor dominates and preferences are approximately exogenous.
+When $\mathcal{M}$ is large (strong signal sensitivity and/or persistent preferences), small differences in network-observed returns produce large differences in steady-state preferences. When $\mathcal{M}$ is small, the anchor dominates and preferences are approximately exogenous. When returns themselves respond to preferences, the full long-run multiplier is the matrix $(I - J)^{-1}\mu$ of Theorem~\ref{ch10:thm:formation_effect}, not the scalar $\mathcal{M}$.
 \end{definition}
 
-\begin{theorem}[Existence and Multiplicity]\label{ch10:thm:existence}
-Under regularity conditions (continuous $g$, bounded $h$, compact domain for $\boldsymbol{\theta}$):
+\begin{theorem}[Existence, Uniqueness, Multiplicity]\label{ch10:thm:existence}
 \begin{enumerate}
-\item At least one steady state exists (Brouwer's fixed-point theorem).
-\item The steady state is unique if the contraction condition holds:
-\begin{equation}\label{ch10:eq:contraction}
-\mathcal{M} \cdot \|W^I\| \cdot \max_j \left|\frac{\partial g_j}{\partial x_j} \cdot \frac{\partial h_j}{\partial \theta_j}\right| < 1.
-\end{equation}
-\item When the contraction condition fails (large $\mathcal{M}$, strong return complementarities, asymmetric $W^I$), multiple steady states can coexist.
+\item \textbf{Affine case} (the model of Definition~\ref{ch10:def:model}). $T(\boldsymbol{\theta}) = J\boldsymbol{\theta} + \mathbf{c}$. A steady state exists and is unique iff $1$ is not an eigenvalue of $J$. If $\rho(J) < 1$, it is globally asymptotically stable.
+\item \textbf{Nonlinear case.} If $\mathbf{g}\circ\mathbf{h}$ is continuous and $T$ maps a nonempty compact convex set $\Theta$ into itself (for instance, if the returns are bounded), a steady state exists (Brouwer). If, in addition, $\sup_{\boldsymbol{\theta}\in\Theta}\|DT(\boldsymbol{\theta})\| < 1$ for some induced matrix norm, the steady state in $\Theta$ is unique.
+\item \textbf{Multiplicity requires nonlinearity.} An affine map has zero, one, or a continuum of fixed points, never exactly two or three. Several isolated steady states can arise only when returns are nonlinear in preferences and the uniqueness condition in~(2) fails.
 \end{enumerate}
 \end{theorem}
 
-\begin{proof}[Proof sketch]
-(1) The map $\Phi$ is continuous on a compact convex subset of $\R^N_+$ (bounded preferences). Brouwer applies.
-
-(2) When the Jacobian satisfies $\|J - \rho I\| = \|\mu W^I G' H'\| < 1 - \rho$, the map $\Phi$ is a contraction. The Banach fixed-point theorem gives uniqueness. The condition~\eqref{ch10:eq:contraction} is $\|\mu W^I G' H'\|_\infty < 1 - \rho$, which rearranges to the stated form using $\|W^I\|_\infty = 1$ (row-stochastic) and bounding the operator norms.
-
-(3) When complementarities are strong ($\partial g_j / \partial x_j$ large --- high returns to high investment), the map $\Phi$ can have positive feedback: high $\theta$ produces high $x$, which produces high $r$, which produces even higher $\theta$. This generates multiple crossings of the 45-degree line.
+\begin{proof}
+(1) $\boldsymbol{\theta} = J\boldsymbol{\theta} + \mathbf{c}$ iff $(I - J)\boldsymbol{\theta} = \mathbf{c}$, which has a unique solution iff $I - J$ is nonsingular. If $\rho(J) < 1$, the deviations $\boldsymbol{\theta}_t - \boldsymbol{\theta}^* = J^t(\boldsymbol{\theta}_0 - \boldsymbol{\theta}^*) \to 0$ from any start. (2) Brouwer gives existence. On a convex set, the mean-value inequality gives $\|T(\boldsymbol{\theta}) - T(\boldsymbol{\theta}')\| \leq \sup\|DT\|\,\|\boldsymbol{\theta} - \boldsymbol{\theta}'\|$, so $T$ is a contraction and Banach's theorem gives uniqueness. (3) The solution set of $(I-J)\boldsymbol{\theta} = \mathbf{c}$ is empty, a point, or an affine subspace.
 \end{proof}
 
+A convenient sufficient condition for the uniqueness bound in the affine model uses $\|W^I\|_\infty = 1$, $\|C\|_\infty = \max_i(\beta_i + \gamma_i)$ and $\|P\|_\infty = 2(N-1)/N$:
+\begin{equation}\label{ch10:eq:contraction}
+\mu\phi\,\max_i(\beta_i + \gamma_i)\,\frac{2(N-1)}{N} < 1 - \rho \quad\Longrightarrow\quad \|J\|_\infty < 1.
+\end{equation}
+It includes the network spillover $\gamma$, and it is sufficient, not necessary.
 
-\subsection{The Egalitarian and Stratified Steady States}
 
-\begin{proposition}[Two Types of Steady States]\label{ch10:prop:two_types}
-In the formation model with $k$ blocks in $W^I$:
+\subsection{Integrated and Stratified Steady States}
+
+\begin{proposition}[Integrated and Stratified Steady States]\label{ch10:prop:two_types}
+Let $\boldsymbol{\theta}^*$ be a steady state with returns $\mathbf{r}^*$, and let $\tau_1(W^I) := \frac{1}{2}\max_{i,j}\sum_k |W^I_{ik} - W^I_{jk}|$ be the Dobrushin coefficient of $W^I$.
 \begin{enumerate}
-\item \textbf{Egalitarian steady state.} If $W^I$ has large cross-block entries (strong inter-block communication), the unique steady state has $\theta_i^* \approx \theta_j^*$ for all $i, j$: preferences are approximately uniform across blocks. The economy operates as a single entity.
-
-\item \textbf{Stratified steady state.} If $W^I$ is approximately block-diagonal (weak inter-block communication), each block $b$ converges to its own steady state $\theta_b^*$, with $\theta_b^*$ determined by $\bar{r}_b$ (the mean return within block $b$). The economy fragments into $k$ ``cultures'' --- groups with different preferences, each internally coherent and self-confirming.
+\item \textbf{Integration compresses preferences.} For all $i, j$:
+\begin{equation}\label{ch10:eq:dobrushin_bound}
+|\theta_i^* - \theta_j^*| \;\leq\; \mathcal{M}\,\tau_1(W^I)\,\big(\max_k r_k^* - \min_k r_k^*\big).
+\end{equation}
+If every agent's information row is similar ($\tau_1(W^I)$ small), steady-state preferences are nearly uniform, whatever the dispersion of returns.
+\item \textbf{Fragmentation stratifies preferences.} If $W^I$ is block-diagonal, each block's steady state depends only on its own returns (Proposition~\ref{ch09:thm:self_confirming}). The economy fragments into $k$ ``cultures'', each internally coherent.
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Bolivia: Three Blocks]\label{ch10:ex:bolivia_three}
-$N = 9$: three blocks of 3 agents each. Block~1 (gas/government): high productivity, $\alpha_1 = 0.2$, $\beta_1 = 0.15$. Block~2 (urban informal): medium, $\alpha_2 = 0.1$, $\beta_2 = 0.08$. Block~3 (rural traditional): low, $\alpha_3 = 0.05$, $\beta_3 = 0.03$. Parameters: $\rho = 0.85$, $\mu = 0.2$, $\bar{\theta}_0 = 1$, $r^* = 0.1$.
+\begin{proof}
+(1) By~\eqref{ch10:eq:steady_i}, $\theta_i^* - \theta_j^* = \mathcal{M}\sum_k (W^I_{ik} - W^I_{jk}) r_k^*$. The weights $W^I_{ik} - W^I_{jk}$ sum to zero, and their positive part sums to $\frac12\sum_k|W^I_{ik} - W^I_{jk}| \le \tau_1(W^I)$. Hence the sum is at most $\tau_1(W^I)(\max_k r_k^* - \min_k r_k^*)$ in absolute value. (2) As in Chapter~9.
+\end{proof}
 
-$W^I$ approximately block-diagonal: within-block weight 0.85, cross-block weight 0.025 each.
+Note the measure: what compresses preferences is how \textit{similar} the agents' information rows are ($\tau_1$). Since $|\lambda_2(W^I)| \le \tau_1(W^I)$, a large spectral gap $\Gamma(W^I)$ is necessary for $\tau_1$ to be small, but it is not sufficient.
+
+\begin{example}[Bolivia: Three Blocks \illustrative]\label{ch10:ex:bolivia_three}
+$N = 9$: three blocks of 3 agents each. Block~1 (gas/government), block~2 (urban informal), block~3 (rural traditional). All parameters are illustrative.
+\begin{itemize}
+\item Returns: $\alpha = (0.06, 0.04, 0.03)$ and $\beta = (0.10, 0.07, 0.04)$ by block; $\gamma_i = 0.02$ for all $i$.
+\item $W^P$: within-block input shares $0.94/3$ each, cross-block $0.01$ each.
+\item $W^I$: within-block weight $0.85/3$ each, cross-block $0.025$ each. Both are row-stochastic.
+\item Power (per agent): $\pi = (0.15, 0.11, 0.0733)$ by block, summing to 1. $N_{\text{eff}}(\boldsymbol{\pi}) = 8.34$.
+\item Allocation: $\omega_i = 0.5$, $\Phi = 4.5$ (so $\Omega = 9$, $\Omega/N = 1$), $\phi = 1$.
+\item Formation: $\rho = 0.85$, $\mu = 0.2$ ($\mathcal{M} = 1.33$), $\theta^{\circ} = 1$, $r^* = 0.1$.
+\end{itemize}
+The spectral radius is $\rho(J) = 0.866$, so the unique steady state is globally stable. Solving $(I - J)\boldsymbol{\theta}^* = \mathbf{c}$ (\texttt{code/ch10.py}):
 
 \textbf{Steady-state preferences:}
 \begin{center}
@@ -157,16 +186,16 @@ $W^I$ approximately block-diagonal: within-block weight 0.85, cross-block weight
 \toprule
 & Block 1 (Gas) & Block 2 (Urban) & Block 3 (Rural) \\
 \midrule
-Return $\bar{r}_b^*$ & 0.182 & 0.112 & 0.063 \\
-Preference $\theta_b^*$ & 1.109 & 1.016 & 0.951 \\
-Allocation $\bar{x}_b^*$ & 4.22 & 3.34 & 2.44 \\
+Return $\bar{r}_b^*$ & 0.209 & 0.129 & 0.076 \\
+Preference $\theta_b^*$ & 1.125 & 1.041 & 0.987 \\
+Allocation $\bar{x}_b^*$ & 1.249 & 0.985 & 0.766 \\
 \midrule
-Power $\bar{\pi}_b$ & 0.38 & 0.35 & 0.27 \\
+Power $\pi_i$ (per agent) & 0.150 & 0.110 & 0.073 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Three self-confirming cultures in one economy. The gas block is patient and ambitious ($\theta_1^* = 1.11$) because it observes high returns. The rural block is impatient and pessimistic ($\theta_3^* = 0.95$) because it observes low returns. The urban block is in between. All three are ``rational'' given their $W^I$ --- they form preferences consistent with the returns they observe. But the rural block's low returns are partly \textit{caused} by its low preferences, which are caused by its isolation in $W^I$.
+Three internally coherent cultures in one economy. The gas block is more patient and ambitious ($\theta_1^* = 1.12$) because it observes high returns. The rural block is less so ($\theta_3^* = 0.99$) because it observes low returns. The urban block is in between. Each block's preferences are consistent with the returns it observes. But the rural block's low returns are partly \textit{caused} by its low preferences (through $\phi$), which are partly caused by its isolation in $W^I$. The preference gap is $\theta_1^* - \theta_3^* = 0.137$. It attains the bound~\eqref{ch10:eq:dobrushin_bound} exactly ($\mathcal{M} = 1.33$, $\tau_1(W^I) = 0.775$, return range $0.133$), because returns are constant within blocks.
 \end{example}
 
 \begin{vizpanel}{Bolivia: three blocks, three steady states}
@@ -174,14 +203,14 @@ Three self-confirming cultures in one economy. The gas block is patient and ambi
 \begin{tikzpicture}[scale=1]
 \def\s{0.32}
 \def\N{9}
-%% W^I heatmap
+%% W^I heatmap: within-block 0.2833 -> 100, cross-block 0.025 -> 9 (normalized to max)
 \foreach \i in {1,...,\N} {
   \foreach \j in {1,...,\N} {
     \pgfmathparse{
-      (\i<=3 && \j<=3) ? 75 :
-      (\i>=4 && \i<=6 && \j>=4 && \j<=6) ? 65 :
-      (\i>=7 && \j>=7) ? 55 :
-      5
+      (\i<=3 && \j<=3) ? 100 :
+      (\i>=4 && \i<=6 && \j>=4 && \j<=6) ? 100 :
+      (\i>=7 && \j>=7) ? 100 :
+      9
     }
     \edef\bp{\pgfmathresult}
     \fill[blue!\bp, draw=white, line width=0.08pt]
@@ -192,34 +221,34 @@ Three self-confirming cultures in one economy. The gas block is patient and ambi
 
 %% Preference bars
 \begin{scope}[xshift=4.5cm]
-\foreach \k/\val/\lab in {1/1.11/Gas,2/1.11/,3/1.11/,4/1.02/Urban,5/1.02/,6/1.02/,7/0.95/Rural,8/0.95/,9/0.95/} {
+\foreach \k/\val/\lab in {1/1.125/Gas,2/1.125/,3/1.125/,4/1.041/Urban,5/1.041/,6/1.041/,7/0.987/Rural,8/0.987/,9/0.987/} {
   \pgfmathparse{\val*60}
   \edef\bp{\pgfmathresult}
   \fill[blue!\bp] (0, {(9-\k)*0.28}) rectangle ({\val*2.2}, {(9-\k)*0.28+0.22});
-  \ifnum\k=1 \node[font=\tiny, right] at ({\val*2.2+0.05}, {(9-\k)*0.28+0.11}) {\lab: $\theta^*=1.11$};\fi
-  \ifnum\k=4 \node[font=\tiny, right] at ({\val*2.2+0.05}, {(9-\k)*0.28+0.11}) {\lab: $\theta^*=1.02$};\fi
-  \ifnum\k=7 \node[font=\tiny, right] at ({\val*2.2+0.05}, {(9-\k)*0.28+0.11}) {\lab: $\theta^*=0.95$};\fi
+  \ifnum\k=1 \node[font=\tiny, right] at ({\val*2.2+0.05}, {(9-\k)*0.28+0.11}) {\lab: $\theta^*=1.12$};\fi
+  \ifnum\k=4 \node[font=\tiny, right] at ({\val*2.2+0.05}, {(9-\k)*0.28+0.11}) {\lab: $\theta^*=1.04$};\fi
+  \ifnum\k=7 \node[font=\tiny, right] at ({\val*2.2+0.05}, {(9-\k)*0.28+0.11}) {\lab: $\theta^*=0.99$};\fi
 }
 \draw[red, dashed, thin] ({1.0*2.2}, 0) -- ({1.0*2.2}, 2.6);
-\node[font=\tiny, red] at ({1.0*2.2}, 2.75) {$\bar{\theta}_0$};
+\node[font=\tiny, red] at ({1.0*2.2}, 2.75) {$\theta^{\circ}$};
 \node[below, font=\scriptsize\bfseries] at (1.5, -0.15) {$\boldsymbol{\theta}^*$};
 \end{scope}
 
 %% Allocation bars
-\begin{scope}[xshift=9cm]
-\foreach \k/\val in {1/4.22,2/4.22,3/4.22,4/3.34,5/3.34,6/3.34,7/2.44,8/2.44,9/2.44} {
-  \pgfmathparse{\val*15}
+\begin{scope}[xshift=9.6cm]
+\foreach \k/\val in {1/1.249,2/1.249,3/1.249,4/0.985,5/0.985,6/0.985,7/0.766,8/0.766,9/0.766} {
+  \pgfmathparse{\val*50}
   \edef\bp{\pgfmathresult}
-  \fill[blue!\bp] (0, {(9-\k)*0.28}) rectangle ({\val*0.55}, {(9-\k)*0.28+0.22});
+  \fill[blue!\bp] (0, {(9-\k)*0.28}) rectangle ({\val*1.8}, {(9-\k)*0.28+0.22});
 }
-\draw[red, dashed, thin] ({3.33*0.55}, 0) -- ({3.33*0.55}, 2.6);
-\node[font=\tiny, red] at ({3.33*0.55}, 2.75) {$\Omega/N$};
+\draw[red, dashed, thin] ({1.0*1.8}, 0) -- ({1.0*1.8}, 2.6);
+\node[font=\tiny, red] at ({1.0*1.8}, 2.75) {$\Omega/N$};
 \node[below, font=\scriptsize\bfseries] at (1.0, -0.15) {$\x^*$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Left: $W^I$ with three blocks (gas, urban, rural). Center: steady-state preferences --- the gas block is above the anchor (red), the rural block below. Right: steady-state allocations --- the gas block gets 27\% more than equal division, the rural block 27\% less. The preference gap amplifies the power gap: structure produces preferences that produce inequality.
+\small Left: $W^I$ with three blocks (gas, urban, rural). Center: steady-state preferences --- the gas block lies above the anchor (red), the rural block below. Right: steady-state allocations --- the gas block gets 25\% more than equal division, the rural block 23\% less. Power and preferences push in the same direction: the structure produces preferences that widen the allocation gap produced by power.
 \end{vizpanel}
 
 
@@ -231,33 +260,43 @@ Three self-confirming cultures in one economy. The gas block is patient and ambi
 \subsection{Local Stability}
 
 \begin{theorem}[Local Stability]\label{ch10:thm:stability}
-A steady state $\boldsymbol{\theta}^*$ is locally stable if and only if all eigenvalues of the Jacobian $J = D\Phi(\boldsymbol{\theta}^*)$ have modulus less than 1: $\rho(J) < 1$.
+Let $T$ be continuously differentiable near a steady state $\boldsymbol{\theta}^*$, with Jacobian $J = DT(\boldsymbol{\theta}^*)$. If $\rho(J) < 1$, then $\boldsymbol{\theta}^*$ is locally asymptotically stable. If $\rho(J) > 1$, it is unstable. (If $\rho(J) = 1$, the linearization is inconclusive.)
 \end{theorem}
 
-\begin{proposition}[Stability Conditions]\label{ch10:prop:stability_cond}
-The spectral radius of $J = \rho I + \mu W^I G' H'$ is bounded by:
-\begin{equation}\label{ch10:eq:spectral_bound}
-\rho(J) \leq \rho + \mu \cdot \rho(W^I) \cdot \max_j \left|\frac{\partial g_j}{\partial x_j}\right| \cdot \max_j \left|\frac{\partial h_j}{\partial \theta_j}\right|.
-\end{equation}
+\begin{proof}
+For $\rho(J) < 1$, see the proof of Proposition~\ref{ch09:thm:hysteresis}. For $\rho(J) > 1$, this is the standard linearized-instability theorem for maps: a perturbation with a component on an eigenvector with $|\lambda| > 1$ grows locally.
+\end{proof}
 
-Stability ($\rho(J) < 1$) requires:
-\begin{equation}\label{ch10:eq:stability_condition}
-\mu \cdot \rho(W^I) \cdot \beta_{\text{eff}} \cdot \eta_{\text{eff}} < 1 - \rho,
+\begin{proposition}[A Sufficient Condition for Stability]\label{ch10:prop:stability_cond}
+For any induced matrix norm, $\rho(J) \leq \|J\|$. With the $\infty$-norm, in the affine model,
+\begin{equation}\label{ch10:eq:spectral_bound}
+\rho(J) \;\leq\; \rho + \mu\phi\,\|W^I\|_\infty\,\|C\|_\infty\,\|P\|_\infty \;=\; \rho + \mu\phi\,\max_i(\beta_i + \gamma_i)\,\frac{2(N-1)}{N}.
 \end{equation}
-where $\beta_{\text{eff}} = \max_j |\partial g_j / \partial x_j|$ (maximum return sensitivity) and $\eta_{\text{eff}} = \max_j |\partial h_j / \partial \theta_j|$ (maximum preference-to-allocation sensitivity).
+Hence stability \textit{follows from}
+\begin{equation}\label{ch10:eq:stability_condition}
+\mu\phi\,\max_i(\beta_i + \gamma_i)\,\frac{2(N-1)}{N} < 1 - \rho.
+\end{equation}
+The condition is sufficient, not necessary.
 \end{proposition}
 
+\begin{proof}
+Induced norms are submultiplicative and dominate the spectral radius. We have $\|W^I\|_\infty = 1$, because $W^I$ is row-stochastic, and
+\[
+\|C\|_\infty = \max_i\Big(\beta_i + \gamma_i\sum_j W^P_{ij}\Big) = \max_i(\beta_i + \gamma_i), \qquad \|P\|_\infty = \Big(1 - \frac1N\Big) + \frac{N-1}{N}.
+\]
+\end{proof}
+
+Note that the spectral radius of a product cannot be bounded by the product of spectral radii, which is why the bound uses norms. In Example~\ref{ch10:ex:bolivia_three} the bound gives $\rho(J) \leq 0.893$; the actual value is $0.866$.
+
 \begin{intuition}[When is the steady state unstable?]
-The stability condition says: the total feedback through the loop must be weaker than the damping from preference persistence. The loop has four links:
+The loop has four links:
 
 $\mu$: How strongly signals shift preferences.\\
-$\rho(W^I)$: How strongly the network amplifies signals (= 1 for row-stochastic).\\
-$\beta_{\text{eff}}$: How strongly investment produces returns.\\
-$\eta_{\text{eff}}$: How strongly preferences translate into investment.
+$W^I$: How the signals are averaged (it never amplifies: $\|W^I\|_\infty = 1$).\\
+$\beta, \gamma$: How strongly resources produce returns, directly and through suppliers.\\
+$\phi$: How strongly (relative) preferences translate into resources.
 
-If the product $\mu \cdot \beta_{\text{eff}} \cdot \eta_{\text{eff}}$ exceeds $1 - \rho$, the loop amplifies rather than dampens. A positive shock to $\theta$ produces high $x$, which produces high $r$, which produces an even larger increase in $\theta$. The system explodes away from the steady state toward a different one (or toward a corner).
-
-This is the formal content of ``virtuous circle'' and ``vicious circle'' in development: the same feedback loop either amplifies success or amplifies failure, depending on the initial condition.
+If the total feedback through the loop is weaker than the damping from persistence ($1 - \rho$), the steady state is stable. If the loop gain at a steady state exceeds the damping in the sense $\rho(J) > 1$, a positive shock to a block's relative $\theta$ produces higher $x$, higher $r$, and an even larger increase in $\theta$. The system then moves away from that steady state toward another one (or toward a corner). This is one formal reading of ``virtuous circle'' and ``vicious circle'' in development. By Proposition~\ref{ch10:prop:jacobian}(3), the circles are relative, between groups.
 \end{intuition}
 
 
@@ -268,27 +307,47 @@ When multiple steady states exist, the \textbf{basin of attraction} of each dete
 \begin{definition}[Basin of Attraction]\label{ch10:def:basin}
 The basin of attraction of steady state $\boldsymbol{\theta}^*$ is:
 \begin{equation}
-\mathcal{B}(\boldsymbol{\theta}^*) = \left\{\boldsymbol{\theta}_0 \in \R^N_+ : \lim_{t \to \infty} \Phi^t(\boldsymbol{\theta}_0) = \boldsymbol{\theta}^*\right\}.
+\mathcal{B}(\boldsymbol{\theta}^*) = \left\{\boldsymbol{\theta}_0 : \lim_{t \to \infty} T^t(\boldsymbol{\theta}_0) = \boldsymbol{\theta}^*\right\}.
 \end{equation}
 \end{definition}
 
-\begin{proposition}[Basin Structure with Block-Diagonal $W^I$]\label{ch10:prop:basin}
-If $W^I$ is block-diagonal with $k$ blocks and the return function has complementarities ($\partial^2 g_j / \partial x_j \partial \bar{x}_b > 0$), then:
+Multiple steady states need nonlinear returns (Theorem~\ref{ch10:thm:existence}(3)). The cleanest case is a single block, or one agent whose own preference drives her own returns, so that the dynamics reduce to a scalar map $\theta_{t+1} = T(\theta_t)$. In the full model a small block's own $\theta$ raises its own allocation by $\phi(1 - 1/N) \approx \phi$, so $r = g(\theta)$ is a reduced form of $g \circ h$.
+
+\begin{proposition}[Basin Structure for a Scalar Block]\label{ch10:prop:basin}
+Let $T: \R \to \R$ be continuous and strictly increasing, with exactly three fixed points $\theta_L < \theta_U < \theta_H$, such that $T(\theta) > \theta$ for $\theta < \theta_L$, $T(\theta) < \theta$ on $(\theta_L, \theta_U)$, $T(\theta) > \theta$ on $(\theta_U, \theta_H)$, and $T(\theta) < \theta$ for $\theta > \theta_H$. Then:
 \begin{enumerate}
-\item Each block $b$ has (at least) two stable steady states: $\theta^*_{b,\text{high}}$ (the ``modern'' equilibrium) and $\theta^*_{b,\text{low}}$ (the ``traditional'' equilibrium).
-\item The basin boundary within each block is a threshold $\hat{\theta}_b$: initial preferences above $\hat{\theta}_b$ converge to $\theta^*_{b,\text{high}}$; initial preferences below converge to $\theta^*_{b,\text{low}}$.
-\item The threshold $\hat{\theta}_b$ depends on $\bar{r}_b$: blocks with higher baseline returns have lower thresholds (it is easier to ``escape'' into the high equilibrium).
+\item $\theta_L$ and $\theta_H$ are stable, with basins $(-\infty, \theta_U)$ and $(\theta_U, \infty)$; $\theta_U$ is the basin boundary.
+\item If $T$ is differentiable and depends on a parameter $a$ (e.g.\ the baseline return) with $\partial T/\partial a > 0$, and $T'(\theta_U) > 1$, then the threshold falls as $a$ rises: $d\theta_U/da = -(\partial T/\partial a)/(T'(\theta_U) - 1) < 0$. Higher baseline returns make escape easier.
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Poverty Trap as a Low-$\theta$ Basin]\label{ch10:ex:trap}
-$N = 2$ (one agent per block). Returns: $r_i = 0.05 + 0.1\theta_i + 0.05\theta_i^2$ (convex in $\theta$ --- education has increasing returns). $\rho = 0.85$, $\mu = 0.25$, $\bar{\theta}_0 = 1$, $r^* = 0.1$.
+\begin{proof}
+(1) An increasing map on the line generates monotone trajectories. Starting in $(\theta_L, \theta_U)$, $T(\theta) < \theta$, and since $T$ is increasing, $T(\theta) > T(\theta_L) = \theta_L$; the trajectory decreases and is bounded below by $\theta_L$, so it converges to a fixed point in $[\theta_L, \theta)$, which can only be $\theta_L$. The other intervals are analogous. (2) Implicit function theorem applied to $T(\theta, a) - \theta = 0$ at $\theta_U$.
+\end{proof}
 
-The formation map $\Phi(\theta) = 0.85\theta + 0.15 + 0.25(0.05 + 0.1\theta + 0.05\theta^2 - 0.1)$ has three fixed points: $\theta^*_{\text{low}} = 0.78$, $\theta^*_{\text{unstable}} = 1.02$, $\theta^*_{\text{high}} = 1.35$.
+\begin{example}[Poverty Trap as a Low-$\theta$ Basin \illustrative]\label{ch10:ex:trap}
+One block with S-shaped (logistic) returns in its own aspiration:
+\[
+r(\theta) = 0.04 + \frac{0.18}{1 + e^{-25(\theta - 1)}},
+\]
+which rises from 0.04 to 0.22. Learning a little yields little; past a threshold, returns rise steeply; then they saturate. Formation: $\rho = 0.85$, $\mu = 0.25$, $\theta^{\circ} = 1$, $r^* = 0.12$.
 
-The basin boundary is $\hat{\theta} = 1.02$. Agents who start below 1.02 converge to the poverty trap ($\theta^* = 0.78$: low aspiration, low investment, low returns). Agents who start above converge to the prosperity equilibrium ($\theta^* = 1.35$: high aspiration, high investment, high returns).
+The map $T(\theta) = 0.85\theta + 0.15 + 0.25\,(r(\theta) - 0.12)$ has three fixed points (computed numerically in \texttt{code/ch10.py}):
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& $\theta^*_{\text{low}}$ & $\theta^*_{\text{unstable}}$ & $\theta^*_{\text{high}}$ \\
+\midrule
+Fixed point & 0.881 & 0.980 & 1.162 \\
+Slope $T'(\theta^*)$ & 0.902 & 1.115 & 0.869 \\
+Return $r(\theta^*)$ & 0.049 & 0.108 & 0.217 \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-The distance between the trap and the boundary: $\hat{\theta} - \theta^*_{\text{low}} = 0.24$. This is the ``aspiration gap'' that must be bridged for an agent to escape. In the formation model, a one-time intervention that raises $\theta$ by 0.24 (e.g., the Bernard et al.\ aspiration documentary, a scholarship, a mentor program) can permanently shift the trajectory from the poverty trap to the prosperity equilibrium.
+The basin boundary is $\hat{\theta} = 0.980$ (Proposition~\ref{ch10:prop:basin}). Agents who start below it converge to the poverty trap ($\theta^* = 0.881$: low aspiration, low returns). Agents who start above converge to the high steady state ($\theta^* = 1.162$).
+
+The distance between the trap and the boundary, $\hat{\theta} - \theta^*_{\text{low}} = 0.099$, is the ``aspiration gap'' that must be bridged to escape. In the model, a one-time intervention that raises $\theta$ by more than 0.099 (an aspiration documentary, a scholarship, a mentor program) permanently shifts the trajectory to the high steady state; a smaller one decays back to the trap. Here the contraction condition fails: $\mu \max r' = 0.28 > 1 - \rho = 0.15$. Uniqueness is guaranteed only for $\mu < 0.133$, and three steady states appear for $\mu$ above about $0.188$ (Appendix~10B).
 \end{example}
 
 
@@ -299,82 +358,64 @@ The distance between the trap and the boundary: $\hat{\theta} - \theta^*_{\text{
 
 \subsection{Formal Derivation}
 
-Consider a structural change $\Delta W$ that modifies the weight matrix. The total effect on allocations has two components.
+This section computes the objects of Definition~\ref{ch09:def:psi} inside the formation model. A permanent perturbation (of $W^P$, $W^I$ or $\boldsymbol{\omega}$) is applied at $t = 0$ to an economy at steady state $\boldsymbol{\theta}^0$. Let $T_{\text{new}}$ be the new map and $J_{\text{new}}$ its Jacobian.
 
-\begin{theorem}[Enforcement-Formation Decomposition]\label{ch10:thm:decomposition}
-The total change in steady-state allocation from a structural change $\Delta W$:
-\begin{equation}\label{ch10:eq:decomposition}
-\Delta x_i^* = \underbrace{\frac{\partial h_i}{\partial W}\bigg|_{\boldsymbol{\theta}^*} \Delta W}_{\text{enforcement } (E_i)} + \underbrace{\frac{\partial h_i}{\partial \theta_i} \cdot \Delta\theta_i^*}_{\text{formation } (F_i)},
-\end{equation}
-where $\Delta\theta_i^*$ is the change in steady-state preference induced by $\Delta W$ through the formation loop.
-\end{theorem}
-
-The enforcement effect $E_i$ is the immediate response at fixed preferences: the standard model's prediction. The formation effect $F_i$ is the additional response from the long-run preference adjustment.
-
-\begin{theorem}[The Formation Effect via the Implicit Function Theorem]\label{ch10:thm:formation_effect}
-At a stable steady state with $\rho(J) < 1$:
+\begin{theorem}[The Formation Effect]\label{ch10:thm:formation_effect}
+Define the \textbf{signal shock} $\mu\Delta\mathbf{s} := T_{\text{new}}(\boldsymbol{\theta}^0) - \boldsymbol{\theta}^0$: the change in next generation's preferences produced by the new structure at the old preferences. In the affine model, if $\rho(J_{\text{new}}) < 1$,
 \begin{equation}\label{ch10:eq:delta_theta}
-\Delta\boldsymbol{\theta}^* = (I - J)^{-1} \cdot \mu \cdot \Delta(W^I \mathbf{g}),
+\boldsymbol{\theta}_T - \boldsymbol{\theta}^0 = \left(I - J_{\text{new}}^T\right)(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}, \qquad
+\Delta\boldsymbol{\theta}^* := \boldsymbol{\theta}_\infty - \boldsymbol{\theta}^0 = (I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}.
 \end{equation}
-where $\Delta(W^I\mathbf{g})$ is the change in the formation signal induced by $\Delta W$. The matrix $(I - J)^{-1}$ is the \textbf{formation Leontief inverse}: it sums all rounds of the formation feedback loop, analogous to $(I - A)^{-1}$ in the production cascade.
+With nonlinear returns the same formulas hold to first order in the size of the perturbation. The matrix $(I - J)^{-1}$ is the \textbf{formation Leontief inverse}: it sums all rounds of the formation feedback loop, analogous to $(I - A')^{-1}$ in the production cascade.
 \end{theorem}
 
 \begin{proof}
-At steady state: $\boldsymbol{\theta}^* = \rho\boldsymbol{\theta}^* + (1-\rho)\bar{\theta}_0\ones + \mu(W^I\mathbf{g}^* - r^*\ones)$. Differentiating with respect to $W$: $\Delta\boldsymbol{\theta}^* = \rho\Delta\boldsymbol{\theta}^* + \mu\Delta(W^I\mathbf{g}^*) + \mu W^I G' H' \Delta\boldsymbol{\theta}^*$. Collecting terms: $(I - \rho I - \mu W^I G' H')\Delta\boldsymbol{\theta}^* = \mu\Delta(W^I\mathbf{g}^*)$, i.e., $(I - J)\Delta\boldsymbol{\theta}^* = \mu\Delta(W^I\mathbf{g}^*)$. Since $\rho(J) < 1$, $(I-J)$ is invertible.
+Let $\mathbf{d}_t = \boldsymbol{\theta}_t - \boldsymbol{\theta}^0$. Since $T_{\text{new}}$ is affine, $\mathbf{d}_{t+1} = T_{\text{new}}(\boldsymbol{\theta}^0 + \mathbf{d}_t) - \boldsymbol{\theta}^0 = J_{\text{new}}\mathbf{d}_t + \mu\Delta\mathbf{s}$, with $\mathbf{d}_0 = 0$. Hence $\mathbf{d}_T = \sum_{k=0}^{T-1}J_{\text{new}}^k\mu\Delta\mathbf{s} = (I - J_{\text{new}}^T)(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$, which tends to $(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$ when $\rho(J_{\text{new}}) < 1$. In the nonlinear case, linearize $T_{\text{new}}$ at $\boldsymbol{\theta}^0$.
+\end{proof}
+
+\begin{corollary}[Enforcement and Formation in the Model]\label{ch10:thm:decomposition}
+For an outcome $\mathbf{y}$ that is affine in $\boldsymbol{\theta}$ with $D_{\boldsymbol{\theta}}\mathbf{y} = Y$ (e.g.\ $Y = \phi P$ for allocations, $Y = C\phi P$ for returns), Definition~\ref{ch09:def:psi} gives
+\begin{equation}\label{ch10:eq:decomposition}
+E_i = y_i(\boldsymbol{\theta}^0, W + \Delta W) - y_i(\boldsymbol{\theta}^0, W), \qquad
+F_i(T) = \Big[Y\,(I - J_{\text{new}}^T)(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}\Big]_i.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Substitute Theorem~\ref{ch10:thm:formation_effect} into Definition~\ref{ch09:def:psi}: $F_i = y_i(\boldsymbol{\theta}_T, \cdot) - y_i(\boldsymbol{\theta}^0, \cdot) = [Y(\boldsymbol{\theta}_T - \boldsymbol{\theta}^0)]_i$.
 \end{proof}
 
 \begin{intuition}[The formation Leontief inverse]
-The matrix $(I - J)^{-1} = I + J + J^2 + J^3 + \cdots$ sums the direct signal ($I$), the first-round feedback ($J$: higher $\theta$ produces higher $r$, which raises $\theta$ further), the second-round feedback ($J^2$), and so on. Just as the production Leontief inverse amplifies demand shocks through the production network, the formation Leontief inverse amplifies preference signals through the formation loop.
+The matrix $(I - J)^{-1} = I + J + J^2 + J^3 + \cdots$ sums the direct signal ($I$), the first-round feedback ($J$: higher relative $\theta$ produces higher $r$, which raises $\theta$ further), the second-round feedback ($J^2$), and so on. Just as the production Leontief inverse amplifies demand shocks through the production network, the formation Leontief inverse amplifies preference signals through the formation loop. The factor $(I - J^T)$ in~\eqref{ch10:eq:delta_theta} records that only $T$ rounds have occurred by generation $T$.
 
-When the spectral radius $\rho(J)$ is close to 1 (near the stability boundary), the formation Leontief inverse is large: small signals produce enormous long-run preference changes. The economy is on the edge of a trap --- a small push can tip it from one basin to another.
+When the spectral radius $\rho(J)$ is close to 1 (near the stability boundary), the formation Leontief inverse is large: small signals produce large long-run preference changes --- but they take many generations to arrive.
 \end{intuition}
 
 
-\subsection{The $\Psi$ Ratio}
+\subsection{The $\Psi$ Ratio in a One-Loop Model}
 
-\begin{definition}[The $\Psi$ Ratio]\label{ch10:def:psi}
-For agent $i$, the $\Psi$ ratio is:
-\begin{equation}\label{ch10:eq:psi}
-\Psi_i = \frac{F_i}{E_i} = \frac{\text{formation effect}}{\text{enforcement effect}}.
-\end{equation}
+The general $\Psi_i(\Delta W, T)$ of Definition~\ref{ch09:def:psi} is computed from Corollary~\ref{ch10:thm:decomposition}. A closed form is available when the loop reduces to a scalar.
 
-For the aggregate economy:
-\begin{equation}\label{ch10:eq:psi_agg}
-\bar{\Psi} = \frac{\sum_i |F_i|}{\sum_i |E_i|}.
-\end{equation}
-\end{definition}
-
-\begin{proposition}[The $\Psi$ Ratio in the LQ Model]\label{ch10:prop:psi_lq}
-In the LQ bargaining model with linear returns:
+\begin{proposition}[The $\Psi$ Ratio in a One-Loop Model]\label{ch10:prop:psi_lq}
+Consider one agent (or a block treated as one agent) with outcome $x = e + \eta\theta$, return $r = \alpha + \beta x$, and the formation equation~\eqref{ch10:eq:formation}. A permanent policy shifts $e$ by $\Delta e \neq 0$. Let $\kappa := \mu\beta\eta$ and $\lambda := \rho + \kappa < 1$. Then
 \begin{equation}\label{ch10:eq:psi_formula}
-\bar{\Psi} = \frac{\mu \beta_{\text{eff}} \eta_{\text{eff}}}{(1-\rho) - \mu\beta_{\text{eff}}\eta_{\text{eff}}\rho(W^I W^P)}.
+\Psi(T) = \kappa\,\frac{1 - \lambda^T}{1 - \lambda}, \qquad \Psi(\infty) = \frac{\mu\beta\eta}{1 - \rho - \mu\beta\eta}.
 \end{equation}
-
-Three limiting cases:
+Limiting cases:
 \begin{enumerate}
-\item $\mu = 0$ (no formation sensitivity): $\Psi = 0$. The standard model is correct.
-\item $\rho \to 0$ (no persistence): $\Psi \to \frac{\mu\beta_{\text{eff}}\eta_{\text{eff}}}{1 - \mu\beta_{\text{eff}}\eta_{\text{eff}}\rho(W^IW^P)}$. Formation effect is moderate.
-\item $\rho \to 1$ (maximum persistence): $\Psi \to \infty$. The formation effect dominates everything. Near the stability boundary, the formation Leontief inverse diverges.
+\item $\mu = 0$ (no formation sensitivity): $\Psi \equiv 0$. The benchmark model is complete.
+\item $\rho \to 0$ (no persistence): $\Psi(\infty) \to \frac{\mu\beta\eta}{1 - \mu\beta\eta}$.
+\item $\lambda \uparrow 1$, i.e.\ $\rho \uparrow 1 - \mu\beta\eta$ (the stability boundary): $\Psi(\infty) \to \infty$. But at any finite horizon $\Psi(T) \le \kappa T$: a near-unit root makes the long-run formation effect large \textit{and} slow. For $\rho > 1 - \mu\beta\eta$ the steady state is unstable and $\Psi(\infty)$ is not defined.
 \end{enumerate}
 \end{proposition}
 
-\begin{prebisch}[The magnitude of $\Psi$]
-The $\Psi$ ratio tells us whether the standard model is missing the dominant channel. Empirical estimates (Chapter~11) suggest:
-\begin{center}
-\begin{tabular}{lcc}
-\toprule
-Application & $\hat{\Psi}$ & Implication \\
-\midrule
-Female LFP (US, 20th century) & $\approx 2.1$ & Formation dominant \\
-Savings (cross-country) & $\approx 1.3$ & Formation $>$ enforcement \\
-Education (sub-Saharan Africa) & $\approx 0.8$ & Comparable \\
-Risk-taking (post-crisis) & $\approx 0.5$ & Enforcement dominant \\
-\bottomrule
-\end{tabular}
-\end{center}
+\begin{proof}
+$E = \Delta e$. At $\theta^0$ the signal shock is $\mu\beta\Delta e$ and the scalar Jacobian is $\lambda$. By Theorem~\ref{ch10:thm:formation_effect}, $\theta_T - \theta^0 = \mu\beta\Delta e\,(1 - \lambda^T)/(1 - \lambda)$, and $F = \eta(\theta_T - \theta^0)$. The bound uses $(1 - \lambda^T)/(1 - \lambda) = \sum_{k<T}\lambda^k \le T$ for $0 \le \lambda \le 1$.
+\end{proof}
 
-For female labor supply, the standard model (prices and constraints only) captures less than one-third of the total effect. Two-thirds come from the formation channel: the change in norms, aspirations, and perceived returns that the structural change induced over time. Any policy evaluation that ignores this channel underestimates the long-run impact by a factor of three.
-\end{prebisch}
+\begin{intuition}[The magnitude of $\Psi$]
+By Remark~\ref{ch09:rem:psi}, an evaluation that ignores formation captures the share $1/(1+\Psi)$ of the effect at horizon $T$. With $\Psi(\infty) = 2$, it captures one third of the long-run effect; with $\Psi = 0.1$, it captures 91\%. Which case obtains is an empirical question about a \textit{specific} perturbation and outcome. Chapter~11 shows that the statistics usually reported in the literature are related to, but not the same as, $\Psi$. This chapter therefore uses only model-computed values.
+\end{intuition}
 
 
 %% =====================================================================
@@ -384,76 +425,67 @@ For female labor supply, the standard model (prices and constraints only) captur
 
 \subsection{Three Policy Levers}
 
-The formation model distinguishes three types of structural intervention, each operating on a different component of the system.
+The formation model distinguishes three types of structural intervention, each operating on a different component of the system. Throughout, $\boldsymbol{\pi}$ is held fixed (it belongs to the bargaining layer, which none of the three levers touches).
 
 \begin{proposition}[Three Policy Levers]\label{ch10:prop:levers}
+Take the outcome to be returns, $y = \mathbf{r}$.
 \begin{enumerate}
-\item \textbf{Transfers} change $\boldsymbol{\omega}$. Effect: $\Delta\x^*$ through the bargaining equilibrium at fixed $(\boldsymbol{\pi}, \boldsymbol{\theta})$. No formation effect ($\Psi = 0$ for transfers, because transfers do not change $W^I$ and therefore do not change the formation signal). The Transfer Trap from Chapter~2.
-
-\item \textbf{Structural policy} changes $W$ (e.g., building a road, opening a market, industrial policy). Effect: $\Delta\boldsymbol{\pi}$ (changes power) and $\Delta\mathbf{r}$ (changes returns). Formation effect exists: $\Psi > 0$, because new returns are observed through $W^I$ and eventually shift preferences.
-
-\item \textbf{Information policy} changes $W^I$ (e.g., expanding internet access, education reform, media regulation). Effect: does not change power or returns directly, but changes the \textit{signals agents observe}, which changes the formation equation. Formation effect is maximal: $\Psi$ can be large because the entire formation channel is activated.
+\item \textbf{Transfers} change $\boldsymbol{\omega}$. Enforcement: $E = C\Delta\boldsymbol{\omega}$, since allocations move one-for-one at fixed $\boldsymbol{\theta}$. Formation: the signal shock is $\mu\Delta\mathbf{s} = \mu W^I C\Delta\boldsymbol{\omega}$, which is first order. Transfers do have a formation effect, transmitted through the returns that others observe, and it is small when $\phi$, $\beta$ and $\gamma$ are small.
+\item \textbf{Structural policy} changes $W^P$ (a road, a supplier program, industrial policy). Enforcement: $E = \operatorname{diag}(\boldsymbol{\gamma})\Delta W^P\x^0$. Formation: $\mu\Delta\mathbf{s} = \mu W^I\operatorname{diag}(\boldsymbol{\gamma})\Delta W^P\x^0$.
+\item \textbf{Information policy} changes $W^I$ (internet access, school exchange, mentor networks, media regulation). At fixed $\boldsymbol{\theta}$ neither allocations nor returns change, so $E = 0$ and $\Psi$ is \textit{undefined}. The whole effect is formation: $\mu\Delta\mathbf{s} = \mu\,\Delta W^I\,\mathbf{r}^0$.
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Bolivia: Three Policies Compared]\label{ch10:ex:policies}
-Using Example~\ref{ch10:ex:bolivia_three}. Policy goal: reduce the preference gap between the gas block and the rural block.
+\begin{proof}
+Differentiate~\eqref{ch10:eq:bargaining}--\eqref{ch10:eq:formation} at fixed $\boldsymbol{\theta}^0$, and use Theorem~\ref{ch10:thm:formation_effect}.
+\end{proof}
 
-\textbf{Policy A --- Transfer.} Move 1 unit of endowment from gas block to rural block. $\Delta\omega_{\text{gas}} = -1$, $\Delta\omega_{\text{rural}} = +1$.
+Evidence that transfers shift aspirations and investment beyond their direct effect --- especially when the beneficiaries' reference groups are treated too --- includes Macours and Vakis (2014, \textit{EJ}) and Macours, Schady and Vakis (2012, \textit{AEJ: Applied}) on a Nicaraguan cash-transfer program.
+
+\begin{example}[Bolivia: Three Policies Compared \illustrative]\label{ch10:ex:policies}
+Use Example~\ref{ch10:ex:bolivia_three}. Policy goal: reduce the preference gap between the gas block and the rural block (initially $0.137$). The outcome for $\Psi$ is returns; the aggregate ratio $\bar{\Psi}$ is used throughout.
+
+\textbf{Policy A --- Transfer.} Move $0.1$ of endowment from each gas agent to each rural agent.
+
+\textbf{Policy B --- Structural.} Raise cross-block production links between gas and rural agents from $0.01$ to $0.08$ each, lowering the within-block shares of those blocks to $0.73/3$ to keep $W^P$ row-stochastic.
+
+\textbf{Policy C --- Information.} Rural agents' weight on each gas agent rises from $0.025$ to $0.075$, and their own-block weight falls from $0.85$ to $0.70$ (a targeted media program, school exchange, or mentor network).
+
 \begin{center}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \toprule
-& $\Delta\theta^*_{\text{gas}}$ & $\Delta\theta^*_{\text{rural}}$ & $\Delta(\theta_1 - \theta_3)$ & $\Psi$ \\
+& $\Delta\theta^*_{\text{gas}}$ & $\Delta\theta^*_{\text{rural}}$ & $\Delta(\theta_1 - \theta_3)$ & $\bar{\Psi}(\infty)$ & $\bar{\Psi}(1)$ \\
 \midrule
-Transfer only & 0 & 0 & 0 & 0 \\
+A: Transfer & $-0.014$ & $+0.006$ & $-0.020$ (15\%) & 0.12 & 0.02 \\
+B: Structural & $-0.002$ & $+0.002$ & $-0.005$ (3\%) & 0.09 & 0.01 \\
+C: Information & $-0.001$ & $+0.027$ & $-0.028$ (21\%) & undefined & undefined \\
 \bottomrule
 \end{tabular}
 \end{center}
-No effect on preferences. The transfer changes the current allocation but not the formation signal (agents observe the same $W^I$-weighted returns, which change only through $\omega$'s effect on $r$ --- a second-order effect in the LQ model).
 
-\textbf{Policy B --- Structural.} Increase cross-block production linkages: $W^P_{\text{gas, rural}} = 0.01 \to 0.08$, $W^P_{\text{rural, gas}} = 0.01 \to 0.08$.
-\begin{center}
-\begin{tabular}{lcccc}
-\toprule
-& $\Delta\theta^*_{\text{gas}}$ & $\Delta\theta^*_{\text{rural}}$ & $\Delta(\theta_1 - \theta_3)$ & $\Psi$ \\
-\midrule
-Structural & $-0.01$ & $+0.03$ & $-0.04$ & 1.2 \\
-\bottomrule
-\end{tabular}
-\end{center}
-The rural block's returns rise (network spillover from gas). The rural block observes higher returns through $W^I$, which raises its aspiration over time. The preference gap narrows by 0.04 --- about 25\% of the original gap.
+\textit{Transfer.} The transfer moves returns immediately (enforcement) and, through what others observe, preferences over time. In this calibration the formation effect adds about 12\% to the enforcement effect in the long run and 2\% after one generation, and it narrows the preference gap by 15\%.
 
-\textbf{Policy C --- Information.} Add cross-block edges in $W^I$: rural agents now observe gas-block returns with weight 0.15 (e.g., through a targeted media program, school exchange, or mentor network). $W^I_{\text{rural, gas}} = 0 \to 0.15$.
-\begin{center}
-\begin{tabular}{lcccc}
-\toprule
-& $\Delta\theta^*_{\text{gas}}$ & $\Delta\theta^*_{\text{rural}}$ & $\Delta(\theta_1 - \theta_3)$ & $\Psi$ \\
-\midrule
-Information & $+0.00$ & $+0.06$ & $-0.06$ & 3.5 \\
-\bottomrule
-\end{tabular}
-\end{center}
-The rural block's preferences shift dramatically: $\Psi = 3.5$, meaning the formation effect is 3.5 times the enforcement effect. The preference gap narrows by 0.06 --- 38\% of the original gap --- without any change in endowments, production linkages, or prices. The only change is who sees what.
+\textit{Structural.} With a small spillover coefficient ($\gamma = 0.02$), the production link moves returns and preferences only slightly.
+
+\textit{Information.} Rural agents now see more of the gas block's returns. Allocations and returns do not change at fixed preferences ($E = 0$), so $\Psi$ is undefined. The preference gap narrows by 21\% --- more than with either other lever --- through formation alone. The only change is who sees what.
 \end{example}
 
 \begin{keyinsight}
-The three policy levers operate on three different objects: transfers change $\boldsymbol{\omega}$, structural policy changes $W^P$ (and therefore $\boldsymbol{\pi}$), and information policy changes $W^I$ (and therefore $\boldsymbol{\theta}$). Their effectiveness differs by orders of magnitude:
+The three policy levers operate on three different objects: transfers change $\boldsymbol{\omega}$, structural policy changes $W^P$, and information policy changes $W^I$. They differ in \textit{how} they work, not by a universal ranking:
 
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
-& Object changed & $\Psi$ & Timescale \\
+& Object changed & Enforcement & Formation \\
 \midrule
-Transfer & $\boldsymbol{\omega}$ & 0 & Immediate \\
-Structural & $W^P \to \boldsymbol{\pi}, \mathbf{r}$ & 1--2 & Business cycles \\
-Information & $W^I \to \boldsymbol{\theta}$ & 2--5 & Generations \\
+Transfer & $\boldsymbol{\omega}$ & Immediate & Through observed returns \\
+Structural & $W^P \to \mathbf{r}$ & Immediate & Through observed returns \\
+Information & $W^I$ & None & All of the effect; generations \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Transfers are fast but don't change the structure. Structural policy is slower but changes both power and returns. Information policy is slowest (preferences adjust over generations) but has the largest long-run multiplier.
-
-The ``growth first, redistribute later'' consensus uses only lever~1. Lever~3 is invisible to the standard model because it requires A6 to be false.
+Transfers and structural policy act at once and also, more slowly, on preferences. Information policy acts only through preferences, and so only over generations. In Example~\ref{ch10:ex:policies} it narrows the preference gap most, but which lever is most effective per unit of cost depends on parameters ($\phi$, $\beta$, $\gamma$, $\mu$, $\rho$) that must be estimated. An evaluation that holds preferences fixed (A6) assigns information policy no effect at all --- which is why the channel is easy to miss.
 \end{keyinsight}
 
 
@@ -463,19 +495,15 @@ The ``growth first, redistribute later'' consensus uses only lever~1. Lever~3 is
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{formation model} is a three-equation dynamical system: bargaining equilibrium $\to$ return function $\to$ formation equation, producing a map $\boldsymbol{\theta}_{t+1} = \Phi(\boldsymbol{\theta}_t)$.
+\item The \textbf{formation model} is a three-equation dynamical system: bargaining equilibrium (the TU rule $x_i = \omega_i + \pi_i\Phi + \phi(\theta_i - \bar{\theta})$) $\to$ return function $\to$ formation equation, producing a map $\boldsymbol{\theta}_{t+1} = T(\boldsymbol{\theta}_t)$ with Jacobian $J = \rho I + \mu\phi W^I C P$. Since $J\ones = \rho\ones$, the loop amplifies only \textit{relative} preferences.
 
-\item Steady states satisfy $\theta_i^* = \bar{\theta}_0 + \mathcal{M}(\sum_j W^I_{ij} r_j^* - r^*)$, where $\mathcal{M} = \mu/(1-\rho)$ is the formation multiplier.
+\item Steady states satisfy $\theta_i^* = \theta^{\circ} + \mathcal{M}(\sum_j W^I_{ij} r_j^* - r^*)$ with $\mathcal{M} = \mu/(1-\rho)$. Preference dispersion is bounded by $\mathcal{M}\,\tau_1(W^I)$ times the return range: similar information rows compress preferences, and block-diagonal $W^I$ stratifies them.
 
-\item \textbf{Multiple steady states} exist when the formation multiplier is large and returns are complementary. Block-diagonal $W^I$ produces stratified steady states: one per block.
+\item In the affine model the steady state is unique (when $I - J$ is nonsingular) and globally stable when $\rho(J) < 1$. A norm bound gives a sufficient condition. \textbf{Multiple steady states} require nonlinear (e.g.\ S-shaped) returns, and then a poverty trap is a low-$\theta$ basin, with an explicit escape threshold.
 
-\item \textbf{Local stability} requires $\rho(J) < 1$, where $J = \rho I + \mu W^I G' H'$. The spectral radius of the Jacobian combines persistence, network structure, and return complementarities.
+\item The \textbf{formation effect} of a perturbation is $Y(I - J^T)(I - J)^{-1}\mu\Delta\mathbf{s}$ at horizon $T$: the formation Leontief inverse applied to the signal shock. The $\Psi$ ratio of Chapter~9 follows; in a one-loop model, $\Psi(\infty) = \mu\beta\eta/(1 - \rho - \mu\beta\eta)$.
 
-\item The \textbf{enforcement-formation decomposition} separates $\Delta x^* = E + F$. The formation effect is $F = (\partial h/\partial\theta) \cdot (I - J)^{-1}\mu\Delta(W^I\mathbf{g})$, amplified by the formation Leontief inverse.
-
-\item The \textbf{$\Psi$ ratio} $= F/E$ measures the relative importance of the formation channel. Empirically, $\Psi \approx 0.5$--$4.0$: the formation effect is often larger than the enforcement effect.
-
-\item \textbf{Three policy levers}: transfers ($\Delta\boldsymbol{\omega}$, $\Psi = 0$), structural policy ($\Delta W^P$, $\Psi \sim 1$--$2$), information policy ($\Delta W^I$, $\Psi \sim 2$--$5$).
+\item \textbf{Three policy levers}: transfers and structural policy have enforcement effects and (first-order) formation effects through observed returns. Information policy has no enforcement effect ($\Psi$ undefined) and works entirely through formation. In the illustrative Bolivia calibration it narrows the preference gap most.
 \end{enumerate}
 
 
@@ -486,24 +514,23 @@ The ``growth first, redistribute later'' consensus uses only lever~1. Lever~3 is
 
 \begin{enumerate}[label=\textbf{10.\arabic*}, leftmargin=3em]
 
-\item \textbf{The formation map by hand.} For $N = 1$ (a single agent): $\rho = 0.8$, $\mu = 0.3$, $\bar{\theta}_0 = 1$, $r^* = 0.1$, return function $r(\theta) = 0.05 + 0.1\theta$.
+\item \textbf{The formation map by hand.} For a single agent with reduced-form returns $r(\theta) = 0.05 + 0.1\theta$: $\rho = 0.8$, $\mu = 0.3$, $\theta^{\circ} = 1$, $r^* = 0.1$.
 \begin{enumerate}
-\item Write the formation map $\Phi(\theta)$ explicitly.
+\item Write the formation map $T(\theta)$ explicitly.
 \item Find all fixed points. (Solve a linear equation.)
-\item Compute $J = \Phi'(\theta^*)$. Is the steady state stable?
+\item Compute $J = T'(\theta^*)$. Is the steady state stable?
 \item Starting from $\theta_0 = 0.5$, simulate 20 periods.
 \end{enumerate}
 
-\item \textbf{Multiple equilibria.} For $N = 1$, $\rho = 0.85$, $\mu = 0.25$, $r(\theta) = 0.05 + 0.1\theta + 0.05\theta^2$:
+\item \textbf{Why convex returns are not enough.} For a single agent, $\rho = 0.85$, $\mu = 0.25$, $\theta^{\circ} = 1$, $r^* = 0.1$, $r(\theta) = 0.05 + 0.1\theta + 0.05\theta^2$:
 \begin{enumerate}
-\item Write $\Phi(\theta)$. Show it is a quadratic in $\theta$.
-\item Find all fixed points. (Solve a quadratic.)
-\item Compute $\Phi'(\theta^*)$ at each. Which are stable?
-\item Find the basin boundary $\hat{\theta}$.
-\item Starting from $\theta_0 = 0.9$ (just below $\hat{\theta}$): simulate 50 periods. From $\theta_0 = 1.1$ (just above): simulate again. Plot both trajectories.
+\item Write $T(\theta)$. Show that $T(\theta) - \theta$ is a quadratic in $\theta$, so there are at most two fixed points.
+\item Find them, and compute $T'(\theta^*)$ at each. Which is stable?
+\item Describe the long-run outcome from $\theta_0 = 0.9$, $\theta_0 = 1.1$, $\theta_0 = 5$ and $\theta_0 = 9$. Is there a poverty trap?
+\item Explain why a poverty trap with two stable steady states needs returns whose slope first rises and then falls (an S-shape), as in Example~\ref{ch10:ex:trap}.
 \end{enumerate}
 
-\item \textbf{The Jacobian.} For $N = 3$, block-diagonal $W^I$ (two blocks: agents 1--2 and agent 3), linear returns $r_i = 0.1 + 0.1\theta_i$, $\rho = 0.8$, $\mu = 0.2$:
+\item \textbf{The Jacobian.} For $N = 3$, block-diagonal $W^I$ (two blocks: agents 1--2 with weights $\frac12, \frac12$, and agent 3 alone), reduced-form returns $r_i = 0.1 + 0.1\theta_i$, $\rho = 0.8$, $\mu = 0.2$:
 \begin{enumerate}
 \item Write the $3 \times 3$ Jacobian $J$ explicitly.
 \item Compute its eigenvalues. Is the steady state stable?
@@ -555,7 +582,7 @@ The ``growth first, redistribute later'' consensus uses only lever~1. Lever~3 is
 \addcontentsline{toc}{subsection}{Appendix 10A: Formation Leontief Inverse}
 \label{ch10:app:leontief}
 
-\paragraph{Definition.} The formation Leontief inverse is $(I - J)^{-1}$, where $J = D\Phi(\boldsymbol{\theta}^*)$ is the Jacobian of the formation map at a stable steady state.
+\paragraph{Definition.} The formation Leontief inverse is $(I - J)^{-1}$, where $J = DT(\boldsymbol{\theta}^*)$ is the Jacobian of the formation map at a stable steady state.
 
 \paragraph{Neumann series.} Since $\rho(J) < 1$:
 \begin{equation}
@@ -564,9 +591,9 @@ The ``growth first, redistribute later'' consensus uses only lever~1. Lever~3 is
 
 Each term $J^k$ has a formation interpretation: $I$ is the direct signal (round 0); $J$ is the first feedback (higher $\theta$ produces higher $r$, which raises $\theta$); $J^2$ is the second feedback; and so on. The series converges because each round is damped by the factor $\rho(J)$.
 
-\paragraph{Comparison with the production Leontief inverse.} In Chapter~1, $(I - A)^{-1}$ sums the production cascade: direct demand $+$ indirect demand $+$ \ldots. The formation Leontief inverse sums the preference cascade: direct signal $+$ first-round feedback $+$ \ldots. The mathematical structure is identical. The timescale is different: production rounds happen within a period; formation rounds happen across generations.
+\paragraph{Comparison with the production Leontief inverse.} In Chapter~1, $(I - A')^{-1}$ sums the production cascade: direct demand $+$ indirect demand $+$ \ldots. The formation Leontief inverse sums the preference cascade: direct signal $+$ first-round feedback $+$ \ldots. The mathematical structure is identical. The timescale is different: production rounds happen within a period; formation rounds happen across generations.
 
-\paragraph{Block structure.} If $J$ is approximately block-diagonal (because $W^I$ and $W^P$ are), then $(I - J)^{-1}$ is also approximately block-diagonal. The within-block entries of $(I - J)^{-1}$ can be large (strong within-block feedback), while the cross-block entries are small (weak cross-block feedback). This is the mathematical structure of the self-confirming trap: within each block, signals amplify powerfully, but signals do not cross block boundaries.
+\paragraph{Block structure.} If $J$ is approximately block-diagonal (because $W^I$ and $W^P$ are), then $(I - J)^{-1}$ is also approximately block-diagonal. The within-block entries of $(I - J)^{-1}$ can be large (strong within-block feedback), while the cross-block entries are small (weak cross-block feedback). This is the mathematical structure of block-wise steady states: within each block, signals feed back, but they barely cross block boundaries.
 
 
 \subsection*{Appendix 10B: Bifurcation Analysis}
@@ -575,16 +602,17 @@ Each term $J^k$ has a formation interpretation: $I$ is the direct signal (round 
 
 \paragraph{The question.} As the formation multiplier $\mathcal{M} = \mu/(1-\rho)$ increases, the number and stability of steady states can change. A \textbf{bifurcation} is a qualitative change in the dynamical system as a parameter crosses a threshold.
 
-\paragraph{Saddle-node bifurcation.} The most common bifurcation in the formation model. As $\mathcal{M}$ increases past a critical value $\mathcal{M}_c$, two new steady states appear (one stable, one unstable). Below $\mathcal{M}_c$: unique stable steady state. Above $\mathcal{M}_c$: three steady states (two stable, one unstable). This is the ``poverty trap'' bifurcation: the trap only exists when the formation multiplier is large enough.
+\paragraph{Saddle-node bifurcation.} The generic bifurcation in the scalar formation model. As $\mathcal{M}$ (or $\mu$) increases past a critical value, two new steady states appear together, one stable and one unstable. Below it there is one stable steady state; above it there are three (two stable, one unstable). This is the ``poverty trap'' bifurcation: the trap exists only when the formation multiplier is large enough.
 
-The critical $\mathcal{M}_c$ satisfies:
+The critical point is \textit{not} given by a norm bound. It is the parameter value at which the map becomes tangent to the $45^\circ$ line, i.e.\ at which some $\theta_c$ satisfies both
 \begin{equation}
-\mathcal{M}_c = \frac{1}{\max_\theta |g'(h'(\theta))| \cdot \|W^I\|}.
+T(\theta_c) = \theta_c \qquad \text{and} \qquad T'(\theta_c) = 1.
 \end{equation}
+The contraction condition $\mu\max_\theta|g'(\theta)| < 1-\rho$ is only \textit{sufficient} for uniqueness, so it gives a lower bound on the critical value. In Example~\ref{ch10:ex:trap} (holding $\rho = 0.85$), the contraction bound guarantees uniqueness for $\mu < 0.133$, while the saddle-node occurs at $\mu_c \approx 0.188$ ($\mathcal{M}_c \approx 1.25$). Between the two values the steady state is still unique, even though the map is not a contraction.
 
-Below $\mathcal{M}_c$: preferences are approximately exogenous (the anchor dominates). Above $\mathcal{M}_c$: the formation loop creates self-reinforcing dynamics and multiple equilibria.
+Below the critical value the steady state is unique, but it need not be close to the anchor: uniqueness is not exogeneity. Above it, the formation loop creates self-reinforcing dynamics and multiple steady states.
 
-\paragraph{Pitchfork bifurcation.} When the system has a symmetry (e.g., two identical blocks), the symmetric steady state ($\theta_1 = \theta_2$) can become unstable as $\mathcal{M}$ increases, splitting into two asymmetric steady states ($\theta_1 > \theta_2$ and $\theta_1 < \theta_2$). This is the ``symmetry-breaking'' bifurcation: identical populations spontaneously develop different cultures because the formation feedback amplifies random initial differences.
+\paragraph{Pitchfork bifurcation.} When the system has a symmetry (two identical blocks, say), the symmetric steady state ($\theta_1 = \theta_2$) can become unstable as $\mathcal{M}$ increases, splitting into two asymmetric steady states ($\theta_1 > \theta_2$ and $\theta_1 < \theta_2$). This is the ``symmetry-breaking'' bifurcation: identical populations can develop different cultures because the formation feedback amplifies small initial differences. In Example~\ref{ch10:ex:trap} with the reference return set to the logistic midpoint ($r^* = 0.13$), the map is symmetric about $\theta = 1$, and the symmetric point loses stability when $0.85 + \mu \cdot 1.125 = 1$, i.e.\ at $\mu = 0.133$: below it the symmetric point is the unique steady state, above it two new stable steady states appear on either side.
 
 
 %% =====================================================================
@@ -594,37 +622,35 @@ Below $\mathcal{M}_c$: preferences are approximately exogenous (the anchor domin
 
 In 1969, Fernando Henrique Cardoso and Enzo Faletto published \textit{Depend\^{e}ncia e Desenvolvimento na Am\'{e}rica Latina} --- a book that redefined dependency theory by insisting that dependence is not a single condition but a set of historically specific \textbf{situations}, each characterized by a particular articulation between domestic class structure and the international economy.
 
-Their argument rejected both the mechanical determinism of Dos Santos (``dependence is determined by the global structure'') and the voluntarism of modernization theory (``development is a matter of getting the institutions right''). Instead, they proposed that outcomes depend on the \textit{local configuration} of social forces --- who is allied with whom, who controls which resources, and how domestic classes relate to foreign capital. This is a theory of \textbf{local network topology}.
+Their argument rejected both stagnationist readings of dependency (that the global structure dictates local outcomes) and the optimism of modernization theory. Instead, they proposed that outcomes depend on the \textit{local configuration} of social forces --- who is allied with whom, who controls which resources, and how domestic classes relate to foreign capital. In this book's language, that is a theory of \textbf{local network topology}.
 
-The argument maps onto this chapter's model with remarkable precision.
+A caveat comes first. Cardoso and Faletto were explicitly \textit{anti-formalist}. Their ``historical-structural'' method treated dependency as a way of analyzing concrete situations, not as a formal theory to be tested. Palma (1978) put this distinction in his title, and Cardoso (1977, ``The Consumption of Dependency Theory in the United States'', \textit{LARR}) criticized attempts to turn the approach into testable propositions. What follows is a \textit{translation} into this chapter's model. It is useful for organizing comparisons, but its objects --- a scalar $\theta$, fixed matrices --- are much thinner than the class projects and political conflicts they wrote about.
 
-\textbf{Part 1: Dependency is not a structure but a set of situations.} Cardoso and Faletto distinguished several ``situations of dependency'' in Latin American history: (i) enclaves controlled by foreign capital (Bolivia's tin mines, Chilean copper, Venezuelan oil), (ii) nationally controlled export economies (Argentine beef, Brazilian coffee), (iii) import-substitution regimes with nationalist alliances (Per\'{o}n's Argentina, Vargas's Brazil), (iv) associated dependent development (post-1964 Brazilian techno-bureaucratic alliance with multinational capital). Each situation has a different $W$: different production linkages ($W^P$), different social bonds ($W^U$), and different information flows ($W^I$).
+\textbf{Part 1: Dependency is not a structure but a set of situations.} Cardoso and Faletto distinguished several ``situations of dependency'' in Latin American history: (i) enclaves controlled by foreign capital (Bolivia's tin mines, Chilean copper, Venezuelan oil), (ii) nationally controlled export economies (Argentine beef, Brazilian coffee), (iii) import-substitution regimes with nationalist alliances (Per\'{o}n's Argentina, Vargas's Brazil), (iv) the ``new dependency'' of the internationalized domestic market (post-1964 Brazil's alliance of the state, local capital and multinational capital), which Cardoso later named ``associated-dependent development'' (Cardoso, 1973). Each situation has a different $W$: different production linkages ($W^P$), different social bonds ($W^U$), and different information flows ($W^I$).
 
-In the formation model: each ``situation'' is a different triple $(W^P, W^U, W^I)$, producing a different composite $W$, a different Perron eigenvector $\boldsymbol{\pi}$, a different formation signal, and therefore a different steady-state $\boldsymbol{\theta}^*$. The same country (Brazil) passes through different ``situations'' over time --- not because the fundamentals change but because the class alliances shift, rewiring $W$.
+In the formation model: each ``situation'' is a different triple $(W^P, W^U, W^I)$, producing a different composite $W$, a different Perron eigenvector $\boldsymbol{\pi}$, a different formation signal, and therefore a different steady-state $\boldsymbol{\theta}^*$. The same country (Brazil) passes through different ``situations'' over time --- in the model, because the class alliances shift and rewire $W$.
 
 \textbf{Part 2: Class alliances determine the network.} The distinctive analytical move: Cardoso and Faletto placed class alliances at the center. In the enclave situation, the alliance is between foreign capital and a thin domestic administrative class. In the national-populist situation, the alliance is between the domestic bourgeoisie and workers, against foreign capital. In the associated-dependent situation, the domestic bourgeoisie allies with foreign capital against workers.
 
 Each alliance is a specific pattern of edges in $W$. The enclave has a star topology centered on foreign capital. The national-populist has a dense domestic cluster with weak foreign links. The associated-dependent has a cross-border elite cluster ($W^I_{\text{domestic bourgeoisie, MNC}} \gg 0$) and a disconnected worker block ($W^I_{\text{worker, elite}} \approx 0$).
 
-\textbf{Part 3: The situation determines preferences, not just allocations.} Cardoso and Faletto argued that each situation produces its own ideology: the enclave situation produces an extraction mentality (short-termism, rent-seeking); the national-populist situation produces a developmental consciousness (ISI, state-led industrialization); the associated-dependent situation produces a technocratic modernization ideology. In the formation model: each situation's $W^I$ produces a different steady-state $\boldsymbol{\theta}^*$. The extraction mentality IS $\theta^*_{\text{low}}$ produced by the enclave's block-diagonal $W^I$. The developmental consciousness IS $\theta^*_{\text{high}}$ produced by the nationally integrated $W^I$. The ideology is endogenous to the situation.
+\textbf{Part 3: Situations shape political projects, not just allocations.} For Cardoso and Faletto, each situation came with its own political projects and ideologies, carried by class alliances: oligarchic, populist, developmentalist. These are collective, contested projects, not individual preference parameters. The formation model captures only a thin shadow of them: each situation's $W^I$ produces a different steady-state $\boldsymbol{\theta}^*$. Read $\theta$ as, for example, the time horizon of investment, and the model says that an enclave $W^I$ that isolates the domestic majority from modern-sector returns sustains low $\theta^*$ there, while a nationally integrated $W^I$ supports higher $\theta^*$. The claim that preferences are endogenous to the situation is the book's; the content of the ideologies is theirs.
 
 \begin{center}
-\begin{tabularx}{\textwidth}{LLLc}
+\begin{tabularx}{\textwidth}{LLLL}
 \toprule
-\textbf{Situation} & \textbf{Alliance} & \textbf{Network topology} & \textbf{$\Psi$} \\
+\textbf{Situation} & \textbf{Alliance} & \textbf{Network topology} & \textbf{Formation channel (stylized)} \\
 \midrule
-Enclave & Foreign capital + admin. class & Star, block-diagonal $W^I$ & Low \\
-National-populist & Domestic burg. + workers & Dense domestic, weak foreign & Medium \\
-Associated-dependent & Domestic burg. + foreign capital & Elite cross-border, worker disconnect & High \\
+Enclave & Foreign capital + admin.\ class & Star, block-diagonal $W^I$ & Majority isolated from modern returns \\
+National-populist & Domestic burg.\ + workers & Dense domestic, weak foreign & Domestic returns widely observed \\
+Associated-dependent & Domestic burg.\ + foreign capital & Elite cross-border, worker disconnect & Elite observes centre; workers do not \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-The $\Psi$ ratio differs across situations because the formation channel operates differently in each: in the enclave, $W^I$ is so disconnected that formation effects are weak (the traditional sector doesn't even see the modern sector's returns). In the associated-dependent situation, the elite's $W^I$ connects to the global economy, producing strong formation effects among the elite (they adopt modern consumption patterns, technocratic values) while workers remain in a separate $W^I$ block.
+The formation channel differs across situations, because what each group can observe differs. In the enclave, the domestic majority does not see the modern sector's returns. In the associated-dependent situation, the elite's $W^I$ connects to the centre, so the elite adopts centre consumption patterns and technocratic values (Furtado's mechanism, Chapter~9), while workers remain in a separate $W^I$ block. Note that $\Psi$ is a property of a \textit{perturbation}, not of a situation (Definition~\ref{ch09:def:psi}). The comparable statement is that the same policy has different formation effects in different situations.
 
-Cardoso and Faletto wrote in qualitative sociological prose. The formation model gives their ``situations'' a parameter space, their ``alliances'' a network topology, and their ``ideologies'' a steady-state preference vector. The situations are no longer historical narratives; they are coordinates in the space of $(W^P, W^U, W^I)$.
-
-Cardoso later became President of Brazil (1995--2002). Whether his policies reflected the model in this chapter is an exercise for the reader.
+Cardoso and Faletto wrote historical sociology, deliberately. The formation model offers their ``situations'' a parameter space and their ``alliances'' a network topology --- a vocabulary for comparison, not a replacement for the concrete historical analysis they insisted on.
 
 
 %% =====================================================================
@@ -632,12 +658,14 @@ Cardoso later became President of Brazil (1995--2002). Whether his policies refl
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{The formation model:} The model in this chapter is original to this book. For related work on endogenous preference dynamics in networks: Bisin and Verdier (2001, 2011); Bowles (1998); Fern\'{a}ndez (2013). The enforcement-formation decomposition builds on the cohort-year identification strategy of Fern\'{a}ndez and Fogli (2009).
+\textbf{The formation model and its relatives:} The specific model of this chapter is the book's, but it has close antecedents. On cultural transmission and endogenous preferences: Bisin and Verdier (2001, 2011); Bowles (1998); Panebianco and Verdier (2017, \textit{GEB}) on transmission in networks. On aspirations, segregation and multiple steady states: Mookherjee, Napel and Ray (2010, \textit{JEEA}); Genicot and Ray (2017); Dalton, Ghosal and Mani (2016, \textit{EJ}). On stratification through local interactions: Durlauf (1996); B\'{e}nabou (1996); Brock and Durlauf (2001). On learning as the mechanism: Fern\'{a}ndez (2013, \textit{AER}). The empirical counterpart of the enforcement--formation distinction is the epidemiological approach of Fern\'{a}ndez and Fogli (2009); see Chapter~11. On transfers and aspirations: Macours and Vakis (2014, \textit{EJ}).
 
 \textbf{Multiple equilibria in development:} Azariadis and Stachurski (2005), ``Poverty Traps,'' in \textit{Handbook of Economic Growth}. Kraay and McKenzie (2014), ``Do Poverty Traps Exist?'' \textit{JEP}. Genicot and Ray (2017), ``Aspirations and Inequality,'' \textit{Econometrica}.
 
-\textbf{Dynamical systems in economics:} Acemoglu (2009), \textit{Introduction to Modern Economic Growth}, Chapter~20 (dynamical systems). Galor (2011), \textit{Unified Growth Theory}, Chapters~3--4 (bifurcation in development).
+\textbf{Dynamical systems in economics:} Acemoglu (2009), \textit{Introduction to Modern Economic Growth} (the appendix on dynamical systems). Galor (2011), \textit{Unified Growth Theory}.
 
-\textbf{Dependency theory:} Cardoso and Faletto (1969), \textit{Depend\^{e}ncia e Desenvolvimento na Am\'{e}rica Latina}, Rio de Janeiro: Zahar (the primary source; English translation: University of California Press, 1979). For the debate: Palma (1978), ``Dependency: A Formal Theory of Underdevelopment or a Methodology for the Analysis of Concrete Situations of Underdevelopment?'' \textit{World Development} 6(7--8).
+\textbf{Dependency theory:} Cardoso and Faletto (1969), \textit{Dependencia y desarrollo en Am\'{e}rica Latina}, M\'{e}xico: Siglo XXI (the primary source; Portuguese edition \textit{Depend\^{e}ncia e Desenvolvimento na Am\'{e}rica Latina}, Rio de Janeiro: Zahar, 1970; English translation: University of California Press, 1979).
+% TODO-VERIFY: edition data (Siglo XXI 1969 Spanish original; Zahar 1970 Portuguese) against library records.
+Cardoso (1973), ``Associated-Dependent Development: Theoretical and Practical Implications,'' in Stepan (ed.), \textit{Authoritarian Brazil}. Cardoso (1977), ``The Consumption of Dependency Theory in the United States,'' \textit{Latin American Research Review}. For the debate: Palma (1978), ``Dependency: A Formal Theory of Underdevelopment or a Methodology for the Analysis of Concrete Situations of Underdevelopment?'' \textit{World Development} 6(7--8).
 
 \end{document}

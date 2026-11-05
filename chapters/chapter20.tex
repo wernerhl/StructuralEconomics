@@ -3,6 +3,9 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{19}}{}
 \chapter{Social Accounting Matrices as Weight Matrices}\label{ch:20}
 \chaptersubtitle{The Data Infrastructure of Structural Economics}
+% TODO-VERIFY: Taylor "three pillars" sentence not found in Structuralist
+% Macroeconomics (Basic Books, 1983); likely a paraphrase. Check ch. 1 for an exact
+% sentence and page, or present as a paraphrase without quotation marks.
 \begin{quote}
 \textit{``A structuralist model of the economy rests on three pillars: a social accounting matrix to describe the flows, a set of closure rules to determine which variables adjust, and a theory of distribution to explain who gets what.''}\\
 \hfill --- Lance Taylor, \textit{Structuralist Macroeconomics} (1983)
@@ -12,9 +15,9 @@
 
 Parts~I--V developed the theory. Part~VI builds the measurement infrastructure. The question is no longer ``what does $W$ imply?'' but ``where does $W$ come from?''
 
-The answer, for the production network $W^P$, is the Social Accounting Matrix (SAM): a square matrix that records every flow between every pair of accounts in the economy. The SAM IS the weight matrix --- or rather, the row-normalized SAM is $W^P$. Every proposition, theorem, and diagnostic from the previous 19 chapters can be computed from a SAM.
+The answer, for the production network $W^P$, is the Social Accounting Matrix (SAM): a square matrix that records every flow between every pair of accounts in the economy. The SAM is the natural data object for $W^P$, but two different matrices can be built from it, and they should not be confused. Normalizing \emph{columns} gives expenditure shares: the coefficient matrix behind multipliers and, for the production block, the input-cost shares $W^P = D^{-1}A$ of Chapter~1. Normalizing \emph{rows} gives receipt shares, a row-stochastic matrix over all accounts, whose Perron vector turns out to be nothing more than account size (Proposition~\ref{ch20:prop:pi_size}).
 
-This chapter shows how. It translates the entire framework into SAM language, constructs Bolivia's SAM, and runs the structural diagnostics from Chapter~17 on actual data. The remaining chapters in Part~VI extend the measurement to $W^I$ (Chapter~21), $W^U$ (Chapter~22), and time series (Chapter~23).
+This chapter translates the framework into SAM language, builds an illustrative SAM for Bolivia, and shows which of Chapter~17's diagnostics a SAM can deliver and which it cannot. The remaining chapters in Part~VI extend the measurement to $W^I$ (Chapter~21), $W^U$ (Chapter~22), and time series (Chapter~23).
 
 
 %% =====================================================================
@@ -60,18 +63,31 @@ Row-normalize the SAM to obtain the weight matrix:
 \begin{equation}\label{ch20:eq:sam_to_W}
 W_{ij} = \frac{T_{ij}}{\sum_k T_{ik}}.
 \end{equation}
-Entry $W_{ij}$ is the share of account $i$'s total receipts that comes from account $j$. This is a row-stochastic matrix. The Perron eigenvector, spectral gap, and all derived quantities are computable directly from $W$.
+Entry $W_{ij}$ is the share of account $i$'s total receipts that comes from account $j$. This is a row-stochastic matrix (a receipt-share, or supply-side, matrix in the sense of Ghosh). The expenditure-share matrix used for multipliers normalizes columns instead (Definition~\ref{ch20:def:multiplier}).
 \end{definition}
 
+\begin{proposition}[The Perron Vector of a Balanced SAM Is Account Size]\label{ch20:prop:pi_size}
+If the SAM is balanced, with account totals $y = T\ones = T'\ones$, then the Perron vector of $W = \operatorname{diag}(y)^{-1}T$ is
+\[
+\pi = \frac{y}{\ones'y}.
+\]
+\end{proposition}
+
+\begin{proof}
+$y'\operatorname{diag}(y)^{-1}T = \ones'T = (T'\ones)' = y'$.
+\end{proof}
+
+So for a balanced SAM, ``structural power'' read off the row-normalized SAM is just the size of each account's turnover. Its Gini is the Gini of account totals. This is a useful check, not a finding: any claim about power that rests on this $\pi$ is a claim about size. Distributional power must come from a model of bargaining or price formation (Chapter~7), not from the accounting identity.
+
 \begin{proposition}[The SAM Contains $W^P$ as a Submatrix]\label{ch20:prop:submatrix}
-The production-activities block of the SAM (rows and columns corresponding to production sectors) yields the I-O matrix $A$ (Chapter~1). Row-normalizing $A$ gives $W^P$. The full SAM-derived $W$ extends $W^P$ by including factor payments, household income, and government transfers --- capturing all the channels through which economic power flows.
+The production-activities block $T_{PP}$ of the SAM yields the I-O matrix. In Chapter~1's orientation (row $i$ is $i$'s recipe), $a_{ij} = T_{ji}/y_i$, i.e.\ $A = (T_{PP}\operatorname{diag}(y_P)^{-1})'$, and $W^P = D^{-1}A$ is the matrix of input-cost shares. Row-normalizing $T_{PP}$ itself gives \emph{receipt} shares, a different matrix. The full SAM extends $W^P$ by including factor payments, household income, and government transfers --- the channels through which income circulates.
 
 The full SAM-derived $W$ is \textit{larger} and \textit{richer} than $W^P$ alone:
 \begin{enumerate}
 \item $W^P$ captures inter-sectoral production linkages only.
 \item The full $W$ also captures factor-payment linkages (which sectors pay which factors), distributional linkages (which factors go to which households), and fiscal linkages (government taxation and transfers).
-\item The spectral gap of the full $W$ is generally \textit{smaller} than $\Gamma(W^P)$ because the additional accounts introduce new blocks (factor types, household groups) with weak cross-block links.
 \end{enumerate}
+The additional accounts can raise or lower the spectral gap; there is no general ordering (Example~\ref{ch20:ex:spectral}).
 \end{proposition}
 
 
@@ -82,7 +98,8 @@ The full SAM-derived $W$ is \textit{larger} and \textit{richer} than $W^P$ alone
 
 \subsection{Data Sources}
 
-\begin{example}[Bolivia SAM, 2016 --- Data Assembly]\label{ch20:ex:data}
+\begin{example}[Bolivia SAM --- Data Assembly]\label{ch20:ex:data}
+The sources one would use to build a Bolivian SAM:
 \begin{center}
 \begin{tabular}{lll}
 \toprule
@@ -101,7 +118,7 @@ Rest of world & Balance of payments & Exports, imports, FDI \\
 
 \subsection{The SAM Structure}
 
-\begin{example}[Bolivia SAM, 2016 --- Aggregated to $10 \times 10$]\label{ch20:ex:bolivia_sam}
+\begin{example}[Bolivia SAM, Aggregated to $10 \times 10$ \illustrative]\label{ch20:ex:bolivia_sam}
 Aggregate to 10 accounts: (1) Gas/Mining, (2) Agriculture, (3) Manufacturing, (4) Services, (5) Labor, (6) Capital, (7) Poor Households, (8) Non-Poor Households, (9) Government, (10) Rest of World.
 
 \begin{center}
@@ -111,20 +128,22 @@ Aggregate to 10 accounts: (1) Gas/Mining, (2) Agriculture, (3) Manufacturing, (4
 & Gas & Agr & Mfg & Svc & Lab & Cap & HH-P & HH-NP & Gov & RoW \\
 \midrule
 Gas & 2.1 & 0.1 & 0.8 & 0.3 & & & & & 0.2 & 4.5 \\
-Agr & 0.0 & 1.8 & 1.5 & 0.5 & & & & & 0.1 & 0.8 \\
-Mfg & 0.3 & 0.6 & 3.2 & 1.8 & & & & & 0.4 & 2.2 \\
-Svc & 0.2 & 0.3 & 1.1 & 4.5 & & & & & 1.5 & 0.5 \\
+Agr & 0.0 & 1.8 & 1.5 & 0.5 & & & 0.8 & 0.2 & 0.1 & 0.8 \\
+Mfg & 0.3 & 0.6 & 3.2 & 1.8 & & & 1.5 & 1.5 & 0.4 & 2.2 \\
+Svc & 0.2 & 0.3 & 1.1 & 4.5 & & & 2.8 & 3.2 & 1.5 & 0.5 \\
 Lab & 0.8 & 2.1 & 2.5 & 3.8 & & & & & 1.2 & \\
 Cap & 3.6 & 0.5 & 1.0 & 1.8 & & & & & & 0.2 \\
 HH-P & & & & & 4.2 & 0.8 & & & 1.5 & 0.3 \\
 HH-NP & & & & & 6.2 & 6.3 & & & 0.5 & 0.8 \\
-Gov & 1.0 & 0.3 & 0.5 & 0.8 & & & 0.5 & 2.0 & & 0.3 \\
-RoW & 0.0 & 0.0 & 0.9 & 0.6 & & & 0.1 & 1.5 & 0.5 & \\
+Gov & 1.0 & 0.3 & 0.5 & 0.8 & & & 0.6 & 2.4 & & 0.3 \\
+RoW & 0.0 & 0.0 & 0.9 & 0.6 & & & 1.1 & 6.5 & 0.5 & \\
+\midrule
+Total & 8.0 & 5.7 & 11.5 & 14.1 & 10.4 & 7.1 & 6.8 & 13.8 & 5.9 & 9.6 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{0.3em}
-\small Values in billions of Bs (approximate, for illustration). Empty cells are zero or near-zero. Row and column sums balance (each account's receipts equal its payments).
+\small Illustrative values in billions of Bs, not estimates. Empty cells are zero. Each column records an account's payments, each row its receipts, and every row total equals the corresponding column total (last row). Household columns record consumption of domestic goods, direct taxes, and payments to RoW. RoW payments are imports plus, since this simplified SAM has no separate savings--investment account, net saving placed abroad. Without the household-consumption cells, seven accounts would not balance; \texttt{code/ch20.py} checks the balance.
 \end{example}
 
 \begin{vizpanel}{Bolivia's SAM as a heatmap}
@@ -138,29 +157,9 @@ RoW & 0.0 & 0.0 & 0.9 & 0.6 & & & 0.1 & 1.5 & 0.5 & \\
 %% Household block (7-8): income from factors
 %% Government (9): taxes from production, transfers to HH
 %% RoW (10): exports from Gas
-\foreach \i in {1,...,\N} {
-  \foreach \j in {1,...,\N} {
-    \pgfmathparse{
-      %% Gas row: bright at RoW (exports) and Gas (self)
-      (\i==1 && \j==1) ? 45 :
-      (\i==1 && \j==10) ? 75 :
-      %% Production block
-      (\i<=4 && \j<=4) ? 30 :
-      %% Factor payments from production
-      (\i>=5 && \i<=6 && \j<=4) ? 50 :
-      %% HH income from factors
-      (\i>=7 && \i<=8 && \j>=5 && \j<=6) ? 55 :
-      %% HH consumption of commodities (production)
-      (\i<=4 && \j>=7 && \j<=8) ? 20 :
-      %% Government
-      (\i==9 && \j<=4) ? 25 :
-      (\i>=7 && \i<=8 && \j==9) ? 30 :
-      %% RoW
-      (\i==10 && \j<=4) ? 15 :
-      (\i<=4 && \j==10) ? 20 :
-      3
-    }
-    \edef\bp{\pgfmathresult}
+%% Cell intensity = round(100 * T_ij / max T), printed by code/ch20.py
+\foreach \row [count=\i] in {{32,2,12,5,0,0,0,0,3,69},{0,28,23,8,0,0,12,3,2,12},{5,9,49,28,0,0,23,23,6,34},{3,5,17,69,0,0,43,49,23,8},{12,32,38,58,0,0,0,0,18,0},{55,8,15,28,0,0,0,0,0,3},{0,0,0,0,65,12,0,0,23,5},{0,0,0,0,95,97,0,0,8,12},{15,5,8,12,0,0,9,37,0,5},{0,0,14,9,0,0,17,100,8,0}} {
+  \foreach \bp [count=\j] in \row {
     \fill[blue!\bp, draw=white, line width=0.08pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
   }
@@ -176,11 +175,11 @@ RoW & 0.0 & 0.0 & 0.9 & 0.6 & & & 0.1 & 1.5 & 0.5 & \\
 \node[font=\tiny, rotate=90] at (-0.3, {5*\s}) {Fact.};
 \node[font=\tiny, rotate=90] at (-0.3, {3*\s}) {HH};
 \node[font=\tiny, rotate=90] at (-0.3, {1*\s}) {G/RoW};
-\node[below, font=\scriptsize\bfseries] at ({5*\s}, -0.15) {Bolivia SAM (2016)};
+\node[below, font=\scriptsize\bfseries] at ({5*\s}, -0.15) {Bolivia SAM (illustrative)};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The SAM heatmap reveals the flow structure. Brightest blocks: factor payments from production (upper-middle rectangle --- sectors pay wages and profits), household income from factors (lower-left of HH block), and gas exports to RoW (upper-right corner). The production-to-production block (upper-left) is moderately bright --- these are the I-O linkages. The dark zones are the missing linkages: poor households receiving little from capital (the distributional gap), and weak government-to-production spending (the fiscal gap).
+\small The SAM of Example~\ref{ch20:ex:bolivia_sam} as a heatmap: stronger blue means a larger flow; white means zero. The strongest cells are factor income received by households (Lab and Cap $\to$ HH-NP), non-poor households' payments to RoW, and gas exports (Gas row, RoW column). The production-to-production block (upper left) holds the I-O linkages. The household-consumption cells (production rows, household columns) close the circular flow. The faint cells are the weak links: capital income reaching poor households (0.8 of 7.1) and the gas sector's domestic intermediate purchases.
 \end{vizpanel}
 
 
@@ -191,38 +190,41 @@ RoW & 0.0 & 0.0 & 0.9 & 0.6 & & & 0.1 & 1.5 & 0.5 & \\
 
 \subsection{Spectral Analysis of the Full SAM}
 
-\begin{example}[Spectral Decomposition of Bolivia's SAM-Derived $W$]\label{ch20:ex:spectral}
-Row-normalize the $10 \times 10$ SAM to get $W$. Eigenvalues:
+\begin{example}[Spectral Decomposition of Bolivia's SAM-Derived $W$ \illustrative]\label{ch20:ex:spectral}
+Row-normalize the $10 \times 10$ SAM of Example~\ref{ch20:ex:bolivia_sam} to get $W$. Its eigenvalues, ordered by modulus:
 
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
-Eigenvalue & $\lambda_k$ & Interpretation \\
+Eigenvalue & $\lambda_k$ & $|\lambda_k|$ \\
 \midrule
-$\lambda_1$ & 1.000 & Row-stochastic (trivial) \\
-$\lambda_2$ & 0.912 & Gas/RoW block vs.\ domestic \\
-$\lambda_3$ & 0.865 & Factor/HH block vs.\ production \\
-$\lambda_4$ & 0.821 & Poor HH vs.\ Non-Poor HH \\
-$\lambda_5$ & 0.734 & Agriculture vs.\ Services \\
-$\lambda_6$ & 0.612 & \\
-$\lambda_7$--$\lambda_{10}$ & $< 0.5$ & \\
+$\lambda_1$ & $1$ & 1.000 \\
+$\lambda_{2,3}$ & $0.013 \pm 0.598i$ & 0.598 \\
+$\lambda_4$ & $-0.486$ & 0.486 \\
+$\lambda_5$ & $0.400$ & 0.400 \\
+$\lambda_{6,7}$ & $-0.064 \pm 0.232i$ & 0.241 \\
+$\lambda_{8,9}$ & $0.202 \pm 0.017i$ & 0.202 \\
+$\lambda_{10}$ & $-0.041$ & 0.041 \\
 \midrule
-$\Gamma$ & 0.088 & \\
+$\Gamma = 1 - |\lambda_2|$ & & 0.402 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The full-SAM $\Gamma = 0.088$ --- even smaller than the I-O-only $\Gamma = 0.128$ from Chapter~17. The additional accounts (factors, households, government) introduce new structural fragmentation: the factor-payment channel separates labor from capital, and the household channel separates poor from non-poor. These are additional blocks that reduce $\Gamma$.
+Two features stand out. First, the leading non-unit eigenvalues are a \emph{complex} pair. A pure three-step cycle (production $\to$ factors $\to$ households $\to$ production) has eigenvalues equal to the cube roots of unity, all of modulus 1, and hence $\Gamma = 0$, because it is periodic. Intra-block flows (I-O purchases) and leakages to government and RoW damp the rotation, leaving $|\lambda_2| = 0.60$. In a SAM, a small $\Gamma$ can therefore reflect the circularity of the income flow rather than fragmentation into blocks. Second, the full-SAM gap ($0.402$) is \emph{larger} than that of its own production block: $0.391$ for the row-normalized $T_{PP}$, and $0.248$ for the input-cost shares $W^P = D^{-1}A$. Adding accounts does not, in general, lower $\Gamma$. (Numbers: \texttt{code/ch20.py}.)
 \end{example}
 
-\begin{proposition}[The SAM Reveals More Structure than the I-O Table]\label{ch20:prop:more_structure}
+\begin{proposition}[What the SAM Adds to the I-O Table]\label{ch20:prop:more_structure}
 \begin{enumerate}
-\item The I-O table captures only $W^P$ (production linkages). The SAM captures the entire circular flow, including distributional channels.
-\item The full-SAM spectral gap $\Gamma_{\text{SAM}} \leq \Gamma_{\text{I-O}}$: the additional accounts cannot increase $\Gamma$ and generically decrease it (by adding disconnected blocks).
-\item The additional eigenvalues $\lambda_3, \lambda_4, \ldots$ reveal distributional structure that the I-O table misses: the separation between labor and capital, between poor and non-poor households, between fiscal and non-fiscal flows.
-\item The SAM-derived Perron eigenvector $\boldsymbol{\pi}_{\text{SAM}}$ includes distributional power: which household types receive the most structural power through the factor-payment and transfer channels.
+\item The I-O table captures only $W^P$ (production linkages). The SAM captures the entire circular flow, including distributional channels: the separation between labor and capital income, between poor and non-poor households, and between fiscal and non-fiscal flows.
+\item For a balanced SAM, the Perron vector of the row-normalized SAM is account size (Proposition~\ref{ch20:prop:pi_size}). Distributional information lies in the \emph{coefficients} (who pays whom), which the multiplier decomposition below exploits.
+\item The spectral gap of the full SAM bears no general ordering to that of the I-O block, and complex eigenvalues signal circular flow, not blocks.
 \end{enumerate}
 \end{proposition}
+
+\begin{proof}
+(2) is Proposition~\ref{ch20:prop:pi_size}. (3) Example~\ref{ch20:ex:spectral} has $\Gamma_{\text{SAM}} > \Gamma_{\text{I-O}}$. A SAM whose production block is fully mixing ($\Gamma_{\text{I-O}} = 1$) but whose circular flow is nearly periodic gives the opposite ordering (\texttt{code/ch20.py} constructs one with $\Gamma_{\text{SAM}} = 0.05$). (1) is a statement about which flows are recorded.
+\end{proof}
 
 
 \subsection{The Structural Multiplier Matrix}
@@ -240,56 +242,82 @@ M_{\text{SAM}} = (I - A_n)^{-1}.
 
 This is the generalized Leontief inverse. Entry $m_{ij}$ measures the total increase in account $i$'s income from a one-unit injection into account $j$, tracing the entire circular flow: production $\to$ factors $\to$ households $\to$ consumption $\to$ production $\to \ldots$
 
-\begin{proposition}[The SAM Multiplier Decomposes into Three Effects]\label{ch20:prop:decomposition}
-The SAM multiplier matrix can be decomposed (Pyatt and Round, 1979):
-\begin{equation}\label{ch20:eq:pyatt_round}
-M_{\text{SAM}} = M_1 \cdot M_2 \cdot M_3,
+\begin{proposition}[Pyatt--Round Multiplicative Decomposition]\label{ch20:prop:decomposition}
+Order the endogenous accounts as production ($P$), factors ($F$) and households ($H$). Their coefficients have the circular-flow pattern
+\begin{equation}\label{ch20:eq:block_pattern}
+A_n = \begin{pmatrix} A_{PP} & 0 & A_{PH} \\ A_{FP} & 0 & 0 \\ 0 & A_{HF} & A_{HH} \end{pmatrix}:
 \end{equation}
-where:
-\begin{enumerate}
-\item $M_3 = (I - A_3)^{-1}$: \textbf{transfer multiplier} --- the direct effect within each block (intra-group transfers). This is the within-block Leontief inverse.
-\item $M_2 = (I - A_2)^{-1}$: \textbf{open-loop multiplier} --- the cross-block effect operating through the circular flow (production $\to$ factors $\to$ households $\to$ production). This captures the structural linkage that the I-O table misses.
-\item $M_1 = (I - A_1)^{-1}$: \textbf{closed-loop multiplier} --- the feedback effect from the full circular flow returning to the originating block. This is the formation-like amplifier at the macro level.
-\end{enumerate}
+production receives from production (intermediates) and from households (consumption), factors receive from production (value added), and households receive from factors (factor income) and from each other (transfers). Let $\tilde A = \operatorname{diag}(A_{PP}, 0, A_{HH})$ be the within-block part and define
+\begin{gather*}
+M_1 = (I - \tilde A)^{-1}, \qquad A^* = M_1 (A_n - \tilde A), \\
+M_2 = I + A^* + A^{*2}, \qquad M_3 = (I - A^{*3})^{-1}.
+\end{gather*}
+Then (Pyatt and Round, 1979)
+\begin{equation}\label{ch20:eq:pyatt_round}
+M_{\text{SAM}} = M_3\, M_2\, M_1 .
+\end{equation}
+\begin{itemize}
+\item $M_1$ is the \textbf{transfer} (own-block) multiplier: intermediate purchases within production and transfers among households.
+\item $M_2$ is the \textbf{open-loop} (cross-block) multiplier: how an injection in one block reaches the other two.
+\item $M_3$ is the \textbf{closed-loop} (circular) multiplier: the injection returns to its block of origin after a full circuit.
+\end{itemize}
 \end{proposition}
 
-\begin{intuition}[The three multipliers in structural language]
-$M_3$ is within-block (the bright diagonal blocks of the heatmap). $M_2$ is cross-block (the off-diagonal entries --- how a stimulus in production reaches households through factor payments). $M_1$ is the feedback loop (the stimulus returns to production through consumption demand).
+\begin{proof}
+$I - A_n = (I - \tilde A) - (A_n - \tilde A) = (I - \tilde A)(I - A^*)$, so $M_{\text{SAM}} = (I - A^*)^{-1}M_1$. Because $A_n - \tilde A$ is block-cyclic of period three (pattern~\eqref{ch20:eq:block_pattern}) and $M_1$ is block-diagonal, $A^*$ is block-cyclic too. Hence $(I - A^*)(I + A^* + A^{*2}) = I - A^{*3}$. Since $A^*$ commutes with $A^{*3}$, $(I - A^*)^{-1} = (I - A^{*3})^{-1}(I + A^* + A^{*2}) = M_3 M_2$.
+\end{proof}
 
-The total multiplier is the product $M_1 \cdot M_2 \cdot M_3$. When $M_2$ is small (weak cross-block linkages --- the Pinto diagnostic), the total multiplier is close to $M_3$ (within-block only), and stimulus does not propagate. When $M_2$ is large (strong cross-block linkages --- the South Korea diagnostic), the circular flow amplifies the stimulus across the entire economy.
+\begin{remark}[Additive form for reporting]
+Column sums of a product of matrices are not products of column sums, so the multiplicative factors cannot be reported as scalars that multiply. Stone's additive form can:
+\[
+M_{\text{SAM}} = I + \underbrace{(M_1 - I)}_{\text{own-block}} + \underbrace{(M_2 - I)M_1}_{\text{open-loop}} + \underbrace{(M_3 - I)M_2 M_1}_{\text{closed-loop}},
+\]
+and the column sums of the four terms add up to the total multiplier.
+\end{remark}
 
-$M_2$ IS the SAM-level counterpart of the spectral gap $\Gamma$: economies with high $\Gamma$ have large $M_2$ (strong cross-block multipliers), and economies with low $\Gamma$ have small $M_2$.
+\begin{intuition}[The three effects in structural language]
+\begin{itemize}
+\item The own-block effect lives in the diagonal blocks of the heatmap: inter-industry purchases.
+\item The open-loop effect is the off-diagonal path: how a stimulus in production reaches households through factor payments.
+\item The closed-loop effect is the stimulus returning to production through consumption demand.
+\end{itemize}
+When cross-block coefficients are small (weak linkages from production to factors to households --- the Pinto diagnostic), the open- and closed-loop effects are small and a stimulus stays where it starts. These are statements about the multiplier coefficients, not about $\Gamma$ of the row-normalized SAM. That gap can be small precisely \emph{because} the circular flow is strong (Example~\ref{ch20:ex:spectral}).
 \end{intuition}
 
-\begin{example}[Bolivia's SAM Multipliers]\label{ch20:ex:multipliers}
+\begin{example}[Bolivia's SAM Multipliers \illustrative]\label{ch20:ex:multipliers}
+Column sums of the additive decomposition for the SAM of Example~\ref{ch20:ex:bolivia_sam}. Government and RoW are exogenous.
+
 \begin{center}
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
-Injection into: & Gas & Agr & Mfg & Poor HH & Non-Poor HH \\
+Injection into: & Gas & Agr & Mfg & Svc & Poor HH & Non-Poor HH \\
 \midrule
-$M_3$ (within-block) & 1.25 & 1.38 & 1.65 & 1.05 & 1.08 \\
-$M_2$ (cross-block) & 1.08 & 1.25 & 1.32 & 1.85 & 1.52 \\
-$M_1$ (feedback) & 1.03 & 1.12 & 1.15 & 1.10 & 1.08 \\
+Initial injection & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+Own-block & 0.53 & 0.99 & 1.16 & 1.03 & 0.00 & 0.00 \\
+Open-loop & 1.62 & 1.73 & 1.52 & 1.59 & 2.14 & 1.01 \\
+Closed-loop & 2.02 & 2.48 & 2.13 & 2.23 & 2.28 & 1.06 \\
 \midrule
-$M_{\text{total}}$ & 1.39 & 1.93 & 2.51 & 2.13 & 1.76 \\
+Total & 5.18 & 6.20 & 5.82 & 5.85 & 5.42 & 3.08 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Key findings:
+The levels are high because this simplified SAM has no savings account: the only leakages are taxes and payments abroad. Key findings:
 \begin{enumerate}
-\item Gas has the \textit{lowest} total multiplier (1.39) despite being the largest sector by revenue. The circular flow from gas does not propagate: gas pays capital (mostly foreign), which does not reach poor households, which do not consume domestic production. The multiplier dies at $M_2$.
-\item Manufacturing has the \textit{highest} multiplier (2.51): it pays labor (which reaches households), households consume manufactures (which returns to production). The circular flow is complete.
-\item Poor households have a higher cross-block multiplier ($M_2 = 1.85$) than non-poor ($M_2 = 1.52$): money given to poor households is spent entirely on domestic goods (high marginal propensity to consume domestic), amplifying the circular flow. Money given to non-poor households leaks to imports and savings.
+\item Gas has the \textit{lowest} total multiplier among the production sectors (5.18): 11\% below manufacturing and 16\% below agriculture. Its own-block effect is the smallest (0.53), because gas buys few domestic intermediates. Its circular-flow effects are also weaker: 45\% of its output pays capital, and only 11\% of capital income reaches poor households.
+\item Agriculture, not manufacturing, has the highest multiplier (6.20). It pays a large share of its output to labor (37\%), and labor income reaches poor households at a rate of 40\%.
+\item Money given to poor households has a much higher multiplier (5.42) than money given to non-poor households (3.08). In this SAM the non-poor send 47\% of their spending abroad, against 16\% for the poor.
+\item Multiplying the column sums of $M_1, M_2, M_3$ is not a valid decomposition: for gas it would give 5.69 instead of the true 5.18.
 \end{enumerate}
+(Numbers: \texttt{code/ch20.py}.)
 \end{example}
 
 \begin{prebisch}[Why gas revenue doesn't develop Bolivia]
-The SAM multiplier makes visible what Chapter~17's dashboard detected: Bolivia's gas sector is a structural enclave. Its total multiplier (1.39) is 44\% below manufacturing's (2.51). The reason is the weak cross-block linkage $M_2$: gas revenue flows to capital owners (largely foreign or elite), not to labor or poor households. The circular flow short-circuits.
+The SAM multiplier makes visible what Chapter~17's dashboard suggested: in this illustrative SAM, Bolivia's gas sector behaves as an enclave. Its total multiplier is the lowest of the four production sectors. Gas revenue flows mainly to capital owners, and capital income reaches poor households only weakly (0.8 of 7.1). The circular flow is thinner where it passes through the distribution of income.
 
-Taylor (1983) called this ``leakage through the income distribution'': a sector with high output but concentrated factor payments generates low multiplier effects because the income doesn't reach the mass consumption base. In the SAM, this shows up as a bright entry in the Gas-to-Capital cell but a dark entry in the Capital-to-Poor-HH cell. The cross-block link is broken at the distributional stage, not the production stage.
+This is a central theme of Taylor (1983): in demand-driven structuralist models, the functional and size distribution of income shapes the multiplier, because different recipients have different spending and import propensities. In the SAM, it shows up as a strong Gas-to-Capital cell and a faint Capital-to-Poor-HH cell.
 
-The policy implication: increasing gas revenue (Bolivia's strategy 2006--2019) has a multiplier of 1.39. Investing the same revenue in manufacturing has a multiplier of 2.51 --- 80\% higher. The structural policy (Chapter~15's operator design) should redirect investment from the low-multiplier enclave to the high-multiplier cross-block sectors.
+The policy reading needs care. An injection multiplier is not the return on investing in a sector. Investment demand falls mostly on capital goods, many of them imported, and the comparison of 5.18 with 5.82 does not by itself rank investment projects. What the decomposition does show is \emph{where} the circular flow is thin, which is where Chapter~15's operators should act.
 \end{prebisch}
 
 
@@ -298,57 +326,57 @@ The policy implication: increasing gas revenue (Bolivia's strategy 2006--2019) h
 \label{ch20:sec:platform}
 %% =====================================================================
 
-\begin{proposition}[Chapter 17's Five Instruments from the SAM]\label{ch20:prop:five_from_sam}
-All five diagnostic instruments from Chapter~17 are computable from a single SAM:
+\begin{remark}[Which Diagnostics a SAM Delivers]\label{ch20:prop:five_from_sam}
+For the illustrative SAM of Example~\ref{ch20:ex:bolivia_sam}:
 
 \begin{center}
+\small
 \begin{tabular}{lll}
 \toprule
-\textbf{Instrument} & \textbf{SAM computation} & \textbf{Bolivia 2016} \\
+\textbf{Instrument} & \textbf{SAM computation} & \textbf{Value} \\
 \midrule
-$\Gamma$ & Spectral gap of row-normalized SAM & 0.088 \\
-$\sigma_B$ & Between-group variance from HH accounts & 0.62 \\
-$G(\boldsymbol{\pi})$ & Gini of Perron vector of $W_{\text{SAM}}$ & 0.58 \\
-Multiplier ratio & $M_2(\text{gas})/M_2(\text{mfg})$ & 0.82 \\
-Leakage rate & 1 $-$ domestic content of gas value chain & 0.65 \\
+$\Gamma$ & Spectral gap of row-normalized SAM & 0.402 \\
+$G(\boldsymbol{\pi})$ & Gini of Perron vector $=$ Gini of account totals & 0.18 \\
+Open-loop ratio & Open-loop multiplier, gas / mfg & 1.06 \\
+Direct leakage & Gas payments to Gov $+$ RoW, share of gas output & 0.125 \\
+$\sigma_B$ & Needs household microdata, not the SAM & (Ch.~17: 0.62) \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The SAM is the single data object that supports the entire diagnostic. Every structural pathology identified in Chapters~1--19 is visible in the SAM's eigenvalues, multipliers, and flow patterns.
-\end{proposition}
+A SAM supports the integration and multiplier diagnostics. It does not by itself deliver between-group inequality, which needs within-group dispersion from household surveys. Nor does it deliver information concentration ($\Neff$) or the $\Psi$ ratio. The Gini of the SAM's Perron vector measures dispersion of account size (Proposition~\ref{ch20:prop:pi_size}), not of bargaining power.
+\end{remark}
 
 
 \subsection{Counterfactual SAMs}
 
 \begin{definition}[Counterfactual SAM Analysis]\label{ch20:def:counterfactual}
-A \textbf{counterfactual SAM} is a modified SAM $T' = T + \Delta T$ that represents a hypothetical structural change. The modification must preserve SAM balance: $\Delta T \ones = \Delta T' \ones$ (row and column sums of the changes must match).
+A \textbf{counterfactual SAM} is a modified SAM $T' = T + \Delta T$ that represents a hypothetical structural change. For the endogenous accounts it must preserve balance, $\Delta T \ones = \Delta T' \ones$. The simplest consistent way to build one is to change the coefficient matrix $A_n \to A_n'$, hold the exogenous injections $x$ fixed, and recompute activity $y_e' = (I - A_n')^{-1}x$. Government and RoW then absorb the change in their balances.
 
 The structural effect of the intervention is:
 \begin{equation}\label{ch20:eq:counterfactual}
-\Delta\Gamma = \Gamma(W(T')) - \Gamma(W(T)), \qquad \Delta M_2 = M_2(T') - M_2(T).
+\Delta\Gamma = \Gamma(W(T')) - \Gamma(W(T)), \qquad \Delta M = M(T') - M(T).
 \end{equation}
 \end{definition}
 
-\begin{example}[Counterfactual: Redirecting Gas Revenue]\label{ch20:ex:counterfactual}
-Current SAM: Gas $\to$ Capital: 3.6B Bs. Capital $\to$ Non-Poor HH: 6.3B Bs. Capital $\to$ Poor HH: 0.8B Bs.
+\begin{example}[Counterfactual: Redirecting Gas Value Added \illustrative]\label{ch20:ex:counterfactual}
+Current SAM: Gas $\to$ Capital 3.6B Bs, Gas $\to$ Labor 0.8B Bs. Capital pays 0.8B Bs to poor and 6.3B Bs to non-poor households. Labor pays 4.2B Bs and 6.2B Bs respectively, so 40\% of labor income reaches poor households.
 
-Counterfactual: redirect 1B Bs from Gas $\to$ Capital to Gas $\to$ Labor. Then Labor $\to$ Poor HH increases by $\approx 0.6$B (proportional to current labor-to-HH distribution).
+Counterfactual: shift 1B Bs of gas value added from capital to labor, i.e.\ raise the labor coefficient of the gas column by $1/8$ and lower its capital coefficient by the same amount. Then solve the multiplier model for the new activity levels.
 
-Effect:
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
 & Current SAM & Counterfactual \\
 \midrule
-$\Gamma_{\text{SAM}}$ & 0.088 & 0.101 \\
-$M_{\text{total}}$(gas) & 1.39 & 1.62 \\
-$\sigma_B$ (HH accounts) & 0.62 & 0.55 \\
+$\Gamma_{\text{SAM}}$ & 0.4018 & 0.4026 \\
+Total multiplier of gas & 5.18 & 5.30 \\
+Poor households' share of household income & 0.330 & 0.344 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-A 1B Bs reallocation (less than 15\% of gas value added) raises $\Gamma$ by 15\%, raises the gas multiplier by 17\%, and reduces $\sigma_B$ by 11\%. The structural effect of redirecting the distributional flow is larger than the effect of increasing gas production by the same amount.
+The reallocation is 23\% of gas value added (19\% if production taxes are included). It raises the gas multiplier by 2.3\% and the poor's share of household income by 1.4 points. $\Gamma$ barely moves ($+0.0008$). That is what one should expect: $\Gamma$ of the row-normalized SAM measures how fast the circular flow mixes across accounts, not how income is distributed. Distributional counterfactuals should be read off the multipliers and the household accounts, not off $\Gamma$. (Numbers: \texttt{code/ch20.py}.)
 \end{example}
 
 
@@ -358,17 +386,15 @@ A 1B Bs reallocation (less than 15\% of gas value added) raises $\Gamma$ by 15\%
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{SAM} is a balanced square matrix recording every flow between every account in the economy. Row-normalizing the SAM produces $W$ --- the weight matrix that underlies the entire framework.
+\item The \textbf{SAM} is a balanced square matrix recording every flow between every account in the economy: columns are payments, rows are receipts. Column normalization gives the coefficient matrix for multipliers (and, for the production block, $W^P = D^{-1}A$). Row normalization gives receipt shares.
 
-\item The SAM extends $W^P$ (I-O linkages) by including factor payments, household income, government, and the rest of the world. The full-SAM spectral gap $\Gamma_{\text{SAM}} \leq \Gamma_{\text{I-O}}$: the distributional structure adds fragmentation.
+\item For a balanced SAM the Perron vector of the row-normalized matrix is \textbf{account size}, $\pi = y/\ones'y$. The full-SAM spectral gap has no general ordering relative to the I-O block's (illustrative SAM: $0.40$ against $0.39$). Its leading eigenvalues are complex, reflecting the circular flow rather than fragmentation.
 
-\item The \textbf{SAM multiplier matrix} $(I - A_n)^{-1}$ decomposes into within-block ($M_3$), cross-block ($M_2$), and feedback ($M_1$) components. $M_2$ IS the SAM-level counterpart of $\Gamma$.
+\item The \textbf{SAM multiplier matrix} $(I - A_n)^{-1}$ factors as $M_3M_2M_1$: closed-loop, open-loop and transfer multipliers (Pyatt--Round). Stone's additive form reports their contributions as column sums that add up.
 
-\item \textbf{Bolivia's gas enclave}: total multiplier 1.39 vs.\ manufacturing's 2.51. The circular flow short-circuits at the distributional stage: gas revenue reaches capital, not labor or poor households.
+\item \textbf{Bolivia's gas enclave} (illustrative): gas has the lowest multiplier of the production sectors (5.18, against 5.82 for manufacturing and 6.20 for agriculture). It buys few domestic inputs, and its income goes mainly to capital, which reaches poor households weakly.
 
-\item All five Chapter~17 diagnostic instruments are computable from a single SAM.
-
-\item \textbf{Counterfactual SAMs} evaluate structural interventions: redirecting 1B Bs from Gas$\to$Capital to Gas$\to$Labor raises $\Gamma$ by 15\%.
+\item \textbf{Counterfactual SAMs} evaluate structural interventions through the multiplier model. Shifting 1B Bs of gas value added from capital to labor raises the gas multiplier by 2.3\% and the poor's income share by 1.4 points, while leaving $\Gamma$ essentially unchanged. A SAM supports integration and multiplier diagnostics, but not between-group inequality or information concentration.
 \end{enumerate}
 
 
@@ -381,20 +407,20 @@ A 1B Bs reallocation (less than 15\% of gas value added) raises $\Gamma$ by 15\%
 
 \item \textbf{Build a SAM.} Using Bolivia's I-O table, National Accounts, EH, and fiscal data: construct a $10 \times 10$ SAM following the template in Example~\ref{ch20:ex:bolivia_sam}. Verify that it balances.
 
-\item \textbf{Row-normalize and compute $\Gamma$.} From your SAM: compute $W$, its eigenvalues, and $\Gamma_{\text{SAM}}$. Compare with $\Gamma_{\text{I-O}}$ from Chapter~17. Which is smaller? Why?
+\item \textbf{Row-normalize and compute $\Gamma$.} From your SAM: compute $W$, its eigenvalues, and $\Gamma_{\text{SAM}}$. Compare with $\Gamma$ of the production block alone. Which is smaller in your SAM? Are the leading eigenvalues complex, and what does that say about the circular flow? Verify that the Perron vector equals the vector of account totals.
 
-\item \textbf{SAM multipliers.} Compute $(I - A_n)^{-1}$ for your SAM. Decompose using Pyatt-Round. Which sector has the highest total multiplier? Which has the highest cross-block multiplier $M_2$?
+\item \textbf{SAM multipliers.} Compute $(I - A_n)^{-1}$ for your SAM. Decompose it with Pyatt--Round ($M = M_3M_2M_1$) and report Stone's additive components. Which sector has the highest total multiplier? Which has the largest open-loop component?
 
 \item \textbf{The gas enclave in the SAM.} Trace the circular flow from a 1B Bs injection into gas: Gas $\to$ Capital $\to$ ? $\to$ ? $\to$ ? At each stage, compute the leakage rate (the fraction that exits the circular flow through imports, savings, or foreign profit repatriation). At what stage does the flow die?
 
-\item \textbf{Counterfactual: land reform.} Modify the SAM to represent a hypothetical land reform: shift 10\% of agricultural capital income from Non-Poor HH to Poor HH. Recompute $\Gamma$, $M_2$, and $\sigma_B$. How large is the structural effect?
+\item \textbf{Counterfactual: land reform.} Modify the SAM to represent a hypothetical land reform: shift 10\% of capital income (Cap $\to$ HH-NP) to poor households (Cap $\to$ HH-P). Recompute $\Gamma$, the multipliers, and the poor's share of household income. Which of these moves most, and why?
 
 \item \textbf{Counterfactual: education spending.} Increase government spending on education (account 9 $\to$ account 5, labor) by 0.5B Bs, financed by a tax on gas (account 1 $\to$ account 9). Recompute the multipliers. Is this reallocation multiplier-improving?
 
 \item \textbf{Cross-country SAM comparison.} Using published SAMs for Bolivia, Chile, and South Korea:
 \begin{enumerate}
 \item Compute $\Gamma_{\text{SAM}}$ for each.
-\item Compute $M_2$ for the manufacturing sector in each.
+\item Compute the open-loop and closed-loop multipliers of the manufacturing sector in each.
 \item Which country has the strongest circular flow? Why?
 \item Relate the SAM diagnostics to the dashboard from Chapter~17.
 \end{enumerate}
@@ -414,33 +440,30 @@ A 1B Bs reallocation (less than 15\% of gas value added) raises $\Gamma$ by 15\%
 
 \paragraph{The problem.} Raw data from I-O tables, household surveys, and fiscal accounts rarely balance exactly: row sums and column sums disagree because the data sources are independent with different coverage, timing, and definitions.
 
-\paragraph{Cross-entropy balancing (Robinson, Cattaneo, and El-Said, 2001).} Given a prior (unbalanced) SAM $T^0$, find the balanced SAM $T^*$ that minimizes the cross-entropy distance:
+\paragraph{Cross-entropy balancing (Robinson, Cattaneo, and El-Said, 2001).} Given a prior (unbalanced) SAM $T^0$ with column coefficients $\bar a_{ij} = T^0_{ij}/\sum_k T^0_{kj}$, find coefficients $a_{ij}$ and totals $y$ that minimize the cross-entropy distance to the prior coefficients, subject to balance:
 \begin{equation}
-\min_{T \geq 0} \sum_{ij} T_{ij} \ln\frac{T_{ij}}{T^0_{ij}}, \qquad \text{s.t. } T\ones = T'\ones.
+\min_{a \geq 0,\, y} \sum_{ij} a_{ij} \ln\frac{a_{ij}}{\bar a_{ij}}, \qquad \text{s.t. } \sum_i a_{ij} = 1, \quad \sum_j a_{ij} y_j = y_i .
 \end{equation}
-The solution preserves the structure of the prior while achieving exact balance.
+The solution stays as close as possible to the prior's structure while achieving exact balance; known totals or other data can be added as further constraints.
 
-\paragraph{RAS method.} The simpler bi-proportional adjustment: alternately scale rows and columns until convergence. This is Sinkhorn's algorithm applied to the SAM --- the same algorithm from Appendix~15B. The SAM balancing problem is structurally identical to the problem of projecting $W$ onto the doubly stochastic set.
+\paragraph{RAS method.} The simpler bi-proportional adjustment: alternately scale rows and columns until they match \emph{given} target totals. This is the same alternating-normalization idea as Sinkhorn's algorithm (Appendix~15B), which targets unit row and column sums. Unlike that problem, SAM balancing usually does not know the common totals in advance (it only requires row total $=$ column total), so RAS needs target totals from outside data.
 
 
 \subsection*{Appendix 20B: The Pyatt-Round Decomposition}
 \addcontentsline{toc}{subsection}{Appendix 20B: Pyatt-Round Decomposition}
 \label{ch20:app:pyatt_round}
 
-\paragraph{Setup.} Partition the endogenous SAM coefficient matrix $A_n$ into blocks:
+\paragraph{Setup.} Order the endogenous accounts as production (1), factors (2) and households (3). Rows receive from columns, so the coefficient matrix has the circular-flow pattern
 \begin{equation}
-A_n = \begin{pmatrix} 0 & A_{12} & 0 \\ A_{21} & 0 & A_{23} \\ 0 & A_{32} & 0 \end{pmatrix},
+A_n = \begin{pmatrix} A_{11} & 0 & A_{13} \\ A_{21} & 0 & 0 \\ 0 & A_{32} & A_{33} \end{pmatrix}.
 \end{equation}
-where the three blocks are: (1) production activities, (2) factors, (3) households. The zero blocks reflect the accounting structure: production pays factors (not households directly), factors are received by households (not production), households consume commodities (not factors).
+Production receives from production (intermediates, $A_{11}$) and households (consumption, $A_{13}$). Factors receive from production (value added, $A_{21}$). Households receive from factors (factor income, $A_{32}$) and from other households (transfers, $A_{33}$). The zero blocks reflect the accounting structure: factors do not buy goods, production does not pay households directly, and households do not pay factors directly.
 
-\paragraph{Decomposition.} Define:
-\begin{align}
-A_3 &= \text{diagonal blocks of } A_n \text{ (within-block)}, \\
-A_2 &= A_n - A_3 \text{ (cross-block)}, \\
-A_1 &= \text{residual from the matrix product.}
-\end{align}
-
-The SAM multiplier factors as $M = M_1 M_2 M_3$ where each $M_k = (I - A_k)^{-1}$ captures one layer of the circular flow.
+\paragraph{Decomposition.} Let $\tilde A = \operatorname{diag}(A_{11}, 0, A_{33})$ and $A^* = (I - \tilde A)^{-1}(A_n - \tilde A)$. Then $A^*$ is block-cyclic of period three, and
+\[
+M = (I - A_n)^{-1} = \underbrace{(I - A^{*3})^{-1}}_{M_3}\;\underbrace{(I + A^* + A^{*2})}_{M_2}\;\underbrace{(I - \tilde A)^{-1}}_{M_1}.
+\]
+The proof is in Proposition~\ref{ch20:prop:decomposition}. $M_3$ is block-diagonal: each block's own circuit through the other two. Stone's additive form $M = I + (M_1 - I) + (M_2 - I)M_1 + (M_3 - I)M_2M_1$ is the one to report as column sums. \texttt{code/ch20.py} verifies both identities on the chapter's SAM.
 
 
 %% =====================================================================
@@ -448,32 +471,39 @@ The SAM multiplier factors as $M = M_1 M_2 M_3$ where each $M_k = (I - A_k)^{-1}
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Taylor (1983)}
 %% =====================================================================
 
-Lance Taylor's \textit{Structuralist Macroeconomics: Applicable Models for the Third World} (1983) is the foundational text of applied structuralist macroeconomics. It provided the first systematic framework for building macro models from Social Accounting Matrices --- models that captured the structural heterogeneity, distributional flows, and institutional constraints that mainstream macro models assumed away.
+Lance Taylor's \textit{Structuralist Macroeconomics: Applicable Models for the Third World} (1983) is a foundational text of applied structuralist macroeconomics. It built macro models on SAMs --- the accounting framework developed by Stone, by Pyatt and Thorbecke (1976) and by Pyatt and Round (1979) --- and used them to capture the structural heterogeneity, distributional flows and institutional constraints that benchmark macro models abstract from.
 
-Taylor's contribution to this book's framework is methodological: he showed that the SAM is not just a data table but a \textit{modeling platform}. The SAM encodes the economy's complete flow structure, and different ``closure rules'' (assumptions about which variables adjust) produce different models from the same SAM. This is the applied counterpart of this book's theoretical framework: the SAM IS $W$, and the closure rules determine whether the model captures enforcement (price adjustment), formation (preference adjustment), or both.
+Taylor's contribution to this book's framework is methodological. The SAM is not just a data table but a \textit{modeling platform}: it encodes the economy's complete flow structure, and different ``closure rules'' (choices of which variables are exogenous) produce different models from the same SAM. In this book's terms, the SAM supplies the coefficients from which $W^P$ and the multipliers are built. The closure determines the causal story the model tells about them.
 
-\textbf{Part 1: The SAM as the foundation.} Taylor insisted that every macro model should begin with a SAM: ``before writing equations, balance the accounts.'' The SAM disciplines the modeler: every flow must come from somewhere and go somewhere. In this chapter's notation: the SAM IS the weight matrix $W$ (Definition~\ref{ch20:def:sam_to_W}). The modeler who starts from a SAM starts from $W$; the modeler who starts from aggregate equations starts from assumptions that may violate the flow structure.
+\textbf{Part 1: The SAM as the foundation.} Taylor's practice was to begin from a balanced SAM before writing behavioral equations. The SAM disciplines the modeler: every flow must come from somewhere and go somewhere. In this chapter's notation, the SAM delivers both the receipt-share matrix of Definition~\ref{ch20:def:sam_to_W} and the expenditure coefficients $A_n$ of Definition~\ref{ch20:def:multiplier}. A modeler who starts from aggregate equations may violate the flow structure without noticing.
 
-\textbf{Part 2: Closure rules as structural assumptions.} Taylor identified the closure rules as the modeler's most consequential choice: does the labor market clear through prices (neoclassical closure) or quantities (structuralist closure)? Does the current account adjust through the exchange rate or through income contraction? Each closure rule is an assumption about which rows of $W$ are flexible and which are rigid. The neoclassical closure assumes all prices adjust --- equivalent to assuming $W$ is doubly stochastic (Chapter~4, assumption A4). The structuralist closure assumes some prices are rigid and quantities adjust --- equivalent to acknowledging that $W$ is not doubly stochastic.
+\textbf{Part 2: Closure rules as causal assumptions.} Taylor identified the closure as the modeler's most consequential choice, because the same accounting identities admit different causal stories:
+\begin{itemize}
+\item \textbf{savings-driven (neoclassical)}: full employment, with investment adjusting to available saving;
+\item \textbf{investment-driven (Keynes--Kalecki)}: output and employment adjust to exogenous investment;
+\item \textbf{Kaldorian}: the income distribution adjusts;
+\item \textbf{Johansen-style}: government absorption adjusts.
+\end{itemize}
+Whether the current account adjusts through the exchange rate or through income contraction is a further choice of the same kind. Closures are statements about which variables are exogenous, not properties of a weight matrix. The SAM multiplier of Definition~\ref{ch20:def:multiplier} is the simplest demand-driven closure: fixed prices, exogenous government and RoW, quantities adjusting.
 
-\textbf{Part 3: Distribution in the SAM.} Taylor's SAMs always disaggregated households by income class, rural/urban status, and sometimes gender. This was radical in 1983: mainstream macro models had a ``representative agent'' (one household). Taylor's disaggregation is this book's Chapter~18 at the macro level: the distributional structure of the SAM reveals which household types receive which factor payments, which determines who benefits from growth, which determines the between-block variance $\sigma_B$.
+\textbf{Part 3: Distribution in the SAM.} Taylor's models disaggregate households (by income class, rural/urban status) and income types (wages, profits, rents), because in demand-driven models the distribution of income shapes the multiplier. This was shared with the SAM tradition of Pyatt, Round and Adelman--Robinson. It is this book's Chapter~18 at the macro level: the distributional structure of the SAM reveals which household types receive which factor payments, and therefore who benefits from growth. Between-block inequality $\sigma_B$ itself still needs household microdata.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Taylor's contribution (1983)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-SAM as modeling platform & $W = T / \text{diag}(\mathbf{y})$ & Def.~\ref{ch20:def:sam_to_W} \\
-Circular flow & $M_{\text{SAM}} = (I - A_n)^{-1}$ & Def.~\ref{ch20:def:multiplier} \\
-Three multiplier layers & $M = M_1 M_2 M_3$ & Prop.~\ref{ch20:prop:decomposition} \\
-Distributional leakage & Weak $M_2$ in enclave sectors & Ex.~\ref{ch20:ex:multipliers} \\
-Closure rules & Structural assumptions about $W$ & A1--A6 from Ch.~4 \\
-Household disaggregation & $\sigma_B$ from SAM HH accounts & Prop.~\ref{ch20:prop:five_from_sam} \\
+SAM as modeling platform & Receipt shares $\operatorname{diag}(y)^{-1}T$; coefficients $A_n$ & Defs.~\ref{ch20:def:sam_to_W}, \ref{ch20:def:multiplier} \\
+Circular flow & $M_{\text{SAM}} = (I - A_n)^{-1}$; complex eigenvalues of $W$ & Def.~\ref{ch20:def:multiplier}, Ex.~\ref{ch20:ex:spectral} \\
+Multiplier layers & $M = M_3 M_2 M_1$ (Pyatt--Round) & Prop.~\ref{ch20:prop:decomposition} \\
+Distribution shapes the multiplier & Thin capital-to-poor link in enclave sectors & Ex.~\ref{ch20:ex:multipliers} \\
+Closure rules & Choice of exogenous variables (not a property of $W$) & Part 2 above \\
+Household disaggregation & Household accounts; $\sigma_B$ needs microdata & Rem.~\ref{ch20:prop:five_from_sam} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Taylor's books (1983, 1990, 2004) trained a generation of structuralist modelers in Latin America, Africa, and South Asia. The Computable General Equilibrium (CGE) models built on his SAM methodology remain the standard tool for evaluating structural policies in developing countries. This chapter places Taylor's SAM methodology within the spectral framework: the SAM is $W$, the multiplier decomposition reveals the structural pathology, and the counterfactual SAM evaluates the cure.
+Taylor's books (1983, 1990, 2004) trained a generation of structuralist modelers in Latin America, Africa, and South Asia. His 1990 volume, \textit{Socially Relevant Policy Analysis}, collected structuralist computable general equilibrium (CGE) models. SAM-based CGE models, in the line of Dervis, de Melo and Robinson (1982) and Lofgren, Harris and Robinson (2002), remain a standard tool for evaluating policy in developing countries. This chapter places the SAM within the book's matrix framework. The multiplier decomposition locates where the circular flow is thin, and the counterfactual SAM evaluates interventions under an explicit closure.
 
 
 %% =====================================================================
@@ -483,9 +513,9 @@ Taylor's books (1983, 1990, 2004) trained a generation of structuralist modelers
 
 \textbf{SAM construction and methodology:} Pyatt and Round (1979), ``Accounting and Fixed Price Multipliers in a Social Accounting Matrix Framework,'' \textit{EJ}. Round (2003), ``Social Accounting Matrices and SAM-Based Multiplier Analysis,'' in Bourguignon and Pereira da Silva (eds.), \textit{The Impact of Economic Policies on Poverty and Income Distribution}. Robinson, Cattaneo, and El-Said (2001), ``Updating and Estimating a Social Accounting Matrix Using Cross Entropy Methods,'' \textit{Economic Systems Research}.
 
-\textbf{Structuralist macroeconomics:} Taylor (1983), \textit{Structuralist Macroeconomics}, New York: Basic Books. Taylor (2004), \textit{Reconstructing Macroeconomics}, Harvard University Press. Gibson (2005), \textit{The Mechanics of the Steady State}.
+\textbf{Structuralist macroeconomics:} Taylor (1983), \textit{Structuralist Macroeconomics}, New York: Basic Books. Taylor (1990, ed.), \textit{Socially Relevant Policy Analysis: Structuralist Computable General Equilibrium Models for the Developing World}, MIT Press. Taylor (2004), \textit{Reconstructing Macroeconomics}, Harvard University Press. Pyatt and Thorbecke (1976), \textit{Planning Techniques for a Better Future}, ILO.
 
-\textbf{CGE modeling:} Lofgren, Harris, and Robinson (2002), ``A Standard Computable General Equilibrium (CGE) Model in GAMS,'' IFPRI TMD Discussion Paper 75. For Bolivia-specific CGE models: Jemio (2001), ``Macroeconomic Adjustment in Bolivia since 1970,'' IISEC Working Paper.
+\textbf{CGE modeling:} Lofgren, Harris, and Robinson (2002), ``A Standard Computable General Equilibrium (CGE) Model in GAMS,'' IFPRI TMD Discussion Paper 75. Dervis, de Melo, and Robinson (1982), \textit{General Equilibrium Models for Development Policy}, Cambridge University Press. For Bolivia-specific CGE models, see the work of Luis Carlos Jemio. % TODO-VERIFY: exact title/year of the Jemio reference (the earlier "IISEC Working Paper, 2001" title could not be confirmed).
 
 \textbf{Bolivia SAM data:} INE (\texttt{ine.gob.bo}): I-O tables, National Accounts. UDAPE: social indicators and public expenditure. MEFP (Ministerio de Econom\'{i}a y Finanzas P\'{u}blicas): fiscal data.
 

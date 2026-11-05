@@ -3,6 +3,11 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{18}}{}
 \chapter{Scale Invariance}\label{ch:19}
 \chaptersubtitle{Five Processes, One Process}
+% TODO-VERIFY: this sentence was not found verbatim in Sunkel & Paz (1970); it may be a
+% paraphrase. The "five processes" formulation may come from Sunkel, "Capitalismo
+% transnacional y desintegracion nacional" (1971). Check the CEPAL PDF
+% (hdl.handle.net/11362/1604, section "Desarrollo y subdesarrollo") and Sunkel 1971;
+% if not verbatim, present it as a paraphrase without quotation marks.
 \begin{quote}
 \textit{``El desarrollo, el subdesarrollo, la dependencia, la marginalidad y la desigualdad espacial son manifestaciones diversas de un proceso \'{u}nico.''}\\[0.3em]
 \textnormal{[``Development, underdevelopment, dependence, marginality, and spatial inequality are diverse manifestations of a single process.'']}\\
@@ -11,11 +16,11 @@
 
 \vspace{1em}
 
-Chapter~16 analyzed the global $W$. Chapter~17 analyzed the domestic $W$. Chapter~18 analyzed the individual-level $W$. This chapter proves that they are the same structure at different magnifications.
+Chapter~16 analyzed the global $W$. Chapter~17 analyzed the domestic $W$. Chapter~18 analyzed the individual-level $W$. This chapter asks in what precise sense they are the same structure at different magnifications.
 
-The key observation: at every scale, the weight matrix has the same qualitative form --- a dense core, a sparse periphery, weak cross-block linkages, a concentrated Perron eigenvector, a small spectral gap. The mathematical structure is \textbf{scale-invariant}: the same theorems produce the same phenomena at every level of aggregation. This is not a coincidence. It is a consequence of the recursive structure of social organization: the mechanisms that produce center-periphery at the global scale (proximity-dominated edge creation, assortative mixing, self-confirming preferences) also operate at the national scale and at the individual scale.
+The working hypothesis: at every scale, the weight matrix has the same qualitative form --- a dense core, a sparse periphery, weak cross-block linkages, a concentrated Perron eigenvector, a small spectral gap. We call this \textbf{structural isomorphism} across scales (Definition~\ref{ch19:thm:scale_invariance}). It is a hypothesis about the recursive structure of social organization: the mechanisms that produce center-periphery at the global scale (proximity-dominated edge creation, assortative mixing, self-confirming preferences) may also operate at the national and individual scales. Two exact results discipline it. Aggregation mechanically raises the spectral gap (Proposition~\ref{ch19:prop:lumpability}), so $\Gamma$ values at different scales are not directly comparable. And individual power factors exactly into country, sector and within-sector shares (Proposition~\ref{ch19:thm:nesting}).
 
-Sunkel and Paz (1970) stated this in prose: development, underdevelopment, dependence, marginality, and spatial inequality are ``diverse manifestations of a single process.'' This chapter proves it in linear algebra.
+Sunkel and Paz (1970) stated the underlying idea in prose: development, underdevelopment, dependence, marginality, and spatial inequality are manifestations of a single process. This chapter gives that claim a precise matrix vocabulary.
 
 
 %% =====================================================================
@@ -36,18 +41,18 @@ Nodes & Countries & Sectors & Persons \\
 $W^P$ & Bilateral trade & I-O table & Employment network \\
 $W^I$ & Media/academic flows & Domestic media & Social network \\
 $W^U$ & Aid/migration & Community ties & Friendships \\
-$N$ & $\approx 200$ & $\approx 12$--$100$ & $\approx 10^6$--$10^8$ \\
+Nodes $n_s$ & $\approx 200$ & $\approx 12$--$100$ & $\approx 10^6$--$10^8$ \\
 Data source & BACI, ICIO & INE I-O table & Household surveys \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Each scale has its own weight matrices $(W^P_s, W^I_s, W^U_s)$ for $s \in \{G, N, I\}$, its own composite $W_s$, its own Perron eigenvector $\boldsymbol{\pi}_s$, its own spectral gap $\Gamma_s$, and its own formation dynamics $(\rho_s, \mu_s, \bar{\theta}_{0,s})$.
+Each scale has its own weight matrices $(W^P_s, W^I_s, W^U_s)$ for $s \in \{G, N, I\}$, its own composite $W_s$, its own Perron eigenvector $\boldsymbol{\pi}_s$, its own spectral gap $\Gamma_s$, and its own formation dynamics $(\rho_s, \mu_s, \bar{\theta}_{0,s})$. (The subscript $N$ means ``national''; the number of nodes at scale $s$ is written $n_s$.)
 
 
 \subsection{The Same Structure at Every Scale}
 
-\begin{proposition}[Structural Isomorphism Across Scales]\label{ch19:prop:isomorphism}
+\begin{conjecture}[Structural Isomorphism Across Scales]\label{ch19:prop:isomorphism}
 At all three scales, the weight matrix satisfies:
 \begin{enumerate}
 \item \textbf{Not doubly stochastic}: column sums vary widely. $\max_j \sum_i W_{ij} / \min_j \sum_i W_{ij} \gg 1$.
@@ -56,52 +61,78 @@ At all three scales, the weight matrix satisfies:
 \item \textbf{Concentrated Perron eigenvector}: $\max_i \pi_{s,i} / \min_i \pi_{s,i} \gg 1$.
 \item \textbf{Block-diagonal approximation}: $W_s$ is approximately block-diagonal, with $k_s$ blocks.
 \end{enumerate}
-\end{proposition}
+Items 3 and 4 are logically independent: $\Gamma$ measures integration and $\Neff$ or $\Var(\pi)$ measure concentration (Proposition~\ref{ch06:prop:gap-power-independent}).
+\end{conjecture}
 
-\begin{example}[Bolivia at Three Scales]\label{ch19:ex:bolivia_three}
+\begin{example}[Bolivia at Three Scales \illustrative]\label{ch19:ex:bolivia_three}
+The global and national columns repeat the illustrative values of Chapters~16 and~17. The individual column is \emph{hypothetical}: no data set records the person-level $W$ for $10^6$--$10^8$ people.
 \begin{center}
+\small
 \begin{tabularx}{\textwidth}{Lccc}
 \toprule
 Property & Global & National & Individual \\
 \midrule
-$\Gamma$ & 0.20 & 0.13 & $\approx 0.10$ \\
-$\max\pi / \min\pi$ & 360 (US/Laos) & 9 (gas/household) & $\approx 50$ (executive/farmer) \\
-Number of blocks & 3 (core/semi/periph) & 3 (gas/formal/informal) & 3+ (gender $\times$ ethnicity) \\
-$\sigma_B$ & $\approx 0.55$ & 0.62 & $\approx 0.50$ \\
-$N_{\text{eff}}(W^I)$ & 3--5 & 3.2 & $\approx 4$ \\
+$\Gamma$ & 0.20 & 0.13 & ($\approx 0.10$) \\
+$\max\pi / \min\pi$ & 360 (US/Laos) & 4.5 (hydroc./househ.) & ($\approx 50$) \\
+Number of blocks & 3 (core/semi/per.) & 3 (gas/form./inf.) & 3+ (gender$\times$ethn.) \\
+$\sigma_B$ & $\approx 0.55$ & 0.62 & ($\approx 0.50$) \\
+$\Neff(\pi^I)$ & 3--5 & 3.2 & --- \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-The numbers are remarkably similar. The domestic spectral gap ($\Gamma = 0.13$) is slightly smaller than the global ($\Gamma = 0.20$): Bolivia's internal structure is \textit{more} fragmented than the global economy. The between-block share of inequality is comparable at all three scales (50--62\%). The information $N_{\text{eff}}$ is approximately 3--5 at every scale: at the global level, 3--5 institutions shape the economic consensus; at the national level, 3 media ecosystems; at the individual level, 3--5 reference persons shape each agent's beliefs.
+The values are of comparable order but should not be over-read. The domestic spectral gap ($\Gamma = 0.13$) is 35\% smaller than the global one ($0.20$). Spectral gaps of matrices of very different size and aggregation are not directly comparable: aggregation alone raises $\Gamma$ (Proposition~\ref{ch19:prop:lumpability}), so a lower $\Gamma$ at a finer scale is partly mechanical. The between-block share of inequality is 55--62\% at the two observed scales. $\Neff$ is defined on the Perron vector of $W^I$ at each scale, so it is bounded by the number of nodes; it is reported only where that vector exists. (The number of reference persons per individual is a different object, the row-level $1/\sum_j W_{ij}^2$, and is not comparable.)
 \end{example}
 
 
 %% =====================================================================
-\section{The Scale-Invariance Theorem}
+\section{Structural Isomorphism and Aggregation}
 \label{ch19:sec:theorem}
 %% =====================================================================
 
-\begin{theorem}[Scale Invariance of the Structural Model]\label{ch19:thm:scale_invariance}
-Let $(W_G, W_N, W_I)$ be the weight matrices at the global, national, and individual scales. If:
+\begin{definition}[Structural Isomorphism Across Scales]\label{ch19:thm:scale_invariance}
+The matrices $(W_G, W_N, W_I)$ are called \textbf{structurally isomorphic} if each is approximately block-diagonal with a dense core and a sparse periphery, and if at each scale:
 \begin{enumerate}
-\item Edge formation is proximity-dominated at all scales ($p_1 \gg p_2, p_3$ in Chapter~13's creation process).
-\item Returns are complementary at all scales ($\partial^2 g / \partial x_i \partial x_j > 0$ for neighbors in $W^P$).
-\item Preferences are formed through assortative $W^I$ at all scales ($\lambda_k < 1$ for some attribute $k$).
+\item[(a)] cross-block coupling is weak (small conductance), and hence $\Gamma_s$ is small;
+\item[(b)] power is concentrated: $\Neff(\pi_s)/n_s$ is well below 1;
+\item[(c)] preferences are stratified: $\theta^*_{s,\text{core}} > \theta^*_{s,\text{periphery}}$;
+\item[(d)] allocations are unequal: $x^*_{s,\text{core}} > x^*_{s,\text{periphery}}$.
 \end{enumerate}
-Then all three weight matrices converge to block-diagonal structural equilibria with:
-\begin{enumerate}
-\item[(a)] $\Gamma_s < 1$ (small spectral gap),
-\item[(b)] $\Var(\pi_{s,i}) > 0$ (concentrated power),
-\item[(c)] $\theta^*_{s,\text{core}} > \theta^*_{s,\text{periphery}}$ (stratified preferences),
-\item[(d)] $x^*_{s,\text{core}} > x^*_{s,\text{periphery}}$ (unequal allocations).
-\end{enumerate}
-The qualitative structure is identical; the quantitative magnitudes depend on the scale-specific parameters.
-\end{theorem}
+\end{definition}
 
-\begin{proof}[Proof sketch]
-At each scale, the three conditions guarantee the co-evolutionary dynamics of Chapter~13: proximity-dominated edge creation produces block-diagonal $W$ (Theorem~13.2); complementary returns produce multiple steady states (Theorem~10.2); assortative $W^I$ produces stratified preferences (Proposition~10.2). The structural equilibrium (Definition~13.3) at each scale has the same mathematical form: a fixed point of the map $\Xi_s: (W_s, \boldsymbol{\theta}_s) \mapsto (\Psi_s(W_s; \x^*_s), \Phi_s(\boldsymbol{\theta}_s; W_s))$. Since the map has the same functional form at every scale (the operators $\Psi_s$ and $\Phi_s$ differ only in their parameters, not in their structure), the fixed points share the same qualitative properties.
+\begin{conjecture}[A Common Mechanism]\label{ch19:conj:mechanism}
+Suppose that at every scale:
+\begin{enumerate}
+\item edge formation is proximity-dominated ($p_1 \gg p_2, p_3$ in the creation process of Definition~\ref{ch13:def:creation});
+\item returns are complementary ($\partial^2 g / \partial x_i \partial x_j > 0$ for neighbors in $W^P$);
+\item preferences are formed through assortative $W^I$ ($\lambda_k < 1$ for some attribute $k$; Proposition~\ref{ch18:thm:attribute_trap}).
+\end{enumerate}
+Then the co-evolutionary dynamics of Chapter~13 (Section~\ref{ch13:sec:evolution}) select, for an open set of parameters at every scale, a structurally isomorphic equilibrium in the sense of Definition~\ref{ch19:thm:scale_invariance}.
+\end{conjecture}
+
+The conjecture is not a theorem. The co-evolutionary map has multiple equilibria (Proposition~\ref{ch13:prop:multiplicity}), and which one is selected depends on parameters that differ across scales. ``Same functional form'' does not imply ``same qualitative fixed point''.
+
+What \emph{can} be proved is how the spectral gap and the Perron vector behave under aggregation. This is what any comparison across scales has to control for.
+
+\begin{proposition}[Aggregation Raises the Spectral Gap]\label{ch19:prop:lumpability}
+Let $W$ be irreducible and row-stochastic on $n$ nodes, and let $\mathcal{P} = \{B_1, \ldots, B_k\}$ be a partition with indicator matrix $V$ ($n \times k$). Suppose $W$ is \textbf{exactly lumpable} with respect to $\mathcal{P}$ (Kemeny and Snell): $\sum_{j \in B'} W_{ij}$ is the same for all $i \in B$, for every pair of blocks $B, B'$. Call this common value $\bar W_{BB'}$. Then:
+\begin{enumerate}
+\item $\bar W$ is row-stochastic and $WV = V\bar W$;
+\item every eigenvalue of $\bar W$ is an eigenvalue of $W$, so $\Gamma(\bar W) \ge \Gamma(W)$;
+\item the Perron vector aggregates by summation: $\bar\pi_B = \sum_{i \in B} \pi_i$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) is the definition. (2) If $\bar W x = \mu x$ with $x \ne 0$, then $W(Vx) = V\bar W x = \mu\, Vx$ and $Vx \ne 0$. So $\mu$ is an eigenvalue of $W$, and the second-largest modulus of $\bar W$ cannot exceed that of $W$. (3) $\pi' V \bar W = \pi' W V = \pi' V$, and $\pi'V$ sums to one.
 \end{proof}
+
+Two implications follow.
+\begin{itemize}
+\item Under exact lumpability $\Gamma_I \le \Gamma_N$. A finer scale \emph{always} looks at least as fragmented as the coarse one, whatever the economics, so an ordering such as $\Gamma_I < \Gamma_N$ in Example~\ref{ch19:ex:bolivia_three} is no evidence of a ``more fragmented'' individual scale.
+\item Aggregation (Definition~\ref{ch19:def:nesting}) must sum, not average, Perron weights.
+\end{itemize}
+Scale comparisons of $\Gamma$ are meaningful only within a fixed node set, or after an explicit aggregation.
 
 \begin{intuition}[Why the same structure everywhere]
 The same three forces operate at every scale:
@@ -112,7 +143,7 @@ The same three forces operate at every scale:
 
 \textbf{Assortative formation}: Countries observe countries like themselves and converge on similar development doctrines (global $W^I$). Sectors influence sectors in their block (national $W^I$). People form aspirations from their reference group (individual $W^I$). At each scale, assortative information flow produces self-confirming preference stratification.
 
-Remove any one of these forces and the scale invariance breaks. But all three are present at every scale of social organization, from the UN General Assembly to the village market. This is why the same mathematics works everywhere.
+If the conjecture is right, removing any one of these forces breaks the isomorphism. All three are plausibly present at every scale of social organization, from the UN General Assembly to the village market, which is why the same mathematics is worth applying everywhere. Whether it produces the same structure is an empirical question.
 \end{intuition}
 
 
@@ -132,85 +163,83 @@ and the global weight matrix $W_G$ is the block-aggregation of $W_I$ across coun
 \begin{equation}\label{ch19:eq:nesting_G}
 W^G_{cc'} = \frac{\sum_{i \in c, j \in c'} W^I_{ij}}{\sum_{i \in c} \sum_j W^I_{ij}}.
 \end{equation}
+These unweighted aggregates equal the lumped matrix of Proposition~\ref{ch19:prop:lumpability} when $W_I$ is exactly lumpable. In general, the aggregate that preserves power is $\pi$-weighted, $\tilde W_{BB'} = \sum_{i\in B}\pi_i\sum_{j\in B'}W_{ij}/\sum_{i\in B}\pi_i$, whose Perron vector is $\bar\pi_B = \sum_{i\in B}\pi_i$. (Here $W^I$ denotes the individual-scale matrix, not the information layer.)
 \end{definition}
 
-\begin{theorem}[Power Nesting]\label{ch19:thm:nesting}
-The individual-level Perron eigenvector $\boldsymbol{\pi}_I$ factors approximately as:
+\begin{proposition}[Power Nesting]\label{ch19:thm:nesting}
+Let $W_I$ be irreducible and row-stochastic, and partition individuals into blocks $B$ (countries, or sectors within a country). For each block let $S_B = W_{BB} + W_{B\ast}(I - W_{\ast\ast})^{-1}W_{\ast B}$ be its \emph{stochastic complement}, where $\ast$ denotes all nodes outside $B$. Let $s^{(B)}$ be the Perron vector of $S_B$, and $\xi$ the Perron vector of the $k \times k$ coupling matrix $C_{BB'} = s^{(B)\prime}W_{BB'}\ones$. Then, exactly,
+\[
+\pi_{I,i} = \xi_{B(i)}\, s^{(B(i))}_i .
+\]
+Applying the same identity inside each country (whose $S_c$ is itself irreducible and stochastic) gives the nested factorization
 \begin{equation}\label{ch19:eq:nesting_pi}
-\pi_{I,i} \approx \pi_{G,c(i)} \cdot \pi_{N,s(i)|c(i)} \cdot \pi_{\text{within},i|s(i),c(i)},
+\pi_{I,i} = \underbrace{\pi_{G,c(i)}}_{\text{country share}} \cdot \underbrace{\pi_{N,s(i)|c(i)}}_{\text{sector share in } c} \cdot \underbrace{\pi_{\text{within},i|s(i),c(i)}}_{\text{individual share in } s},
 \end{equation}
-where $c(i)$ is agent $i$'s country, $s(i)$ is her sector, $\pi_{G,c}$ is the country's global power, $\pi_{N,s|c}$ is the sector's national power within the country, and $\pi_{\text{within},i|s,c}$ is the agent's within-sector power (determined by individual attributes --- gender, race, etc.).
-\end{theorem}
+where each factor is a share that sums to one over its level.
+\end{proposition}
 
 \begin{proof}[Proof sketch]
-If $W_I$ is approximately the Kronecker product $W_G \otimes W_{N|c} \otimes W_{\text{within}|s,c}$ (the individual-level matrix decomposes into three independent layers), then the Perron eigenvector is the Kronecker product of the three scale-specific Perron eigenvectors. The approximation holds when the within-block structure is approximately independent of the between-block structure at each level --- which is reasonable when the scales are sufficiently separated (individuals interact mostly within their sector, sectors interact mostly within their country).
+This is Meyer's (1989) uncoupling theorem for stochastic complementation, applied once per level; \texttt{code/ch19.py} verifies the identity numerically.
 \end{proof}
 
-\begin{example}[An Indigenous Woman in Potos\'{i}]\label{ch19:ex:potosi}
-Agent $i$: an indigenous woman working in informal commerce in Potos\'{i}, Bolivia.
+\begin{remark}[Simon--Ando: when the factors are local]
+The identity is exact but the stochastic complements depend on the whole matrix. When cross-block coupling is weak, $W_I = W_0 + \varepsilon C$ with $W_0$ block-diagonal (individuals interact mostly within their sector, and sectors mostly within their country), Simon and Ando (1961) show that $s^{(B)}$ is within $O(\varepsilon)$ of the Perron vector of the diagonal block $W_{BB}$ alone. Each factor can then be measured at its own scale. In the code's example, the maximum error is $2\times10^{-2}$ at $\varepsilon = 0.1$ and $3\times10^{-4}$ at $\varepsilon = 0.001$. The exact Kronecker case of Appendix~19A is a special case that additionally requires the \emph{same} sector matrix in every country.
+\end{remark}
 
-\textbf{Global power}: Bolivia's $\pi_G \approx 0.0005$ (Chapter~16). Out of every dollar of global structural power, Bolivia holds 0.05 cents.
+\paragraph{Per-capita comparisons.} Because the factors are shares, per-person comparisons must divide by group size. If $e_{s|c}$ is the sector's employment share and $L_c$ the country's workforce, then for an individual with within-sector per-capita weight $w_i$ (mean one in the sector),
+\[
+\pi_{I,i} = \frac{\pi_{G,c}}{L_c}\cdot\frac{\pi_{N,s|c}}{e_{s|c}}\cdot w_i .
+\]
+The three per-capita factors are country power per worker, sector power per worker (relative to the national average) and the individual's within-sector position.
 
-\textbf{National power}: Informal commerce's $\pi_{N,\text{informal}|BOL} \approx 0.05$ (Chapter~17). Of Bolivia's structural power, informal commerce holds 5\%.
+\begin{example}[An Indigenous Woman in Potos\'{i} \illustrative]\label{ch19:ex:potosi}
+Agent $i$: an indigenous woman working in informal services in Potos\'{i}, Bolivia. Agent $j$: a non-indigenous male gas executive in Santa Cruz. The inputs are the illustrative values of Chapters~16--18.
 
-\textbf{Within-sector power}: Indigenous women in informal commerce: $\pi_{\text{within}} \approx 0.8 \times 0.58 = 0.46$ of the average within-sector worker (Chapter~18: racial factor 0.80, gender factor 0.58).
+\textbf{Country factor.} Both are Bolivian, so it cancels.
 
-\textbf{Total individual power}:
-\begin{equation}
-\pi_{I,i} \approx 0.0005 \times 0.05 \times 0.46 \times N_{\text{within}} \approx 1.15 \times 10^{-5} \cdot N_{\text{norm}}.
-\end{equation}
+\textbf{Sector factor.} In Chapter~17's table, informal services hold $\pi_N = 0.05$ of national power with $18\%$ of employment ($0.05/0.18 = 0.28$ per worker). Hydrocarbons hold $0.09$ with $1\%$ of employment ($9.0$ per worker). Ratio: $9.0/0.28 = 32.4$.
 
-Compare with a mestizo male gas executive in Santa Cruz:
-\begin{equation}
-\pi_{I,j} \approx 0.0005 \times 0.09 \times 1.72 \times N_{\text{norm}} \approx 7.74 \times 10^{-5} \cdot N_{\text{norm}}.
-\end{equation}
+\textbf{Within-sector factor.} By Chapter~18's illustrative calibration, an indigenous woman holds $0.57 \times 0.58 = 0.33$ of a non-indigenous man's per-capita power. Ratio: $1/0.33 = 3.03$.
 
-The ratio: $\pi_{I,j}/\pi_{I,i} \approx 6.7$. The gas executive has 6.7 times the structural power of the indigenous market vendor. Both are Bolivian; the country-level factor cancels. The gap comes from the national sector position ($0.09/0.05 = 1.8$) and the within-sector attribute position ($1.72/0.46 = 3.7$). The multiplicative structure: $1.8 \times 3.7 = 6.7$.
+\textbf{Total.} $\pi_{I,j}/\pi_{I,i} \approx 32.4 \times 3.03 \approx 98$. The sector factor dominates: power per worker in an enclave that employs very few people is large.
 
-Now compare the gas executive with a German engineer:
-\begin{equation}
-\pi_{I,\text{German}} \approx 0.08 \times 0.14 \times 1.0 \times N_{\text{norm}} \approx 0.0112 \cdot N_{\text{norm}}.
-\end{equation}
-
-The ratio: $\pi_{I,\text{German}}/\pi_{I,\text{Potos\'{i}}} \approx 0.0112/(1.15 \times 10^{-5}) \approx 974$. The German engineer has \textbf{nearly a thousand times} the structural power of the indigenous market vendor in Potos\'{i}. This is the compound effect of three scales of inequality: global ($0.08/0.0005 = 160$), national ($0.14/0.05 = 2.8$), within-sector ($1.0/0.46 = 2.2$). The product: $160 \times 2.8 \times 2.2 = 986 \approx 974$ (the approximation is imperfect because the Kronecker factorization is approximate).
+\textbf{A German engineer.} Germany holds $\pi_G = 0.08$ and Bolivia $0.0005$ (Chapter~16), a ratio of 160. \emph{Per worker}, with illustrative workforces of 45 and 6 million, the country factor is $160 \times 6/45 = 21.3$. Put the engineer in a sector whose power share equals its employment share (factor $1$, against $0.28$ for informal services) and give her within-sector factor $1$. The compound ratio to the Potos\'{i} vendor is then $21.3 \times 3.6 \times 3.03 \approx 233$. Forgetting to divide country power by workforce size would inflate this to about $1{,}000$. (Numbers: \texttt{code/ch19.py}.)
 \end{example}
 
 \begin{vizpanel}{Power nesting: three scales, one agent}
 \begin{center}
 \begin{tikzpicture}[scale=1]
-%% Three nested boxes
+%% Three nested boxes; labels are per-capita factors (code/ch19.py)
 \draw[blue!70!black, very thick] (0, 0) rectangle (10, 3);
-\node[font=\scriptsize, blue!70!black] at (5, 3.2) {Global: $\pi_G(\text{Bolivia}) = 0.0005$};
+\node[font=\scriptsize, blue!70!black] at (5, 3.2) {Country: Bolivia (common factor, cancels)};
 
 \draw[blue!50!black, thick] (0.5, 0.3) rectangle (4.0, 2.7);
-\node[font=\scriptsize, blue!50!black] at (2.25, 2.85) {National: $\pi_N(\text{informal}) = 0.05$};
+\node[font=\scriptsize, blue!50!black] at (2.25, 2.85) {Sector: $\pi_N/e = 0.05/0.18 = 0.28$};
 
 \draw[blue!30!black] (0.8, 0.5) rectangle (2.8, 2.4);
-\node[font=\tiny, blue!30!black, align=center] at (1.8, 2.55) {Within: $\pi_w = 0.46$};
+\node[font=\tiny, blue!30!black, align=center] at (1.8, 2.55) {Within: $w = 0.33$};
 
 %% The agent
 \fill[red!60] (1.8, 1.3) circle (4pt);
 \node[font=\tiny, below] at (1.8, 0.9) {Indigenous woman, Potos\'{i}};
-\node[font=\tiny] at (1.8, 0.6) {$\pi_I \approx 1.15 \times 10^{-5}$};
 
 %% Comparison agent
 \begin{scope}[xshift=5.5cm]
 \draw[blue!50!black, thick] (0, 0.3) rectangle (3.5, 2.7);
-\node[font=\scriptsize, blue!50!black] at (1.75, 2.85) {National: $\pi_N(\text{gas}) = 0.09$};
+\node[font=\scriptsize, blue!50!black] at (1.75, 2.85) {Sector: $\pi_N/e = 0.09/0.01 = 9.0$};
 \draw[blue!30!black] (0.3, 0.5) rectangle (3.2, 2.4);
-\node[font=\tiny, blue!30!black] at (1.75, 2.55) {Within: $\pi_w = 1.72$};
+\node[font=\tiny, blue!30!black] at (1.75, 2.55) {Within: $w = 1$};
 \fill[green!60!black] (1.75, 1.3) circle (4pt);
-\node[font=\tiny, below] at (1.75, 0.9) {Mestizo executive, Santa Cruz};
-\node[font=\tiny] at (1.75, 0.6) {$\pi_I \approx 7.74 \times 10^{-5}$};
+\node[font=\tiny, below] at (1.75, 0.9) {Non-indigenous executive, Santa Cruz};
 \end{scope}
 
 %% Ratio
 \draw[<->, thick, red!60!black] (2.3, 1.3) -- (6.7, 1.3);
-\node[font=\scriptsize, red!60!black, above] at (4.5, 1.35) {$\times\, 6.7$};
+\node[font=\scriptsize, red!60!black, above] at (4.5, 1.35) {$\times\, 98$};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Two Bolivians in the same country. The outer box (global) is the same for both. The middle boxes (national sectors) differ: gas vs.\ informal. The inner boxes (within-sector attributes) differ: mestizo male vs.\ indigenous female. The compound ratio: $6.7 \times$. Against a German engineer, the ratio becomes $\approx 1{,}000\times$.
+\small Two Bolivians in the same country (illustrative values). The outer box (country) is common to both and cancels. The middle boxes give sector power per worker: $9.0$ for gas against $0.28$ for informal services, a factor of 32. The inner boxes give the within-sector factor: $1$ against $0.33$, a factor of 3. The compound ratio is about $98\times$. Against a German engineer in an average sector it is about $233\times$, once country power is expressed per worker.
 \end{vizpanel}
 
 
@@ -219,19 +248,19 @@ The ratio: $\pi_{I,\text{German}}/\pi_{I,\text{Potos\'{i}}} \approx 0.0112/(1.15
 \label{ch19:sec:five}
 %% =====================================================================
 
-Sunkel and Paz (1970) identified five phenomena that they argued were ``diverse manifestations of a single process.'' Each has a precise representation as a property of the multi-scale weight matrix.
+Sunkel argued that five phenomena are manifestations of a single process. The following definition gives each a counterpart as a property of the multi-scale weight matrix. It is a dictionary, not a theorem: it fixes what we will \emph{mean} by each phenomenon in matrix terms. Integration ($\Gamma$) and the distribution of power ($\Neff$, $\Var(\pi)$) are kept as separate coordinates, because they are independent (Proposition~\ref{ch06:prop:gap-power-independent}).
 
-\begin{theorem}[Five Processes as Matrix Properties]\label{ch19:thm:five}
+\begin{definition}[Five Processes as Matrix Properties]\label{ch19:thm:five}
 \begin{enumerate}
-\item \textbf{Development} (at any scale): $\Gamma_s$ is large and increasing. The weight matrix is becoming more connected. Growth propagates across nodes. $\boldsymbol{\pi}_s$ is becoming more equal.
+\item \textbf{Development} (at any scale): $\Gamma_s$ is large and increasing. The weight matrix is becoming more connected, and growth propagates across nodes. If, in addition, $\Neff(\pi_s)$ is rising, power is also deconcentrating.
 
-\item \textbf{Underdevelopment}: $\Gamma_s$ is small and stagnant. The weight matrix is block-diagonal. Growth does not propagate. $\boldsymbol{\pi}_s$ is concentrated. This is not the absence of development --- it is a specific structural equilibrium (the fragmented fixed point of Chapter~13).
+\item \textbf{Underdevelopment}: $\Gamma_s$ is small and stagnant because cross-block coupling is weak. The weight matrix is nearly block-diagonal, and growth does not propagate. This is not the absence of development --- it is a specific structural equilibrium (the fragmented fixed point of Chapter~13). It typically coexists with concentrated $\pi_s$, but that is a second, independent property.
 
 \item \textbf{Dependence}: The off-diagonal block of $W^P$ is asymmetric: the periphery's row entries (what it imports from the core) are large, but the core's row entries (what it imports from the periphery) are small. In Perron terms: $\pi_{\text{periphery}} \ll 1/N$. The periphery needs the core more than the core needs the periphery.
 
-\item \textbf{Marginality}: Some nodes have $\pi_i \approx 0$: they are structurally irrelevant. Their rows and columns in $W$ are nearly zero. They exist in the economy but do not participate in the network. They are invisible to the Perron eigenvector. This is Bolivia's household-production sector (Chapter~17: $\pi = 0.02$); it is the indigenous woman in Potos\'{i} (this chapter: $\pi_I \approx 10^{-5}$).
+\item \textbf{Marginality}: Some nodes have $\pi_i \approx 0$: almost no one places weight on them. Their \emph{columns} in $W$ are nearly zero (their rows still sum to one: they depend on others). They exist in the economy but carry almost no weight in the network. Examples: Bolivia's household-production sector (Chapter~17: $\pi = 0.02$), or the Potos\'{i} vendor of Example~\ref{ch19:ex:potosi}, whose per-capita power is about 1\% of a gas executive's.
 
-\item \textbf{Spatial inequality}: The spectral gap varies across geographic submatrices: $\Gamma_{\text{Santa Cruz}} > \Gamma_{\text{Potos\'{i}}}$. Within the same country, some regions have integrated $W^P$ (Santa Cruz: agro-industry, services, some manufacturing) and others have fragmented $W^P$ (Potos\'{i}: mining enclave plus subsistence agriculture). Regional inequality IS the within-country variance of $\Gamma$.
+\item \textbf{Spatial inequality (in integration)}: The spectral gap varies across regional submatrices, each renormalized to be row-stochastic: $\Gamma_{\text{Santa Cruz}} > \Gamma_{\text{Potos\'{i}}}$. Some regions have integrated $W^P$ (Santa Cruz: agro-industry, services, some manufacturing). Others have fragmented $W^P$ (Potos\'{i}: mining enclave plus subsistence agriculture). $\Var_r(\Gamma_r)$ measures regional disparity in \emph{integration}; regional income inequality is a different quantity that it may help explain.
 \end{enumerate}
 
 All five are properties of the \textbf{same} multi-scale weight matrix $(W_G, W_N, W_I)$:
@@ -241,10 +270,10 @@ All five are properties of the \textbf{same} multi-scale weight matrix $(W_G, W_
 \begin{equation}
 \text{Marginality} = \pi_i \approx 0, \quad \text{Spatial inequality} = \Var_r(\Gamma_r).
 \end{equation}
-\end{theorem}
+\end{definition}
 
 \begin{keyinsight}
-Sunkel and Paz's claim --- five processes, one process --- is a theorem, not a metaphor. The ``single process'' is the co-evolutionary dynamics of Chapter~13: proximity-dominated edge formation under complementary returns and assortative information. This process simultaneously produces:
+Sunkel's claim --- five processes, one process --- becomes, in this vocabulary, Conjecture~\ref{ch19:conj:mechanism}. The ``single process'' would be the co-evolutionary dynamics of Chapter~13: proximity-dominated edge formation under complementary returns and assortative information. If the conjecture holds, this process simultaneously produces:
 \begin{itemize}
 \item Dense cores at every scale (development of the center).
 \item Sparse peripheries at every scale (underdevelopment of the periphery).
@@ -253,7 +282,7 @@ Sunkel and Paz's claim --- five processes, one process --- is a theorem, not a m
 \item Geographic variation in $\Gamma$ (spatial inequality).
 \end{itemize}
 
-The five phenomena do not have five explanations. They have one: the spectral structure of $W$ at multiple scales, produced by a single dynamic mechanism. To address any one, you must address the mechanism. Piecemeal interventions (transfers for marginality, trade policy for dependence, regional spending for spatial inequality) treat symptoms. The structural intervention --- increase $\Gamma$ at the binding scale --- treats the cause.
+On this reading the five phenomena have one explanation: the block structure of $W$ at multiple scales, produced by a single dynamic mechanism. Interventions aimed at one symptom (transfers for marginality, trade policy for dependence, regional spending for spatial inequality) leave the mechanism in place. A structural intervention targets the mechanism: it raises cross-block coupling ($\Gamma$) at the binding scale, \emph{and} it addresses the concentration of $\pi$ directly. The two are separate targets.
 \end{keyinsight}
 
 
@@ -262,10 +291,10 @@ The five phenomena do not have five explanations. They have one: the spectral st
 \label{ch19:sec:feedback}
 %% =====================================================================
 
-\begin{proposition}[Cross-Scale Reinforcement]\label{ch19:prop:cross_scale}
+\begin{conjecture}[Cross-Scale Reinforcement]\label{ch19:prop:cross_scale}
 The three scales reinforce each other:
 \begin{enumerate}
-\item \textbf{Global $\to$ national}: A country's position in $W_G$ (low $\pi_G$) constrains its domestic $\Gamma_N$. Countries with low global power face balance-of-payments constraints, commodity-dependent export structures, and IMF conditionality that prevents the domestic structural investments needed to raise $\Gamma_N$ (the ``original sin'' of peripheral economies).
+\item \textbf{Global $\to$ national}: A country's position in $W_G$ (low $\pi_G$) constrains its domestic $\Gamma_N$. Countries with low global power face balance-of-payments constraints, commodity-dependent export structures, and external conditionality that can crowd out the domestic structural investments needed to raise $\Gamma_N$.
 
 \item \textbf{National $\to$ individual}: Low domestic $\Gamma_N$ means block-diagonal $W_N$, which channels individuals from disadvantaged groups into low-$\pi$ sectors. The individual-level attribute constraints (Chapter~18) are enforced by the national structure: a woman can only work in sectors that the national $W^P$ makes available to her.
 
@@ -274,19 +303,20 @@ The three scales reinforce each other:
 \item \textbf{National $\to$ global}: Countries with low $\Gamma_N$ produce simple, concentrated exports (low ECI), which keeps them on the periphery of the global $W_G$ (low $\pi_G$). Domestic fragmentation reproduces global peripherality.
 \end{enumerate}
 
-The four feedback loops form a vicious circle: low global position $\to$ low domestic $\Gamma$ $\to$ low individual $\pi$ $\to$ low national $\Gamma$ $\to$ low global position. Breaking the circle at any one scale has limited effect unless the other scales respond. This is why comprehensive structural reform (all scales, all networks) is needed, and why piecemeal interventions produce piecemeal results.
-\end{proposition}
+The four feedback loops form a vicious circle: low global position $\to$ low domestic $\Gamma$ $\to$ low individual $\pi$ $\to$ low national $\Gamma$ $\to$ low global position. Breaking the circle at any one scale has limited effect unless the other scales respond. If the loops are strong, comprehensive structural reform (all scales, all networks) is needed, and piecemeal interventions produce piecemeal results. Each link is a testable hypothesis; none is established here.
+\end{conjecture}
 
-\begin{example}[Bolivia's Vicious Circle]\label{ch19:ex:vicious}
+\begin{example}[Bolivia's Vicious Circle \illustrative]\label{ch19:ex:vicious}
+The five links, on the illustrative values of Chapters~16--18:
 \begin{enumerate}
-\item \textbf{Global}: Bolivia's $\pi_G = 0.0005$ (Chapter~16). Gas exports on the periphery of the product space. Low ECI $= -0.8$.
-\item \textbf{National}: $\Gamma_N = 0.13$. Three disconnected blocks. $\sigma_B = 0.62$.
-\item \textbf{Individual}: Indigenous women: $\pi_I \approx 10^{-5}$. Gender $\times$ ethnicity constraint: $\phi \approx 0.105$.
+\item \textbf{Global}: on Chapter~16's values, Bolivia holds $\pi_G = 0.0005$. Its gas exports sit on the periphery of the product space, with a low ECI of $-0.8$.
+\item \textbf{National}: $\Gamma_N = 0.13$. Three weakly coupled blocks. $\sigma_B = 0.62$.
+\item \textbf{Individual}: Indigenous women hold about one-third of a non-indigenous man's per-capita power (Chapter~18). Separable gender $\times$ ethnicity edge constraint: $\phi \approx 0.105$.
 \item \textbf{Back to national}: With 41\% of the population (indigenous) and 50\% (women) facing severe attribute constraints, the national talent pool is fragmented. Cross-group edges that could densify $W^P_N$ are suppressed. $\Gamma_N$ stays low.
 \item \textbf{Back to global}: With low $\Gamma_N$, Bolivia cannot diversify (the principle of relatedness traps it on the commodity periphery). $\pi_G$ stays low.
 \end{enumerate}
 
-The circle is self-reinforcing. The gas nationalization of 2006 attempted to break it at the global-to-national link (capturing more resource rents). But without addressing the national-to-individual link (attribute constraints) or the individual-to-national link (formation channel), the rents were redistributed within the existing structure. Twelve years later, $\Gamma_N = 0.13$ --- unchanged.
+The circle is self-reinforcing. The gas nationalization of 2006 attempted to break it at the global-to-national link (capturing more resource rents). But without addressing the national-to-individual link (attribute constraints) or the individual-to-national link (formation channel), the rents were redistributed within the existing structure. On Chapter~17's illustrative trajectory, $\Gamma_N$ was $0.12$ in 2006 and $0.13$ in 2019.
 \end{example}
 
 
@@ -295,24 +325,27 @@ The circle is self-reinforcing. The gas nationalization of 2006 attempted to bre
 \label{ch19:sec:intervention}
 %% =====================================================================
 
-\begin{proposition}[The Binding Scale]\label{ch19:prop:binding}
-The optimal scale of intervention is the one where the marginal return to increasing $\Gamma$ is highest. Define the \textbf{binding scale} as:
+\begin{definition}[The Binding Scale]\label{ch19:prop:binding}
+Let $L_{\text{total}}$ be the total welfare loss across all scales, decreasing in each $\Gamma_s$, and let $c_s$ be the marginal cost of raising $\Gamma_s$. The \textbf{binding scale} is the one where a unit of resources reduces the loss most:
 \begin{equation}\label{ch19:eq:binding}
-s^* = \argmax_{s \in \{G, N, I\}} \frac{\partial L_{\text{total}}}{\partial \Gamma_s},
+s^* = \argmax_{s \in \{G, N, I\}} \; \frac{1}{c_s}\left(-\frac{\partial L_{\text{total}}}{\partial \Gamma_s}\right).
 \end{equation}
-where $L_{\text{total}}$ is the total welfare loss across all scales.
+\end{definition}
 
-For Bolivia: the binding scale is \textbf{national} ($\Gamma_N = 0.13$ is the lowest, and the cross-scale feedback from national to both individual and global is strongest). Within the national scale, the binding instrument is $\Gamma$ itself (Chapter~17). The operator sequence from Chapter~15 targets the national $\Gamma$ directly.
+The binding scale is \emph{not} simply the scale with the smallest $\Gamma$. Across scales the $\Gamma$ values are not directly comparable (Proposition~\ref{ch19:prop:lumpability}), and the marginal loss reduction depends on the cross-scale feedbacks.
 
-For a country like South Korea ($\Gamma_N = 0.45$, $\Gamma_I \approx 0.35$ due to remaining gender gaps): the binding scale may be \textbf{individual} (attribute constraints are the largest remaining source of $\Gamma$ suppression).
-
-For a small open economy like Uruguay ($\Gamma_N \approx 0.30$, but $\pi_G = 0.001$): the binding scale may be \textbf{global} (the domestic structure is reasonably integrated, but the global position constrains diversification).
-\end{proposition}
+\begin{remark}[Three illustrative cases]
+\begin{itemize}
+\item \textbf{Bolivia.} The chapter's judgement is that the \textbf{national} scale binds. The reason is not that $\Gamma_N = 0.13$ is the lowest value in Example~\ref{ch19:ex:bolivia_three} (the hypothetical individual value is lower). It is that the conjectured feedback from the national scale to both the individual and the global scale is strongest. The operator sequence of Chapter~15 targets the national $\Gamma$ directly.
+\item \textbf{South Korea} (illustrative $\Gamma_N = 0.45$, $\Gamma_I \approx 0.35$ because of remaining gender gaps). The binding scale may be \textbf{individual}: attribute constraints are the largest remaining source of weak integration.
+\item \textbf{Uruguay}, a small open economy (illustrative $\Gamma_N \approx 0.30$, $\pi_G = 0.001$). The binding scale may be \textbf{global}: the domestic structure is reasonably integrated, but the global position constrains diversification.
+\end{itemize}
+\end{remark}
 
 \begin{prebisch}[Why Prebisch was right about industrialization but incomplete]
 Prebisch (1949) argued that the periphery should industrialize to escape the deteriorating terms of trade. His prescription operated at the global scale: change the periphery's position in $W_G$ by adding manufacturing exports. He was right that the global scale matters. But he did not address the national and individual scales: even with manufacturing, a block-diagonal domestic $W_N$ and attribute-constrained $W_I$ prevent the structural integration needed for industrialization to propagate growth broadly.
 
-South Korea followed Prebisch's prescription AND addressed the other scales: land reform (national: broke the landlord block), education (individual: reduced human-capital attribute constraints), export discipline (global: moved up the product space). The three scales were addressed simultaneously. Bolivia followed only the global prescription (ISI, then gas nationalization) without the national and individual reforms. The result: Bolivia's global position improved slightly (ECI $-0.85 \to -0.80$) but the domestic and individual structures remained frozen.
+South Korea industrialized --- through export discipline rather than the inward-looking ISI usually associated with ECLA --- and also addressed the other scales: land reform (national: broke the landlord block), education (individual: reduced human-capital attribute constraints), export discipline (global: moved up the product space). The three scales were addressed simultaneously. Bolivia followed only the global prescription (ISI, then gas nationalization) without the national and individual reforms. The result, on this chapter's illustrative numbers: Bolivia's global position improved slightly (ECI $-0.85 \to -0.80$) while the domestic and individual structures barely moved.
 
 The lesson: structural change must be multi-scale. Addressing one scale without the others is like brightening one block of the heatmap while leaving the rest dark.
 \end{prebisch}
@@ -324,17 +357,15 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 %% =====================================================================
 
 \begin{enumerate}
-\item The weight matrix has the \textbf{same qualitative structure} at every scale: core-periphery topology, small $\Gamma$, concentrated $\boldsymbol{\pi}$, block-diagonal approximation. Bolivia: $\Gamma \in [0.10, 0.20]$ at all three scales.
+\item \textbf{Structural isomorphism} across scales (core-periphery topology, weak cross-block coupling, concentrated $\boldsymbol{\pi}$) is a definition plus a conjecture about a common mechanism (proximity, complementarity, assortative formation), not a theorem. Bolivia's illustrative $\Gamma$ lies in $[0.10, 0.20]$ at the three scales; the individual-scale value is hypothetical.
 
-\item \textbf{Scale invariance} is a theorem, not an analogy: the same three forces (proximity, complementarity, assortative formation) produce the same structural equilibrium at every scale.
+\item \textbf{Aggregation raises $\Gamma$}: under exact lumpability, the coarse matrix's eigenvalues are a subset of the fine matrix's, so $\Gamma_{\text{coarse}} \ge \Gamma_{\text{fine}}$ and Perron weights aggregate by summation. Cross-scale comparisons of $\Gamma$ are partly mechanical.
 
-\item Individual power is \textbf{nested}: $\pi_{I,i} \approx \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}|s,c}$. The indigenous market vendor in Potos\'{i} has 1/1000th of the German engineer's structural power. The ratio decomposes into three scale-specific factors.
+\item Individual power is \textbf{nested} exactly, through stochastic complementation: $\pi_{I,i} = \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}|s,c}$, with factors that are local under weak coupling (Simon--Ando). Per-capita comparisons must divide by group size. The Potos\'{i} vendor has about 1/100 of a gas executive's per-capita power (illustrative), and the sector factor dominates.
 
-\item \textbf{Five processes, one process} (Sunkel and Paz): development = high $\Gamma$; underdevelopment = low $\Gamma$; dependence = asymmetric $W$; marginality = $\pi_i \approx 0$; spatial inequality = $\Var_r(\Gamma_r)$. All are properties of the same multi-scale weight matrix.
+\item \textbf{Five processes, one process} (Sunkel) becomes a dictionary: development = high and rising $\Gamma$; underdevelopment = low $\Gamma$ from weak coupling; dependence = asymmetric cross-block $W$; marginality = $\pi_i \approx 0$; spatial inequality in integration = $\Var_r(\Gamma_r)$. ``One process'' is the conjectured common mechanism.
 
-\item \textbf{Cross-scale feedback}: the three scales reinforce each other in a vicious circle. Breaking it requires multi-scale intervention.
-
-\item The \textbf{binding scale} determines where intervention has the highest return. For Bolivia: the national scale ($\Gamma_N = 0.13$) is binding.
+\item \textbf{Cross-scale feedback} may lock the scales into a vicious circle (conjectured). The \textbf{binding scale} maximizes the loss reduction per unit cost; it is not simply the scale with the smallest $\Gamma$. For Bolivia the chapter argues it is the national scale.
 \end{enumerate}
 
 
@@ -345,17 +376,17 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 
 \begin{enumerate}[label=\textbf{19.\arabic*}, leftmargin=3em]
 
-\item \textbf{Three-scale comparison.} Using Bolivia data: reproduce Example~\ref{ch19:ex:bolivia_three}. For each scale, compute $\Gamma$, $\max\pi/\min\pi$, and $\sigma_B$. Plot all three on a single chart. Are they similar?
+\item \textbf{Three-scale comparison.} Using Bolivia data, recompute the global and national columns of Example~\ref{ch19:ex:bolivia_three}: $\Gamma$, $\max\pi/\min\pi$ and $\sigma_B$. For the individual scale, describe what network data would be needed and how you would sample it. Using Proposition~\ref{ch19:prop:lumpability}, explain why a lower $\Gamma$ at the finer scale is not, by itself, evidence of more fragmentation.
 
-\item \textbf{Power nesting.} Choose three Bolivian agents: (a) a mestizo male in gas, (b) an indigenous male in agriculture, (c) an indigenous female in informal commerce. Compute $\pi_I$ for each using the nesting formula. What are the pairwise ratios?
+\item \textbf{Power nesting.} Choose three Bolivian agents: (a) a non-indigenous male in gas, (b) an indigenous male in agriculture, (c) an indigenous female in informal services. Compute each agent's per-capita power with the per-capita nesting formula, dividing sector power by employment share. What are the pairwise ratios? Which factor dominates?
 
-\item \textbf{The global comparison.} Using the nesting formula: compute $\pi_I$ for a German female engineer, a Brazilian mestizo factory worker, and the indigenous woman in Potos\'{i}. What are the ratios? Which scale contributes most to the gap?
+\item \textbf{The global comparison.} Using the nesting formula: compute per-capita $\pi_I$ for a German female engineer, a Brazilian factory worker, and the indigenous woman in Potos\'{i}, expressing country power per worker. What are the ratios? Which scale contributes most to the gap? How much does the answer change if you forget to divide by workforce size?
 
 \item \textbf{Five processes as matrix properties.} For a $6 \times 6$ economy with three blocks: construct $W$ and compute each of Sunkel's five phenomena. Verify that all five are visible in the same matrix.
 
 \item \textbf{Cross-scale feedback simulation.} Construct a three-scale model ($G$: 3 countries; $N$: 3 sectors per country; $I$: 2 agents per sector). Implement the nesting structure. Simulate the co-evolutionary dynamics with cross-scale feedback. Does the vicious circle emerge? At what parameter values does it break?
 
-\item \textbf{The binding scale.} For three countries (Bolivia, South Korea, Uruguay): estimate $\Gamma_G$ (from ECI), $\Gamma_N$ (from I-O table), and approximate $\Gamma_I$ (from household survey data on occupational segregation). Which scale is binding for each? Does the answer match the policy history?
+\item \textbf{The binding scale.} For three countries (Bolivia, South Korea, Uruguay): estimate $\Gamma_G$ (from bilateral trade data), $\Gamma_N$ (from I-O table), and approximate $\Gamma_I$ (from household survey data on occupational segregation). Which scale is binding for each? Does the answer match the policy history?
 
 \item \textbf{Multi-scale structural plan for Bolivia.}
 \begin{enumerate}
@@ -379,18 +410,17 @@ The lesson: structural change must be multi-scale. Addressing one scale without 
 \addcontentsline{toc}{subsection}{Appendix 19A: Kronecker Factorization}
 \label{ch19:app:kronecker}
 
-\paragraph{Setup.} Consider an $N$-agent economy where agents are grouped into $C$ countries, each with $S$ sectors and $K$ individuals per sector ($N = CSK$). If the individual-level weight matrix factors as $W_I \approx W_G \otimes W_{N|c} \otimes W_{\text{within}|s,c}$, then:
+\paragraph{Setup.} Consider an $N$-agent economy where agents are grouped into $C$ countries, each with $S$ sectors and $K$ individuals per sector ($N = CSK$). Suppose the individual-level matrix factors \emph{exactly} as $W_I = W_G \otimes W_{N} \otimes W_{\text{within}}$. This is a strong assumption: it requires the same sectoral matrix $W_N$ in every country and the same within-sector matrix in every sector. Then
 \begin{equation}
-\boldsymbol{\pi}_I = \boldsymbol{\pi}_G \otimes \boldsymbol{\pi}_{N|c} \otimes \boldsymbol{\pi}_{\text{within}|s,c},
+\boldsymbol{\pi}_I = \boldsymbol{\pi}_G \otimes \boldsymbol{\pi}_{N} \otimes \boldsymbol{\pi}_{\text{within}},
 \end{equation}
-and the spectral gap satisfies:
+because $(\pi_G\otimes\pi_N\otimes\pi_w)'(W_G\otimes W_N\otimes W_w) = (\pi_G'W_G)\otimes(\pi_N'W_N)\otimes(\pi_w'W_w)$. The eigenvalues of a Kronecker product are the products of the factors' eigenvalues, and all have modulus at most one. The second-largest modulus is therefore $\max(|\lambda_2(W_G)|, |\lambda_2(W_N)|, |\lambda_2(W_{\text{within}})|)$, so
 \begin{equation}
 \Gamma_I = \min(\Gamma_G, \Gamma_N, \Gamma_{\text{within}}).
 \end{equation}
+In this special case the scale with the smallest spectral gap is the ``bottleneck'' in integration.
 
-The binding scale for $\Gamma_I$ is the scale with the smallest spectral gap: this is the ``bottleneck'' in structural integration.
-
-\paragraph{Approximate factorization.} The exact Kronecker product assumption is strong. In practice, $W_I$ has cross-scale interactions (e.g., a gas executive in Bolivia trades with both Bolivian farmers and foreign companies). The factorization is approximate, with residuals that capture cross-scale spillovers. The approximation error is bounded by $\|W_I - W_G \otimes W_{N|c} \otimes W_{\text{within}}\|_F$, which is small when the scales are well-separated (individual interactions are mostly within-sector, sectoral interactions are mostly within-country).
+\paragraph{Beyond the Kronecker case.} Real matrices have scale-specific structure (different sector matrices in different countries) and cross-scale interactions (a gas executive in Bolivia trades with both Bolivian farmers and foreign companies). The general, exact statement is the stochastic-complementation identity of Proposition~\ref{ch19:thm:nesting}. Its factors are approximately local when coupling across blocks is weak (Simon--Ando). The sensitivity of $\pi$ to the coupling is governed by the perturbation lemma (Lemma~\ref{ch06:lem:perturbation}): it is large when an eigenvalue is close to $+1$, i.e.\ precisely when the blocks are weakly coupled.
 
 
 \subsection*{Appendix 19B: Spectral Gap of Nested Block Matrices}
@@ -399,47 +429,46 @@ The binding scale for $\Gamma_I$ is the scale with the smallest spectral gap: th
 
 \paragraph{Two-level nesting.} Consider a matrix with $k$ blocks at level 1, each containing $m$ sub-blocks at level 2. Within level-2 sub-blocks: weight $w_2$. Between level-2 sub-blocks within the same level-1 block: weight $w_1$. Between level-1 blocks: weight $w_0$.
 
-The eigenvalues cluster at three scales:
+Let each sub-block have $n$ nodes, $N = kmn$, and let $d = n w_2 + (m-1)n w_1 + (k-1)mn w_0$ be the common row sum; $W = K/d$. Because the partitions are equitable, the spectrum is exact:
 \begin{enumerate}
-\item Level-2 eigenvalues: $\lambda \approx 1 - (w_2 - w_1)/w_2$ (within sub-blocks).
-\item Level-1 eigenvalues: $\lambda \approx 1 - (w_1 - w_0)/w_1$ (between sub-blocks, within blocks).
-\item Global eigenvalues: $\lambda \approx 1 - w_0 / \bar{w}$ (between blocks).
+\item Between level-1 blocks: $\lambda = 1 - w_0/\bar w$, with $\bar w = d/N$ the mean entry of $K$ (multiplicity $k-1$).
+\item Between sub-blocks within a block: $\lambda = n(w_2 - w_1)/d$ (multiplicity $k(m-1)$).
+\item Within sub-blocks: $\lambda = 0$ (multiplicity $N - km$).
 \end{enumerate}
-
-The spectral gap of the full matrix is determined by the smallest of these gaps --- the most fragmented scale.
+Example ($k = m = 3$, $n = 4$, $w_2 = 1$, $w_1 = 0.3$, $w_0 = 0.05$): the eigenvalues are $1$, $0.763$ ($\times 2$), $0.368$ ($\times 6$) and $0$ ($\times 27$), so $\Gamma = 0.237$. The spectral gap is set by the weakest coupling --- here the coupling between level-1 blocks. (Numbers: \texttt{code/ch19.py}.)
 
 
 %% =====================================================================
 \subsection*{Structuralist Case Study: Sunkel's ``Five Processes, One Process''}
-\addcontentsline{toc}{subsection}{Structuralist Case Study: Sunkel (1970)}
+\addcontentsline{toc}{subsection}{Structuralist Case Study: Sunkel (1970--71)}
 %% =====================================================================
 
 Osvaldo Sunkel's third appearance in this book (after Chapter~4 with Paz, and Chapter~13 on integration/disintegration). Here we address his deepest claim: that development, underdevelopment, dependence, marginality, and spatial inequality are not five problems but five symptoms of one structural condition.
 
-Sunkel made this argument in \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (1970, with Pedro Paz) and elaborated it in subsequent work. The claim was methodological as much as substantive: he argued that the fragmentation of development economics into sub-fields (trade theory for dependence, growth theory for development, poverty analysis for marginality, regional science for spatial inequality) was itself an obstacle to understanding. The phenomena are connected because the structure that produces them is connected.
+Sunkel developed this argument in \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (1970, with Pedro Paz) and in ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina'' (1971). % TODO-VERIFY: which text contains the explicit five-process formulation. The claim was methodological as much as substantive: he argued that the fragmentation of development economics into sub-fields (trade theory for dependence, growth theory for development, poverty analysis for marginality, regional science for spatial inequality) was itself an obstacle to understanding. The phenomena are connected because the structure that produces them is connected.
 
-\textbf{The formal vindication.} Theorem~\ref{ch19:thm:five} proves Sunkel's claim: all five phenomena are properties of the same multi-scale weight matrix, produced by the same dynamic mechanism. Development is high $\Gamma$. Underdevelopment is low $\Gamma$. Dependence is asymmetric $W$. Marginality is $\pi_i \approx 0$. Spatial inequality is $\Var_r(\Gamma_r)$. There are not five problems. There is one matrix, viewed from five angles.
+\textbf{The formal translation.} Definition~\ref{ch19:thm:five} gives each of the five phenomena a counterpart as a property of the same multi-scale weight matrix. Development is high $\Gamma$. Underdevelopment is low $\Gamma$ from weak coupling. Dependence is asymmetric $W$. Marginality is $\pi_i \approx 0$. Spatial inequality (in integration) is $\Var_r(\Gamma_r)$. That they share a single \emph{cause} is the content of Conjecture~\ref{ch19:conj:mechanism}, a claim the translation makes testable but does not prove.
 
-\textbf{The policy implication.} If the five phenomena have one cause (the spectral structure of $W$), they have one cure: increase $\Gamma$ at the binding scale. The sub-field fragmentation of development economics generates sub-field-specific policy recommendations: trade policy for dependence, growth policy for underdevelopment, social policy for marginality, fiscal transfers for spatial inequality. Each addresses one symptom without addressing the cause. The structural approach generates one recommendation: brighten the dark off-diagonal entries of $W$, at the scale where $\Gamma$ is lowest.
+\textbf{The policy implication.} If the five phenomena have one cause (the block structure of $W$), the structural response targets that cause: raise cross-block coupling at the binding scale, and address the concentration of $\pi$, which is a separate target. The sub-field fragmentation of development economics generates sub-field-specific policy recommendations: trade policy for dependence, growth policy for underdevelopment, social policy for marginality, fiscal transfers for spatial inequality. Each addresses one symptom without addressing the cause. The structural approach generates one recommendation: brighten the dark off-diagonal entries of $W$ at the binding scale (Definition~\ref{ch19:prop:binding}).
 
-\textbf{Why this matters for Bolivia.} Bolivia has active policies addressing all five phenomena separately: gas revenue redistribution (underdevelopment), trade agreements (dependence), social transfers (marginality), regional investment (spatial inequality), and recent growth (development). None has substantially changed $\Gamma$. The dashboard (Chapter~17) confirms: 30 years of policy, $\Gamma$ moved from 0.10 to 0.13. Five policies, zero structural change, because none targeted the weight matrix directly.
+\textbf{Why this matters for Bolivia.} Bolivia has active policies addressing all five phenomena separately: gas revenue redistribution (underdevelopment), trade agreements (dependence), social transfers (marginality), regional investment (spatial inequality), and recent growth (development). On Chapter~17's illustrative dashboard, none has substantially changed $\Gamma$: over 30 years it moved from 0.10 to 0.13. The structural reading is that none targeted the weight matrix directly.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Sunkel's claim (1970)} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Five processes, one process & Five properties of $W$ & Thm.~\ref{ch19:thm:five} \\
-Scale invariance & Same $\Gamma$ at every scale & Thm.~\ref{ch19:thm:scale_invariance} \\
-The single process & Co-evolutionary dynamics & Ch.~13 mechanism \\
-Nesting & $\pi_I = \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$ & Thm.~\ref{ch19:thm:nesting} \\
-Cross-scale feedback & Vicious circle & Prop.~\ref{ch19:prop:cross_scale} \\
-Policy: unified, not fragmented & Increase $\Gamma$ at binding scale & Prop.~\ref{ch19:prop:binding} \\
+Five processes, one process & Five properties of $W$ & Def.~\ref{ch19:thm:five} \\
+Same structure at every scale & Structural isomorphism; $\Gamma$ comparable only after aggregation & Def.~\ref{ch19:thm:scale_invariance}, Prop.~\ref{ch19:prop:lumpability} \\
+The single process & Co-evolutionary dynamics & Conj.~\ref{ch19:conj:mechanism} \\
+Nesting & $\pi_I = \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$ & Prop.~\ref{ch19:thm:nesting} \\
+Cross-scale feedback & Vicious circle & Conj.~\ref{ch19:prop:cross_scale} \\
+Policy: unified, not fragmented & Raise coupling at the binding scale & Def.~\ref{ch19:prop:binding} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Sunkel wrote in Chilean exile after the 1973 coup. The five processes he described --- development for Santiago's elite, underdevelopment for the rural south, dependence on US copper companies, marginality of the Mapuche, spatial inequality between the capital and the periphery --- were all visible from his window. Fifty years later, the same processes operate at the same scales. The matrix has different entries. The structure is the same. This chapter proves that it could not be otherwise, because the mechanisms that produce it are the same at every scale.
+Sunkel wrote in Santiago, at ILPES, before the 1973 coup. The five processes he described --- development for Santiago's elite, underdevelopment for the rural south, dependence on US copper companies, marginality of the Mapuche, spatial inequality between the capital and the periphery --- were all visible from his window. Fifty years later, similar processes operate at the same scales. The matrix has different entries. Whether the structure is the same, and whether the same mechanism produces it at every scale, is what Conjecture~\ref{ch19:conj:mechanism} puts to the data.
 
 
 %% =====================================================================
@@ -449,10 +478,10 @@ Sunkel wrote in Chilean exile after the 1973 coup. The five processes he describ
 
 \textbf{Scale invariance in social systems:} West (2017), \textit{Scale: The Universal Laws of Growth, Innovation, Sustainability, and the Pace of Life in Organisms, Cities, Economies, and Companies}. Bettencourt et al.\ (2007), ``Growth, Innovation, Scaling, and the Pace of Life in Cities,'' \textit{PNAS}.
 
-\textbf{Multi-scale economic structure:} Hausmann and Hidalgo (2011), ``The Network Structure of Economic Output,'' \textit{JEBO}. For the nesting of local, national, and global production networks: Baldwin and Lopez-Gonzalez (2015), ``Supply-Chain Trade,'' \textit{World Economy}.
+\textbf{Multi-scale economic structure:} Hausmann and Hidalgo (2011), ``The Network Structure of Economic Output,'' \textit{Journal of Economic Growth}. For the nesting of local, national, and global production networks: Baldwin and Lopez-Gonzalez (2015), ``Supply-Chain Trade,'' \textit{World Economy}.
 
 \textbf{The structuralist synthesis:} Sunkel and Paz (1970), \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}, Mexico: Siglo XXI. Sunkel (1993), \textit{Development from Within}. CEPAL (2012), \textit{Structural Change for Equality}, the institutional codification of the multi-scale structural approach.
 
-\textbf{Cross-scale interactions:} Acemoglu and Robinson (2012), \textit{Why Nations Fail}, Chapters~3--5 (how colonial institutions at the global scale shape domestic institutions). For the formal theory: Acemoglu et al.\ (2015), ``Systemic Risk and Stability in Financial Networks,'' \textit{AER}.
+\textbf{Cross-scale interactions:} Acemoglu and Robinson (2012), \textit{Why Nations Fail}, Chapters~3--5 (how colonial institutions at the global scale shape domestic institutions). For the aggregation theory used in this chapter: Simon and Ando (1961), ``Aggregation of Variables in Dynamic Systems,'' \textit{Econometrica}; Kemeny and Snell (1960), \textit{Finite Markov Chains} (lumpability); Meyer (1989), ``Stochastic Complementation, Uncoupling Markov Chains, and the Theory of Nearly Reducible Systems,'' \textit{SIAM Review}.
 
 \end{document}

@@ -3,6 +3,7 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{3}}{}
 \chapter{What the Standard Model Assumes}\label{ch:04}
 \chaptersubtitle{Six Properties of One Matrix}
+% TODO-VERIFY: this epigraph appears to follow a secondary-source paraphrase. The original (Sunkel and Paz 1970, Introduction) reads approximately "... el subdesarrollo no es un momento en la evolucion continua de una sociedad economica, politica y culturalmente aislada y autonoma ... el subdesarrollo es parte del proceso historico global de desarrollo ..."; "ni una 'etapa'" and "del capitalismo" may not be in the text. Check against the Siglo XXI 1970 edition and give the page; if it is a paraphrase, drop the quotation marks.
 \begin{quote}
 \textit{``El subdesarrollo no es un `momento' ni una `etapa' en la evoluci\'{o}n de una sociedad aislada y aut\'{o}noma, sino parte del proceso hist\'{o}rico global de desarrollo del capitalismo.''}\\[0.3em]
 \textnormal{[``Underdevelopment is not a `moment' or a `stage' in the evolution of an isolated and autonomous society, but part of the global historical process of capitalist development.'']}\\
@@ -11,9 +12,9 @@
 
 \vspace{1em}
 
-The first three chapters rewrote the standard model in matrix notation and showed that it assumes a specific interaction matrix: $W^{CE} = \frac{1}{N}\ones\ones'$. Chapter~1 named it. Chapter~2 showed that the welfare theorems require it. Chapter~3 showed that growth propagation depends on it.
+The first three chapters rewrote the standard model in matrix notation. Chapter~1 showed that anonymous, price-mediated interaction implies $W^{\text{mkt}} = \ones\mathbf{s}'$, and named its equal-endowment case $W^{CE} = \frac{1}{N}\ones\ones'$. Chapter~2 showed which departures from it break efficiency ($W^U \neq 0$) and which are distributional (unequal $\boldsymbol{\pi}$). Chapter~3 showed that growth propagation depends on the production structure $A$.
 
-This chapter pulls the threads together. It catalogs, in one place, every assumption embedded in $W^{CE}$ --- six properties of one matrix --- and for each assumption states: (a) the formal condition, (b) when it approximately holds, (c) when it fails, (d) what the world looks like when it does, and (e) which chapter in this book develops the general case.
+This chapter pulls the threads together. It catalogs, in one place, the assumptions from which the benchmark model abstracts --- six properties, most of them properties of one matrix --- and for each assumption states: (a) the formal condition, (b) when it approximately holds, (c) when it fails, (d) what the world looks like when it does, and (e) which chapter in this book develops the general case.
 
 This is the hinge. Part~I ends here. Part~II begins with $W$ as an object to be studied rather than assumed.
 
@@ -23,16 +24,16 @@ This is the hinge. Part~I ends here. Part~II begins with $W$ as an object to be 
 \label{ch04:sec:six}
 %% =====================================================================
 
-Recall from Chapter~1 that the competitive interaction matrix $W^{CE} = \frac{1}{N}\ones\ones'$ has five properties: doubly stochastic, symmetric, rank~1, equal centrality, maximal spectral gap. To these we add a sixth assumption that is not a property of $W^{CE}$ itself but of the model that uses it: preferences are exogenous.
+Recall from Chapter~1 that the competitive benchmark $W^{CE} = \frac{1}{N}\ones\ones'$ has five properties: doubly stochastic, symmetric, rank~1, equal power, unit spectral gap. The benchmark Arrow--Debreu model abstracts from several kinds of structure; the six assumptions below make that abstraction explicit. The sixth is not a property of any matrix but of the model that uses it: preferences are exogenous.
 
 \begin{definition}[The Six Assumptions of the Standard Model]\label{ch04:def:six}
-The standard competitive model assumes:
+The benchmark competitive model abstracts from the following (``assumes'' in what follows means ``is built so that''):
 \begin{enumerate}
 \item[\textbf{A1.}] \textbf{No utility externalities.} $W^U = 0$ (or equivalently $\gamma_U = 0$). Agent $i$'s utility depends only on $x_i$.
-\item[\textbf{A2.}] \textbf{Exogenous production structure.} $W^P = A$ is taken as given from input-output data. It is a technological fact, not a social choice.
-\item[\textbf{A3.}] \textbf{No information network.} $W^I$ does not exist. Beliefs are rational, information is symmetric, and preferences are common knowledge.
-\item[\textbf{A4.}] \textbf{Anonymous market interaction.} The price mechanism aggregates demands symmetrically: $W^{\text{market}} = \frac{1}{N}\ones\ones'$.
-\item[\textbf{A5.}] \textbf{Equal power.} The left Perron eigenvector of the composite $W$ is $\boldsymbol{\pi} = \frac{1}{N}\ones$. No agent has more structural influence than any other.
+\item[\textbf{A2.}] \textbf{Exogenous production structure.} The technical coefficients $A$ (and hence $W^P = D^{-1}A$) are taken as given from input-output data: a technological fact, not a social choice.
+\item[\textbf{A3.}] \textbf{No information network.} Beliefs are not formed through social channels: there is no $W^I$ along which one agent's beliefs move another's.
+\item[\textbf{A4.}] \textbf{Anonymous market interaction.} The price mechanism aggregates demands anonymously, weighting agents by wealth shares: $W^{\text{mkt}} = \ones\mathbf{s}'$ (Chapter~1, Definition~\ref{ch01:def:market_W}).
+\item[\textbf{A5.}] \textbf{Equal power.} The left Perron vector of the composite interaction matrix is $\boldsymbol{\pi} = \frac{1}{N}\ones$. No agent has more structural influence than any other. In the benchmark this holds only with equal endowments, since $\boldsymbol{\pi}(W^{\text{mkt}}) = \mathbf{s}$.
 \item[\textbf{A6.}] \textbf{Exogenous preferences.} $\theta_i$ (the preference parameter governing patience, risk aversion, time discount, labor supply) is fixed. It does not evolve in response to the network.
 \end{enumerate}
 \end{definition}
@@ -62,11 +63,11 @@ Large anonymous markets for standardized goods. The buyer of a barrel of oil on 
 \textbf{Network effects.} Adoption of a technology by agent $j$ raises the value of the technology for agent $i$ (telephones, social media, payment systems). $W^U_{ij} > 0$ for complementary users.
 
 \begin{proposition}[Welfare Cost of Ignoring $W^U$]\label{ch04:prop:A1_cost}
-When $W^U \neq 0$ and $\gamma_U > 0$, the competitive equilibrium (which ignores $W^U$) generates a welfare loss of:
+In the one-good quadratic economy of Chapter~2, when $W^U \neq 0$ and $\gamma_U > 0$, the externality-blind allocation (which ignores $W^U$) generates a social-welfare loss of
 \begin{equation}\label{ch04:eq:A1_loss}
 L_{A1} = \gamma_U^2 \cdot \Var(c_j^U) \cdot \Psi,
 \end{equation}
-where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality in the utility network (Chapter~2, Proposition~2.4).
+where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality in the utility network, to second order in $\gamma_U$, with $\Psi = N(1-\kappa m)^2/(2\kappa)$ in the quadratic economy (Chapter~2, Proposition~\ref{ch02:prop:ext_loss}, which also gives the exact formula).
 \end{proposition}
 
 \textbf{Relaxed in:} Chapters~5 (the utility network defined), 7 (bargaining equilibrium with externalities), 12 (welfare under endogenous preferences).
@@ -79,7 +80,7 @@ where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality i
 
 \subsection{The Formal Condition}
 
-The technical coefficients matrix $A$ (= $W^P$) is treated as a technological parameter: determined by engineering, not by economic choices. The Leontief system takes $A$ as data and solves for output given final demand.
+The technical coefficients matrix $A$ is treated as a technological parameter: determined by engineering, not by economic choices. The Leontief system takes $A$ as data and solves for output given final demand. This is a feature of the fixed-coefficient benchmark, not of general-equilibrium theory as such: with Cobb-Douglas or CES technologies, input shares respond to prices, and recent work makes the network itself endogenous (Oberfield 2018; Acemoglu and Azar 2020). What such work rarely does is treat $A$ as an object of development policy.
 
 \subsection{When It Approximately Holds}
 
@@ -89,17 +90,21 @@ Short-run analysis. In a given year, a steel plant requires a specific amount of
 
 \textbf{ISI as structural policy.} The entire history of import-substitution industrialization is an attempt to \textit{change} $A$ --- to build domestic production of goods previously imported. Tavares (1972) documented how each external bottleneck provoked a structural response that altered the domestic input-output matrix. $A$ is a policy variable, not a constant.
 
-\textbf{Endogenous specialization.} Countries choose what to produce. The product space (Hidalgo et al., 2007) shows that diversification follows path-dependent trajectories determined by the existing $A$: a country that produces wine can more easily diversify into grapes, bottles, and corks than into semiconductors. The production network evolves.
+\textbf{Endogenous specialization.} Countries choose what to produce. The product space (Hidalgo et al., 2007) shows that diversification follows path-dependent trajectories shaped by the existing productive structure: a country that produces wine can more easily diversify into grapes, bottles, and corks than into semiconductors. The production network evolves.
 
 \textbf{FDI and global value chains.} When a multinational opens an assembly plant, it inserts new rows and columns into the domestic $A$, connecting the domestic economy to the global production network. The entries of $A$ reflect corporate decisions, not just technology.
 
 \begin{proposition}[Endogenous $W^P$ Changes the Growth Trajectory]\label{ch04:prop:A2_growth}
-In the multi-sector growth model of Chapter~3, a change $\Delta A$ in the technical coefficients shifts the steady-state capital vector by:
+In the multi-sector growth model of Chapter~3, write $L_\gamma = (I - \gamma A')^{-1}$ and $F' = \text{diag}(\partial f_i/\partial K_i)$ at the steady state $\K^*$. If $\Delta - SL_\gamma F'$ is invertible, a small change $\Delta A$ in the technical coefficients shifts the steady-state capital vector by
 \begin{equation}
-\Delta \K^* \approx S(I - \gamma W^P)^{-1} \cdot \gamma \Delta A \cdot (I - \gamma W^P)^{-1} \mathbf{f}(\K^*) \cdot (\text{Jacobian terms}).
+\Delta \K^* \approx \bigl(\Delta - S L_\gamma F'\bigr)^{-1} S\, L_\gamma\,(\gamma\,\Delta A')\,L_\gamma\, \mathbf{f}(\K^*).
 \end{equation}
-The effect is amplified by the Leontief inverse \textit{twice} --- once for the direct impact, once for the propagation through the existing network. A small change in $A$ can have a large effect on $\K^*$ if the Leontief inverse has large off-diagonal entries.
+The effect is amplified by the Leontief inverse \textit{twice} --- once for the direct impact, once for the propagation through the existing network --- and then by the steady-state feedback $(\Delta - SL_\gamma F')^{-1}$. A small change in $A$ can have a large effect on $\K^*$ if the Leontief inverse has large off-diagonal entries.
 \end{proposition}
+
+\begin{proof}
+The steady state satisfies $\Delta\K^* = S L_\gamma \mathbf{f}(\K^*)$. Differentiate: $\Delta\, d\K = S\,(dL_\gamma)\,\mathbf{f} + S L_\gamma F' d\K$, and $dL_\gamma = L_\gamma(\gamma\, dA')L_\gamma$ (differentiate $L_\gamma(I - \gamma A') = I$). Solve for $d\K$. (For the two-sector economy of Chapter~3, Example~\ref{ch03:ex:two_WP}, raising $a_{12}$ by $0.01$ moves $\K^*$ by $(0.089, 0.269)$ by this formula and by $(0.089, 0.270)$ by direct computation; \texttt{code/ch04.py}.)
+\end{proof}
 
 \textbf{Relaxed in:} Chapters~3 (production network in growth), 13 (how networks evolve), 15 (operator design --- policy as deliberate change of $W^P$).
 
@@ -111,15 +116,15 @@ The effect is amplified by the Leontief inverse \textit{twice} --- once for the 
 
 \subsection{The Formal Condition}
 
-The standard model assumes: agents have rational expectations, information is symmetric (everyone observes the same signals), and preferences are common knowledge. There is no mechanism through which one agent's beliefs influence another's. The information network $W^I$ is not merely unknown --- it is assumed not to exist.
+The benchmark Arrow--Debreu model abstracts from belief formation through social networks: agents know the relevant prices and probabilities, and there is no mechanism through which one agent's beliefs influence another's --- no $W^I$. Mainstream economics relaxes much of this, with asymmetric information and with Bayesian learning in social networks (Acemoglu, Dahleh, Lobel and Ozdaglar 2011). What it rarely does is make the weights $W^I$ themselves the object of study.
 
 \subsection{When It Approximately Holds}
 
-Financial markets with mandatory disclosure, standardized goods with transparent pricing, and repeated interactions where agents learn the true model. In these settings, heterogeneous beliefs converge to the truth through Bayesian updating, making $W^I$ irrelevant.
+Financial markets with mandatory disclosure, standardized goods with transparent pricing, and repeated interactions where agents learn the true model. In these settings, heterogeneous beliefs converge to the truth through Bayesian updating, making $W^I$ unimportant.
 
 \subsection{When It Fails}
 
-\textbf{DeGroot learning dominates Bayesian learning in practice.} Agents in most real-world settings do not observe the data-generating process. They observe their neighbors' behavior, their social media feeds, their peers' outcomes. They update na\"{i}vely (weighted average of neighbors' beliefs) rather than optimally (Bayesian). Golub and Jackson (2010) showed that DeGroot convergence is governed by the Perron eigenvector of $W^I$ --- the agents with the most epistemic power determine the long-run consensus, regardless of whether their initial beliefs are correct.
+\textbf{DeGroot-style learning.} Agents in many real-world settings do not observe the data-generating process. They observe their neighbors' behavior, their social media feeds, their peers' outcomes. There is experimental evidence that, in some settings, people update closer to a weighted average of neighbors' beliefs than to the Bayesian benchmark (Chandrasekhar, Larreguy and Xandri 2020). Under such averaging the long-run consensus weights are the Perron vector of $W^I$ (DeGroot 1974): the agents with the most epistemic power determine the consensus, whether or not their initial beliefs are correct. Golub and Jackson (2010) characterize when the consensus is nevertheless correct in large networks (the ``wisdom of crowds'').
 
 \textbf{Media concentration.} When a few outlets control information flow, $W^I$ is star-shaped: everyone listens to the hub. The consensus converges to the hub's beliefs. State media, monopoly platforms, and algorithmic feeds all produce this topology.
 
@@ -133,17 +138,21 @@ Under DeGroot learning on an information network $W^I$ (row-stochastic, irreduci
 where $\boldsymbol{\pi}^I$ is the left Perron eigenvector of $W^I$. The long-run consensus is a weighted average of initial beliefs, with weights given by epistemic power $\pi^I_j$. Agents with $\pi^I_j \gg 1/N$ dominate the consensus.
 \end{proposition}
 
+\begin{proof}
+$\mathbf{b}^{(t)} = (W^I)^t\mathbf{b}^{(0)}$. For a primitive (irreducible and aperiodic) stochastic matrix, $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ by Perron--Frobenius (Chapter~6).
+\end{proof}
+
 \textbf{Relaxed in:} Chapters~5 (the information network defined), 8 (belief manipulation and epistemic power), 9--12 (the formation model, where $W^I$ shapes preferences).
 
 
 %% =====================================================================
-\section{A4: Anonymous Market Interaction ($W^{\text{market}} = \frac{1}{N}\ones\ones'$)}
+\section{A4: Anonymous Market Interaction (\texorpdfstring{$W^{\text{mkt}} = \ones\mathbf{s}'$}{W\textasciicircum mkt = 1s'})}
 \label{ch04:sec:A4}
 %% =====================================================================
 
 \subsection{The Formal Condition}
 
-The competitive price mechanism aggregates demands anonymously. Each agent contributes $1/N$ to the determination of the equilibrium price (with equal budgets). Nobody has market power. The interaction is $W^{\text{market}} = \frac{1}{N}\ones\ones'$.
+The competitive price mechanism aggregates demands anonymously. Each agent's weight in aggregate demand is her expenditure share $s_i$ ($1/N$ with equal budgets). Nobody has market power. The interaction is $W^{\text{mkt}} = \ones\mathbf{s}'$, which is $W^{CE}$ under equal endowments (Chapter~1, Section~\ref{ch01:sec:implicit_W}).
 
 \subsection{When It Approximately Holds}
 
@@ -151,31 +160,31 @@ Markets with many small agents, homogeneous goods, free entry and exit, and comp
 
 \subsection{When It Fails}
 
-\textbf{Monopsony and monopoly.} A single buyer (monopsony employer in a company town) or single seller (YPFB for Bolivian gas) sets prices rather than taking them. The interaction matrix has a star topology: $W_{ij}^{\text{market}} \approx 0$ for all $j$ except the hub.
+\textbf{Monopsony and monopoly.} A single buyer (monopsony employer in a company town) or single seller (a state monopoly in domestic gas distribution) sets prices rather than taking them. The interaction matrix has a star topology: $W_{ij}^{\text{mkt}} \approx 0$ for all $j$ except the hub.
 
-\textbf{Platform economies.} Amazon, Uber, and Airbnb are hubs through which millions of small agents must transact. The platform sets the terms of trade. $W^{\text{market}}$ is star-shaped with the platform at the center.
+\textbf{Platform economies.} Amazon, Uber, and Airbnb are hubs through which millions of small agents must transact. The platform sets the terms of trade. $W^{\text{mkt}}$ is star-shaped with the platform at the center.
 
 \textbf{Bargaining.} In thin markets (few participants, differentiated goods, relationship-specific investments), prices are determined by bilateral bargaining rather than anonymous market clearing. The allocation depends on relative bargaining power, which is a function of the network position (Chapter~7).
 
-\begin{proposition}[Welfare Loss from Market Power]\label{ch04:prop:A4_loss}
-When $W^{\text{market}} \neq \frac{1}{N}\ones\ones'$, the competitive equilibrium does not obtain. The bargaining equilibrium (Chapter~7) generates allocations:
+\begin{proposition}[Distributional Loss from Market Power]\label{ch04:prop:A4_loss}
+When interaction is not anonymous and the surplus is divided by asymmetric Nash bargaining with weights $\boldsymbol{\pi}(W)$ from equal disagreement payoffs (the book's bargaining assumption; Chapter~7, Proposition~\ref{ch07:prop:allocation-rule}), allocations are
 \begin{equation}
-x_i^* = \frac{\Omega}{N} + \frac{1}{\kappa}\left(\pi_i(W) - \frac{1}{N}\right),
+x_i^* = \frac{\Omega}{N} + \Bigl(\pi_i(W) - \frac{1}{N}\Bigr)\Phi,
 \end{equation}
-with welfare loss $L_{A4} = \frac{\kappa N}{2}\Var(\pi_i)\Phi^2$ (Chapter~2, Proposition~2.3).
+where $\Phi$ is the bargaining surplus, with quadratic-utility loss $L_{A4} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$ (Chapter~2, Proposition~\ref{ch02:prop:power_loss}). The loss is distributional: the bargaining outcome is Pareto efficient.
 \end{proposition}
 
 \textbf{Relaxed in:} Chapters~6 (centrality and power from $W$), 7 (the bargaining equilibrium).
 
 
 %% =====================================================================
-\section{A5: Equal Power ($\boldsymbol{\pi} = \frac{1}{N}\ones$)}
+\section{A5: Equal Power (\texorpdfstring{$\boldsymbol{\pi} = \frac{1}{N}\ones$}{pi = 1/N})}
 \label{ch04:sec:A5}
 %% =====================================================================
 
 \subsection{The Formal Condition}
 
-The left Perron eigenvector of the composite weight matrix $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ is uniform: $\boldsymbol{\pi} = \frac{1}{N}\ones$. No agent has more structural influence than any other. This requires $W$ to be doubly stochastic (Chapter~2, Proposition~2.2).
+The left Perron vector of the composite weight matrix $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I + \alpha_M W^{\text{mkt}}$ --- all layers row-stochastic on the same set of $N$ agents, $\alpha_k \ge 0$, $\sum_k\alpha_k = 1$, with absent layers given weight zero --- is uniform: $\boldsymbol{\pi} = \frac{1}{N}\ones$. No agent has more structural influence than any other. For irreducible $W$ this holds if and only if $W$ is doubly stochastic (Chapter~1, Proposition~\ref{ch01:prop:pi_uniform}).
 
 \subsection{When It Approximately Holds}
 
@@ -183,10 +192,10 @@ Economies where interactions are dense, symmetric, and relatively uniform. Small
 
 \subsection{When It Fails}
 
-Everywhere that A1--A4 fail. Unequal power is not a separate assumption --- it is the \textit{consequence} of any departure from A1--A4. When $W^U$ has clustered externalities, $W^P$ is block-diagonal, $W^I$ is star-shaped, or $W^{\text{market}}$ is concentrated, the composite $W$ is not doubly stochastic, and $\boldsymbol{\pi} \neq \frac{1}{N}\ones$.
+Wherever the composite fails to be doubly stochastic. That happens when $W^U$ has clustered externalities, $W^I$ is star-shaped, or $W^{\text{mkt}}$ is concentrated --- but it also happens with A1--A4 intact: with unequal endowments, $W^{\text{mkt}} = \ones\mathbf{s}'$ has $\boldsymbol{\pi} = \mathbf{s} \neq \frac{1}{N}\ones$. A5 is therefore a separate assumption, and in the benchmark it amounts to equal endowments. (A block-diagonal $W^P$ by itself need not concentrate power: with balanced cross-block flows, $\boldsymbol{\pi}$ can be uniform; Chapter~3, Proposition~\ref{ch03:prop:block_spectral}.)
 
 \begin{proposition}[Power Decomposition]\label{ch04:prop:A5_decomp}
-The Perron eigenvector of the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ satisfies:
+The Perron vector of the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ (layers row-stochastic on the same node set; a market layer adds a fourth term in the same way) satisfies:
 \begin{equation}\label{ch04:eq:power_decomp}
 \pi_i = \alpha_U \underbrace{\sum_j \pi_j W^U_{ji}}_{\text{social power}} + \alpha_P \underbrace{\sum_j \pi_j W^P_{ji}}_{\text{production power}} + \alpha_I \underbrace{\sum_j \pi_j W^I_{ji}}_{\text{epistemic power}}.
 \end{equation}

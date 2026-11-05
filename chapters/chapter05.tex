@@ -3,6 +3,7 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{4}}{}
 \chapter{The Three Networks}\label{ch:05}
 \chaptersubtitle{Where the Structure Enters the Model}
+% TODO-VERIFY: the English is Dos Santos's own wording in "The Structure of Dependence," AER 60(2), 1970, p. 231. The Spanish may be a back-translation, and the title "La estructura de la dependencia" may not exist as a Spanish publication; check against the Spanish original (e.g. Dos Santos, Dependencia y cambio social, 1970, or "La crisis de la teoria del desarrollo y las relaciones de dependencia en America Latina", 1968/1970) and replace text and title accordingly.
 \begin{quote}
 \textit{``Por dependencia entendemos una situaci\'{o}n en la cual la econom\'{i}a de ciertos pa\'{i}ses est\'{a} condicionada por el desarrollo y la expansi\'{o}n de otra econom\'{i}a a la cual la primera est\'{a} sometida.''}\\[0.3em]
 \textnormal{[``By dependence we mean a situation in which the economy of certain countries is conditioned by the development and expansion of another economy to which the former is subjected.'']}\\
@@ -25,7 +26,7 @@
 
 \vspace{1em}
 
-Part~I showed that the standard competitive model assumes a specific interaction matrix --- $W = \frac{1}{N}\ones\ones'$ --- and that this assumption is what makes the welfare theorems hold. Part~II replaces that matrix with the one the world actually has.
+Part~I showed that the benchmark competitive model can be written as anonymous interaction --- every agent interacts only with the market aggregate, $W^{\text{mkt}} = \ones\mathbf{s}'$, of which $\Wce = \frac{1}{N}\ones\ones'$ is the equal-endowment case --- with no utility externalities (Chapter~1, Section~\ref{ch01:sec:conventions}). Part~II replaces that matrix with non-anonymous interaction structures and asks what they do.
 
 This chapter introduces the three weight matrices that organize economic life:
 
@@ -35,47 +36,7 @@ This chapter introduces the three weight matrices that organize economic life:
 \item $W^I$: the \textbf{information network}. Whose signals shape your beliefs and desires?
 \end{enumerate}
 
-Every economic interaction passes through at least one of these networks. Many pass through all three simultaneously. The salte\~{n}a vendor in La Paz is embedded in a production network (she buys flour from the miller, sells to the office worker), a utility network (her comadre's success makes her happy, her competitor's success makes her anxious), and an information network (she watches what other vendors charge, listens to the radio about the dollar exchange rate, hears from her cousin that there is work in El Alto). Her economic behavior --- what she produces, how she prices, whether she invests, what she wants for her daughter --- is determined not by her individual utility function in isolation but by her position in all three networks simultaneously.
-
-The standard model collapses all three to $\frac{1}{N}\ones\ones'$ or ignores them entirely. This chapter makes them visible, distinct, and formal.
-
-%% =====================================================================
-\section{Before the Math: Three Stories}
-\label{ch05:sec:stories}
-%% =====================================================================
-
-\subsection{The Utility Network: Keeping Up and Falling Behind}
-
-Mar\'{i}a sells api on Calle Comercio. Her stall is between Doña Rosa's stall (empanadas) and Don Carlos's stall (newspapers). Mar\'{i}a has known Rosa for twenty years. They share a comadrazgo bond: Rosa is godmother to Mar\'{i}a's youngest daughter. When Rosa's sales are good, Mar\'{i}a feels genuinely happy for her. When Rosa's sales collapse --- say, because a new empanada chain opens nearby --- Mar\'{i}a worries, helps Rosa with a small loan, and feels the loss almost as her own.
-
-Don Carlos, on the other hand, is just a neighbor. Mar\'{i}a doesn't dislike him, but his success or failure does not move her emotionally.
-
-Now: how much of Rosa's consumption enters Mar\'{i}a's utility function? Quite a lot. How much of Carlos's? Almost nothing. How much of a stranger's in Santa Cruz? Zero.
-
-This is the utility network $W^U$. Entry $W^U_{ij}$ measures how much agent $j$'s consumption or wellbeing directly affects agent $i$'s utility. For Mar\'{i}a: $W^U_{\text{Mar\'{i}a, Rosa}} \approx 0.3$ (strong positive externality), $W^U_{\text{Mar\'{i}a, Carlos}} \approx 0.02$ (negligible), $W^U_{\text{Mar\'{i}a, stranger}} = 0$.
-
-In the standard model, $W^U = I$: your utility depends only on your own consumption. No externalities, no altruism, no envy, no keeping-up-with-the-Joneses. The salte\~{n}a vendor is an island.
-
-\subsection{The Production Network: The Chain from Gas Well to Quinoa Bowl}
-
-The gas well in Tarija produces natural gas. The gas goes to the processing plant (run by YPFB), which separates it into components. One component goes to the thermoelectric plant in Santa Cruz, which generates electricity. The electricity powers the flour mill in Cochabamba. The flour goes to the bakery. The bakery sells bread to the miner in Potos\'{i}. The miner extracts tin. The tin is exported. The export revenue enters the treasury. The treasury funds the school where Mar\'{i}a's daughter studies.
-
-Each link in this chain is an entry in $W^P$. The gas well's output is an input to the processing plant: $W^P_{\text{plant, well}} > 0$. The processing plant's output is an input to the thermoelectric plant: $W^P_{\text{electric, plant}} > 0$. And so on. The chain from gas to quinoa bowl passes through six intermediate steps.
-
-Now: how many of these links actually exist in Bolivia? The gas processing plant imports most of its equipment from Brazil. The thermoelectric plant was built by a Spanish firm. The flour mill buys Argentine wheat because Bolivian wheat production collapsed in the 1990s. At each step, the domestic chain breaks, and the production link points outward --- to the global economy rather than inward to the domestic economy.
-
-This is Pinto's structural heterogeneity as a property of $W^P$: the off-diagonal entries between the gas block and the traditional block are tiny. The chain from gas well to quinoa bowl is mostly imaginary.
-
-\subsection{The Information Network: What the Girl in Potos\'{i} Sees}
-
-Mar\'{i}a's daughter, Luisa, is fifteen. She lives in Potos\'{i} and has a phone. On her phone she sees: TikTok videos from La Paz showing university students, Instagram posts from her cousin in Buenos Aires who is studying engineering, WhatsApp messages from her school friends who are all planning to finish secondary school and then --- what? Work in the market like their mothers? Go to the normal school in Sucre? Try for the public university in Oruro?
-
-Twenty years ago, Luisa would have seen only what Potos\'{i} showed her: market vendors, miners, teachers. Her information network $W^I$ would have been local, dense within the traditional sector, disconnected from the modern sector. The signals she received about what life could look like --- the perceived returns to different life paths --- would have been calibrated entirely by her immediate environment.
-
-The phone changes $W^I$. It adds long-range connections. Luisa now receives signals from Buenos Aires (her cousin's engineering career), from La Paz (the university), from TikTok (a globally curated feed of aspirational content). These new entries in $W^I_{\text{Luisa}, j}$ --- nonzero weights on agents $j$ who are outside her geographic and social cluster --- change the information she uses to form beliefs about returns. They change her $\lambda$ (the signal discount from the formation model in Chapter~10). They change what she wants.
-
-This is $W^I$: the network through which signals about the world reach you, filtered by who you pay attention to, who you trust, who you can observe. In the standard model, $W^I$ does not exist --- preferences are given, beliefs are rational, information is symmetric. In the structural model, $W^I$ is the mechanism through which the structure reproduces itself or, occasionally, breaks.
-
+Every economic interaction passes through at least one of these networks; many pass through all three simultaneously. The benchmark general-equilibrium model abstracts from the first ($W^U = 0$), takes the second as technology, and treats beliefs and preferences as given rather than formed through the third. This chapter makes the three networks visible, distinct, and formal; Chapter~6 then derives power from them and Chapter~7 the bargaining allocation. Throughout, each layer is a row-stochastic matrix on the same set of agents (Chapter~1, Section~\ref{ch01:sec:conventions}).
 
 %% =====================================================================
 \section{The Utility Network $W^U$}
@@ -144,15 +105,16 @@ Three common confusions:
 
 \subsection{Properties of $W^U$}
 
-\begin{proposition}[Basic Properties of the Utility Network]\label{ch05:prop:WU_properties}
+\begin{remark}[Basic Properties of the Utility Network]\label{ch05:prop:WU_properties}
 For the utility externality model~\eqref{ch05:eq:utility_WU}:
 \begin{enumerate}
 \item \textbf{Diagonal is zero}: $W^U_{ii} = 0$ by convention (own utility is captured by $U_i$, not by the externality term).
-\item \textbf{Row sums need not equal 1}: the total externality weight $\sum_j W^U_{ij}$ varies across agents. A ``social'' agent (Mar\'{i}a) has high row sum; an ``isolated'' agent has low row sum.
+\item \textbf{Raw weights vs.\ the interaction matrix}: in~\eqref{ch05:eq:utility_WU} the raw intensities matter, so the total externality weight $\sum_j W^U_{ij}$ varies across agents: a ``social'' agent (Mar\'{i}a) has a high row sum; an ``isolated'' agent has a low row sum. When the utility network is used as an interaction matrix --- for its Perron vector, its spectral gap, or a composite (Section~\ref{ch05:sec:composite}) --- the book uses the row-normalized $D^{-1}W^U$, with an all-zero row replaced by a self-loop.
 \item \textbf{Not necessarily symmetric}: $W^U_{ij} \neq W^U_{ji}$ in general. Mar\'{i}a may care more about Rosa than Rosa cares about Mar\'{i}a.
-\item \textbf{The standard model is $W^U = 0$}: no externalities. Equivalently, $\gamma_U = 0$.
+\item \textbf{The benchmark model is $W^U = 0$}: no externalities. Equivalently, $\gamma_U = 0$.
+\item \textbf{Nonnegativity}: $W^U \geq 0$ (altruism or care). Envy ($W^U_{ij} < 0$) is excluded from the interaction matrix, since Perron--Frobenius needs nonnegative weights; it can be studied in the utility model itself.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 \begin{keyinsight}
 The distinction between $W^U = 0$ (standard model) and $W^U = \frac{1}{N}\ones\ones' - I$ (anonymous equal externalities) matters. The first says nobody's consumption affects anyone else. The second says \textit{everyone's} consumption affects everyone else \textit{equally}. Both are extreme; neither is realistic. The real $W^U$ is sparse (most pairs have zero or near-zero weight), asymmetric (compadrazgo bonds are not symmetric), and clustered (your utility network is local: family, friends, neighbors, compadres).
@@ -166,23 +128,23 @@ The distinction between $W^U = 0$ (standard model) and $W^U = \frac{1}{N}\ones\o
 
 \subsection{From Chapter 1 to Chapter 5}
 
-We have already met $W^P$ --- it is the input-output matrix $A$ from Chapters~1 and 3, now given its structural name. Chapter~1 introduced it as a technological object: how much of good $j$ is needed to produce one unit of good $i$. Chapter~3 embedded it in a growth model and showed that the block-diagonal structure of $W^P$ determines whether growth propagates.
+We have already met the input-output matrix $A$ from Chapters~1 and 3. Chapter~1 introduced it as a technological object: $a_{ij}$ is how much of good $j$ is needed to produce one unit of good $i$, so row $i$ is sector $i$'s recipe. Chapter~3 embedded it in a growth model and showed that the block structure of the production network determines whether growth propagates. The production network $W^P$ is its row-normalized version.
 
 Here we develop $W^P$ as one of three networks, clarify what it shares with $W^U$ and $W^I$ and how it differs, and show how all three interact in the same economy.
 
 \begin{definition}[Production Network]\label{ch05:def:WP}
-The \textbf{production network} $W^P$ is the $N \times N$ matrix where $W^P_{ij} \geq 0$ is the production externality of agent (or sector) $j$ on agent $i$: how much $j$'s output contributes to $i$'s production.
+The \textbf{production network} $W^P$ is the $N \times N$ row-stochastic matrix with $W^P_{ij} \geq 0$ the weight of agent (or sector) $j$ in agent $i$'s production: how much $i$ depends on $j$'s output.
 
-In the inter-sectoral interpretation, $W^P_{ij}$ is the technical coefficient: units of good $j$ required per unit of good $i$'s output.
+In the inter-sectoral interpretation, $W^P = D^{-1}A$ with $D = \operatorname{diag}(A\ones)$: $W^P_{ij} = a_{ij}/\sum_k a_{ik}$ is the share of input $j$ in sector $i$'s intermediate costs (the input-share matrix of Acemoglu et al., 2012). The technical coefficients $a_{ij}$ themselves (units of good $j$ per unit of good $i$) stay in $A$.
 
 In the inter-agent interpretation, $W^P_{ij}$ captures production spillovers: how much $j$'s activity increases $i$'s productivity. This includes knowledge spillovers, shared infrastructure, supply chain dependencies, and agglomeration effects.
 \end{definition}
 
-The output equation from Chapter~3:
+The two interpretations come with different output equations, and the indices must be kept straight. With technical coefficients, the sectors $j$ use $a_{ji}y_j$ units of good $i$ as intermediate input, so the quantity balance is (Chapter~1)
 \begin{equation}\label{ch05:eq:output_WP}
-\mathbf{Y} = \mathbf{f}(\mathbf{K}, \mathbf{L}) + \gamma_P W^P \mathbf{Y} \qquad \Rightarrow \qquad \mathbf{Y} = (I - \gamma_P W^P)^{-1}\mathbf{f}(\mathbf{K}, \mathbf{L}),
+\mathbf{y} = A'\mathbf{y} + \mathbf{d} \qquad \Rightarrow \qquad \mathbf{y} = (I - A')^{-1}\mathbf{d},
 \end{equation}
-where $(I - \gamma_P W^P)^{-1}$ is the Leontief inverse and $\gamma_P > 0$ scales the strength of inter-sectoral linkages.
+with the Leontief inverse $(I - A')^{-1}$, which requires $\rho(A) < 1$; multipliers and linkages are computed from $A$, never from the row-normalized $W^P$. With spillovers, agent $i$'s output rises with the output of those she depends on, $\mathbf{Y} = \mathbf{f}(\mathbf{K}, \mathbf{L}) + \gamma_P W^P \mathbf{Y}$, so $\mathbf{Y} = (I - \gamma_P W^P)^{-1}\mathbf{f}(\mathbf{K}, \mathbf{L})$ with $0 < \gamma_P < 1$.
 
 
 \subsection{$W^P$ vs.\ $W^U$: Different Channels, Different Matrices}
@@ -209,8 +171,8 @@ Channel & Direct externality in $U$ & Intermediate inputs / spillovers \\
 Typical structure & Sparse, clustered, local & Sparser, sectoral, sometimes global \\
 Symmetry & Often asymmetric & Often asymmetric \\
 Diagonal & Zero by convention & Positive (own-sector recycling) \\
-Structural amplifier & $(I + \gamma_U W^U)$ & $(I - \gamma_P W^P)^{-1}$ (Leontief) \\
-Standard model & $W^U = 0$ & Varies (I-O tables exist) \\
+Structural amplifier & $(I + \gamma_U W^U)$ & $(I - A')^{-1}$ (Leontief); $(I - \gamma_P W^P)^{-1}$ (spillovers) \\
+Benchmark model & $W^U = 0$ & Technology, taken as given (I-O tables exist) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -223,9 +185,9 @@ Standard model & $W^U = 0$ & Varies (I-O tables exist) \\
 
 \subsection{The Missing Network}
 
-$W^U$ has been studied (under the name ``social preferences'' or ``other-regarding preferences'') since at least Becker (1974). $W^P$ has been studied (under the name ``input-output analysis'') since Leontief (1941). But $W^I$ --- the network through which information, signals, and norms flow, shaping beliefs and eventually preferences --- is the network that standard economics has most systematically ignored.
+$W^U$ has been studied (under the name ``social preferences'' or ``other-regarding preferences'') since at least Becker (1974). $W^P$ has been studied (under the name ``input-output analysis'') since Leontief (1941). $W^I$ --- the network through which information, signals, and norms flow, shaping beliefs and eventually preferences --- is the one the benchmark general-equilibrium model leaves out. It is far from absent in economics: a large literature studies social learning on networks, from DeGroot (1974) through herding models (Banerjee, 1992) and learning from neighbors (Bala and Goyal, 1998) to Golub and Jackson (2010). What this book adds is to put it in the same framework as $W^U$ and $W^P$.
 
-It exists. It is not $W^U$ and it is not $W^P$. And it is arguably the most important of the three.
+It is not $W^U$ and it is not $W^P$. And, for the questions of Part~III, it is arguably the most important of the three.
 
 \begin{definition}[Information Network]\label{ch05:def:WI}
 The \textbf{information network} $W^I$ is the $N \times N$ row-stochastic matrix where $W^I_{ij} \geq 0$ is the weight that agent $i$ places on agent $j$'s signals when forming beliefs about the world. Row-stochasticity ($\sum_j W^I_{ij} = 1$ for all $i$) means that each agent's attention is a probability distribution over other agents: you allocate 100\% of your attention, and $W^I$ describes how.
@@ -289,7 +251,7 @@ In the global economy, $W^I$ has a clear center-periphery structure. The center 
 
 The information asymmetry compounds the production asymmetry. Not only does the periphery export primary commodities and import manufactures ($W^P$); it also exports attention and imports beliefs ($W^I$). The Perron eigenvector of the global $W^I$ assigns almost all weight to center countries. The long-run consensus about ``how economies should be run'' converges to the initial beliefs of the center --- which is how the Washington Consensus becomes consensus even in countries where its prescriptions are structurally inappropriate.
 
-Prebisch saw this as ``ideological dependency.'' We can now measure it: it is the Perron eigenvector of $W^I_{\text{global}}$.
+This is one formal reading of what dependency theorists described as cultural or intellectual dependence. It can be measured: it is the Perron eigenvector of $W^I_{\text{global}}$, and its concentration is $\Neff$ (Definition~\ref{ch06:def:neff}).
 \end{prebisch}
 
 
@@ -311,7 +273,7 @@ V_i(\mathbf{x}) = U_i(x_i; \theta_i) + \gamma_U \sum_{j \neq i} W^U_{ij} U_j(x_j
 \end{equation}
 where $\theta_i$ is agent $i$'s preference parameter, which in the formation model (Chapter~10) evolves according to $W^I$.
 
-\textbf{Production} (shaped by $W^P$):
+\textbf{Production} (shaped by $W^P$; spillover form, with $0 < \gamma_P < 1$):
 \begin{equation}\label{ch05:eq:full_production}
 \mathbf{Y} = (I - \gamma_P W^P)^{-1} \mathbf{f}(\mathbf{K}, \mathbf{L}).
 \end{equation}
@@ -338,9 +300,9 @@ $W^I$ & Information & What you believe & $(W^I)^t \to \ones\boldsymbol{\pi}'$ \\
 \end{tabular}
 \end{center}
 
-The standard competitive model sets $W^U = 0$, takes $W^P$ from input-output data (the one network economists have always measured), and ignores $W^I$ entirely. This book studies general $(W^U, W^P, W^I)$.
+The benchmark competitive model sets $W^U = 0$, takes technology from input-output data (the one network economists have always measured), and treats beliefs and preferences as given rather than formed through $W^I$. This book studies general $(W^U, W^P, W^I)$.
 
-Note the three amplifiers. The utility amplifier $(I + \gamma_U W^U)$ is a small perturbation of the identity: externalities add a correction to private utility. The production amplifier $(I - \gamma_P W^P)^{-1}$ is the Leontief inverse: potentially large, summing infinite rounds of indirect effects. The information amplifier $(W^I)^t$ converges to a rank-1 matrix: in the long run, everyone agrees, and the agreement reflects the Perron eigenvector. The three amplifiers operate on different timescales: utility effects are instantaneous, production effects play out over business cycles, and information effects play out over generations.
+Note the three amplifiers. The utility amplifier $(I + \gamma_U W^U)$ is a small perturbation of the identity: externalities add a correction to private utility. The production amplifier $(I - \gamma_P W^P)^{-1}$ is a Leontief-type inverse: potentially large, summing infinite rounds of indirect effects. The information amplifier $(W^I)^t$ converges to a rank-1 matrix (for primitive $W^I$): in the long run, everyone agrees, and the agreement reflects the Perron eigenvector. The three amplifiers plausibly operate on different timescales --- utility effects at once, production effects over business cycles, information effects over generations --- though that ordering is a modelling choice, not a result.
 \end{keyinsight}
 
 \begin{vizpanel}{Three networks, one economy, three heatmaps}
@@ -405,7 +367,7 @@ Note the three amplifiers. The utility amplifier $(I + \gamma_U W^U)$ is a small
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Same eight agents, three different networks. $W^U$ is clustered (two social groups, caring mostly within). $W^P$ is block-diagonal (enclave: three agents in the modern sector, five in the traditional). $W^I$ is star-shaped (two media sources dominate everyone's attention). The three heatmaps have different topologies --- the agent who is central in one may be peripheral in another. The composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ blends all three.
+\small Schematic (shades show relative weights, not a calibrated matrix). Same eight agents, three different networks. $W^U$ is clustered (two social groups, caring mostly within). $W^P$ is block-diagonal (enclave: three agents in the modern sector, five in the traditional). $W^I$ is star-shaped (two media sources dominate everyone's attention). The three heatmaps have different topologies --- the agent who is central in one may be peripheral in another. The composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ blends all three.
 \end{vizpanel}
 
 
@@ -447,7 +409,7 @@ $W = \frac{1}{N}\ones\ones'$. Every entry is $1/N$. Doubly stochastic, symmetric
 
 \textit{As $W^I$:} you listen to everyone equally. No opinion leaders, no media concentration, no filter bubbles. Information aggregates to the simple average of initial beliefs.
 
-\textit{Economics:} The welfare theorems hold. The First Welfare Theorem says: if $W^U = 0$ and $W^P = \frac{1}{N}\ones\ones'$, the competitive equilibrium is Pareto efficient. This is the standard result. It is the structural content of ``perfect competition.''
+\textit{Economics:} $\Wce = \frac{1}{N}\ones\ones'$ is the equal-endowment case of anonymous market interaction, $W^{\text{mkt}} = \ones\mathbf{s}'$ with $\mathbf{s}$ the wealth shares. The First Welfare Theorem does not depend on it: it holds for every $\mathbf{s}$ and for any technology, given local nonsatiation, complete markets, price-taking and no externalities ($W^U = 0$) (Proposition~\ref{ch06:prop:welfare_revisited}). What the complete topology adds is \textit{equal power}.
 
 
 \subsection{Star (Hub-Spoke)}
@@ -457,13 +419,13 @@ One hub ($h$) connected to all spokes; spokes connected only to the hub.
 W_{ih} \text{ large for all } i \neq h; \qquad W_{ij} \approx 0 \text{ for } i, j \neq h.
 \end{equation}
 
-Spectral gap $\Gamma \approx 0$. Perron eigenvector concentrates on the hub: $\pi_h \gg \pi_i$ for $i \neq h$.
+Perron eigenvector concentrates on the hub: if spokes place weight $a$ on the hub and the hub keeps $s$, then $\pi_h = a/(a+1-s)$, independent of $N$ (Proposition~\ref{ch06:prop:star_power}). The spectral gap depends on self-loops, not on concentration: a pure star (no self-loops) is bipartite and has $\Gamma = 0$; a lazy star has $\Gamma = 0.5$.
 
 \textit{As $W^U$:} everyone cares about the hub (celebrity, patron, chief), nobody cares about each other. Patron-client structures, populist politics.
 
 \textit{As $W^P$:} all production passes through a single firm or sector (the platform, the middleman, the colonial trading company). Amazon, the East India Company.
 
-\textit{As $W^I$:} one source broadcasts, all others listen. State media, monopoly news, papal authority. The long-run consensus equals the hub's initial belief. Epistemic dictatorship.
+\textit{As $W^I$:} one source broadcasts, all others listen. State media, monopoly news, papal authority. If the hub listens only to herself ($s = 1$), the long-run consensus equals the hub's initial belief: epistemic dictatorship --- reached quickly, since such a network mixes fast.
 
 
 \subsection{Block-Diagonal (Dual Economy)}
@@ -473,7 +435,7 @@ Two or more blocks with strong internal links and weak cross-block links.
 W \approx \begin{pmatrix} W_{11} & \varepsilon \\ \varepsilon' & W_{22} \end{pmatrix}, \quad \|\varepsilon\| \ll \|W_{11}\|, \|W_{22}\|.
 \end{equation}
 
-Small spectral gap $\Gamma \approx |\rho(W_{11}) - \rho(W_{22})|$. Perron eigenvector concentrates on the block with higher spectral radius.
+Weak cross-block coupling forces a small spectral gap: if every agent in block 1 places total weight $\varepsilon_1$ on block 2 and every agent in block 2 places $\varepsilon_2$ on block 1, then $\Gamma \leq \varepsilon_1 + \varepsilon_2$. The Perron eigenvector splits between the blocks in proportion to their \textit{inflows}: block 1 holds exactly $\varepsilon_2/(\varepsilon_1 + \varepsilon_2)$ of total power (Proposition~\ref{ch06:prop:block_power}). Symmetric coupling gives equal power however small $\Gamma$ is.
 
 \textit{As $W^U$:} two social groups that care about their own members but not about the other group. Ethnic enclaves, caste, class segregation.
 
@@ -493,7 +455,7 @@ Perron eigenvector assigns high weight to the core and low weight to the periphe
 
 \textit{As $W^U$:} the periphery admires and envies the center; the center is indifferent to the periphery. Colonial relations, celebrity culture, academic prestige hierarchies.
 
-\textit{As $W^P$:} Prebisch's center-periphery. The periphery exports raw materials to the center and imports manufactures. The Leontief multiplier is high for the center (column sums of $(I - \gamma W^P)^{-1}$ are large) and low for the periphery. Terms of trade deterioration is a spectral property of this asymmetric $W^P$ (Chapter~16).
+\textit{As $W^P$:} Prebisch's center-periphery. The periphery exports raw materials to the center and imports manufactures. Backward linkages of the center, computed from the technical coefficients $A$ (column sums of the Leontief inverse), are high and those of the periphery low. Chapter~16 relates the terms of trade to this asymmetric structure.
 
 \textit{As $W^I$:} the periphery absorbs signals from the center (economic theory, cultural norms, consumption patterns, policy advice) but not vice versa. The long-run consensus converges to center beliefs. The Washington Consensus as a DeGroot equilibrium.
 
@@ -504,11 +466,11 @@ Several additional topologies appear in applications:
 
 \textbf{Ring} (supply chain): Each agent connects to neighbors. Sequential production. Shocks propagate slowly along the chain. Manufacturing assembly lines, agricultural value chains.
 
-\textbf{Hierarchy} (tree): Top-down connections. Firms, bureaucracies, military, caste. Power decreases monotonically with depth in the tree. Information flows down; surplus flows up.
+\textbf{Hierarchy} (tree): Top-down connections. Firms, bureaucracies, military, caste. Power typically falls with depth in the tree. Information flows down; surplus flows up.
 
 \textbf{Small-world}: Local clusters plus random long-range shortcuts. Most social networks exhibit this structure (Watts and Strogatz, 1998). High clustering with short path lengths. Ideas diffuse faster than in a ring but less uniformly than in a complete graph.
 
-\textbf{Scale-free}: Few super-connected hubs, many weakly connected nodes. Power-law degree distribution. Wealth, internet, citation networks. Extreme power concentration in the Perron eigenvector.
+\textbf{Scale-free}: Few super-connected hubs, many weakly connected nodes. Power-law degree distribution. Wealth, internet, citation networks. For a random walk on an undirected network $\pi_i$ is proportional to degree, so the degree inequality becomes power inequality.
 
 \textbf{Random} (Erd\H{o}s-R\'{e}nyi): Each link exists with probability $p$. No structure by design. Useful as a null model: any deviation from random IS structure.
 
@@ -521,22 +483,28 @@ Several additional topologies appear in applications:
 In many applications, the three networks operate simultaneously and interact. We define the composite.
 
 \begin{definition}[Composite Weight Matrix]\label{ch05:def:composite}
-The \textbf{composite weight matrix} is:
+Let $W^U$, $W^P$, $W^I$ be row-stochastic matrices on the \emph{same} $N$ agents (raw intensities $K$ are first normalized, $W = D^{-1}K$). The \textbf{composite weight matrix} is:
 \begin{equation}\label{ch05:eq:composite}
 W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I, \quad \alpha_U + \alpha_P + \alpha_I = 1,
 \end{equation}
-where $\alpha_U, \alpha_P, \alpha_I \geq 0$ are the relative importance of each channel.
+where $\alpha_U, \alpha_P, \alpha_I \geq 0$ are the relative importance of each channel. $W$ is then row-stochastic. If the layers live on different node sets (sectors, media outlets, individuals), there is no composite.
 \end{definition}
 
-The composite $W$ is the single matrix that summarizes the overall structure of economic interaction. Its Perron eigenvector $\boldsymbol{\pi}(W)$ is the \textbf{power vector}: agent $i$'s structural power is $\pi_i$, determined jointly by her position in all three networks.
+The normalization is not cosmetic. Mixing raw layers with different scales makes $\boldsymbol{\pi}$ depend on units: in the La Paz example below, doubling the raw utility intensities moves the unnormalized composite's Perron vector from $(0.311, 0.364, 0.325)$ to $(0.327, 0.388, 0.286)$, with no change in anyone's relationships.
+
+The composite $W$ is a single matrix that summarizes the overall structure of economic interaction. Its Perron eigenvector $\boldsymbol{\pi}(W)$ is the \textbf{power vector}: agent $i$'s structural power is $\pi_i$, determined jointly by her position in all three networks.
 
 \begin{proposition}[Power from the Composite]\label{ch05:prop:composite_power}
-If $W$ is irreducible and aperiodic, the left Perron eigenvector $\boldsymbol{\pi}$ of the composite $W$ satisfies:
+If the composite $W$ is irreducible, its left Perron eigenvector $\boldsymbol{\pi}$ satisfies:
 \begin{equation}
 \pi_i = \alpha_U \sum_j \pi_j W^U_{ji} + \alpha_P \sum_j \pi_j W^P_{ji} + \alpha_I \sum_j \pi_j W^I_{ji}.
 \end{equation}
 An agent's power is the weighted sum of power directed toward her through all three channels: how much powerful agents care about her (utility channel), how much powerful agents depend on her output (production channel), and how much powerful agents listen to her signals (information channel).
 \end{proposition}
+
+\begin{proof}
+$W$ is row-stochastic, so $\rho(W) = 1$ and $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$; write out the $i$-th entry of $\boldsymbol{\pi}'(\alpha_U W^U + \alpha_P W^P + \alpha_I W^I)$.
+\end{proof}
 
 \begin{intuition}[What determines power]
 Your structural power $\pi_i$ is high if:
@@ -545,46 +513,51 @@ Your structural power $\pi_i$ is high if:
 \item People who depend on your output ($W^P_{ji}$ large) are themselves powerful.
 \item People who listen to your signals ($W^I_{ji}$ large) are themselves powerful.
 \end{enumerate}
-This is recursive: power begets power, through the Perron eigenvector's self-referential definition. This is the mathematical content of ``privilege reproduces itself.'' It is not a moral judgment. It is a theorem about nonnegative matrices.
+This is recursive: power begets power, through the Perron eigenvector's self-referential definition --- one formal reading of ``privilege reproduces itself.'' One more feature matters: weight that flows into an agent who sends little of it back accumulates there. In this reading, self-reliance counts as power, as the next example shows.
 \end{intuition}
 
 \begin{example}[Power in La Paz]\label{ch05:ex:LaPaz}
-Consider three agents: a Cabinet Minister ($i=1$), a Gas Executive ($i=2$), and a Market Vendor ($i=3$).
+Consider three agents: a Cabinet Minister ($i=1$), a Gas Executive ($i=2$), and a Market Vendor ($i=3$). \textup{\illustrative}
 
-Utility network (who cares about whom):
+Utility network (raw intensities: who cares about whom):
 \begin{equation}
-W^U = \begin{pmatrix} 0 & 0.3 & 0.0 \\ 0.2 & 0 & 0.0 \\ 0.0 & 0.0 & 0 \end{pmatrix}.
+K^U = \begin{pmatrix} 0 & 0.3 & 0.0 \\ 0.2 & 0 & 0.0 \\ 0.0 & 0.0 & 0 \end{pmatrix}.
 \end{equation}
-The Minister and the Executive care about each other. Nobody cares about the Vendor.
+The Minister and the Executive care about each other. Nobody cares about the Vendor, and she cares about nobody.
 
-Production network (who depends on whose output):
+Production network (raw input coefficients: who depends on whose output):
 \begin{equation}
-W^P = \begin{pmatrix} 0.1 & 0.4 & 0.1 \\ 0.3 & 0.2 & 0.0 \\ 0.0 & 0.0 & 0.3 \end{pmatrix}.
+K^P = \begin{pmatrix} 0.1 & 0.4 & 0.1 \\ 0.3 & 0.2 & 0.0 \\ 0.0 & 0.0 & 0.3 \end{pmatrix}.
 \end{equation}
 The Minister depends on gas revenue (0.4 weight on Executive). The Executive depends on regulatory approval (0.3 weight on Minister). The Vendor is self-contained.
 
-Information network (who listens to whom):
+Information network (already row-stochastic: who listens to whom):
 \begin{equation}
 W^I = \begin{pmatrix} 0.3 & 0.5 & 0.2 \\ 0.4 & 0.3 & 0.3 \\ 0.2 & 0.1 & 0.7 \end{pmatrix}.
 \end{equation}
 The Minister listens mostly to the Executive. The Executive listens to the Minister and somewhat to the Vendor (market prices as signal). The Vendor listens mostly to herself (local knowledge).
 
+Row-normalizing the first two layers (the Vendor's all-zero utility row becomes a self-loop) gives
+\begin{equation}
+W^U = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \end{pmatrix}, \qquad
+W^P = \begin{pmatrix} 1/6 & 2/3 & 1/6 \\ 0.6 & 0.4 & 0 \\ 0 & 0 & 1 \end{pmatrix}.
+\end{equation}
 Composite ($\alpha_U = 0.2, \alpha_P = 0.5, \alpha_I = 0.3$):
 \begin{equation}
-W = 0.2 W^U + 0.5 W^P + 0.3 W^I = \begin{pmatrix} 0.14 & 0.41 & 0.11 \\ 0.27 & 0.19 & 0.09 \\ 0.06 & 0.03 & 0.36 \end{pmatrix}.
+W = 0.2 W^U + 0.5 W^P + 0.3 W^I = \begin{pmatrix} 0.173 & 0.683 & 0.143 \\ 0.620 & 0.290 & 0.090 \\ 0.060 & 0.030 & 0.910 \end{pmatrix}.
 \end{equation}
 
-The left Perron eigenvector (computed numerically): $\boldsymbol{\pi} \approx (0.40, 0.38, 0.22)$. The Minister has the most power (0.40), followed closely by the Executive (0.38). The Vendor has some power (0.22) --- mostly from her information self-reliance --- but substantially less than either.
+The left Perron eigenvector (computed numerically): $\boldsymbol{\pi} \approx (0.211, 0.227, 0.562)$, with $\Neff = 2.43$. The \textit{Vendor} has the most structural power in this reading. Nobody depends heavily on her, but everyone depends on her a little (the Minister's $W_{13} = 0.143$, the Executive's $W_{23} = 0.090$) and she sends almost nothing back ($W_{33} = 0.91$). Weight flows into her node and stays there. Even in the information layer alone she leads, $\boldsymbol{\pi}(W^I) = (0.281, 0.266, 0.453)$, because her column of $W^I$ has the largest sum (1.2).
 
-This is the power structure of La Paz in three numbers.
+The lesson is about the measure as much as about La Paz. The Perron vector measures long-run influence --- whose position the system converges toward --- and that rewards autonomy as well as being depended upon. Whether autonomy of this kind is ``power'' in the political sense is an interpretive question the matrix cannot settle; Exercise~5.7 shows how strongly the answer depends on the weights $\alpha$.
 \end{example}
 
 \begin{vizpanel}{La Paz: three networks and their composite}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\s{0.7}
-%% W^U
-\foreach \i/\j/\v in {1/1/0,1/2/60,1/3/0,2/1/40,2/2/0,2/3/0,3/1/0,3/2/0,3/3/0} {
+%% W^U (shade = 100 W_ij)
+\foreach \i/\j/\v in {1/1/0,1/2/100,1/3/0,2/1/100,2/2/0,2/3/0,3/1/0,3/2/0,3/3/100} {
   \fill[blue!\v, draw=white, line width=0.2pt]
     ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
 }
@@ -592,7 +565,7 @@ This is the power structure of La Paz in three numbers.
 
 %% W^P
 \begin{scope}[xshift=2.8cm]
-\foreach \i/\j/\v in {1/1/20,1/2/80,1/3/20,2/1/60,2/2/40,2/3/0,3/1/0,3/2/0,3/3/60} {
+\foreach \i/\j/\v in {1/1/17,1/2/67,1/3/17,2/1/60,2/2/40,2/3/0,3/1/0,3/2/0,3/3/100} {
   \fill[blue!\v, draw=white, line width=0.2pt]
     ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
 }
@@ -601,10 +574,8 @@ This is the power structure of La Paz in three numbers.
 
 %% W^I
 \begin{scope}[xshift=5.6cm]
-\foreach \i/\j/\v in {1/1/60,1/2/100,1/3/40,2/1/80,2/2/60,2/3/60,3/1/40,3/2/20,3/3/100} {
-  \pgfmathparse{\v*0.7}
-  \edef\bp{\pgfmathresult}
-  \fill[blue!\bp, draw=white, line width=0.2pt]
+\foreach \i/\j/\v in {1/1/30,1/2/50,1/3/20,2/1/40,2/2/30,2/3/30,3/1/20,3/2/10,3/3/70} {
+  \fill[blue!\v, draw=white, line width=0.2pt]
     ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
 }
 \node[below, font=\scriptsize\bfseries] at ({1.5*\s}, -0.1) {$W^I$};
@@ -615,47 +586,47 @@ This is the power structure of La Paz in three numbers.
 
 %% Composite W
 \begin{scope}[xshift=9.2cm]
-\foreach \i/\j/\v in {1/1/28,1/2/82,1/3/22,2/1/54,2/2/38,2/3/18,3/1/12,3/2/6,3/3/72} {
+\foreach \i/\j/\v in {1/1/17,1/2/68,1/3/14,2/1/62,2/2/29,2/3/9,3/1/6,3/2/3,3/3/91} {
   \fill[blue!\v, draw=white, line width=0.2pt]
     ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
 }
 \node[below, font=\scriptsize\bfseries] at ({1.5*\s}, -0.1) {$W$ (composite)};
-\node[below, font=\scriptsize] at ({1.5*\s}, -0.5) {$\boldsymbol{\pi} = (0.40, 0.38, 0.22)$};
+\node[below, font=\scriptsize] at ({1.5*\s}, -0.5) {$\boldsymbol{\pi} = (0.21, 0.23, 0.56)$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The La Paz economy: Minister, Gas Executive, Market Vendor. Three component networks with different topologies blend into the composite. Column 2 of $W^P$ is brightest (everyone depends on the Executive's output). Column 3 of $W^I$ is dimmer (nobody much listens to the Vendor). The composite $\boldsymbol{\pi}$: Minister 40\%, Executive 38\%, Vendor 22\%. The Vendor's self-reliance in $W^I$ saves her from zero power, but she is structurally marginal.
+\small The La Paz economy: Minister, Gas Executive, Market Vendor (shade $= 100\,W_{ij}$, white $= 0$). Three row-stochastic layers blend into the composite. Column 2 of $W^P$ is bright in the first two rows: the Minister and the Executive depend on the Executive's output; the Vendor does not. Column 3 of $W^I$ has the largest sum: the Vendor is the most listened-to agent once her own weight is counted. The bright $(3,3)$ cell of the composite --- the Vendor's self-reliance --- is what gives her the largest Perron weight, $\boldsymbol{\pi} = (0.21, 0.23, 0.56)$.
 \end{vizpanel}
 
 
 %% =====================================================================
-\section{What the Standard Model Assumes}
+\section{What the Benchmark Model Assumes}
 \label{ch05:sec:standard_revisited}
 %% =====================================================================
 
-We can now state precisely what the standard competitive model assumes about the three networks.
+We can now state precisely what the benchmark competitive model abstracts from, in the language of the three networks.
 
-\begin{proposition}[The Standard Model as a Network Assumption]\label{ch05:prop:standard}
-The standard competitive model assumes:
+\begin{remark}[The Benchmark as a Network Assumption]\label{ch05:prop:standard}
+The benchmark Arrow--Debreu model:
 \begin{enumerate}
-\item $W^U = 0$ (no utility externalities).
-\item $W^P$ is given by technology (the input-output matrix, taken as data).
-\item $W^I$ does not exist (preferences and beliefs are exogenous and common knowledge).
-\item The market interaction is $W^{\text{market}} = \frac{1}{N}\ones\ones'$ (prices aggregate demands anonymously and symmetrically).
+\item sets $W^U = 0$ (no utility externalities);
+\item takes production technology as given (the input-output matrix $A$, taken as data);
+\item treats preferences and beliefs as exogenous, rather than formed through an information network $W^I$;
+\item makes interaction anonymous: each agent interacts with the market aggregate, so the implied interaction matrix is $W^{\text{mkt}} = \ones\mathbf{s}'$ with $\mathbf{s}$ the wealth shares ($\Wce$ in the equal-endowment case).
 \end{enumerate}
-Under these assumptions, the welfare theorems hold, the competitive equilibrium is Pareto efficient, and social structure is irrelevant.
+Under local nonsatiation, complete markets and price-taking, (1) is what delivers the First Welfare Theorem; (4) holds for every wealth distribution, so the theorem says nothing about how unequal $\mathbf{s}$ --- and hence $\boldsymbol{\pi}(W^{\text{mkt}}) = \mathbf{s}$ --- may be.
 
-Structural economics relaxes each assumption:
+Structural economics relaxes each element:
 \begin{enumerate}
 \item General $W^U$ (utility externalities matter for welfare, efficiency, and policy).
 \item General $W^P$ (the topology of production determines growth propagation and structural change).
 \item General $W^I$ (information flows shape beliefs and preferences, reproducing or disrupting the structure).
-\item The market interaction is mediated by all three networks, not just by anonymous prices.
+\item Non-anonymous interaction, mediated by all three networks, whose Perron vector need not equal wealth shares.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
-This is the complete structural program. The rest of the book develops each relaxation: Chapter~6 derives power from $W$, Chapter~7 derives the bargaining equilibrium, Chapter~8 develops belief manipulation through $W^I$, and Chapters~9--12 develop the formation model where $W^I$ shapes preferences.
+This is the structural program. The rest of the book develops each relaxation: Chapter~6 derives power from $W$, Chapter~7 derives the bargaining equilibrium, Chapter~8 develops belief manipulation through $W^I$, and Chapters~9--12 develop the formation model where $W^I$ shapes preferences.
 
 
 %% =====================================================================
@@ -664,17 +635,15 @@ This is the complete structural program. The rest of the book develops each rela
 %% =====================================================================
 
 \begin{enumerate}
-\item The economy is organized by three networks: $W^U$ (utility externalities), $W^P$ (production spillovers), and $W^I$ (information flows). The standard model ignores the first, measures the second, and denies the existence of the third.
+\item The economy is organized by three networks: $W^U$ (utility externalities), $W^P$ (production dependence), and $W^I$ (information flows). The benchmark Arrow--Debreu model abstracts from the first ($W^U = 0$), takes the second as technology, and treats beliefs as exogenous rather than formed through the third.
 
-\item $W^U$ captures who affects your happiness. It enters utility directly: $V_i = U_i + \gamma_U \sum_j W^U_{ij} U_j$. The standard model assumes $W^U = 0$, which means nobody's consumption affects anyone else.
+\item $W^U$ captures who affects your happiness. It enters utility directly: $V_i = U_i + \gamma_U \sum_j W^U_{ij} U_j$. Utility interdependence, not unequal power, is what breaks the First Welfare Theorem.
 
-\item $W^P$ captures who depends on whose output. It determines the Leontief inverse $(I - \gamma_P W^P)^{-1}$, which amplifies shocks through inter-sectoral linkages. This is the matrix from Chapters~1 and 3, now recognized as one of three structural objects.
+\item $W^P$ captures who depends on whose output: it is the row-normalized input-coefficient matrix, $W^P = D^{-1}A$. Multipliers and linkages come from $A$ and the Leontief inverse $(I - A')^{-1}$, not from $W^P$.
 
-\item $W^I$ captures who listens to whom. It drives belief dynamics through DeGroot learning: $\mathbf{b}^{(t+1)} = W^I \mathbf{b}^{(t)}$, converging to a consensus weighted by the Perron eigenvector $\boldsymbol{\pi}(W^I)$. This is epistemic power.
+\item $W^I$ captures who listens to whom. It drives belief dynamics through DeGroot learning: $\mathbf{b}^{(t+1)} = W^I \mathbf{b}^{(t)}$, converging (for primitive $W^I$) to a consensus weighted by the Perron eigenvector $\boldsymbol{\pi}(W^I)$. This is epistemic power.
 
-\item The composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ summarizes the full structure. Its Perron eigenvector is the power vector. Power is recursive: it comes from being valued, depended upon, and listened to by other powerful agents.
-
-\item Canonical topologies --- complete, star, block-diagonal, core-periphery, ring, hierarchy, small-world, scale-free, random --- characterize the qualitative features of each network. The topology determines the spectral properties, which determine propagation, convergence, power concentration, and structural persistence.
+\item The composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ of row-stochastic layers on the same agents summarizes the full structure; its Perron eigenvector is the power vector, recursive and sensitive to self-reliance. Canonical topologies (complete, star, block-diagonal, core-periphery, and others) differ on two separate coordinates: how integrated they are ($\Gamma$) and how concentrated power is ($\Neff$).
 \end{enumerate}
 
 
@@ -685,16 +654,16 @@ This is the complete structural program. The rest of the book develops each rela
 
 \begin{enumerate}[label=\textbf{5.\arabic*}, leftmargin=3em]
 
-\item \textbf{Utility externalities.} For the three-vendor economy (Example~\ref{ch05:ex:vendors}), with $\gamma_U = 0.5$:
+\item \textbf{Utility externalities: keeping up and falling behind.} Mar\'{i}a sells api on Calle Comercio, between Do\~{n}a Rosa's stall (empanadas) and Don Carlos's stall (newspapers). Mar\'{i}a and Rosa share a comadrazgo bond: Rosa is godmother to Mar\'{i}a's youngest daughter. When Rosa's sales are good, Mar\'{i}a is genuinely happy for her; when they collapse, Mar\'{i}a worries, lends her money, and feels the loss almost as her own. Don Carlos is just a neighbor; his fortunes do not move her. A stranger in Santa Cruz does not enter her utility at all. Example~\ref{ch05:ex:vendors} formalizes this with $\gamma_U = 0.5$.
 \begin{enumerate}
 \item Compute $V_2$ and $V_3$ (Rosa's and Carlos's social utilities).
-\item A social planner maximizes $\sum_i V_i$. Show that the planner's optimal allocation differs from the competitive equilibrium (which maximizes $\sum_i U_i$). Who gets more under the planner?
+\item With the total $x_1 + x_2 + x_3 = 1.8$ fixed, compare the allocation that maximizes $\sum_i V_i$ with the one that maximizes $\sum_i U_i$. Who gets more when social utilities are counted? (Use the column sums $c_j = \sum_i W^U_{ij}$.)
 \item What happens as $\gamma_U \to 1$? As $\gamma_U \to 0$?
 \end{enumerate}
 
 \item \textbf{Three networks for a factory town.} A town has $N = 4$ agents: Factory Owner ($F$), Worker ($W$), Shopkeeper ($S$), Mayor ($M$).
 \begin{enumerate}
-\item Write plausible $W^U$, $W^P$, and $W^I$ matrices (each $4 \times 4$).
+\item Write plausible $W^U$, $W^P$, and $W^I$ matrices (each $4 \times 4$), and row-normalize each one.
 \item Compute the composite $W$ with equal weights $\alpha = 1/3$.
 \item Find the Perron eigenvector. Who has the most power? Explain why.
 \item Now suppose the factory closes. Which entries of $W^P$ go to zero? How does the Perron eigenvector change?
@@ -711,7 +680,7 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 \item Starting from $\mathbf{b}^{(0)} = (0, 0.5, 1)'$, compute $\mathbf{b}^{(t)}$ for $t = 1, 2, 5, 10, 50$. Verify convergence to $\boldsymbol{\pi}'\mathbf{b}^{(0)}$.
 \end{enumerate}
 
-\item \textbf{The phone as structural change.} Luisa's pre-phone $W^I$ and post-phone $W^I$ from Example~\ref{ch05:ex:Luisa}. Extend to $N = 5$ agents (Mother, Friend, Cousin, TikTok, Teacher) where each agent also has a $W^I$ row (Mother listens to: herself 0.6, friend 0.2, teacher 0.2; etc.).
+\item \textbf{The phone as structural change.} Mar\'{i}a's daughter Luisa is fifteen and lives in Potos\'{i}. On her phone she sees videos of university students in La Paz, posts from her cousin who studies engineering in Buenos Aires, and messages from school friends wondering whether to work in the market, attend the normal school in Sucre, or try for the public university in Oruro. Twenty years earlier she would have seen only what Potos\'{i} showed her: market vendors, miners, teachers. Luisa's pre-phone $W^I$ and post-phone $W^I$ are in Example~\ref{ch05:ex:Luisa}. Extend to $N = 5$ agents (Mother, Friend, Cousin, TikTok, Teacher) where each agent also has a $W^I$ row (Mother listens to: herself 0.6, friend 0.2, teacher 0.2; etc.).
 \begin{enumerate}
 \item Construct the full $5 \times 5$ pre-phone and post-phone $W^I$.
 \item Compute the Perron eigenvector for both. How does epistemic power shift?
@@ -739,6 +708,14 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 \item Vary $\alpha_P$ from 0 to 1 (holding $\alpha_U / \alpha_I$ constant). Plot $\pi_3$ (Vendor's power) as a function of $\alpha_P$. When does the Vendor have the most power? The least?
 \item Interpret: in what kind of economy does the market vendor matter most? When does she become invisible?
 \item Add a fourth agent: ``Luisa (Student).'' Construct plausible $W^U$, $W^P$, $W^I$ rows for Luisa. How does her inclusion change the power structure?
+\item Replace the Vendor's self-loop in the normalized $W^U$ by a uniform row $(\frac13, \frac13, \frac13)$. How much does $\pi_3$ change? What does this say about how ``power'' is attributed to self-reliant agents?
+\end{enumerate}
+
+\item \textbf{From story to matrix: the chain from gas well to school (data).} A story often told about Bolivia: gas from a well in Tarija goes to a YPFB processing plant; one component feeds a thermoelectric plant in Santa Cruz; the electricity powers a flour mill in Cochabamba; the flour goes to a bakery, which sells bread to a miner in Potos\'{i}; the tin is exported, and the export revenue funds the school where Mar\'{i}a's daughter studies. The story adds that at each step the domestic link breaks and points abroad: the processing plant's equipment is imported, the power plant was built by a foreign firm, and the mill buys imported wheat.
+\begin{enumerate}
+\item Write each link of the chain as an entry of $A$ (technical coefficients) and of $W^P = D^{-1}A$. Which entries are domestic, which are imports?
+\item Using INE Bolivia's input-output tables (\textit{Matriz Insumo-Producto}) or supply-use tables, check the story's claims: what shares of the relevant sectors' inputs are imported? (Treat every claim in the story as a hypothesis to test, not a fact.)
+\item Aggregate to a gas block and a traditional block and compute the cross-block weights $\varepsilon_1, \varepsilon_2$ of Proposition~\ref{ch06:prop:block_power}. Is the chain ``mostly imaginary'', as Pinto's structural heterogeneity would suggest?
 \end{enumerate}
 
 \end{enumerate}
@@ -756,29 +733,29 @@ W^I = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.6 & 0.3 \\ 0.2 & 0.2 & 0.6 \end
 
 A \textbf{directed graph} (digraph) $G = (V, E)$ consists of a set of \textit{vertices} (nodes, agents) $V = \{1, \ldots, N\}$ and a set of \textit{edges} (links, connections) $E \subseteq V \times V$. An edge $(i, j)$ means agent $i$ is connected to agent $j$.
 
-Every $N \times N$ weight matrix $W$ defines a weighted directed graph: the vertices are agents $1, \ldots, N$, and the edge from $j$ to $i$ has weight $W_{ij}$. (Convention: $W_{ij} > 0$ means there is an edge from $j$ to $i$, i.e., $j$ affects $i$.)
+Every $N \times N$ weight matrix $W$ defines a weighted directed graph: the vertices are agents $1, \ldots, N$, and the edge from $i$ to $j$ has weight $W_{ij}$. (Convention, used throughout the book: $W_{ij} > 0$ means $i$ places weight on $j$ --- $i$ depends on, cares about, or listens to $j$ --- drawn as an edge $i \to j$. Influence then flows against the arrows, from $j$ to $i$.)
 
 \paragraph{Key definitions.}
 
-\textit{Path}: a sequence of edges connecting $i$ to $j$. The \textit{length} of a path is the number of edges. A path of length $k$ from $j$ to $i$ exists if and only if $(W^k)_{ij} > 0$: the $(i,j)$ entry of the $k$-th power of $W$.
+\textit{Path}: a sequence of edges connecting $i$ to $j$. The \textit{length} of a path is the number of edges. A path of length $k$ from $i$ to $j$ exists if and only if $(W^k)_{ij} > 0$: the $(i,j)$ entry of the $k$-th power of $W$.
 
 \textit{Connected}: $i$ can reach $j$ through a path of some finite length. \textit{Strongly connected}: every agent can reach every other agent. Equivalently, $W$ is \textit{irreducible}: $(I + W)^{N-1}$ has all positive entries.
 
-\textit{Aperiodic}: the greatest common divisor of the lengths of all cycles through any agent is 1. Sufficient condition: some diagonal entry $W_{ii} > 0$ (some agent has a self-loop, i.e., some of their influence stays with themselves).
+\textit{Aperiodic}: the greatest common divisor of the lengths of all cycles through any agent is 1. Sufficient condition, for irreducible $W$: some diagonal entry $W_{ii} > 0$ (some agent has a self-loop, i.e., some of their influence stays with themselves).
 
 \textit{Why these matter}: The Perron-Frobenius theorem (Chapter~6) requires $W$ to be nonnegative. Strong connectivity ensures a unique Perron eigenvector. Aperiodicity ensures convergence of $(W^t)$ to a limit (the consensus matrix $\ones\boldsymbol{\pi}'$). Without strong connectivity, the network fragments into components, each with its own Perron eigenvector. Without aperiodicity, the system cycles rather than converging.
 
 \paragraph{Degree and centrality.}
 
-\textit{In-degree}: $d_i^{\text{in}} = \sum_j W_{ij}$ (row sum). How much total influence agent $i$ receives. For row-stochastic $W^I$: always 1.
+\textit{In-degree}: $d_i^{\text{in}} = \sum_j W_{ji}$ (column sum): the total weight others place on $i$, i.e.\ how much influence $i$ exerts. Not necessarily 1 even for row-stochastic matrices. (Same definition as Chapter~6.)
 
-\textit{Out-degree}: $d_i^{\text{out}} = \sum_j W_{ji}$ (column sum). How much total influence agent $i$ exerts. Not necessarily 1 even for row-stochastic matrices.
+\textit{Out-degree}: $d_i^{\text{out}} = \sum_j W_{ij}$ (row sum): the total weight $i$ places on others. For row-stochastic $W$: always 1.
 
 \textit{Eigenvector centrality}: the Perron eigenvector $\boldsymbol{\pi}$ assigns each agent a centrality proportional to the centrality of agents who point toward her. This is the recursive ``power'' we have been developing. It is not the same as degree (a node can have high degree but low eigenvector centrality if its neighbors are peripheral). Chapter~6 develops this fully.
 
 \paragraph{Adjacency matrix vs.\ weight matrix.}
 
-The \textit{adjacency matrix} $A$ is binary: $A_{ij} = 1$ if there is an edge from $j$ to $i$, and $0$ otherwise. The \textit{weight matrix} $W$ generalizes this: $W_{ij} \geq 0$ is the strength of the edge. In this book, we always use weight matrices. The adjacency matrix is the special case where all edges have weight 1.
+The \textit{adjacency matrix} $G$ is binary: $G_{ij} = 1$ if there is an edge from $i$ to $j$, and $0$ otherwise. (We write $G$, not $A$, to avoid a clash with the technical coefficients.) The \textit{weight matrix} $W$ generalizes this: $W_{ij} \geq 0$ is the strength of the edge. In this book, we always use weight matrices; a row-normalized adjacency matrix $D^{-1}G$ is the random walk on the graph.
 
 
 \subsection*{Appendix 5B: Stochastic Matrices and the Perron Eigenvector}
@@ -808,14 +785,14 @@ $t$ & $\pi_1$ & $\pi_2$ & $\pi_3$ & Max change \\
 \midrule
 0 & 0.333 & 0.333 & 0.333 & --- \\
 1 & 0.267 & 0.367 & 0.367 & 0.067 \\
-2 & 0.244 & 0.374 & 0.382 & 0.023 \\
-5 & 0.232 & 0.375 & 0.394 & 0.002 \\
-$\infty$ & 0.231 & 0.375 & 0.395 & 0 \\
+2 & 0.243 & 0.373 & 0.383 & 0.023 \\
+5 & 0.233 & 0.373 & 0.395 & 0.001 \\
+$\infty$ & 0.233 & 0.372 & 0.395 & 0 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Agent 3 has the most epistemic power (0.395), despite not having the highest self-weight (that's agent 2 with $W^I_{22} = 0.6$). Why? Because agents 1 and 2 both listen to agent 3 more than agent 3 listens to them. Structural position, not self-confidence, determines power.
+Agent 3 has the most epistemic power (0.395), although agents 2 and 3 have the same self-weight ($W^I_{22} = W^I_{33} = 0.6$) and the same column sum (1.1). The tie is broken by \textit{who} listens: agent 2 listens to agent 3 ($W^I_{23} = 0.3$) more than agent 3 listens to agent 2 ($W^I_{32} = 0.2$), while agents 1 and 3 listen to each other equally ($W^I_{13} = W^I_{31} = 0.2$). Structural position, not self-confidence, determines power. The second eigenvalues are a complex pair of modulus $0.361$, so $\Gamma = 0.639$.
 
 \paragraph{Doubly stochastic matrices.} If $W$ is both row-stochastic AND column-stochastic ($\ones'W = \ones'$), then $\boldsymbol{\pi} = \frac{1}{N}\ones$: all agents have equal power. This is the competitive benchmark from Chapter~1 ($W^{CE} = \frac{1}{N}\ones\ones'$ is doubly stochastic). Any deviation from doubly stochastic generates power asymmetry.
 
@@ -825,31 +802,32 @@ Agent 3 has the most epistemic power (0.395), despite not having the highest sel
 \subsection*{Structuralist Case Study: Dos Santos's Three Regimes of the Weight Matrix}
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Dos Santos (1970)}
 
-In 1970, Theot\^{o}nio dos Santos published ``The Structure of Dependence'' in the \textit{American Economic Review} --- a six-page paper presented at an AEA panel on ``Economics of Imperialism'' chaired by Paul Sweezy. The paper's core contribution was a \textbf{taxonomy of three historical forms of dependence}, each corresponding to a specific phase of world capitalist development. Read through this chapter's framework, the three forms are three historical regimes of the weight matrix $W$.
+% TODO-VERIFY: the AEA session in which Dos Santos (1970) was presented, and its chair (an earlier draft said Paul Sweezy).
+In 1970, Theot\^{o}nio dos Santos published ``The Structure of Dependence'' in the \textit{American Economic Review} --- a six-page paper in the \textit{Papers and Proceedings} session on the economics of imperialism. The paper's core contribution was a \textbf{taxonomy of three historical forms of dependence}, each corresponding to a specific phase of world capitalist development. Read through this chapter's framework, the three forms are three historical regimes of the weight matrix $W$.
 
-\textbf{Regime 1: Colonial dependence (trade-export).} The metropole extracts raw materials from the colony through monopoly control of land, mines, and labor. The weight matrix is a \textbf{star graph}: all edges point to the colonial power. $W^P$ has one bright column (the metropole) and $N-1$ dim columns (the colonies). The colonies do not trade with each other --- the off-diagonal entries among periphery nodes are zero. $W^I$ is similarly star-shaped: information (prices, technology, legal frameworks) flows from the metropole to the colonies, not between colonies. Power is maximally concentrated: $\boldsymbol{\pi} \approx (1, 0, \ldots, 0)$.
+\textbf{Regime 1: Colonial dependence (trade-export).} The metropole extracts raw materials from the colony through monopoly control of land, mines, and labor. The weight matrix is a \textbf{star graph}: all edges point to the colonial power. $W^P$ has one bright column (the metropole) and $N-1$ dim columns (the colonies). The colonies do not trade with each other --- the off-diagonal entries among periphery nodes are zero. $W^I$ is similarly star-shaped: information (prices, technology, legal frameworks) flows from the metropole to the colonies, not between colonies. Power is maximally concentrated: $\boldsymbol{\pi} \approx (1, 0, \ldots, 0)$ and $\Neff \approx 1$. Note what the spectral gap does here: a matrix in which every row attends to the metropole is close to rank one, $W \approx \ones\mathbf{e}_1'$, and mixes almost instantly --- $W = 0.95\,\ones\mathbf{e}_1' + 0.05\,I$ has $\Gamma = 0.95$. The colonial economy is highly \textit{integrated} around its center and maximally \textit{concentrated} in power: the two coordinates of Chapter~6 point in opposite directions.
 
 \textbf{Regime 2: Financial-industrial dependence (late 19th century).} Big capital invests in raw material and agricultural production for export to hegemonic centers. The star becomes a \textbf{hub-spoke with multiple hubs}: several industrial powers (Britain, France, the US) each have their own peripheral suppliers. $W^P$ now has a few bright columns instead of one. The periphery begins to develop limited internal linkages (railways for commodity transport, ports, basic processing), adding small off-diagonal entries among peripheral nodes. But the dominant flows still point toward the center. $W^I$ remains center-dominated: economic policy knowledge flows from London and New York.
 
-\textbf{Regime 3: Technological-industrial dependence (post-WWII).} Multinational corporations invest in industries oriented toward the internal market of the underdeveloped countries. The topology becomes more complex: MNCs create \textbf{bridging nodes} that connect the domestic $W^P$ to the global $W^P$ through intra-firm trade. The domestic matrix acquires new blocks (the MNC-owned modern sector), but these blocks connect outward to headquarters rather than inward to the traditional domestic sector. This is Sunkel's ``transnational integration and national disintegration'' as a matrix rewiring: cross-country edges among elite nodes strengthen while within-country edges between modern and traditional blocks weaken. The information network $W^I$ becomes layered: the MNC subsidiary receives technical knowledge from headquarters ($W^I_{\text{subsidiary, HQ}}$ large) but does not transmit local knowledge back ($W^I_{\text{HQ, subsidiary}} \approx 0$).
+\textbf{Regime 3: Technological-industrial dependence (post-WWII).} Multinational corporations invest in industries oriented toward the internal market of the underdeveloped countries. The topology becomes more complex: MNCs create \textbf{bridging nodes} that connect the domestic $W^P$ to the global $W^P$ through intra-firm trade. The domestic matrix acquires new blocks (the MNC-owned modern sector), but these blocks connect outward to headquarters rather than inward to the traditional domestic sector. This anticipates what Sunkel (1971) would call ``transnational integration and national disintegration'' --- in matrix terms, a rewiring: cross-country edges among elite nodes strengthen while within-country edges between modern and traditional blocks weaken. The information network $W^I$ becomes layered: the MNC subsidiary receives technical knowledge from headquarters ($W^I_{\text{subsidiary, HQ}}$ large) but does not transmit local knowledge back ($W^I_{\text{HQ, subsidiary}} \approx 0$).
 
 \begin{center}
-\begin{tabularx}{\textwidth}{LLLL}
+\begin{tabularx}{\textwidth}{LLLLL}
 \toprule
-\textbf{Dos Santos's regime} & \textbf{Topology of $W$} & \textbf{Power structure} & \textbf{$\Gamma$} \\
+\textbf{Dos Santos's regime} & \textbf{Topology of $W$} & \textbf{Concentration of power} & \textbf{Integration} & \textbf{This chapter} \\
 \midrule
-Colonial & Star & $\pi_{\text{metropole}} \approx 1$ & $\approx 0$ \\
-Financial-industrial & Multi-hub & $\pi_{\text{centers}} \gg \pi_{\text{periphery}}$ & Small \\
-Technological-industrial & Complex asymmetric & $\pi_{\text{MNC}} > \pi_{\text{domestic elite}} \gg \pi_{\text{traditional}}$ & Small \\
+Colonial & Star, close to rank one ($\ones\mathbf{e}_1'$) & $\pi_{\text{metropole}} \approx 1$, $\Neff \approx 1$ & High: $\Gamma$ near 1 & Star topology; Prop.~\ref{ch05:prop:composite_power} \\
+Financial-industrial & Multi-hub & $\pi_{\text{centers}} \gg \pi_{\text{periphery}}$, $\Neff \approx$ number of hubs & Low if the hubs' spheres barely interact & Block-diagonal topology; Prop.~\ref{ch06:prop:block_power} \\
+Technological-industrial & Blocks with MNC bridges & $\pi_{\text{MNC}} > \pi_{\text{domestic elite}} \gg \pi_{\text{traditional}}$ & Low domestically (modern vs.\ traditional block), high among elite nodes & Composite $W$, Def.~\ref{ch05:def:composite}; aligned/divergent networks \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-The taxonomy's power is its specificity: each regime generates a \textit{different} heatmap, a different Perron eigenvector, and a different spectral gap, even though all three are ``dependent.'' The colonial heatmap has one blazing column. The financial-industrial heatmap has several bright columns and dim periphery. The technological-industrial heatmap has a complex block structure with MNC bridging nodes creating cross-border links while domestic cross-block links remain dark.
+The taxonomy's power is its specificity: each regime generates a \textit{different} heatmap and a different combination of power concentration ($\Neff$) and integration ($\Gamma$), even though all three are ``dependent.'' The two coordinates must be read separately: the most concentrated regime (colonial) is also the most integrated. The colonial heatmap has one blazing column. The financial-industrial heatmap has several bright columns and dim periphery. The technological-industrial heatmap has a complex block structure with MNC bridging nodes creating cross-border links while domestic cross-block links remain dark.
 
-Dos Santos's definition --- ``a situation in which the economy of certain countries is conditioned by the development and expansion of another economy'' --- is the statement that the Perron eigenvector of the global $W$ assigns dominant weight to the conditioning economy. The taxonomy refines this: \textit{how} the conditioning occurs (through which channel of $W$ and with which topology) determines the specific developmental consequences. The colonial star produces extraction. The financial hub-spoke produces commodity dependence. The technological-industrial complex produces what Pinto called ``modernizaci\'{o}n excluyente'' --- a modern sector that connects to the world but not to its own country.
+Dos Santos's definition --- ``a situation in which the economy of certain countries is conditioned by the development and expansion of another economy'' --- is the statement that the Perron eigenvector of the global $W$ assigns dominant weight to the conditioning economy. The taxonomy refines this: \textit{how} the conditioning occurs (through which channel of $W$ and with which topology) determines the specific developmental consequences. The colonial star produces extraction. The financial hub-spoke produces commodity dependence. The technological-industrial complex produces an exclusionary modernization --- a modern sector that connects to the world but not to its own country.
 
-The three networks of this chapter --- $W^U$, $W^P$, $W^I$ --- are the analytical tools that Dos Santos needed but did not have. His taxonomy describes what the matrices look like. The Perron eigenvector tells you who benefits.
+The three networks of this chapter --- $W^U$, $W^P$, $W^I$ --- offer one formalization of Dos Santos's taxonomy. His taxonomy describes what the matrices look like. The Perron eigenvector, and its concentration $\Neff$, tell you who benefits.
 
 
 \subsection*{Further Reading}

@@ -7,6 +7,7 @@
 \textit{``La internacionalizaci\'{o}n de la econom\'{i}a tiene como contrapartida la desintegraci\'{o}n nacional: al mismo tiempo que se van creando v\'{i}nculos intensos entre los n\'{u}cleos din\'{a}micos de los pa\'{i}ses subdesarrollados y el sistema econ\'{o}mico internacional, se van desarticulando los v\'{i}nculos entre esos n\'{u}cleos y el resto de la econom\'{i}a nacional.''}\\[0.3em]
 \textnormal{[``The internationalization of the economy has as its counterpart national disintegration: at the same time that intense links are created between the dynamic nuclei of underdeveloped countries and the international economic system, the links between those nuclei and the rest of the national economy are dismantled.'']}\\
 \hfill --- Osvaldo Sunkel, ``Capitalismo transnacional y desintegraci\'{o}n nacional'' (1971)
+% TODO-VERIFY: check wording and add page against Sunkel (1971), Estudios Internacionales 4(16), pp. 3--61; possibly a paraphrase.
 \end{quote}
 
 \vspace{1em}
@@ -26,13 +27,13 @@ This chapter develops the general theory of network evolution. The central resul
 New edges form when agents establish new connections. In $W^P$: a firm opens a supply contract with a new input provider. In $W^U$: a migrant forms a friendship in a new city. In $W^I$: a student enrolls in a university and begins receiving signals from a new reference group.
 
 \begin{definition}[Edge Creation Process]\label{ch13:def:creation}
-The probability that a new edge $(i, j)$ forms in period $t+1$ depends on three factors:
+The probability that a new edge $(i, j)$ forms in period $t+1$ depends on three factors through a logistic link, so that it always lies in $(0,1)$:
 \begin{equation}\label{ch13:eq:creation}
-\Pr(\Delta W_{ij,t+1} > 0 \mid W_t) = p_0 + p_1 \cdot \underbrace{d(i, j; W_t)}_{\text{network distance}} + p_2 \cdot \underbrace{s(i, j; \x_t^*)}_{\text{surplus from connection}} + p_3 \cdot \underbrace{q(i, j; W^I_t)}_{\text{information about } j},
+\Pr(\Delta W_{ij,t+1} > 0 \mid W_t) = \sigma\Big(p_0 + p_1 \underbrace{a(i, j; W_t)}_{\text{proximity}} + p_2 \underbrace{s(i, j; \x_t^*)}_{\text{surplus}} + p_3 \underbrace{q(i, j; W^I_t)}_{\text{information}}\Big),
 \end{equation}
-where:
+with $\sigma(z) = 1/(1+e^{-z})$ and $p_1, p_2, p_3 \geq 0$, where:
 \begin{itemize}
-\item $d(i, j; W_t)$: \textbf{proximity in the existing network.} Agents form links more easily with friends of friends (triadic closure). The probability of connecting to $j$ increases if $i$ and $j$ share a neighbor. This is the relatedness mechanism: new connections form near existing ones.
+\item $a(i, j; W_t)$: \textbf{proximity in the existing network}, a decreasing function of the network distance $d(i,j;W_t)$ (Appendix~\ref{ch13:app:distance}), e.g.\ $a = 1/d$. Agents form links more easily with friends of friends (triadic closure). The probability of connecting to $j$ increases if $i$ and $j$ share a neighbor. This is the relatedness mechanism: new connections form near existing ones.
 \item $s(i, j; \x_t^*)$: \textbf{expected surplus from the connection.} $i$ connects to $j$ if the connection generates value --- a profitable trade, a useful signal, a beneficial relationship. The surplus depends on the current allocation (which determines prices and returns).
 \item $q(i, j; W^I_t)$: \textbf{information.} $i$ can only form a link with $j$ if $i$ \textit{knows about} $j$. Knowledge of potential partners is filtered through $W^I$: you connect to people you have heard of, which are people in your information network's reach.
 \end{itemize}
@@ -62,7 +63,7 @@ Bolivia's nationalization of gas in 2006 was a simultaneous edge destruction and
 
 \textbf{Creation:} New edges from gas production to the domestic treasury ($W^P_{\text{gas, treasury}}$) were strengthened. Gas revenues began flowing through domestic fiscal channels to domestic social programs.
 
-\textbf{Net effect on $\Gamma$:} Ambiguous. The nationalization increased some within-country linkages (gas revenue to social spending) but did not create production linkages between the gas sector and the traditional economy. The upper-left block of $W^P$ (gas/government) became brighter internally, but the cross-block entries (gas to traditional) remained dark. $\Gamma$ may have increased slightly (more domestic fiscal links) without fundamentally changing the block-diagonal structure.
+\textbf{Net effect on $\Gamma$:} Ambiguous. The nationalization increased some within-country linkages (gas revenue to social spending) but did not create production linkages between the gas sector and the traditional economy. The upper-left block of $W^P$ (gas/government) became brighter internally, but the cross-block entries (gas to traditional) remained dark. $\Gamma$ may have increased slightly (more domestic fiscal links) without fundamentally changing the block-diagonal structure. Strictly, the gas-to-treasury channel is a \emph{fiscal} linkage in Hirschman's (1977) sense rather than a production edge; modelling it inside $W^P$ requires a node set that includes the government as a sector.
 \end{example}
 
 
@@ -73,9 +74,9 @@ The strength of existing edges changes continuously as the economic environment 
 \begin{definition}[Edge Reweighting]\label{ch13:def:reweighting}
 The weight of an existing edge evolves according to:
 \begin{equation}\label{ch13:eq:reweighting}
-W_{ij,t+1} = W_{ij,t} + \eta \cdot \frac{\partial s(i,j)}{\partial W_{ij}} + \nu_{ij,t},
+\tilde W_{ij,t+1} = W_{ij,t} + \eta \cdot \frac{\partial s(i,j)}{\partial W_{ij}} + \nu_{ij,t},
 \end{equation}
-where $\eta > 0$ governs the speed of adjustment and $\nu_{ij,t}$ is noise. Profitable connections strengthen ($\partial s / \partial W > 0$); unprofitable connections weaken.
+where $\eta > 0$ governs the speed of adjustment and $\nu_{ij,t}$ is noise. Profitable connections strengthen ($\partial s / \partial W > 0$); unprofitable connections weaken. The updated row is then clipped at zero and renormalized to sum to one (Definition~\ref{ch13:def:evolution}).
 \end{definition}
 
 
@@ -88,24 +89,24 @@ Combining creation, destruction, and reweighting, the network evolves according 
 
 \begin{definition}[Network Evolution Equation]\label{ch13:def:evolution}
 \begin{equation}\label{ch13:eq:evolution}
-W_{t+1} = \underbrace{(1 - D_t) \circ W_t}_{\text{surviving edges}} + \underbrace{C_t \circ \tilde{W}_{t+1}}_{\text{new edges}} + \underbrace{\eta \cdot S_t}_{\text{reweighting}},
+W_{t+1} = \mathcal{N}\Big(\underbrace{(J - D_t) \circ W_t}_{\text{surviving edges}} + \underbrace{C_t \circ \tilde{W}^{\text{new}}_{t+1}}_{\text{new edges}} + \underbrace{\eta \cdot S_t}_{\text{reweighting}}\Big),
 \end{equation}
-where $\circ$ is the Hadamard (element-wise) product, $D_t$ is the $N \times N$ destruction probability matrix, $C_t$ is the creation probability matrix, $\tilde{W}_{t+1}$ is the weight assigned to newly created edges, and $S_t = [\partial s(i,j)/\partial W_{ij}]$ is the surplus gradient matrix.
+where $\circ$ is the Hadamard (element-wise) product, $J = \ones\ones'$ is the all-ones matrix, $D_t$ is the $N \times N$ destruction probability matrix, $C_t$ is the creation probability matrix, $\tilde{W}^{\text{new}}_{t+1}$ is the weight assigned to newly created edges, and $S_t = [\partial s(i,j)/\partial W_{ij}]$ is the surplus gradient matrix. The operator $\mathcal{N}$ clips negative entries to zero and divides each row by its sum, so $W_{t+1}$ is again row-stochastic. Written with the probabilities $D_t, C_t$ (rather than realized draws), \eqref{ch13:eq:evolution} is the \textbf{mean-field} (expected) evolution map; the realized network fluctuates around it.
 \end{definition}
 
-\begin{theorem}[The Co-Evolutionary System]\label{ch13:thm:coevolution}
+\begin{definition}[The Co-Evolutionary System]\label{ch13:thm:coevolution}
 The complete structural economics model is a co-evolutionary system in $(W_t, \boldsymbol{\theta}_t)$:
 \begin{align}
 \boldsymbol{\theta}_{t+1} &= \Phi(\boldsymbol{\theta}_t; W_t) \quad \text{(formation equation, Chapter~10)}, \label{ch13:eq:coev_theta} \\
-W_{t+1} &= \Psi(W_t; \x^*(\boldsymbol{\theta}_t, W_t)) \quad \text{(network evolution equation)}, \label{ch13:eq:coev_W}
+W_{t+1} &= \mathcal{T}(W_t; \x^*(\boldsymbol{\theta}_t, W_t)) \quad \text{(network evolution map~\eqref{ch13:eq:evolution})}, \label{ch13:eq:coev_W}
 \end{align}
-where $\x^*(\boldsymbol{\theta}_t, W_t)$ is the bargaining equilibrium at period $t$.
+where $\x^*(\boldsymbol{\theta}_t, W_t)$ is the bargaining equilibrium at period $t$. (We write $\mathcal{T}$ for the network evolution map; the symbol $\Psi$ is reserved for the formation-to-enforcement ratio of Chapter~11.)
 
-The fast variable is $\x^*$ (clears within a period). The medium variable is $\boldsymbol{\theta}$ (adjusts across generations). The slow variable is $W$ (evolves over decades or centuries). Three timescales, nested.
-\end{theorem}
+The fast variable is $\x^*$ (clears within a period). The medium variable is $\boldsymbol{\theta}$ (adjusts across generations). The slow variable, absent deliberate intervention, is $W$ (evolves over years to decades). Three timescales, nested.
+\end{definition}
 
 \begin{intuition}[Three timescales]
-Markets clear in months. Preferences form in generations. Structures evolve over centuries. This ordering is what makes the analysis tractable: at any given timescale, the slower variables are approximately constant and the faster variables are in approximate equilibrium.
+Markets clear in months. Preferences form in generations. Left to proximity-driven link formation, structures evolve over decades; coalitions and policy (Chapters~14--15) can move parts of $W$ much faster. This ordering is what makes the analysis tractable: at any given timescale, the slower variables are approximately constant and the faster variables are in approximate equilibrium.
 
 When we analyzed the bargaining equilibrium (Chapters~6--7), we held $W$ and $\boldsymbol{\theta}$ fixed --- both are slow relative to market clearing. When we analyzed the formation model (Chapters~9--10), we held $W$ fixed --- it is slow relative to preference formation. Now we let $W$ move, completing the picture.
 \end{intuition}
@@ -119,66 +120,103 @@ When we analyzed the bargaining equilibrium (Chapters~6--7), we held $W$ and $\b
 \subsection{Definition}
 
 \begin{definition}[Structural Equilibrium]\label{ch13:def:structural_eq}
-A \textbf{structural equilibrium} is a triple $(W^*, \boldsymbol{\theta}^*, \x^*)$ satisfying:
+A \textbf{structural equilibrium} $(W^*, \boldsymbol{\theta}^*, \x^*)$ is a network, a preference profile and an allocation that satisfy three conditions:
 \begin{enumerate}
 \item $\x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*, \boldsymbol{\omega})$ (bargaining equilibrium),
 \item $\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*; W^*)$ (formation steady state),
-\item $W^* = \Psi(W^*; \x^*)$ (network steady state).
+\item $W^* = \mathcal{T}(W^*; \x^*)$ (network steady state).
 \end{enumerate}
 All three equations are simultaneously satisfied. The weight matrix produces the allocation and preferences that reproduce the weight matrix.
 \end{definition}
 
 \begin{theorem}[Existence of Structural Equilibrium]\label{ch13:thm:existence}
-Under regularity conditions (continuous $\Phi$, $\Psi$, $h$; compact domains; bounded weights), at least one structural equilibrium exists.
+Fix $\varepsilon \in (0, 1/N)$ and let $\mathcal{W}_\varepsilon = \{W \in \R^{N\times N} : W\ones = \ones,\ W_{ij} \geq \varepsilon\}$. Let $\Theta \subset \R^N$ be compact and convex. Assume (i) $\Phi(\cdot\,; W)$ maps $\Theta$ into $\Theta$; (ii) the mean-field evolution map $\mathcal{T}$ (including the renormalization $\mathcal{N}$) maps $\mathcal{W}_\varepsilon \times \R^N$ into $\mathcal{W}_\varepsilon$ (for instance, by mixing its output with weight $N\varepsilon$ on $\Wce$); (iii) $\Phi$, $\mathcal{T}$ and $h$ are continuous. Then at least one structural equilibrium with $W^* \in \mathcal{W}_\varepsilon$ exists.
 \end{theorem}
 
-\begin{proof}[Proof sketch]
-Define the composite map $\Xi: (W, \boldsymbol{\theta}) \mapsto (\Psi(W; h(\boldsymbol{\pi}(W), \Phi(\boldsymbol{\theta}; W), \boldsymbol{\omega})), \Phi(\boldsymbol{\theta}; W))$. On the compact convex product space $\mathcal{W} \times \Theta$ (where $\mathcal{W}$ is the space of row-stochastic matrices and $\Theta$ a bounded preference domain), $\Xi$ is continuous. Brouwer's fixed-point theorem guarantees existence.
+\begin{proof}
+Every $W \in \mathcal{W}_\varepsilon$ is strictly positive, hence primitive, so its Perron root $1$ is simple and $\boldsymbol{\pi}(W)$ is a continuous (indeed analytic) function on $\mathcal{W}_\varepsilon$. (On the full set of row-stochastic matrices this fails: at reducible $W$, such as an exactly block-diagonal matrix, $\boldsymbol{\pi}$ is not unique.) The composite map
+\[
+\Xi: (W, \boldsymbol{\theta}) \mapsto \Big(\mathcal{T}\big(W; h(\boldsymbol{\pi}(W), \Phi(\boldsymbol{\theta}; W), \boldsymbol{\omega})\big),\ \Phi(\boldsymbol{\theta}; W)\Big)
+\]
+is therefore continuous and, by (i)--(ii), maps the nonempty compact convex set $\mathcal{W}_\varepsilon \times \Theta$ into itself. Brouwer's fixed-point theorem gives a fixed point $(W^*, \boldsymbol{\theta}^*)$; set $\x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*, \boldsymbol{\omega})$.
 \end{proof}
+
+The theorem is about the mean-field (expected) map. A fixed point of the stochastic process itself is a stationary distribution over networks, not a single $W^*$.
 
 
 \subsection{Multiple Structural Equilibria}
 
 \begin{proposition}[Multiplicity]\label{ch13:prop:multiplicity}
-The co-evolutionary system generically admits multiple structural equilibria. Two important types:
+The co-evolutionary system can admit multiple structural equilibria: there are parameter values for which two distinct, locally stable structural equilibria coexist.
 
-\textbf{The integrated equilibrium.} $W^*$ has large $\Gamma$ (well-connected), $\boldsymbol{\theta}^*$ is approximately uniform (homogeneous preferences), $\x^*$ is close to equal division. Cross-block edges are sustained by positive surplus. This equilibrium is self-reinforcing: the connected structure produces high returns for all agents, which sustains the preferences that support the connections, which maintains the structure.
+\textit{Proof.} Example~\ref{ch13:ex:bolivia_two} exhibits one such parameterization. \qed
 
-\textbf{The fragmented equilibrium.} $W^*$ is approximately block-diagonal (small $\Gamma$), $\boldsymbol{\theta}^*$ is stratified (different preferences per block), $\x^*$ is highly unequal. Cross-block edges do not form because the surplus is too low (the traditional block's agents cannot afford the investment needed to link to the modern block). This equilibrium is also self-reinforcing: the disconnected structure produces low returns in the traditional block, which forms low aspirations, which prevents investment in cross-block links, which maintains disconnection.
+Multiplicity requires a complementarity (here: cross-block links raise the surplus from further cross-block links); with a contraction it is impossible. Two important types:
+
+\textbf{The integrated equilibrium.} $W^*$ has large $\Gamma$ (well-connected), $\boldsymbol{\theta}^*$ is less dispersed across blocks, and allocation gaps are smaller. Cross-block edges are sustained by positive surplus. This equilibrium is self-reinforcing: the connected structure produces high returns for all agents, which sustains the preferences that support the connections, which maintains the structure.
+
+\textbf{The fragmented equilibrium.} $W^*$ is approximately block-diagonal (small $\Gamma$), $\boldsymbol{\theta}^*$ is stratified (different preferences per block), and allocation gaps are larger. Cross-block edges do not form because the surplus is too low (the traditional block's agents cannot afford the investment needed to link to the modern block). This equilibrium is also self-reinforcing: the disconnected structure produces low returns in the traditional block, which forms low aspirations, which prevents investment in cross-block links, which maintains disconnection.
+
+Neither type need differ in the distribution of power: $\Gamma$ and $\boldsymbol{\pi}$ are independent coordinates (Proposition~\ref{ch06:prop:gap-power-independent}), and in the example below $\boldsymbol{\pi}$ is identical in both equilibria.
 \end{proposition}
 
 \begin{example}[Two Structural Equilibria for Bolivia]\label{ch13:ex:bolivia_two}
-$N = 6$: Gas block (agents 1--2), Urban block (agents 3--4), Rural block (agents 5--6). Parameters: $\rho = 0.85$, $\mu = 0.2$, $\eta = 0.05$, $p_1 = 0.3$ (proximity dominates edge creation).
+$N = 6$: Gas block (agents 1--2), Urban block (agents 3--4), Rural block (agents 5--6). To make every step computable we restrict the evolution map to a one-parameter family. Let $B$ be within-block averaging ($B_{ij} = 0.5$ if $i, j$ are in the same block, $0$ otherwise) and let $\ones\mathbf{s}'$ be ``open'' links, in which every agent weights partners by their attractiveness $\mathbf{s} = (0.25, 0.25, 0.15, 0.15, 0.10, 0.10)'$. The network is
+\begin{equation}\label{ch13:eq:Wc}
+W(c) = (1-c)\,B + c\,\ones\mathbf{s}', \qquad c \in [0.05, 0.65],
+\end{equation}
+which is row-stochastic, asymmetric and strictly positive, so $W(c) \in \mathcal{W}_\varepsilon$. The three maps are:
+\begin{itemize}
+\item \textbf{Bargaining} $h$: $x_i = \Omega/N + (\pi_i - 1/N)\Phi_b + (\theta_i - \bar\theta)$ with $\Omega = 6$ and bargaining surplus $\Phi_b = 1$ (the allocation rule of Proposition~\ref{ch07:prop:allocation-rule} plus the preference term of Chapter~10).
+\item \textbf{Formation} $\Phi$ (Chapter~10) with $W^I = W(c)$, block returns $r = 0.20$ (gas), $0.12$ (urban), $0.06$ (rural), $\rho = 0.85$, $\mu = 0.2$, $\bar\theta_0 = 1$, $r^* = 0.10$. Its steady state is
+\[
+\boldsymbol{\theta}^*(c) = \bar\theta_0\ones + \tfrac{\mu}{1-\rho}\big(W(c)\mathbf{r} - r^*\ones\big).
+\]
+\item \textbf{Evolution} $\mathcal{T}$: cross-block intensity moves toward the logistic creation probability~\eqref{ch13:eq:creation}, $c_{t+1} = (1-\eta)c_t + \eta F(c_t)$ with $\eta = 0.05$ and
+\[
+F(c) = 0.05 + 0.60\,\sigma\big(12\,(c - 0.30) + 12\,(\theta^*_{5}(c) - 1)\big).
+\]
+The first term is proximity (more cross-block links make further ones ``nearer''); the second is surplus, which rises with rural aspirations $\theta^*_5$.
+\end{itemize}
+Structural equilibria are the fixed points $F(c) = c$. There are three (\texttt{code/ch13.py}): $c_A = 0.072$ (stable, $F'(c_A) = 0.28$), $\hat c = 0.282$ (unstable, $F'(\hat c) = 1.91$), and $c_B = 0.643$ (stable, $F'(c_B) = 0.10$).
 
 \textbf{Equilibrium A (Fragmented):}
+{\setlength{\arraycolsep}{3pt}
 \begin{equation}
-W^*_A = \begin{pmatrix}
-0.4 & 0.4 & 0.02 & 0.02 & 0.01 & 0.01 \\
-0.4 & 0.4 & 0.02 & 0.02 & 0.01 & 0.01 \\
-0.02 & 0.02 & 0.35 & 0.35 & 0.05 & 0.05 \\
-0.02 & 0.02 & 0.35 & 0.35 & 0.05 & 0.05 \\
-0.01 & 0.01 & 0.05 & 0.05 & 0.40 & 0.40 \\
-0.01 & 0.01 & 0.05 & 0.05 & 0.40 & 0.40
+W^*_A = W(0.072) = \begin{pmatrix}
+0.482 & 0.482 & 0.011 & 0.011 & 0.007 & 0.007 \\
+0.482 & 0.482 & 0.011 & 0.011 & 0.007 & 0.007 \\
+0.018 & 0.018 & 0.475 & 0.475 & 0.007 & 0.007 \\
+0.018 & 0.018 & 0.475 & 0.475 & 0.007 & 0.007 \\
+0.018 & 0.018 & 0.011 & 0.011 & 0.471 & 0.471 \\
+0.018 & 0.018 & 0.011 & 0.011 & 0.471 & 0.471
 \end{pmatrix}.
-\end{equation}
+\end{equation}}
 
-$\Gamma_A \approx 0.06$. $\boldsymbol{\theta}^* \approx (1.12, 1.12, 1.01, 1.01, 0.91, 0.91)$. $\boldsymbol{\pi} \approx (0.22, 0.22, 0.17, 0.17, 0.11, 0.11)$. Max allocation gap: 38\%.
+$\Gamma_A = 0.072$, max allocation gap $(x_{\max} - x_{\min})/\bar x = 32\%$, with
+\begin{gather*}
+\boldsymbol{\theta}^* = (1.128, 1.128, 1.029, 1.029, 0.955, 0.955), \\ \x^* = (1.174, 1.174, 0.975, 0.975, 0.851, 0.851).
+\end{gather*}
 
 \textbf{Equilibrium B (Integrated):}
+{\setlength{\arraycolsep}{3pt}
 \begin{equation}
-W^*_B = \begin{pmatrix}
-0.25 & 0.20 & 0.12 & 0.12 & 0.08 & 0.08 \\
-0.20 & 0.25 & 0.12 & 0.12 & 0.08 & 0.08 \\
-0.12 & 0.12 & 0.20 & 0.18 & 0.10 & 0.10 \\
-0.12 & 0.12 & 0.18 & 0.20 & 0.10 & 0.10 \\
-0.08 & 0.08 & 0.10 & 0.10 & 0.22 & 0.22 \\
-0.08 & 0.08 & 0.10 & 0.10 & 0.22 & 0.22
+W^*_B = W(0.643) = \begin{pmatrix}
+0.339 & 0.339 & 0.096 & 0.096 & 0.064 & 0.064 \\
+0.339 & 0.339 & 0.096 & 0.096 & 0.064 & 0.064 \\
+0.161 & 0.161 & 0.275 & 0.275 & 0.064 & 0.064 \\
+0.161 & 0.161 & 0.275 & 0.275 & 0.064 & 0.064 \\
+0.161 & 0.161 & 0.096 & 0.096 & 0.243 & 0.243 \\
+0.161 & 0.161 & 0.096 & 0.096 & 0.243 & 0.243
 \end{pmatrix}.
-\end{equation}
+\end{equation}}
 
-$\Gamma_B \approx 0.35$. $\boldsymbol{\theta}^* \approx (1.06, 1.06, 1.02, 1.02, 0.97, 0.97)$. $\boldsymbol{\pi} \approx (0.19, 0.19, 0.17, 0.17, 0.14, 0.14)$. Max allocation gap: 12\%.
+$\Gamma_B = 0.643$, max allocation gap $22\%$, with
+\begin{gather*}
+\boldsymbol{\theta}^* = (1.089, 1.089, 1.051, 1.051, 1.022, 1.022), \\ \x^* = (1.118, 1.118, 0.980, 0.980, 0.902, 0.902).
+\end{gather*}
 
-Same economy, same parameters. Two self-reinforcing structures. Which obtains depends on history.
+In both equilibria $\boldsymbol{\pi} = \mathbf{s} = (0.25, 0.25, 0.15, 0.15, 0.10, 0.10)$ and $\Neff = 5.26$: the family~\eqref{ch13:eq:Wc} has $\Gamma(W(c)) = c$ exactly while $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$ (Proposition~\ref{ch06:prop:gap-power-independent}). Integration changes preferences and the allocation gap through $W^I$; it does not redistribute power. Same economy, same parameters, two self-reinforcing structures. Which obtains depends on history: starting below $\hat c = 0.282$ the economy converges to $A$, above it to $B$.
 \end{example}
 
 \begin{vizpanel}{Two structural equilibria: fragmented and integrated}
@@ -187,48 +225,29 @@ Same economy, same parameters. Two self-reinforcing structures. Which obtains de
 \def\N{6}
 \def\s{0.38}
 
-%% Fragmented
-\foreach \i in {1,...,\N} {
-  \foreach \j in {1,...,\N} {
-    \pgfmathparse{
-      (\i<=2 && \j<=2) ? 80 :
-      (\i>=3 && \i<=4 && \j>=3 && \j<=4) ? 70 :
-      (\i>=5 && \j>=5) ? 80 :
-      5
-    }
-    \edef\bp{\pgfmathresult}
+%% Fragmented: brightness = 100 * W_ij / max(W), from code/ch13.py
+\foreach \i/\j/\bp in {1/1/100,1/2/100,1/3/2,1/4/2,1/5/1,1/6/1,2/1/100,2/2/100,2/3/2,2/4/2,2/5/1,2/6/1,3/1/4,3/2/4,3/3/99,3/4/99,3/5/1,3/6/1,4/1/4,4/2/4,4/3/99,4/4/99,4/5/1,4/6/1,5/1/4,5/2/4,5/3/2,5/4/2,5/5/98,5/6/98,6/1/4,6/2/4,6/3/2,6/4/2,6/5/98,6/6/98} {
     \fill[blue!\bp, draw=white, line width=0.1pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
-  }
 }
 \node[below, font=\scriptsize\bfseries] at ({3*\s}, -0.15) {Fragmented $W^*_A$};
-\node[below, font=\scriptsize] at ({3*\s}, -0.5) {$\Gamma = 0.06$, gap $= 38\%$};
+\node[below, font=\scriptsize] at ({3*\s}, -0.5) {$\Gamma = 0.072$, gap $= 32\%$};
 
 \node[font=\large] at (3.8, 1.14) {vs.};
 
 %% Integrated
 \begin{scope}[xshift=5cm]
-\foreach \i in {1,...,\N} {
-  \foreach \j in {1,...,\N} {
-    \pgfmathparse{
-      (\i<=2 && \j<=2) ? 60 :
-      (\i>=3 && \i<=4 && \j>=3 && \j<=4) ? 50 :
-      (\i>=5 && \j>=5) ? 55 :
-      (abs(\i-\j)<=2) ? 30 :
-      20
-    }
-    \edef\bp{\pgfmathresult}
+\foreach \i/\j/\bp in {1/1/100,1/2/100,1/3/28,1/4/28,1/5/19,1/6/19,2/1/100,2/2/100,2/3/28,2/4/28,2/5/19,2/6/19,3/1/47,3/2/47,3/3/81,3/4/81,3/5/19,3/6/19,4/1/47,4/2/47,4/3/81,4/4/81,4/5/19,4/6/19,5/1/47,5/2/47,5/3/28,5/4/28,5/5/72,5/6/72,6/1/47,6/2/47,6/3/28,6/4/28,6/5/72,6/6/72} {
     \fill[blue!\bp, draw=white, line width=0.1pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
-  }
 }
 \node[below, font=\scriptsize\bfseries] at ({3*\s}, -0.15) {Integrated $W^*_B$};
-\node[below, font=\scriptsize] at ({3*\s}, -0.5) {$\Gamma = 0.35$, gap $= 12\%$};
+\node[below, font=\scriptsize] at ({3*\s}, -0.5) {$\Gamma = 0.643$, gap $= 22\%$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Same economy, same parameters, same production functions. Left: the fragmented equilibrium --- three bright blocks, dark cross-block. Right: the integrated equilibrium --- blocks still visible but cross-block entries are bright. Both are self-reinforcing. Which one you get depends on where you start.
+\small Same economy, same parameters. Brightness is $W_{ij}$ relative to the largest entry of each matrix. Left: the fragmented equilibrium --- three bright blocks, dark cross-block. Right: the integrated equilibrium --- blocks still visible but cross-block entries are bright, and the gas columns (1--2) are brighter than the rural columns (5--6) in both, because $\boldsymbol{\pi} = \mathbf{s}$ in both. Both are self-reinforcing. Which one you get depends on where you start.
 \end{vizpanel}
 
 
@@ -239,24 +258,22 @@ Same economy, same parameters. Two self-reinforcing structures. Which obtains de
 
 The edge creation process (Definition~\ref{ch13:def:creation}) implies that new edges form near existing edges. This has a powerful consequence: the network's evolution is path-dependent.
 
-\begin{theorem}[Path Dependence of Network Evolution]\label{ch13:thm:path_dependence}
+\begin{conjecture}[Path Dependence of Network Evolution]\label{ch13:thm:path_dependence}
 If edge creation is dominated by proximity ($p_1 \gg p_2, p_3$ in~\eqref{ch13:eq:creation}), then:
 \begin{enumerate}
 \item $W_{t+1}$ is structurally similar to $W_t$: new edges connect agents who are already close in the network.
-\item The spectral gap $\Gamma_t$ changes slowly: $|\Gamma_{t+1} - \Gamma_t| \leq C \cdot \|W_{t+1} - W_t\|$.
+\item The spectral gap $\Gamma_t$ changes slowly. If $\lambda_2(W_t)$ is simple and no other eigenvalue (except its conjugate) shares its modulus, then locally $|\Gamma_{t+1} - \Gamma_t| \leq C \cdot \|W_{t+1} - W_t\|$ (Lemma~\ref{ch06:lem:perturbation}). At a defective eigenvalue only a H\"{o}lder bound $C\|W_{t+1} - W_t\|^{1/m}$ holds ($m$ the size of the Jordan block), so ``slowly'' needs this hypothesis.
 \item Block-diagonal structures are absorbing: if $W_t$ is approximately block-diagonal, new edges form within blocks (high proximity) rather than between blocks (low proximity), reinforcing the block-diagonal structure.
 \item Escaping a block-diagonal structure requires either (a) a large exogenous shock that creates cross-block edges, or (b) deliberate policy that overrides the proximity mechanism.
 \end{enumerate}
-\end{theorem}
+\end{conjecture}
 
-\begin{proof}[Proof sketch]
-(1) follows directly from the proximity term dominating: $\Pr(\text{new edge}) \propto d(i,j; W_t)$, which is high for agents already close in $W_t$. (2) follows from matrix perturbation theory (Appendix 3A): small changes in $W$ produce small changes in eigenvalues. (3): in a block-diagonal $W_t$, within-block distances are small and cross-block distances are large. Edge creation favors short distances, so new edges form within blocks. (4): escaping requires adding edges with low proximity, which the proximity mechanism suppresses.
-\end{proof}
+\noindent\textit{Why it is plausible.} (1) follows from the proximity term dominating: the creation probability is increasing in $a(i,j;W_t)$, which is high for agents already close in $W_t$. (2) under the stated hypothesis is first-order eigenvalue perturbation. (3)--(4): in a block-diagonal $W_t$, within-block distances are small and cross-block distances are large, so edge creation favors within-block links. Example~\ref{ch13:ex:bolivia_two} is an instance: below $\hat c$ the dynamics return to the fragmented equilibrium. Turning (3)--(4) into a theorem requires a specific stochastic model of creation (e.g.\ a stochastic block model with a proximity kernel).
 
 \begin{prebisch}[The principle of relatedness as structural lock-in]
 The principle of relatedness (Hidalgo et al., 2007; Hidalgo, 2021) states that the probability a region enters a new economic activity increases with the number of related activities already present. In the product space, countries diversify into products near their current exports, not into distant products.
 
-This IS Theorem~\ref{ch13:thm:path_dependence} applied to $W^P$. The production network evolves through proximity-dominated edge creation: you can produce what is ``near'' what you already produce. Bolivia produces gas (a product on the periphery of the product space, few connections to other products). The nearest products are other extractive commodities (mining, basic chemicals). The distant products are machinery, electronics, pharmaceuticals --- the dense core of the product space where $\Gamma$ is high.
+This is Conjecture~\ref{ch13:thm:path_dependence} applied to $W^P$. The production network evolves through proximity-dominated edge creation: you can produce what is ``near'' what you already produce. Bolivia produces gas (a product on the periphery of the product space, few connections to other products). The nearest products are other extractive commodities (mining, basic chemicals). The distant products are machinery, electronics, pharmaceuticals --- the dense core of the product space.
 
 The principle of relatedness is simultaneously the mechanism of industrial deepening (in the center: you diversify into related products, building an ever-denser $W^P$) and the mechanism of structural lock-in (in the periphery: you diversify into related commodities, staying on the sparse periphery of $W^P$). The same mechanism produces integration in the center and fragmentation in the periphery. This is not a paradox --- it is a property of the proximity kernel: diversification follows edges, and the edge structure is dense in the core and sparse on the periphery.
 \end{prebisch}
@@ -269,81 +286,91 @@ The principle of relatedness is simultaneously the mechanism of industrial deepe
 
 \subsection{When Does $\Gamma$ Increase?}
 
-\begin{proposition}[Conditions for Structural Integration]\label{ch13:prop:integration}
-$\Gamma_{t+1} > \Gamma_t$ (the spectral gap increases --- the economy becomes more integrated) if and only if the net effect of edge creation, destruction, and reweighting increases the relative weight of cross-block edges compared to within-block edges.
+For a set of agents $S$ with $\pi(S) = \sum_{i \in S}\pi_i \leq 1/2$, the \textbf{conductance} of the cut $(S, S^c)$ is the probability flow across it, $\sum_{i \in S, j \notin S}\pi_i W_{ij}/\pi(S)$; the conductance $\phi(W)$ of $W$ is the minimum over such $S$.
 
-Sufficient conditions:
+\begin{proposition}[A Sufficient Condition for Structural Integration]\label{ch13:prop:integration}
+Let $W_t$ and $W_{t+1}$ be reversible ($\pi_i W_{ij} = \pi_j W_{ji}$) and lazy ($W_{ii} \geq 1/2$). If
+\begin{equation}\label{ch13:eq:cheeger_condition}
+\phi(W_{t+1}) > 2\sqrt{\phi(W_t)},
+\end{equation}
+then $\Gamma_{t+1} > \Gamma_t$: raising the weakest cross-block flow enough raises integration.
+\end{proposition}
+
+\begin{proof}
+Laziness makes every eigenvalue nonnegative, so $\Gamma = 1 - \lambda_2$. Cheeger's inequality for reversible chains gives $\phi^2/2 \leq 1 - \lambda_2 \leq 2\phi$. Hence $\Gamma_{t+1} \geq \phi(W_{t+1})^2/2 > 2\phi(W_t) \geq \Gamma_t$.
+\end{proof}
+
+The condition is sufficient, not necessary. There is no ``if and only if'' in terms of cross-block weight alone: in a two-block matrix with fixed cross-block weight $0.04$ per row, raising the within-block off-diagonal weight from $0.005$ to $0.02$ raises $\Gamma$ from $0.050$ to $0.080$, because the slowest mode was \emph{within} a block (\texttt{code/ch13.py}). Economic mechanisms that raise cross-block conductance:
 \begin{enumerate}
 \item \textbf{Cross-block surplus is positive}: $s(i, j) > 0$ for $i \in$ block $b$, $j \in$ block $b'$ ($b \neq b'$). Trade between blocks is profitable.
 \item \textbf{Information reaches across blocks}: $q(i, j; W^I) > 0$ for cross-block pairs. Agents in block $b$ know about opportunities in block $b'$.
 \item \textbf{Proximity barriers are overcome}: either by exogenous shocks that create cross-block edges (a road, a migration wave, a new trade route), or by policy that subsidizes cross-block links.
 \end{enumerate}
-\end{proposition}
 
 \subsection{When Does $\Gamma$ Decrease?}
 
-\begin{proposition}[Conditions for Structural Disintegration]\label{ch13:prop:disintegration}
-$\Gamma_{t+1} < \Gamma_t$ (the spectral gap decreases --- the economy fragments) when:
+\begin{remark}[Mechanisms of Structural Disintegration]\label{ch13:prop:disintegration}
+By the same Cheeger bounds, $\Gamma$ falls when the weakest cross-block flow collapses (for lazy reversible $W$, whenever $\phi(W_{t+1}) < \phi(W_t)^2/4$). Typical mechanisms:
 \begin{enumerate}
 \item \textbf{Cross-block edges are destroyed faster than created}: an external shock severs trade routes, a policy closes borders, a financial crisis disrupts supply chains.
 \item \textbf{Within-block edges strengthen at the expense of cross-block edges}: agents retrench to familiar partners under uncertainty.
-\item \textbf{Selective integration}: some agents in each block form cross-border links (the elite), while the remaining agents lose cross-block links. The average $\Gamma$ may be unchanged, but the domestic $\Gamma$ falls.
+\item \textbf{Selective integration}: some agents in each block form cross-border links (the elite), while the remaining agents lose cross-block links. Define the \emph{domestic} $\Gamma$ as the spectral gap of the domestic principal submatrix of $W$ with its rows renormalized. The domestic $\Gamma$ falls; the global $\Gamma$ may rise or fall, depending on where the rerouted weight comes from (Exercise~\ref{ch13:ex:sunkel}).
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 \begin{keyinsight}
-Condition~3 is Sunkel's thesis: \textit{transnational integration and national disintegration are the same process.} When the gas executive in La Paz connects to the global commodity market ($W^P_{\text{executive, global}}$ strengthens), his connection to the quinoa farmer weakens ($W^P_{\text{executive, farmer}}$ weakens --- his supply chains are now global, not domestic). The global $\Gamma$ increases (more connected world economy). The domestic $\Gamma$ decreases (more fragmented national economy). The same edge creation (gas executive $\to$ global market) is simultaneously integration at one scale and disintegration at another.
+Mechanism~3 is Sunkel's thesis: \textit{transnational integration and national disintegration are the same process.} When the gas executive in La Paz connects to the global commodity market ($W^P_{\text{executive, global}}$ strengthens), his connection to the quinoa farmer weakens ($W^P_{\text{executive, farmer}}$ weakens --- his supply chains are now global, not domestic). The domestic $\Gamma$ decreases (more fragmented national economy). The global $\Gamma$ can increase, but need not: in Exercise~\ref{ch13:ex:sunkel} it falls from $0.600$ to $0.560$, and over random diagonal-dominant starting matrices it rises in only 57\% of cases. The same edge creation (gas executive $\to$ global market) is disintegration at the national scale; whether it is also integration at the world scale is an empirical question, not an identity.
 \end{keyinsight}
 
 
 \subsection{A Phase Diagram}
 
-\begin{proposition}[Phase Diagram for $\Gamma$]\label{ch13:prop:phase}
-In the co-evolutionary system, the dynamics of $\Gamma_t$ can be approximated by:
+\begin{proposition}[Phase Diagram for $\Gamma$ in the Reduced Model]\label{ch13:prop:phase}
+In Example~\ref{ch13:ex:bolivia_two}, $\Gamma_t = c_t$ and
 \begin{equation}\label{ch13:eq:gamma_dynamics}
-\Gamma_{t+1} - \Gamma_t \approx \underbrace{\eta_c \cdot s_{\text{cross}}(W_t, \x^*_t)}_{\text{integration force}} - \underbrace{\eta_d \cdot \delta_{\text{cross}}(W_t)}_{\text{fragmentation force}} - \underbrace{\eta_p \cdot (p_1 - p_1^*)}_{\text{proximity bias}},
+\Gamma_{t+1} - \Gamma_t = \eta\,\big(F(\Gamma_t) - \Gamma_t\big),
 \end{equation}
-where $s_{\text{cross}}$ is the average cross-block surplus, $\delta_{\text{cross}}$ is the cross-block destruction rate, and $p_1 - p_1^*$ measures how much edge creation is proximity-biased relative to the threshold $p_1^*$ that would maintain the current $\Gamma$.
+where $F$ combines the integration force (surplus and proximity of cross-block links, increasing in $\Gamma$) and the fragmentation force (the gap between $F$ and the current level). A fixed point $\Gamma^*$ is locally stable if and only if $F'(\Gamma^*) < 1$ (for $\eta < 1$ and $F' \geq 0$).
 
 \textbf{Three regimes}:
 \begin{enumerate}
-\item \textbf{Integration}: $s_{\text{cross}} > 0$ and $\delta_{\text{cross}}$ is low. The economy moves toward the integrated equilibrium. $\Gamma \uparrow$.
-\item \textbf{Fragmentation}: $s_{\text{cross}} < 0$ or $\delta_{\text{cross}}$ is high. The economy moves toward the fragmented equilibrium. $\Gamma \downarrow$.
-\item \textbf{Lock-in}: $s_{\text{cross}} \approx 0$ and proximity dominates. $\Gamma$ is approximately constant. The economy is trapped in its current structural configuration.
+\item \textbf{Integration}: $F(\Gamma) > \Gamma$. The economy moves toward the integrated equilibrium. $\Gamma \uparrow$.
+\item \textbf{Fragmentation}: $F(\Gamma) < \Gamma$. The economy moves toward the fragmented equilibrium. $\Gamma \downarrow$.
+\item \textbf{Lock-in}: near a stable fixed point, $F(\Gamma) \approx \Gamma$ and small shocks die out. The economy is trapped in its current structural configuration.
 \end{enumerate}
 \end{proposition}
+
+\begin{proof}
+$\Gamma(W(c)) = c$ because $W(c)$ has eigenvalues $1$, $1-c$ (twice) and $0$ (three times). The map $c \mapsto (1-\eta)c + \eta F(c)$ has derivative $1 - \eta + \eta F'(c)$, which lies in $(-1,1)$ iff $F'(c) < 1$ when $0 \leq F'$ and $\eta < 1$.
+\end{proof}
 
 \begin{vizpanel}{Phase diagram: integration vs.\ fragmentation forces}
 \begin{center}
 \begin{tikzpicture}[scale=1]
-%% Axes
-\draw[->] (0,0) -- (8,0) node[right, font=\small] {$\Gamma_t$};
-\draw[->] (0,-2.5) -- (0,2.5) node[above, font=\small] {$\Delta\Gamma_t$};
-\draw[gray, dashed] (0,0) -- (8,0);
+%% Axes: x = 8 Gamma, y = 10 (F(Gamma) - Gamma); coordinates from code/ch13.py
+\draw[->] (0,0) -- (7,0) node[right, font=\small] {$\Gamma_t$};
+\draw[->] (0,-1.8) -- (0,1.8) node[above, font=\small] {$\Delta\Gamma_t/\eta$};
+\foreach \g in {0.2,0.4,0.6,0.8} {\draw (8*\g,0.05) -- (8*\g,-0.05) node[below, font=\tiny] {\g};}
 
-%% Integration force (diminishing)
-\draw[blue!70!black, thick, domain=0.1:7.5, smooth] plot (\x, {1.5*(1-\x/8)});
-\node[font=\scriptsize, blue!70!black, right] at (7.2, 0.4) {Integration};
-
-%% Fragmentation force (increasing)
-\draw[red!70!black, thick, domain=0.1:7.5, smooth] plot (\x, {-0.3 - 0.2*\x});
-\node[font=\scriptsize, red!70!black, right] at (7.2, -2.0) {Fragmentation};
-
-%% Net
-\draw[black, very thick, domain=0.1:7.5, smooth] plot (\x, {1.5*(1-\x/8) - 0.3 - 0.2*\x});
+%% Net force F(Gamma) - Gamma
+\draw[black, very thick] plot[smooth] coordinates {(0.00,0.585) (0.20,0.368) (0.40,0.164) (0.60,-0.023) (0.80,-0.187) (1.00,-0.321) (1.20,-0.417) (1.40,-0.465) (1.60,-0.457) (1.80,-0.386) (2.00,-0.251) (2.20,-0.059) (2.40,0.175) (2.60,0.426) (2.80,0.668) (3.00,0.874) (3.20,1.027) (3.40,1.118) (3.60,1.144) (3.80,1.112) (4.00,1.029) (4.20,0.906) (4.40,0.750) (4.60,0.569) (4.80,0.369) (5.00,0.156) (5.20,-0.068) (5.40,-0.298) (5.60,-0.535) (5.80,-0.775) (6.00,-1.018) (6.20,-1.263) (6.40,-1.509)};
 
 %% Fixed points
-\fill[green!50!black] (3.2, 0) circle (3pt);
-\node[font=\scriptsize, above] at (3.2, 0.15) {$\Gamma^*_A$};
-\node[font=\tiny, below] at (3.2, -0.3) {fragmented};
+\fill[green!50!black] (0.58, 0) circle (3pt);
+\node[font=\scriptsize, above] at (0.58, 0.15) {$\Gamma^*_A$};
+\draw[red!70!black, thick, fill=white] (2.26, 0) circle (3pt);
+\node[font=\scriptsize, above] at (2.26, 0.15) {$\hat\Gamma$};
+\fill[green!50!black] (5.14, 0) circle (3pt);
+\node[font=\scriptsize, above right] at (5.14, 0.15) {$\Gamma^*_B$};
 
 %% Arrow dynamics
-\draw[->, thick, gray] (1.0, 0.6) -- (2.5, 0.2);
-\draw[->, thick, gray] (5.5, -0.5) -- (4.0, -0.1);
+\draw[->, thick, gray] (2.0, -0.7) -- (1.0, -0.7);
+\draw[->, thick, gray] (2.6, -0.7) -- (3.6, -0.7);
+\draw[->, thick, gray] (6.2, -0.4) -- (5.5, -0.4);
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The net force on $\Gamma$ (thick black curve) crosses zero at $\Gamma^*_A$ --- the fragmented structural equilibrium. Below $\Gamma^*_A$: integration forces dominate (arrows point right). Above: fragmentation forces dominate (arrows point left). The economy is drawn toward the trap. A second equilibrium at higher $\Gamma$ (not shown) may exist if integration forces are boosted by policy.
+\small The net force $F(\Gamma) - \Gamma$ (thick curve) is S-shaped and crosses zero three times: at $\Gamma^*_A = 0.072$ (stable, fragmented), $\hat\Gamma = 0.282$ (unstable threshold) and $\Gamma^*_B = 0.643$ (stable, integrated). Below $\hat\Gamma$ the economy is drawn back to the trap; above it, toward integration. Moving the economy across $\hat\Gamma$ is structural change (Definition~\ref{ch13:def:structural_change}).
 \end{vizpanel}
 
 
@@ -356,18 +383,20 @@ where $s_{\text{cross}}$ is the average cross-block surplus, $\delta_{\text{cros
 \textbf{Structural change} is a transition from one structural equilibrium $(W^*_A, \boldsymbol{\theta}^*_A, \x^*_A)$ to another $(W^*_B, \boldsymbol{\theta}^*_B, \x^*_B)$. The transition occurs when a shock or policy moves the system out of the basin of attraction of $A$ and into the basin of attraction of $B$.
 \end{definition}
 
-\begin{proposition}[The Cost of Structural Change]\label{ch13:prop:cost}
+\begin{definition}[The Cost of Structural Change]\label{ch13:prop:cost}
 The minimum ``push'' required to transition from the fragmented equilibrium $A$ to the integrated equilibrium $B$ is:
 \begin{equation}\label{ch13:eq:push}
 \varepsilon^* = \inf\{\|W - W^*_A\|_F : W \in \mathcal{B}(W^*_B)\},
 \end{equation}
-the Frobenius distance from the current equilibrium to the basin boundary of the target equilibrium. This cost is:
+the Frobenius distance from the current equilibrium to the basin $\mathcal{B}(W^*_B)$ of the target equilibrium (holding $\boldsymbol{\theta}$ at its steady state).
+\end{definition}
+
+In Example~\ref{ch13:ex:bolivia_two} the basin of $B$ is $\{W(c): c > \hat c\}$, so $\varepsilon^* = (\hat c - c_A)\,\|\ones\mathbf{s}' - B\|_F = 0.210 \times 1.463 = 0.307$. We conjecture that, more generally, this cost is:
 \begin{enumerate}
 \item \textbf{Large when $\rho$ is large}: sticky preferences resist change, so the preference component of the trap is hard to escape.
 \item \textbf{Large when proximity dominates edge creation}: the network's own dynamics pull it back toward the fragmented equilibrium.
 \item \textbf{Small when $s_{\text{cross}}$ is large}: cross-block trade is profitable, so once enough cross-block edges exist, they sustain themselves.
 \end{enumerate}
-\end{proposition}
 
 \begin{example}[Four Paths to Structural Change]\label{ch13:ex:four_paths}
 \begin{center}
@@ -375,10 +404,10 @@ the Frobenius distance from the current equilibrium to the basin boundary of the
 \toprule
 \textbf{Mechanism} & \textbf{Historical example} & \textbf{Network change} & \textbf{$\varepsilon^*$} \\
 \midrule
-Exogenous shock & WWII (US female LFP) & Mass entry of women into $W^P$ & Large, one-time \\
+Exogenous shock & WWII (US female LFP; much of the wartime entry reversed by 1950, Goldin 1991) & Mass entry of women into $W^P$ & Large, one-time \\
 Infrastructure & Trans-Siberian railway & Physical cross-block edge & Medium, permanent \\
 Information shock & Mobile phones (Africa) & $W^I$ gains cross-block edges & Small per edge, cumulative \\
-Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustained \\
+Policy & South Korea's export-oriented industrialization and heavy-and-chemical-industry drive & Deliberate creation of $W^P$ edges & Large, sustained \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -391,17 +420,15 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 %% =====================================================================
 
 \begin{enumerate}
-\item Networks evolve through three mechanisms: \textbf{edge creation} (proximity-dominated, path-dependent), \textbf{edge destruction} (surplus-driven or shock-driven), and \textbf{edge reweighting} (continuous adjustment to surplus).
+\item Networks evolve through three mechanisms: \textbf{edge creation} (logistic in proximity, surplus and information; path-dependent), \textbf{edge destruction} (surplus-driven or shock-driven), and \textbf{edge reweighting} (continuous adjustment to surplus), combined in a renormalized mean-field evolution map $\mathcal{T}$.
 
-\item The \textbf{co-evolutionary system} has three timescales: fast (market clearing), medium (preference formation), slow (network evolution). The structural equilibrium is a fixed point of all three.
+\item The \textbf{co-evolutionary system} has three nested timescales: market clearing is fast, preference formation is slower, and network evolution is slowest. A structural equilibrium is a fixed point of all three. It exists by Brouwer once $W$ is kept strictly positive (there, $\boldsymbol{\pi}(W)$ is continuous).
 
-\item \textbf{Multiple structural equilibria} coexist: an integrated equilibrium (high $\Gamma$, homogeneous preferences, low inequality) and a fragmented equilibrium (low $\Gamma$, stratified preferences, high inequality). Both are self-reinforcing.
+\item \textbf{Multiple structural equilibria} can coexist when cross-block links are complementary: in the worked example, a fragmented ($\Gamma = 0.072$) and an integrated ($\Gamma = 0.643$) equilibrium with the \emph{same} power vector $\boldsymbol{\pi}$ but different preference dispersion and allocation gaps. Integration and power are separate coordinates.
 
-\item The \textbf{principle of relatedness} --- the empirical law that diversification follows existing links --- is a consequence of proximity-dominated edge creation. It produces structural deepening in the center and structural lock-in in the periphery.
+\item The \textbf{principle of relatedness} --- the empirical regularity that diversification follows existing links --- is what proximity-dominated edge creation predicts (Conjecture~\ref{ch13:thm:path_dependence}): structural deepening in the center, lock-in in the periphery. Sunkel's thesis adds that \textbf{integration and disintegration} can occur at different scales at once: selective elite integration lowers the domestic $\Gamma$, while the global $\Gamma$ may move either way.
 
-\item \textbf{Integration and disintegration} can occur simultaneously at different scales: transnational integration of elites and national disintegration of domestic economies (Sunkel's thesis).
-
-\item \textbf{Structural change} is a transition between equilibria, requiring a ``push'' of magnitude $\varepsilon^*$. The push can come from shocks, infrastructure, information, or policy.
+\item \textbf{Structural change} is a transition between equilibria, requiring a ``push'' across the basin boundary ($\varepsilon^* = 0.307$ in the example). The push can come from shocks, infrastructure, information, or policy.
 \end{enumerate}
 
 
@@ -412,7 +439,10 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 
 \begin{enumerate}[label=\textbf{13.\arabic*}, leftmargin=3em]
 
-\item \textbf{Edge creation by hand.} For a $4 \times 4$ economy with $W_t = \begin{pmatrix} 0.5 & 0.3 & 0.01 & 0.01 \\ 0.3 & 0.5 & 0.01 & 0.01 \\ 0.01 & 0.01 & 0.5 & 0.3 \\ 0.01 & 0.01 & 0.3 & 0.5 \end{pmatrix}$:
+\item \textbf{Edge creation by hand.} For a $4 \times 4$ economy with
+\[
+W_t = \begin{pmatrix} 0.6 & 0.38 & 0.01 & 0.01 \\ 0.38 & 0.6 & 0.01 & 0.01 \\ 0.01 & 0.01 & 0.6 & 0.38 \\ 0.01 & 0.01 & 0.38 & 0.6 \end{pmatrix} \quad (\Gamma = 0.040):
+\]
 \begin{enumerate}
 \item Compute the network distance between all pairs. Which pairs are ``closest''?
 \item If a new edge forms with probability $\Pr \propto 1/d(i,j)$: what is the most likely new edge? Is it within-block or cross-block?
@@ -422,8 +452,9 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 
 \item \textbf{Structural equilibria.} For the Bolivia two-equilibrium example (Example~\ref{ch13:ex:bolivia_two}):
 \begin{enumerate}
-\item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{ch13:def:structural_eq}).
-\item Compute the basin boundary: starting from $W^*_A$, increase cross-block entries by $\varepsilon$. At what $\varepsilon$ does the system transition to $W^*_B$?
+\item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{ch13:def:structural_eq}: $\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*; W)$, $\x^* = h(\cdot)$, and $F(c) = c$). Show that $\Gamma(W(c)) = c$ and $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$.
+\item Compute the basin boundary $\hat c$ by solving $F(c) = c$ on $(c_A, c_B)$. Starting from $W^*_A$, what is the minimum Frobenius push $\varepsilon^*$ that moves the system into the basin of $W^*_B$? (Answer: $\hat c = 0.282$, $\varepsilon^* = 0.307$.)
+\item Lower the proximity weight in $F$ from $12$ to $8$ (keeping the surplus weight at $12$). How do $c_A$, $\hat c$, $c_B$ and $\varepsilon^*$ change?
 \item What is the welfare gain from the transition? Use all four criteria from Chapter~12.
 \end{enumerate}
 
@@ -438,17 +469,22 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 \item \textbf{The principle of relatedness.} Consider a product space with 6 products arranged in a ring: $\phi_{p,p+1} = 0.3$ (adjacent products are related), $\phi_{p,p+2} = 0.05$ (distant products weakly related), $\phi_{p,p+3} = 0$ (opposite products unrelated).
 \begin{enumerate}
 \item A country currently produces products 1 and 2. Compute relatedness density $\omega_{cp}$ for all 6 products.
-\item Under the principle of relatedness: which product is most likely to be entered next?
+\item Under the principle of relatedness: which product is most likely to be entered next? (Products 3 and 6 tie, with $\omega = 0.50$.)
 \item If the policy goal is to reach product 5 (on the opposite side of the ring): how many ``steps'' are needed? How many generations (at one step per generation)?
-\item This is the product-space distance. Connect to the escape threshold $\varepsilon^*$ from Proposition~\ref{ch13:prop:cost}.
+\item This is the product-space distance. Connect to the escape threshold $\varepsilon^*$ from Definition~\ref{ch13:prop:cost}.
+\item \textit{Data.} Repeat (a)--(b) for Bolivia using the product-space proximity matrix and Bolivia's export basket from the Atlas of Economic Complexity (\texttt{atlas.cid.harvard.edu}) for a recent year. Which five products have the highest relatedness density?
 \end{enumerate}
 
-\item \textbf{Sunkel's integration/disintegration.} Model a 3-country world (Center, Periphery-Elite, Periphery-Mass) as $N = 3$. Initially $W^P$ is mildly connected. A multinational corporation creates a link between Center and Periphery-Elite:
+\item \textbf{Sunkel's integration/disintegration.}\label{ch13:ex:sunkel} Model a three-node world (Center, Elite of the periphery, Mass of the periphery), with
+\[
+W^P_{\text{before}} = \begin{pmatrix} 0.6 & 0.2 & 0.2 \\ 0.2 & 0.6 & 0.2 \\ 0.2 & 0.2 & 0.6 \end{pmatrix}.
+\]
+A multinational corporation creates a link between Center and Periphery-Elite: $W^P_{12}$ rises by $0.15$, taken from $W^P_{11}$; $W^P_{23}$ falls by $0.05$, moved to $W^P_{21}$ (Elite resources shift from domestic to global).
 \begin{enumerate}
-\item Write $W^P_{\text{before}}$ and $W^P_{\text{after}}$ ($W^P_{12}$ increases by 0.15; $W^P_{23}$ decreases by 0.05 as Elite resources shift from domestic to global).
-\item Compute domestic $\Gamma$ (between Periphery-Elite and Periphery-Mass) before and after.
-\item Compute global $\Gamma$ (all three) before and after.
-\item Verify Sunkel's prediction: global $\Gamma$ increases while domestic $\Gamma$ decreases.
+\item Write $W^P_{\text{after}}$ and check that it is row-stochastic.
+\item Compute the domestic $\Gamma$ (the Elite--Mass submatrix with rows renormalized) before and after. (Answer: $0.500 \to 0.450$.)
+\item Compute the global $\Gamma$ (all three) before and after. (Answer: $0.600 \to 0.560$.)
+\item Sunkel's prediction is that global $\Gamma$ rises while domestic $\Gamma$ falls. Does it hold here? Find a $W^P_{\text{before}}$ (and a compensation rule) for which it does, and explain what the prediction requires of where the rerouted weight comes from.
 \end{enumerate}
 
 \item \textbf{WWII as structural change.} Model US female LFP as a 2-block economy (Men, Women):
@@ -493,12 +529,14 @@ Policy & South Korea's ISI & Deliberate creation of $W^P$ edges & Large, sustain
 
 \paragraph{The Jacobian of the co-evolutionary system.} At a structural equilibrium $(W^*, \boldsymbol{\theta}^*)$, the linearized system has a block Jacobian:
 \begin{equation}
-\mathcal{J} = \begin{pmatrix} \partial\Phi/\partial\boldsymbol{\theta} & \partial\Phi/\partial W \\ \partial\Psi/\partial\boldsymbol{\theta} & \partial\Psi/\partial W \end{pmatrix}_{(W^*, \boldsymbol{\theta}^*)}.
+\mathcal{J} = \begin{pmatrix} \partial\Phi/\partial\boldsymbol{\theta} & \partial\Phi/\partial W \\ \partial\mathcal{T}/\partial\boldsymbol{\theta} & \partial\mathcal{T}/\partial W \end{pmatrix}_{(W^*, \boldsymbol{\theta}^*)}.
 \end{equation}
 
-Stability requires all eigenvalues of $\mathcal{J}$ to have modulus less than 1. The upper-left block $\partial\Phi/\partial\boldsymbol{\theta}$ is the formation Jacobian $J$ from Chapter~10. The lower-right block $\partial\Psi/\partial W$ governs network self-reinforcement. The off-diagonal blocks capture the cross-effects: how $\boldsymbol{\theta}$ changes affect $W$ (through the surplus, which depends on preferences), and how $W$ changes affect $\boldsymbol{\theta}$ (through the formation signal, which depends on the network).
+Stability requires all eigenvalues of $\mathcal{J}$ to have modulus less than 1. The upper-left block $\partial\Phi/\partial\boldsymbol{\theta}$ is the formation Jacobian $J$ from Chapter~10. The lower-right block $\partial\mathcal{T}/\partial W$ governs network self-reinforcement. The off-diagonal blocks capture the cross-effects: how $\boldsymbol{\theta}$ changes affect $W$ (through the surplus, which depends on preferences), and how $W$ changes affect $\boldsymbol{\theta}$ (through the formation signal, which depends on the network).
 
-\paragraph{Two-timescale approximation.} When $\eta \ll 1-\rho$ (network evolution is much slower than preference formation), the system can be analyzed in two stages: (1) for each fixed $W$, find the formation steady state $\boldsymbol{\theta}^*(W)$, (2) study the dynamics of $W$ under the assumption that $\boldsymbol{\theta}$ instantly adjusts to $\boldsymbol{\theta}^*(W)$. The reduced dynamics are $W_{t+1} = \Psi(W_t; \x^*(\boldsymbol{\theta}^*(W_t), W_t))$, a system in $W$ alone.
+\paragraph{Two-timescale approximation.} When $\eta \ll 1-\rho$ (network evolution is much slower than preference formation), the system can be analyzed in two stages: (1) for each fixed $W$, find the formation steady state $\boldsymbol{\theta}^*(W)$, (2) study the dynamics of $W$ under the assumption that $\boldsymbol{\theta}$ instantly adjusts to $\boldsymbol{\theta}^*(W)$. The reduced dynamics are $W_{t+1} = \mathcal{T}(W_t; \x^*(\boldsymbol{\theta}^*(W_t), W_t))$, a system in $W$ alone. Example~\ref{ch13:ex:bolivia_two} is of this form, further restricted to the one-parameter family $W(c)$.
+
+\paragraph{Transitions are products of matrices.} Along a transition $W_t$ changes every period, and the per-period gap $\Gamma(W_t)$ does not control the product $W_t \cdots W_1$ that governs how far shocks propagate: two matrices with $\Gamma = 0.850$ and $0.776$ can have a product with $\Gamma = 0.042$. Use the Dobrushin coefficient $\tau_1$, which is submultiplicative, for time-varying networks (Chapter~23).
 
 
 %% =====================================================================
@@ -510,13 +548,13 @@ Osvaldo Sunkel's 1971 essay ``Capitalismo transnacional y desintegraci\'{o}n nac
 
 Sunkel's argument has three parts.
 
-\textbf{Part 1: Transnational integration creates cross-border elite linkages.} Multinational corporations, international financial institutions, and globally connected professional classes form dense networks that cross national borders. In the notation of this chapter: the edge creation process (Definition~\ref{ch13:def:creation}) generates new edges between elite agents in different countries. The global $W^P$ becomes denser among elite nodes. The proximity mechanism (Theorem~\ref{ch13:thm:path_dependence}) reinforces these links: once an elite network exists, new members are drawn from agents who are already ``close'' to existing members --- shared education (Harvard, LSE), shared language (English), shared cultural consumption (the same media, the same conferences). The global elite converges to a single information network $W^I_{\text{global elite}}$ with high $N_{\text{eff}}$ and a shared consensus.
+\textbf{Part 1: Transnational integration creates cross-border elite linkages.} Multinational corporations, international financial institutions, and globally connected professional classes form dense networks that cross national borders. In the notation of this chapter: the edge creation process (Definition~\ref{ch13:def:creation}) generates new edges between elite agents in different countries. The global $W^P$ becomes denser among elite nodes. The proximity mechanism (Conjecture~\ref{ch13:thm:path_dependence}) reinforces these links: once an elite network exists, new members are drawn from agents who are already ``close'' to existing members --- shared education (Harvard, LSE), shared language (English), shared cultural consumption (the same media, the same conferences). The global elite converges to a single information network $W^I_{\text{global elite}}$ with high $N_{\text{eff}}$ and a shared consensus.
 
-\textbf{Part 2: National disintegration destroys domestic cross-block linkages.} Simultaneously, the elite's domestic connections weaken. The gas executive in La Paz trades with Houston, not with the quinoa farmer in Oruro. His information network connects him to the \textit{Wall Street Journal}, not to Radio Pac\'{i}fica. His children attend international schools, not public schools. Each of these shifts is an edge in $W^P$, $W^U$, or $W^I$ that moves from domestic-cross-block to global-elite. The domestic matrix loses cross-block entries. The domestic $\Gamma$ decreases.
+\textbf{Part 2: National disintegration destroys domestic cross-block linkages.} Simultaneously, the elite's domestic connections weaken. The gas executive in La Paz trades with Houston, not with the quinoa farmer in Oruro. His information network connects him to the \textit{Wall Street Journal}, not to a community radio station. His children attend international schools, not public schools. Each of these shifts is an edge in $W^P$, $W^U$, or $W^I$ that moves from domestic-cross-block to global-elite. The domestic matrix loses cross-block entries. The domestic $\Gamma$ decreases.
 
-This is Proposition~\ref{ch13:prop:disintegration}, condition~3: selective integration. The agents who form cross-border links are precisely the agents who previously served as bridges between domestic blocks. When they exit the domestic network (or reduce their domestic engagement), the domestic blocks lose their only connections. The blocks drift apart.
+This is Remark~\ref{ch13:prop:disintegration}, mechanism~3: selective integration. The agents who form cross-border links are precisely the agents who previously served as bridges between domestic blocks. When they exit the domestic network (or reduce their domestic engagement), the domestic blocks lose their only connections. The blocks drift apart.
 
-\textbf{Part 3: The five processes are one process.} Sunkel (together with Paz, 1970) had previously argued that development, underdevelopment, dependency, marginalization, and spatial inequality are ``diverse manifestations of a single process.'' The 1971 essay identified what that process IS: the rewiring of $W$ that simultaneously integrates elites across borders and disintegrates national economies within borders. Every edge created in $W_{\text{global}}$ between an elite node and the international system is, implicitly, an edge weakened in $W_{\text{domestic}}$ between that elite node and the non-elite population. The zero-sum character is not about resources (growth can be positive-sum) but about \textit{attention, links, and structural position}: an agent has a finite capacity for connections, and global connections displace domestic ones.
+\textbf{Part 3: Many processes, one process.} Sunkel and Paz (1970) had argued that development and underdevelopment are two faces of a single historical process. The 1971 essay identified, in our terms, what that process is: the rewiring of $W$ that simultaneously integrates elites across borders and disintegrates national economies within borders. Every edge created in $W_{\text{global}}$ between an elite node and the international system is, implicitly, an edge weakened in $W_{\text{domestic}}$ between that elite node and the non-elite population. The zero-sum character is not about resources (growth can be positive-sum) but about \textit{attention, links, and structural position}: an agent has a finite capacity for connections, and global connections displace domestic ones.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
@@ -525,15 +563,15 @@ This is Proposition~\ref{ch13:prop:disintegration}, condition~3: selective integ
 \midrule
 Transnational integration & Cross-border edge creation & Def.~\ref{ch13:def:creation} \\
 National disintegration & Domestic cross-block edge destruction & Def.~\ref{ch13:def:destruction} \\
-Simultaneous process & $\Gamma_{\text{global}} \uparrow$ while $\Gamma_{\text{domestic}} \downarrow$ & Prop.~\ref{ch13:prop:disintegration}(3) \\
+Simultaneous process & $\Gamma_{\text{domestic}} \downarrow$; $\Gamma_{\text{global}}$ may rise & Rem.~\ref{ch13:prop:disintegration}(3), Ex.~\ref{ch13:ex:sunkel} \\
 Selective integration & Elite bridges exit domestic network & Sec.~\ref{ch13:sec:integration} \\
-Five processes, one process & One matrix rewiring, multiple observables & Key Insight \\
-Path dependence & Proximity-dominated edge creation & Thm.~\ref{ch13:thm:path_dependence} \\
+Many processes, one process & One matrix rewiring, multiple observables & Key Insight \\
+Path dependence & Proximity-dominated edge creation & Conj.~\ref{ch13:thm:path_dependence} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Sunkel wrote in 1971, before globalization was a word. The multinational corporations he described were oil companies and mineral extractors; the ``transnational elite'' was the alliance of foreign capital and domestic technocrats. Fifty years later, the MNCs are tech platforms, the transnational elite is the global professional class, and the disintegration is called ``populist backlash'' rather than ``dependency.'' The matrix is different. The mechanism is the same.
+Sunkel wrote in 1971, before ``globalization'' entered common usage. The multinational corporations he described were oil companies and mineral extractors; the ``transnational elite'' was the alliance of foreign capital and domestic technocrats. Fifty years later, the MNCs are tech platforms, the transnational elite is the global professional class, and the disintegration is called ``populist backlash'' rather than ``dependency.'' The matrix is different. The mechanism is the same.
 
 
 %% =====================================================================
@@ -547,6 +585,6 @@ Sunkel wrote in 1971, before globalization was a word. The multinational corpora
 
 \textbf{Path dependence in economic geography:} Martin and Sunley (2006), ``Path Dependence and Regional Economic Evolution,'' \textit{Journal of Economic Geography}. Boschma and Frenken (2011), ``The Emerging Empirics of Evolutionary Economic Geography,'' \textit{Journal of Economic Geography}.
 
-\textbf{The structuralist tradition on structural change:} Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina,'' \textit{Estudios Internacionales} 4(16). Sunkel (1993), \textit{Development from Within: Toward a Neostructuralist Approach for Latin America}, Lynne Rienner. Ocampo (2009), ``Latin America and the Global Financial Crisis,'' \textit{Cambridge Journal of Economics}.
+\textbf{The structuralist tradition on structural change:} Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina,'' \textit{Estudios Internacionales} 4(16). Sunkel (1993), \textit{Development from Within: Toward a Neostructuralist Approach for Latin America}, Lynne Rienner. Ocampo (2009), ``Latin America and the Global Financial Crisis,'' \textit{Cambridge Journal of Economics}. On fiscal and other linkages from staples: Hirschman (1977), ``A Generalized Linkage Approach to Development, with Special Reference to Staples,'' \textit{Economic Development and Cultural Change} 25 (supplement). On the reversal of wartime female employment: Goldin (1991), ``The Role of World War II in the Rise of Women's Employment,'' \textit{AER}.
 
 \end{document}

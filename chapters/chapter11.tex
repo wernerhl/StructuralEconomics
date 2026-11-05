@@ -3,18 +3,22 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{10}}{}
 \chapter{The $\Psi$ Ratio: Measuring Formation}\label{ch:11}
 \chaptersubtitle{Separating What the Structure Enforces from What It Forms}
+% TODO-VERIFY: Bragg epigraph is widely attributed to Sir William Lawrence Bragg
+% (often cited from Koestler & Smythies, eds., Beyond Reductionism, 1969); locate
+% a primary source or keep "attributed to". BOOK.md asks for a structuralist
+% epigraph in the original language; the master file assigns Bragg to this chapter.
 \begin{quote}
 \textit{``The important thing in science is not so much to obtain new facts as to discover new ways of thinking about them.''}\\
-\hfill --- William Lawrence Bragg
+\hfill --- Attributed to William Lawrence Bragg
 \end{quote}
 
 \vspace{1em}
 
-Chapters~9 and~10 built the formation model: preferences evolve through $W^I$, producing a dynamical system with enforcement and formation channels. The $\Psi$ ratio measures how much of observed behavioral change comes from formation (preference change) versus enforcement (price/constraint change). This chapter shows how to estimate $\Psi$ from data.
+Chapters~9 and~10 built the formation model: preferences evolve through $W^I$, producing a dynamical system with enforcement and formation channels. The $\Psi$ ratio (Definition~\ref{ch09:def:psi}) compares the formation effect of a stated perturbation with its enforcement effect. This chapter asks what data can reveal about it.
 
-The identification strategy exploits the timescale separation from Chapter~9. Enforcement effects operate within a generation: a price change today shifts behavior today. Formation effects operate across generations: a structural change today shifts the signals young people observe, which shifts their preferences, which shifts their behavior \textit{when they become adults}. The within-generation variation identifies enforcement; the across-cohort variation identifies formation. The ratio is $\Psi$.
+The leading strategy exploits the timescale separation of Chapter~9. Enforcement effects operate within a generation: a price change today shifts behavior today. Formation effects operate across generations: a structural change today shifts the signals young people observe, which shifts their preferences, which shifts their behavior \textit{when they become adults}. The hope is that within-generation variation identifies enforcement and across-cohort variation identifies formation.
 
-This is the chapter where the model meets the data. Every theorem in Chapters~9--10 generates a testable prediction. This chapter tests them.
+The chapter's conclusion is more cautious than that hope. The statistics used in practice --- cohort--year variance ratios and epidemiological coefficients --- are informative, but they are \textit{not} $\Psi$. They map to it only under strong, stated restrictions. All numerical magnitudes in this chapter are \illustrative{} unless a source is given.
 
 
 %% =====================================================================
@@ -32,43 +36,70 @@ x_{i,t} = f(\underbrace{p_t, w_{i,t}, Z_{i,t}}_{\text{enforcement: prices, const
 The problem: $\theta_{i,t}$ is unobservable. It enters the behavior function alongside prices, wages, and constraints. If $\theta$ is correlated with prices (because $W^I$ and $W^P$ overlap, or because the same structural change affects both), the enforcement and formation effects are confounded.
 
 \begin{example}[The Confound]\label{ch11:ex:confound}
-Bolivia opens a gas pipeline to a rural region. Two things happen simultaneously: (1) local wages rise (enforcement: the bargaining equilibrium shifts because $W^P$ changed), and (2) young people observe higher returns to modern-sector work (formation: $W^I$ signals shift, eventually changing $\theta$). The econometrician who regresses labor supply on wages captures the enforcement effect but attributes zero to formation --- or worse, attributes the formation effect to wages (upward bias on the enforcement coefficient).
+Bolivia opens a gas pipeline to a rural region. Two things happen simultaneously: (1) local wages rise (enforcement: the bargaining equilibrium shifts because $W^P$ changed), and (2) young people observe higher returns to modern-sector work (formation: $W^I$ signals shift, eventually changing $\theta$). An econometrician who regresses labor supply on wages and omits $\theta$ attributes nothing to formation. Worse, she may attribute the formation effect to wages, biasing the wage coefficient upward.
 \end{example}
 
-\begin{proposition}[The Identification Challenge]\label{ch11:prop:challenge}
-In a standard cross-sectional regression $x_{i,t} = \beta p_t + \gamma Z_{i,t} + \varepsilon_{i,t}$, the error term $\varepsilon_{i,t}$ contains $\theta_{i,t}$. If $\theta_{i,t}$ is correlated with $p_t$ or $Z_{i,t}$ (which it generically is when the same structural change affects prices and signals), then $\hat{\beta}$ and $\hat{\gamma}$ are biased.
-
-The direction of bias: if structural change raises both prices (enforcement) and aspirations (formation), the enforcement coefficient $\hat{\beta}$ captures part of the formation effect and is biased upward. The standard model overstates enforcement and understates formation.
+\begin{proposition}[Omitted-Preference Bias]\label{ch11:prop:challenge}
+Suppose $x_{i,t} = \beta p_{i,t} + b\,\theta_{i,t} + u_{i,t}$ with $\E[u \mid p, \theta] = 0$, and the econometrician regresses $x$ on $p$ alone. Then
+\[
+\operatorname{plim}\hat{\beta} = \beta + b\,\frac{\Cov(p, \theta)}{\Var(p)}.
+\]
+If the same structural change raises both prices and aspirations ($\Cov(p, \theta) > 0$) and aspirations raise the behavior ($b > 0$), then $\hat{\beta}$ is biased upward: the regression overstates enforcement and attributes formation to prices.
 \end{proposition}
 
+\begin{proof}
+$\operatorname{plim}\hat{\beta} = \Cov(x, p)/\Var(p) = \beta + b\Cov(\theta, p)/\Var(p)$.
+\end{proof}
 
-\subsection{The Timescale Solution}
 
-The key insight: enforcement and formation operate on different timescales.
+\subsection{The Timescale Idea and Its Limits}
+
+The idea: enforcement and formation operate on different timescales.
 
 \begin{definition}[Timescale Separation in Data]\label{ch11:def:timescale_data}
 \begin{enumerate}
-\item \textbf{Enforcement variation}: within a cohort, across time. Agents born in the same year face different prices at different points in their life. This variation identifies the behavioral response at fixed preferences, because preferences were formed before the price change.
-\item \textbf{Formation variation}: across cohorts, within a time period. Agents of different ages observed in the same year have different preferences (because they were exposed to different $W^I$ signals during their formative years). This variation identifies the preference difference, holding current prices constant.
+\item \textbf{Enforcement variation}: within a cohort, across time. Agents born in the same year face different prices at different points in their lives. This variation is meant to identify the behavioral response at fixed preferences, on the assumption that preferences were formed before the price change.
+\item \textbf{Formation variation}: across cohorts, within a time period. Agents of different cohorts observed in the same year may have different preferences, because they were exposed to different $W^I$ signals during their formative years. This variation is meant to identify the preference difference, holding current prices constant.
 \end{enumerate}
 \end{definition}
 
-\begin{theorem}[Cohort-Year Decomposition]\label{ch11:thm:cohort_year}
-Let $x_{i,c,t}$ be the behavior of agent $i$ from cohort $c$ at time $t$. The formation model implies:
-\begin{equation}\label{ch11:eq:cohort_year}
-x_{i,c,t} = \underbrace{\alpha_t + \beta p_t + \gamma Z_{i,t}}_{\text{year effects (enforcement)}} + \underbrace{\delta_c}_{\text{cohort effect (formation)}} + \underbrace{\eta_{i,c,t}}_{\text{residual}},
-\end{equation}
-where:
-\begin{itemize}
-\item $\alpha_t + \beta p_t + \gamma Z_{i,t}$ captures everything that varies across years at fixed cohort: prices, policies, aggregate shocks. This is the enforcement channel.
-\item $\delta_c$ captures everything that varies across cohorts at a fixed year: the accumulated formation effects from different exposure histories. $\delta_c = \delta(\theta_c)$, where $\theta_c$ is the preference of cohort $c$, formed during its youth under the $W^I$ that prevailed then.
-\end{itemize}
+The classification fails in both directions. Enforcement can be \textit{cohort-specific}: the oral contraceptive pill changed women's career investments according to their age when legal access arrived (Goldin and Katz, 2002, \textit{JPE}; Bailey, 2006, \textit{QJE}), so a ``price'' shows up as a cohort effect. Formation can be \textit{contemporaneous}: learning from neighbours (Fogli and Veldkamp, 2011) and corrections of perceived norms (Bursztyn et al., 2020) move behavior within a generation, so formation shows up as a year effect.
 
-The $\Psi$ ratio is estimated as:
-\begin{equation}\label{ch11:eq:psi_estimate}
-\hat{\Psi} = \frac{\Var(\hat{\delta}_c)}{\Var(\hat{\alpha}_t + \hat{\beta}p_t)}.
+\begin{definition}[Cohort--Year Specification and the Variance Ratio]\label{ch11:thm:cohort_year}
+Let $x_{i,c,t}$ be the behavior of agent $i$ from cohort $c$ at time $t$. The \textbf{cohort--year specification} is
+\begin{equation}\label{ch11:eq:cohort_year}
+x_{i,c,t} = \underbrace{\alpha_t + \beta p_t + \gamma Z_{i,t}}_{\text{year effects}} + \underbrace{\delta_c}_{\text{cohort effect}} + \underbrace{\eta_{i,c,t}}_{\text{residual}}.
 \end{equation}
-\end{theorem}
+The \textbf{cohort--year variance ratio} is the descriptive statistic
+\begin{equation}\label{ch11:eq:psi_estimate}
+\hat{\Psi}_{\text{var}} := \frac{\Var(\hat{\delta}_c)}{\Var(\hat{\alpha}_t + \hat{\beta}p_t)}.
+\end{equation}
+$\hat{\Psi}_{\text{var}}$ is \textbf{not} the $\Psi$ ratio of Definition~\ref{ch09:def:psi}. It compares squared dispersions of two sets of fixed effects over two sample windows. $\Psi$ compares the formation and enforcement effects of a single perturbation.
+\end{definition}
+
+\begin{proposition}[Age--Period--Cohort Non-Identification]\label{ch11:prop:apc}
+Let age be $a = t - c$. For any constant $k$, the decompositions
+\[
+(\alpha_t, \delta_c, A_a) \quad\text{and}\quad (\alpha_t - kt,\; \delta_c + kc,\; A_a + ka)
+\]
+produce identical fitted values. So if age effects $A_a$ are included (and behavior has a life-cycle profile, as labor supply does), linear trends in $\alpha_t$ and $\delta_c$ are not identified. $\hat{\Psi}_{\text{var}}$ then varies with $k$ over an interval that becomes arbitrarily wide --- from near $0$ to very large --- when the cohort or year effects are close to linear. If age effects are omitted, as in~\eqref{ch11:eq:cohort_year}, they are loaded onto the cohort and year effects.
+\end{proposition}
+
+\begin{proof}
+$(\alpha_t - kt) + (\delta_c + kc) + (A_a + k(t - c)) = \alpha_t + \delta_c + A_a$. $\Var(\delta_c + kc)/\Var(\alpha_t - kt)$ is a ratio of two nonnegative quadratics in $k$. The numerator is minimized at minus the slope of the least-squares trend through $\delta_c$; its minimum is the variance of the detrended $\delta_c$, which is near $0$ when $\delta_c$ is nearly linear. The same holds for the denominator.
+\end{proof}
+
+Any estimate of $\hat{\Psi}_{\text{var}}$ therefore requires an explicit identifying restriction. Common choices are Deaton's normalization (year effects orthogonal to a linear trend), equality of two adjacent age or cohort effects, or a proxy variable for one dimension. The restriction must be stated, and the sensitivity of $\hat{\Psi}_{\text{var}}$ to it reported (Hall, 1971; Heckman and Robb, 1985; Deaton and Paxson, 1994; McKenzie, 2006; Fosse and Winship, 2019). Deaton's normalization assigns all trends to age and cohort, so it mechanically tends to \textit{raise} $\Var(\hat{\delta}_c)$ relative to $\Var(\hat{\alpha}_t)$. On the table of Exercise~11.1, the two-way fit gives $\hat{\Psi}_{\text{var}} = 8.0$. The observationally equivalent APC decompositions with $k = -0.10, -0.05, 0, +0.05$ per decade give $\hat{\Psi}_{\text{var}} = 0.03, 0.62, 8.0, 507$.
+
+\begin{proposition}[When the Variance Ratio Maps to $\Psi$]\label{ch11:prop:psivar_map}
+Suppose (i) the APC restriction used is correct; (ii) all year-effect variation is enforcement and all cohort-effect variation is formation; and (iii) a single structural index $z$ drives both, with $\alpha_t = e\,z_t$ and $\delta_c = f\,z_{\tau(c)}$, where $z_{\tau(c)}$ is the index in cohort $c$'s formative years, and the two sample windows have the same $\Var(z)$. Then $\hat{\Psi}_{\text{var}} \to (f/e)^2$, and $\sqrt{\hat{\Psi}_{\text{var}}}$ estimates $|\Psi(\Delta z, \infty)|$ for a permanent change in $z$, in the population of interest.
+\end{proposition}
+
+\begin{proof}
+Under (i)--(iii), $\Var(\delta_c)/\Var(\alpha_t) = f^2\Var(z)/(e^2\Var(z))$. A permanent change $\Delta z$ moves the outcome by $e\Delta z$ at fixed preferences and by $f\Delta z$ once a cohort has formed under it, so $\Psi(\Delta z, \infty) = f/e$.
+\end{proof}
+
+Each condition is strong, and none is testable from the cohort--year table alone. Outside these conditions, $\hat{\Psi}_{\text{var}}$ is a descriptive statistic about the relative dispersion of cohort and year effects. It is useful, but it is not $\Psi$. Note also that $\hat{\Psi}_{\text{var}} > 0$ in every finite sample: sampling noise makes $\Var(\hat{\delta}_c) > 0$ even when every $\delta_c = 0$. ``$\hat{\Psi}_{\text{var}} > 0$'' is therefore not evidence of formation. The relevant test is an $F$-test of $\delta_c = 0$ for all $c$, and the variance components should be bias-corrected (subtract the average sampling variance of the $\hat{\delta}_c$).
 
 
 %% =====================================================================
@@ -78,58 +109,69 @@ The $\Psi$ ratio is estimated as:
 
 \subsection{The Idea}
 
-The cleanest identification of formation effects comes from migrants. A woman who migrated from country $A$ to country $B$ faces country $B$'s prices and constraints (enforcement) but carries country $A$'s preferences (formation). Her behavior reveals the interaction of $A$'s formation with $B$'s enforcement.
+The cleanest evidence on cultural transmission comes from migrants (Fern\'{a}ndez, 2011). A woman raised in country $B$ by parents from country $A$ faces country $B$'s prices and constraints (enforcement) but may carry part of country $A$'s culture (formation). Her behavior reveals the interaction of $A$'s formation with $B$'s enforcement.
 
 \begin{definition}[Epidemiological Regression]\label{ch11:def:epi}
 For female labor force participation of second-generation immigrant women (born and raised in country $B$, parents from country $A$):
 \begin{equation}\label{ch11:eq:epi}
 \text{LFP}_{i,A,B,t} = \alpha + \beta \cdot \text{LFP}_{A,t_0} + \gamma \cdot Z_{i,B,t} + \varepsilon_{i,t},
 \end{equation}
-where $\text{LFP}_{A,t_0}$ is the female labor force participation rate in the mother's country of origin at the time the mother emigrated.
+where $\text{LFP}_{A,t_0}$ is the female labor force participation rate in the parents' country of origin around the time of emigration, used as a proxy for the culture they brought.
 \end{definition}
 
-The key coefficient is $\beta$: the sensitivity of daughter's LFP to mother's origin-country LFP, controlling for current country conditions $Z_{i,B,t}$. If $\beta = 0$: preferences don't matter, only prices (enforcement only, $\Psi = 0$). If $\beta > 0$: the mother's cultural background affects the daughter's behavior even in a different country --- formation is operating.
+The key coefficient is $\beta$: the sensitivity of daughters' LFP to origin-country LFP, controlling for current conditions $Z_{i,B,t}$. If $\beta = 0$, there is no evidence of a transmitted cultural component. If $\beta > 0$, the parents' cultural background affects the daughter's behavior even in a different country.
 
-\begin{theorem}[Identification via Epidemiological Design]\label{ch11:thm:epi_id}
-Under the assumptions: (1) origin-country LFP proxies for the formation signal the mother received, (2) the daughter's current prices $Z_{i,B,t}$ are uncorrelated with origin-country LFP conditional on controls, and (3) no direct effect of origin-country conditions on the daughter except through preferences:
-\begin{equation}
-\hat{\beta} = \frac{\partial \text{LFP}_{\text{daughter}}}{\partial \theta_{\text{mother}}} \cdot \frac{\partial \theta_{\text{mother}}}{\partial \text{LFP}_{A}} \approx \rho \cdot \frac{\partial \text{LFP}}{\partial \theta},
+\begin{proposition}[What the Epidemiological Coefficient Measures]\label{ch11:thm:epi_id}
+Assume:
+\begin{enumerate}
+\item the origin rate reflects origin preferences and origin enforcement, $\text{LFP}_A = a_A + b\,\theta_A + e_A$, with $e_A$ uncorrelated with $\theta_A$;
+\item the mother carries the origin preference, $\theta_m = \theta_A$ (no selection on $\theta$ into migration);
+\item the daughter's preference follows the formation equation within the dynasty, $\theta_d = \rho\,\theta_m + (1-\rho)\theta^{\circ} + \mu s_B$, with a host-country signal $s_B$ that is common to all daughters in $B$ (and so absorbed by the constant);
+\item the daughter's behavior is $\text{LFP}_d = a_B + b\,\theta_d + u_d$, with $u_d$ uncorrelated with origin variables conditional on $Z$.
+\end{enumerate}
+Then the population coefficient in~\eqref{ch11:eq:epi} is
+\begin{equation}\label{ch11:eq:epi_beta}
+\beta = \rho\,\lambda, \qquad \lambda := \frac{b^2\Var(\theta_A)}{b^2\Var(\theta_A) + \Var(e_A)} \in [0, 1].
 \end{equation}
-where $\rho$ is the intergenerational persistence parameter from the formation equation. The coefficient $\hat{\beta}$ estimates the formation channel, controlling for enforcement.
-\end{theorem}
+The coefficient understates $\rho$ by the reliability $\lambda$ of origin LFP as a proxy for origin culture. For a third generation (grandparents from $A$), $\beta_3 = \rho^2\lambda$, so $\beta_3/\beta_2 = \rho$ when $\lambda$ is common to both generations.
+\end{proposition}
 
-\begin{intuition}[Why migrants identify formation]
-All second-generation women in country $B$ face the same prices, the same laws, the same labor market. They differ only in their parents' cultural background --- the $W^I$ their mothers were embedded in. If an Italian-American woman works less than a Swedish-American woman (both in Chicago, both in 2010), the difference cannot be explained by prices (they face the same prices). It must come from preferences transmitted through the family $W^I$. The difference IS the formation effect.
+\begin{proof}
+We have
+\[
+\Cov(\text{LFP}_d, \text{LFP}_A) = b\rho\,\Cov(\theta_A, a_A + b\theta_A + e_A) = \rho b^2\Var(\theta_A),
+\]
+and $\Var(\text{LFP}_A) = b^2\Var(\theta_A) + \Var(e_A)$. Divide. For the third generation, iterate assumption~3 once more.
+\end{proof}
+
+Three caveats follow from the derivation.
+\begin{itemize}
+\item \textit{Origin LFP includes origin enforcement} ($e_A$): wages, laws and childcare in country $A$. That is why $\beta < \rho$.
+\item \textit{Bad controls.} Conditioning on the daughter's education, marital status or number of children removes channels through which culture operates. Those controls bias $\beta$ toward zero as an estimate of the total cultural effect (Angrist and Pischke, 2009, \S3.2.3).
+\item \textit{What is transmitted.} $\beta$ identifies a cultural component broadly defined --- beliefs, norms, tastes, or ethnic-network access to jobs --- not a preference parameter specifically (Chapter~9, Section~\ref{ch09:sec:beliefs}).
+\end{itemize}
+
+\begin{intuition}[Why migrants help, and why they are not a clean experiment]
+Second-generation women in the same host labor market face the same prices and laws. If daughters of parents from high-participation countries work more, the difference is not explained by those prices. It may come from culture transmitted through the family $W^I$. But the women do \textit{not} differ only in their parents' culture. They differ in parental human capital and wealth, in ethnic-community networks (a local $W^P$ and $W^I$), and in the discrimination they face. The epidemiological design controls for what it can observe and interprets the rest with care.
 \end{intuition}
 
 
-\subsection{Empirical Results: Female Labor Force Participation}
+\subsection{What the Evidence Shows: Female Labor Force Participation}
 
-\begin{proposition}[Fern\'{a}ndez (2013) Results in Formation Notation]\label{ch11:prop:fernandez}
-Using data on second-generation American women (Current Population Survey, 1970--2000) with mothers from 60+ origin countries:
-\begin{enumerate}
-\item $\hat{\beta} = 0.40$ (SE = 0.08): a 10 percentage-point increase in origin-country female LFP is associated with a 4 pp increase in daughter's LFP in the US.
-\item The effect is robust to controlling for education, income, marital status, number of children, metropolitan area, and year.
-\item The effect attenuates across generations: $\hat{\beta}_{\text{2nd gen}} = 0.40$, $\hat{\beta}_{\text{3rd gen}} \approx 0.25$, consistent with $\rho \approx 0.60$--$0.65$ per generation.
-\item The implied $\hat{\Psi}$: the formation channel explains approximately 68\% of the cross-origin variation in LFP; the enforcement channel (US prices and constraints) explains the remaining 32\%.
-\end{enumerate}
-\end{proposition}
+\begin{stylizedfact}[Epidemiological Evidence on Female Work]\label{ch11:prop:fernandez}
+Using US Census data on second-generation American women, Fern\'{a}ndez and Fogli (2009, \textit{AEJ: Macro}) and Fern\'{a}ndez (2007, \textit{JEEA}) find that female labor force participation in the parents' country of ancestry (measured around 1950) predicts the daughters' work behavior in the US, conditional on individual and parental characteristics. The results are robust to a range of controls for parental human capital. Fern\'{a}ndez (2013, \textit{AER}) models the twentieth-century rise in US female participation as \textit{learning} about the costs of working.
+\end{stylizedfact}
 
-\begin{example}[Computing $\hat{\Psi}$ for Female LFP]\label{ch11:ex:psi_lfp}
-From Fern\'{a}ndez (2013) and Fogli-Veldkamp (2011):
+\begin{example}[From Epidemiological Coefficients to $\rho$ \illustrative]\label{ch11:ex:epi}
+Suppose the second-generation coefficient is $\hat{\beta}_2 = 0.40$ and the third-generation coefficient is $\hat{\beta}_3 = 0.25$ (illustrative values, not taken from the papers above). By Proposition~\ref{ch11:thm:epi_id}, $\hat{\rho} = \hat{\beta}_3/\hat{\beta}_2 = 0.625$ per generation, and the reliability of origin LFP as a cultural proxy is $\hat{\lambda} = \hat{\beta}_2/\hat{\rho} = 0.64$. Reading $\hat{\beta}_2 = 0.40$ directly as $\rho$ would understate persistence.
+\end{example}
 
-Total variance of female LFP across cohort-year cells in the US, 1940--2000: $\Var(x_{c,t}) = 0.042$.
-
-Year-effect (enforcement) component: $\Var(\hat{\alpha}_t) = 0.013$. This captures wage increases, anti-discrimination law, childcare availability, contraception --- all within-generation, holding preferences fixed.
-
-Cohort-effect (formation) component: $\Var(\hat{\delta}_c) = 0.027$. This captures the cross-cohort difference in norms --- daughters of working mothers are more likely to work, controlling for current prices.
-
-Estimated $\Psi$:
+\begin{example}[A Cohort--Year Variance Ratio for Female LFP \illustrative]\label{ch11:ex:psi_lfp}
+Suppose that, under a stated APC restriction, the variance of female LFP across cohort--year cells in the US, 1940--2000, is $0.042$; the year-effect component is $\Var(\hat{\alpha}_t) = 0.013$; and the cohort-effect component is $\Var(\hat{\delta}_c) = 0.027$. These are illustrative numbers. Then
 \begin{equation}
-\hat{\Psi} = \frac{0.027}{0.013} = 2.08.
+\hat{\Psi}_{\text{var}} = \frac{0.027}{0.013} = 2.08, \qquad \sqrt{\hat{\Psi}_{\text{var}}} = 1.44.
 \end{equation}
-
-The formation effect is twice the enforcement effect. For every 1 pp of LFP increase attributable to better wages and policies, another 2 pp are attributable to the intergenerational transmission of norms through $W^I$.
+Cohort effects are about 1.44 times as dispersed as year effects (in standard deviations). This does \textit{not} mean ``for every 1~pp of LFP attributable to wages, another 2~pp are attributable to norms''. That reading would need Proposition~\ref{ch11:prop:psivar_map}, and even then the effect ratio would be $\sqrt{2.08} = 1.44$, not 2.08. Under a different APC restriction, the same data could give a very different $\hat{\Psi}_{\text{var}}$ (Proposition~\ref{ch11:prop:apc}).
 \end{example}
 
 
@@ -138,63 +180,62 @@ The formation effect is twice the enforcement effect. For every 1 pp of LFP incr
 \label{ch11:sec:applications}
 %% =====================================================================
 
+Each application pairs what the literature documents (where a source exists) with an \textit{illustrative} variance ratio. The variance ratios show how the statistic would be reported; they are not estimates.
+
 \subsection{Application 1: Savings Rates Across Countries}
 
-The cross-country variance of savings rates cannot be explained by interest rates, income, and demographic structure alone. A large residual remains --- conventionally attributed to ``cultural differences'' without being measured.
+Cross-country differences in saving rates are not fully explained by interest rates, income and demographic structure; the residual is often attributed to ``cultural differences'' without being measured.
 
-\begin{proposition}[Formation in Savings Behavior]\label{ch11:prop:savings}
-Using the Global Preferences Survey (Falk et al., 2018) linked to national accounts:
+\begin{stylizedfact}[Patience, Saving, and Culture]\label{ch11:prop:savings}
+\leavevmode
 \begin{enumerate}
-\item Time preference (patience) varies by a factor of 3 across countries at similar income levels.
-\item The epidemiological approach (Fern\'{a}ndez and Fogli, 2009, applied to savings): immigrant savings rates are predicted by origin-country savings rates ($\hat{\beta} = 0.32$, SE = 0.09).
-\item Cohort-year decomposition on US PSID data: the cohort component accounts for 57\% of the explained variance; the year component accounts for 43\%.
-\item Estimated $\hat{\Psi} \approx 1.3$: formation slightly exceeds enforcement.
+\item In the Global Preferences Survey (Falk et al., 2018, \textit{QJE}), country-average patience is positively correlated with saving and with educational attainment.
+\item The epidemiological evidence on saving is mixed. Carroll, Rhee and Rhee (1994, \textit{QJE}) find little evidence that immigrants' saving behavior in Canada reflects saving rates in their countries of origin.
+\item \textup{\illustrative} A cohort--year decomposition with cohort share 57\% and year share 43\% of explained variance gives $\hat{\Psi}_{\text{var}} = 1.3$.
 \end{enumerate}
-\end{proposition}
+\end{stylizedfact}
 
 
 \subsection{Application 2: Educational Aspirations in Sub-Saharan Africa}
 
-\begin{proposition}[Formation in Education]\label{ch11:prop:education}
-Using DHS data from 28 sub-Saharan African countries (2005--2020):
+\begin{stylizedfact}[Formation in Education]\label{ch11:prop:education}
+\leavevmode
 \begin{enumerate}
-\item Mother's education is the strongest predictor of daughter's education, controlling for income, distance to school, and school quality ($\hat{\beta}_{\text{mother}} = 0.45$, SE = 0.03).
-\item The Bernard et al.\ (2014) aspiration experiment provides a direct estimate of $\mu$: the documentary shifted aspirations by 0.1 SD, implying $\mu \approx 0.15$--$0.25$ depending on the assumed exposure duration.
-\item Cohort-year decomposition on pooled DHS: $\Var(\hat{\delta}_c) / \Var(\hat{\alpha}_t) \approx 0.8$. Formation and enforcement contribute roughly equally.
-\item Estimated $\hat{\Psi} \approx 0.8$: formation is substantial but does not dominate enforcement (because school construction and fee abolition --- enforcement channels --- were powerful in this period).
+\item Parental, especially maternal, education is among the strongest correlates of children's schooling in household surveys such as the DHS. The correlation mixes genes, resources and formation.
+\item The Bernard et al.\ (2014) documentary experiment changes $W^I$ by randomized design. It is the type of evidence that identifies a formation effect directly, at a short horizon. Mapping a six-month effect into the per-generation $\mu$ of Chapter~9 requires assumptions about exposure and persistence that the experiment does not pin down.
+\item \textup{\illustrative} A variance ratio of $\hat{\Psi}_{\text{var}} = 0.8$ would be consistent with large enforcement changes in the period (school construction, fee abolition).
 \end{enumerate}
-\end{proposition}
+\end{stylizedfact}
 
 
 \subsection{Application 3: Risk-Taking After Financial Crises}
 
-\begin{proposition}[Formation in Risk Attitudes]\label{ch11:prop:risk}
-Using Malmendier and Nagel (2011) data (Survey of Consumer Finances, 1964--2004):
+\begin{stylizedfact}[Formation in Risk Attitudes]\label{ch11:prop:risk}
+\leavevmode
 \begin{enumerate}
-\item Individuals who experienced low stock returns during ages 18--25 hold a smaller share of their portfolio in equities decades later ($\hat{\beta}_{\text{experience}} = -0.024$ per SD of experienced return, SE = 0.006).
-\item The effect operates through the formation channel: early-life experience shapes the perceived return distribution (a $W^I$ signal), which shapes risk tolerance ($\theta_{\text{risk}}$).
-\item The enforcement component (current returns, current wealth) explains 67\% of portfolio allocation variance; the cohort component (formative experience) explains 33\%.
-\item Estimated $\hat{\Psi} \approx 0.5$: enforcement dominates (current wealth effects are large), but formation is nontrivial.
+\item Malmendier and Nagel (2011, \textit{QJE}) use the Survey of Consumer Finances. Households whose lifetime experienced stock returns are lower (weighting recent years more heavily) report lower willingness to take financial risks, are less likely to own stocks, and hold a smaller share of liquid assets in stocks.
+\item This is formation from \textit{own} experience, not from signals relayed by others (Chapter~9): the diagonal of $W^I$.
+\item \textup{\illustrative} With current wealth and returns accounting for most of the variation in portfolio shares, a variance ratio around $\hat{\Psi}_{\text{var}} = 0.5$ would be plausible.
 \end{enumerate}
-\end{proposition}
+\end{stylizedfact}
 
 
 \subsection{Application 4: Entrepreneurship Norms in Bolivia}
 
-\begin{proposition}[Formation in Self-Employment]\label{ch11:prop:bolivia}
-Using Bolivia's Encuesta de Hogares (2000--2019):
+\begin{example}[Self-Employment in Bolivia \illustrative]\label{ch11:prop:bolivia}
+This application is a template for Exercise~11.4, which uses Bolivia's \textit{Encuesta de Hogares} (INE). All numbers are hypothetical.
 \begin{enumerate}
-\item Self-employment rates vary from 30\% (Santa Cruz) to 65\% (rural altiplano), controlling for income, education, and sector.
-\item The cross-department variation is predicted by historical self-employment rates 20 years earlier ($\hat{\beta} = 0.52$, SE = 0.11) --- consistent with intergenerational transmission of self-employment norms.
-\item Internal migrants from high-self-employment departments maintain elevated self-employment rates in La Paz and Santa Cruz ($\hat{\beta}_{\text{origin}} = 0.28$, SE = 0.09), controlling for current labor market conditions.
-\item Cohort-year decomposition: $\hat{\Psi} \approx 1.6$. The formation channel (norms about self-employment transmitted through family and community $W^I$) exceeds the enforcement channel (prices, credit access, regulations).
+\item Suppose self-employment rates range from 30\% to 65\% across departments, after controlling for income, education, and sector.
+\item Suppose departmental rates 20 years earlier predict current rates, consistent with transmission of self-employment norms --- or with persistent local demand conditions, which the design must rule out.
+\item Suppose internal migrants from high-self-employment departments keep higher self-employment rates in La Paz and Santa Cruz, controlling for current labor-market conditions (an internal epidemiological design).
+\item Suppose a cohort--year decomposition, under a stated APC restriction, gives $\hat{\Psi}_{\text{var}} = 1.6$.
 \end{enumerate}
-\end{proposition}
+\end{example}
 
-\begin{vizpanel}{$\hat{\Psi}$ across four applications}
+\begin{vizpanel}{$\hat{\Psi}_{\text{var}}$ across five illustrative applications}
 \begin{center}
 \begin{tikzpicture}[scale=1]
-%% Bar chart
+%% Bar chart (illustrative values; code/ch11.py)
 \foreach \k/\app/\psi/\col in {
   1/{Female LFP (US)}/2.08/85,
   2/{Self-employment (Bolivia)}/1.60/72,
@@ -202,19 +243,40 @@ Using Bolivia's Encuesta de Hogares (2000--2019):
   4/{Education (SSA)}/0.80/45,
   5/{Risk-taking (US)}/0.50/32} {
   \fill[blue!\col] (0, {(5-\k)*0.7}) rectangle ({\psi*2.0}, {(5-\k)*0.7+0.55});
-  \node[font=\scriptsize, right] at ({\psi*2.0+0.1}, {(5-\k)*0.7+0.27}) {$\hat{\Psi} = \psi$};
+  \node[font=\scriptsize, right] at ({\psi*2.0+0.1}, {(5-\k)*0.7+0.27}) {$\hat{\Psi}_{\text{var}} = \psi$};
   \node[font=\scriptsize, left] at (-0.1, {(5-\k)*0.7+0.27}) {\app};
 }
 %% Reference lines
 \draw[red, dashed] ({1.0*2.0}, 0) -- ({1.0*2.0}, 3.8);
-\node[font=\tiny, red, above] at ({1.0*2.0}, 3.8) {$\Psi = 1$};
+\node[font=\tiny, red, above] at ({1.0*2.0}, 3.8) {$\hat{\Psi}_{\text{var}} = 1$};
 \draw[gray, dashed] ({0*2.0}, 0) -- ({0*2.0}, 3.8);
-\node[font=\tiny, gray, above] at ({0*2.0}, 3.8) {$\Psi = 0$};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Five applications, five $\hat{\Psi}$ values. The dashed red line marks $\Psi = 1$ (formation = enforcement). Three of five applications have $\hat{\Psi} > 1$: the formation channel dominates. In all five, $\hat{\Psi} > 0$: formation is never zero. The standard model ($\Psi = 0$) is rejected in every application.
+\small Five illustrative variance ratios. The dashed red line marks equal dispersion of cohort and year effects. The values show how the statistic is reported; they are not estimates. $\hat{\Psi}_{\text{var}} > 0$ holds by construction (it is a ratio of variances inflated by sampling noise), so a positive bar is not a rejection of A6. Each bar also depends on the APC restriction (Proposition~\ref{ch11:prop:apc}).
 \end{vizpanel}
+
+
+%% =====================================================================
+\section{The Network Disappears: Reflection and Measuring $W^I$}
+\label{ch11:sec:network}
+%% =====================================================================
+
+The designs above aggregate to cohorts or origin countries, so the information network $W^I$ --- the book's central object --- drops out of the econometrics. Bringing it back raises the classic problems of social-interaction models.
+
+At a steady state of the formation model with linearized returns, preferences satisfy
+\[
+\boldsymbol{\theta} = a\ones + \lambda\,W^I\boldsymbol{\theta} + W^I X\boldsymbol{\delta} + X\boldsymbol{\gamma} + \boldsymbol{\varepsilon}.
+\]
+This is a linear-in-means (spatial-autoregressive) model. It has an \textit{endogenous} effect ($\lambda$: my preference depends on my contacts' preferences, through their returns), \textit{contextual} effects ($\boldsymbol{\delta}$: my contacts' characteristics) and possibly \textit{correlated} effects (contacts share unobserved shocks, or chose each other because they are similar).
+
+\begin{enumerate}
+\item \textbf{Reflection} (Manski, 1993). When $W^I$ averages over a whole group (cohort, region, origin country), group-mean behavior is regressed on group-mean behavior and endogenous and contextual effects cannot be separated. Regressions of cohort means on cohort means are exactly this case.
+\item \textbf{Network identification} (Bramoull\'{e}, Djebbari and Fortin, 2009). With an observed network and no correlated effects, the parameters are identified if $I$, $W^I$ and $(W^I)^2$ are linearly independent (intransitive triads supply the instruments). A block-diagonal $W^I$ with uniform within-block weights fails the condition, because $(W^I)^2 = W^I$. This is the pure block-diagonal case behind Chapter~10's original stratified economy (see \texttt{code/ch11.py}). Chapter~10's stated $W^I$, with cross-block weights $0.025$, has three distinct eigenvalues ($1, 0.775, 0$), so it satisfies the condition --- but only weakly, since the cross-block entries are small. With group interactions and fixed effects, Lee (2007) shows that variation in group size is what identifies the model.
+\item \textbf{Correlated effects and network formation.} If ties form on unobserved $\theta$ (homophily), $W^I$ is endogenous. See Goldsmith-Pinkham and Imbens (2013, \textit{JBES}) and the survey of Blume, Brock, Durlauf and Ioannides (2011).
+\item \textbf{Measuring $W^I$.} Full network surveys are expensive and usually sampled. Chandrasekhar and Lewis study estimation with sampled networks. Breza, Chandrasekhar, McCormick and Pan (2020, \textit{AER}) show how aggregated relational data can recover network statistics. de Paula, Rasul and Souza recover network ties from panel data on outcomes.
+\item \textbf{Experiments on $W^I$.} Randomizing exposure --- the Bernard et al.\ documentary, Beaman et al.'s leader reservations, partial-population designs (Moffitt, 2001), or separating learning from social utility (Bursztyn et al., 2014) --- identifies formation effects of a specific $\Delta W^I$, which is what Definition~\ref{ch09:def:psi} asks for.
+\end{enumerate}
 
 
 %% =====================================================================
@@ -222,72 +284,78 @@ Using Bolivia's Encuesta de Hogares (2000--2019):
 \label{ch11:sec:estimation}
 %% =====================================================================
 
-\subsection{From $\hat{\Psi}$ to $(\hat{\rho}, \hat{\mu})$}
+\subsection{From Moments to $(\hat{\rho}, \hat{\mu})$}
 
-The $\Psi$ ratio is a reduced-form object. To recover the structural parameters of the formation equation ($\rho$, $\mu$, $\bar{\theta}_0$), we need additional moments from the data.
+The variance ratio is a reduced-form statistic. To recover the structural parameters of the formation equation ($\rho$, $\mu$, $\theta^{\circ}$), we need more moments --- and more assumptions.
 
-\begin{proposition}[Identification of Formation Parameters]\label{ch11:prop:id_params}
-The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum_j W^I_{ij} r_{j,t} - r^*)$ is identified by three moments:
+\begin{proposition}[Moments for the Formation Parameters]\label{ch11:prop:id_params}
+Let behavior be $x_g = a + b\,\theta_g + u_g$ in generation $g$ of a dynasty, where $u_g$ is i.i.d., independent of $\theta$, and the year effects have been removed. Let $\theta$ follow the formation equation in a stationary environment, with the network signal uncorrelated across generations. Write $R_\theta := b^2\Var(\theta)/\Var(x) \in [0,1]$ for the share of behavioral variance due to preferences. Then:
 \begin{enumerate}
-\item \textbf{Intergenerational correlation of behavior}: $\text{Corr}(x_{\text{daughter}}, x_{\text{mother}}) = \rho \cdot (\partial f / \partial \theta)^2 / \Var(x) + \text{enforcement correlation}$. After removing the enforcement correlation (using within-year variation), the residual identifies $\rho$.
-
-\item \textbf{Cross-cohort gradient}: the rate at which cohort effects $\hat{\delta}_c$ change across cohorts born in different structural environments. This identifies $\mu$: larger $\mu$ means faster cohort-to-cohort preference change when the environment changes.
-
-\item \textbf{Long-run level}: the unconditional mean of behavior across all cohorts in a stable environment identifies $\bar{\theta}_0$ (the anchor).
+\item \textbf{Parent--child correlation}: $\operatorname{Corr}(x_g, x_{g-1}) = \rho\,R_\theta$. On its own, this does not identify $\rho$: it confounds persistence with the preference share $R_\theta$.
+\item \textbf{Multigenerational correlations}: $\operatorname{Corr}(x_g, x_{g-2}) = \rho^2 R_\theta$, so the ratio of the grandparent--grandchild to the parent--child correlation identifies $\rho$.
+\item \textbf{Response to a change in the environment}: after a permanent change in observed returns $\Delta r$, cohort effects move toward a new level at rate $\rho$, with long-run shift $b\,\mathcal{M}\,\Delta r$. Given $\rho$, this identifies $\mu$ if $\Delta r$ is measured.
+\item \textbf{Long-run level}: in a stable environment, the mean of $\theta$ identifies $\theta^{\circ} + \mathcal{M}(\bar{s} - r^*)$, which pins down the anchor $\theta^{\circ}$ only once the signal level $\bar{s}$ and $r^*$ are fixed.
 \end{enumerate}
 \end{proposition}
 
-\begin{example}[Estimating $(\hat{\rho}, \hat{\mu})$ for Female LFP]\label{ch11:ex:rho_mu}
-From the US LFP data:
+\begin{proof}
+(1)--(2) With AR(1) $\theta$, $\Cov(\theta_g, \theta_{g-k}) = \rho^k\Var(\theta)$. So
+\[
+\Cov(x_g, x_{g-k}) = b^2\rho^k\Var(\theta);
+\]
+divide by $\Var(x)$. (3) Chapter~9, Proposition~\ref{ch09:prop:steady}, and the persistence result. (4) Take expectations in the steady-state condition.
+\end{proof}
+
+\begin{example}[Estimating $(\hat{\rho}, \hat{\mu})$ for Female LFP \illustrative]\label{ch11:ex:rho_mu}
+\leavevmode
 \begin{enumerate}
-\item \textbf{Intergenerational correlation}: $\text{Corr}(\text{LFP}_{\text{daughter}}, \text{LFP}_{\text{mother}}) \approx 0.35$ (conditional on year, education, income). Backing out: $\hat{\rho} \approx 0.62$.
-\item \textbf{Cross-cohort gradient}: Women born 1920--1930 had LFP $\approx 0.30$. Women born 1950--1960 had LFP $\approx 0.65$ (controlling for age and year effects). The structural change (WWII, postwar expansion, feminist movement) produced a gradient of $\Delta\hat{\delta}_c / \Delta c \approx 0.012$ per year. Combined with the estimated change in $W^I$-weighted returns over this period: $\hat{\mu} \approx 0.18$.
-\item \textbf{Long-run level}: The 2000--2010 LFP level ($\approx 0.72$) in a relatively stable environment gives $\hat{\bar{\theta}}_0 \approx 0.68$ (after removing the formation signal contribution).
+\item \textbf{Correlations}: suppose the parent--child correlation of LFP (net of year effects) is $0.35$ and the grandparent--grandchild correlation is $0.217$. Then $\hat{\rho} = 0.217/0.35 = 0.62$ per generation, and $\hat{R}_\theta = 0.35/0.62 = 0.565$.
+\item \textbf{Cross-cohort gradient}: suppose women born 1920--1930 had LFP $\approx 0.30$ and women born 1950--1960 had LFP $\approx 0.65$, under a stated APC restriction. The gradient is about $0.012$ per birth year. Combined with a measured change in $W^I$-weighted returns, suppose this gives $\hat{\mu} \approx 0.18$.
+\item \textbf{Long-run level}: suppose the 2000--2010 LFP level ($\approx 0.72$) in a relatively stable environment gives $\hat{\theta}^{\circ} \approx 0.68$ after removing the formation-signal contribution.
 \end{enumerate}
 
-\textbf{Parameter summary}:
+\textbf{Parameter summary} (illustrative; no standard errors are reported because there is no estimation):
 \begin{center}
-\begin{tabular}{lccc}
+\begin{tabular}{lcc}
 \toprule
-Parameter & Estimate & SE & Interpretation \\
+Parameter & Value & Interpretation \\
 \midrule
-$\hat{\rho}$ & 0.62 & 0.08 & Moderate persistence (half-life $\approx 1.4$ generations) \\
-$\hat{\mu}$ & 0.18 & 0.05 & Moderate formation sensitivity \\
-$\hat{\bar{\theta}}_0$ & 0.68 & 0.04 & Anchor: baseline LFP norm \\
-$\hat{\mathcal{M}}$ & 0.47 & 0.14 & Formation multiplier \\
-$\hat{\Psi}$ & 2.08 & 0.45 & Formation $>$ enforcement \\
+$\hat{\rho}$ & 0.62 & Moderate persistence (half-life $\approx 1.45$ generations) \\
+$\hat{\mu}$ & 0.18 & Moderate formation sensitivity \\
+$\hat{\theta}^{\circ}$ & 0.68 & Anchor: baseline LFP norm \\
+$\hat{\mathcal{M}}$ & 0.47 & Formation multiplier $\mu/(1-\rho)$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+Units matter. If the correlations were computed between birth \textit{decades} rather than generations, $0.62$ would be a per-decade coefficient, corresponding to $0.62^{2.5} = 0.30$ per 25-year generation.
 \end{example}
 
 
 \subsection{The Structural Estimation}
 
-For the full formation model of Chapter~10, the structural parameters $(\rho, \mu, \bar{\theta}_0, \boldsymbol{\beta}, \boldsymbol{\gamma})$ can be estimated by maximum likelihood or GMM.
+For the full formation model of Chapter~10, the structural parameters $(\rho, \mu, \theta^{\circ}, \boldsymbol{\beta}, \boldsymbol{\gamma})$ can in principle be estimated by GMM or maximum likelihood.
 
-\begin{definition}[GMM Estimation of the Formation Model]\label{ch11:def:gmm}
-The moment conditions exploit the two-timescale structure:
-
-\textbf{Within-generation moments} (identify enforcement parameters $\boldsymbol{\beta}, \boldsymbol{\gamma}$):
+\begin{definition}[Two-Step GMM for the Formation Model]\label{ch11:def:gmm}
+\textbf{Step 1 (within generation).} Estimate the behavior function, with cohort effects $\hat{\theta}_c$ obtained \textit{under a stated APC restriction}:
 \begin{equation}
-E\left[Z_{i,t}' \cdot (x_{i,c,t} - f(p_t, Z_{i,t}, \hat{\theta}_c))\right] = 0,
+\E\left[Z_{i,t}' \cdot (x_{i,c,t} - f(p_t, Z_{i,t}, \hat{\theta}_c))\right] = 0.
 \end{equation}
-where $\hat{\theta}_c$ is the estimated cohort preference (from the cohort fixed effects).
 
-\textbf{Across-generation moments} (identify formation parameters $\rho, \mu, \bar{\theta}_0$):
+\textbf{Step 2 (across generations).} Index cohorts so that $c$ and $c+1$ are one \textit{generation} apart (or rescale $\rho$). With instruments $\mathbf{z}_c$ dated $c-1$ or earlier, for example $\mathbf{z}_c = (1, \hat{\theta}_{c-1}, \hat{r}_{c-1})$,
 \begin{equation}
-E\left[\hat{\theta}_{c+1} - \rho\hat{\theta}_c - (1-\rho)\bar{\theta}_0 - \mu(\hat{r}_c - r^*)\right] = 0,
+\E\left[\mathbf{z}_c\left(\hat{\theta}_{c+1} - \rho\hat{\theta}_c - (1-\rho)\theta^{\circ} - \mu(\hat{r}_c - r^*)\right)\right] = 0,
 \end{equation}
-where $\hat{\theta}_c$ is the cohort preference estimated in the first stage and $\hat{r}_c$ is the average return observed by cohort $c$ during its formative years.
+which is three moment conditions for three parameters. Here $\hat{r}_c$ is the average return observed by cohort $c$ during its formative years.
 \end{definition}
 
-\begin{intuition}[Two-stage estimation]
-Stage 1: Within each cohort, estimate the relationship between behavior and current prices/constraints. The cohort fixed effect $\hat{\delta}_c$ is the residual --- the part of behavior unexplained by current conditions. This is the preference proxy.
-
-Stage 2: Across cohorts, regress $\hat{\delta}_{c+1}$ on $\hat{\delta}_c$ and the returns observed by cohort $c$. The autoregressive coefficient is $\hat{\rho}$ (persistence). The coefficient on observed returns is $\hat{\mu}$ (formation sensitivity). The intercept identifies $\bar{\theta}_0$.
-
-The key: Stage 1 uses within-period variation (enforcement). Stage 2 uses across-cohort variation (formation). The two stages are orthogonal by construction.
+\begin{intuition}[What the two steps require]
+Stage~1 uses within-period variation to estimate the response to prices and to extract cohort effects $\hat{\theta}_c$ as preference proxies. Stage~2 regresses $\hat{\theta}_{c+1}$ on $\hat{\theta}_c$ and the returns observed by cohort $c$. The two stages are \textit{not} independent:
+\begin{itemize}
+\item $\hat{\theta}_c$ is a generated regressor, so second-stage standard errors need correction (Murphy--Topel, or a joint GMM).
+\item $\hat{\theta}_c$ is identified only up to the APC trend, and a linear trend in $\hat{\theta}_c$ changes the autoregressive coefficient. So $\hat{\rho}$ and $\hat{\mu}$ inherit the APC restriction.
+\item With few cohorts and a lagged dependent variable, cohort fixed effects in Stage~2 create Nickell bias, which is why Step~2 uses lagged instruments.
+\item Measurement error in $\hat{\theta}_c$ attenuates $\hat{\rho}$ unless instrumented.
+\end{itemize}
 \end{intuition}
 
 
@@ -312,68 +380,70 @@ Migrants are not a random sample. If more entrepreneurial families emigrate, the
 
 \subsection{Threat 3: Direct Transmission vs.\ Network Transmission}
 
-The formation model says preferences are formed through $W^I$ (the network). The epidemiological design captures transmission through the family ($W^I_{\text{daughter, mother}}$). This may understate the full formation effect if peer networks and media ($W^I_{\text{daughter, peers}}$, $W^I_{\text{daughter, media}}$) also contribute.
+The formation model says preferences are formed through $W^I$ (the network). The epidemiological design captures transmission through the family: the daughter's weight on her mother in $W^I$. This may understate the full formation effect if the weights on peers and media in $W^I$ also contribute.
 
-\textbf{Response}: Supplement with designs that capture non-family $W^I$: geographic peer effects (Fogli-Veldkamp), randomized exposure (Bernard et al.), and media exposure variation (natural experiments from media deregulation).
+\textbf{Response}: Supplement with designs that capture non-family $W^I$: geographic peer effects (Fogli and Veldkamp), randomized exposure (Bernard et al.), and media exposure variation (natural experiments from media deregulation).
 
 
 \subsection{Threat 4: Gene-Culture Confounding}
 
-Preferences may be genetically transmitted rather than culturally transmitted. If patience is heritable, the parent-child correlation reflects genes, not $W^I$.
+Preferences may be partly genetically transmitted. If patience is heritable, the parent--child correlation reflects genes as well as $W^I$.
 
-\textbf{Response}: Adoption studies show substantial cultural transmission even absent genetic links (Sacerdote, 2007). Twin studies estimate the genetic component of preference parameters at 20--40\%, leaving 60--80\% for environmental/cultural channels (Cesarini et al., 2009). The formation model captures the 60--80\%.
+\textbf{Response}: Twin and adoption designs. Their message is sobering for family-transmission stories. Cesarini et al.\ (2009, \textit{QJE}) estimate that about 20\% of the variation in risk attitudes and giving in Swedish twins is genetic, with little role for the common family environment; most variation is individual-specific (including measurement error). Sacerdote (2007, \textit{QJE}) studies Korean-American adoptees randomly assigned to families. He finds that adoptive parents' education has effects on adoptees' education and income that are much smaller than the corresponding parent--child gradients for biological children, though family environment matters more for outcomes such as drinking and smoking. Together these results suggest that \textit{family} transmission is a modest part of formation; peers, schools, media and own experience --- the rest of $W^I$ --- would have to carry most of it.
 
-\begin{proposition}[Bounds on $\hat{\Psi}$ Under Identification Threats]\label{ch11:prop:bounds}
-Under plausible ranges for each threat, the bias-adjusted bounds on $\hat{\Psi}$ for female LFP are:
+\begin{proposition}[Sensitivity of the Variance Ratio \illustrative]\label{ch11:prop:bounds}
+Suppose each threat removes a stated share of the cohort-effect variance, with the year-effect variance unchanged. Starting from the illustrative $\hat{\Psi}_{\text{var}} = 2.08$ of Example~\ref{ch11:ex:psi_lfp}:
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
-& Lower bound & Upper bound \\
+& Lower & Upper \\
 \midrule
-Point estimate & \multicolumn{2}{c}{$\hat{\Psi} = 2.08$} \\
-Correlated shocks (10\% contamination) & 1.72 & 2.44 \\
-Selection (20\% of $\hat{\beta}$) & 1.60 & 2.08 \\
-Gene-culture (40\% genetic) & 1.25 & 2.08 \\
-All threats combined & 1.05 & 2.44 \\
+Point value & \multicolumn{2}{c}{$\hat{\Psi}_{\text{var}} = 2.08$} \\
+Correlated shocks ($\pm 10\%$ of cohort variance) & 1.87 & 2.29 \\
+Selection ($-20\%$) & 1.66 & 2.08 \\
+Gene--culture ($-40\%$) & 1.25 & 2.08 \\
+All three combined (multiplicative) & 0.90 & 2.29 \\
 \bottomrule
 \end{tabular}
 \end{center}
-Even under worst-case assumptions, $\hat{\Psi} > 1$: formation exceeds enforcement for female LFP.
+Under the combined worst case, $\hat{\Psi}_{\text{var}} < 1$. Whether cohort effects are more dispersed than year effects is \textit{not} robust to plausible threats, even before the APC restriction is varied.
 \end{proposition}
+
+\begin{proof}
+Each row multiplies the numerator by $(1 - s)$ for the stated share $s$; the combined row multiplies by $0.9 \times 0.8 \times 0.6$ (\texttt{code/ch11.py}).
+\end{proof}
+
+Selection and gene--culture confounding were defined for the epidemiological coefficient, not for the cohort--year decomposition. Applying them to $\hat{\Psi}_{\text{var}}$ assumes they contaminate the cohort effects in the same proportion. This is another reason to treat the table as a sensitivity exercise, not as bounds.
 
 
 %% =====================================================================
-\section{What $\hat{\Psi}$ Tells Us About Policy}
+\section{What $\Psi$ Would Tell Us About Policy}
 \label{ch11:sec:policy}
 %% =====================================================================
 
-\begin{proposition}[Policy Implications of $\hat{\Psi}$]\label{ch11:prop:policy}
+The policy content belongs to $\Psi$ itself, the causal ratio of Definition~\ref{ch09:def:psi} for a specific perturbation and horizon --- not to $\hat{\Psi}_{\text{var}}$.
+
+\begin{remark}[Reading $\Psi$ for Policy]\label{ch11:prop:policy}
+\leavevmode
 \begin{enumerate}
-\item \textbf{When $\hat{\Psi} < 0.5$}: Enforcement dominates. Standard policy tools (prices, subsidies, regulations) capture most of the effect. The standard model is adequate for policy evaluation. Example: risk-taking after financial crises.
-
-\item \textbf{When $0.5 \leq \hat{\Psi} \leq 1$}: Formation is substantial. Policy evaluations that ignore formation underestimate long-run effects by 30--50\%. The standard model gives the right sign but the wrong magnitude. Example: education in sub-Saharan Africa.
-
-\item \textbf{When $\hat{\Psi} > 1$}: Formation dominates. Standard policy evaluations miss the majority of the effect. Policies that change $W^I$ (information, aspiration, norms) are more effective than policies that change prices. The standard model is qualitatively wrong about which channel matters. Example: female LFP, self-employment norms.
-
-\item \textbf{When $\hat{\Psi} \gg 1$}: The formation channel is so strong that enforcement-only policies may be counterproductive: they change current behavior without changing the norms, leading to backlash or reversal when the enforcement is removed.
+\item \textbf{$\Psi < 0.5$}: enforcement dominates for that policy. Evaluations that hold preferences fixed miss less than a third of the effect (the share $\Psi/(1+\Psi)$).
+\item \textbf{$0.5 \leq \Psi \leq 1$}: formation is substantial. Ignoring it misses 33--50\% of the effect at the stated horizon.
+\item \textbf{$\Psi > 1$}: formation dominates for that policy. Evaluations that hold preferences fixed miss most of the effect.
+\item Claims that enforcement-only policies can \textit{backfire} (reversal after enforcement is removed) need a mechanism, such as reactance or norm backlash, that the formation model of Chapter~10 does not contain.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 \begin{keyinsight}
-The $\Psi$ ratio is not a theoretical curiosity. It is a practical diagnostic. Before designing any policy that aims to change behavior across generations --- female empowerment, financial inclusion, educational investment, entrepreneurship --- estimate $\hat{\Psi}$ for the target behavior in the target population. If $\hat{\Psi} > 1$: invest in changing $W^I$ (mentorship, media, role models, aspiration programs). If $\hat{\Psi} < 1$: invest in changing prices and constraints (subsidies, regulations, infrastructure).
+$\Psi$ is a diagnostic for \textit{one} intervention: it says how much of that intervention's effect comes through preferences, and how long it takes to arrive. It does \textit{not} by itself say whether to invest in information or in prices. That comparison needs the total effect per unit of cost of each intervention, which can differ even when their $\Psi$ ratios are equal. Measured honestly, the formation channel is often visible but rarely pinned down. The best evidence comes from designs that randomize $W^I$ directly, and those identify $\Psi$ for a specific change at a specific horizon.
 
-The standard model always recommends prices and constraints because it cannot see formation. The $\Psi$ ratio makes formation visible and measurable.
+Evaluations that hold preferences fixed cannot see formation at all. Estimating $\Psi$, however imprecisely, is what makes it visible.
 \end{keyinsight}
 
 
-\begin{prebisch}[Why structural adjustment failed]
-The Washington Consensus policies of the 1990s --- trade liberalization, privatization, deregulation --- were enforcement policies: they changed prices and constraints. The IMF's implicit assumption was $\Psi = 0$: change the prices, and behavior follows. Structural adjustment packages were designed entirely around enforcement levers.
+\begin{prebisch}[Structural adjustment and formation: a hypothesis]
+The Washington Consensus policies of the 1990s --- trade liberalization, privatization, deregulation --- worked mainly through enforcement levers: they changed prices and constraints, and their design largely took behavioral parameters as given.
 
-The policies ``worked'' in the enforcement channel: relative prices adjusted, trade volumes increased, some markets became more efficient. But they failed in the formation channel: the aspirations, norms, and risk attitudes of peripheral populations were formed under the pre-reform $W^I$, and $W^I$ did not change when tariffs fell. The policies assumed that market liberalization would automatically produce the ``rational economic agents'' who thrive in liberalized markets. It didn't, because $\Psi > 0$.
-
-Bolivia's structural adjustment (1985) liberalized prices but did not change $W^I$ --- the information networks through which Altiplano communities formed their economic aspirations and risk attitudes. Twenty years later, the ``rational response'' to liberalized prices had not occurred in the traditional sector, because the traditional sector's preferences were still formed under the old $W^I$.
-
-The $\Psi$ ratio explains why: for the behaviors targeted by structural adjustment, $\hat{\Psi}$ was likely in the range 1--2. The policies addressed the smaller channel and ignored the larger one.
+A formation reading suggests a \textit{hypothesis}, not a finding. Part of the gap between the expected and the realized supply response may reflect preferences and norms formed under the pre-reform $W^I$, which did not change when tariffs fell. Bolivia's 1985 programme, whose first task was to end hyperinflation, liberalized prices quickly. Whether behavior in the traditional sector responded slowly \textit{because} of formation, rather than because of missing markets, credit, or infrastructure, is an open empirical question. The tools of this chapter could address it only with a stated APC restriction, a measured $W^I$, or a design that varies information exposure.
 \end{prebisch}
 
 
@@ -383,17 +453,15 @@ The $\Psi$ ratio explains why: for the behaviors targeted by structural adjustme
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{identification problem}: $\theta$ is unobserved and correlated with prices. The \textbf{timescale solution}: enforcement varies within generations (year effects); formation varies across generations (cohort effects).
+\item The \textbf{identification problem}: $\theta$ is unobserved and correlated with prices, so regressions on prices alone suffer omitted-preference bias. The timescale idea (enforcement in year effects, formation in cohort effects) fails in both directions and requires an explicit age--period--cohort restriction. On a simple table, observationally equivalent restrictions move the variance ratio from 0.03 to 507.
 
-\item The \textbf{epidemiological approach} uses migrants to isolate the formation channel: second-generation immigrants carry parents' cultural norms while facing the host country's prices. Origin-country variation identifies the formation effect.
+\item The \textbf{cohort--year variance ratio} $\hat{\Psi}_{\text{var}}$ is a descriptive statistic, not the $\Psi$ of Chapter~9. It maps to $|\Psi|^2$ only under strong conditions (correct APC restriction, clean assignment of effects, a single driving index). $\hat{\Psi}_{\text{var}} > 0$ is automatic, so a test of no cohort effects is needed.
 
-\item \textbf{Five applications} yield $\hat{\Psi}$ ranging from 0.5 (risk-taking) to 2.1 (female LFP). In three of five, $\hat{\Psi} > 1$: the formation channel dominates enforcement. In all five, $\hat{\Psi} > 0$: the standard model ($\Psi = 0$) is rejected.
+\item The \textbf{epidemiological coefficient} equals $\rho\lambda$: persistence times the reliability of origin-country behavior as a proxy for origin culture. The ratio of third- to second-generation coefficients identifies $\rho$. Bad controls bias it toward zero, and it identifies culture broadly, not tastes.
 
-\item \textbf{Structural parameters}: $\rho$ (persistence) is identified from intergenerational correlations; $\mu$ (formation sensitivity) from cross-cohort gradients; $\bar{\theta}_0$ (anchor) from long-run levels. Two-stage GMM exploits the timescale separation.
+\item \textbf{Bringing $W^I$ back} raises the reflection problem (Manski), network identification conditions (Bramoull\'{e}--Djebbari--Fortin: uniform block-diagonal $W^I$ fails them), homophily, and the problem of measuring $W^I$ itself. Experiments that randomize $W^I$ identify $\Psi$ for a specific change.
 
-\item \textbf{Threats} (correlated shocks, selection, gene-culture confounding) are addressed by multiple designs. Under worst-case assumptions, $\hat{\Psi} > 1$ for female LFP.
-
-\item \textbf{Policy diagnostic}: estimate $\hat{\Psi}$ before designing intergenerational policies. If $\hat{\Psi} > 1$: invest in $W^I$ (norms, aspirations, information). If $\hat{\Psi} < 1$: invest in prices and constraints.
+\item \textbf{Structural parameters and robustness}: parent--child correlations confound $\rho$ with the preference share of variance; multigenerational correlations separate them. Two-step GMM needs lagged instruments, generated-regressor corrections, and generation-spaced cohorts. Under plausible threats, the illustrative $\hat{\Psi}_{\text{var}} = 2.08$ can fall below 1, and policy conclusions should rest on $\Psi$ for a specific intervention.
 \end{enumerate}
 
 
@@ -419,55 +487,57 @@ Born 1960s & 0.60 & 0.66 & 0.72 \\
 \begin{enumerate}
 \item Estimate year effects $\hat{\alpha}_t$ (average across cohorts for each year).
 \item Estimate cohort effects $\hat{\delta}_c$ (average across years for each cohort, minus grand mean).
-\item Compute $\hat{\Psi} = \Var(\hat{\delta}_c) / \Var(\hat{\alpha}_t)$.
+\item Compute $\hat{\Psi}_{\text{var}} = \Var(\hat{\delta}_c) / \Var(\hat{\alpha}_t)$.
 \item Which is larger: the cohort effect or the year effect?
+\item Compute each cohort's age in each year. Add the linear trend $k$ per decade to the cohort effects, subtract it from the year effects, and add it to an age effect (Proposition~\ref{ch11:prop:apc}). Verify that the fitted values do not change, and recompute $\hat{\Psi}_{\text{var}}$ for $k = -0.10, -0.05, 0.05$. What does your answer to (d) depend on?
 \end{enumerate}
 
 \item \textbf{Epidemiological design.} A researcher has data on second-generation immigrant women in Argentina from 10 origin countries. Origin-country female LFP ranges from 0.20 (origin A) to 0.75 (origin J). All women face the same Argentine labor market.
 \begin{enumerate}
 \item Write the epidemiological regression.
 \item The estimated $\hat{\beta} = 0.35$. Interpret.
-\item The residual variance (unexplained by origin) is $\sigma^2 = 0.04$. Compute the formation share of explained variance.
+\item The residual variance (unexplained by origin) is $\sigma^2 = 0.04$. Assuming the ten origin rates are evenly spaced, compute the share of the variance of daughters' LFP that is explained by origin. Why is this not $\Psi$?
 \item Under what conditions does selection bias inflate $\hat{\beta}$?
 \end{enumerate}
 
-\item \textbf{Estimating $\rho$ from adoption data.} Sacerdote (2007) found that adoptees' educational attainment is predicted by adoptive parents' education ($\hat{\beta}_{\text{adoptive}} = 0.25$) and not by biological parents' education ($\hat{\beta}_{\text{bio}} = 0.04$, not significant).
+\item \textbf{What adoption designs can and cannot tell you.} Sacerdote (2007) studies Korean-American adoptees who were assigned to families quasi-randomly, and compares them with the families' biological children. Suppose (illustratively) that the gradient of children's years of schooling in the mother's years of schooling is $0.10$ for adoptees and $0.30$ for biological children in the same families.
 \begin{enumerate}
-\item What does $\hat{\beta}_{\text{bio}} \approx 0$ tell you about the genetic component of education preferences?
-\item What does $\hat{\beta}_{\text{adoptive}} = 0.25$ tell you about $\rho$?
-\item Compute the implied $\Psi$ for education, assuming the enforcement channel (prices) explains 50\% of variance.
+\item Why can this design \textit{not} estimate the effect of the adoptees' biological parents?
+\item Under an additive model (gradient = environment + genes), what share of the biological-child gradient is attributable to family environment?
+\item If $\theta$ (here: taste for schooling) were transmitted only through the family environment, what would the adoptee gradient say about $\rho$? What additional assumption about the mapping from $\theta$ to schooling do you need?
+\item Cesarini et al.\ (2009) find little role for the common family environment in risk attitudes. Is that consistent with a large formation effect through \textit{non-family} $W^I$? What design would test it?
 \end{enumerate}
 
-\item \textbf{Bolivia's self-employment $\Psi$.} Using Bolivia's EH data:
+\item \textbf{Bolivia's self-employment variance ratio.} Using Bolivia's \textit{Encuesta de Hogares} (INE, microdata 2000--2019):
 \begin{enumerate}
 \item Construct cohort-year cells (5-year cohorts $\times$ survey years 2000--2019).
 \item Estimate year effects (labor market conditions) and cohort effects (norm persistence) for self-employment rates.
-\item Compute $\hat{\Psi}$.
-\item Compare $\hat{\Psi}$ for La Paz vs.\ rural Altiplano. Is formation stronger where $W^I$ is more block-diagonal?
+\item State your APC restriction and compute $\hat{\Psi}_{\text{var}}$. Then show how it changes under an alternative restriction.
+\item Compare $\hat{\Psi}_{\text{var}}$ for La Paz vs.\ rural Altiplano. Can this comparison tell you whether formation is stronger where $W^I$ is more block-diagonal? What else would you need?
 \end{enumerate}
 
-\item \textbf{The WWII natural experiment.} US female LFP jumped from $\sim$28\% in 1940 to $\sim$36\% in 1945 (mobilization). Post-war, it did not return to 28\% --- it settled at $\sim$33\% by 1950 and continued rising.
+\item \textbf{The WWII natural experiment.} Take as approximate, illustrative figures that US female LFP rose from $\sim$28\% in 1940 to $\sim$36\% in 1945 (mobilization), and that after the war it did not return to 28\% but settled at $\sim$33\% by 1950 and continued rising. (Check the figures against BLS and Census series before using them.)
 \begin{enumerate}
 \item Decompose the 1940--1950 change into enforcement (wartime labor demand, then demobilization) and formation (daughters of wartime workers formed different norms).
 \item The enforcement effect should reverse after 1945. Does it? By how much?
 \item The formation effect should persist. Does it? Through which cohorts?
-\item Estimate $\hat{\Psi}$ for the 1940--1960 period. Compare with the 1960--2000 period.
+\item Which perturbation, outcome and horizon would define a $\Psi$ here (Definition~\ref{ch09:def:psi})? Compare the war (temporary) with a permanent change in $W^I$.
 \end{enumerate}
 
-\item \textbf{Sensitivity analysis.} Using the female LFP estimates $(\hat{\rho} = 0.62, \hat{\mu} = 0.18)$:
+\item \textbf{Sensitivity analysis.} Use the one-loop model of Chapter~10 (Proposition~\ref{ch10:prop:psi_lq}), $\Psi(\infty) = \mu\beta\eta/(1 - \rho - \mu\beta\eta)$, with the illustrative values $\hat{\rho} = 0.62$, $\hat{\mu} = 0.18$ and $\beta\eta = 0.5$:
 \begin{enumerate}
-\item Compute $\hat{\Psi}$ under $\rho = 0.50, 0.62, 0.75, 0.90$. Plot $\Psi(\rho)$.
-\item Compute $\hat{\Psi}$ under $\mu = 0.10, 0.18, 0.30, 0.50$. Plot $\Psi(\mu)$.
-\item Which parameter does $\Psi$ depend on more sensitively?
-\item At what $\rho$ does $\Psi$ diverge? (This is the stability boundary from Chapter~10.) What does this mean empirically?
+\item Compute $\Psi(\infty)$ under $\rho = 0.50, 0.62, 0.75, 0.90$. Plot $\Psi(\rho)$.
+\item Compute $\Psi(\infty)$ under $\mu = 0.10, 0.18, 0.30, 0.50$ at $\rho = 0.62$. Which value makes the steady state unstable?
+\item Which parameter does $\Psi$ depend on more sensitively near the values given?
+\item At what $\rho$ does $\Psi(\infty)$ diverge? (This is the stability boundary from Chapter~10.) Show that $\Psi(T) \le \mu\beta\eta\,T$ at every finite horizon. What does this mean empirically?
 \end{enumerate}
 
 \item \textbf{Designing an aspiration intervention.} You are designing a program to raise female labor force participation in a Bolivian community where current LFP is 25\% and the target is 50\%.
 \begin{enumerate}
-\item Using $\hat{\Psi} = 2.1$: if you invest entirely in enforcement (childcare subsidies, wage top-ups), how much LFP increase can you expect?
+\item Suppose $\Psi(\infty) = 2.1$ for a childcare subsidy. If you invest entirely in enforcement (childcare subsidies, wage top-ups), how much LFP increase can you expect?
 \item If you invest entirely in formation (mentor programs, media campaigns, aspiration workshops): how much?
-\item What is the optimal split of a fixed budget between enforcement and formation? (Hint: marginal returns depend on $\Psi$ and the cost ratio.)
-\item If $\rho = 0.62$: how many generations until the full formation effect is realized?
+\item What is the optimal split of a fixed budget between enforcement and formation? (Hint: $\Psi$ alone does not answer this; you need the total effect per unit of cost of each instrument.)
+\item If the formation loop converges at rate $\lambda = 0.62$ per generation, how many generations until 90\% of the long-run formation effect is realized?
 \end{enumerate}
 \end{enumerate}
 
@@ -487,14 +557,17 @@ Born 1960s & 0.60 & 0.66 & 0.72 \\
 \begin{equation}
 x_{i,c,t} = \alpha + \sum_{t'} \alpha_{t'} \mathbf{1}[t = t'] + \sum_{c'} \delta_{c'} \mathbf{1}[c = c'] + \beta Z_{i,t} + \varepsilon_{i,c,t},
 \end{equation}
-where $\alpha_{t'}$ are year fixed effects and $\delta_{c'}$ are cohort fixed effects. (Age effects are collinear; the standard identification assumption drops one of the three --- see Deaton, 1997.)
+where $\alpha_{t'}$ are year fixed effects and $\delta_{c'}$ are cohort fixed effects. Age effects can be added, but age $=$ year $-$ cohort is a linear identity. With all three sets of effects, one linear restriction is needed, not the deletion of one set. Deaton (1997, \S2.7) uses year effects orthogonal to a trend and summing to zero (see Proposition~\ref{ch11:prop:apc}).
 
-\paragraph{Identifying $\Psi$.} The enforcement component is $E = \Var(\sum_{t'} \hat{\alpha}_{t'} + \hat{\beta}Z)$: the variance explained by time-varying factors. The formation component is $F = \Var(\sum_{c'}\hat{\delta}_{c'})$: the variance explained by cohort membership alone. $\hat{\Psi} = F/E$.
+\paragraph{The variance ratio.} The year component is $E_{\text{var}} = \Var(\hat{\alpha}_t + \hat{\beta}Z)$: the variance explained by time-varying factors. The cohort component is $F_{\text{var}} = \Var(\hat{\delta}_c)$: the variance explained by cohort membership. $\hat{\Psi}_{\text{var}} = F_{\text{var}}/E_{\text{var}}$ is the statistic of Definition~\ref{ch11:thm:cohort_year}, not the $\Psi$ of Chapter~9.
 
-\paragraph{Standard errors.} $\hat{\Psi}$ is a ratio of variance components. Its standard error can be computed by the delta method:
+\paragraph{Bias and testing.} $\E[\Var(\hat{\delta}_c)] = \Var(\delta_c) + \overline{\Var}(\hat{\delta}_c - \delta_c)$, so the raw variance overstates dispersion. Subtract the average sampling variance of the estimated effects. Test $H_0: \delta_c = 0\ \forall c$ with an $F$-test rather than by checking $\hat{\Psi}_{\text{var}} > 0$.
+
+\paragraph{Standard errors.} The delta method gives
 \begin{equation}
-\text{SE}(\hat{\Psi}) \approx \hat{\Psi} \sqrt{\frac{\text{SE}^2(\hat{F})}{\hat{F}^2} + \frac{\text{SE}^2(\hat{E})}{\hat{E}^2} - 2\frac{\widehat{\Cov}(\hat{F}, \hat{E})}{\hat{F}\hat{E}}}.
+\text{SE}(\hat{\Psi}_{\text{var}}) \approx \hat{\Psi}_{\text{var}} \sqrt{\frac{\text{SE}^2(\hat{F}_{\text{var}})}{\hat{F}_{\text{var}}^2} + \frac{\text{SE}^2(\hat{E}_{\text{var}})}{\hat{E}_{\text{var}}^2} - 2\frac{\widehat{\Cov}(\hat{F}_{\text{var}}, \hat{E}_{\text{var}})}{\hat{F}_{\text{var}}\hat{E}_{\text{var}}}}.
 \end{equation}
+It is unreliable when the denominator is close to zero or the variance components are near their boundary. A cluster bootstrap over cohorts and years is preferable. In every case the standard error is conditional on the APC restriction.
 
 
 \subsection*{Appendix 11B: The Epidemiological Estimator}
@@ -507,15 +580,11 @@ x_{i,o,h,t} = \alpha_h + \alpha_t + \beta \cdot \bar{x}_{o,t_0} + \gamma Z_{i,h,
 \end{equation}
 where $\bar{x}_{o,t_0}$ is the average behavior in origin country $o$ at the time of parental emigration.
 
-\paragraph{Identification.} $\hat{\beta}$ is identified under: (1) $\text{Cov}(\bar{x}_{o,t_0}, \varepsilon_{i,o,h,t} | Z, \alpha_h, \alpha_t) = 0$ (origin-country norms uncorrelated with host-country unobservables), (2) no direct effect of origin-country conditions on the child except through preferences.
+\paragraph{Identification.} $\hat{\beta}$ is identified under: (1) $\text{Cov}(\bar{x}_{o,t_0}, \varepsilon_{i,o,h,t} | Z, \alpha_h, \alpha_t) = 0$ (origin-country norms uncorrelated with host-country unobservables), (2) no direct effect of origin-country conditions on the child except through the transmitted cultural component, and (3) controls $Z$ that are not themselves outcomes of culture (no bad controls).
 
-\paragraph{Connection to $\rho$.} Under the formation equation, $\hat{\beta} \approx \rho^{g}$ where $g$ is the number of generations since emigration. For second-generation: $\hat{\beta} \approx \rho$. For third-generation: $\hat{\beta} \approx \rho^2$. The attenuation across generations identifies $\rho$ directly.
+\paragraph{Connection to $\rho$.} By Proposition~\ref{ch11:thm:epi_id}, for a person whose family emigrated $g$ generations ago ($g = 1$ for the second generation), $\beta_g = \rho^{g}\lambda$, where $\lambda \le 1$ is the reliability of $\bar{x}_o$ as a proxy for origin culture. The level of $\hat{\beta}$ confounds $\rho$ and $\lambda$. The \textit{ratio} of successive generations' coefficients identifies $\rho$ when $\lambda$ is common to both.
 
-\paragraph{From $\hat{\beta}$ to $\hat{\Psi}$.} The origin-country coefficient $\hat{\beta}$ captures the formation channel. The host-country coefficient $\hat{\gamma}$ captures the enforcement channel. The ratio:
-\begin{equation}
-\hat{\Psi}_{\text{epi}} = \frac{\hat{\beta}^2 \Var(\bar{x}_o)}{\hat{\gamma}^2 \Var(Z_h)},
-\end{equation}
-where the numerator is the variance explained by origin (formation) and the denominator is the variance explained by host-country conditions (enforcement).
+\paragraph{An $R^2$ ratio is not $\Psi$.} One can compare the variance explained by origin, $\hat{\beta}^2\Var(\bar{x}_o)$, with the variance explained by host-country conditions, $\hat{\gamma}^2\Var(Z_h)$. This is another descriptive statistic, not $\Psi$. With a single host country, $\Var(Z_h)$ reflects individual covariates rather than prices, and the ratio is not interpretable as formation relative to enforcement.
 
 
 %% =====================================================================
@@ -523,9 +592,11 @@ where the numerator is the variance explained by origin (formation) and the deno
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{The epidemiological approach:} Fern\'{a}ndez (2011), ``Does Culture Matter?'' in Benhabib, Bisin, and Jackson (eds.), \textit{Handbook of Social Economics}. Fern\'{a}ndez (2013), ``Cultural Change as Learning,'' \textit{JPE}. Fern\'{a}ndez and Fogli (2009), ``Culture: An Empirical Investigation of Beliefs, Work, and Fertility,'' \textit{AEJ: Macroeconomics}.
+\textbf{The epidemiological approach:} Fern\'{a}ndez (2011), ``Does Culture Matter?'' in Benhabib, Bisin, and Jackson (eds.), \textit{Handbook of Social Economics}. Fern\'{a}ndez (2013), ``Cultural Change as Learning,'' \textit{AER}. Fern\'{a}ndez and Fogli (2009), ``Culture: An Empirical Investigation of Beliefs, Work, and Fertility,'' \textit{AEJ: Macroeconomics}. Fern\'{a}ndez (2007), ``Women, Work, and Culture,'' \textit{JEEA}. Carroll, Rhee and Rhee (1994), ``Are There Cultural Effects on Saving? Some Cross-Sectional Evidence,'' \textit{QJE}.
 
-\textbf{Cohort-year decomposition:} Deaton (1997), \textit{The Analysis of Household Surveys}, Chapter~2 (on age-period-cohort models). Fogli and Veldkamp (2011), ``Nature or Nurture?'' \textit{Econometrica}.
+\textbf{Age--period--cohort identification:} Deaton (1997), \textit{The Analysis of Household Surveys}, Chapter~2. Hall (1971); Heckman and Robb (1985); Deaton and Paxson (1994); McKenzie (2006); Fosse and Winship (2019, \textit{Annual Review of Sociology}). Goldin and Katz (2002), ``The Power of the Pill,'' \textit{JPE}; Bailey (2006), \textit{QJE}, on cohort-specific enforcement.
+
+\textbf{Social interactions and networks:} Manski (1993), ``Identification of Endogenous Social Effects: The Reflection Problem,'' \textit{REStud}. Bramoull\'{e}, Djebbari and Fortin (2009), ``Identification of Peer Effects through Social Networks,'' \textit{J.\ Econometrics}. Lee (2007), \textit{J.\ Econometrics}. Blume, Brock, Durlauf and Ioannides (2011), in \textit{Handbook of Social Economics}. Goldsmith-Pinkham and Imbens (2013), \textit{JBES}. Breza, Chandrasekhar, McCormick and Pan (2020), \textit{AER}. Bursztyn, Ederer, Ferman and Yuchtman (2014), \textit{Econometrica}. Fogli and Veldkamp (2011), ``Nature or Nurture?'' \textit{Econometrica}.
 
 \textbf{Formation experiments:} Bernard et al.\ (2014), ``The Future in Mind,'' CSAE Working Paper. Beaman et al.\ (2012), ``Female Leadership Raises Aspirations and Educational Attainment for Girls,'' \textit{Science}.
 
@@ -533,6 +604,7 @@ where the numerator is the variance explained by origin (formation) and the deno
 
 \textbf{Gene-culture interaction:} Cesarini et al.\ (2009), ``Genetic Variation in Preferences for Giving and Risk Taking,'' \textit{QJE}. Sacerdote (2007), ``How Large Are the Effects from Changes in Family Environment?'' \textit{QJE}.
 
-\textbf{Structural adjustment:} Williamson (1990), ``What Washington Means by Policy Reform.'' Rodrik (2006), ``Goodbye Washington Consensus, Hello Washington Confusion,'' \textit{JEL}. For Bolivia: Morales and Sachs (1990), ``Bolivia's Economic Crisis,'' in Sachs (ed.), \textit{Developing Country Debt and the World Economy}.
+\textbf{Structural adjustment:} Williamson (1990), ``What Washington Means by Policy Reform.'' Rodrik (2006), ``Goodbye Washington Consensus, Hello Washington Confusion,'' \textit{JEL}. For Bolivia: Morales and Sachs, ``Bolivia's Economic Crisis,'' in Sachs (ed.), \textit{Developing Country Debt and Economic Performance}, vol.~2 (NBER).
+% TODO-VERIFY: volume and year of the Morales & Sachs chapter (NBER volume, c. 1989-90).
 
 \end{document}

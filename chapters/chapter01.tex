@@ -5,13 +5,13 @@
 \chaptersubtitle{The Standard Model, Rewritten So the Structure Becomes Visible}
 \begin{quote}
 \textit{``La realidad est\'{a} destruyendo en la Am\'{e}rica Latina aquel pret\'{e}rito esquema de la divisi\'{o}n internacional del trabajo que, despu\'{e}s de haber adquirido gran vigor en el siglo XIX, segu\'{i}a prevaleciendo doctrinariamente hasta muy avanzado el presente.''}\\[0.3em]
-\textnormal{[``Reality is destroying in Latin America that outdated scheme of the international division of labor.'']}\\
+\textnormal{[``Reality is destroying in Latin America that outdated scheme of the international division of labor which, after acquiring great vigor in the nineteenth century, continued to prevail doctrinally until well into the present.'']}\\
 \hfill --- Ra\'{u}l Prebisch, \textit{El desarrollo econ\'{o}mico de la Am\'{e}rica Latina} (1949)
 \end{quote}
 
 \begin{quote}
 \textit{``The purpose of abstracting is not to be vague, but to create a new semantic level in which one can be absolutely precise.''}\\
-\hfill --- Edsger W.\ Dijkstra
+\hfill --- Edsger W.\ Dijkstra, \textit{The Humble Programmer} (1972)
 \end{quote}
 
 \vspace{1em}
@@ -20,7 +20,7 @@ This chapter does one thing: it rewrites the economics you already know in a not
 
 Every result here is standard. If you have taken intermediate microeconomics, you know the consumer's problem, the producer's problem, and the idea of market equilibrium. If you have taken a first course in linear algebra, you know what a matrix is and how to multiply them. This chapter puts the two together.
 
-The payoff comes at the end. In Section~\ref{ch01:sec:implicit_W}, we will name an object that is present in every microeconomics textbook but that no microeconomics textbook names: the \textit{interaction matrix} --- the mathematical description of how agents in the economy relate to each other. The standard competitive model assumes a very specific interaction matrix, and that assumption is what makes the welfare theorems work. Structural economics is what happens when you replace that matrix with the one the world actually has.
+The payoff comes at the end. In Section~\ref{ch01:sec:implicit_W}, we will name an object that is present in every microeconomics textbook but that no microeconomics textbook names: the \textit{interaction matrix} --- the mathematical description of how agents in the economy relate to each other. The standard competitive model implies a very specific interaction matrix: anonymous, rank one, with each agent weighted by her wealth share. Structural economics is what happens when you replace that matrix with the one the world actually has --- non-anonymous, with utility interdependence, and with a distribution of power that the network itself produces.
 
 But first, the standard model.
 
@@ -212,21 +212,21 @@ U_i(x_i) = x_i - \frac{\kappa}{2}x_i^2, \qquad \kappa > 0.
 This utility function is concave: the first unit is worth approximately 1, each additional unit is worth less, and the marginal utility hits zero at $x_i = 1/\kappa$. The parameter $\kappa$ controls how fast the returns diminish. Think of it as how quickly a person gets ``full.''
 
 \begin{example}[Three People, One Good]\label{ch01:ex:one_good}
-Let $N = 3$, $\kappa = 1$, $\Omega = 3$. Endowments: $\omega_1 = 2$, $\omega_2 = 0.5$, $\omega_3 = 0.5$.
+Let $N = 3$, $\kappa = 0.5$, $\Omega = 3$. Endowments: $\omega_1 = 1.8$, $\omega_2 = 0.6$, $\omega_3 = 0.6$. Satiation is at $1/\kappa = 2$, so every allocation considered below satisfies $\kappa x_i < 1$: more is always better.
 
-Person 1 is rich (starts with 2 out of 3). Persons 2 and 3 are poor (start with 0.5 each).
+Person 1 is rich (starts with 1.8 out of 3). Persons 2 and 3 are poor (start with 0.6 each).
 
-\textbf{What is the best possible allocation?} A utilitarian planner maximizes total welfare $\sum_i U_i(x_i)$ subject to $\sum_i x_i = 3$. The first-order conditions require equal marginal utility: $1 - x_i = 1 - x_j$, so $x_i = x_j$ for all $i, j$. Equal division: $x_i^{FB} = 1$ for all $i$.
+\textbf{What is the best possible allocation?} A utilitarian planner maximizes total welfare $\sum_i U_i(x_i)$ subject to $\sum_i x_i = 3$. The first-order conditions require equal marginal utility: $1 - \kappa x_i = 1 - \kappa x_j$, so $x_i = x_j$ for all $i, j$. Equal division: $x_i^{FB} = 1$ for all $i$.
 
-Total welfare at the first-best: $W^{FB} = 3 \times (1 - 0.5) = 1.5$.
+Total welfare at the first-best: $\mathcal{W}^{FB} = 3 \times (1 - 0.25) = 2.25$.
 
-\textbf{What happens without a planner?} With one good and no trade mechanism, each person consumes their endowment: $x_1 = 2$, $x_2 = x_3 = 0.5$.
+\textbf{What happens without a planner?} With one good there is nothing to trade, so each person consumes her endowment: $x_1 = 1.8$, $x_2 = x_3 = 0.6$.
 
-Welfare: $W^{CE} = (2 - 2) + (0.5 - 0.125) + (0.5 - 0.125) = 0 + 0.375 + 0.375 = 0.75$.
+Welfare: $\mathcal{W}^{0} = (1.8 - 0.81) + 2(0.6 - 0.09) = 0.99 + 1.02 = 2.01$.
 
-Person 1 is actually at zero utility! She has so much that the quadratic term wipes out all benefit (at $x = 2$ with $\kappa = 1$: $U = 2 - 2 = 0$). Meanwhile, persons 2 and 3 are at $U = 0.375$ each. The ``rich'' person is worse off than the poor ones --- the allocation is absurdly inefficient.
+The rich person's last units are worth little: her marginal utility is $1 - 0.5 \times 1.8 = 0.1$, while each poor person's is $1 - 0.5 \times 0.6 = 0.7$. Moving a unit from person 1 to person 2 would raise total utility by roughly $0.6$.
 
-\textbf{The welfare loss:} $L = W^{FB} - W^{CE} = 1.5 - 0.75 = 0.75$. Fully half the potential welfare is destroyed by the unequal starting point.
+\textbf{The welfare loss:} $L = \mathcal{W}^{FB} - \mathcal{W}^{0} = 2.25 - 2.01 = 0.24$, about 11\% of first-best welfare. This is a \textit{utilitarian} (distributional) loss: the endowment allocation is Pareto efficient, since any reallocation makes someone worse off.
 \end{example}
 
 \begin{proposition}[Welfare Loss from Inequality]\label{ch01:prop:welfare_loss}
@@ -244,27 +244,27 @@ This is the simplest possible welfare cost of inequality. In the structural mode
 \end{intuition}
 
 \begin{proof}
-First-best welfare: $W^{FB} = N \cdot U(\Omega/N) = N[\Omega/N - \frac{\kappa}{2}(\Omega/N)^2] = \Omega - \frac{\kappa\Omega^2}{2N}$.
+First-best welfare: $\mathcal{W}^{FB} = N \cdot U(\Omega/N) = N[\Omega/N - \frac{\kappa}{2}(\Omega/N)^2] = \Omega - \frac{\kappa\Omega^2}{2N}$.
 
-Endowment welfare: $W^{CE} = \sum_i U_i(\omega_i) = \sum_i[\omega_i - \frac{\kappa}{2}\omega_i^2] = \Omega - \frac{\kappa}{2}\sum_i\omega_i^2$.
+Endowment welfare: $\mathcal{W}^{0} = \sum_i U_i(\omega_i) = \sum_i[\omega_i - \frac{\kappa}{2}\omega_i^2] = \Omega - \frac{\kappa}{2}\sum_i\omega_i^2$.
 
 The difference:
 \begin{equation}
-L = W^{FB} - W^{CE} = \frac{\kappa}{2}\left(\sum_i \omega_i^2 - \frac{\Omega^2}{N}\right) = \frac{\kappa}{2} \cdot N \cdot \text{Var}(\omega_i).
+L = \mathcal{W}^{FB} - \mathcal{W}^{0} = \frac{\kappa}{2}\left(\sum_i \omega_i^2 - \frac{\Omega^2}{N}\right) = \frac{\kappa}{2} \cdot N \cdot \text{Var}(\omega_i).
 \end{equation}
 The last step uses the identity $\sum_i \omega_i^2 - \Omega^2/N = N \cdot \text{Var}(\omega_i)$.
 \end{proof}
 
 \begin{example}[Verifying the Formula]
-In Example~\ref{ch01:ex:one_good}: $\text{Var}(\omega) = \frac{1}{3}(4 + 0.25 + 0.25) - 1^2 = 1.5 - 1 = 0.5$. So $L = \frac{1 \cdot 3}{2} \cdot 0.5 = 0.75$. Matches.
+In Example~\ref{ch01:ex:one_good}: $\text{Var}(\omega) = \frac{1}{3}(3.24 + 0.36 + 0.36) - 1^2 = 1.32 - 1 = 0.32$. So $L = \frac{0.5 \cdot 3}{2} \cdot 0.32 = 0.24$. Matches.
 \end{example}
 
 
 \subsection{Bargaining: When Power Enters}
 
-Now suppose the three agents can negotiate how to split $\Omega$, but they have unequal bargaining power. Agent 1 is a powerful landowner. Agents 2 and 3 are laborers with no outside options.
+In a one-good exchange economy there is nothing to bargain over: the endowment allocation is already Pareto efficient. Bargaining needs a \textit{surplus}. So change the story. Agent 1 is a landowner; agents 2 and 3 are laborers. Working together they produce a harvest of $\Omega$; if they fail to agree, each falls back on a disagreement payoff $d_i$ (what the landowner can grow alone, what the laborers earn elsewhere), with $\sum_i d_i < \Omega$. The joint surplus $\Omega - \sum_i d_i$ is what bargaining power divides. Payoffs are in units of the good, so utility is transferable for the purpose of bargaining; we use the concave $U$ in~\eqref{ch01:eq:LQ} only to \textit{evaluate} welfare.
 
-We model this through the \textbf{generalized Nash bargaining solution}: the allocation maximizes a weighted product of gains from trade.
+We model the division through the \textbf{generalized (asymmetric) Nash bargaining solution}: the allocation maximizes a weighted product of gains over disagreement.
 
 \begin{definition}[Bargaining Power]\label{ch01:def:bargaining_power}
 The \textbf{bargaining weight vector} is $\boldsymbol{\lambda} = (\lambda_1, \ldots, \lambda_N)'$ with $\lambda_i > 0$ and $\sum_i \lambda_i = 1$. Agent $i$'s weight $\lambda_i$ represents her share of total bargaining power.
@@ -273,52 +273,55 @@ The \textbf{bargaining weight vector} is $\boldsymbol{\lambda} = (\lambda_1, \ld
 \begin{definition}[Nash Bargaining Solution]\label{ch01:def:nash}
 The \textbf{Nash bargaining allocation} maximizes:
 \begin{equation}\label{ch01:eq:nash}
-\max_{\x \geq 0} \sum_{i=1}^N \lambda_i \ln\bigl(U_i(x_i) - U_i(\omega_i)\bigr) \quad \text{subject to} \quad \sum_i x_i = \Omega,
+\max_{\x} \sum_{i=1}^N \lambda_i \ln\bigl(x_i - d_i\bigr) \quad \text{subject to} \quad \sum_i x_i = \Omega, \quad x_i > d_i,
 \end{equation}
-where $U_i(\omega_i)$ is agent $i$'s \textbf{disagreement utility} --- what she gets if bargaining fails and she keeps her endowment.
+where $d_i$ is agent $i$'s \textbf{disagreement payoff} --- what she gets if bargaining fails.
 \end{definition}
+
+\begin{proposition}[Nash Division of the Surplus]\label{ch01:prop:nash_division}
+The solution of~\eqref{ch01:eq:nash} is
+\begin{equation}\label{ch01:eq:nash_division}
+x_i = d_i + \lambda_i\Bigl(\Omega - \sum_{j} d_j\Bigr).
+\end{equation}
+Every agent receives her disagreement payoff plus a share $\lambda_i$ of the joint surplus. The allocation is Pareto efficient for every $\boldsymbol{\lambda}$.
+\end{proposition}
+
+\begin{proof}
+The objective is strictly concave on $\{x_i > d_i\}$. The first-order condition is $\lambda_i/(x_i - d_i) = \mu$, so $x_i - d_i = \lambda_i/\mu$. Summing over $i$ and using $\sum_i\lambda_i = 1$ gives $1/\mu = \Omega - \sum_j d_j$. Efficiency: the whole harvest is allocated, and with $\kappa x_i < 1$ every agent's utility is increasing, so no reallocation can raise one agent's utility without lowering another's.
+\end{proof}
 
 \begin{intuition}[What bargaining power does]
 The weight $\lambda_i$ acts like a ``voting share'' in the allocation decision. An agent with high $\lambda_i$ pulls the allocation toward her preferred outcome. In the extreme, if $\lambda_1 = 1$ and all others are zero, agent 1 gets everything she wants (subject to feasibility). If $\lambda_i = 1/N$ for all $i$, bargaining is symmetric and the allocation is ``fair'' in a specific sense.
 
-The critical question for this book: where does $\boldsymbol{\lambda}$ come from? In the standard model, it is assumed (usually implicitly as $\lambda_i = 1/N$). In the structural model, $\boldsymbol{\lambda}$ is determined by the weight matrix $W$: your power comes from your position in the network of economic relationships. This is the subject of Chapters 5--7.
+The critical question for this book: where does $\boldsymbol{\lambda}$ come from? The symmetric Nash solution sets $\lambda_i = 1/N$; competitive markets involve no bargaining at all. In this book we will \textit{postulate} that $\boldsymbol{\lambda}$ equals the Perron vector $\boldsymbol{\pi}$ of a weight matrix $W$, so that bargaining power comes from position in the network of economic relationships. That is a modelling assumption, not a theorem (Section~\ref{ch01:sec:conventions}); Chapters 5--7 develop it.
 \end{intuition}
 
 \begin{example}[Bargaining with Asymmetric Power]\label{ch01:ex:bargaining}
-Same setup as Example~\ref{ch01:ex:one_good}: $N = 3$, $\kappa = 1$, $\Omega = 3$, $\boldsymbol{\omega} = (2, 0.5, 0.5)$. But now let $\boldsymbol{\lambda} = (0.6, 0.2, 0.2)$ --- agent 1 has three times the bargaining power of each other agent.
+Same preferences as Example~\ref{ch01:ex:one_good} ($N = 3$, $\kappa = 0.5$). Cooperation produces a harvest $\Omega = 3$; disagreement payoffs are $\mathbf{d} = (0.6, 0.3, 0.3)$, so the joint surplus is $\Omega - \sum_j d_j = 1.8$. Let $\boldsymbol{\lambda} = (0.6, 0.2, 0.2)$ --- agent 1 has three times the bargaining power of each other agent.
 
-The FOC for~\eqref{ch01:eq:nash} gives (working through the calculus):
-\begin{equation}
-\frac{\lambda_i}{S_i} \cdot (1 - \kappa x_i) = \mu \quad \text{for each } i,
-\end{equation}
-where $S_i = U_i(x_i) - U_i(\omega_i)$ is agent $i$'s surplus from trade. Powerful agents (high $\lambda_i$) receive allocations that give them a larger share of the total surplus.
+By Proposition~\ref{ch01:prop:nash_division}: $x_1^B = 0.6 + 0.6 \times 1.8 = 1.68$ and $x_2^B = x_3^B = 0.3 + 0.2 \times 1.8 = 0.66$.
 
-Numerically (solving the system): $x_1^B \approx 1.3$, $x_2^B \approx 0.85$, $x_3^B \approx 0.85$.
-
-Compare the three allocations:
+Compare the allocations:
 \begin{center}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-& Agent 1 & Agent 2 & Agent 3 \\
+& Agent 1 & Agent 2 & Agent 3 & Welfare $\sum_i U_i$ \\
 \midrule
-Endowment & 2.00 & 0.50 & 0.50 \\
-First-best (planner) & 1.00 & 1.00 & 1.00 \\
-Bargaining ($\lambda_1 = 0.6$) & 1.30 & 0.85 & 0.85 \\
+Disagreement $\mathbf{d}$ & 0.60 & 0.30 & 0.30 & 1.065 \\
+First-best (planner) & 1.00 & 1.00 & 1.00 & 2.250 \\
+Symmetric Nash ($\lambda_i = 1/3$) & 1.20 & 0.90 & 0.90 & 2.235 \\
+Asymmetric Nash ($\lambda_1 = 0.6$) & 1.68 & 0.66 & 0.66 & 2.077 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The powerful agent gets more than the equal-division first-best. The weak agents get less. But everyone is better off than at the endowment --- the bargaining solution at least produces some redistribution (agent 1 gives up 0.7 units).
+The powerful agent gets more than the equal-division first-best and is better off for it ($U_1 = 0.974$ versus $0.75$). The weak agents get less. Everyone is better off than at disagreement, and the allocation is Pareto efficient.
 
-Welfare: $W^B = U_1(1.3) + U_2(0.85) + U_3(0.85) = (1.3 - 0.845) + 2(0.85 - 0.361) = 0.455 + 0.978 = 1.433$.
-
-Compare: $W^{FB} = 1.5$, $W^B = 1.433$, $W^{CE} = 0.75$. Bargaining recovers most of the gains from trade, but power asymmetry prevents full efficiency.
-
-The welfare loss from power: $L_{\text{power}} = W^{FB} - W^B = 0.067$. Small compared to the welfare loss from no-trade ($L_{\text{no-trade}} = 0.75$), but real.
+The utilitarian loss relative to the first-best is $2.250 - 2.077 = 0.173$. Of this, $0.015$ would remain even with symmetric bargaining (it comes from the unequal disagreement payoffs); the remaining $0.158$ is due to the asymmetry of power. The planner's first-best would be reached by bargaining weights $\lambda_i = (1 - d_i)/1.8 = (0.22, 0.39, 0.39)$ --- the weak would need \textit{more} power, not equal power, to offset their worse outside options.
 \end{example}
 
 \begin{keyinsight}
-In the one-good economy, there are two sources of welfare loss. The first is \textit{endowment inequality}: some people start with too much, others with too little. The second is \textit{power inequality}: bargaining power determines who captures the gains from reallocation. The standard competitive model assumes power is symmetric ($\lambda_i = 1/N$), which eliminates the second source. This book studies what happens when it isn't.
+In the one-good economy, there are two sources of distributional loss. The first is \textit{endowment inequality}: some people start with too much, others with too little (or, in bargaining, with better outside options). The second is \textit{power inequality}: bargaining power determines who captures the surplus. Neither is a Pareto inefficiency --- asymmetric Nash bargaining is efficient --- but both lower utilitarian welfare when utility is concave. Competitive markets sidestep the second source because price-takers do not bargain. This book studies economies in which allocation runs through relationships, so that power matters.
 \end{keyinsight}
 
 
@@ -329,7 +332,7 @@ In the one-good economy, there are two sources of welfare loss. The first is \te
 
 We now move from consumption to production. The production side introduces the first genuinely structural matrix in standard economics: the \textit{input-output matrix}.
 
-\subsection{A Story Before the Math}
+\subsection{Indirect Requirements}
 
 Consider a simple economy with three sectors: Farming, Milling, and Baking. To produce bread, you need flour. To produce flour, you need wheat. To produce wheat, you need\ldots bread? Well, you need to feed the farmers.
 
@@ -391,15 +394,15 @@ Suppose final demand is $\mathbf{d} = (0, 0, 100)'$: we want 100 units of Baking
 
 \textbf{Round 0 (direct):} We need 100 units of Baking. Output needed: $(0, 0, 100)$.
 
-\textbf{Round 1 (first indirect):} To produce 100 units of Baking, we need $100 \times (0.05, 0.20, 0.10) = (5, 20, 10)$ units of inputs. So Farming must produce 5 more, Milling 20 more, Baking 10 more. Total after round 1: $(5, 20, 110)$.
+\begin{sloppypar}\textbf{Round 1 (first indirect):} To produce 100 units of Baking, we need $100 \times (0.05, 0.20, 0.10)$, that is, $(5, 20, 10)$ units of inputs. So Farming must produce 5 more, Milling 20 more, Baking 10 more. Total after round 1: $(5, 20, 110)$.\end{sloppypar}
 
-\textbf{Round 2:} The 5 extra Farming output needs inputs: $5 \times (0.10, 0.05, 0.10) = (0.5, 0.25, 0.5)$. The 20 extra Milling needs: $20 \times (0.20, 0.05, 0.05) = (4, 1, 1)$. The 10 extra Baking needs: $10 \times (0.05, 0.20, 0.10) = (0.5, 2, 1)$. Round 2 total: $(5, 3.25, 2.5)$.
+\textbf{Round 2:} The 5 extra Farming output needs inputs $5 \times (0.10, 0.05, 0.10)$, that is, $(0.5, 0.25, 0.5)$. The 20 extra Milling needs $20 \times (0.20, 0.05, 0.05)$, that is, $(4, 1, 1)$. The 10 extra Baking needs $10 \times (0.05, 0.20, 0.10)$, that is, $(0.5, 2, 1)$. Round 2 total: $(5, 3.25, 2.5)$.
 
 Each round is smaller. By round 5, the additions are tiny. The total converges to the solution of $(I - A')\y = \mathbf{d}$.
 \end{example}
 
 \begin{intuition}[Why the series converges]
-Each round of indirect effects is smaller because $a_{ij} < 1$ for all $i, j$: no sector uses more than one unit of any input to produce one unit of output. The total input requirement per unit of output (the column sum of $A$, or equivalently the row sum of $A'$) is less than 1 for each sector. This means the cascade ``leaks'' value at each round --- some of each round's output becomes final product rather than being recycled as input. The leak ensures convergence.
+Each round of indirect effects is smaller because every sector needs less than one dollar of inputs per dollar of output: the total input requirement of sector $i$ (the row sum of $A$, equivalently the column sum of $A'$) is $0.25$, $0.30$ and $0.35$ here. Small individual entries $a_{ij} < 1$ would not be enough; it is the row sums that matter. Because the row sums are below one, the cascade ``leaks'' value at each round --- some of each round's output becomes final product rather than being recycled as input. The leak ensures convergence.
 
 Technically, convergence requires that the \textbf{spectral radius} of $A$ --- the largest eigenvalue in magnitude --- is less than 1. We explain eigenvalues in Appendix~\ref{ch01:app:spectral_radius}. For now: if the economy doesn't require more than a dollar of inputs to produce a dollar of output, the cascade converges.
 \end{intuition}
@@ -429,10 +432,10 @@ Round 0 is $I$ (direct demand). Round 1 is $A'$ (first-order indirect demand). R
 \begin{example}[Computing the Leontief Inverse]\label{ch01:ex:leontief_numbers}
 For the matrix in Example~\ref{ch01:ex:IO}, computing $(I - A')^{-1}$ numerically (do this with Python --- see Exercise~1.7):
 \begin{equation}
-L = (I - A')^{-1} \approx \begin{pmatrix} 1.16 & 0.27 & 0.14 \\ 0.10 & 1.13 & 0.25 \\ 0.09 & 0.10 & 1.16 \end{pmatrix}.
+L = (I - A')^{-1} \approx \begin{pmatrix} 1.14 & 0.25 & 0.12 \\ 0.09 & 1.08 & 0.25 \\ 0.13 & 0.09 & 1.14 \end{pmatrix}.
 \end{equation}
 
-Reading column 3 (Baking): to deliver 1 unit of bread to final demand requires 1.16 units of Baking output (the 1 unit of bread plus 0.16 units recycled as input to other sectors that supply Baking), 0.25 units of Milling output, and 0.14 units of Farming output.
+Reading column 3 (Baking): to deliver 1 unit of bread to final demand requires 1.14 units of Baking output (the 1 unit of bread plus 0.14 units used as input by Baking itself and by the sectors that supply it), 0.25 units of Milling output, and 0.12 units of Farming output. For the 100 loaves of Example~\ref{ch01:ex:cascade}, total output is $L\mathbf{d} = (11.78, 24.57, 113.79)'$.
 
 The \textbf{output multiplier} of each sector is the column sum of $L$:
 \begin{center}
@@ -440,9 +443,9 @@ The \textbf{output multiplier} of each sector is the column sum of $L$:
 \toprule
 Sector & Output multiplier \\
 \midrule
-Farming & $1.16 + 0.10 + 0.09 = 1.35$ \\
-Milling & $0.27 + 1.13 + 0.10 = 1.50$ \\
-Baking & $0.14 + 0.25 + 1.16 = 1.55$ \\
+Farming & $1.138 + 0.088 + 0.131 = 1.357$ \\
+Milling & $0.246 + 1.084 + 0.088 = 1.417$ \\
+Baking & $0.118 + 0.246 + 1.138 = 1.501$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -453,34 +456,32 @@ Baking has the highest multiplier: stimulating bread demand generates the most t
 \begin{keyinsight}
 The Leontief inverse is the first \textbf{structural multiplier} in this book. It shows that the effect of a change in one sector propagates through the entire economy, amplified by the network of inter-sectoral dependencies. The structure of $A$ --- which sectors depend on which --- determines the pattern and magnitude of propagation. Two economies with identical technologies but different $A$ matrices will respond differently to the same demand shock. The matrix $A$ \textit{is} the production structure.
 
-In Chapter~16, we will apply this to the global economy, with countries as ``sectors'' and international trade as the input-output matrix. The center-periphery structure that Prebisch described is a property of the column sums and spectral structure of the global $A$.
+In Chapter~16, we will apply this to the global economy, with countries as ``sectors'' and international trade as the input-output matrix. Whether the center-periphery structure that Prebisch described shows up in the column sums (backward linkages) of the global $A$ is a hypothesis that chapter tests.
 \end{keyinsight}
 
 \begin{vizpanel}{The Leontief Inverse as a Heatmap}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\s{1.0}
-\foreach \i/\j/\v in {1/1/10,1/2/20,1/3/10,2/1/30,2/2/20,2/3/10,3/1/10,3/2/20,3/3/20} {
+\foreach \i/\j/\v/\lab/\tc in {1/1/9/0.10/black,1/2/4/0.05/black,1/3/9/0.10/black,2/1/18/0.20/black,2/2/4/0.05/black,2/3/4/0.05/black,3/1/4/0.05/black,3/2/18/0.20/black,3/3/9/0.10/black} {
   \fill[blue!\v, draw=white, line width=0.3pt]
     ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
-  \pgfmathparse{\v/100}
-  \node[font=\tiny, white] at ({(\j-0.5)*\s}, {(3-\i+0.5)*\s}) {\pgfmathprintnumber[fixed,precision=1]{\pgfmathresult}};
+  \node[font=\tiny, text=\tc] at ({(\j-0.5)*\s}, {(3-\i+0.5)*\s}) {\lab};
 }
 \node[below, font=\small\bfseries] at ({1.5*\s}, -0.2) {$A$ (inputs)};
 \node[font=\Large] at (3.7, 1.5) {$\longrightarrow$};
 \begin{scope}[xshift=5cm]
-\foreach \i/\j/\v in {1/1/63,1/2/39,1/3/21,2/1/53,2/2/74,2/3/25,3/1/24,3/2/39,3/3/67} {
+\foreach \i/\j/\v/\lab/\tc in {1/1/100/1.14/white,1/2/22/0.25/black,1/3/10/0.12/black,2/1/8/0.09/black,2/2/95/1.08/white,2/3/22/0.25/black,3/1/12/0.13/black,3/2/8/0.09/black,3/3/100/1.14/white} {
   \fill[blue!\v, draw=white, line width=0.3pt]
     ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
-  \pgfmathparse{\v/50}
-  \node[font=\tiny, white] at ({(\j-0.5)*\s}, {(3-\i+0.5)*\s}) {\pgfmathprintnumber[fixed,precision=2]{\pgfmathresult}};
+  \node[font=\tiny, text=\tc] at ({(\j-0.5)*\s}, {(3-\i+0.5)*\s}) {\lab};
 }
-\node[below, font=\small\bfseries] at ({1.5*\s}, -0.2) {$(I-A)^{-1}$ (total effects)};
+\node[below, font=\small\bfseries] at ({1.5*\s}, -0.2) {$L = (I-A')^{-1}$ (total effects)};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The input matrix $A$ (left) is dim: weak direct dependencies. The Leontief inverse $(I-A)^{-1}$ (right) is brighter everywhere --- indirect effects amplify direct ones. The diagonal is always brightest. If the off-diagonal is bright, growth propagates. If dark (block-diagonal $A$), growth stays localized.
+\small Both panels use one colour scale, from 0 (white) to 1.14 (the largest entry of $L$). The input matrix $A$ of Example~\ref{ch01:ex:IO} (left) is dim: weak direct dependencies. The Leontief inverse $L = (I-A')^{-1}$ (right; Example~\ref{ch01:ex:leontief_numbers}) is brighter --- indirect effects add to direct ones. Its diagonal is brightest because each unit of final demand requires at least one unit of own output. Bright off-diagonal cells mean demand propagates across sectors; dark ones (a block-diagonal $A$) mean it stays localized.
 \end{vizpanel}
 
 
@@ -503,7 +504,7 @@ A \textbf{Walrasian equilibrium} is a price vector $p^*$ and an allocation $X^*$
 
 The equilibrium $p^*$ is a \textit{fixed point}: it is the price at which the demands generated by $p^*$ are exactly consistent with $p^*$. Under standard conditions (continuous preferences, positive endowments), such a price exists --- this is the content of the Arrow-Debreu existence theorem, proved using Brouwer's fixed-point theorem.
 
-We will not reproduce the proof here (see MWG Chapter~17). What matters for us is not the existence but the \textit{structural content} of the existence argument: it requires that agents interact only through $p$. If agents interacted through other channels --- peer effects, network externalities, bargaining relationships --- the standard proof would need to be modified. We provide the modified proof in Chapter~7.
+We will not reproduce the proof here (see MWG Chapter~17). The textbook proof is written for agents who interact only through $p$, but existence survives other channels: Debreu's (1952) social-equilibrium theorem already covers consumption externalities. What externalities destroy is \textit{efficiency}, not existence (Chapter~2). Chapter~7 returns to existence for the bargaining equilibrium used in this book.
 
 
 %% =====================================================================
@@ -520,25 +521,33 @@ Consider the economy we have developed: $N$ agents, each maximizing $U_i(x_i)$ s
 The answer: only through $p^*$. Agent $i$'s demand for goods affects aggregate demand, which affects the equilibrium price, which affects $j$'s budget set and optimal choice. The interaction is:
 
 \begin{enumerate}[label=(\alph*)]
-\item \textbf{Anonymous}: the effect does not depend on who $i$ is --- only on $i$'s total demand.
-\item \textbf{Symmetric}: $i$'s effect on $j$ is the same magnitude as $j$'s effect on $i$ (both go through $p$).
+\item \textbf{Anonymous}: the effect does not depend on who $i$ is --- only on $i$'s demand.
+\item \textbf{Wealth-weighted}: in the aggregate, agent $i$'s demand counts in proportion to her expenditure. In the Cobb-Douglas economy, aggregate demand for good $\ell$ is $\sum_i w_i/(2p_\ell)$, so agent $i$'s weight is her \textbf{wealth share} $s_i = w_i/\sum_j w_j$. At the equilibrium of Section~\ref{ch01:sec:consumer}, $\mathbf{s} = (6.8, 5.8, 3.4)/16 = (0.425, 0.363, 0.213)$ --- not $(1/3, 1/3, 1/3)$.
 \item \textbf{Indirect}: $i$ does not enter $j$'s utility function. The effect passes through the market.
-\item \textbf{Equal-weighted}: in a competitive market, no single agent affects $p$ disproportionately. Each agent's demand has weight $1/N$ in the aggregate.
+\item \textbf{Price-taking}: no single agent's choice moves $p$ by a non-negligible amount; everyone takes the aggregate as given.
 \end{enumerate}
 
 These four properties describe a very specific pattern of interaction. We can write it as a matrix.
 
 \subsection{Naming the Matrix}
 
-\begin{definition}[The Competitive Interaction Matrix]\label{ch01:def:competitive_W}
-The \textbf{competitive interaction matrix} is:
+\begin{definition}[The Market Interaction Matrix]\label{ch01:def:market_W}
+Let $\mathbf{s}$ be the vector of wealth (expenditure) shares, $s_i = w_i/\sum_j w_j$. The \textbf{market interaction matrix} is
+\begin{equation}\label{ch01:eq:W_mkt}
+W^{\text{mkt}} = \ones\mathbf{s}'.
+\end{equation}
+Every row is the same vector $\mathbf{s}'$: each agent interacts with the market aggregate, in which agent $j$ carries weight $s_j$. Applied to any vector, $W^{\text{mkt}}\x = (\mathbf{s}'\x)\ones$ replaces every entry by the wealth-weighted mean.
+\end{definition}
+
+\begin{definition}[The Competitive Benchmark]\label{ch01:def:competitive_W}
+With equal endowments, $\mathbf{s} = \frac{1}{N}\ones$ and the market interaction matrix becomes the \textbf{competitive benchmark}
 \begin{equation}\label{ch01:eq:W_CE}
 W^{CE} = \frac{1}{N}\ones\ones' = \frac{1}{N}\begin{pmatrix} 1 & 1 & \cdots & 1 \\ 1 & 1 & \cdots & 1 \\ \vdots & & \ddots & \vdots \\ 1 & 1 & \cdots & 1 \end{pmatrix}.
 \end{equation}
 Every entry is $1/N$: each agent affects every other agent equally.
 \end{definition}
 
-This matrix has remarkable properties, which we now catalog.
+$W^{\text{mkt}}$ is what the Walrasian model implies; $W^{CE}$ is its equal-endowment special case, and the benchmark this book measures departures from. It has remarkable properties, which we now catalog.
 
 \begin{proposition}[Properties of the Competitive Interaction Matrix]\label{ch01:prop:W_CE}
 $W^{CE} = \frac{1}{N}\ones\ones'$ satisfies:
@@ -546,9 +555,10 @@ $W^{CE} = \frac{1}{N}\ones\ones'$ satisfies:
 \item \textbf{Doubly stochastic}: every row sums to 1, and every column sums to 1. Nobody gives or receives more total influence than anyone else.
 \item \textbf{Symmetric}: $W^{CE} = (W^{CE})'$. The effect of $i$ on $j$ equals the effect of $j$ on $i$.
 \item \textbf{Rank 1}: all rows are identical. The matrix can be written as the outer product of two vectors: $W^{CE} = \frac{1}{N}\ones \cdot \ones'$. This means $W^{CE}$ contains \textit{no information about individual positions} --- every agent looks the same.
-\item \textbf{Equal centrality}: for any reasonable centrality measure, all agents have the same centrality. (We will make ``centrality'' precise in Chapter~6 using the Perron eigenvector.)
-\item \textbf{Maximal spectral gap}: $W^{CE}$ has eigenvalue 1 (with eigenvector $\ones$) and eigenvalue 0 (with multiplicity $N-1$). The gap between the largest and second-largest eigenvalue is $1 - 0 = 1$, the maximum possible for any matrix with these properties. (See Appendix~\ref{ch01:app:spectral_radius} for eigenvalues.)
+\item \textbf{Equal power}: its Perron vector (Section~\ref{ch01:sec:conventions}) is uniform, $\boldsymbol{\pi} = \frac{1}{N}\ones$.
+\item \textbf{Unit spectral gap}: $W^{CE}$ has eigenvalue 1 (with eigenvector $\ones$) and eigenvalue 0 (with multiplicity $N-1$), so $\Gamma = 1 - |\lambda_2| = 1$. (See Appendix~\ref{ch01:app:spectral_radius} for eigenvalues.)
 \end{enumerate}
+Properties (3) and (5) are shared by every rank-one row-stochastic matrix, including $W^{\text{mkt}} = \ones\mathbf{s}'$ for any $\mathbf{s}$. What singles out $W^{CE}$ is (4): it is the only rank-one row-stochastic matrix with uniform $\boldsymbol{\pi}$.
 \end{proposition}
 
 \begin{proof}
@@ -558,7 +568,7 @@ $W^{CE} = \frac{1}{N}\ones\ones'$ satisfies:
 
 (3) Every row is $(1/N, 1/N, \ldots, 1/N)$, so all rows are proportional (in fact, identical). Rank $= 1$.
 
-(4) See Chapter~6 for the formal definition. Informally: if every row of $W$ is the same, the ``importance'' of every agent is the same.
+(4) $\frac{1}{N}\ones'W^{CE} = \frac{1}{N^2}(\ones'\ones)\ones' = \frac{1}{N}\ones'$, so $\frac{1}{N}\ones$ is the (unique) stationary vector. Uniqueness among rank-one matrices: Section~\ref{ch01:sec:conventions}.
 
 (5) $W^{CE}\ones = \frac{1}{N}\ones(\ones'\ones) = \frac{1}{N}\ones \cdot N = \ones$, so $\ones$ is an eigenvector with eigenvalue 1. For any $\x$ perpendicular to $\ones$ (i.e., $\ones'\x = 0$): $W^{CE}\x = \frac{1}{N}\ones(\ones'\x) = 0$. So eigenvalue 0 has multiplicity $N-1$.
 \end{proof}
@@ -570,7 +580,7 @@ W^{CE}\x = \frac{1}{N}\ones(\ones'\x) = \bar{x} \cdot \ones,
 \end{equation}
 where $\bar{x} = \frac{1}{N}\sum_i x_i$ is the mean.
 
-The competitive interaction matrix \textbf{replaces every entry with the mean}. It destroys all information about individual positions and keeps only the aggregate. This is exactly what the competitive market does: individual identities are washed out by the price mechanism, and only the aggregate (total demand, total supply) determines the outcome.
+The competitive benchmark \textbf{replaces every entry with the mean}. It destroys all information about individual positions and keeps only the aggregate. The market matrix $W^{\text{mkt}}$ does the same with the wealth-weighted mean $\mathbf{s}'\x$: individual identities are washed out by the price mechanism, and only the aggregate (total demand, total supply) determines the outcome. Wealth, however, is not washed out.
 \end{intuition}
 
 
@@ -581,31 +591,32 @@ The other extreme is no interaction at all:
 W^A = I = \begin{pmatrix} 1 & 0 & \cdots & 0 \\ 0 & 1 & \cdots & 0 \\ \vdots & & \ddots & \vdots \\ 0 & 0 & \cdots & 1 \end{pmatrix}.
 \end{equation}
 
-Each agent interacts only with herself. No trade, no externalities, no social contact. Robinson Crusoe, $N$ times.
+Each agent interacts only with herself. No trade, no externalities, no social contact. Robinson Crusoe, $N$ times. As a weight matrix, $I$ is reducible: every probability vector is stationary, so power $\boldsymbol{\pi}$ is not defined, and $\Gamma = 0$.
 
 
 \subsection{The Space of All Possible Structures}
 
-Between $W = I$ (autarky) and $W = \frac{1}{N}\ones\ones'$ (anonymous competitive market) lies a vast space of possible interaction structures. Most real economies live somewhere in this space:
+Between $W = I$ (autarky) and $W^{\text{mkt}} = \ones\mathbf{s}'$ (anonymous competitive market) lies a vast space of possible interaction structures. Most real economies live somewhere in this space:
 
 \begin{center}
-\begin{tabular}{lccc}
+\small
+\begin{tabularx}{\textwidth}{lLLL}
 \toprule
 & \textbf{Autarky} & \textbf{General} $W$ & \textbf{Competitive} \\
-& $W = I$ & & $W = \frac{1}{N}\ones\ones'$ \\
+& $W = I$ & & $W^{\text{mkt}} = \ones\mathbf{s}'$ \\
 \midrule
 Interaction & None & Structured & Anonymous \\
-Power & Trivially equal & Asymmetric & Equal \\
-Information & Private & Filtered by $W^I$ & Symmetric \\
-Welfare theorems & Trivially hold & Fail & Hold \\
+Power $\boldsymbol{\pi}$ & Undefined (reducible) & $\boldsymbol{\pi}(W)$, computed & $\mathbf{s}$ ($= \frac{1}{N}\ones$ if equal endowments) \\
+Utility interdependence & None & $W^U \neq 0$ possible & $W^U = 0$ \\
+Welfare theorems & Fail (no gains from trade) & FWT fails if $W^U \neq 0$ & Hold, for any $\mathbf{s}$ \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 \begin{keyinsight}
-The program of this book is now visible. The standard competitive model lives at the right edge of this table. It assumes the most special possible interaction matrix: symmetric, rank 1, maximal spectral gap, equal centrality. \textit{Every} standard result --- the welfare theorems, the efficiency of competitive equilibrium, the irrelevance of social structure --- is a consequence of this assumption.
+The program of this book is now visible. The benchmark competitive model lives at the right edge of this table. Its interaction is anonymous and rank one, $W^{\text{mkt}} = \ones\mathbf{s}'$, with no utility interdependence; with equal endowments it is $W^{CE}$. The First Welfare Theorem holds for \textit{any} wealth distribution $\mathbf{s}$; what it needs, in our language, is $W^U = 0$ together with complete markets and price-taking. The model does not assume equal power --- it assumes that power does not enter, because nobody bargains.
 
-Structural economics replaces $W^{CE}$ with a general $W$: asymmetric, high-rank, with a spectral gap that may be small, and centrality that varies across agents. Power becomes endogenous (Chapter~6). Preferences become endogenous to the network (Chapter~10). The welfare theorems fail (Chapter~2). And the question shifts from ``is the equilibrium efficient?'' to ``what is the structure, who does it benefit, and can it be changed?''
+Structural economics replaces anonymous interaction with a general $W$: non-anonymous, possibly fragmented (slow integration, small $\Gamma$), and with a power distribution $\boldsymbol{\pi}$ that the network produces. Power becomes endogenous (Chapter~6). Preferences become endogenous to the network (Chapter~10). Externalities break efficiency (Chapter~2); unequal power is distributional, and the book asks how it is produced and changed. The question shifts from ``is the equilibrium efficient?'' to ``what is the structure, who does it benefit, and can it be changed?''
 
 The standard model is not wrong. It is a special case. This book is the general case.
 \end{keyinsight}
@@ -622,7 +633,7 @@ The standard model is not wrong. It is a special case. This book is the general 
   }
 }
 \node[below, font=\small\bfseries] at ({4*\s}, -0.2) {$W^{CE} = \frac{1}{N}\ones\ones'$};
-\node[below, font=\small] at ({4*\s}, -0.7) {Equal power. Welfare theorems hold.};
+\node[below, font=\small] at ({4*\s}, -0.7) {$\Gamma = 1$, $\Neff = 8$};
 \node[font=\large] at (5.2, 1.6) {$\neq$};
 \begin{scope}[xshift=6.4cm]
 \foreach \i in {1,...,\N} {
@@ -633,14 +644,110 @@ The standard model is not wrong. It is a special case. This book is the general 
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
   }
 }
-\node[below, font=\small\bfseries] at ({4*\s}, -0.2) {$W_{\text{Bolivia}}$};
-\node[below, font=\small] at ({4*\s}, -0.7) {Unequal power. Welfare theorems fail.};
+\node[below, font=\small\bfseries] at ({4*\s}, -0.2) {Stylized dual economy \illustrative};
+\node[below, font=\small] at ({4*\s}, -0.7) {$\Gamma \approx 0.16$, $\Neff \approx 7.9$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Left: the competitive weight matrix (Prologue pattern~2, ``Market''). Right: Bolivia's production structure (pattern~6, ``Dual Economy''). The difference between these two heatmaps is the subject of this book.
+\small Left: the competitive benchmark (Prologue pattern~2, ``Market''). Right: a stylized dual economy (pattern~6, ``Dual Economy''; cell weights 70, 55 and 5, rows normalized), not an estimate for any country. Its two blocks are weakly coupled, so it integrates slowly ($\Gamma \approx 0.16$), yet power is almost uniform ($\Neff \approx 7.9$ of 8). Weak integration and power concentration are different properties (Section~\ref{ch01:sec:conventions}); the book studies both.
 \end{vizpanel}
+
+
+%% =====================================================================
+\section{Conventions Used Throughout the Book}
+\label{ch01:sec:conventions}
+%% =====================================================================
+
+The rest of the book uses the objects introduced above in a fixed way. This section states the conventions once; later chapters cite it rather than restating them.
+
+\subsection{Matrices and Normalization}
+
+\paragraph{Interaction matrices are row-stochastic.} An \textbf{interaction (weight) matrix} is a nonnegative $N \times N$ matrix $W$ with $W\ones = \ones$; $W_{ij}$ is the weight agent $i$ places on agent $j$. This covers the information network $W^I$, the utility network $W^U$, composites, and any generic $W$ whose Perron vector is read as power. A raw nonnegative matrix $K$ (counts, flows, overlaps) is turned into a weight matrix by row normalization, $W = D^{-1}K$ with $D = \text{diag}(K\ones)$; we say so whenever we do it.
+
+\paragraph{Production uses two different objects.}
+\begin{itemize}
+\item The \textbf{technical-coefficient matrix} $A$ of Definition~\ref{ch01:def:IO}: $a_{ij}$ is the amount of good $j$ needed per unit of good $i$, so row $i$ is sector $i$'s recipe. The balance is $\y = A'\y + \mathbf{d}$ and the Leontief inverse is $L = (I - A')^{-1}$, which requires $\rho(A) < 1$. Output multipliers and backward/forward linkages are computed from $A$ (or a social-accounting coefficient matrix), never from a row-normalized matrix.
+\item The \textbf{production weight matrix} $W^P := D^{-1}A$ with $D = \text{diag}(A\ones)$: row $i$ gives the input-cost shares of sector $i$. It is row-stochastic, and it is the input-share matrix of Acemoglu, Carvalho, Ozdaglar and Tahbaz-Salehi (2012). It is the object whose Perron vector and spectral gap we compute.
+\end{itemize}
+The reason for the separation: for \textit{any} row-stochastic $W$ and $0 \le \gamma < 1$, $(I - \gamma W)\ones = (1-\gamma)\ones$, hence $(I - \gamma W)^{-1}\ones = \frac{1}{1-\gamma}\ones$. All row-sum ``linkages'' of a row-normalized matrix coincide and carry no information.
+
+\paragraph{Composites.} A composite $W = \sum_k \alpha_k W^k$ requires $\alpha_k \ge 0$, $\sum_k \alpha_k = 1$, and every layer $W^k$ row-stochastic on the \textit{same} node set. Layers defined on different node sets (sectors, media outlets, individuals) do not form a composite.
+
+\subsection{Power: the Perron Vector}
+
+\begin{definition}[Perron Vector]\label{ch01:def:perron}
+For an irreducible row-stochastic $W$, the \textbf{Perron vector} $\boldsymbol{\pi}$ is the unique vector with $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$, $\boldsymbol{\pi} > 0$ and $\sum_i \pi_i = 1$. (Existence and uniqueness: Perron--Frobenius, Chapter~6.)
+\end{definition}
+
+Each chapter states which of three readings of $\boldsymbol{\pi}$ is in force:
+\begin{enumerate}
+\item \textbf{Information (DeGroot).} If beliefs update as $\mathbf{b}^{(t+1)} = W\mathbf{b}^{(t)}$, the consensus is $b^* = \boldsymbol{\pi}'\mathbf{b}^{(0)}$: $\pi_j$ is exactly agent $j$'s weight in the long-run consensus. If $W$ is also aperiodic, $W^t \to \ones\boldsymbol{\pi}'$ and the beliefs converge to it.
+\item \textbf{Production.} $\boldsymbol{\pi}' = \lim_{\gamma \to 1} \frac{1-\gamma}{N}\ones'(I - \gamma W^P)^{-1}$, the limit of the normalized influence vector. For $\gamma < 1$, the influence vector of Acemoglu et al.\ (2012), $\frac{\alpha}{N}\ones'(I - (1-\alpha)W^P)^{-1}$, is a Katz/Leontief object, not the Perron vector.
+\item \textbf{Bargaining.} Using $\boldsymbol{\pi}$ as the Nash weights $\boldsymbol{\lambda}$ of Definition~\ref{ch01:def:bargaining_power} is a \textbf{modelling assumption}, not a result. In strategic models of bargaining on networks (Manea 2011; Abreu and Manea 2012), payoffs are generally \textit{not} eigenvector centralities.
+\end{enumerate}
+For the market matrix, $\boldsymbol{\pi}(W^{\text{mkt}}) = \mathbf{s}$: since $\mathbf{s}'\ones\mathbf{s}' = \mathbf{s}'$, wealth shares are the market's ``power'' vector.
+
+\paragraph{Measuring concentration.} Unequal power means a concentrated $\boldsymbol{\pi}$. We measure it by:
+\begin{itemize}
+\item the \textbf{effective number of agents} $\Neff = 1/\sum_i \pi_i^2 \in [1, N]$;
+\item the \textbf{variance of power} $\Var(\pi) = \frac{1}{N}\sum_i (\pi_i - \frac{1}{N})^2 = \frac{1}{N}\bigl(\frac{1}{\Neff} - \frac{1}{N}\bigr)$, which uses $\sum_i(\pi_i - \frac1N)^2 = \sum_i\pi_i^2 - \frac{1}{N}$. Its maximum is $(N-1)/N^2$, attained at $\boldsymbol{\pi} = e_1$: $0.1875$ for $N = 4$, $0.0475$ for $N = 20$;
+\item the \textbf{power distance} $d_\pi = \frac{1}{2}\|\boldsymbol{\pi} - \frac{1}{N}\ones\|_1 \in [0, 1 - \frac1N]$, and the power Gini.
+\end{itemize}
+In the Cobb-Douglas equilibrium of Section~\ref{ch01:sec:consumer}, $\Neff(\mathbf{s}) = 2.80$ of $3$.
+
+\begin{proposition}[When Power Is Uniform]\label{ch01:prop:pi_uniform}
+For an irreducible row-stochastic $W$, $\boldsymbol{\pi} = \frac{1}{N}\ones$ if and only if $W$ is doubly stochastic.
+\end{proposition}
+\begin{proof}
+If $\ones'W = \ones'$, then $\frac{1}{N}\ones'$ is a stationary probability vector, and by uniqueness it equals $\boldsymbol{\pi}'$. Conversely, $\frac{1}{N}\ones'W = \frac{1}{N}\ones'$ says every column sums to one.
+\end{proof}
+For a nonnegative $W$ that is \textit{not} row-stochastic, the condition is ``all column sums equal'', which is why we avoid non-stochastic $W$ when $\boldsymbol{\pi}$ is read as power.
+
+\subsection{The Spectral Gap Measures Integration}
+
+\begin{definition}[Spectral Gap]\label{ch01:def:gap}
+For a row-stochastic $W$ with eigenvalues ordered $1 = |\lambda_1| \ge |\lambda_2| \ge \cdots$, the \textbf{spectral gap} is $\Gap(W) = 1 - |\lambda_2(W)|$.
+\end{definition}
+
+$\Gap$ measures \textbf{integration}: deviations from consensus (or from the stationary distribution) decay like $|\lambda_2|^t$, with half-life $\ln 2/(-\ln|\lambda_2|)$. $\Gap = 0$ when $W$ is reducible (several unit eigenvalues, as for $W = I$) \textit{or} periodic (an eigenvalue of modulus one other than 1, as for a bipartite star or an even ring without self-loops); the lazy version $\frac{1}{2}(I + W)$ removes periodicity. For reversible $W$ with conductance $\Phi_c$, Cheeger's inequality $\Phi_c^2/2 \le 1 - \lambda_2 \le 2\Phi_c$ says that weak cross-block coupling implies a small gap. The converse fails: a small gap can come from periodicity rather than fragmentation.
+
+\textbf{$\Gap$ does not measure power.} For every $\boldsymbol{\pi}$ in the open simplex and every $\gamma \in (0, 1]$, the matrix $W = \gamma\,\ones\boldsymbol{\pi}' + (1-\gamma)I$ is irreducible, aperiodic and row-stochastic, with $\boldsymbol{\pi}(W) = \boldsymbol{\pi}$ (because $\boldsymbol{\pi}'W = \gamma\boldsymbol{\pi}' + (1-\gamma)\boldsymbol{\pi}'$) and spectrum $\{1, 1-\gamma, \ldots, 1-\gamma\}$, so $\Gap(W) = \gamma$. Any degree of concentration is compatible with any gap (Chapter~6, Proposition~\ref{ch06:prop:gap-power-independent}). With $N = 10$ and $\pi_1 = 0.91$, $\Neff = 1.21$ for every $\gamma$, while $\Gap$ ranges over $(0, 1]$. The stylized dual economy in the visualization above makes the opposite point: small $\Gap$ with almost uniform power.
+
+\subsection{Distance from the Benchmark}
+
+We write $\Delta(W) := W - W^{CE}$ for the departure from the benchmark and summarize it by \textbf{two} coordinates, which the example above shows to be independent: the power distance $d_\pi$ (or $\Neff/N$) and the integration deficit $1 - \Gap$.
+
+Two facts about the benchmark. Every rank-one row-stochastic matrix has the form $\ones\boldsymbol{\pi}'$ (if $W = \mathbf{u}\mathbf{v}'$ and $W\ones = \ones$, then $\mathbf{u} \propto \ones$), and its Perron vector is $\boldsymbol{\pi}$. Hence $W^{CE}$ is the \textit{unique} rank-one row-stochastic matrix with uniform power. No scalar norm of $\Delta(W)$ determines welfare: outcomes depend on $W$ \textit{and} on primitives (curvature, endowments, the game being played) that are not functions of $\Delta(W)$.
+
+\subsection{The Competitive Benchmark and the Welfare Theorems}
+
+The statement used throughout the book is:
+\begin{itemize}
+\item Walrasian price formation is anonymous. Aggregate demand weights agents by wealth shares $\mathbf{s}$, so the implied interaction matrix is $W^{\text{mkt}} = \ones\mathbf{s}'$: rank one, $\Gap = 1$, $\boldsymbol{\pi} = \mathbf{s}$. The benchmark $W^{CE} = \frac{1}{N}\ones\ones'$ is the equal-endowment special case.
+\item The First Welfare Theorem holds for \textit{any} $\mathbf{s}$. It requires local nonsatiation, complete markets, price-taking and no externalities --- in this book's language, $W^U = 0$.
+\item Utility interdependence ($W^U \neq 0$) and missing markets break efficiency. Non-anonymous interaction with unequal $\boldsymbol{\pi}$ is \textbf{distributional}: weighted Nash bargaining is Pareto efficient (Proposition~\ref{ch01:prop:nash_division}), and the associated loss is a utilitarian loss, not a Pareto inefficiency.
+\item Autarky ($W = I$) is not a case in which the welfare theorems ``trivially hold'': the gains from trade go unrealized.
+\end{itemize}
+The textbook benchmark is thus anonymous interaction with no externalities --- in its equal-endowment form, $W = W^{CE}$. Structural economics studies non-anonymous $W$ (its structure: blocks, integration $\Gap$) and the distribution of power $\boldsymbol{\pi}$, and how both are produced and changed.
+
+\subsection{The Allocation Rule and the Calibration of Utility}
+
+\begin{proposition}[The Allocation Rule]\label{ch01:prop:allocation_rule}
+In the transferable-utility bargaining problem of Definition~\ref{ch01:def:nash}, let the weights be $\boldsymbol{\lambda} = \boldsymbol{\pi}$ and let all disagreement payoffs be equal, $d_i = \bar d$. Define the bargaining surplus $\Phi := \Omega - N\bar d$. Then
+\begin{equation}\label{ch01:eq:allocation_rule}
+x_i = \frac{\Omega}{N} + \Bigl(\pi_i - \frac{1}{N}\Bigr)\Phi.
+\end{equation}
+If utility is $U(x) = x - \frac{\kappa}{2}x^2$, the utilitarian loss relative to equal division is exactly
+\begin{equation}\label{ch01:eq:L_power}
+L_{\text{power}} := \sum_i \Bigl[U\bigl(\tfrac{\Omega}{N}\bigr) - U(x_i)\Bigr] = \frac{\kappa N}{2}\,\Phi^2\,\Var(\pi).
+\end{equation}
+\end{proposition}
+\begin{proof}
+By~\eqref{ch01:eq:nash_division}, $x_i = \bar d + \pi_i\Phi = \frac{\Omega}{N} + (\pi_i - \frac1N)\Phi$, since $\bar d = \frac{\Omega}{N} - \frac{\Phi}{N}$. Write $m = \Omega/N$ and $z_i = x_i - m$, so $\sum_i z_i = 0$. Because $U$ is quadratic, $U(m + z_i) = U(m) + U'(m)z_i - \frac{\kappa}{2}z_i^2$ exactly. Summing, the linear terms cancel and $L_{\text{power}} = \frac{\kappa}{2}\sum_i z_i^2 = \frac{\kappa}{2}\Phi^2\sum_i(\pi_i - \frac1N)^2 = \frac{\kappa N}{2}\Phi^2\Var(\pi)$.
+\end{proof}
+
+Chapter~7 derives the same rule in the network setting (Proposition~\ref{ch07:prop:allocation-rule}). Two cautions. First, $\Phi$ is the \textit{surplus over disagreement}, not a curvature parameter. In a one-good exchange economy with endowments as the disagreement point there is nothing to bargain over and $\Phi = 0$. Second, every allocation used in an example must satisfy $\kappa x_i < 1$, so that utility is increasing. Past the satiation point $1/\kappa$, ``getting more'' makes an agent worse off and the welfare comparisons become meaningless. For example, with $\Omega = 3$, $\bar d = 0.3$ (so $\Phi = 2.1$), $\boldsymbol{\pi} = (0.6, 0.2, 0.2)$ and $\kappa = 0.5$: $\x = (1.56, 0.72, 0.72)$, $\Var(\pi) = 0.0356$, and $L_{\text{power}} = 0.75 \times 4.41 \times 0.0356 = 0.118$.
 
 
 %% =====================================================================
@@ -655,14 +762,14 @@ This chapter established five results, all of them standard economics expressed 
 
 \item The \textbf{consumer's problem} determines each row of $X$ independently under the standard model. Agent $i$'s utility depends only on $x_i$. This is a structural assumption: the weight agent $i$ places on agent $j$'s consumption is zero.
 
-\item The \textbf{welfare loss from inequality} in the one-good economy is $L = \frac{\kappa N}{2}\text{Var}(\omega_i)$. With bargaining power $\boldsymbol{\lambda}$, the allocation depends on who has power, not just who has endowments.
+\item The \textbf{welfare loss from inequality} in the one-good economy is $L = \frac{\kappa N}{2}\text{Var}(\omega_i)$. With Nash bargaining over a joint surplus, $x_i = d_i + \lambda_i(\Omega - \sum_j d_j)$: the allocation depends on who has power, not just on who has outside options. The resulting loss is distributional, not a Pareto inefficiency.
 
 \item The \textbf{Leontief inverse} $(I - A')^{-1}$ is the first structural matrix in standard economics. It encodes all direct and indirect inter-sectoral dependencies. Its properties (column sums, spectral radius) characterize the production structure.
 
-\item The \textbf{implicit interaction matrix} of the competitive model is $W^{CE} = \frac{1}{N}\ones\ones'$: doubly stochastic, symmetric, rank 1, maximal spectral gap, equal centrality. The welfare theorems hold for this matrix. Structural economics studies general $W$.
+\item The \textbf{implicit interaction matrix} of the competitive model is $W^{\text{mkt}} = \ones\mathbf{s}'$: anonymous, rank one, $\Gap = 1$, with power equal to wealth shares; its equal-endowment case is the benchmark $W^{CE} = \frac{1}{N}\ones\ones'$. The First Welfare Theorem holds for any $\mathbf{s}$ provided $W^U = 0$. Power concentration ($\Neff$, $\Var(\pi)$) and integration ($\Gap$) are independent coordinates of a general $W$ (Section~\ref{ch01:sec:conventions}).
 \end{enumerate}
 
-No new economics was introduced. But the notation reveals an object --- the weight matrix $W$ --- that was always present but never named. The next chapters will show what changes when $W$ is not $\frac{1}{N}\ones\ones'$.
+No new economics was introduced. But the notation reveals an object --- the weight matrix $W$ --- that was always present but never named. The next chapters will show what changes when $W$ is not anonymous.
 
 
 %% =====================================================================
@@ -690,7 +797,7 @@ X = \begin{pmatrix} 5 & 3 & 1 \\ 2 & 4 & 2 \\ 1 & 1 & 5 \\ 4 & 2 & 2 \end{pmatri
 \item Compute the equilibrium allocation $X^*$ and verify feasibility.
 \end{enumerate}
 
-\item \textbf{Welfare loss computation.} For $N = 5$, $\kappa = 2$, $\Omega = 5$:
+\item \textbf{Welfare loss computation.} For $N = 5$, $\kappa = 0.1$, $\Omega = 5$ (check that $\kappa\omega_i < 1$ in every case):
 \begin{enumerate}
 \item Compute $L$ for $\boldsymbol{\omega} = (1, 1, 1, 1, 1)$. (Answer: 0.)
 \item Compute $L$ for $\boldsymbol{\omega} = (3, 1, 0.5, 0.25, 0.25)$.
@@ -698,9 +805,9 @@ X = \begin{pmatrix} 5 & 3 & 1 \\ 2 & 4 & 2 \\ 1 & 1 & 5 \\ 4 & 2 & 2 \end{pmatri
 \item Plot $L$ as a function of the Gini coefficient of $\boldsymbol{\omega}$.
 \end{enumerate}
 
-\item \textbf{Bargaining with different power.} For $N = 2$, $\kappa = 1$, $\Omega = 2$, $\boldsymbol{\omega} = (1.5, 0.5)$:
+\item \textbf{Bargaining with different power.} Two agents ($N = 2$, $\kappa = 0.5$) produce $\Omega = 2$ together; their disagreement payoffs are $\mathbf{d} = (0.6, 0.2)$. Use Proposition~\ref{ch01:prop:nash_division}.
 \begin{enumerate}
-\item Find the first-best allocation and welfare.
+\item Find the first-best (utilitarian) allocation and welfare.
 \item Find the bargaining allocation for $\boldsymbol{\lambda} = (0.5, 0.5)$ (equal power). Compare to the first-best.
 \item Find the bargaining allocation for $\boldsymbol{\lambda} = (0.8, 0.2)$ (asymmetric power). Who benefits?
 \item For what $\boldsymbol{\lambda}$ does the bargaining allocation equal the first-best?
@@ -711,7 +818,7 @@ X = \begin{pmatrix} 5 & 3 & 1 \\ 2 & 4 & 2 \\ 1 & 1 & 5 \\ 4 & 2 & 2 \end{pmatri
 A = \begin{pmatrix} 0.2 & 0.1 \\ 0.3 & 0.1 \end{pmatrix}.
 \end{equation}
 \begin{enumerate}
-\item Compute the first five terms of the Neumann series: $I, A', (A')^2, (A')^3, (A')^4$. (Use a calculator or Python.)
+\item Compute the first five terms of the Neumann series: $I$, $A'$, $(A')^2$, $(A')^3$, $(A')^4$. (Use a calculator or Python.)
 \item Sum them: $\sum_{k=0}^4 (A')^k$. Compare with the exact $(I - A')^{-1}$. How close are they?
 \item What is the spectral radius $\rho(A)$? (See Appendix~\ref{ch01:app:spectral_radius}.) Verify $\rho(A) < 1$.
 \item Compute output multipliers (column sums of $(I - A')^{-1}$). Which sector has stronger backward linkages?
@@ -725,9 +832,9 @@ A = \begin{pmatrix} 0.2 & 0.1 \\ 0.3 & 0.1 \end{pmatrix}.
 \item For $N = 3$, consider the matrix $W = \frac{1}{3}\begin{pmatrix} 1 & 1 & 1 \\ 2 & 0.5 & 0.5 \\ 0 & 1.5 & 1.5 \end{pmatrix}$. Is this doubly stochastic? Compute $W\x$ for $\x = (3, 6, 9)'$ and compare with $W^{CE}\x$. What is different?
 \end{enumerate}
 
-\item \textbf{Bolivia's input-output table} (data exercise). Download the Bolivian input-output table from INE or the OECD ICIO database. Aggregate to 5--10 sectors.
+\item \textbf{Bolivia's input-output table} (data exercise). Download the Bolivian input-output or supply-use tables from INE (Bolivia is not a separate economy in the OECD ICIO tables; multi-region alternatives that include it are Eora and CEPAL's regional input-output matrices). Aggregate to 5--10 sectors.
 \begin{enumerate}
-\item Construct $A$ (normalize each column by gross output).
+\item Construct $A$ in this book's convention: $a_{ij}$ = purchases by sector $i$ from sector $j$ divided by sector $i$'s gross output. (Published tables usually record sales from row $i$ to column $j$ and divide each \textit{column} by gross output; that matrix is $A'$ in our notation.)
 \item Compute the Leontief inverse $(I - A')^{-1}$.
 \item Compute output multipliers for: Mining/Gas, Agriculture, Manufacturing, Services.
 \item Which sector has the highest multiplier? Lowest? Relate to Pinto's structural heterogeneity: is Bolivia's economy ``structurally connected'' or ``block-diagonal''?
@@ -747,10 +854,11 @@ A = \begin{pmatrix} 0.2 & 0.1 \\ 0.3 & 0.1 \end{pmatrix}.
 \begin{equation}
 A = \begin{pmatrix} 0.05 & 0.30 & 0.30 \\ 0.01 & 0.05 & 0.05 \\ 0.01 & 0.05 & 0.05 \end{pmatrix}.
 \end{equation}
-Country 1 is the ``center'' (Column 1 is small: few depend on it. Row 1 is large: it needs a lot from others). Wait --- check this. Actually Column 1 shows who needs Country 1: $0.05, 0.01, 0.01$. Country 1's output is barely used by others. But Row 1 shows Country 1 needs a lot from Countries 2 and 3 ($0.30$ each).
+Column 1 shows who needs Country 1's output: $0.05, 0.01, 0.01$ --- it is barely used by others. Row 1 shows that Country 1 needs a lot from Countries 2 and 3 ($0.30$ each).
 \begin{enumerate}
-\item Which country is the ``center'' and which are ``periphery''? (Hint: look at \textit{column sums} of $(I - A')^{-1}$ --- who has the highest output multiplier?)
+\item Compute the output multipliers (column sums of $(I - A')^{-1}$). Which country has the strongest backward linkages?
 \item If final demand rises by 1 unit in Country 2 only, how much total output is generated in each country?
+\item In Prebisch's account the periphery exports primary goods to the center and imports manufactures \textit{from} it. Does this $A$ have that pattern, or its reverse? Modify $A$ so that Countries 2 and 3 depend on Country 1's output, and recompute (a).
 \item Argue informally that the center-periphery structure is a property of the asymmetry of $A$.
 \end{enumerate}
 \end{enumerate}
@@ -846,13 +954,13 @@ The solutions are $\lambda = \frac{(a+d) \pm \sqrt{(a+d)^2 - 4(ad-bc)}}{2}$. For
 
 \paragraph{Example.} For $A = \begin{pmatrix} 0.2 & 0.1 \\ 0.3 & 0.1 \end{pmatrix}$ (from Exercise~1.5): trace $= 0.3$, determinant $= 0.02 - 0.03 = -0.01$. Eigenvalues: $\lambda = \frac{0.3 \pm \sqrt{0.09 + 0.04}}{2} = \frac{0.3 \pm 0.36}{2}$. So $\lambda_1 = 0.33$ and $\lambda_2 = -0.03$. Spectral radius: $\rho(A) = 0.33 < 1$. The economy is productive.
 
-\paragraph{The spectral gap.} For an $N \times N$ matrix with eigenvalues $|\lambda_1| \geq |\lambda_2| \geq \cdots \geq |\lambda_N|$, the \textbf{spectral gap} is $\Gamma = |\lambda_1| - |\lambda_2|$: the distance between the largest and second-largest eigenvalue. In this book, the spectral gap measures \textit{structural asymmetry}:
+\paragraph{The spectral gap.} For a row-stochastic $W$ the largest eigenvalue is $\lambda_1 = 1$, and the \textbf{spectral gap} is $\Gamma = 1 - |\lambda_2|$, where $\lambda_2$ is the eigenvalue of second-largest modulus (Definition~\ref{ch01:def:gap}). The spectral gap measures \textit{integration} --- how fast the system forgets its starting point:
 \begin{itemize}
-\item Large $\Gamma$ (close to $\rho$): the system is dominated by one ``mode'' --- fast convergence, symmetric structure. The competitive interaction matrix has $\Gamma = 1$ (maximum).
-\item Small $\Gamma$ (close to 0): the system has competing modes --- slow convergence, persistent asymmetries. Star networks and hub-spoke structures have small spectral gaps, allowing power to concentrate.
+\item Large $\Gamma$: deviations from the long-run state die out quickly (like $|\lambda_2|^t$). Every rank-one matrix $\ones\boldsymbol{\pi}'$, including $W^{CE}$, has $\Gamma = 1$.
+\item Small $\Gamma$: slow convergence. This happens when the network is split into weakly coupled blocks, or when it is periodic (a bipartite star or an even ring without self-loops has $\Gamma = 0$).
 \end{itemize}
 
-We will develop these connections formally in Chapter~6. For now: eigenvalues measure how a system amplifies or dampens, and the spectral gap measures how symmetric the system is. Both are properties of the matrix $W$, which is the social structure.
+The spectral gap says nothing about how concentrated power is: Section~\ref{ch01:sec:conventions} shows that every $\boldsymbol{\pi}$ is compatible with every $\Gamma$. Chapter~6 develops these connections formally. For now: eigenvalues measure how a system amplifies or dampens, and the spectral gap measures how fast it integrates.
 
 
 %% =====================================================================
@@ -874,7 +982,7 @@ I + A + A^2 + A^3 + \cdots = (I - A)^{-1},
 \end{equation}
 provided the series converges. The condition for convergence is $\rho(A) < 1$ (the spectral radius is less than 1) --- the matrix analog of $|r| < 1$.
 
-\paragraph{Why it converges.} Each power $A^k$ has entries bounded by $\rho(A)^k$ (roughly). Since $\rho(A) < 1$, these powers decay geometrically: $A^k \to 0$ as $k \to \infty$. The partial sums $\sum_{k=0}^K A^k$ converge to a finite matrix, which is $(I - A)^{-1}$.
+\paragraph{Why it converges.} The entries of $A^k$ are \textit{not} bounded by $\rho(A)^k$ in general (for $A = \begin{pmatrix} 0.5 & 0.9 \\ 0 & 0.5\end{pmatrix}$, $\rho = 0.5$ but $a_{12} = 0.9$). What is true is Gelfand's formula, $\|A^k\|^{1/k} \to \rho(A)$: for any $\varepsilon > 0$ there is a constant $C$ with $\|A^k\| \le C(\rho(A) + \varepsilon)^k$. Since $\rho(A) < 1$, choose $\varepsilon$ with $\rho(A) + \varepsilon < 1$; the powers decay geometrically and $A^k \to 0$ as $k \to \infty$. The partial sums $\sum_{k=0}^K A^k$ converge to a finite matrix, which is $(I - A)^{-1}$.
 
 \paragraph{Verification.} Multiply both sides of~\eqref{ch01:eq:neumann_app} by $(I - A)$:
 \begin{align}
@@ -901,14 +1009,15 @@ The infinite series telescopes, leaving only $I$. This confirms that $\sum_{k=0}
 \midrule
 $I$ & 1.000 & 0.000 & 0.000 & 1.000 \\
 $I + A'$ & 1.200 & 0.300 & 0.100 & 1.100 \\
-$I + A' + (A')^2$ & 1.270 & 0.360 & 0.130 & 1.140 \\
-$I + A' + \cdots + (A')^4$ & 1.283 & 0.370 & 0.134 & 1.147 \\
-$(I - A')^{-1}$ (exact) & 1.284 & 0.370 & 0.135 & 1.149 \\
+$I + A' + (A')^2$ & 1.270 & 0.390 & 0.130 & 1.140 \\
+$I + A' + \cdots + (A')^3$ & 1.293 & 0.420 & 0.140 & 1.153 \\
+$I + A' + \cdots + (A')^4$ & 1.301 & 0.430 & 0.143 & 1.157 \\
+$(I - A')^{-1}$ (exact) & 1.304 & 0.435 & 0.145 & 1.159 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-By round 4, the partial sum is within 0.2\% of the exact inverse. The cascade converges fast when $\rho(A)$ is small.
+By round 4, every entry of the partial sum is within about 1.1\% of the exact inverse. The cascade converges fast when $\rho(A)$ is small.
 
 
 %% =====================================================================
@@ -920,11 +1029,11 @@ In 1949, Ra\'{u}l Prebisch --- an Argentine economist who had served as head of 
 
 Prebisch's argument has three steps, each of which corresponds to a property of the weight matrix developed in this chapter.
 
-\textbf{Step 1: The global economy has a structure.} Prebisch rejected the Ricardian doctrine that free trade benefits all participants symmetrically. He argued that the world economy is divided into an industrialized ``center'' and a primary-commodity-exporting ``periphery,'' connected by trade linkages that are fundamentally \textit{asymmetric}: the periphery exports raw materials with low value-added and imports manufactures with high value-added. In the notation of this chapter: the global input-output matrix $A_{\text{global}}$ has a core-periphery topology --- the center's column sums in the Leontief inverse $(I - A')^{-1}$ are large (high backward linkages), while the periphery's column sums are small. The structure is not $\frac{1}{N}\ones\ones'$.
+\textbf{Step 1: The global economy has a structure.} Prebisch rejected the presumption that the gains from trade and technical progress are spread evenly across trading partners. He argued that the world economy is divided into an industrialized ``center'' and a primary-commodity-exporting ``periphery,'' connected by trade linkages that are fundamentally \textit{asymmetric}: the periphery exports raw materials with low value-added and imports manufactures with high value-added. In the notation of this chapter, the hypothesis is that the global input-output matrix $A_{\text{global}}$ has a core-periphery topology: the center's column sums in the Leontief inverse $(I - A')^{-1}$ are large (strong backward linkages), and the periphery's are small. Interaction is not anonymous; it is structured (Section~\ref{ch01:sec:implicit_W}).
 
-\textbf{Step 2: The structure generates asymmetric outcomes.} Prebisch argued that the fruits of technical progress are distributed unequally: center countries retain the productivity gains from industrialization (through higher wages negotiated by strong unions), while periphery countries transfer theirs to the center through deteriorating terms of trade. In our notation: the Perron eigenvector of the global $W$ assigns high weight to the center and low weight to the periphery --- $\pi_{\text{center}} \gg \pi_{\text{periphery}}$. The bargaining allocation (Chapter~7) gives the center more than its ``fair share'' of the surplus. The welfare loss from this asymmetry is proportional to $\text{Var}(\pi_i)$ --- the variance of the power distribution.
+\textbf{Step 2: The structure generates asymmetric outcomes.} Prebisch argued that the fruits of technical progress are distributed unequally: center countries retain the productivity gains from industrialization (through higher wages negotiated by strong unions), while periphery countries transfer theirs to the center through deteriorating terms of trade. His mechanism ran through prices --- asymmetric wage and price behavior over the trade cycle and different income elasticities of demand for primary goods and manufactures --- and no object in this chapter captures it directly. What this chapter does supply is the distributional logic: when a joint surplus is divided by bargaining, the side with the larger weight captures more of it (Proposition~\ref{ch01:prop:nash_division}), and the cost is a distributional loss of the form~\eqref{ch01:eq:L_power}. Where the weights come from --- the Perron vector $\boldsymbol{\pi}$ of a global weight matrix --- is the question of Chapter~6.
 
-\textbf{Step 3: The doctrine that defends the structure is produced by the structure.} Prebisch opened his essay by declaring that ``reality is destroying that outdated scheme of the international division of labor.'' The ``scheme'' he attacked was classical trade theory, which claimed that free trade was optimal for all participants. His point: the theory itself was produced at the center and propagated to the periphery through academic training, policy advice, and institutional pressure. In the language of Chapter~5: the global information network $W^I$ has a center-periphery topology --- the periphery absorbs economic doctrine from the center (the Perron eigenvector of $W^I$ assigns dominant weight to center economists), and the resulting ``consensus'' reflects center interests. The Washington Consensus, forty years later, is the DeGroot equilibrium of this $W^I$.
+\textbf{Step 3: The doctrine that defends the structure is produced by the structure.} Prebisch opened his essay by declaring that ``reality is destroying that outdated scheme of the international division of labor.'' The ``scheme'' he attacked was classical trade theory, which claimed that free trade was optimal for all participants. His point: the theory itself was produced at the center and propagated to the periphery through academic training, policy advice, and institutional pressure. In the language of Chapter~5: the global information network $W^I$ has a center-periphery topology --- the periphery absorbs economic doctrine from the center (the Perron eigenvector of $W^I$ assigns dominant weight to center economists), and the resulting ``consensus'' reflects center interests. Chapter~8 builds the DeGroot model in which one can ask whether a later policy consensus, such as the Washington Consensus, is the long-run belief of such a $W^I$; this chapter offers no evidence that it is.
 
 Each step corresponds to a formal object in this book:
 
@@ -933,16 +1042,15 @@ Each step corresponds to a formal object in this book:
 \toprule
 \textbf{Prebisch's argument} & \textbf{Formal object} & \textbf{Chapter} \\
 \midrule
-The global economy has a structure & $W \neq \frac{1}{N}\ones\ones'$ & 1 \\
-The structure generates asymmetric outcomes & $\boldsymbol{\pi}(W) \neq \frac{1}{N}\ones$ & 6 \\
+The global economy has a structure & Non-anonymous $W$; asymmetric column sums of $(I-A')^{-1}$ (a testable hypothesis) & 1, 16 \\
+The gains of progress are unevenly shared & Surplus divided by weights $\boldsymbol{\lambda} \neq \frac{1}{N}\ones$; distributional loss~\eqref{ch01:eq:L_power} & 1, 6, 7 \\
 The structure produces the doctrine & $W^I$ has center-periphery topology & 5, 8 \\
-Terms of trade deteriorate & Column sums of $(I-A')^{-1}$ are asymmetric & 3, 16 \\
-The welfare theorems fail & $W$ is not doubly stochastic & 2 \\
+Terms of trade deteriorate & A price mechanism, not a Leontief quantity object & 16 \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Prebisch wrote all of this in prose. The equations that formalize his argument are the content of Chapters~1--8. The structuralists built the cathedral in words. This book provides the engineering drawings. But the blueprint was always theirs.
+Prebisch wrote all of this in prose. This chapter supplies the first row and the logic of the second; the equations for the rest are the content of Chapters~5--8 and~16. The structuralists built the cathedral in words. This book provides the engineering drawings. But the blueprint was always theirs.
 
 
 %% =====================================================================
@@ -954,7 +1062,7 @@ Prebisch wrote all of this in prose. The equations that formalize his argument a
 
 \textbf{The Leontief system:} Leontief (1986), \textit{Input-Output Economics}. Miller and Blair (2009), \textit{Input-Output Analysis}, 2nd edition. Sargent and Stachurski (2024), \textit{Economic Networks}, Chapters 1--4.
 
-\textbf{Network perspective on production:} Acemoglu, Carvalho, Ozdaglar, and Tahbaz-Salehi (2012), ``The Network Origins of Aggregate Fluctuations,'' \textit{Econometrica}.
+\begin{sloppypar}\textbf{Network perspective on production:} Acemoglu, Carvalho, Ozdaglar, and Tahbaz-Salehi (2012), ``The Network Origins of Aggregate Fluctuations,'' \textit{Econometrica}.\end{sloppypar}
 
 \textbf{Linear algebra for economists:} Strang (2016), \textit{Introduction to Linear Algebra}, 5th edition. Simon and Blume (1994), \textit{Mathematics for Economists}. Sargent and Stachurski's QuantEcon lectures (\texttt{quantecon.org}).
 

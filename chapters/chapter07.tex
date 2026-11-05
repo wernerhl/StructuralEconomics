@@ -3,17 +3,11 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{6}}{}
 \chapter{The Bargaining Equilibrium}\label{ch:07}
 \chaptersubtitle{Where Power Meets Prices}
+% TODO-VERIFY: check exact wording against Marini, Dialectica de la dependencia (Mexico: Era, 1973). Marini's concept is the value of labour-power (fuerza de trabajo), not of "trabajo"; the clause after "es decir" may be a gloss, not Marini's text.
 \begin{quote}
 \textit{``El fundamento de la dependencia es la superexplotaci\'{o}n del trabajo, es decir, el hecho de que el trabajo se remunera por debajo de su valor.''}\\[0.3em]
 \textnormal{[``The foundation of dependence is the superexploitation of labor --- that is, the fact that labor is remunerated below its value.'']}\\
 \hfill --- Ruy Mauro Marini, \textit{Dial\'{e}ctica de la dependencia} (1973)
-\end{quote}
-
-\vspace{0.3em}
-
-\begin{quote}
-\textit{``The market gives you what you can pay for. The structure determines what you can pay.''}\\
-\hfill --- Celso Furtado (paraphrased)
 \end{quote}
 
 \vspace{0.5em}
@@ -25,11 +19,11 @@
 
 \vspace{1em}
 
-Chapter~1 derived the competitive equilibrium: every agent maximizes utility at market prices, markets clear, and the allocation is Pareto efficient. Chapter~6 showed that this requires $\boldsymbol{\pi} = \frac{1}{N}\ones$ --- equal power. This chapter asks: what is the equilibrium when power is unequal?
+Chapter~1 derived the competitive equilibrium: every agent maximizes utility at market prices, markets clear, and the allocation is Pareto efficient. Chapter~6 showed that anonymous market interaction corresponds to $W^{\text{mkt}} = \ones\mathbf{s}'$, with power equal to wealth shares, and that equal power means a doubly stochastic $W$ (Proposition~\ref{ch06:prop:equal_power}). This chapter asks: how is a surplus divided when interaction is not anonymous and power, read from $W$, is unequal?
 
-The answer is the \textit{bargaining equilibrium}: a generalized Nash bargaining solution where the weights are not assumed but derived from the weight matrix $W$ through the Perron eigenvector. Power enters the allocation problem. The salte\~{n}a vendor's compadrazgo bond, the gas executive's regulatory leverage, the girl in Potos\'{i}'s information network --- all of these shape $W$, which shapes $\boldsymbol{\pi}$, which shapes the allocation.
+The answer is the \textit{bargaining equilibrium}: a generalized Nash bargaining solution whose weights are taken from the weight matrix $W$ through the Perron eigenvector (Assumption~7.A). Power enters the allocation problem. The salte\~{n}a vendor's compadrazgo bond, the gas executive's regulatory leverage, the girl in Potos\'{i}'s information network --- all of these shape $W$, which shapes $\boldsymbol{\pi}$, which shapes the allocation.
 
-The main results: (1)~the bargaining equilibrium exists and is unique under standard conditions; (2)~it reduces to the competitive equilibrium when $\boldsymbol{\pi} = \frac{1}{N}\ones$; (3)~the welfare loss from power asymmetry has a clean decomposition into power, externality, and interaction components; and (4)~the direction of inefficiency is determined by $\boldsymbol{\pi}$: powerful agents consume too much, powerless agents too little.
+The main results: (1)~with a transferable surplus, the bargaining allocation is equal division plus a power correction, $x_i = \Omega/N + (\pi_i - 1/N)\Phi$ (Proposition~\ref{ch07:prop:allocation-rule}); (2)~the bargaining equilibrium exists and is unique when there are gains from cooperation; (3)~it is Pareto efficient for every $\boldsymbol{\pi}$, so the cost of unequal power is distributional --- exactly $\frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$ in utilitarian terms --- and it decomposes exactly into power, externality, and interaction components; and (4)~equal power is not the same as Walras.
 
 
 %% =====================================================================
@@ -39,16 +33,16 @@ The main results: (1)~the bargaining equilibrium exists and is unique under stan
 
 \subsection{Why Not Walras?}
 
-The Walrasian equilibrium assumes price-taking: every agent is so small relative to the market that she cannot affect prices. This implies equal power. But in most real economies, agents are not equal:
+The Walrasian equilibrium assumes price-taking: every agent is so small relative to the market that she cannot affect prices, and interacts only with the market aggregate. Interaction is anonymous ($W^{\text{mkt}} = \ones\mathbf{s}'$). But in many real economies, interaction is not anonymous:
 
 \begin{itemize}
 \item A monopsony employer in a company town sets wages, not the market.
 \item A landlord with the only irrigated field in a valley sets the sharecropping rate.
-\item A country that exports 40\% of global lithium (Chile) affects the world price.
+\item A country that supplies a large share of the world's lithium (Chile) affects the world price.
 \item A platform (Amazon, Uber) sets the terms of trade for millions of small sellers.
 \end{itemize}
 
-In each case, some agent has structural power --- a position in $W$ that gives her Perron weight $\pi_i > 1/N$ --- and she uses that power to pull the allocation toward herself. The Walrasian model cannot capture this because it assumes the power away.
+In each case, some agent has structural power --- a position in $W$ that gives her Perron weight $\pi_i > 1/N$ --- and she uses that power to pull the allocation toward herself. The Walrasian model abstracts from this by making interaction anonymous.
 
 The bargaining equilibrium keeps everything the Walrasian model has (preferences, endowments, production) and adds one object: the power vector $\boldsymbol{\pi}(W)$.
 
@@ -58,11 +52,11 @@ The bargaining equilibrium keeps everything the Walrasian model has (preferences
 Before the general model, let us see the mechanism in the simplest possible case.
 
 \begin{example}[The Landlord and the Farmer]\label{ch07:ex:landlord}
-Two agents: a Landlord ($L$) and a Farmer ($F$). One good (output). The Landlord owns the land ($\omega_L = 10$); the Farmer owns labor ($\omega_F = 2$). Together they can produce $Y = 20$ (more than the sum of endowments, so there are gains from cooperation). Apart, the Landlord produces 10 (land alone) and the Farmer produces 2 (labor alone).
+Two agents: a Landlord ($L$) and a Farmer ($F$). One good (output). The Landlord owns the land ($\omega_L = 10$); the Farmer owns labor ($\omega_F = 2$). Together they can produce $Y = 20$ (more than the sum of their outside options, so there are gains from cooperation). Apart, the Landlord's best alternative use of the land yields 10 and the Farmer's best alternative (casual day labor) yields 2. These are outside options, not the production function evaluated with one factor at zero.
 
 The \textbf{surplus} from cooperation is $S = 20 - 10 - 2 = 8$. How is it divided?
 
-\textbf{Competitive answer:} Each factor is paid its marginal product. If the production function is $Y = K^{0.5}L^{0.5}$ with $K = 10$ and $L = 2$, then $MPK = 0.5 \times 20/10 = 1$ and $MPL = 0.5 \times 20/2 = 5$. The Farmer gets $5 \times 2 = 10$ and the Landlord gets $1 \times 10 = 10$. Equal split. The Farmer's income quintuples; the Landlord's stays the same. This assumes perfect competition in both factor markets.
+\textbf{Competitive answer:} Each factor is paid its marginal product. If the joint production function is $Y = A K^{0.5}L^{0.5}$ with $K = 10$, $L = 2$ and $A = \sqrt{20} \approx 4.47$ (so that $Y = 20$), then $MPK = 0.5 \times 20/10 = 1$ and $MPL = 0.5 \times 20/2 = 5$. The Farmer gets $5 \times 2 = 10$ and the Landlord gets $1 \times 10 = 10$. Equal split. The Farmer's income quintuples; the Landlord's stays the same. This assumes perfect competition in both factor markets.
 
 \textbf{Bargaining answer:} The surplus is divided according to power weights $\boldsymbol{\pi} = (\pi_L, \pi_F)$. The Nash bargaining solution gives each agent their disagreement payoff plus a share of the surplus:
 \begin{equation}\label{ch07:eq:nash_two}
@@ -73,7 +67,7 @@ If the Landlord has more power ($\pi_L = 0.7$, $\pi_F = 0.3$): $x_L = 15.6$, $x_
 
 If the Farmer has more power ($\pi_L = 0.3$, $\pi_F = 0.7$): $x_L = 12.4$, $x_F = 7.6$. The Farmer does much better.
 
-If power is equal ($\pi_L = \pi_F = 0.5$): $x_L = 14$, $x_F = 6$. Neither the competitive answer (10, 10) nor the equal-split-of-surplus answer (14, 6). The bargaining solution with equal power gives each agent their disagreement payoff plus half the surplus.
+If power is equal ($\pi_L = \pi_F = 0.5$): $x_L = 14$, $x_F = 6$. This is the equal split of the surplus --- each agent gets her disagreement payoff plus half of $S$ --- and it is not the competitive answer (10, 10).
 
 \begin{center}
 \begin{tabular}{lccc}
@@ -93,11 +87,11 @@ Bargaining ($\pi_L = 0.3$) & 12.4 & 7.6 & 70\% \\
 \begin{intuition}[Why the competitive answer is a special case]
 The competitive equilibrium gives the Farmer 100\% of the surplus --- because competitive factor markets price labor at its marginal product, which is very high when labor is scarce (only 2 units of labor with 10 units of land). But this requires the Farmer to have an outside option that credibly threatens the Landlord: if the Farmer can walk away and sell her labor elsewhere at the competitive wage, the Landlord must match that wage.
 
-In a competitive market, the ``outside option'' is the market itself: any buyer or seller can transact with any other buyer or seller. This is $W = \frac{1}{N}\ones\ones'$ --- everyone is connected to everyone, so nobody has hold-up power.
+In a competitive market, the ``outside option'' is the market itself: any buyer or seller can transact with any other buyer or seller. Interaction is anonymous ($W^{\text{mkt}} = \ones\mathbf{s}'$), so nobody has hold-up power.
 
 In a real village, the Farmer's outside option may be very limited: the Landlord is the only employer within walking distance, the Farmer has no savings to relocate, and social norms (the compadrazgo bond, the patron-client relationship) create obligations that limit exit. The Farmer's position in $W$ is peripheral: $W_{FL}$ is large (the Farmer depends on the Landlord) but $W_{LF}$ is small (the Landlord can replace the Farmer). This asymmetry gives the Landlord high $\pi_L$ and allows her to capture most of the surplus.
 
-The competitive model assumes this away. The bargaining model puts it back.
+The competitive benchmark abstracts from this. The bargaining model puts it back.
 \end{intuition}
 
 
@@ -108,9 +102,9 @@ The competitive model assumes this away. The bargaining model puts it back.
 
 \subsection{Setup}
 
-$N$ agents, $L$ goods, preferences $U_i(x_i)$ (with externalities from $W^U$ as in Chapter~5), endowments $\boldsymbol{\omega} = (\omega_1, \ldots, \omega_N)$, and a composite weight matrix $W$ with Perron eigenvector $\boldsymbol{\pi} = (\pi_1, \ldots, \pi_N)'$.
+$N$ agents, $L$ goods, preferences $U_i(x_i)$ (with externalities from $W^U$ as in Chapter~5), endowments $\boldsymbol{\omega} = (\omega_1, \ldots, \omega_N)$, and a row-stochastic composite weight matrix $W$ on the same $N$ agents, with Perron eigenvector $\boldsymbol{\pi} = (\pi_1, \ldots, \pi_N)'$.
 
-Each agent's \textbf{disagreement utility} --- what she gets if bargaining fails and she consumes her endowment --- is:
+Each agent's \textbf{disagreement utility} --- what she gets if bargaining fails --- is $d_i$. When the outside option is to consume her endowment,
 \begin{equation}\label{ch07:eq:disagreement}
 d_i = V_i(\boldsymbol{\omega}) = U_i(\omega_i) + \gamma_U \sum_{j \neq i} W^U_{ij} U_j(\omega_j).
 \end{equation}
@@ -120,28 +114,35 @@ The \textbf{surplus} for agent $i$ from any allocation $\x = (x_1, \ldots, x_N)$
 S_i(\x) = V_i(\x) - d_i.
 \end{equation}
 
+\medskip\noindent\textbf{Assumption 7.A (Power as Nash weights).} \textit{The bargaining weights are the Perron vector of the composite weight matrix: agent $i$'s weight is $\pi_i = \pi_i(W)$.}
+\medskip
+
+This is a modelling postulate, not a result. It says that the long-run influence structure of Chapter~6 also governs how a surplus is split. Strategic models of bargaining in networks do not, in general, deliver it: in Manea (2011) and Abreu and Manea (2012) equilibrium payoffs depend on the network in ways that are not eigenvector centrality. Appendix~7B discusses what a microfoundation would have to deliver.
+
 \begin{definition}[The Bargaining Equilibrium]\label{ch07:def:bargaining_eq}
 The \textbf{bargaining equilibrium} is the allocation $\x^*$ that solves:
 \begin{equation}\label{ch07:eq:bargaining}
 \max_{\x \geq 0} \sum_{i=1}^N \pi_i \ln S_i(\x) \qquad \text{subject to} \qquad \sum_{i=1}^N x_{i\ell} = \bar{\omega}_\ell, \quad \ell = 1, \ldots, L,
 \end{equation}
-where $\boldsymbol{\pi} = \boldsymbol{\pi}(W)$ is the left Perron eigenvector of the composite weight matrix, and feasibility requires total consumption equals total endowment for each good.
+over the feasible allocations with $S_i(\x) > 0$ for all $i$, where $\boldsymbol{\pi} = \boldsymbol{\pi}(W)$ (Assumption~7.A).
 \end{definition}
 
 \begin{intuition}[What the bargaining problem maximizes]
 The objective~\eqref{ch07:eq:bargaining} is the \textbf{weighted Nash product}: the weighted sum of log-surpluses. Each agent's log-surplus $\ln S_i$ is weighted by her power $\pi_i$. An agent with higher power has more ``voting weight'' in the allocation decision --- her surplus matters more.
 
-When $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power), this is the standard symmetric Nash bargaining solution. When $\pi_i$ varies, it is the asymmetric Nash bargaining solution with weights determined by the network.
+When $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power), this is the standard symmetric Nash bargaining solution. When $\pi_i$ varies, it is the asymmetric Nash bargaining solution with weights given by the network.
 
 Why logarithms? The Nash axioms (invariance to affine utility transformations, Pareto efficiency, symmetry, independence of irrelevant alternatives) characterize the product $\prod_i S_i^{\pi_i}$ as the unique solution satisfying these properties. Taking logs converts the product to a sum, making the optimization problem concave.
+
+The problem needs \textit{gains from cooperation}: some feasible allocation must give every agent $S_i > 0$. In a one-good exchange economy with endowments as the disagreement point there is none --- any reallocation hurts someone --- so the only individually rational allocation is $\x = \boldsymbol{\omega}$ and there is nothing to bargain over. The economies below therefore have a joint surplus, as in the landlord--farmer example.
 \end{intuition}
 
 
 \subsection{First-Order Conditions}
 
-For the case without utility externalities ($\gamma_U = 0$, so $V_i = U_i$ and $S_i = U_i(x_i) - U_i(\omega_i)$), the Lagrangian is:
+For the case without utility externalities ($\gamma_U = 0$, so $V_i = U_i$ and $S_i = U_i(x_i) - d_i$), the Lagrangian is:
 \begin{equation}
-\mathcal{L} = \sum_{i=1}^N \pi_i \ln\bigl(U_i(x_i) - U_i(\omega_i)\bigr) - \sum_{\ell=1}^L \mu_\ell \left(\sum_i x_{i\ell} - \bar{\omega}_\ell\right).
+\mathcal{L} = \sum_{i=1}^N \pi_i \ln\bigl(U_i(x_i) - d_i\bigr) - \sum_{\ell=1}^L \mu_\ell \left(\sum_i x_{i\ell} - \bar{\omega}_\ell\right).
 \end{equation}
 
 The first-order condition for $x_{i\ell}$ is:
@@ -152,49 +153,46 @@ The first-order condition for $x_{i\ell}$ is:
 \begin{intuition}[Reading the FOC]
 The left side is the ``power-adjusted marginal utility'': agent $i$'s marginal utility of good $\ell$, scaled by her power-to-surplus ratio $\pi_i / S_i$. At the optimum, this must be equal across all agents for each good.
 
-Compare with the competitive FOC: $\frac{\partial U_i}{\partial x_{i\ell}} / \lambda_i = p_\ell$, where $\lambda_i$ is agent $i$'s marginal utility of wealth. In the competitive case, the shadow price $\mu_\ell$ equals the market price $p_\ell$, and the right-hand side is the same for everyone. In the bargaining case, the shadow price $\mu_\ell$ is still equalized across agents, but the left side carries the extra term $\pi_i / S_i$: power matters.
+Compare with the competitive FOC: $\frac{\partial U_i}{\partial x_{i\ell}} / \lambda_i = p_\ell$, where $\lambda_i$ is agent $i$'s marginal utility of wealth. In both cases marginal rates of substitution are equalized across agents --- both allocations are Pareto efficient. What differs is \textit{where on the contract curve} the allocation lands: in the bargaining case the factor $\pi_i / S_i$ moves it toward the powerful.
 
-An agent with high $\pi_i$ relative to $S_i$ (powerful but not yet receiving much surplus) gets a higher marginal weight --- the solution gives her more. An agent with low $\pi_i$ (powerless) gets less, even if her marginal utility is high. This is the mechanism of structural inequality.
+An agent with high $\pi_i$ relative to $S_i$ (powerful but not yet receiving much surplus) gets a higher marginal weight --- the solution gives her more. An agent with low $\pi_i$ gets less, even if her marginal utility is high. This is the mechanism of structural inequality.
 \end{intuition}
 
 
-\subsection{The Bargaining Allocation with LQ Utility}
+\subsection{The Allocation Rule with Transferable Surplus}
 
-To build full intuition, we solve the model explicitly for linear-quadratic utility.
+To build full intuition, we solve the model explicitly in the transferable-utility (TU) case of the landlord--farmer example: cooperation produces a joint output $\Omega$ that can be divided freely, and agent $i$'s outside option is $d_i$.
 
-\begin{example}[The LQ Bargaining Equilibrium]\label{ch07:ex:LQ_bargaining}
-$N$ agents, one good, $U_i(x_i) = x_i - \frac{\kappa}{2}x_i^2$, total endowment $\Omega$, endowments $\boldsymbol{\omega}$, power $\boldsymbol{\pi}$.
-
-The surplus is $S_i = U_i(x_i) - U_i(\omega_i) = (x_i - \omega_i) - \frac{\kappa}{2}(x_i^2 - \omega_i^2) = (x_i - \omega_i)(1 - \frac{\kappa}{2}(x_i + \omega_i))$.
-
-For small trades ($x_i \approx \omega_i$), $S_i \approx (x_i - \omega_i)(1 - \kappa\omega_i)$.
-
-The FOC~\eqref{ch07:eq:foc_bargaining} becomes:
-\begin{equation}
-\frac{\pi_i}{S_i} \cdot (1 - \kappa x_i) = \mu.
-\end{equation}
-
-Solving the system (see Appendix~\ref{ch07:app:LQ_derivation}), the bargaining allocation is:
+\begin{proposition}[The Allocation Rule]\label{ch07:prop:allocation-rule}
+Let the bargaining be over a transferable output $\Omega$, with surpluses $S_i = x_i - d_i$, disagreement payoffs satisfying $\sum_j d_j < \Omega$, and weights $\boldsymbol{\pi} > 0$ (Assumption~7.A). The unique bargaining equilibrium is
 \begin{equation}\label{ch07:eq:LQ_solution}
-x_i^* = \frac{1}{\kappa}\left(1 - \frac{\mu}{\pi_i} S_i^*\right),
+x_i^* = d_i + \pi_i \Bigl(\Omega - \sum_{j} d_j\Bigr).
 \end{equation}
-where $\mu$ and the $S_i^*$ are determined jointly by the feasibility constraint $\sum_i x_i^* = \Omega$ and the surplus definitions.
-
-For the case of equal endowments ($\omega_i = \Omega/N$ for all $i$), the solution simplifies to:
+If all disagreement payoffs are equal, $d_i = \bar{d}$, then with the \textbf{bargaining surplus} $\Phi := \Omega - N\bar{d} > 0$,
 \begin{equation}\label{ch07:eq:LQ_equal_omega}
-x_i^* = \frac{\Omega}{N} + \left(\pi_i - \frac{1}{N}\right) \cdot \Phi(\Omega, N, \kappa),
+x_i^* = \frac{\Omega}{N} + \left(\pi_i - \frac{1}{N}\right) \Phi .
 \end{equation}
-where $\Phi > 0$ is a positive scalar that depends on aggregate parameters. Each agent receives the equal-division amount $\Omega/N$ plus a correction proportional to $(\pi_i - 1/N)$: the deviation of her power from equal.
+\end{proposition}
 
-Powerful agents ($\pi_i > 1/N$) get more than equal division. Powerless agents ($\pi_i < 1/N$) get less. When $\boldsymbol{\pi} = \frac{1}{N}\ones$, the correction vanishes and the allocation equals equal division.
+\begin{proof}
+The objective $\sum_i \pi_i \ln(x_i - d_i)$ is strictly concave on $\{x_i > d_i\}$ and tends to $-\infty$ at its boundary; the feasible set $\{\sum_i x_i = \Omega,\ x_i > d_i\}$ is nonempty because $\sum_j d_j < \Omega$. The first-order conditions are $\pi_i/(x_i - d_i) = \mu$, i.e.\ $x_i - d_i = \pi_i/\mu$. Summing and using $\sum_i \pi_i = 1$ gives $1/\mu = \Omega - \sum_j d_j$, which is~\eqref{ch07:eq:LQ_solution}. With $d_i = \bar{d}$, $x_i^* = \bar{d} + \pi_i\Phi = (\Omega - \Phi)/N + \pi_i\Phi$, which is~\eqref{ch07:eq:LQ_equal_omega}.
+\end{proof}
+
+\begin{example}[The Allocation Rule at Work]\label{ch07:ex:LQ_bargaining}
+$N$ agents, transferable joint output $\Omega$, equal outside options $\bar{d}$, power $\boldsymbol{\pi}$. Each agent receives the equal-division amount $\Omega/N$ plus a correction $(\pi_i - 1/N)\Phi$: the deviation of her power from equal, times the surplus at stake. Powerful agents ($\pi_i > 1/N$) get more than equal division; powerless agents ($\pi_i < 1/N$) get less; when $\boldsymbol{\pi} = \frac{1}{N}\ones$ the correction vanishes. The landlord--farmer example is the case $N = 2$, $\Omega = 20$, $\boldsymbol{d} = (10, 2)$, where~\eqref{ch07:eq:LQ_solution} gives $x_L = 10 + 8\pi_L$.
+
+To \textit{evaluate} allocations we use a concave utility of consumption, $U(x) = x - \frac{\kappa}{2}x^2$, calibrated so that $\kappa x_i < 1$ for every allocation considered (agents are below satiation). Because $\sum_i (x_i^* - \Omega/N) = 0$, the linear terms cancel and the utilitarian loss relative to equal division is exactly
+\begin{equation}\label{ch07:eq:Lpower}
+L_{\text{power}} := \sum_{i} \Bigl[U\bigl(\tfrac{\Omega}{N}\bigr) - U(x_i^*)\Bigr] = \frac{\kappa N}{2}\,\Phi^2\,\Var(\boldsymbol{\pi}).
+\end{equation}
 \end{example}
 
 \begin{keyinsight}
-Equation~\eqref{ch07:eq:LQ_equal_omega} is the fundamental allocation equation of structural economics. It says: \textit{the allocation is equal division plus a power correction.} The power correction is proportional to $\pi_i - 1/N$: how much agent $i$'s structural power deviates from the egalitarian benchmark.
+Equation~\eqref{ch07:eq:LQ_equal_omega} is the allocation rule of this book. It says: \textit{the allocation is equal division plus a power correction.} The power correction is proportional to $\pi_i - 1/N$: how much agent $i$'s structural power deviates from the egalitarian benchmark.
 
-In the competitive model, the ``power correction'' is zero because $\pi_i = 1/N$ for all $i$. In the structural model, it is positive for the powerful and negative for the powerless. The magnitude of the correction depends on the spectral gap of $W$: large $\Gamma$ means $\boldsymbol{\pi}$ is close to uniform and the correction is small; small $\Gamma$ means $\boldsymbol{\pi}$ can be highly concentrated and the correction is large.
+Its size is governed by two things: the surplus at stake, $\Phi$, and the concentration of power, measured by $\Var(\boldsymbol{\pi})$ or $\Neff$ (Definition~\ref{ch06:def:neff}). It is \textit{not} governed by the spectral gap: by Proposition~\ref{ch06:prop:gap-power-independent}, any concentration of $\boldsymbol{\pi}$ is compatible with any $\Gamma$.
 
-The entire distributional impact of social structure is captured by the vector $(\pi_i - 1/N)_{i=1}^N$.
+The entire distributional impact of social structure, in this model, is captured by the vector $(\pi_i - 1/N)_{i=1}^N$.
 \end{keyinsight}
 
 
@@ -204,39 +202,43 @@ The entire distributional impact of social structure is captured by the vector $
 %% =====================================================================
 
 \begin{theorem}[Existence and Uniqueness]\label{ch07:thm:existence}
-Under standard conditions (continuous, strictly concave $U_i$, strictly positive endowments, $\boldsymbol{\pi} > 0$), the bargaining equilibrium~\eqref{ch07:eq:bargaining} exists and is unique.
+Suppose: (i) each $U_i$ is continuous, increasing and strictly concave on a compact convex consumption set; (ii) $W^U \geq 0$ and $\gamma_U \geq 0$, so each $V_i$ is concave in $\x$; (iii) $\boldsymbol{\pi} > 0$; and (iv) \textbf{gains from cooperation}: some feasible allocation gives $S_i(\x) > 0$ for every $i$. Then the bargaining equilibrium~\eqref{ch07:eq:bargaining} exists and is unique.
 \end{theorem}
 
-\begin{proof}[Proof sketch]
-The objective $\sum_i \pi_i \ln S_i$ is strictly concave in $\x$ (since $U_i$ is strictly concave, $S_i$ is strictly concave in $x_i$, and $\ln$ is concave and increasing). The constraint set $\{\x \geq 0 : \sum_i x_{i\ell} = \bar{\omega}_\ell\}$ is compact and convex. A strictly concave function on a compact convex set has a unique maximum.
+\begin{proof}
+Let $X^+$ be the set of feasible allocations with $S_i > 0$ for all $i$; it is nonempty by (iv) and convex because each $S_i$ is concave. On $X^+$ the objective $f(\x) = \sum_i \pi_i \ln S_i(\x)$ is concave, and strictly concave: along any direction $\mathbf{h} \neq 0$ some $h_i \neq 0$, and $\ln S_i$ is strictly concave along $\mathbf{h}$ because $U_i$ is strictly concave in $x_i$ and $\ln$ is increasing and concave. Fix $\x^0 \in X^+$. Since $f \to -\infty$ at the boundary of $X^+$, the upper level set $\{\x \in X^+ : f(\x) \geq f(\x^0)\}$ is closed and bounded, hence compact, so $f$ attains its maximum; strict concavity makes the maximizer unique. Without (ii) --- for instance with envy, $W^U_{ij} < 0$ --- $V_i$ need not be concave and uniqueness can fail.
 \end{proof}
 
-\begin{proposition}[Nesting the Competitive Equilibrium]\label{ch07:prop:nesting}
-If $\boldsymbol{\pi} = \frac{1}{N}\ones$ and $\gamma_U = 0$ (no externalities), the bargaining equilibrium coincides with the competitive equilibrium.
+\begin{proposition}[Equal Power Is Not Walras]\label{ch07:prop:nesting}
+If $\boldsymbol{\pi} = \frac{1}{N}\ones$ and the disagreement payoffs are equal, the TU bargaining equilibrium is equal division of the joint output, $x_i^* = \Omega/N$. The symmetric Nash bargaining solution does \emph{not}, in general, coincide with the Walrasian equilibrium.
 \end{proposition}
 
 \begin{proof}
-With equal weights, the FOC~\eqref{ch07:eq:foc_bargaining} becomes $\frac{1/N}{S_i}\frac{\partial U_i}{\partial x_{i\ell}} = \mu_\ell$. At the optimum, all agents have the same surplus-adjusted marginal utility. Under standard regularity conditions, this coincides with the Walrasian equilibrium where agents equalize marginal utility per dollar. The symmetric Nash bargaining solution coincides with the competitive allocation when agents have symmetric outside options and equal bargaining power.
+The first statement is~\eqref{ch07:eq:LQ_equal_omega} with $\pi_i = 1/N$. For the second, take two agents with $U = \frac12\ln x + \frac12\ln y$ and endowments $(0.9, 0.3)$ and $(0.1, 0.7)$. The Walrasian equilibrium has price ratio one and gives agent~A the bundle $(0.600, 0.600)$. The symmetric Nash solution with the endowments as disagreement point lies on the same contract curve ($x_A = y_A$) but at $(0.631, 0.631)$ (\texttt{code/ch07.py}).
 \end{proof}
 
-\begin{intuition}[The nesting]
-The competitive equilibrium is the bargaining equilibrium with equal power. This is Proposition~6.6 restated: the welfare theorems hold when $\boldsymbol{\pi} = \frac{1}{N}\ones$. The bargaining equilibrium is the generalization.
+\begin{intuition}[What the competitive benchmark is]
+The Walrasian equilibrium is not ``bargaining with equal power''. It is anonymous interaction, $W^{\text{mkt}} = \ones\mathbf{s}'$ with $\boldsymbol{\pi} = \mathbf{s}$ the wealth shares (Proposition~\ref{ch06:prop:welfare_revisited}), and it is Pareto efficient for every $\mathbf{s}$. The bargaining equilibrium is also Pareto efficient. The two are different ways of choosing a point on the contract curve; the structural model asks which point the network selects.
 \end{intuition}
 
 
-\begin{proposition}[Direction of Inefficiency]\label{ch07:prop:direction}
-When $\boldsymbol{\pi} \neq \frac{1}{N}\ones$, the bargaining allocation is Pareto inefficient. Specifically:
+\begin{proposition}[Direction of the Distributional Loss]\label{ch07:prop:direction}
+Under the allocation rule~\eqref{ch07:eq:LQ_equal_omega}:
 \begin{enumerate}
-\item Agents with $\pi_i > 1/N$ (above-average power) consume more than the efficient allocation.
-\item Agents with $\pi_i < 1/N$ (below-average power) consume less than the efficient allocation.
-\item The welfare loss is increasing in the ``power distance'' $\|\boldsymbol{\pi} - \frac{1}{N}\ones\|$.
+\item The bargaining allocation is Pareto efficient for every $\boldsymbol{\pi}$ (it maximizes an increasing function of the surpluses over the feasible set).
+\item Agents with $\pi_i > 1/N$ receive more than equal division, and agents with $\pi_i < 1/N$ receive less.
+\item The utilitarian loss relative to equal division is $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$, which is increasing in the concentration of power: $\Var(\boldsymbol{\pi}) = \frac{1}{N}\bigl(\frac{1}{\Neff} - \frac{1}{N}\bigr)$.
 \end{enumerate}
 \end{proposition}
 
-\begin{intuition}[Why power causes inefficiency]
-The bargaining equilibrium gives the powerful agent more than her efficient share. But more-than-efficient consumption means her marginal utility is lower than the powerless agent's. Transferring a unit from the powerful to the powerless would increase total welfare --- but the powerful agent blocks the transfer because she has the network position to do so.
+\begin{proof}
+(1) Any allocation that raised some $S_i$ without lowering another would raise the objective. (2) is immediate from~\eqref{ch07:eq:LQ_equal_omega} since $\Phi > 0$. (3) is~\eqref{ch07:eq:Lpower}, together with the identity~\eqref{ch06:eq:varpi}.
+\end{proof}
 
-This is the structural mechanism of inequality: not that the powerful agent is greedier or less deserving, but that the network gives her a position from which she can claim a larger share of the surplus. The source of inefficiency is $W$, not preferences.
+\begin{intuition}[A distributional cost, not an inefficiency]
+The bargaining equilibrium gives the powerful agent more than an equal share. Her marginal utility is then lower than the powerless agent's, so a utilitarian planner with concave $U$ would transfer a unit from the powerful to the powerless. That transfer is not a Pareto improvement --- the powerful agent loses --- so the loss is \textit{distributional}: it measures inequality through the lens of a utilitarian social welfare function.
+
+This is the structural mechanism of inequality: not that the powerful agent is greedier or less deserving, but that the network gives her a position from which she can claim a larger share of the surplus. The source of the inequality is $W$, not preferences.
 \end{intuition}
 
 
@@ -247,47 +249,53 @@ This is the structural mechanism of inequality: not that the powerful agent is g
 
 \subsection{Total Welfare Loss}
 
-Define welfare at the bargaining allocation and at the first-best:
-\begin{equation}
-W^B = \sum_{i=1}^N U_i(x_i^B), \qquad W^{FB} = \max_{\x \geq 0} \sum_i U_i(x_i) \text{ s.t.\ feasibility.}
-\end{equation}
-
-The total welfare loss is $L = W^{FB} - W^B \geq 0$.
+Let social welfare count interdependent utilities,
+\begin{equation*}
+\mathcal{S}(\x) = \sum_i V_i(\x) = \sum_j (1 + \gamma_U c_j)\,U(x_j),
+\end{equation*}
+where $c_j = \sum_{i \neq j} W^U_{ij}$ is how much others care about agent $j$. Let $\x^B$ be the TU bargaining allocation~\eqref{ch07:eq:LQ_equal_omega} (bargaining is over transferable output; $W^U$ enters only the evaluation), $\x^E = \frac{\Omega}{N}\ones$ equal division, and $\x^{FB}$ the maximizer of $\mathcal{S}$ subject to $\sum_j x_j = \Omega$. The total welfare loss is $L = \mathcal{S}(\x^{FB}) - \mathcal{S}(\x^B) \geq 0$.
 
 \begin{theorem}[Welfare Loss Decomposition]\label{ch07:thm:decomposition}
-The welfare loss from the bargaining equilibrium decomposes as:
+With $U(x) = x - \frac{\kappa}{2}x^2$ and $\kappa x_j < 1$ throughout,
 \begin{equation}\label{ch07:eq:decomposition}
-L(W) = L_{\text{power}} + L_{\text{externality}} + L_{\text{interaction}},
+L = L_{\text{power}} + L_{\text{externality}} + L_{\text{interaction}},
 \end{equation}
-where:
+exactly, where
 \begin{enumerate}
-\item $L_{\text{power}} = \frac{\kappa N}{2}\text{Var}(\pi_i) \cdot \Phi^2$: the loss from asymmetric bargaining power. Proportional to the variance of the Perron eigenvector entries.
-\item $L_{\text{externality}} = \gamma_U^2 \cdot \|W^U - W^{U*}\|_F^2 \cdot \Psi$: the loss from unpriced utility externalities. Proportional to how far the utility network is from the efficient benchmark $W^{U*}$.
-\item $L_{\text{interaction}} = \gamma_U \cdot \text{Cov}(\pi_i, W^U_i)$: the interaction between power and externalities. Positive when powerful agents also have the strongest externality connections (compounding the distortion).
+\item $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$: the loss from unequal power, as in~\eqref{ch07:eq:Lpower};
+\item $L_{\text{externality}} = \mathcal{S}(\x^{FB}) - \mathcal{S}(\x^E) \geq 0$: the gain the planner forgoes by not tilting consumption toward the agents others care about; it is zero if and only if all $c_j$ are equal;
+\item the interaction term
+\begin{align*}
+L_{\text{interaction}} &= \gamma_U \sum_j c_j \bigl[U(\tfrac{\Omega}{N}) - U(x_j^B)\bigr] \\
+&= -\gamma_U N\, U'(\tfrac{\Omega}{N})\,\Phi\,\Cov(c_j, \pi_j) + \gamma_U\tfrac{\kappa}{2}\Phi^2 \sum_j c_j\bigl(\pi_j - \tfrac1N\bigr)^2 .
+\end{align*}
 \end{enumerate}
-In the LQ case, the scalars $\Phi$ and $\Psi$ are explicit functions of $\kappa$, $N$, and $\Omega$.
 \end{theorem}
 
-\begin{intuition}[Three sources of structural inefficiency]
-The decomposition says: the welfare cost of structure comes from three channels.
+\begin{proof}
+Write $L = [\mathcal{S}(\x^{FB}) - \mathcal{S}(\x^E)] + [\mathcal{S}(\x^E) - \mathcal{S}(\x^B)]$. The first bracket is $L_{\text{externality}}$; it is nonnegative by optimality of $\x^{FB}$, and $\x^{FB} = \x^E$ iff the first-order conditions $(1 + \gamma_U c_j)(1 - \kappa x_j) = \mu$ hold at equal $x_j$, i.e.\ iff all $c_j$ are equal. The second bracket is $\sum_j [U(\Omega/N) - U(x^B_j)] + \gamma_U \sum_j c_j [U(\Omega/N) - U(x^B_j)] = L_{\text{power}} + L_{\text{interaction}}$. Finally, with $\delta_j = x^B_j - \Omega/N = (\pi_j - 1/N)\Phi$, $U(\Omega/N) - U(x^B_j) = -U'(\Omega/N)\delta_j + \frac{\kappa}{2}\delta_j^2$ exactly, and $\sum_j c_j(\pi_j - 1/N) = N\Cov(c_j, \pi_j)$.
+\end{proof}
 
-\textbf{Power} ($L_{\text{power}}$): unequal bargaining distorts the allocation. The cost is proportional to Var$(\pi_i)$ --- the variance of the power distribution. When $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power), Var$(\pi_i) = 0$ and this term vanishes.
+\begin{intuition}[Three sources of structural welfare loss]
+The decomposition says: measured against a social welfare function that counts interdependent utilities, the cost of structure comes from three channels.
 
-\textbf{Externalities} ($L_{\text{externality}}$): unpriced utility externalities distort incentives. If Mar\'{i}a cares about Rosa but the market doesn't reflect this, both consume suboptimally. This term exists even with equal power.
+\textbf{Power} ($L_{\text{power}}$): unequal bargaining tilts the allocation. The cost is proportional to $\Var(\boldsymbol{\pi})$. When $\boldsymbol{\pi} = \frac{1}{N}\ones$, this term vanishes.
 
-\textbf{Interaction} ($L_{\text{interaction}}$): the most insidious channel. When the powerful agents are also the ones with strong externality connections (a tight elite that cares about each other and ignores everyone else), the power distortion and the externality distortion amplify each other. This is the mathematical content of ``the old boys' network'': a cluster of powerful, mutually-caring agents who allocate resources among themselves, creating a welfare loss that neither the power channel nor the externality channel alone would predict.
+\textbf{Externalities} ($L_{\text{externality}}$): when some agents' wellbeing matters more to others (unequal $c_j$), equal division is no longer the welfare optimum. This term exists even with equal power.
+
+\textbf{Interaction} ($L_{\text{interaction}}$): its leading term has the sign of $-\Cov(c_j, \pi_j)$ (since $U'(\Omega/N) > 0$). When the powerful are also the agents others care about --- a tight elite whose members care about each other --- the interaction term is \textit{negative}: a welfare function that counts the elite's mutual affection makes their capture look \textit{less} costly. That is a reason to evaluate structural outcomes with private utilities $U$, not with $V$ (see Chapter~2), rather than a sign that elite cohesion is benign.
 \end{intuition}
 
 \begin{prebisch}[The welfare cost of center-periphery structure]
 Applied to the global economy, the three components are:
 
-$L_{\text{power}}$: the welfare cost of unequal terms of trade. Center countries have higher $\pi$ in the global $W^P$, so they capture more of the gains from trade. The cost is proportional to Var$(\pi_i^{\text{global}})$ --- the variance of countries' structural power in the global production network.
+$L_{\text{power}}$: the distributional cost of unequal division of the gains from trade. Center countries have higher $\pi$ in the global $W^P$, so they capture more of the gains. The cost is proportional to $\Var(\pi_i^{\text{global}})$.
 
-$L_{\text{externality}}$: the welfare cost of unpriced cross-country spillovers. Technology spillovers from center to periphery are not priced in global markets; environmental externalities from periphery resource extraction are not priced either.
+$L_{\text{externality}}$: the cost of unpriced cross-country spillovers. Technology spillovers from center to periphery are not priced in global markets; environmental externalities from periphery resource extraction are not priced either.
 
-$L_{\text{interaction}}$: the welfare cost of center countries being both powerful AND closely connected to each other ($W^U_{\text{center, center}} \gg W^U_{\text{center, periphery}}$). G7 policy coordination, shared financial markets, and aligned geopolitical interests create a tight elite network that compounds the power asymmetry.
+$L_{\text{interaction}}$: whether the center's cohesion ($W^U_{\text{center, center}} \gg W^U_{\text{center, periphery}}$) raises or lowers the measured loss depends on the sign of $\Cov(c_j, \pi_j)$ --- and, as above, on whether the evaluation counts that cohesion as welfare.
 
-Prebisch called this ``unequal exchange.'' We can now compute it.
+The phrase ``unequal exchange'' is Arghiri Emmanuel's (1969). Prebisch's own mechanism was the secular deterioration of the periphery's terms of trade. In this framework both become statements about $\boldsymbol{\pi}$ and $\Phi$ that can be computed.
 \end{prebisch}
 
 
@@ -298,38 +306,42 @@ Prebisch called this ``unequal exchange.'' We can now compute it.
 
 \subsection{The Algorithm}
 
-For general preferences, the bargaining equilibrium is computed iteratively:
+For general preferences, the bargaining equilibrium is computed as follows:
 
-\textbf{Step 1:} Compute the power vector $\boldsymbol{\pi}$ from $W$ (Chapter~6, power iteration).
+\textbf{Step 1:} Compute the power vector $\boldsymbol{\pi}$ from the row-stochastic $W$ (Chapter~6, power iteration).
 
-\textbf{Step 2:} Compute disagreement utilities $d_i = V_i(\boldsymbol{\omega})$ for each agent.
+\textbf{Step 2:} Compute disagreement utilities $d_i$ for each agent, and check that some feasible allocation gives every agent $S_i > 0$.
 
 \textbf{Step 3:} Solve~\eqref{ch07:eq:bargaining} by interior-point methods or sequential quadratic programming. The objective is concave, so standard convex optimization tools apply.
 
-For the LQ case, Step~3 reduces to solving a system of $N$ equations in $N$ unknowns (the FOCs plus feasibility), which is fast.
+In the TU case, Step~3 is the closed form~\eqref{ch07:eq:LQ_solution}.
 
 
 \subsection{Comparative Statics: What Changes the Allocation?}
 
 \begin{proposition}[Comparative Statics]\label{ch07:prop:comp_statics}
-In the bargaining equilibrium:
+Under the allocation rule~\eqref{ch07:eq:LQ_solution}:
 \begin{enumerate}
-\item \textbf{Changing endowments} ($\boldsymbol{\omega} \to \boldsymbol{\omega}'$) changes disagreement utilities and therefore shifts the allocation. Giving more endowment to agent $i$ raises her disagreement utility, strengthening her bargaining position even if $\boldsymbol{\pi}$ is unchanged.
+\item \textbf{Changing outside options} (for instance through endowments): $\partial x_i^*/\partial d_i = 1 - \pi_i > 0$ and $\partial x_i^*/\partial d_j = -\pi_i$ for $j \neq i$. Raising agent $i$'s outside option strengthens her bargaining position even if $\boldsymbol{\pi}$ is unchanged.
 
-\item \textbf{Changing the network} ($W \to W'$) changes power $\boldsymbol{\pi} \to \boldsymbol{\pi}'$ and therefore shifts the allocation even if endowments are unchanged. Building a new production link (increasing $W^P_{ij}$) can change who gets what without any transfer.
+\item \textbf{Changing the network} ($W \to W + t E$, with $E\ones = 0$): $dx_i^* = \Phi\, d\pi_i$, with $d\boldsymbol{\pi}' = t\,\boldsymbol{\pi}'EZ$ (Lemma~\ref{ch06:lem:perturbation}). Building a new production link can change who gets what without any transfer.
 
-\item \textbf{Changing preferences} ($U_i \to U_i'$, e.g., through the formation mechanism of Chapter~10) changes marginal utilities and surplus functions, shifting the allocation even if $\boldsymbol{\pi}$ and $\boldsymbol{\omega}$ are unchanged.
+\item \textbf{Changing preferences or productivity} (e.g.\ through the formation mechanism of Chapter~10) acts through $\Omega$ and $\boldsymbol{d}$: $\partial x_i^*/\partial \Omega = \pi_i$.
 \end{enumerate}
 \end{proposition}
 
+\begin{proof}
+Differentiate~\eqref{ch07:eq:LQ_solution}; item 2 uses~\eqref{ch06:eq:dpi}.
+\end{proof}
+
 \begin{keyinsight}
-There are three levers for changing the allocation: endowments (transfers), networks (structural policy), and preferences (formation). The standard model has only the first lever. Structural economics has all three.
+There are three levers for changing the allocation: endowments and outside options (transfers), networks (structural policy), and preferences (formation). The benchmark model emphasizes the first lever. Structural economics adds the other two.
 
-This is why structural policy is different from redistribution. A transfer changes $\boldsymbol{\omega}$: it moves resources from one person to another. A structural policy changes $W$: it changes the network of dependencies, which changes power, which changes the allocation. A formation intervention changes $W^I$: it changes the information flows that shape preferences, which changes what people want, which changes the equilibrium.
+This is why structural policy is different from redistribution. A transfer changes $\boldsymbol{d}$: it moves resources from one person to another. A structural policy changes $W$: it changes the network of dependencies, which changes power, which changes the allocation. A formation intervention changes $W^I$: it changes the information flows that shape preferences --- and, because $W^I$ is a layer of the composite $W$, it changes $\boldsymbol{\pi}$ as well.
 
-The gas-to-fertilizer plant in Bolivia (Chapter~3) is a structural policy: it changes $W^P_{\text{Trad, Gas}}$ from 0.02 to 0.15, which changes $\boldsymbol{\pi}$, which changes the bargaining allocation. The Bono Juancito Pinto (conditional cash transfer) is a transfer: it changes $\boldsymbol{\omega}$ without changing $W$. The phone in Luisa's hand (Chapter~5) is a formation intervention: it changes $W^I$, which changes beliefs, which eventually changes $\theta$ and therefore preferences.
+The gas-to-fertilizer plant in Bolivia (Chapter~3) is a structural policy: it changes $W^P_{\text{Trad, Gas}}$ from 0.02 to 0.15, which changes $\boldsymbol{\pi}$, which changes the bargaining allocation. The Bono Juancito Pinto (conditional cash transfer) is a transfer: holding $W$ fixed, it changes $\boldsymbol{d}$ but not $\boldsymbol{\pi}$. The phone in Luisa's hand (Chapter~5) is a formation intervention: it changes $W^I$, which changes beliefs, which eventually changes $\theta$ and therefore preferences.
 
-All three change the allocation. Only the second changes the power structure.
+All three change the allocation. The second and third change the power structure directly; a transfer changes it only if $W$ responds to the allocation.
 \end{keyinsight}
 
 
@@ -338,16 +350,16 @@ All three change the allocation. Only the second changes the power structure.
 \label{ch07:sec:worked}
 %% =====================================================================
 
+Both economies have $N = 4$, a transferable joint output $\Omega = 20$, equal outside options $\bar{d} = 3$ (so $\Phi = 20 - 12 = 8$), and utility $U(x) = x - 0.05x^2$ ($\kappa = 0.1$, so $\kappa x_i < 1$ for every allocation below). Both production share matrices are row-stochastic. The numbers are \illustrative\ and reproduced by \texttt{code/ch07.py}.
+
 \subsection{Economy A: The Connected Village}
 
-$N = 4$ agents: Farmer (1), Miller (2), Baker (3), Consumer (4). One good. Equal endowments: $\omega_i = 5$, $\Omega = 20$. $\kappa = 0.5$.
-
-Production network (strong internal linkages):
+Farmer (1), Miller (2), Baker (3), Consumer (4). Production network (strong internal linkages):
 \begin{equation}
-W^P = \begin{pmatrix} 0.4 & 0.2 & 0.1 & 0.1 \\ 0.2 & 0.3 & 0.2 & 0.1 \\ 0.1 & 0.3 & 0.3 & 0.2 \\ 0.1 & 0.1 & 0.2 & 0.4 \end{pmatrix}.
+W^P = \begin{pmatrix} 0.6 & 0.2 & 0.1 & 0.1 \\ 0.2 & 0.5 & 0.2 & 0.1 \\ 0.1 & 0.3 & 0.4 & 0.2 \\ 0.1 & 0.1 & 0.2 & 0.6 \end{pmatrix}.
 \end{equation}
 
-Left Perron eigenvector: $\boldsymbol{\pi} \approx (0.22, 0.26, 0.28, 0.24)$. Power is \textit{nearly equal}: the maximum deviation from $1/4 = 0.25$ is 0.03. Spectral gap is large.
+Left Perron eigenvector: $\boldsymbol{\pi} \approx (0.256, 0.282, 0.218, 0.244)$, $\Neff = 3.97$. Power is \textit{nearly equal}: the column sums $(1.0, 1.1, 0.9, 1.0)$ are close to one, so $W^P$ is close to doubly stochastic. $\Gamma = 0.47$.
 
 Bargaining allocation (from~\eqref{ch07:eq:LQ_equal_omega}):
 \begin{center}
@@ -355,26 +367,24 @@ Bargaining allocation (from~\eqref{ch07:eq:LQ_equal_omega}):
 \toprule
 & Farmer & Miller & Baker & Consumer \\
 \midrule
-Endowment & 5.00 & 5.00 & 5.00 & 5.00 \\
-First-best & 5.00 & 5.00 & 5.00 & 5.00 \\
-Bargaining & 4.88 & 5.04 & 5.12 & 4.96 \\
+Outside option $d_i$ & 3.00 & 3.00 & 3.00 & 3.00 \\
+Equal division (utilitarian optimum) & 5.00 & 5.00 & 5.00 & 5.00 \\
+Bargaining & 5.05 & 5.26 & 4.74 & 4.95 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The Baker gets slightly more (most central node), the Farmer slightly less (most peripheral). But the deviations are tiny --- the connected village is nearly efficient. Welfare loss: $L \approx 0.01$.
+The Miller gets slightly more (most depended upon: column sum 1.1), the Baker slightly less (column sum 0.9). But the deviations are small. Distributional loss: $L_{\text{power}} = 0.0068$.
 
 
 \subsection{Economy B: The Gas Enclave}
 
-$N = 4$ agents: Gas Executive (1), Government Minister (2), Market Vendor (3), Quinoa Farmer (4). Same endowments, same $\kappa$.
-
-Production network (block-diagonal with enclave):
+Gas Executive (1), Government Minister (2), Market Vendor (3), Quinoa Farmer (4). Production network: two blocks, with \textit{asymmetric} dependence between them. Each Gas/Government row places total weight $\varepsilon_1 = 0.02$ on the traditional block; each Vendor/Farmer row places $\varepsilon_2 = 0.06$ on the enclave (fuel, transport, public services):
 \begin{equation}
-W^P = \begin{pmatrix} 0.3 & 0.5 & 0.01 & 0.01 \\ 0.4 & 0.3 & 0.01 & 0.01 \\ 0.01 & 0.01 & 0.4 & 0.3 \\ 0.01 & 0.01 & 0.3 & 0.4 \end{pmatrix}.
+W^P = \begin{pmatrix} 0.48 & 0.50 & 0.01 & 0.01 \\ 0.40 & 0.58 & 0.01 & 0.01 \\ 0.03 & 0.03 & 0.64 & 0.30 \\ 0.03 & 0.03 & 0.30 & 0.64 \end{pmatrix}.
 \end{equation}
 
-Left Perron eigenvector: $\boldsymbol{\pi} \approx (0.32, 0.33, 0.17, 0.18)$. Power is \textit{highly unequal}: the Gas/Government block captures 65\% of structural power despite being half the population. Spectral gap is small.
+Left Perron eigenvector: $\boldsymbol{\pi} \approx (0.334, 0.416, 0.125, 0.125)$, $\Neff = 3.17$. Power is \textit{unequal}: the Gas/Government block holds $0.75 = \varepsilon_2/(\varepsilon_1 + \varepsilon_2)$ of structural power (Proposition~\ref{ch06:prop:block_power}) despite being half the population. $\Gamma = 0.08$: the blocks mix slowly.
 
 Bargaining allocation:
 \begin{center}
@@ -382,68 +392,66 @@ Bargaining allocation:
 \toprule
 & Gas Exec & Minister & Vendor & Farmer \\
 \midrule
-Endowment & 5.00 & 5.00 & 5.00 & 5.00 \\
-First-best & 5.00 & 5.00 & 5.00 & 5.00 \\
-Bargaining & 5.56 & 5.64 & 4.36 & 4.44 \\
+Outside option $d_i$ & 3.00 & 3.00 & 3.00 & 3.00 \\
+Equal division (utilitarian optimum) & 5.00 & 5.00 & 5.00 & 5.00 \\
+Bargaining & 5.67 & 6.33 & 4.00 & 4.00 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The Gas/Government block captures 11.2\% more than equal division. The Vendor/Farmer block receives 8.8\% less. From identical endowments, the structure produces inequality. Welfare loss: $L \approx 0.18$ --- eighteen times larger than the connected village.
+The Gas/Government block receives 12.0 units, 20\% more than equal division; the Vendor/Farmer block receives 8.0, 20\% less. From identical outside options, the structure produces inequality. Distributional loss: $L_{\text{power}} = 0.211$ --- about 31 times the connected village.
 
 \begin{keyinsight}
-The two economies have \textit{identical endowments, identical preferences, identical number of agents}. They differ only in $W^P$ --- the structure of production linkages. The connected village (Economy~A) is nearly efficient; the enclave economy (Economy~B) has large welfare losses and significant inequality.
+The two economies have \textit{identical outside options, identical preferences, identical number of agents}. They differ only in $W^P$ --- the structure of production linkages. The connected village (Economy~A) is nearly equal; the enclave economy (Economy~B) has a large distributional loss and significant inequality.
 
-This is the structural story in four numbers: two Perron eigenvectors, two welfare losses, two allocations --- all from two different matrices. The matrix is the structure. The structure is the inequality.
+What produces the inequality is the \textit{asymmetry} of the dependence between the blocks, not the block structure as such. If the Vendor and the Farmer also placed only $0.02$ on the enclave (same within-block pattern otherwise), the two blocks would hold equal power, $\boldsymbol{\pi} \approx (0.223, 0.277, 0.250, 0.250)$, even though $\Gamma$ would be just as small. The matrix is the structure; the direction of dependence is the inequality.
 \end{keyinsight}
 
 \begin{vizpanel}{Two economies, two heatmaps, two allocations}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\s{0.45}
-%% Economy A: Connected village
+%% Economy A: Connected village (shade = 100 W_ij)
 \foreach \i/\j/\v in {
-  1/1/80,1/2/40,1/3/20,1/4/20,
-  2/1/40,2/2/60,2/3/40,2/4/20,
-  3/1/20,3/2/60,3/3/60,3/4/40,
-  4/1/20,4/2/20,4/3/40,4/4/80} {
+  1/1/60,1/2/20,1/3/10,1/4/10,
+  2/1/20,2/2/50,2/3/20,2/4/10,
+  3/1/10,3/2/30,3/3/40,3/4/20,
+  4/1/10,4/2/10,4/3/20,4/4/60} {
   \fill[blue!\v, draw=white, line width=0.15pt]
     ({(\j-1)*\s}, {(4-\i)*\s}) rectangle +(\s,\s);
 }
 \node[below, font=\scriptsize\bfseries] at ({2*\s}, -0.15) {Economy A: Village};
-\node[below, font=\scriptsize] at ({2*\s}, -0.5) {$\boldsymbol{\pi} = (.22,.26,.28,.24)$};
-\node[below, font=\scriptsize, red!70!black] at ({2*\s}, -0.85) {$L = 0.01$};
+\node[below, font=\scriptsize] at ({2*\s}, -0.5) {$\boldsymbol{\pi} = (.26,.28,.22,.24)$};
+\node[below, font=\scriptsize, red!70!black] at ({2*\s}, -0.85) {$L = 0.007$};
 
-%% Allocation bars A
+%% Allocation bars A (length 0.22 per unit, shade = 10 x_i)
 \begin{scope}[xshift=2.8cm, yshift=0.2cm]
-\foreach \k/\val/\pct in {1/4.88/49,2/5.04/50,3/5.12/51,4/4.96/50} {
+\foreach \k/\val/\pct in {1/5.05/51,2/5.26/53,3/4.74/47,4/4.95/49} {
   \fill[blue!\pct] (0, {(4-\k)*0.35}) rectangle ({\val*0.22}, {(4-\k)*0.35+0.28});
 }
 \draw[red, dashed, thin] ({5.0*0.22}, 0) -- ({5.0*0.22}, 1.45);
 \node[font=\tiny, red, above] at ({5.0*0.22}, 1.45) {$\frac{\Omega}{N}$};
 \end{scope}
 
-%% Economy B: Enclave
+%% Economy B: Enclave (shade = 100 W_ij)
 \begin{scope}[xshift=6.5cm]
 \foreach \i/\j/\v in {
-  1/1/60,1/2/100,1/3/2,1/4/2,
-  2/1/80,2/2/60,2/3/2,2/4/2,
-  3/1/2,3/2/2,3/3/80,3/4/60,
-  4/1/2,4/2/2,4/3/60,4/4/80} {
+  1/1/48,1/2/50,1/3/1,1/4/1,
+  2/1/40,2/2/58,2/3/1,2/4/1,
+  3/1/3,3/2/3,3/3/64,3/4/30,
+  4/1/3,4/2/3,4/3/30,4/4/64} {
   \fill[blue!\v, draw=white, line width=0.15pt]
     ({(\j-1)*\s}, {(4-\i)*\s}) rectangle +(\s,\s);
 }
 \node[below, font=\scriptsize\bfseries] at ({2*\s}, -0.15) {Economy B: Enclave};
-\node[below, font=\scriptsize] at ({2*\s}, -0.5) {$\boldsymbol{\pi} = (.32,.33,.17,.18)$};
-\node[below, font=\scriptsize, red!70!black] at ({2*\s}, -0.85) {$L = 0.18$};
+\node[below, font=\scriptsize] at ({2*\s}, -0.5) {$\boldsymbol{\pi} = (.33,.42,.13,.13)$};
+\node[below, font=\scriptsize, red!70!black] at ({2*\s}, -0.85) {$L = 0.211$};
 \end{scope}
 
 %% Allocation bars B
 \begin{scope}[xshift=9.3cm, yshift=0.2cm]
-\foreach \k/\val/\pct in {1/5.56/56,2/5.64/56,3/4.36/44,4/4.44/44} {
-  \pgfmathparse{\val > 5 ? 65 : 35}
-  \edef\bp{\pgfmathresult}
-  \fill[blue!\bp] (0, {(4-\k)*0.35}) rectangle ({\val*0.22}, {(4-\k)*0.35+0.28});
+\foreach \k/\val/\pct in {1/5.67/57,2/6.33/63,3/4.00/40,4/4.00/40} {
+  \fill[blue!\pct] (0, {(4-\k)*0.35}) rectangle ({\val*0.22}, {(4-\k)*0.35+0.28});
 }
 \draw[red, dashed, thin] ({5.0*0.22}, 0) -- ({5.0*0.22}, 1.45);
 \node[font=\tiny, red, above] at ({5.0*0.22}, 1.45) {$\frac{\Omega}{N}$};
@@ -451,7 +459,7 @@ This is the structural story in four numbers: two Perron eigenvectors, two welfa
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Left pair: connected village --- bright off-diagonals, nearly flat allocation bars, welfare loss 0.01. Right pair: gas enclave --- two dark cross-block rectangles, allocation bars split into two tiers, welfare loss 0.18 (eighteen times larger). Same endowments, same preferences. Only $W$ differs. The dashed red line marks equal division $\Omega/N$.
+\small Left pair: connected village --- substantial off-diagonal weights, nearly flat allocation bars, distributional loss 0.007. Right pair: gas enclave --- near-white cross-block cells (weights 0.01--0.03; the lower-left cells, the traditional block's dependence on the enclave, are three times the upper-right ones), allocation bars split into two tiers, loss 0.211 (about 31 times larger). Same outside options, same preferences. Only $W$ differs. The dashed red line marks equal division $\Omega/N$.
 \end{vizpanel}
 
 
@@ -463,28 +471,34 @@ This is the structural story in four numbers: two Perron eigenvectors, two welfa
 Can the powerless agents change the structure? The escape problem asks: what does it cost to move from the current $W$ to a $W'$ with more equal power?
 
 \begin{definition}[Escape Threshold]\label{ch07:def:escape}
-The \textbf{escape threshold} $\varepsilon^*$ is the minimum perturbation to $W$ needed to make the bargaining equilibrium Pareto-dominate the current one for the powerless agents:
+The \textbf{escape threshold} $\varepsilon^*$ is the minimum row-stochastic perturbation to $W$ needed to make every powerless agent strictly better off in the bargaining equilibrium:
 \begin{equation}
 \varepsilon^* = \min_{\Delta W} \|\Delta W\|_F \quad \text{s.t.} \quad x_i^B(W + \Delta W) > x_i^B(W) \quad \forall \, i \in \mathcal{P},
 \end{equation}
 where $\mathcal{P}$ is the set of agents with below-average power ($\pi_i < 1/N$).
 \end{definition}
 
-\begin{proposition}[Escape Is Harder in Star Networks]\label{ch07:prop:escape_hard}
-The escape threshold $\varepsilon^*$ is an increasing function of power concentration. In a star network with hub $h$:
+\begin{proposition}[Escape Cost and Integration]\label{ch07:prop:escape_hard}
+Let $W$ be irreducible and row-stochastic, with fundamental matrix $Z = (I - W + \ones\boldsymbol{\pi}')^{-1}$. To first order, a perturbation $tE$ ($E\ones = 0$) that raises the power of the group $\mathcal{P}$ by $\Delta > 0$ must satisfy
 \begin{equation}
-\varepsilon^* \propto \frac{\pi_h}{\Gamma},
+t\,\|E\|_\infty \;\geq\; \frac{\Delta}{\|Z\|_\infty}, \qquad \|Z\|_\infty \geq \max_{k \geq 2} \frac{1}{|1 - \lambda_k|}.
 \end{equation}
-which diverges as $\Gamma \to 0$ (power concentrates fully on the hub). The more concentrated power is, the harder it is to escape.
+The lower bound on the cost of escape is therefore \emph{smallest} when some $\lambda_k$ is close to $+1$ --- weakly coupled, fragmented networks --- and of order $\Delta$ in well-mixed ones. In the two-block case of Proposition~\ref{ch06:prop:block_power} the block masses are exactly $\varepsilon_2/(\varepsilon_1 + \varepsilon_2)$ and $\varepsilon_1/(\varepsilon_1 + \varepsilon_2)$, whose sensitivity to $\varepsilon_1$ is $\varepsilon_2/(\varepsilon_1 + \varepsilon_2)^2$: it grows without bound as the coupling weakens.
 \end{proposition}
 
-\begin{intuition}[Why escape is hard]
-To change the allocation, you must change $\boldsymbol{\pi}$. To change $\boldsymbol{\pi}$, you must change $W$. But changing $W$ requires resources (building links, forming coalitions, creating new production relationships) --- and those resources are allocated by the current $W$, which gives the most resources to the agents who benefit from the current structure.
+\begin{proof}
+By Lemma~\ref{ch06:lem:perturbation}, $d\boldsymbol{\pi}' = t\,\boldsymbol{\pi}'EZ$, so $\Delta \leq \|d\boldsymbol{\pi}\|_1 \leq t\,\|\boldsymbol{\pi}'E\|_1\|Z\|_\infty \leq t\,\|E\|_\infty\|Z\|_\infty$, using $\|\x'A\|_1 \leq \|\x\|_1\|A\|_\infty$ and $\|\boldsymbol{\pi}\|_1 = 1$. Any induced matrix norm bounds the spectral radius, and $Z$ has eigenvalues $1$ and $1/(1 - \lambda_k)$. The two-block formula is~\eqref{ch06:eq:block_mass}.
+\end{proof}
 
-This is the \textbf{structural trap}: the structure determines the allocation, the allocation determines who has resources, resources determine who can change the structure, and the powerful have no incentive to change a structure that benefits them. The trap is self-reinforcing --- which is why structural change is rare and usually requires an external shock (a new technology, a revolution, a commodity price collapse) rather than endogenous reform.
+In the weak-block example of \texttt{code/ch07.py} ($N = 4$, symmetric coupling $\varepsilon$), $\|Z\|_\infty = 2.5$, $10$ and $50$ for $\varepsilon = 0.2$, $0.05$ and $0.01$ ($\Gamma = 0.4$, $0.1$, $0.02$). In a star (Proposition~\ref{ch06:prop:star_power}) the hub's power $a/(a+1-s)$ responds smoothly to the spokes' dependence $a$: for $N = 5$, $a = 0.9$, $s = 0.5$, raising every spoke's power by 50\% (from $0.089$ to $0.134$) requires lowering $a$ to $0.43$.
+
+\begin{intuition}[Where the structural trap really is]
+To change the allocation, you must change $\boldsymbol{\pi}$. To change $\boldsymbol{\pi}$, you must change $W$. Mathematically, the Perron vector is \textit{most} movable precisely in fragmented, weakly coupled networks: a few new cross-block links shift block power a great deal. So the difficulty of escape is not that $\boldsymbol{\pi}$ is spectrally rigid.
+
+The \textbf{structural trap} is political-economic: changing $W$ requires resources (building links, forming coalitions, creating new production relationships), and those resources are allocated by the current $W$, which gives the most to the agents who benefit from the current structure --- and who control the cheap levers. The trap is self-reinforcing, which is why structural change often requires an external shock (a new technology, a revolution, a commodity price collapse) rather than endogenous reform.
 \end{intuition}
 
-The escape problem connects to Chapter~14 (coalition formation) and Chapter~15 (operator design). For now, we note that the difficulty of escape is proportional to $1/\Gamma$: the spectral gap is not just a diagnostic of the current structure but a predictor of whether structural change is feasible.
+The escape problem connects to Chapter~14 (coalition formation) and Chapter~15 (operator design), where the cost of changing $W$ is modelled explicitly.
 
 
 %% =====================================================================
@@ -493,17 +507,15 @@ The escape problem connects to Chapter~14 (coalition formation) and Chapter~15 (
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{bargaining equilibrium} solves $\max \sum_i \pi_i \ln S_i$ subject to feasibility, where $\boldsymbol{\pi}$ is the Perron eigenvector of $W$. It reduces to the competitive equilibrium when $\boldsymbol{\pi} = \frac{1}{N}\ones$.
+\item The \textbf{bargaining equilibrium} solves $\max \sum_i \pi_i \ln S_i$ subject to feasibility, with weights $\boldsymbol{\pi}(W)$ by assumption (Assumption~7.A). It exists and is unique when there are gains from cooperation, and it is Pareto efficient for every $\boldsymbol{\pi}$; with equal power it is \emph{not} in general the Walrasian equilibrium.
 
-\item The \textbf{allocation} is equal division plus a power correction proportional to $(\pi_i - 1/N)$. Powerful agents consume more; powerless agents consume less.
+\item With a transferable surplus the \textbf{allocation rule} is $x_i = \Omega/N + (\pi_i - 1/N)\Phi$, with $\Phi$ the surplus over outside options (Proposition~\ref{ch07:prop:allocation-rule}). Powerful agents consume more; powerless agents consume less.
 
-\item The \textbf{welfare loss} decomposes into power, externality, and interaction components. The power component is proportional to $\text{Var}(\pi_i)$.
+\item The cost of unequal power is \textbf{distributional}: $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$ exactly, and the total loss decomposes exactly into power, externality and interaction terms (Theorem~\ref{ch07:thm:decomposition}).
 
-\item Two economies with identical endowments and preferences but different $W$ produce different allocations and different inequality. The matrix is the structure. The structure is the inequality.
+\item Two economies with identical outside options and preferences but different $W$ produce different allocations and different inequality; what matters is the direction of dependence between blocks, not block structure or $\Gamma$ as such.
 
-\item Three policy levers: transfers (change $\boldsymbol{\omega}$), structural policy (change $W$), formation intervention (change $W^I$ and therefore preferences). Only structural policy changes the power distribution $\boldsymbol{\pi}$.
-
-\item The \textbf{escape threshold} is proportional to $1/\Gamma$: more concentrated power is harder to escape.
+\item Three policy levers: transfers (change $\boldsymbol{d}$), structural policy (change $W$), formation intervention (change $W^I$, which also moves $\boldsymbol{\pi}$). The Perron vector is \emph{most} sensitive to changes in $W$ in weakly coupled networks (Proposition~\ref{ch07:prop:escape_hard}); the structural trap is political-economic, not spectral.
 \end{enumerate}
 
 
@@ -516,45 +528,51 @@ The escape problem connects to Chapter~14 (coalition formation) and Chapter~15 (
 
 \item \textbf{Landlord-Farmer revisited.} In Example~\ref{ch07:ex:landlord}, suppose the production function is $Y = K^{0.3}L^{0.7}$ (more labor-intensive).
 \begin{enumerate}
-\item Recompute the competitive allocation. Who benefits from the higher labor share?
+\item Recompute the competitive allocation (adjust $A$ so that $Y = 20$). Who benefits from the higher labor share?
 \item Compute the bargaining allocation for $\boldsymbol{\pi} = (0.7, 0.3)$. Compare.
-\item For what $\boldsymbol{\pi}$ does the bargaining allocation equal the competitive allocation? (Hint: it is not $(0.5, 0.5)$.)
+\item Show that no $\boldsymbol{\pi}$ with $\pi_F \in [0,1]$ reproduces the competitive allocation, and explain why: compare the Landlord's competitive payment with his outside option $d_L = 10$. (In the original example, which $\boldsymbol{\pi}$ reproduces the competitive allocation?)
 \end{enumerate}
 
-\item \textbf{The FOC in practice.} For $N = 3$, $L = 1$, $\kappa = 1$, $\Omega = 3$, $\boldsymbol{\omega} = (1.5, 1.0, 0.5)$, $\boldsymbol{\pi} = (0.5, 0.3, 0.2)$:
+\item \textbf{The FOC in practice.} Three agents jointly produce a transferable output $\Omega = 3$; their outside options are $\boldsymbol{d} = (0.6, 0.4, 0.2)$ and $\boldsymbol{\pi} = (0.5, 0.3, 0.2)$. Consumption is evaluated with $U(x) = x - \frac{\kappa}{2}x^2$, $\kappa = 0.25$.
 \begin{enumerate}
-\item Compute disagreement utilities $d_i = U_i(\omega_i)$.
-\item Write the FOC system~\eqref{ch07:eq:foc_bargaining} explicitly.
-\item Solve numerically (use Python's \texttt{scipy.optimize}).
+\item Explain why, if instead the agents simply held one good with endowments $(1.5, 1.0, 0.5)$ and those endowments were the disagreement point, there would be nothing to bargain over.
+\item Write the FOC system~\eqref{ch07:eq:foc_bargaining} explicitly for $S_i = x_i - d_i$.
+\item Solve numerically with \texttt{scipy.optimize}; check the result against~\eqref{ch07:eq:LQ_solution} and verify $\kappa x_i < 1$.
 \item Compare with the equal-power case $\boldsymbol{\pi} = (1/3, 1/3, 1/3)$. Who gains, who loses?
 \end{enumerate}
 
 \item \textbf{Welfare decomposition.} Using the two worked economies from Section~\ref{ch07:sec:worked}:
 \begin{enumerate}
 \item Compute $L_{\text{power}}$ for both economies. Verify that Economy~B is much larger.
-\item Now add utility externalities: $\gamma_U = 0.3$ with $W^U = W^P$ (your production partners are also your friends). Recompute the total welfare loss. Which component grows most?
-\item Is the interaction term positive or negative? Interpret.
+\item Now add utility externalities: $\gamma_U = 0.3$ with $W^U$ equal to $W^P$ with its diagonal set to zero (your production partners are also your friends). Compute the three terms of Theorem~\ref{ch07:thm:decomposition}. Which component is largest?
+\item Is the interaction term positive or negative? Relate its sign to $\Cov(c_j, \pi_j)$ and interpret.
 \end{enumerate}
 
 \item \textbf{Structural policy vs.\ transfer.} Economy~B from Section~\ref{ch07:sec:worked} (the enclave). Two policies:
 \begin{enumerate}
-\item \textbf{Transfer}: Take 1 unit from the Gas Executive and give it to the Farmer ($\boldsymbol{\omega}' = (4, 5, 5, 6)$). Compute the new bargaining allocation and welfare.
-\item \textbf{Structural}: Increase cross-block linkages in $W^P$ from 0.01 to 0.10. Compute new $\boldsymbol{\pi}$ and new bargaining allocation. Compute welfare.
+\item \textbf{Transfer}: Take 1 unit of outside option from the Gas Executive and give it to the Farmer ($\boldsymbol{d}' = (2, 3, 3, 4)$). Compute the new bargaining allocation~\eqref{ch07:eq:LQ_solution} and welfare.
+\item \textbf{Structural}: Set every cross-block entry of $W^P$ to 0.05, taking the difference from the diagonal so rows still sum to one. Compute new $\boldsymbol{\pi}$, $\Gamma$ and the new bargaining allocation. Compute welfare.
 \item Which policy produces more welfare gain? Which reduces inequality more? Which changes the power structure?
 \end{enumerate}
 
-\item \textbf{The escape threshold.} For a star network with $N = 5$ and hub weight $W_{ih} = 0.9$ for all spokes:
+\item \textbf{The escape threshold.} For a star network with $N = 5$, hub weight $W_{ih} = a = 0.9$ for all spokes (each spoke keeps $0.1$), and a hub that keeps $s = 0.5$ and spreads the rest equally (Proposition~\ref{ch06:prop:star_power}):
 \begin{enumerate}
 \item Compute $\boldsymbol{\pi}$ and $\Gamma$.
 \item How much must $W_{ih}$ decrease (i.e., how much must the spokes' dependence on the hub fall) for the most peripheral agent's power to rise by 50\%?
 \item Relate to: a worker leaving a monopsony employer, a country diversifying exports away from a single commodity, a media consumer switching from state TV to independent sources.
 \end{enumerate}
 
-\item \textbf{Bolivia: the full model.} Construct a $4 \times 4$ economy with Gas, Government, Urban Informal, Rural Traditional sectors. Assign plausible $W^P$, $W^U$, $W^I$, endowments, and preferences.
+\item \textbf{Bolivia: the full model.} Construct a $4 \times 4$ economy with Gas, Government, Urban Informal, Rural Traditional sectors. Assign plausible row-stochastic $W^P$, $W^U$, $W^I$ on these four nodes, outside options, a joint surplus, and preferences.
 \begin{enumerate}
 \item Compute the composite $W$ and the Perron eigenvector.
 \item Compute the bargaining equilibrium.
 \item Simulate three policies: (i) gas revenue transfer to Rural Traditional, (ii) building a gas-to-fertilizer plant (structural), (iii) expanding rural internet (formation via $W^I$). Which has the largest effect on the Rural Traditional sector's consumption?
+\end{enumerate}
+
+\item \textbf{Data: labor shares as bargaining outcomes.} Download the labor share of income (compensation of employees over GDP) for Bolivia, Chile and Mexico from CEPALSTAT (ECLAC).
+\begin{enumerate}
+\item Treat a two-agent economy (labor, capital) with the TU rule~\eqref{ch07:eq:LQ_solution}. State the outside options you assume and back out the implied $\pi_{\text{labor}}$ for each country.
+\item How sensitive is the implied $\pi_{\text{labor}}$ to the assumed outside options? What does this say about identifying $\boldsymbol{\pi}$ from distributional data alone?
 \end{enumerate}
 
 \end{enumerate}
@@ -566,63 +584,23 @@ The escape problem connects to Chapter~14 (coalition formation) and Chapter~15 (
 \addcontentsline{toc}{section}{Mathematical Appendices}
 %% =====================================================================
 
-\subsection*{Appendix 7A: Derivation of the LQ Bargaining Allocation}
-\addcontentsline{toc}{subsection}{Appendix 7A: Derivation of the LQ Bargaining Allocation}
+\subsection*{Appendix 7A: The Allocation Rule and the Exact Power Loss}
+\addcontentsline{toc}{subsection}{Appendix 7A: The Allocation Rule and the Exact Power Loss}
 \label{ch07:app:LQ_derivation}
 
-We derive the closed-form solution for the LQ case: $U_i(x_i) = x_i - \frac{\kappa}{2}x_i^2$, one good, $N$ agents.
+\paragraph{Why a one-good exchange economy cannot be used.} Take one good, $U_i(x_i) = x_i - \frac{\kappa}{2}x_i^2$ below satiation, endowments $\boldsymbol{\omega}$ with $\sum_i \omega_i = \Omega$, and disagreement point $d_i = U_i(\omega_i)$. Since $U_i$ is increasing, $S_i > 0$ requires $x_i > \omega_i$ for every $i$, which contradicts $\sum_i x_i = \Omega = \sum_i \omega_i$. The set of individually rational allocations is $\{\boldsymbol{\omega}\}$, every $S_i = 0$, and the Nash product is identically $-\infty$ off the endowment. Any ``solution'' obtained by expanding $S_i$ around $\boldsymbol{\omega}$ (for instance with a negative multiplier) puts some $S_i < 0$ inside a logarithm. Bargaining needs a surplus to divide.
 
-\paragraph{The problem.}
+\paragraph{The TU problem.} Cooperation produces a transferable output $\Omega$; agent $i$'s outside option is $d_i$, with $\sum_j d_j < \Omega$:
 \begin{equation}
-\max_{\x \geq 0} \sum_{i=1}^N \pi_i \ln\bigl(U_i(x_i) - U_i(\omega_i)\bigr) \quad \text{s.t.} \quad \sum_i x_i = \Omega.
+\max_{\x} \sum_{i=1}^N \pi_i \ln(x_i - d_i) \quad \text{s.t.} \quad \sum_i x_i = \Omega, \ x_i > d_i .
 \end{equation}
+The first-order conditions $\pi_i/(x_i - d_i) = \mu$ and feasibility give $x_i = d_i + \pi_i(\Omega - \sum_j d_j)$; see the proof of Proposition~\ref{ch07:prop:allocation-rule}. With $d_i = \bar{d}$ and $\Phi = \Omega - N\bar{d}$, $x_i = \Omega/N + (\pi_i - 1/N)\Phi$.
 
-\paragraph{Surplus.} $S_i = U_i(x_i) - U_i(\omega_i) = (x_i - \omega_i)(1 - \frac{\kappa}{2}(x_i + \omega_i))$.
-
-\paragraph{FOC.} $\frac{\pi_i}{S_i} \cdot U_i'(x_i) = \mu$, where $U_i'(x_i) = 1 - \kappa x_i$.
-
-\paragraph{Small-surplus approximation.} When $|x_i - \omega_i| \ll \omega_i$, we can write $S_i \approx (x_i - \omega_i)\beta_i$ where $\beta_i = 1 - \kappa\omega_i$ (marginal utility at endowment). The FOC becomes:
+\paragraph{The exact power loss.} Let $\delta_i = x_i - \Omega/N = (\pi_i - 1/N)\Phi$, so $\sum_i \delta_i = 0$. For $U(x) = x - \frac{\kappa}{2}x^2$, $U(\Omega/N) - U(\Omega/N + \delta_i) = -U'(\Omega/N)\delta_i + \frac{\kappa}{2}\delta_i^2$ exactly. Summing, the linear terms cancel:
 \begin{equation}
-\frac{\pi_i}{(x_i - \omega_i)\beta_i} \cdot \beta_i = \mu \quad \Rightarrow \quad \frac{\pi_i}{x_i - \omega_i} = \mu \quad \Rightarrow \quad x_i - \omega_i = \frac{\pi_i}{\mu}.
+L_{\text{power}} = \frac{\kappa}{2}\sum_i \delta_i^2 = \frac{\kappa}{2}\Phi^2 \sum_i \Bigl(\pi_i - \frac1N\Bigr)^2 = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi}).
 \end{equation}
-
-Summing over $i$ and using $\sum_i(x_i - \omega_i) = 0$ (total consumption = total endowment):
-\begin{equation}
-\sum_i \frac{\pi_i}{\mu} = 0 \quad \Rightarrow \quad \frac{1}{\mu}\sum_i \pi_i = 0 \quad \Rightarrow \quad \frac{1}{\mu} = 0.
-\end{equation}
-
-This is degenerate: with one good and no gains from trade, the surplus is zero at the endowment. The first-order approximation breaks down.
-
-\paragraph{Second-order solution.} Expanding to second order:
-\begin{equation}
-S_i = (x_i - \omega_i)\beta_i - \frac{\kappa}{2}(x_i - \omega_i)^2.
-\end{equation}
-
-Let $\delta_i = x_i - \omega_i$. The FOC becomes:
-\begin{equation}
-\frac{\pi_i}{\delta_i \beta_i - \frac{\kappa}{2}\delta_i^2} \cdot (\beta_i - \kappa\delta_i) = \mu.
-\end{equation}
-
-For small $\delta_i$, keeping leading terms: $\pi_i(\beta_i - \kappa\delta_i) / (\delta_i\beta_i) = \mu$, giving:
-\begin{equation}
-\pi_i\left(\frac{1}{\delta_i} - \frac{\kappa}{\beta_i}\right) = \mu.
-\end{equation}
-
-So $\delta_i = \frac{\pi_i}{\mu + \kappa\pi_i/\beta_i}$. With equal endowments ($\beta_i = \beta$ for all $i$):
-\begin{equation}
-\delta_i = \frac{\pi_i}{\mu + \kappa\pi_i/\beta} = \frac{\pi_i \beta}{\mu\beta + \kappa\pi_i}.
-\end{equation}
-
-The constraint $\sum_i \delta_i = 0$ determines $\mu$:
-\begin{equation}
-\sum_i \frac{\pi_i \beta}{\mu\beta + \kappa\pi_i} = 0.
-\end{equation}
-
-Since all terms are positive for $\mu > 0$, we need $\mu < 0$ for the sum to vanish. Setting $\mu = -\kappa/\beta \cdot c$ for some $c > 0$, the solution gives $\delta_i \propto (\pi_i - \bar{\pi})$ for some mean value $\bar{\pi}$, confirming equation~\eqref{ch07:eq:LQ_equal_omega}:
-\begin{equation}
-x_i^* = \omega_i + (\pi_i - 1/N) \cdot \Phi,
-\end{equation}
-where $\Phi$ depends on $\kappa$, $\beta$, and $N$.
+The calibration $\kappa x_i < 1$ keeps every agent below satiation, so that $U$ is increasing on all allocations considered; $\Phi$ is the surplus over outside options, not $1/\kappa$.
 
 
 \subsection*{Appendix 7B: The Nash Axioms and Network Bargaining}
@@ -641,7 +619,7 @@ The unique solution satisfying (1)--(4) is $\x^* = \argmax \prod_i (U_i(x_i) - d
 
 \paragraph{Asymmetric Nash bargaining.} Kalai (1977) showed that replacing (2) with asymmetric weights $\boldsymbol{\pi}$ gives $\x^* = \argmax \prod_i (U_i(x_i) - d_i)^{\pi_i}$: the weighted product. Taking logs: $\argmax \sum_i \pi_i \ln(U_i(x_i) - d_i)$. This is equation~\eqref{ch07:eq:bargaining}.
 
-\paragraph{Where do the weights come from?} In Nash's original formulation, the weights are arbitrary. In Rubinstein's (1982) alternating-offers model, they come from discount rates. In this book, they come from the Perron eigenvector: $\pi_i = \pi_i(W)$. The network determines the weights. This closes the model: the weights are endogenous to the structure, not assumed.
+\paragraph{Where do the weights come from?} In Nash's original formulation, the weights are arbitrary. In Rubinstein's (1982) alternating-offers model, they come from relative patience (discount rates). In this book, they are set equal to the Perron eigenvector, $\pi_i = \pi_i(W)$ --- Assumption~7.A. That is a modelling postulate: it ties the weights to the structure, but it is not derived from a bargaining game. A microfoundation would need a protocol in which an agent's bargaining strength is proportional to her long-run influence in $W$ --- for instance, recognition probabilities equal to the stationary frequency with which a random walk on $W$ visits her. The strategic network-bargaining literature (Manea, 2011; Abreu and Manea, 2012) shows that, with the usual protocols, limit payoffs depend on the network in other ways (through ``oligopoly'' subnetworks and outside options), not through eigenvector centrality. Readers should treat the results of this chapter as conditional on Assumption~7.A.
 
 
 %% =====================================================================
@@ -649,19 +627,19 @@ The unique solution satisfying (1)--(4) is $\x^* = \argmax \prod_i (U_i(x_i) - d
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Marini (1973)}
 %% =====================================================================
 
-Ruy Mauro Marini (1932--1997) was a Brazilian sociologist and economist who spent most of his career in exile --- in Mexico, Chile, and then Mexico again after the Pinochet coup --- developing the most radical version of dependency theory. His 1973 book \textit{Dial\'{e}ctica de la dependencia} advanced a thesis that was rejected by orthodox Marxists and neoclassicals alike but that maps precisely onto the bargaining equilibrium of this chapter: \textbf{the defining feature of peripheral capitalism is superexploitation} --- the systematic remuneration of labor below its value.
+Ruy Mauro Marini (1932--1997) was a Brazilian sociologist and economist who spent most of his career in exile --- in Mexico, Chile, and then Mexico again after the Pinochet coup --- developing the most radical version of dependency theory. His 1973 book \textit{Dial\'{e}ctica de la dependencia} advanced a thesis that drew criticism from several directions and that can be given a formal reading through the bargaining equilibrium of this chapter: \textbf{the defining feature of peripheral capitalism is superexploitation} --- the systematic payment of labor-power below its value. What follows is this book's formal reinterpretation, not Marini's own apparatus; where the two diverge, we say so.
 
 Marini's argument has three parts.
 
 \textbf{Part 1: The terms-of-trade mechanism transfers surplus from periphery to center.} Following Prebisch, Marini argued that unequal exchange in international trade transfers part of the surplus produced in the periphery to the center. But Marini went further: he asked what the peripheral capitalist does to \textit{compensate} for this leakage. The answer: she increases the rate of exploitation of domestic labor, paying workers less than the value their labor produces. This is not a market failure in the neoclassical sense --- it is the market working exactly as the power structure dictates.
 
-In this chapter's framework: the global bargaining equilibrium gives the center a surplus share proportional to $\pi_{\text{center}}(W_{\text{global}})$, which is large because the global $W^P$ is center-periphery asymmetric. The peripheral capitalist's surplus share is smaller than it would be in autarky. To maintain her consumption, she squeezes the domestic surplus by exploiting the one factor she controls: labor. The domestic bargaining equilibrium gives the worker a share proportional to $\pi_{\text{worker}}(W_{\text{domestic}})$, which is small because the domestic $W$ gives workers almost no structural power.
+In this chapter's framework: the global bargaining equilibrium gives the center a surplus share $\pi_{\text{center}}(W_{\text{global}})$, which is large because the global $W^P$ is center-periphery asymmetric. The peripheral capitalist's share of the gains from trade is correspondingly small (though, by individual rationality, never below her outside option). To maintain her accumulation, she squeezes the domestic surplus by exploiting the one factor she controls: labor. The domestic bargaining equilibrium gives the worker the share $\pi_{\text{worker}}(W_{\text{domestic}})$ of the domestic surplus, which is small because the domestic $W$ gives workers almost no structural power.
 
-\textbf{Part 2: Superexploitation means $\pi_{\text{worker}} \ll 1/N$.} Marini defined superexploitation through three mechanisms: (i) increasing the intensity of work (more output per hour), (ii) extending the working day (more hours), and (iii) reducing the worker's consumption below the level needed for ``normal'' reproduction of labor power. All three reduce the worker's effective bargaining weight. In the notation of this chapter: the bargaining allocation gives the worker
+\textbf{Part 2: Superexploitation means $\pi_{\text{worker}} \ll 1/N$.} Marini defined superexploitation through three mechanisms: (i) increasing the intensity of work (more output per hour), (ii) extending the working day (more hours), and (iii) reducing the worker's consumption below the level needed for ``normal'' reproduction of labor power. In our reading, all three lower the worker's effective bargaining weight. In the notation of this chapter, the allocation rule gives the worker
 \begin{equation*}
-x_{\text{worker}}^* = \frac{\Omega}{N} + \frac{1}{\kappa}\left(\pi_{\text{worker}} - \frac{1}{N}\right).
+x_{\text{worker}}^* = \frac{\Omega}{N} + \Bigl(\pi_{\text{worker}} - \frac{1}{N}\Bigr)\Phi .
 \end{equation*}
-When $\pi_{\text{worker}} \ll 1/N$, the power correction is large and negative. The worker receives substantially less than equal division. Superexploitation is not a moral category --- it is a bargaining outcome with a specific mathematical signature: $x_{\text{worker}}^* < \Omega/N$ driven by $\pi_{\text{worker}} \ll 1/N$.
+When $\pi_{\text{worker}} \ll 1/N$, the power correction is large and negative, and the worker receives substantially less than equal division. The formal signature is $x_{\text{worker}}^* < \Omega/N$ driven by $\pi_{\text{worker}} \ll 1/N$. Note where the reinterpretation departs from Marini: his benchmark is the \textit{value of labor-power} (the cost of its normal reproduction), not equal division; the model captures the mechanism (a weak bargaining position), not the Marxian value accounting.
 
 \textbf{Part 3: Superexploitation is structurally stable.} Marini argued that superexploitation is not a transient aberration that development will cure. It is a \textit{structural feature} of peripheral capitalism: the power structure that produces low wages also prevents the formation of a domestic mass market, which prevents ISI from generating internal demand, which prevents the structural transformation that would increase workers' Perron weight. The allocation reinforces the structure. This is the fixed-point argument from Chapter~2 (Furtado's thesis) applied to the labor market: the equilibrium $(\boldsymbol{\pi}^*, \x^*)$ satisfies $\boldsymbol{\pi}^* = \boldsymbol{\pi}(W(\x^*))$ --- the power structure produces the allocation that reproduces the power structure.
 
@@ -670,19 +648,19 @@ When $\pi_{\text{worker}} \ll 1/N$, the power correction is large and negative. 
 \toprule
 \textbf{Marini's argument} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Surplus appropriation & $x_i^* = \Omega/N + (\pi_i - 1/N)/\kappa$ & Ex.~\ref{ch07:ex:LQ_bargaining} \\
+Surplus appropriation & $x_i^* = \Omega/N + (\pi_i - 1/N)\Phi$ & Prop.~\ref{ch07:prop:allocation-rule} \\
 Superexploitation & $\pi_{\text{worker}} \ll 1/N$ & Eq.~\eqref{ch07:eq:LQ_equal_omega} \\
 Transfer from periphery to center & Global $\boldsymbol{\pi}$: $\pi_{\text{center}} \gg 1/N$ & Sec.~\ref{ch07:sec:worked} \\
 Domestic compensation via labor squeeze & Domestic $\boldsymbol{\pi}$: $\pi_{\text{worker}} \ll 1/N$ & Ex.~B \\
 Structural stability & Fixed point: $W(\x^*) \to \boldsymbol{\pi}^* \to \x^*$ & Sec.~\ref{ch07:sec:escape} \\
-Escape requires $\varepsilon^* \propto \pi_h/\Gamma$ & Escape threshold & Def.~\ref{ch07:def:escape} \\
+Escape is blocked politically, not spectrally & $t\|E\|_\infty \geq \Delta/\|Z\|_\infty$ & Prop.~\ref{ch07:prop:escape_hard} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-The \textit{Dial\'{e}ctica} was controversial in its time --- orthodox Marxists accused Marini of confusing the rate of exploitation with absolute impoverishment, and neoclassicals dismissed the framework as unfalsifiable. But the bargaining equilibrium gives Marini's thesis a falsifiable formulation: superexploitation obtains when the left Perron eigenvector of the domestic weight matrix assigns workers a share substantially below $1/N$. This is empirically testable. Compute $W$ from input-output data, labor market surveys, and social network data. Compute $\boldsymbol{\pi}$. Compare $\pi_{\text{worker}}$ with $1/N$. The distance is the degree of superexploitation.
+The \textit{Dial\'{e}ctica} was controversial in its time; its best-known critique is Cardoso and Serra (1978), to which Marini replied in ``Las razones del neodesarrollismo'' (1978). The bargaining equilibrium gives one part of Marini's thesis a testable formulation, conditional on Assumption~7.A: the left Perron eigenvector of the domestic weight matrix assigns workers a share substantially below $1/N$. Compute $W$ from input-output data, labor market surveys, and social network data. Compute $\boldsymbol{\pi}$ and $\Neff$. Compare $\pi_{\text{worker}}$ with $1/N$. The distance measures the weakness of labor's bargaining position --- the mechanism Marini emphasized, not his value-theoretic definition.
 
-Marini wrote in exile. The military governments that exiled him did not change the bargaining problem. They changed who got to sit at the table --- they set $\pi_{\text{worker}} = 0$ by force. The Perron eigenvector remained well-defined. It just became more concentrated.
+Marini wrote in exile. The military governments that exiled him did not change the bargaining problem. They changed who got to sit at the table --- they pushed $\pi_{\text{worker}}$ toward zero by force. The Perron eigenvector remained well-defined. It just became more concentrated.
 
 
 %% =====================================================================
@@ -692,12 +670,14 @@ Marini wrote in exile. The military governments that exiled him did not change t
 
 \textbf{Nash bargaining:} Nash (1950), ``The Bargaining Problem,'' \textit{Econometrica}. Kalai (1977), ``Nonsymmetric Nash Solutions and Replications of 2-Person Bargaining.'' Rubinstein (1982), ``Perfect Equilibrium in a Bargaining Model,'' \textit{Econometrica}.
 
-\textbf{Bargaining in networks:} Manea (2011), ``Bargaining in Stationary Networks,'' \textit{AER}. Abreu and Manea (2012), ``Markov Equilibria in a Model of Bargaining in Networks,'' \textit{JET}. Corominas-Bosch (2004), ``Bargaining in a Network of Buyers and Sellers,'' \textit{JET}.
+\textbf{Bargaining in networks:} Manea (2011), ``Bargaining in Stationary Networks,'' \textit{AER}. Abreu and Manea (2012), ``Markov Equilibria in a Model of Bargaining in Networks,'' \textit{Games and Economic Behavior}; and ``Bargaining and Efficiency in Networks,'' \textit{JET}. Corominas-Bosch (2004), ``Bargaining in a Network of Buyers and Sellers,'' \textit{JET}.
 
-\textbf{Power and allocation:} Acemoglu, Ozdaglar, and Tahbaz-Salehi (2023), for relationship-specific investments and bargaining in production networks. This is the closest existing work to the model in this chapter.
+% TODO-VERIFY: authors/year/title of the production-network bargaining paper cited here (possibly Acemoglu and Tahbaz-Salehi, "The Macroeconomics of Supply Chain Disruptions").
+\textbf{Power and allocation:} on relationship-specific investments and bargaining in production networks, see Acemoglu, Ozdaglar, and Tahbaz-Salehi (2023). This is the closest existing work to the model in this chapter.
 
-\textbf{Welfare decomposition:} The decomposition~\eqref{ch07:eq:decomposition} is original to this book. For related welfare loss analysis in network settings: Elliott, Golub, and Jackson (2014), ``Financial Networks and Contagion,'' \textit{AER}.
+\textbf{Welfare decomposition:} The decomposition~\eqref{ch07:eq:decomposition} is original to this book. Emmanuel (1969), \textit{L'\'{e}change in\'{e}gal}, for the term ``unequal exchange.'' For related welfare loss analysis in network settings: Elliott, Golub, and Jackson (2014), ``Financial Networks and Contagion,'' \textit{AER}.
 
-\textbf{Dependency theory and labor:} Marini (1973), \textit{Dial\'{e}ctica de la dependencia}, M\'{e}xico: Era (the six-chapter essay formalized in the case study above; available in Spanish at \texttt{marini-escritos.unam.mx}). Marini (1978), ``Las razones del neodesarrollismo,'' \textit{Revista Mexicana de Sociolog\'{i}a} --- his response to critics. Prebisch (1981), \textit{Capitalismo Perif\'{e}rico}, Chapter~4, for the structuralist version of the same argument without the Marxist vocabulary.
+% TODO-VERIFY: "six-chapter essay" and the Prebisch (1981) chapter number below.
+\textbf{Dependency theory and labor:} Marini (1973), \textit{Dial\'{e}ctica de la dependencia}, M\'{e}xico: Era (the six-chapter essay formalized in the case study above; available in Spanish at \texttt{marini-escritos.unam.mx}). Cardoso and Serra (1978), ``Las desventuras de la dial\'{e}ctica de la dependencia,'' and Marini (1978), ``Las razones del neodesarrollismo,'' \textit{Revista Mexicana de Sociolog\'{i}a} --- the critique and his response. Prebisch (1981), \textit{Capitalismo Perif\'{e}rico}, Chapter~4, for the structuralist version of the same argument without the Marxist vocabulary.
 
 \end{document}

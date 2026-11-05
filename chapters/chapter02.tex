@@ -2,7 +2,8 @@
 \begin{document}
 \ifSubfilesClassLoaded{\setcounter{chapter}{1}}{}
 \chapter{Welfare Theorems as Matrix Properties}\label{ch:02}
-\chaptersubtitle{Why Efficiency Requires Symmetry --- and Where It Breaks}
+\chaptersubtitle{What Breaks Efficiency, What Is Distributional --- and Where It Breaks}
+% TODO-VERIFY: check the epigraph against Desenvolvimento e Subdesenvolvimento (1961), ch. 4 (about p. 191 of the 1st ed.; p. 176 in some later editions). Secondary sources quote "O subdesenvolvimento nao constitui uma etapa necessaria ..." and "E, em si, um processo particular ..."; the version below may drop "em si". Some sources attribute the passage to Teoria e Politica do Desenvolvimento Economico (1967). Add the page number.
 \begin{quote}
 \textit{``O subdesenvolvimento n\~{a}o \'{e} uma etapa necess\'{a}ria do processo de forma\c{c}\~{a}o das economias capitalistas modernas. \'{E} um processo particular, resultante da penetra\c{c}\~{a}o de empresas capitalistas modernas em estruturas arcaicas.''}\\[0.3em]
 \textnormal{[``Underdevelopment is not a necessary stage in the formation of modern capitalist economies. It is a particular process, resulting from the penetration of modern capitalist enterprises into archaic structures.'']}\\
@@ -11,11 +12,11 @@
 
 \vspace{1em}
 
-Chapter~1 revealed that the standard competitive model assumes a specific weight matrix: $W^{CE} = \frac{1}{N}\ones\ones'$. This chapter asks: what happens to the welfare theorems when the weight matrix is something else?
+Chapter~1 showed that Walrasian interaction is anonymous: the implied weight matrix is $W^{\text{mkt}} = \ones\mathbf{s}'$, and with equal endowments the benchmark $W^{CE} = \frac{1}{N}\ones\ones'$. This chapter asks: what happens to the welfare theorems when interaction is not anonymous?
 
-The First Welfare Theorem says: the competitive equilibrium is Pareto efficient. The Second says: any efficient allocation can be achieved by suitable transfers. Both are beautiful results. Both are theorems about a matrix --- and both require that matrix to be doubly stochastic.
+The First Welfare Theorem says: the competitive equilibrium is Pareto efficient. The Second says: any efficient allocation can be achieved by suitable transfers. Both are beautiful results. Neither requires equal power or a particular weight matrix; what the First requires, in this book's language, is the absence of utility interdependence, $W^U = 0$ (together with complete markets and price-taking).
 
-When $W$ departs from doubly stochastic, both theorems weaken. This chapter derives the conditions for each, quantifies the welfare loss from departures, and identifies three structural reasons for failure: asymmetric power, unpriced externalities, and block disconnection. The spectral gap of $W$ bounds the welfare loss from above, giving us a single-number diagnostic of structural health.
+This chapter separates three structural departures and says which of them is an efficiency problem. Unpriced externalities ($W^U \neq 0$) break efficiency; with $W_{ii} = 0$, they leave the utilitarian benchmark intact exactly when $W^U$ is doubly stochastic. Asymmetric power ($\boldsymbol{\pi} \neq \frac{1}{N}\ones$) is distributional: bargaining remains efficient, but the surplus tilts toward the powerful, with an exact loss $\frac{\kappa N}{2}\Phi^2\Var(\pi)$. Block disconnection leaves gains from integration unrealized. The spectral gap measures integration, not power, and it does not bound the power loss.
 
 
 %% =====================================================================
@@ -45,15 +46,15 @@ But feasibility requires $\sum_i \hat{x}_{i\ell} = \sum_i \omega_{i\ell}$ for al
 \end{proof}
 
 \begin{intuition}[Where does structure enter the proof?]
-The proof uses one critical feature of the competitive mechanism: every agent faces the \textit{same} price vector $p^*$. The price aggregates individual demands anonymously --- the identity of the agent does not affect the price she faces. Agent $i$'s effect on $p$ is proportional to her demand, not to her ``position'' in any network.
+The proof uses two features of the competitive mechanism: every agent faces the \textit{same} price vector $p^*$ and takes it as given, and each agent's utility depends only on her own bundle. The price aggregates individual demands anonymously --- the identity of the agent does not affect the price she faces. Agent $i$'s weight in that aggregate is her wealth share $s_i$, not her ``position'' in any network.
 
-This is the structural content: the price mechanism is symmetric. In weight-matrix language, the interaction is $W^{CE} = \frac{1}{N}\ones\ones'$: every agent enters the price mechanism with equal weight. If some agents had more influence on prices (market power, bargaining leverage, information advantage), the proof would fail --- the inequality in the last step would not follow.
+In weight-matrix language the interaction is $W^{\text{mkt}} = \ones\mathbf{s}'$ (Chapter~1, Section~\ref{ch01:sec:implicit_W}), and the proof goes through for \textit{every} $\mathbf{s}$: unequal wealth does not break it. What would break it is a step the proof uses silently. If $U_i$ depended on $x_j$ (an externality, $W^U \neq 0$), ``$\hat x_i$ is at least as good'' would no longer translate into a statement about $i$'s own budget. If agents did not take prices as given (market power), $x_i^*$ would not maximize $U_i$ on the budget set.
 \end{intuition}
 
 
-\subsection{The Matrix Restatement}
+\subsection{Externalities in Matrix Form}
 
-To state the structural condition precisely, consider the one-good economy from Chapter~1 with utility externalities. Agent $i$'s utility now includes the effect of others:
+To see what externalities do in the simplest setting, consider the one-good economy from Chapter~1 with utility externalities. With one good there is no market, so we compare two \textit{utilitarian} benchmarks rather than an equilibrium and an optimum. Agent $i$'s utility now includes the effect of others:
 \begin{equation}\label{ch02:eq:social_utility}
 V_i(\x) = U_i(x_i) + \gamma \sum_{j \neq i} W_{ij} U_j(x_j),
 \end{equation}
@@ -72,43 +73,49 @@ Rearranging the double sum (collect terms by $U_j$): the coefficient on $U_j(x_j
 The term $\sum_{i \neq j} W_{ij}$ is the column sum of $W$ at column $j$ (excluding the diagonal). It measures how much agent $j$ is \textit{cared about} by others --- her total incoming externality weight.
 
 \begin{definition}[Externality Centrality]\label{ch02:def:ext_centrality}
-Agent $j$'s \textbf{externality centrality} is $c_j = \sum_{i \neq j} W_{ij}$: the total weight others place on $j$'s utility. The planner's effective weight on $j$ is $\alpha_j = 1 + \gamma c_j$.
+Agent $j$'s \textbf{externality centrality} is the total weight others place on $j$'s utility, $c_j = \sum_{i \neq j} W_{ij}$. The planner's effective weight on $j$ is $\alpha_j = 1 + \gamma c_j$.
 \end{definition}
 
-\begin{theorem}[First Welfare Theorem --- Matrix Version]\label{ch02:thm:FWT_matrix}
-Consider the one-good economy with externalities~\eqref{ch02:eq:social_utility}. The competitive equilibrium (where each agent maximizes $U_i(x_i)$ ignoring externalities) is Pareto efficient with respect to social utilities $V_i$ if and only if:
+\begin{proposition}[Externalities and the Utilitarian Benchmark]\label{ch02:thm:FWT_matrix}
+In the one-good economy with externalities~\eqref{ch02:eq:social_utility}, let all $U_j$ be strictly concave and differentiable, and consider interior allocations with $U_j' > 0$. The allocation that maximizes $\sum_j U_j(x_j)$ (the ``externality-blind'' benchmark, which ignores $W$) also maximizes social welfare $\sum_i V_i = \sum_j \alpha_j U_j(x_j)$, for every total $\Omega$, if and only if
 \begin{equation}\label{ch02:eq:FWT_condition}
 \alpha_j = \alpha_k \quad \text{for all } j, k \qquad \Longleftrightarrow \qquad c_j = c_k \quad \text{for all } j, k.
 \end{equation}
-That is: all agents must have equal externality centrality (equal column sums in $W$).
-\end{theorem}
-
-\begin{proof}
-The planner's first-order condition is $\alpha_j U_j'(x_j) = \mu$ for all $j$, where $\mu$ is the Lagrange multiplier on the resource constraint. The market's FOC is $U_j'(x_j) = \mu'$ for all $j$ (agents ignore externalities). These coincide if and only if $\alpha_j$ is the same for all $j$ --- otherwise the planner would set different marginal utilities for different agents, while the market equalizes them.
-\end{proof}
-
-\begin{proposition}[The Doubly Stochastic Condition]\label{ch02:prop:doubly_stochastic}
-If $W$ is row-stochastic ($\sum_j W_{ij} = 1$ for all $i$), then the FWT condition $c_j = c_k$ for all $j, k$ is equivalent to: \textbf{$W$ is doubly stochastic} ($\sum_i W_{ij} = 1$ for all $j$).
+That is: all agents must have equal externality centrality.
 \end{proposition}
 
 \begin{proof}
-Row-stochastic: $\sum_j W_{ij} = 1$. Summing over $i$: $\sum_i \sum_j W_{ij} = N$, so $\sum_j c_j = \sum_j (\sum_i W_{ij} - W_{jj}) = N - \tr(W)$. If all $c_j$ are equal: $c_j = (N - \tr(W))/N$ for all $j$, meaning all column sums $\sum_i W_{ij}$ are equal. Combined with $\sum_j (\sum_i W_{ij}) = N$ (total of all entries = $N$ from row-stochasticity), each column sum must be 1. Hence doubly stochastic.
+The blind optimum $x^U$ is characterized by $U_j'(x^U_j) = \mu$ for all $j$; the social optimum by $\alpha_j U_j'(x_j) = \mu'$. If all $\alpha_j$ equal $\alpha$, the two conditions coincide (with $\mu' = \alpha\mu$), and since both problems are strictly concave their solutions coincide. If $\alpha_j \neq \alpha_k$ for some $j, k$, then at $x^U$ we have $\alpha_j U_j'(x^U_j) \neq \alpha_k U_k'(x^U_k)$ because $U_j' = U_k' = \mu > 0$; moving a small amount from the agent with the lower $\alpha$ to the one with the higher $\alpha$ raises $\sum_j \alpha_j U_j$, so $x^U$ is not socially optimal.
 \end{proof}
 
-\begin{intuition}[What doubly stochastic means for efficiency]
+\begin{remark}
+This is a statement about utilitarian optima, not about Pareto efficiency or competitive equilibrium. With one good there is no market, and with weak altruism every interior allocation can be Pareto efficient with respect to the $V_i$. In a multi-good economy with consumption externalities ($W^U \neq 0$), the competitive equilibrium is in general not Pareto efficient; the proposition isolates the one-good analogue of that failure.
+\end{remark}
+
+\begin{proposition}[The Doubly Stochastic Condition]\label{ch02:prop:doubly_stochastic}
+Let $W$ be row-stochastic ($\sum_j W_{ij} = 1$ for all $i$) with zero diagonal ($W_{ii} = 0$, which is natural in~\eqref{ch02:eq:social_utility} because the diagonal never enters). Then the condition $c_j = c_k$ for all $j, k$ is equivalent to: \textbf{$W$ is doubly stochastic} ($\sum_i W_{ij} = 1$ for all $j$).
+\end{proposition}
+
+\begin{proof}
+With $W_{jj} = 0$, $c_j = \sum_i W_{ij}$ is the $j$-th column sum. Row-stochasticity gives $\sum_j c_j = \sum_i\sum_j W_{ij} = N$. If all $c_j$ are equal, each equals $1$, so $W$ is doubly stochastic. Conversely, if $W$ is doubly stochastic, every $c_j = 1$.
+\end{proof}
+
+The zero-diagonal hypothesis matters: $W = \begin{pmatrix} 0.8 & 0.1 & 0.1 \\ 0.1 & 0.5 & 0.4 \\ 0.4 & 0.4 & 0.2 \end{pmatrix}$ is row-stochastic with $c = (0.5, 0.5, 0.5)$, but its column sums are $(1.3, 1.0, 0.7)$.
+
+\begin{intuition}[What doubly stochastic means here]
 \textbf{Row-stochastic} means each agent distributes her total attention/dependency across others, summing to 1. This is a normalization --- it says your total outgoing weight is fixed.
 
 \textbf{Column-stochastic} means each agent receives the same total weight from others. Nobody is ``more cared about'' than anyone else. Nobody generates more externality.
 
-\textbf{Doubly stochastic} means both: the giving is normalized AND the receiving is equal. This is the symmetry condition the welfare theorems need.
+\textbf{Doubly stochastic} means both: the giving is normalized AND the receiving is equal. This is the condition under which externalities do not tilt the social optimum away from the externality-blind one.
 
-When column sums are unequal, the planner wants to give more to the agents with high column sums (they generate lots of positive externalities). The market, ignoring externalities, gives everyone the same marginal utility. The market under-provides to the high-externality agents and over-provides to the low-externality agents.
+When column sums are unequal, the planner wants to give more to the agents with high column sums (others care about them, so their consumption counts several times). An allocation rule that ignores externalities gives everyone the same marginal utility. It under-provides to the agents others care about and over-provides to those nobody cares about.
 \end{intuition}
 
 Two special cases satisfy the condition trivially:
 
 \begin{corollary}[Two Sufficient Conditions]\label{ch02:cor:sufficient}
-The FWT holds if:
+The blind and social optima coincide if:
 \begin{enumerate}
 \item $\gamma = 0$ (no externalities). Then $\alpha_j = 1$ for all $j$ regardless of $W$.
 \item $W = \frac{1}{N}\ones\ones'$ (competitive benchmark). Then $c_j = (N-1)/N$ for all $j$.
@@ -121,27 +128,31 @@ The FWT holds if:
 \label{ch02:sec:failures}
 %% =====================================================================
 
-The FWT fails when $W$ departs from doubly stochastic. We distinguish three structural mechanisms.
+We distinguish three structural departures from the benchmark. Only the second is an efficiency failure; the first is distributional, and the third is about integration.
 
 \subsection{Failure 1: Asymmetric Power}
 
-When column sums of $W$ are unequal, the Perron eigenvector $\boldsymbol{\pi}$ departs from $\frac{1}{N}\ones$. The agents with the highest column sums have the most structural power (Chapter~6 develops this fully). In the bargaining equilibrium (Chapter~7), the allocation tilts toward the powerful:
+For a row-stochastic irreducible $W$, the Perron vector $\boldsymbol{\pi}$ departs from $\frac{1}{N}\ones$ exactly when $W$ is not doubly stochastic (Chapter~1, Proposition~\ref{ch01:prop:pi_uniform}). Chapter~6 develops $\boldsymbol{\pi}$ as power. Here we adopt the book's bargaining assumption: a joint surplus is divided by asymmetric Nash bargaining with weights $\boldsymbol{\pi}$, from equal disagreement payoffs $\bar d$. The allocation then tilts toward the powerful (Chapter~1, Proposition~\ref{ch01:prop:allocation_rule}; Chapter~7, Proposition~\ref{ch07:prop:allocation-rule}):
 \begin{equation}\label{ch02:eq:power_correction}
-x_i^* \approx \frac{\Omega}{N} + \frac{1}{\kappa}\left(\pi_i - \frac{1}{N}\right).
+x_i^* = \frac{\Omega}{N} + \Bigl(\pi_i - \frac{1}{N}\Bigr)\Phi, \qquad \Phi = \Omega - N\bar d.
 \end{equation}
 
-The welfare loss from this power asymmetry in the LQ economy:
 \begin{proposition}[Welfare Loss from Power Asymmetry]\label{ch02:prop:power_loss}
+With $U(x) = x - \frac{\kappa}{2}x^2$ and allocation~\eqref{ch02:eq:power_correction}, the utilitarian loss relative to equal division is exactly
 \begin{equation}\label{ch02:eq:power_loss}
-L_{\text{power}} = \frac{\kappa N}{2}\Var(\pi_i) \cdot \Phi^2(\Omega, N, \kappa),
+L_{\text{power}} = \frac{\kappa N}{2}\,\Phi^2\,\Var(\pi_i),
 \end{equation}
-where $\Var(\pi_i) = \frac{1}{N}\sum_i (\pi_i - 1/N)^2$ and $\Phi > 0$ is a scaling factor.
+where $\Var(\pi_i) = \frac{1}{N}\sum_i (\pi_i - 1/N)^2$.
 \end{proposition}
 
-The loss is proportional to the variance of the Perron eigenvector. When $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power), $\Var(\pi_i) = 0$ and the loss vanishes. The more concentrated the power distribution, the larger the welfare loss.
+\begin{proof}
+Chapter~1, Proposition~\ref{ch01:prop:allocation_rule}: with $z_i = x_i - \Omega/N$ and $\sum_i z_i = 0$, the linear terms of the exact quadratic expansion cancel, leaving $\frac{\kappa}{2}\sum_i z_i^2$.
+\end{proof}
+
+The loss is proportional to the variance of the Perron vector. When $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power), $\Var(\pi_i) = 0$ and the loss vanishes. It is a \textit{distributional} loss: Nash bargaining is Pareto efficient for every $\boldsymbol{\pi}$, so no allocation makes everyone better off.
 
 \begin{example}[Power Asymmetry with $N = 4$]\label{ch02:ex:power_4}
-Four agents, $\Omega = 20$, $\kappa = 0.5$. Compare three weight matrices:
+Four agents, $\Omega = 20$, $\kappa = 0.1$ (satiation at $10$, so $\kappa x_i < 1$ throughout), equal disagreement payoffs $\bar d = 4.5$, hence surplus $\Phi = 2$. Compare three hypothetical power vectors:
 
 \begin{center}
 \begin{tabular}{lccccc}
@@ -149,8 +160,8 @@ Four agents, $\Omega = 20$, $\kappa = 0.5$. Compare three weight matrices:
 Structure & $\pi_1$ & $\pi_2$ & $\pi_3$ & $\pi_4$ & $\Var(\pi_i) \times 10^3$ \\
 \midrule
 Competitive ($\frac{1}{4}\ones\ones'$) & 0.25 & 0.25 & 0.25 & 0.25 & 0 \\
-Mild asymmetry & 0.30 & 0.28 & 0.22 & 0.20 & 1.55 \\
-Strong asymmetry (star) & 0.55 & 0.15 & 0.15 & 0.15 & 25.0 \\
+Mild asymmetry & 0.30 & 0.28 & 0.22 & 0.20 & 1.70 \\
+Strong asymmetry (star) & 0.55 & 0.15 & 0.15 & 0.15 & 30.0 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -163,57 +174,61 @@ Bargaining allocations (from~\eqref{ch02:eq:power_correction}):
 & $x_1^*$ & $x_2^*$ & $x_3^*$ & $x_4^*$ & $L_{\text{power}}$ \\
 \midrule
 Competitive & 5.00 & 5.00 & 5.00 & 5.00 & 0 \\
-Mild & 5.10 & 5.06 & 4.94 & 4.90 & 0.008 \\
-Star & 5.60 & 4.80 & 4.80 & 4.80 & 0.128 \\
+Mild & 5.10 & 5.06 & 4.94 & 4.90 & 0.0014 \\
+Star & 5.60 & 4.80 & 4.80 & 4.80 & 0.0240 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The star network produces a welfare loss 16 times larger than the mildly asymmetric case. The powerful agent ($\pi_1 = 0.55$) captures 12\% more than equal division despite identical endowments and preferences. This is inequality produced entirely by structure.
+The star produces a loss 17.6 times larger than the mildly asymmetric case --- the ratio of the two variances, since $\Phi$ and $\kappa$ are the same. The powerful agent ($\pi_1 = 0.55$) captures 12\% more than equal division despite identical outside options and preferences. This is inequality produced entirely by structure (given the bargaining assumption).
 \end{example}
 
 
 \subsection{Failure 2: Unpriced Externalities}
 
-Even if $\boldsymbol{\pi} = \frac{1}{N}\ones$ (the market interaction is symmetric), externalities that the market does not price generate inefficiency.
+Even if $\boldsymbol{\pi} = \frac{1}{N}\ones$, externalities that nobody prices generate a genuine efficiency problem.
 
-The planner's allocation equates $\alpha_j U_j'(x_j)$ across agents. The market's allocation equates $U_j'(x_j)$. When $\alpha_j$ varies (unequal externality centrality), these differ.
+The social optimum equates $\alpha_j U_j'(x_j)$ across agents. The externality-blind allocation (equal division, with identical $U$) equates $U_j'(x_j)$. When $\alpha_j$ varies (unequal externality centrality), these differ.
 
 \begin{proposition}[Welfare Loss from Unpriced Externalities]\label{ch02:prop:ext_loss}
-In the LQ economy with $\gamma > 0$:
+Let $U(x) = x - \frac{\kappa}{2}x^2$, $m = \Omega/N$ with $1 - \kappa m > 0$, and $\alpha_j = 1 + \gamma c_j$, where $c_j = \sum_{i \neq j} W^U_{ij}$. Let $H = N/\sum_j \alpha_j^{-1}$ be the harmonic mean of the $\alpha_j$. If the social optimum is interior with $\kappa x_j < 1$, the loss of equal division, measured in social welfare $\sum_i V_i$, is exactly
 \begin{equation}\label{ch02:eq:ext_loss}
-L_{\text{externality}} = \gamma^2 \cdot \Var(c_j) \cdot \Psi(\Omega, N, \kappa),
+L_{\text{ext}} = \frac{(1 - \kappa m)^2}{2\kappa}\sum_j \frac{(\alpha_j - H)^2}{\alpha_j} \;=\; \frac{N(1-\kappa m)^2}{2\kappa}\,\gamma^2\,\Var(c_j) + O(\gamma^3),
 \end{equation}
-where $c_j = \sum_{i \neq j} W_{ij}$ is agent $j$'s externality centrality, $\Var(c_j) = \frac{1}{N}\sum_j(c_j - \bar{c})^2$, and $\Psi > 0$.
+where $\Var(c_j) = \frac{1}{N}\sum_j(c_j - \bar{c})^2$. The social optimum is $x_j = m + \frac{(1-\kappa m)(\alpha_j - H)}{\kappa\alpha_j}$.
 \end{proposition}
 
-This loss exists even with equal power. It is proportional to the \textit{variance of column sums} in $W^U$ --- how unevenly the caring is distributed. If everybody is cared about equally ($c_j$ constant), the loss is zero even with large $\gamma$.
+\begin{proof}
+Write $x_j = m + z_j$ with $\sum_j z_j = 0$. Exactly, $\sum_j \alpha_j U(m + z_j) = \sum_j \alpha_j U(m) + U'(m)\sum_j \alpha_j z_j - \frac{\kappa}{2}\sum_j \alpha_j z_j^2$. Maximizing over $z$ subject to $\sum_j z_j = 0$ gives $z_j = (U'(m)\alpha_j - \nu)/(\kappa\alpha_j)$, and the constraint gives $\nu = U'(m)H$. Let $Q = \sum_j (U'(m)\alpha_j - \nu)^2/\alpha_j = U'(m)^2\sum_j(\alpha_j - H)^2/\alpha_j$. Using $\sum_j z_j = 0$, one checks $U'(m)\sum_j\alpha_j z_j = Q/\kappa$ and $\frac{\kappa}{2}\sum_j\alpha_j z_j^2 = Q/(2\kappa)$, so the gain over $z = 0$ is $Q/(2\kappa)$. For the expansion, $\alpha_j - H = \gamma(c_j - \bar c) + O(\gamma^2)$ and $\alpha_j = 1 + O(\gamma)$.
+\end{proof}
+
+This loss exists even with equal power. To second order it is proportional to the \textit{variance of column sums} in $W^U$ --- how unevenly the caring is distributed. If everybody is cared about equally ($c_j$ constant), the loss is zero even with large $\gamma$. It vanishes at satiation ($\kappa m = 1$), which is one more reason to calibrate below it.
 
 \begin{example}[The Unpriced Bond]\label{ch02:ex:bond}
-$N = 3$, $\gamma = 0.5$, $\kappa = 1$, $\Omega = 3$.
+$N = 3$, $\gamma = 0.5$, $\kappa = 0.5$, $\Omega = 3$ (so $m = 1$ and $1 - \kappa m = 0.5$).
 
 \textbf{Case A:} Symmetric externalities. $W^U = \begin{pmatrix} 0 & 0.5 & 0.5 \\ 0.5 & 0 & 0.5 \\ 0.5 & 0.5 & 0 \end{pmatrix}$. Column sums: $(1, 1, 1)$. Equal. $L_{\text{ext}} = 0$.
 
-\textbf{Case B:} Asymmetric. $W^U = \begin{pmatrix} 0 & 0.6 & 0 \\ 0.5 & 0 & 0 \\ 0.0 & 0.5 & 0 \end{pmatrix}$. Column sums: $(0.5, 1.1, 0)$. Agent 2 is cared about by both others; Agent 3 is cared about by nobody. $\Var(c_j) = 0.203$. $L_{\text{ext}} = 0.5^2 \times 0.203 \times \Psi = 0.051\Psi$.
+\textbf{Case B:} Asymmetric. $W^U = \begin{pmatrix} 0 & 0.6 & 0 \\ 0.5 & 0 & 0 \\ 0.0 & 0.5 & 0 \end{pmatrix}$. Column sums: $(0.5, 1.1, 0)$. Agent 2 is cared about by both others; Agent 3 is cared about by nobody. $\Var(c_j) = 0.202$ and $\boldsymbol{\alpha} = (1.25, 1.55, 1.00)$. The social optimum is $\x^V = (1.02, 1.21, 0.77)$, and the exact loss of equal division is $L_{\text{ext}} = 0.030$. (The second-order approximation gives $0.038$; $\gamma = 0.5$ is not small.)
 
-The planner gives more to Agent~2 (who generates large positive spillovers). The market ignores this and equalizes marginal utilities. The market under-provides for Agent~2 and over-provides for Agent~3.
+The planner gives more to Agent~2 (whose consumption others value). An allocation rule that ignores externalities equalizes marginal utilities, under-providing for Agent~2 and over-providing for Agent~3.
 \end{example}
 
 
 \subsection{Failure 3: Block Disconnection}
 
-When $W$ is approximately block-diagonal with $k$ blocks, the economy fragments into nearly independent components. The market may achieve efficiency \textit{within} each block, but gains from cross-block reallocation are unrealized.
+When $W$ is block-diagonal with $k$ blocks, the economy fragments into independent components. Allocation may equalize \textit{within} each block, but gains from cross-block reallocation are unrealized.
 
 \begin{proposition}[Block-Diagonal Welfare Loss]\label{ch02:prop:block_loss}
-Let $W$ have $k$ blocks with sizes $N_1, \ldots, N_k$, mean endowments $\bar{\omega}_1, \ldots, \bar{\omega}_k$, and cross-block weights $\varepsilon \to 0$. The welfare loss from disconnection is:
+\begin{sloppypar}Let $W$ have $k$ blocks with sizes $N_1, \ldots, N_k$ and mean endowments $\bar{\omega}_1, \ldots, \bar{\omega}_k$, with no cross-block weight. Suppose resources are equalized within each block but do not cross blocks, and $U(x) = x - \frac{\kappa}{2}x^2$. The utilitarian loss relative to full equal division is:\end{sloppypar}
 \begin{equation}\label{ch02:eq:block_loss}
-L_{\text{block}} = \frac{\kappa}{2}\sum_{b=1}^k N_b(\bar{\omega}_b - \bar{\omega})^2 + O(\varepsilon).
+L_{\text{block}} = \frac{\kappa}{2}\sum_{b=1}^k N_b(\bar{\omega}_b - \bar{\omega})^2.
 \end{equation}
-This is the \textbf{between-group variance} of endowments, weighted by $\kappa/2$.
+This is $N$ times the \textbf{between-group variance} of endowments, weighted by $\kappa/2$.
 \end{proposition}
 
 \begin{proof}
-With $\varepsilon = 0$, each block $b$ solves its own welfare problem independently, achieving within-block equal division at $\bar{\omega}_b$. The first-best (full-economy equal division) would give everyone $\bar{\omega}$. The difference in welfare:
+Each block $b$ solves its own welfare problem independently, achieving within-block equal division at $\bar{\omega}_b$. The first-best (full-economy equal division) would give everyone $\bar{\omega}$. The difference in welfare:
 \begin{align}
 L &= \sum_b N_b \left[U(\bar{\omega}) - U(\bar{\omega}_b)\right] = \sum_b N_b \left[(\bar{\omega} - \bar{\omega}_b) - \frac{\kappa}{2}(\bar{\omega}^2 - \bar{\omega}_b^2)\right] \\
 &= -\frac{\kappa}{2}\sum_b N_b(\bar{\omega}^2 - \bar{\omega}_b^2) = \frac{\kappa}{2}\sum_b N_b(\bar{\omega}_b - \bar{\omega})^2,
@@ -221,20 +236,20 @@ L &= \sum_b N_b \left[U(\bar{\omega}) - U(\bar{\omega}_b)\right] = \sum_b N_b \l
 using $\sum_b N_b(\bar{\omega} - \bar{\omega}_b) = 0$ (block means average to the population mean) and expanding the quadratic.
 \end{proof}
 
-\begin{intuition}[Between-group inequality as structural inefficiency]
+\begin{intuition}[Between-group inequality as a structural loss]
 The block-diagonal welfare loss equals the between-group variance of endowments. If all blocks have the same average ($\bar{\omega}_b = \bar{\omega}$), the loss is zero even with total disconnection --- there is nothing to redistribute across blocks. But if blocks differ in average endowment (one is rich, another poor), disconnection prevents the equalization that would improve welfare.
 
 This is the structural diagnosis: the welfare cost of fragmentation is not fragmentation per se, but fragmentation \textit{in the presence of between-group inequality}. An economy with two equally poor sectors loses nothing from disconnection. An economy with one gas sector and one subsistence sector loses enormously.
 \end{intuition}
 
 \begin{example}[Two Blocks with Different Means]\label{ch02:ex:two_blocks}
-$N = 8$, $\kappa = 0.5$. Block~1 (agents 1--3): gas/formal sector, $\bar{\omega}_1 = 8$. Block~2 (agents 4--8): traditional sector, $\bar{\omega}_2 = 3.2$. Overall mean: $\bar{\omega} = \frac{3 \times 8 + 5 \times 3.2}{8} = 5$.
+$N = 8$, $\kappa = 0.1$ (satiation at 10). Block~1 (agents 1--3): gas/formal sector, $\bar{\omega}_1 = 8$. Block~2 (agents 4--8): traditional sector, $\bar{\omega}_2 = 3.2$. Overall mean: $\bar{\omega} = \frac{3 \times 8 + 5 \times 3.2}{8} = 5$.
 
 Between-group variance: $\frac{1}{8}[3(8-5)^2 + 5(3.2-5)^2] = \frac{1}{8}[27 + 16.2] = 5.4$.
 
-Block-diagonal welfare loss: $L_{\text{block}} = \frac{0.5}{2}\times 8 \times 5.4 = 10.8$.
+Block-diagonal welfare loss: $L_{\text{block}} = \frac{0.1}{2}\times 8 \times 5.4 = 2.16$.
 
-Now connect the blocks: increase cross-block weights to 0.15 (structural policy). The economy partially equilibrates across blocks. The welfare gain is bounded above by $L_{\text{block}} = 10.8$ --- the maximum achievable improvement from structural integration.
+Now connect the blocks: increase cross-block weights to 0.15 (structural policy). If the connection lets resources partially equalize across blocks, the welfare gain is bounded above by $L_{\text{block}} = 2.16$ --- the maximum achievable improvement from structural integration. How much of it is realized depends on the allocation mechanism, not on $W$ alone.
 \end{example}
 
 \begin{vizpanel}{Three failures, three heatmaps}
@@ -252,7 +267,8 @@ Now connect the blocks: increase cross-block weights to 0.15 (structural policy)
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Asymmetric Power};
-\node[below, font=\scriptsize] at ({4*\s}, -0.55) {$\Var(\pi_i)$ large};
+\node[below, font=\scriptsize] at ({4*\s}, -0.55) {$\pi_1 = 0.44$, $\Neff = 4.2$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.95) {(yet $\Gamma = 0.89$)};
 
 %% Failure 2: Clustered externalities
 \begin{scope}[xshift=4.2cm]
@@ -265,7 +281,7 @@ Now connect the blocks: increase cross-block weights to 0.15 (structural policy)
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Clustered Externalities};
-\node[below, font=\scriptsize] at ({4*\s}, -0.55) {$\Var(c_j)$ large};
+\node[below, font=\scriptsize] at ({4*\s}, -0.55) {$\Var(c_j) = 0.060$};
 \end{scope}
 
 %% Failure 3: Block disconnection
@@ -279,12 +295,12 @@ Now connect the blocks: increase cross-block weights to 0.15 (structural policy)
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Block Disconnection};
-\node[below, font=\scriptsize] at ({4*\s}, -0.55) {$\Gamma \approx 0$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.55) {$\Gamma = 0.10$, $\Neff = 8$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Three departures from $W^{CE}$, each causing the FWT to fail through a different channel. The real world typically has all three simultaneously.
+\small Three departures from $W^{CE}$ (heatmap weights, rows normalized; diagnostics by \texttt{code/ch02.py}). Only the middle one, unpriced externalities, is an efficiency failure. The left is distributional: power is concentrated, although the spectral gap is large. The right leaves gains from integration unrealized: the gap is small, although power is uniform. The real world typically has all three simultaneously.
 \end{vizpanel}
 
 
@@ -304,60 +320,59 @@ The standard interpretation: equity and efficiency are separable. A benevolent p
 This separation is the intellectual foundation of ``growth first, redistribute later'': get the prices right (efficiency), then transfer income (equity).
 
 
-\subsection{The Transfer Trap}
+\subsection{Transfers and the Power Term}
 
-The SWT assumes that after the transfer, the market operates symmetrically on the new endowments. When the market mechanism is mediated by a non-doubly-stochastic $W$, this assumption fails.
+The SWT assumes that after the transfer, allocation runs through an anonymous mechanism. When allocation runs through bargaining with weights $\boldsymbol{\pi}(W)$, transfers still work --- but they act on a different object from the one power acts on.
 
-\begin{theorem}[The Transfer Trap]\label{ch02:thm:transfer_trap}
-In the bargaining equilibrium with power $\boldsymbol{\pi}(W)$:
+\begin{proposition}[Transfers Do Not Remove the Power Term]\label{ch02:thm:transfer_trap}
+Let the surplus be divided by asymmetric Nash bargaining with weights $\boldsymbol{\pi}$ from disagreement payoffs $\mathbf{d}$, so that $x_i = d_i + \pi_i\Phi$ with $\Phi = \Omega - \sum_j d_j$ (Chapter~1, Proposition~\ref{ch01:prop:nash_division}). Let $\boldsymbol{\tau}$ be a transfer with $\sum_i \tau_i = 0$.
 \begin{enumerate}
-\item A lump-sum transfer $T$ changes endowments: $\boldsymbol{\omega}' = \boldsymbol{\omega} + T\ones$ (where $T$ is the transfer matrix with $\ones'T = 0$).
-\item The post-transfer allocation is determined by the \textit{same} $W$ (transfers do not change the weight matrix).
-\item The new bargaining allocation is:
-\begin{equation}\label{ch02:eq:post_transfer}
-x_i' \approx \frac{\Omega}{N} + \frac{1}{\kappa}\left(\pi_i - \frac{1}{N}\right) + (\text{terms involving } \omega_i').
-\end{equation}
-The power correction $(\pi_i - 1/N)/\kappa$ persists regardless of the transfer.
-\item Consequently: no transfer $T$ can achieve the first-best equal-division allocation unless $\boldsymbol{\pi} = \frac{1}{N}\ones$ (i.e., unless $W$ is doubly stochastic).
+\item A transfer that changes disagreement payoffs, $\mathbf{d}' = \mathbf{d} + \boldsymbol{\tau}$, changes the allocation one-for-one: $\x' = \x + \boldsymbol{\tau}$. There is no clawback.
+\item The power term $\pi_i\Phi$ is unchanged, because $\Phi$ depends only on $\sum_j d_j$ and $\boldsymbol{\pi}$ depends only on $W$.
+\item Equal division is reached if and only if $\tau_i = \frac{\Omega}{N} - d_i - \pi_i\Phi$. With equal disagreement payoffs this is $\tau_i = (\frac{1}{N} - \pi_i)\Phi$, a gross transfer volume $\frac{1}{2}\sum_i|\tau_i| = \Phi\,d_\pi$, where $d_\pi = \frac{1}{2}\|\boldsymbol{\pi} - \frac{1}{N}\ones\|_1$.
+\item If the surplus is re-bargained every period from disagreement payoffs fixed by structural position, a transfer of consumption made after bargaining does not carry over: offsetting power costs $\Phi\,d_\pi$ \textit{per period}. A change in $W$ that makes it doubly stochastic ($\boldsymbol{\pi} = \frac{1}{N}\ones$) reaches equal division with no transfers.
 \end{enumerate}
-\end{theorem}
+\end{proposition}
 
-\begin{proof}[Proof sketch]
-The bargaining allocation solves $\max \sum_i \pi_i \ln S_i(\x)$ subject to feasibility. The surplus $S_i = U_i(x_i) - U_i(\omega_i')$ depends on the new endowment $\omega_i'$, but the weight $\pi_i$ does not. The FOC $\frac{\pi_i}{S_i}U_i'(x_i) = \mu$ generates allocations that deviate from equal division by a term proportional to $(\pi_i - 1/N)$. Since $\boldsymbol{\pi}$ is determined by $W$ alone, no change in $\boldsymbol{\omega}$ can eliminate this term.
+\begin{proof}
+(1)--(2): substitute $\mathbf{d}'$ into $x_i = d_i + \pi_i(\Omega - \sum_j d_j)$ and use $\sum_j \tau_j = 0$. (3): solve $d_i + \tau_i + \pi_i\Phi = \Omega/N$; with $d_i = \bar d$, $\Omega/N - \bar d = \Phi/N$. The positive parts of $\boldsymbol{\tau}$ sum to $\Phi\sum_i(\frac1N - \pi_i)^+ = \Phi\,d_\pi$. (4): each period's allocation is $d_i + \pi_i\Phi$ again; uniform $\boldsymbol{\pi}$ makes it $\Omega/N$ by (3) with $\boldsymbol{\tau} = 0$.
 \end{proof}
 
 \begin{example}[Transfer vs.\ Structural Policy]\label{ch02:ex:transfer_vs_structural}
-$N = 4$, $\Omega = 20$, $\boldsymbol{\omega} = (5, 5, 5, 5)$ (equal endowments). Block-diagonal $W$ with $\boldsymbol{\pi} = (0.32, 0.33, 0.17, 0.18)$ (the gas-enclave structure from Chapter~1).
+\illustrative\ $N = 4$, $\Omega = 20$, $\kappa = 0.1$, equal disagreement payoffs $\bar d = 3$, so $\Phi = 8$. Agents 1--2 form a gas/government block, agents 3--4 a traditional block:
+\begin{equation*}
+W = \begin{pmatrix} 0.49 & 0.49 & 0.01 & 0.01 \\ 0.49 & 0.49 & 0.01 & 0.01 \\ 0.02 & 0.02 & 0.48 & 0.48 \\ 0.02 & 0.02 & 0.48 & 0.48 \end{pmatrix}.
+\end{equation*}
+The traditional block depends on the gas block twice as much (0.02 per entry) as the gas block depends on it (0.01). The Perron vector is $\boldsymbol{\pi} = (\frac13, \frac13, \frac16, \frac16)$, so $\Neff = 3.6$; the spectral gap is $\Gamma = 0.06$.
 
-\textbf{Bargaining allocation with no transfer:} $\x^* = (5.56, 5.64, 4.36, 4.44)$. Agents 1--2 (gas/government block) get 11\% more; agents 3--4 (traditional block) get 12\% less. Welfare loss: $L = 0.18$.
+\textbf{No policy.} $\x^* = (5.67, 5.67, 4.33, 4.33)$; the gas block gets 13\% more than equal division. $L_{\text{power}} = 0.089$.
 
-\textbf{Policy A --- Transfer.} Move 2 units from Agent~2 to Agent~3: $\boldsymbol{\omega}' = (5, 3, 7, 5)$. New bargaining allocation: $\x' = (5.48, 4.80, 5.24, 4.48)$. Agent~3 gained 0.88, not 2.00. The structure ``clawed back'' $2.00 - 0.88 = 1.12$, or 56\% of the transfer.
+\textbf{Policy A --- Transfers.} The transfer $\boldsymbol{\tau} = (-0.67, -0.67, 0.67, 0.67)$ restores equal division, at a volume of $\Phi d_\pi = 1.33$ per bargaining round. A one-off transfer of 2 units of disagreement payoff (say, land) from Agent~2 to Agent~3 sticks one-for-one: $\x' = (5.67, 3.67, 6.33, 4.33)$. Agent~3 gains exactly 2.00, but the power term is untouched.
 
-\textbf{Policy B --- Structural.} Increase cross-block entries of $W$ from 0.01 to 0.10. New Perron eigenvector: $\boldsymbol{\pi}' = (0.27, 0.28, 0.22, 0.23)$. Same endowments $(5, 5, 5, 5)$. New allocation: $\x' = (5.16, 5.24, 4.76, 4.84)$. The gap between the richest and poorest agent drops from 1.28 to 0.48 --- a 63\% reduction --- without any transfer.
+\textbf{Policy B1 --- Integration only.} Multiply all cross-block entries by five (0.05 and 0.10). The spectral gap rises from 0.06 to 0.30, but $\boldsymbol{\pi}$ does not move: block masses are set by the \textit{ratio} of the cross-block flows ($2 \times 0.02 : 2 \times 0.01$), not by their level. The allocation is unchanged.
 
-\textbf{Policy C --- Both.} Transfer 1 unit from Agent~2 to Agent~3, AND increase cross-block entries to 0.10. New allocation: $\x' = (5.12, 4.48, 5.52, 4.88)$. The transfer now ``sticks'' better because the structural clawback is smaller (the new $W$ is less asymmetric).
+\textbf{Policy B2 --- Rebalancing.} The gas block sources more from the traditional block: its cross entries rise from 0.01 to 0.015 (the traditional block's stay at 0.02). Now $\boldsymbol{\pi} = (0.286, 0.286, 0.214, 0.214)$, $\Neff = 3.92$, and $\x' = (5.29, 5.29, 4.71, 4.71)$. The recurring transfer needed to finish the job falls from 1.33 to 0.57 per round.
 
 \begin{center}
-\begin{tabular}{lcccc|c}
+\begin{tabular}{lcccc|ccc}
 \toprule
-& $x_1$ & $x_2$ & $x_3$ & $x_4$ & Max gap \\
+& $x_1$ & $x_2$ & $x_3$ & $x_4$ & Max gap & $\Gamma$ & Transfer/round \\
 \midrule
-No policy & 5.56 & 5.64 & 4.36 & 4.44 & 1.28 \\
-Transfer only & 5.48 & 4.80 & 5.24 & 4.48 & 1.00 \\
-Structural only & 5.16 & 5.24 & 4.76 & 4.84 & 0.48 \\
-Both & 5.12 & 4.48 & 5.52 & 4.88 & 1.04 \\
-First-best & 5.00 & 5.00 & 5.00 & 5.00 & 0 \\
+No policy & 5.67 & 5.67 & 4.33 & 4.33 & 1.33 & 0.06 & 1.33 \\
+A: transfers each round & 5.00 & 5.00 & 5.00 & 5.00 & 0 & 0.06 & 1.33 \\
+B1: integration only & 5.67 & 5.67 & 4.33 & 4.33 & 1.33 & 0.30 & 1.33 \\
+B2: rebalancing & 5.29 & 5.29 & 4.71 & 4.71 & 0.57 & 0.07 & 0.57 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Structural policy alone outperforms the transfer in reducing inequality because it changes the mechanism, not just the inputs.
+Transfers can always reach equal division, but they must keep offsetting a term that is a property of $W$. Integration alone does nothing for the distribution. A structural change that alters the \textit{direction} of dependence reduces the power term itself.
 \end{example}
 
 \begin{keyinsight}
-The Second Welfare Theorem is a theorem about $\boldsymbol{\omega}$: it says you can achieve any efficient allocation by choosing the right endowments. But it assumes the mechanism that converts endowments into allocations is symmetric ($W = \frac{1}{N}\ones\ones'$). When the mechanism is asymmetric, the mechanism itself distorts the allocation, and no transfer can fully undo the distortion. The distortion is proportional to $\Var(\pi_i)$, which is a property of $W$, not of $\boldsymbol{\omega}$.
+The Second Welfare Theorem is a theorem about $\boldsymbol{\omega}$: it says you can achieve any efficient allocation by choosing the right endowments, and it assumes the mechanism that converts endowments into allocations is anonymous. When allocation runs through bargaining with weights $\boldsymbol{\pi}(W)$, transfers still move the allocation one-for-one, but they act on $\boldsymbol{\omega}$ (or $\mathbf{d}$) while the power term $(\pi_i - \frac{1}{N})\Phi$ is a property of $W$. Offsetting it costs $\Phi d_\pi$ every time the surplus is re-divided; the associated loss is proportional to $\Var(\pi_i)$.
 
-Three policy levers exist: (1) transfers change $\boldsymbol{\omega}$, (2) structural policy changes $W$, (3) formation interventions change $W^I$ and eventually preferences. The SWT assumes only lever (1) is needed. When $W \neq \frac{1}{N}\ones\ones'$, lever (2) is essential.
+Three policy levers exist: (1) transfers change $\boldsymbol{\omega}$, (2) structural policy changes $W$, (3) formation interventions change $W^I$ and eventually preferences. The SWT assumes only lever (1) is needed. When allocation is not anonymous, lever (2) can substitute for a recurring use of lever (1) --- provided it changes $\boldsymbol{\pi}$, not merely $\Gamma$.
 \end{keyinsight}
 
 
@@ -369,55 +384,49 @@ Three policy levers exist: (1) transfers change $\boldsymbol{\omega}$, (2) struc
 Combining the three failures, the total welfare loss from structural departures:
 
 \begin{theorem}[Structural Welfare Loss]\label{ch02:thm:welfare_loss}
-In the LQ economy with externalities ($\gamma > 0$), the welfare loss relative to the first-best decomposes as:
+Let allocation follow~\eqref{ch02:eq:power_correction} with $m = \Omega/N$, evaluate welfare by $\sum_i V_i = \sum_j \alpha_j U(x_j)$ with $U(x) = x - \frac{\kappa}{2}x^2$ and $\alpha_j = 1 + \gamma c_j$, and assume the social optimum is interior as in Proposition~\ref{ch02:prop:ext_loss}. The loss of the bargaining allocation relative to the social optimum is exactly
 \begin{equation}\label{ch02:eq:full_decomposition}
-L(W, \gamma) = \underbrace{\frac{\kappa N}{2}\Var(\pi_i)\Phi^2}_{L_{\text{power}}} + \underbrace{\gamma^2 \Var(c_j) \Psi}_{L_{\text{externality}}} + \underbrace{\gamma\,\Cov(\pi_i, c_i)\Xi}_{L_{\text{interaction}}},
+L(W, \gamma) = L_{\text{ext}} + L_{\text{power}} + L_{\text{int}},
 \end{equation}
-where $\Phi, \Psi, \Xi > 0$ are functions of $\Omega, N, \kappa$.
+with $L_{\text{ext}}$ given by~\eqref{ch02:eq:ext_loss}, $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$ as in~\eqref{ch02:eq:power_loss}, and
+\begin{equation}\label{ch02:eq:L_int}
+L_{\text{int}} = \frac{\kappa\gamma\Phi^2}{2}\sum_j c_j\Bigl(\pi_j - \frac{1}{N}\Bigr)^2 - \gamma\Phi N(1 - \kappa m)\Cov(\pi_j, c_j).
+\end{equation}
 \end{theorem}
 
-The interaction term $L_{\text{interaction}}$ is proportional to $\Cov(\pi_i, c_i)$: the covariance between power and externality centrality. When this is positive --- when the agents who have the most structural power are also the ones most cared about by other powerful agents --- the two distortions amplify each other.
+\begin{proof}
+Let $z_j = (\pi_j - \frac{1}{N})\Phi$, so $\sum_j z_j = 0$. Exactly, $\sum_j\alpha_j U(m + z_j) = \sum_j\alpha_j U(m) + (1-\kappa m)\sum_j\alpha_j z_j - \frac{\kappa}{2}\sum_j\alpha_j z_j^2$. Since $\sum_j z_j = 0$, $\sum_j\alpha_j z_j = \gamma\sum_j c_j z_j = \gamma\Phi N\Cov(\pi_j, c_j)$, and $\sum_j\alpha_j z_j^2 = \Phi^2\sum_j(\pi_j - \frac1N)^2 + \gamma\Phi^2\sum_j c_j(\pi_j - \frac1N)^2$. The social optimum exceeds $\sum_j\alpha_j U(m)$ by $L_{\text{ext}}$ (Proposition~\ref{ch02:prop:ext_loss}). Subtract.
+\end{proof}
+
+The leading interaction term is \textit{minus} $\gamma\Phi N(1-\kappa m)\Cov(\pi_j, c_j)$. When the powerful are also the agents others care about ($\Cov > 0$), the bargaining tilt toward them is partly what a planner who counts that caring would choose, so the interaction \textit{offsets} the other two terms. The distortions compound when $\Cov < 0$: power held by agents nobody cares about.
 
 \begin{example}[Decomposition for Two Structures]\label{ch02:ex:decomposition}
-$N = 4$, $\gamma = 0.3$, $\kappa = 0.5$, $\Omega = 20$.
+\illustrative\ $N = 4$, $\gamma = 0.3$, $\kappa = 0.1$, $\Omega = 20$, $\Phi = 8$. The power vectors come from the production and information layers; the externality centralities $c_j$ are the column sums of a zero-diagonal, row-stochastic $W^U$ (so they sum to $N$).
 
-\textbf{Connected economy:} $W$ with $\boldsymbol{\pi} = (0.26, 0.25, 0.25, 0.24)$ and column sums $(1.02, 1.01, 0.99, 0.98)$:
+\textbf{Connected economy:} $\boldsymbol{\pi} = (0.26, 0.25, 0.25, 0.24)$ and $\mathbf{c} = (1.02, 1.01, 0.99, 0.98)$:
 \begin{center}
-$L_{\text{power}} = 0.001, \quad L_{\text{ext}} = 0.000, \quad L_{\text{int}} = 0.000, \quad L = 0.001.$
+$L_{\text{ext}} = 0.00009, \quad L_{\text{power}} = 0.00064, \quad L_{\text{int}} = -0.00029, \quad L = 0.00044.$
 \end{center}
 
-\textbf{Enclave economy:} $W$ with $\boldsymbol{\pi} = (0.32, 0.33, 0.17, 0.18)$ and column sums $(1.24, 1.30, 0.72, 0.74)$:
+\textbf{Enclave economy:} $\boldsymbol{\pi} = (\frac13, \frac13, \frac16, \frac16)$ (Example~\ref{ch02:ex:transfer_vs_structural}) and $\mathbf{c} = (1.24, 1.30, 0.72, 0.74)$:
 \begin{center}
-$L_{\text{power}} = 0.043, \quad L_{\text{ext}} = 0.016, \quad L_{\text{int}} = 0.012, \quad L = 0.071.$
+$L_{\text{ext}} = 0.0254, \quad L_{\text{power}} = 0.0889, \quad L_{\text{int}} = -0.0813, \quad L = 0.0329.$
 \end{center}
 
-The enclave economy's welfare loss is 71 times larger. The interaction term accounts for 17\% of the total --- the gas-government elite ($\pi$ high) care about each other ($c$ high for those agents), compounding both distortions.
+The enclave's loss is about 75 times the connected economy's. But the interaction term is large and negative: the gas-government elite are both powerful and cared about by each other, so a social welfare function that counts their mutual caring endorses much of the tilt toward them. Whether such caring \textit{should} count in social welfare is a normative choice, not a matter of arithmetic (Chapter~12).
 \end{example}
 
 
 %% =====================================================================
-\section{The Spectral Gap as Structural Health}
+\section{What the Spectral Gap Measures}
 \label{ch02:sec:gap}
 %% =====================================================================
 
-\begin{proposition}[Spectral Gap Bounds the Power Loss]\label{ch02:prop:gap_bound}
-For an $N \times N$ row-stochastic matrix $W$ with spectral gap $\Gamma = 1 - |\lambda_2(W)|$:
-\begin{equation}\label{ch02:eq:gap_bound}
-\Var(\pi_i) \leq \frac{1}{N}\left(\frac{1 - \Gamma}{\Gamma}\right).
-\end{equation}
-Hence:
-\begin{equation}\label{ch02:eq:loss_bound}
-L_{\text{power}} \leq \frac{\kappa\Phi^2}{2}\left(\frac{1-\Gamma}{\Gamma}\right).
-\end{equation}
-\end{proposition}
+It is tempting to look for a single number that bounds the power loss. The spectral gap $\Gamma = 1 - |\lambda_2(W)|$ is not that number. It measures integration --- how fast the network mixes (Chapter~1, Section~\ref{ch01:sec:conventions}) --- and it places no restriction on $\boldsymbol{\pi}$. For every $\boldsymbol{\pi}$ in the open simplex and every $\gamma \in (0, 1]$, $W = \gamma\,\ones\boldsymbol{\pi}' + (1-\gamma)I$ has Perron vector $\boldsymbol{\pi}$ and $\Gamma = \gamma$ (Chapter~6, Proposition~\ref{ch06:prop:gap-power-independent}). With $N = 10$ and $\pi_1 = 0.91$, $\Gamma = 1$ coexists with $\Neff = 1.21$, so no bound of the form $\Var(\pi) \le f(\Gamma)$ with $f(1) = 0$ can hold. Conversely, a doubly stochastic block matrix has uniform power and a gap near zero.
 
-\begin{proof}[Proof sketch]
-The variance of the Perron eigenvector entries is bounded by the eigenvalue ratio through the Courant-Fischer characterization. When $\Gamma = 1$ (single dominant eigenvalue, $|\lambda_2| = 0$), $\boldsymbol{\pi}$ must be uniform: $\Var = 0$. As $\Gamma \to 0$ (competing eigenvalues), $\boldsymbol{\pi}$ can concentrate arbitrarily.
-\end{proof}
+What the gap \textit{does} diagnose is the third failure. Weakly coupled blocks integrate slowly (small $\Gamma$, by Cheeger's inequality for reversible $W$), and that is the situation in which gains from cross-block reallocation (Proposition~\ref{ch02:prop:block_loss}) go unrealized. Power concentration is read off $\boldsymbol{\pi}$ itself: $\Neff$, $\Var(\pi)$, $d_\pi$.
 
-This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ from any weight matrix (an input-output table, a trade network, a social interaction matrix) and you immediately have an upper bound on the structural welfare loss.
-
-\begin{vizpanel}{Four structures, four welfare losses}
+\begin{vizpanel}{Four structures: integration and power are different}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\N{8}
@@ -430,7 +439,7 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Competitive};
-\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma=1.0$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma=1.0$, $\Neff = 8$};
 \node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0$};
 
 \begin{scope}[xshift=3.5cm]
@@ -443,8 +452,8 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Weakly Dual};
-\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma\approx 0.4$};
-\node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0.04$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma=0.67$, $\Neff = 7.98$};
+\node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0.001$};
 \end{scope}
 
 \begin{scope}[xshift=7cm]
@@ -457,8 +466,8 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Enclave};
-\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma\approx 0.08$};
-\node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0.18$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma=0.13$, $\Neff = 7.95$};
+\node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0.002$};
 \end{scope}
 
 \begin{scope}[xshift=10.5cm]
@@ -471,13 +480,13 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({4*\s}, -0.15) {Monopoly};
-\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma\approx 0.05$};
-\node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0.42$};
+\node[below, font=\scriptsize] at ({4*\s}, -0.5) {$\Gamma=0.36$, $\Neff = 3.87$};
+\node[below, font=\scriptsize, red!70!black] at ({4*\s}, -0.85) {$L = 0.43$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Same economy, same endowments, same preferences. Only $W$ changes. As $\Gamma$ shrinks, $L$ grows. The heatmap IS the diagnosis.
+\small Same economy, same preferences: $N = 8$, $\Omega = 40$, $\kappa = 0.1$, $\Phi = 8$. Only $W$ changes (heatmap weights, rows normalized). $L$ is the power loss~\eqref{ch02:eq:power_loss}. The enclave has the smallest gap but almost no power loss; the monopoly has a larger gap and by far the largest loss. Concentration ($\Neff$), not the gap, predicts $L_{\text{power}}$.
 \end{vizpanel}
 
 
@@ -487,15 +496,15 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{First Welfare Theorem} requires $W$ to be doubly stochastic (equal externality centrality across agents). It fails for three structural reasons: asymmetric power ($\Var(\pi_i) > 0$), unpriced externalities ($\Var(c_j) > 0$), and block disconnection ($\Gamma \approx 0$).
+\item The \textbf{First Welfare Theorem} holds for any wealth distribution; what it needs is $W^U = 0$. With utility externalities and $W_{ii} = 0$, the externality-blind allocation is socially optimal exactly when $W^U$ is doubly stochastic (equal externality centrality).
 
-\item The \textbf{Second Welfare Theorem} requires that transfers change $\boldsymbol{\omega}$ while the mechanism $W$ remains symmetric. When $W$ is not doubly stochastic, the structure ``claws back'' part of any transfer. Structural policy (changing $W$) outperforms redistribution (changing $\boldsymbol{\omega}$) in reducing power-driven inequality.
+\item Three structural departures differ in kind: \textbf{unpriced externalities} ($\Var(c_j) > 0$) are an efficiency failure; \textbf{asymmetric power} ($\Var(\pi_i) > 0$) is distributional, with exact loss $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$; \textbf{block disconnection} leaves gains from integration unrealized, with loss equal to the between-group term.
 
-\item The \textbf{welfare loss} decomposes as $L = L_{\text{power}} + L_{\text{ext}} + L_{\text{interaction}}$. The power component is $\Var(\pi_i)$. The interaction component ($\Cov(\pi_i, c_i) > 0$) compounds the other two when the powerful are also the most cared about.
+\item The \textbf{Second Welfare Theorem} survives as arithmetic: transfers move the bargaining allocation one-for-one. But the power term $(\pi_i - \frac1N)\Phi$ is a property of $W$, and offsetting it by transfers costs $\Phi d_\pi$ every time the surplus is re-divided.
 
-\item The \textbf{spectral gap} $\Gamma$ bounds the welfare loss: $L_{\text{power}} \leq \frac{\kappa\Phi^2}{2}\frac{1-\Gamma}{\Gamma}$. It is the single most informative structural diagnostic.
+\item The \textbf{welfare loss} decomposes exactly as $L = L_{\text{ext}} + L_{\text{power}} + L_{\text{int}}$. The leading interaction term is $-\gamma\Phi N(1-\kappa m)\Cov(\pi_j, c_j)$: it offsets the others when the powerful are also the most cared about.
 
-\item \textbf{Transfers change $\boldsymbol{\omega}$. Structural policy changes $W$. Only the latter changes the power structure $\boldsymbol{\pi}$.}
+\item \textbf{The spectral gap measures integration, not power.} It does not bound $L_{\text{power}}$; raising $\Gamma$ without changing the direction of dependence leaves $\boldsymbol{\pi}$, and the allocation, unchanged.
 \end{enumerate}
 
 
@@ -514,27 +523,32 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
 \item $W = \begin{pmatrix} 0.4 & 0.3 & 0.3 \\ 0.3 & 0.4 & 0.3 \\ 0.3 & 0.3 & 0.4 \end{pmatrix}$
 \end{enumerate}
 
-\item \textbf{The transfer clawback.} Using Example~\ref{ch02:ex:transfer_vs_structural}: let $\tau$ be the transfer from Agent~2 to Agent~3. Compute the bargaining allocation for $\tau = 0.5, 1, 2, 3, 4$. Plot the ``clawback fraction'' (share of transfer not received by Agent~3) as a function of $\tau$. Is it constant or does it depend on the transfer size?
-
-\item \textbf{Welfare decomposition.} For $N = 3$, $\gamma = 0.5$, $\kappa = 1$, $\Omega = 3$:
+\item \textbf{Is there a clawback?} Using Example~\ref{ch02:ex:transfer_vs_structural}: let $\tau$ be a transfer of disagreement payoff from Agent~2 to Agent~3.
 \begin{enumerate}
-\item Let $W = \frac{1}{3}\ones\ones'$. Verify $L_{\text{power}} = L_{\text{ext}} = L_{\text{int}} = 0$.
-\item Let $W = \begin{pmatrix} 0.5 & 0.4 & 0.1 \\ 0.2 & 0.5 & 0.3 \\ 0.1 & 0.3 & 0.6 \end{pmatrix}$. Compute $\boldsymbol{\pi}$, $\Var(\pi_i)$, column sums $c_j$, $\Var(c_j)$, and $\Cov(\pi_i, c_i)$.
-\item Is $L_{\text{interaction}}$ positive or negative? What does the sign mean?
+\item Compute the bargaining allocation for $\tau = 0.5, 1, 2, 3$ and verify that Agent~3 receives exactly $\tau$ (Proposition~\ref{ch02:thm:transfer_trap}).
+\item Now let the gas block's cross-block entry be $b \in \{0.01, 0.0125, 0.015, 0.02\}$, with the traditional block's fixed at $0.02$. For each $b$, compute $\boldsymbol{\pi}$, the allocation, and the per-round transfer volume $\Phi d_\pi$ needed to reach equal division. Plot it against $b$.
+\item Repeat (b) after multiplying all cross-block entries by 5. Which of your answers change, and why?
 \end{enumerate}
 
-\item \textbf{Spectral gap across topologies.} For $N = 8$, construct: (a) $W^{CE}$, (b) a ring, (c) two disconnected blocks of 4, (d) a star. For each, compute $\Gamma$, $\Var(\pi_i)$, and the welfare-loss bound from Proposition~\ref{ch02:prop:gap_bound}. Plot $L_{\text{bound}}$ vs.\ $\Gamma$. Use Python.
-
-\item \textbf{Block disconnection with data.} Using Bolivia's 2016 I-O table (from Exercise~1.7), aggregate to 2 sectors: Hydrocarbons + Mining vs.\ Everything Else. Compute the between-group variance of output per worker. How large is $L_{\text{block}}$ relative to the within-group component?
-
-\item \textbf{El Alto vs.\ Zona Sur.} Suppose El Alto and Zona Sur are two blocks of a $2 \times 2$ weight matrix with cross-block entries $\varepsilon = 0.02$. Mean consumption: $\bar{\omega}_{\text{Alto}} = 800$ Bs/month, $\bar{\omega}_{\text{Sur}} = 4500$ Bs/month. Block sizes: $N_{\text{Alto}} = 5$, $N_{\text{Sur}} = 3$ (out of $N = 8$).
+\item \textbf{Welfare decomposition.} For $N = 3$, $\gamma = 0.5$, $\kappa = 0.5$, $\Omega = 3$, $\Phi = 1$, taking $W^U = W$ for the externality weights:
 \begin{enumerate}
-\item Compute the between-group welfare loss $L_{\text{block}}$ (use $\kappa = 0.001$).
-\item How much would $L_{\text{block}}$ decrease if cross-block entries rose to $\varepsilon = 0.15$? (You will need to solve the bargaining equilibrium numerically.)
+\item Let $W = \frac{1}{3}\ones\ones'$. Verify $L_{\text{power}} = L_{\text{ext}} = L_{\text{int}} = 0$.
+\item Let $W = \begin{pmatrix} 0.5 & 0.4 & 0.1 \\ 0.2 & 0.5 & 0.3 \\ 0.1 & 0.3 & 0.6 \end{pmatrix}$. Compute $\boldsymbol{\pi}$, $\Var(\pi_i)$, the off-diagonal column sums $c_j$, $\Var(c_j)$, and $\Cov(\pi_i, c_i)$. Then compute the three terms of Theorem~\ref{ch02:thm:welfare_loss}.
+\item Is $L_{\text{int}}$ positive or negative? What does the sign mean?
+\end{enumerate}
+
+\item \textbf{Spectral gap across topologies.} For $N = 8$, construct: (a) $W^{CE}$, (b) a ring, (c) two disconnected blocks of 4, (d) a star. For each, compute $\Gamma$ and, where $\boldsymbol{\pi}$ is unique, $\Neff$ and $\Var(\pi_i)$. Explain why the ring and the star without self-loops have $\Gamma = 0$ although they are connected, and why the two blocks have no unique $\boldsymbol{\pi}$. Repeat with the lazy versions $\frac{1}{2}(I + W)$. Do $\Gamma$ and $\Neff$ move together? Use Python.
+
+\item \textbf{Block disconnection with data.} Using the Bolivian input-output or supply-use tables from INE (Exercise~1.7), aggregate to 2 sectors: Hydrocarbons + Mining vs.\ Everything Else. Combine value added with sectoral employment (from INE's employment surveys) and compute the between-group variance of value added per worker. How large is $L_{\text{block}}$ relative to the within-group component?
+
+\item \textbf{El Alto vs.\ Zona Sur.} \illustrative\ Suppose El Alto and Zona Sur are two blocks of an $8 \times 8$ weight matrix: 5 agents in El Alto and 3 in Zona Sur. Each agent puts weight $\varepsilon$ on every agent of the other block and spreads the rest evenly within her own block. Mean consumption: $\bar{\omega}_{\text{Alto}} = 800$ Bs/month, $\bar{\omega}_{\text{Sur}} = 4500$ Bs/month (illustrative figures, not survey estimates).
+\begin{enumerate}
+\item Compute the between-group welfare loss $L_{\text{block}}$ with $\kappa = 0.0001$, and check that $\kappa\bar\omega_b < 1$ in both blocks.
+\item Compute $\Gamma$ for $\varepsilon = 0.02$ and $\varepsilon = 0.15$. Explain why $\Gamma$ measures how fast the blocks integrate but does not change $L_{\text{block}}$, which depends on whether resources actually cross blocks.
 \item What real-world intervention would increase $\varepsilon$?
 \end{enumerate}
 
-\item \textbf{Furtado's thesis formalized.} Furtado claimed that underdevelopment is not a stage but a stable structural condition. Formalize: let $W_t$ evolve according to $W_{t+1} = f(W_t, \x^*(W_t))$ (the structure at time $t+1$ depends on the current structure and the allocation it produces). A stable underdevelopment equilibrium is a fixed point $W^*$ with $\boldsymbol{\pi}(W^*) \neq \frac{1}{N}\ones$ and $L(W^*) > 0$.
+\item \textbf{Furtado's thesis formalized.} Furtado claimed that underdevelopment is not a stage but a stable structural condition. Formalize: let $W_t$ evolve according to $W_{t+1} = f(W_t, \x^*(W_t))$ (the structure at time $t+1$ depends on the current structure and the allocation it produces). A stable underdevelopment equilibrium is a stable fixed point $W^*$ with weak cross-block coupling and $L_{\text{block}}(W^*) > 0$. (The case study gives a one-parameter example.)
 \begin{enumerate}
 \item Construct a simple $2 \times 2$ example where the block-diagonal $W^*$ is a fixed point: the allocation produced by $W^*$ reinforces the cross-block disconnection. (Hint: if the traditional sector has low income, it cannot invest in cross-block linkages.)
 \item Under what conditions is the fixed point stable (small perturbations return to $W^*$)?
@@ -563,13 +577,13 @@ This result makes the spectral gap a single-number diagnostic. Compute $\Gamma$ 
 $\boldsymbol{\pi}'W = \frac{1}{N}\ones'W = \frac{1}{N}\ones' = \boldsymbol{\pi}'$. By uniqueness of the Perron eigenvector (Perron-Frobenius, Chapter~6), this is the only left eigenvector with eigenvalue 1.
 \end{proof}
 
-\paragraph{Measuring departure.} A useful scalar measure:
+\paragraph{Measuring departure from double stochasticity.} A useful scalar is the column-sum deviation
 \begin{equation}
-\Delta(W) = \sqrt{\sum_{j=1}^N \left(\sum_{i=1}^N W_{ij} - 1\right)^2} = \|\ones'W - \ones'\|_2.
+\delta_{\text{col}}(W) = \sqrt{\sum_{j=1}^N \left(\sum_{i=1}^N W_{ij} - 1\right)^2} = \|\ones'W - \ones'\|_2.
 \end{equation}
-$\Delta = 0$ iff $W$ is column-stochastic. For row-stochastic $W$: $\Delta = 0$ iff doubly stochastic.
+$\delta_{\text{col}} = 0$ iff $W$ is column-stochastic. For row-stochastic irreducible $W$: $\delta_{\text{col}} = 0$ iff $W$ is doubly stochastic iff $\boldsymbol{\pi} = \frac{1}{N}\ones$. (The book reserves $\Delta(W) = W - W^{CE}$ for the full departure from the benchmark, summarized by $d_\pi$ and $1 - \Gamma$; Chapter~1, Section~\ref{ch01:sec:conventions}.)
 
-\paragraph{Closest doubly stochastic matrix.} Given a row-stochastic $W$, the closest doubly stochastic matrix (in Frobenius norm) is $W^{DS} = \argmin_{D \in \mathcal{DS}} \|W - D\|_F$, which can be computed by Sinkhorn's algorithm: alternately normalize rows and columns until convergence.
+\paragraph{Nearby doubly stochastic matrices.} Given a positive (or, more generally, totally supported) $W$, Sinkhorn's algorithm --- alternately normalize rows and columns until convergence --- converges to the doubly stochastic matrix $D_1 W D_2$ with positive diagonal $D_1, D_2$. That scaling is the doubly stochastic matrix closest to $W$ in relative entropy (Kullback--Leibler), not in Frobenius norm; the Frobenius-nearest doubly stochastic matrix $\argmin_{D \in \mathcal{DS}} \|W - D\|_F$ is a quadratic program with a different solution in general.
 
 
 \subsection*{Appendix 2B: Variance Decomposition}
@@ -588,7 +602,7 @@ $\Delta = 0$ iff $W$ is column-stochastic. For row-stochastic $W$: $\Delta = 0$ 
 
 The between-group component is the structural welfare loss from block disconnection (Proposition~\ref{ch02:prop:block_loss}). The within-group component is the loss addressable by within-block redistribution.
 
-\paragraph{Connection to $\Var(\pi_i)$.} The Perron eigenvector variance plays the same role for \textit{power} inequality that the endowment variance plays for \textit{wealth} inequality. Both generate welfare losses proportional to their variance. But endowment inequality can be addressed by transfers; power inequality cannot.
+\paragraph{Connection to $\Var(\pi_i)$.} The Perron eigenvector variance plays the same role for \textit{power} inequality that the endowment variance plays for \textit{wealth} inequality. Both generate welfare losses proportional to their variance. Endowment inequality can be addressed once and for all by transfers; power inequality can be offset by transfers only by repeating them every time the surplus is re-divided (Proposition~\ref{ch02:thm:transfer_trap}), or removed by changing $W$.
 
 
 %% =====================================================================
@@ -600,22 +614,24 @@ Celso Furtado was born in 1920 in Pombal, Para\'{i}ba --- deep in the Sert\~{a}o
 
 His 1961 book \textit{Desenvolvimento e Subdesenvolvimento} advanced a thesis that maps directly onto the welfare-theoretic framework of this chapter. The argument has three parts.
 
-\textbf{Part 1: Underdevelopment is not a stage.} The classical view (Rostow's ``stages of growth'') held that every economy passes through the same sequence --- traditional, transitional, modern --- and that the underdeveloped economies are simply earlier in the queue. Furtado rejected this. His claim: underdevelopment is not a phase that precedes development but a \textit{specific structural condition} produced by the same historical process that produced development elsewhere. In the language of this chapter: the weight matrix $W$ of the peripheral economy is not a transient state on the way to $W^{CE} = \frac{1}{N}\ones\ones'$. It is a \textit{fixed point} --- a stable equilibrium of the structural dynamical system (Exercise~2.7). The welfare theorems do not ``eventually hold.'' They fail permanently, because the matrix that makes them fail reproduces itself.
+\textbf{Part 1: Underdevelopment is not a stage.} The modernization view (Rostow's five ``stages of growth'': traditional society, preconditions for take-off, take-off, drive to maturity, high mass consumption) held that every economy passes through the same sequence and that the underdeveloped economies are simply earlier in the queue. Furtado rejected this. His claim: underdevelopment is not a phase that precedes development but a \textit{specific structural condition} produced by the same historical process that produced development elsewhere. In the language of this chapter: the weight matrix $W$ of the peripheral economy is not a transient state on the way to $W^{CE} = \frac{1}{N}\ones\ones'$. It is a \textit{fixed point} --- a stable equilibrium of the structural dynamical system. The losses of this chapter do not ``eventually'' disappear; they persist, because the matrix that produces them reproduces itself.
+
+A one-parameter example \illustrative\ makes this precise. Let $\varepsilon_t$ be the cross-block coupling of a two-block $W_t$. Linkages are built out of the traditional block's income, and that income rises with the linkages, with a threshold: $\varepsilon_{t+1} = F(\varepsilon_t) = \bar\varepsilon\,\varepsilon_t^2/(\varepsilon_t^2 + h^2)$. With $\bar\varepsilon = 0.3$ and $h = 0.1$, $F$ has three fixed points: $\varepsilon = 0$ (stable, $F'(0) = 0$), $\varepsilon = 0.038$ (unstable, $F' = 1.75$), and $\varepsilon = 0.262$ (stable, $F' = 0.26$). The block-diagonal economy is a stable equilibrium, not a stage. Starting from $\varepsilon_0 = 0.03$ the coupling decays to zero; starting from $0.05$ it converges to $0.262$. Small, transfer-sized perturbations die out; only a structural change large enough to cross the unstable threshold escapes. (Exercise~2.7 asks for the general version.)
 
 \textbf{Part 2: Modern enterprises penetrate archaic structures without transforming them.} Furtado's key mechanism: when capitalist firms enter a peripheral economy, they do not replace the pre-existing structure. They graft onto it. The modern enterprise and the archaic structure coexist within the same country, connected by a few asymmetric linkages (labor recruitment, raw material extraction) but otherwise operating independently. This is the block-diagonal $W$ from Proposition~\ref{ch02:prop:block_loss}: two blocks with weak cross-block entries. The modern block has high productivity and high $\bar{\omega}$; the archaic block has low productivity and low $\bar{\omega}$. The between-group variance is enormous. The welfare loss from disconnection is $L_{\text{block}} = \frac{\kappa}{2}\sum_b N_b(\bar{\omega}_b - \bar{\omega})^2$. In Para\'{i}ba, this was not an abstraction.
 
-\textbf{Part 3: The structure reproduces the conditions for its own persistence.} The modern sector's profits are repatriated or spent on imported consumption goods (the center-periphery leakage). The archaic sector's surplus is too small to finance the investments that would create cross-block linkages. The education system, calibrated to the modern sector's needs, produces graduates who migrate to S\~{a}o Paulo rather than transforming the Sert\~{a}o. Each of these mechanisms is a feedback loop: the allocation produced by $W$ reinforces $W$. This is the Transfer Trap (Theorem~\ref{ch02:thm:transfer_trap}) applied dynamically: not only does the current $W$ distort the current allocation, but the current allocation makes the future $W$ no less block-diagonal than the present one.
+\textbf{Part 3: The structure reproduces the conditions for its own persistence.} The modern sector's profits are repatriated or spent on imported consumption goods (the center-periphery leakage). The archaic sector's surplus is too small to finance the investments that would create cross-block linkages. Each of these mechanisms is a feedback loop: the allocation produced by $W$ reinforces $W$. Proposition~\ref{ch02:thm:transfer_trap} is the static half of the argument --- transfers move allocations but leave the power term of $W$ in place. The fixed-point example adds the dynamic half: the current allocation makes the future $W$ no less block-diagonal than the present one.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Furtado's argument} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Underdevelopment is not a stage & $W^*$ is a stable fixed point & Sec.~\ref{ch02:sec:failures}, Ex.~2.7 \\
+Underdevelopment is not a stage & $W^*$ is a stable fixed point & Case study example; Ex.~2.7 \\
 Modern grafted onto archaic & Block-diagonal $W$ with weak cross-links & Prop.~\ref{ch02:prop:block_loss} \\
 Between-region inequality & $L_{\text{block}} \propto \sum_b N_b(\bar{\omega}_b - \bar{\omega})^2$ & Eq.~\eqref{ch02:eq:block_loss} \\
-Structure reproduces itself & $W_{t+1} = f(W_t, \x^*(W_t))$, $W^*$ stable & Thm.~\ref{ch02:thm:transfer_trap} \\
-Transfers don't transform & $\boldsymbol{\pi}$ unchanged by $\Delta\boldsymbol{\omega}$ & Thm.~\ref{ch02:thm:transfer_trap} \\
+Structure reproduces itself & $\varepsilon_{t+1} = F(\varepsilon_t)$ with stable $\varepsilon^* = 0$ & Case study example \\
+Transfers don't transform & Transfers move $\x$ one-for-one but leave the power term $(\pi_i - \frac1N)\Phi$ & Prop.~\ref{ch02:thm:transfer_trap} \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -634,6 +650,6 @@ In 1959, Furtado was appointed head of SUDENE (Superintend\^{e}ncia do Desenvolv
 
 \textbf{The structuralist critique:} Furtado (1961), \textit{Desenvolvimento e Subdesenvolvimento}, Rio de Janeiro: Fundo de Cultura (the key text, available through Centro Celso Furtado: \texttt{centrocelsofurtado.org.br}). Furtado (1959), \textit{Forma\c{c}\~{a}o Econ\^{o}mica do Brasil} --- the historical companion, tracing the evolution of Brazil's $W^P$ from colonial plantation to ISI. Taylor (1983), \textit{Structuralist Macroeconomics}, Chapter~1.
 
-\textbf{Sinkhorn's algorithm:} Sinkhorn (1964), ``A Relationship Between Arbitrary Positive Matrices and Doubly Stochastic Matrices,'' \textit{Annals of Mathematical Statistics} 35(2). Used in Appendix~2A for computing the closest doubly stochastic matrix.
+\textbf{Sinkhorn's algorithm:} Sinkhorn (1964), ``A Relationship Between Arbitrary Positive Matrices and Doubly Stochastic Matrices,'' \textit{Annals of Mathematical Statistics} 35(2). Used in Appendix~2A for the doubly stochastic scaling $D_1WD_2$ of a positive matrix.
 
 \end{document}

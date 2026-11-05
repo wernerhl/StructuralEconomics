@@ -3,10 +3,11 @@
 \ifSubfilesClassLoaded{\setcounter{chapter}{7}}{}
 \chapter{Belief Manipulation and Epistemic Power}\label{ch:08}
 \chaptersubtitle{Who Controls What You Believe}
+% TODO-VERIFY: wording and page against Quijano, "Colonialidad del poder y clasificacion social," Journal of World-Systems Research 6(2), 2000 (opening paragraph, p. 342). The previous version of this epigraph conflated two sentences ("La colonialidad del poder se funda...") and attributed it to the Lander-volume essay.
 \begin{quote}
-\textit{``La colonialidad del poder se funda en la imposici\'{o}n de una clasificaci\'{o}n racial/\'{e}tnica de la poblaci\'{o}n del mundo como piedra angular de ese patr\'{o}n de poder, y opera en cada uno de los planos, \'{a}mbitos y dimensiones, materiales y subjetivas, de la existencia cotidiana y a escala social.''}\\[0.3em]
-\textnormal{[``The coloniality of power is founded on the imposition of a racial/ethnic classification of the world's population as the cornerstone of that pattern of power, and it operates on every plane, domain, and dimension --- material and subjective --- of daily existence and at the social scale.'']}\\
-\hfill --- An\'{i}bal Quijano, ``Colonialidad del poder'' (2000)
+\textit{``[La colonialidad] se funda en la imposici\'{o}n de una clasificaci\'{o}n racial/\'{e}tnica de la poblaci\'{o}n del mundo como piedra angular de dicho patr\'{o}n de poder y opera en cada uno de los planos, \'{a}mbitos y dimensiones, materiales y subjetivas, de la existencia social cotidiana y a escala societal.''}\\[0.3em]
+\textnormal{[``[Coloniality] is founded on the imposition of a racial/ethnic classification of the world's population as the cornerstone of that pattern of power, and it operates on every plane, domain, and dimension --- material and subjective --- of everyday social existence and at the societal scale.'']}\\
+\hfill --- An\'{i}bal Quijano, ``Colonialidad del poder y clasificaci\'{o}n social'' (2000)
 \end{quote}
 
 \vspace{1em}
@@ -15,7 +16,7 @@ Chapters~5--7 developed the three-network model, computed power from the Perron 
 
 In the real world, agents do not observe the state of the economy directly. They observe signals filtered through an information network $W^I$ --- conversations with friends, broadcasts from media, teachings from schools, patterns on social media. Their beliefs about the world are $W^I$-weighted averages of the signals they receive. When $W^I$ is asymmetric, some agents' signals carry more weight than others in shaping the collective understanding of reality. This is \textit{epistemic power}: the power to shape beliefs.
 
-This chapter develops three results. First, the DeGroot model of belief dynamics: repeated averaging on $W^I$ converges to a consensus determined by the left Perron eigenvector $\boldsymbol{\pi}^I$. Second, the manipulation theorem: an agent who controls a hub in $W^I$ can steer the consensus toward any belief she chooses, at a cost proportional to the target belief's distance from the network's natural consensus. Third, the connection to preferences: when beliefs about returns shape investment decisions, epistemic power becomes economic power --- the bridge to the formation model of Part~III.
+This chapter develops three results. First, the DeGroot model of belief dynamics: repeated averaging on $W^I$ converges to a consensus determined by the left Perron eigenvector $\boldsymbol{\pi}^I$. Second, the cost of manipulation: an agent who can rewire $W^I$ can steer the consensus toward any belief within the range of initial beliefs, at a cost that rises with the target's distance from the network's natural consensus and \textit{falls} as the network becomes more weakly coupled. Third, the connection to preferences: when beliefs about returns shape investment decisions, epistemic power becomes economic power --- the bridge to the formation model of Part~III.
 
 
 %% =====================================================================
@@ -37,12 +38,12 @@ In vector notation:
 \bb^{(t)} = W^I \bb^{(t-1)} = (W^I)^t \bb^{(0)}.
 \end{equation}
 
-This is not Bayesian updating. It is na\"{i}ve averaging: agent $i$ treats her neighbors' beliefs as data, regardless of whether those beliefs are based on independent information. The neighbors do the same. Information gets double-counted, triple-counted, endlessly recirculated. The model is wrong as a description of optimal inference. It is remarkably accurate as a description of how people actually form beliefs.
+This is not Bayesian updating. It is na\"{i}ve averaging: agent $i$ treats her neighbors' beliefs as data, regardless of whether those beliefs are based on independent information. The neighbors do the same. Information gets double-counted, triple-counted, endlessly recirculated. The model is wrong as a description of optimal inference. As a description of how people actually form beliefs it does well: in network experiments it fits choices better than Bayesian benchmarks (Chandrasekhar, Larreguy and Xandri, 2020).
 
 \begin{intuition}[Why DeGroot, not Bayes?]
 Bayesian updating requires agents to know: (i) the data-generating process, (ii) the signal structure of every other agent, (iii) the network topology, and (iv) the prior distribution. In practice, the girl in Potos\'{i} does not know the distribution of returns to education. She does not know what signals her mother received. She does not know the network. She observes her mother's behavior, her teacher's advice, and her TikTok feed, and she averages. DeGroot captures this.
 
-Golub and Jackson (2010) showed that DeGroot learning is the limit of a rational learning process in which agents are uncertain about the network: when you don't know how much to discount your neighbor's opinion (because you don't know whether her information is independent of yours), the best you can do converges to simple averaging.
+DeMarzo, Vayanos and Zwiebel (2003) motivate repeated averaging as boundedly rational ``persuasion bias'': agents fail to adjust for the repetition of information they have already heard. Molavi, Tahbaz-Salehi and Jadbabaie (2018) give an axiomatic foundation for (log-)linear non-Bayesian updating. Golub and Jackson (2010) then ask when such naive learning is nonetheless \textit{wise} (Section~\ref{ch08:sec:wisdom}).
 \end{intuition}
 
 
@@ -61,8 +62,10 @@ All agents converge to the same belief $b^*$: the $\boldsymbol{\pi}^I$-weighted 
 \end{theorem}
 
 \begin{proof}
-By Perron-Frobenius (Chapter~6, Theorem~6.1), $W^I$ has a unique eigenvalue of modulus 1 (which equals 1, since $W^I$ is row-stochastic). All other eigenvalues satisfy $|\lambda_k| < 1$. Write $\bb^{(0)} = c_1 \boldsymbol{v}_1 + c_2 \boldsymbol{v}_2 + \cdots + c_N \boldsymbol{v}_N$ in the eigenbasis. Then $(W^I)^t \bb^{(0)} = c_1 \boldsymbol{v}_1 + c_2 \lambda_2^t \boldsymbol{v}_2 + \cdots + c_N \lambda_N^t \boldsymbol{v}_N$. Since $|\lambda_k| < 1$ for $k \geq 2$, the non-dominant terms vanish: $(W^I)^t \bb^{(0)} \to c_1 \boldsymbol{v}_1$. The right eigenvector for eigenvalue 1 of a row-stochastic matrix is $\ones$, so $\boldsymbol{v}_1 = \ones$. The coefficient $c_1 = (\boldsymbol{\pi}^I)'\bb^{(0)}$ (projection onto the left eigenvector). Hence the limit is $(\boldsymbol{\pi}^I)'\bb^{(0)} \cdot \ones$.
+An irreducible, aperiodic nonnegative matrix is primitive, so by Theorem~\ref{ch06:thm:PF} (item 6) $(W^I)^t/\rho^t \to \mathbf{v}(\boldsymbol{\pi}^I)'$ with $(\boldsymbol{\pi}^I)'\mathbf{v} = 1$. For row-stochastic $W^I$, $\rho = 1$ and $\mathbf{v} = \ones$ (because $W^I\ones = \ones$), and $(\boldsymbol{\pi}^I)'\ones = 1$. Hence $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$ and $\bb^{(t)} = (W^I)^t\bb^{(0)} \to \ones(\boldsymbol{\pi}^I)'\bb^{(0)}$. No diagonalizability is needed.
 \end{proof}
+
+Irreducibility can be relaxed: the same conclusion holds whenever $W^I$ has a single closed communicating class and that class is aperiodic; $\boldsymbol{\pi}^I$ is then zero outside the closed class (Golub and Jackson, 2010). If $W^I$ has several closed classes, as in a block-diagonal $W^I$, there is no global consensus and $\boldsymbol{\pi}^I$ is not unique.
 
 \begin{definition}[Epistemic Power]\label{ch08:def:epistemic_power}
 Agent $j$'s \textbf{epistemic power} is $\pi^I_j$: her weight in the long-run consensus. An agent with $\pi^I_j \gg 1/N$ has disproportionate influence on what the society ends up believing. An agent with $\pi^I_j \approx 0$ is epistemically irrelevant --- her initial belief has negligible effect on the consensus, no matter how correct it is.
@@ -76,19 +79,23 @@ The rate of convergence to consensus is:
 \begin{equation}\label{ch08:eq:rate}
 \|\bb^{(t)} - b^*\ones\| \leq C \cdot |\lambda_2|^t,
 \end{equation}
-where $|\lambda_2|$ is the second-largest eigenvalue of $W^I$ in modulus and $C$ depends on $\bb^{(0)}$. The half-life of disagreement is $t_{1/2} = \ln 2 / \ln(1/|\lambda_2|)$.
+where $|\lambda_2|$ is the second-largest eigenvalue of $W^I$ in modulus and $C$ depends on $\bb^{(0)}$ (if $\lambda_2$ is defective, multiply the bound by a polynomial in $t$). The half-life of disagreement is $t_{1/2} = \ln 2 / \ln(1/|\lambda_2|)$.
 \end{proposition}
 
-The spectral gap $\Gamma^I = 1 - |\lambda_2|$ governs the speed. Large $\Gamma^I$: consensus forms quickly (well-connected $W^I$). Small $\Gamma^I$: disagreement persists for many rounds (clustered or block-diagonal $W^I$).
+\begin{proof}
+$\bb^{(t)} - b^*\ones = ((W^I)^t - \ones(\boldsymbol{\pi}^I)')\bb^{(0)} = (W^I - \ones(\boldsymbol{\pi}^I)')^t\bb^{(0)}$, since $W^I\ones(\boldsymbol{\pi}^I)' = \ones(\boldsymbol{\pi}^I)'W^I = (\ones(\boldsymbol{\pi}^I)')^2 = \ones(\boldsymbol{\pi}^I)'$. The matrix $W^I - \ones(\boldsymbol{\pi}^I)'$ has the eigenvalues of $W^I$ with $1$ replaced by $0$, so its spectral radius is $|\lambda_2|$, and the bound follows from the Jordan form.
+\end{proof}
+
+The spectral gap $\Gamma^I = 1 - |\lambda_2|$ (Definition~\ref{ch06:def:gap}) governs the speed. Large $\Gamma^I$: consensus forms quickly (well-connected $W^I$). Small $\Gamma^I$: disagreement persists for many rounds (clustered or block-diagonal $W^I$).
 
 \begin{example}[Three Information Networks]\label{ch08:ex:three_WI}
-$N = 4$, initial beliefs $\bb^{(0)} = (0.9, 0.8, 0.2, 0.1)$ (agents 1--2 believe ``high'', agents 3--4 believe ``low'').
+$N = 4$, with initial beliefs $\bb^{(0)} = (0.9, 0.8, 0.2, 0.1)$: agents 1--2 believe ``high'' and agents 3--4 believe ``low''.
 
 \textbf{Case A: Complete.} $W^I = \frac{1}{4}\ones\ones'$. $\boldsymbol{\pi}^I = (0.25, 0.25, 0.25, 0.25)$. Consensus: $b^* = 0.25(0.9 + 0.8 + 0.2 + 0.1) = 0.50$. Convergence: instant (one round). The truth is averaged democratically.
 
-\textbf{Case B: Star} (agent 1 is the hub). $W^I = \begin{pmatrix} 0.7 & 0.1 & 0.1 & 0.1 \\ 0.6 & 0.2 & 0.1 & 0.1 \\ 0.6 & 0.1 & 0.2 & 0.1 \\ 0.6 & 0.1 & 0.1 & 0.2 \end{pmatrix}$. Perron eigenvector: $\boldsymbol{\pi}^I \approx (0.57, 0.15, 0.14, 0.14)$. Consensus: $b^* \approx 0.57(0.9) + 0.15(0.8) + 0.14(0.2) + 0.14(0.1) = 0.675$. The hub's belief (0.9) dominates. Half-life: $\approx 3$ rounds.
+\textbf{Case B: Star} (agent 1 is the hub). $W^I = \begin{pmatrix} 0.7 & 0.1 & 0.1 & 0.1 \\ 0.6 & 0.2 & 0.1 & 0.1 \\ 0.6 & 0.1 & 0.2 & 0.1 \\ 0.6 & 0.1 & 0.1 & 0.2 \end{pmatrix}$. Perron eigenvector: $\boldsymbol{\pi}^I = (2/3, 1/9, 1/9, 1/9) \approx (0.667, 0.111, 0.111, 0.111)$, from the balance condition $0.3\,\pi_1 = 0.6\,(1 - \pi_1)$. Consensus: $b^* = \frac23(0.9) + \frac19(0.8 + 0.2 + 0.1) = 0.722$. The hub's belief (0.9) dominates: $\Neff = 2.08$. All non-unit eigenvalues equal $0.1$, so $\Gamma^I = 0.9$ and the half-life is $0.30$ rounds. A hub that everyone listens to makes consensus \textit{fast}: a large spectral gap and concentrated power go together here (Proposition~\ref{ch06:prop:gap-power-independent}).
 
-\textbf{Case C: Block-diagonal.} $W^I = \begin{pmatrix} 0.6 & 0.4 & 0.0 & 0.0 \\ 0.4 & 0.6 & 0.0 & 0.0 \\ 0.0 & 0.0 & 0.6 & 0.4 \\ 0.0 & 0.0 & 0.4 & 0.6 \end{pmatrix}$. Two disconnected blocks. Each block converges internally: block~1 to $0.5(0.9) + 0.5(0.8) = 0.85$, block~2 to $0.5(0.2) + 0.5(0.1) = 0.15$. No global consensus. The society remains polarized.
+\textbf{Case C: Block-diagonal.} $W^I = \begin{pmatrix} 0.6 & 0.4 & 0.0 & 0.0 \\ 0.4 & 0.6 & 0.0 & 0.0 \\ 0.0 & 0.0 & 0.6 & 0.4 \\ 0.0 & 0.0 & 0.4 & 0.6 \end{pmatrix}$. Two disconnected blocks: $W^I$ is reducible, $\Gamma^I = 0$, and $\boldsymbol{\pi}^I$ is not unique. Each block converges internally: block~1 to $0.5(0.9) + 0.5(0.8) = 0.85$, block~2 to $0.5(0.2) + 0.5(0.1) = 0.15$. No global consensus. The society remains polarized.
 
 \begin{center}
 \begin{tabular}{lccccc}
@@ -96,7 +103,7 @@ $N = 4$, initial beliefs $\bb^{(0)} = (0.9, 0.8, 0.2, 0.1)$ (agents 1--2 believe
 & $b^*_1$ & $b^*_2$ & $b^*_3$ & $b^*_4$ & $\Gamma^I$ \\
 \midrule
 Complete & 0.50 & 0.50 & 0.50 & 0.50 & 1.00 \\
-Star & 0.68 & 0.68 & 0.68 & 0.68 & $\approx 0.5$ \\
+Star & 0.72 & 0.72 & 0.72 & 0.72 & 0.90 \\
 Block & 0.85 & 0.85 & 0.15 & 0.15 & 0.00 \\
 \bottomrule
 \end{tabular}
@@ -113,7 +120,7 @@ Block & 0.85 & 0.85 & 0.15 & 0.15 & 0.00 \\
 %% Complete
 \foreach \i in {1,...,\N} {
   \foreach \j in {1,...,\N} {
-    \fill[blue!80, draw=white, line width=0.15pt]
+    \fill[blue!25, draw=white, line width=0.15pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
   }
 }
@@ -125,22 +132,22 @@ Block & 0.85 & 0.85 & 0.15 & 0.15 & 0.00 \\
 \begin{scope}[xshift=3.5cm]
 \foreach \i in {1,...,\N} {
   \foreach \j in {1,...,\N} {
-    \pgfmathparse{(\j==1) ? 75 : (\i==\j) ? 30 : 15}
+    \pgfmathparse{(\j==1) ? ((\i==1) ? 70 : 60) : (\i==\j) ? 20 : 10}
     \edef\bp{\pgfmathresult}
     \fill[blue!\bp, draw=white, line width=0.15pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
   }
 }
 \node[below, font=\scriptsize\bfseries] at ({2*\s}, -0.15) {Star};
-\node[below, font=\scriptsize] at ({2*\s}, -0.5) {$b^* = 0.68$};
-\node[below, font=\scriptsize] at ({2*\s}, -0.8) {hub-dominated};
+\node[below, font=\scriptsize] at ({2*\s}, -0.5) {$b^* = 0.72$};
+\node[below, font=\scriptsize] at ({2*\s}, -0.8) {hub-dominated, $\Gamma^I = 0.9$};
 \end{scope}
 
 %% Block-diagonal
 \begin{scope}[xshift=7cm]
 \foreach \i in {1,...,\N} {
   \foreach \j in {1,...,\N} {
-    \pgfmathparse{(\i<=2 && \j<=2) ? 65 : (\i>2 && \j>2) ? 65 : 0}
+    \pgfmathparse{(\i<=2 && \j<=2) ? ((\i==\j) ? 60 : 40) : (\i>2 && \j>2) ? ((\i==\j) ? 60 : 40) : 0}
     \edef\bp{\pgfmathresult}
     \fill[blue!\bp, draw=white, line width=0.15pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
@@ -153,7 +160,7 @@ Block & 0.85 & 0.85 & 0.15 & 0.15 & 0.00 \\
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Same initial beliefs (0.9, 0.8, 0.2, 0.1). Three different $W^I$'s produce three different outcomes: democratic consensus, hub-dominated consensus, and permanent polarization. The heatmap determines the epistemic outcome.
+\small Same initial beliefs (0.9, 0.8, 0.2, 0.1); shade $= 100\,W^I_{ij}$ (white $= 0$). Three different $W^I$'s produce three different outcomes: democratic consensus, hub-dominated consensus, and permanent polarization. The heatmap determines the epistemic outcome. Note that the hub-dominated network converges fastest after the complete one: concentration of $\boldsymbol{\pi}^I$ and speed of consensus are different properties.
 \end{vizpanel}
 
 
@@ -164,30 +171,32 @@ Block & 0.85 & 0.85 & 0.15 & 0.15 & 0.00 \\
 
 \subsection{Wisdom: When Does the Consensus Get It Right?}
 
-\begin{theorem}[Wisdom of Crowds --- Golub and Jackson 2010]\label{ch08:thm:wisdom}
-Suppose the true state is $\omega$, and agent $i$'s initial belief is $b_i^{(0)} = \omega + \varepsilon_i$, where $\varepsilon_i$ is a zero-mean noise with variance $\sigma_i^2$. The DeGroot consensus is:
+\begin{proposition}[Accuracy of the Consensus]\label{ch08:thm:wisdom}
+Suppose the true state is $\omega$, and agent $i$'s initial belief is $b_i^{(0)} = \omega + \varepsilon_i$, where the $\varepsilon_i$ are independent, zero-mean noises with variances $\sigma_i^2$. The DeGroot consensus is:
 \begin{equation}
 b^* = \omega + \sum_j \pi^I_j \varepsilon_j.
 \end{equation}
 The consensus error is $e = b^* - \omega = \sum_j \pi^I_j \varepsilon_j$, with:
 \begin{equation}\label{ch08:eq:wisdom}
-\Var(e) = \sum_{j=1}^N (\pi^I_j)^2 \sigma_j^2 \geq \frac{\bar{\sigma}^2}{N_{\text{eff}}},
+\Var(e) = \sum_{j=1}^N (\pi^I_j)^2 \sigma_j^2 \geq \frac{\sigma_{\min}^2}{\Neff}, \qquad \sigma_{\min}^2 = \min_j \sigma_j^2,
 \end{equation}
-where $N_{\text{eff}} = 1/\sum_j (\pi^I_j)^2$ is the \textbf{effective sample size}.
-\end{theorem}
+where $\Neff = 1/\sum_j (\pi^I_j)^2$ is the effective number of agents of Definition~\ref{ch06:def:neff}. With equal variances $\sigma_j^2 = \sigma^2$, $\Var(e) = \sigma^2/\Neff$ exactly, and $\Var(e) \geq \sigma^2/N$ with equality iff $\boldsymbol{\pi}^I = \frac1N\ones$.
+\end{proposition}
 
 \begin{proof}
-$\Var(e) = \Var(\sum_j \pi^I_j \varepsilon_j) = \sum_j (\pi^I_j)^2 \sigma_j^2$ (assuming independent errors). By Cauchy-Schwarz: $\sum_j (\pi^I_j)^2 \geq 1/N$ with equality iff $\pi^I_j = 1/N$ for all $j$.
+By independence, $\Var(e) = \Var(\sum_j \pi^I_j \varepsilon_j) = \sum_j (\pi^I_j)^2 \sigma_j^2 \geq \sigma_{\min}^2\sum_j (\pi^I_j)^2 = \sigma_{\min}^2/\Neff$. With equal variances the inequality is an equality, and $\sum_j (\pi^I_j)^2 \geq 1/N$ (Cauchy--Schwarz, $\sum_j \pi^I_j = 1$) with equality iff $\pi^I_j = 1/N$.
 \end{proof}
 
-\begin{definition}[Effective Sample Size]\label{ch08:def:neff}
-$N_{\text{eff}} = 1 / \sum_j (\pi^I_j)^2$. This is the number of ``independent voices'' in the consensus. When $\boldsymbol{\pi}^I = \frac{1}{N}\ones$: $N_{\text{eff}} = N$ (every agent counts equally). When $\boldsymbol{\pi}^I \approx e_1$ (star): $N_{\text{eff}} \approx 1$ (only the hub's signal matters). The Herfindahl index of epistemic power is $H = 1/N_{\text{eff}}$.
-\end{definition}
+Golub and Jackson's (2010) theorem is the asymptotic counterpart: along a sequence of growing networks with independent, bounded-variance signals, the DeGroot consensus converges to the truth (the society is \textit{wise}) if and only if the influence of the most influential agent vanishes, $\max_j \pi^{I}_j \to 0$.
+
+\begin{remark}[Effective sample size]\label{ch08:def:neff}
+Read epistemically, $\Neff$ is the number of ``independent voices'' in the consensus. When $\boldsymbol{\pi}^I = \frac{1}{N}\ones$: $\Neff = N$ (every agent counts equally). When one agent holds almost all influence ($\boldsymbol{\pi}^I \approx \mathbf{e}_1$, as with the broadcast hub $\ones\boldsymbol{\pi}'$ of Chapter~6): $\Neff \approx 1$. A star need not be that extreme: the star of Example~\ref{ch08:ex:three_WI} has $\Neff = 2.08$. The Herfindahl index of epistemic power is $H = 1/\Neff$.
+\end{remark}
 
 \begin{intuition}[The crowd is wise when power is equal]
-The wisdom-of-crowds effect requires many independent signals to be aggregated with equal weight. When $W^I$ concentrates epistemic power, the consensus overweights a few agents' signals and underweights the rest. The effective sample size shrinks. The consensus becomes less accurate, not because individuals are dumber but because the network throws away most of the available information.
+The wisdom-of-crowds effect requires many independent, equally precise signals to be aggregated with equal weight. (With unequal precisions the variance-minimizing weights are proportional to $1/\sigma_j^2$, not equal.) When $W^I$ concentrates epistemic power, the consensus overweights a few agents' signals and underweights the rest. The effective sample size shrinks. The consensus becomes less accurate, not because individuals are dumber but because the network throws away most of the available information.
 
-In a society where 5\% of the population controls 90\% of the media, $N_{\text{eff}} \approx 0.05N$. The society is epistemically 20 times poorer than it needs to be.
+Suppose, for illustration, that 5\% of the population holds 90\% of epistemic weight, spread equally among them, and the rest share 10\% equally. Then $\Neff \approx 0.062N$: the consensus aggregates about sixteen times fewer independent voices than the population contains.
 \end{intuition}
 
 
@@ -204,11 +213,11 @@ The bias in the consensus is proportional to $\pi^I_h$: the hub's epistemic powe
 This is the misinformation mechanism: a biased agent with high epistemic power contaminates the entire network. The contamination is permanent (it enters the long-run consensus) and is not self-correcting (DeGroot agents do not learn from prediction errors). The only correction is structural: change $W^I$ to reduce the hub's epistemic power.
 
 \begin{prebisch}[The Washington Consensus as a DeGroot equilibrium]
-The Washington Consensus of the 1990s --- fiscal discipline, trade liberalization, privatization, deregulation --- was not imposed by force on most countries. It was adopted because the information network $W^I_{\text{global}}$ had a hub-spoke topology: the IMF, World Bank, and US Treasury were the dominant nodes, and peripheral policymakers updated their beliefs by listening to these institutions.
+The Washington Consensus of the 1990s --- fiscal discipline, trade liberalization, privatization, deregulation --- spread through two channels. One was conditionality: IMF and World Bank lending was tied to policy reform. The DeGroot lens isolates a second channel: the information network $W^I_{\text{global}}$ had a hub-spoke topology, with the IMF, World Bank, and US Treasury as dominant nodes, and peripheral policymakers updated their beliefs by listening to these institutions.
 
-In DeGroot terms: $\pi^I_{\text{IMF}} + \pi^I_{\text{WB}} + \pi^I_{\text{UST}} \approx 0.6$ (these three institutions controlled roughly 60\% of the global epistemic weight on economic policy). The consensus $b^*$ converged to their shared priors: markets work, governments fail, structural adjustment is necessary. The $N - 3$ other agents' priors (including the structuralists at CEPAL, who had different priors about the role of the state) had negligible weight in the consensus because their epistemic power $\pi^I_j$ was small.
+\illustrative\ Suppose $\pi^I_{\text{IMF}} = \pi^I_{\text{WB}} = \pi^I_{\text{UST}} = 0.2$, and the remaining $0.4$ is spread over 200 other agents. The consensus $b^*$ then sits close to the three hubs' shared priors: markets work, governments fail, structural adjustment is necessary. The other agents' priors (including the structuralists at CEPAL, who had different priors about the role of the state) carry little weight because their epistemic power $\pi^I_j$ is small.
 
-The consensus was not wrong because markets never work. It was wrong because $N_{\text{eff}} \approx 3$ in a world with hundreds of relevant economies. The wisdom of the crowd was thrown away by the network topology.
+The point is not that markets never work. It is that such a consensus aggregates about $\Neff \approx 8.3$ independent voices in a world with hundreds of relevant economies. Much of the wisdom of the crowd is thrown away by the network topology.
 \end{prebisch}
 
 
@@ -226,16 +235,24 @@ Given the current network $W^I$ with Perron eigenvector $\boldsymbol{\pi}^I$ and
 \begin{equation}\label{ch08:eq:manip_cost}
 C(b_T) = \min_{\Delta W^I} \left\{\|\Delta W^I\|_F : (\boldsymbol{\pi}^I(W^I + \Delta W^I))'\bb^{(0)} = b_T\right\},
 \end{equation}
-subject to $W^I + \Delta W^I$ remaining row-stochastic and nonnegative.
+subject to $W^I + \Delta W^I$ remaining row-stochastic and nonnegative. Since any consensus is a convex combination of initial beliefs, only targets $b_T \in [\min_j b_j^{(0)}, \max_j b_j^{(0)}]$ are reachable; for other targets $C(b_T) = \infty$.
 \end{definition}
 
-\begin{theorem}[Manipulation Theorem]\label{ch08:thm:manipulation}
-For small perturbations ($\|\Delta W^I\|_F$ small):
+\begin{proposition}[Manipulation Cost, First Order]\label{ch08:thm:manipulation}
+Let $W^I$ be irreducible with fundamental matrix $Z = (I - W^I + \ones(\boldsymbol{\pi}^I)')^{-1}$. A perturbation $tE$ with $E\ones = 0$ moves the consensus, to first order, by
 \begin{equation}\label{ch08:eq:manip_result}
-C(b_T) \propto \frac{|b_T - b^*|}{\max_j |b_j^{(0)} - b^*|} \cdot \frac{1}{\Gamma^I},
+db^* = t\,(\boldsymbol{\pi}^I)'EZ\bigl(\bb^{(0)} - b^*\ones\bigr), \qquad\text{so}\qquad
+t\,\|E\|_\infty \;\geq\; \frac{|b_T - b^*|}{\max_j |b_j^{(0)} - b^*|} \cdot \frac{1}{\|Z\|_\infty}
 \end{equation}
-where $\Gamma^I$ is the spectral gap of $W^I$.
-\end{theorem}
+for any first-order move from $b^*$ to $b_T$. Moreover $\|Z\|_\infty \geq \max_{k\geq2} 1/|1 - \lambda_k|$.
+\end{proposition}
+
+\begin{proof}
+$b^* = (\boldsymbol{\pi}^I)'\bb^{(0)}$, so by Lemma~\ref{ch06:lem:perturbation} $db^* = t(\boldsymbol{\pi}^I)'EZ\bb^{(0)}$. Since $Z\ones = \ones$ and $E\ones = 0$, $EZ\ones = 0$, so $\bb^{(0)}$ can be replaced by $\bb^{(0)} - b^*\ones$. Then
+\begin{equation*}
+|db^*| \leq t\|(\boldsymbol{\pi}^I)'E\|_1\,\|Z\|_\infty\,\|\bb^{(0)} - b^*\ones\|_\infty \leq t\|E\|_\infty\|Z\|_\infty\max_j|b_j^{(0)} - b^*| .
+\end{equation*} The last claim holds because an induced norm bounds the spectral radius and $Z$ has eigenvalues $1$ and $1/(1-\lambda_k)$.
+\end{proof}
 
 \begin{intuition}[What makes manipulation cheap?]
 The cost of manipulation is low when:
@@ -244,9 +261,9 @@ The cost of manipulation is low when:
 
 \textbf{(ii) Initial beliefs are diverse} ($\max_j |b_j - b^*|$ large). The manipulator can amplify an existing minority voice rather than creating a new one.
 
-\textbf{(iii) The spectral gap is small} ($\Gamma^I \approx 0$). Small changes in the network produce large changes in $\boldsymbol{\pi}^I$ when the eigenvalues are close together. The consensus is structurally fragile.
+\textbf{(iii) The network is weakly coupled} ($\lambda_2$ close to $+1$, so $\|Z\|$ is large). Small changes in the network produce large changes in $\boldsymbol{\pi}^I$ when some eigenvalue is close to one. The consensus is structurally fragile. Eigenvalues close to $-1$ (periodic networks, which also have small $\Gamma^I$) do not create this fragility. In the two-block example of \texttt{code/ch08.py} (two pairs, beliefs $0.9$ and $0.1$, symmetric coupling $\varepsilon$), moving $0.01$ of each traditional agent's attention to the other block shifts the consensus from $0.50$ to $0.51$ when $\varepsilon = 0.2$, but to $0.63$ when $\varepsilon = 0.01$.
 
-The most manipulable society is one with a fragmented information network (small $\Gamma^I$), diverse initial beliefs, and a target close to an already-existing minority view. Echo chambers plus polarization plus a skilled manipulator: the conditions for epistemic capture.
+The most manipulable society is one with a fragmented information network (weak coupling), diverse initial beliefs, and a target close to an already-existing minority view. Echo chambers plus polarization plus a skilled manipulator: the conditions for epistemic capture.
 \end{intuition}
 
 
@@ -255,17 +272,23 @@ The most manipulable society is one with a fragmented information network (small
 In the pre-digital era, manipulation required owning a newspaper or a radio station: physically controlling a hub in $W^I$. In the algorithmic era, manipulation operates through the \textit{edges} of $W^I$ rather than the nodes: the algorithm determines $W^I_{ij}$ (what content agent $i$ sees from agent $j$) for every pair simultaneously.
 
 \begin{proposition}[Algorithmic Control of $W^I$]\label{ch08:prop:algorithm}
-A platform that controls the recommendation algorithm chooses $W^I_{ij}$ for all $i, j$. This is equivalent to choosing $\boldsymbol{\pi}^I$ (and therefore $b^*$) directly, subject to the constraint that $W^I$ must be consistent with user engagement (agents must find the recommended content sufficiently interesting to consume).
+A platform that controls the recommendation algorithm chooses $W^I_{ij}$ for all $i, j$. Absent other constraints, this is equivalent to choosing $\boldsymbol{\pi}^I$ (and therefore $b^*$) directly: every $\boldsymbol{\pi}$ in the open simplex is attained, with any spectral gap $\gamma \in (0,1]$. In practice the choice is constrained by user engagement (agents must find the recommended content sufficiently interesting to consume).
 \end{proposition}
+
+\begin{proof}
+$W^I = \gamma\ones\boldsymbol{\pi}' + (1-\gamma)I$ has Perron vector $\boldsymbol{\pi}$ and $\Gamma^I = \gamma$ (Proposition~\ref{ch06:prop:gap-power-independent}).
+\end{proof}
 
 \begin{example}[The Platform Economy]\label{ch08:ex:platform}
 $N = 6$: three content creators (C1, C2, C3) and three consumers (U1, U2, U3). C1 produces pro-market content ($b_{C1} = 0.9$), C2 produces structuralist content ($b_{C2} = 0.3$), C3 produces entertainment ($b_{C3} = 0.5$).
 
-\textbf{Organic $W^I$:} Each consumer follows all three creators equally: $W^I_{U_k, C_j} = 1/3$ for all $k, j$. Consensus: $b^* = (0.9 + 0.3 + 0.5)/3 = 0.567$.
+Consumers' priors are $(0.8, 0.5, 0.2)$ for (U1, U2, U3). \textup{\illustrative}
 
-\textbf{Algorithmic $W^I$:} The platform's engagement algorithm shows consumers content that confirms their priors. U1 (prior 0.8) sees mostly C1; U3 (prior 0.2) sees mostly C2; U2 sees C3. The effective $W^I$ becomes block-diagonal. No single consensus forms; instead, two echo chambers: $b^*_1 \approx 0.85$ and $b^*_2 \approx 0.25$.
+\textbf{Organic $W^I$:} Each creator keeps weight $0.8$ on her own line and gives $0.1$ to each other creator; each consumer follows all three creators equally, $W^I_{U_k, C_j} = 1/3$, and places no weight on consumers. The creators form the only closed class, with equal weights, so $\boldsymbol{\pi}^I = (\frac13, \frac13, \frac13, 0, 0, 0)$: consumers' priors do not affect the long run. Consensus: $b^* = (0.9 + 0.3 + 0.5)/3 = 0.567$ for everyone. $\Gamma^I = 0.3$.
 
-The algorithm did not inject misinformation. It reshaped $W^I$ from complete to block-diagonal, replacing one consensus with two polarized ones. The spectral gap collapsed from 1.0 to $\approx 0$.
+\textbf{Algorithmic $W^I$:} The platform's engagement algorithm shows consumers content that confirms their priors, and creators stop engaging with each other (each reinforces only her own line). U1 (prior 0.8) gives $0.875$ to C1 and $0.125$ to C3; U3 (prior 0.2) gives $0.875$ to C2 and $0.125$ to C3; U2 sees only C3. Now each creator is a closed class of her own, and no single consensus forms. Instead there are two echo chambers, $b_{U1} = 0.85$ and $b_{U3} = 0.325$, around an entertainment audience at $0.5$.
+
+The algorithm did not inject misinformation. It cut the links among the sources and sorted the audience, replacing one consensus with polarized ones. The spectral gap fell from $0.30$ to $0$ (three unit eigenvalues). Note that sorting the consumers alone would not have been enough: as long as the creators listen to each other, everyone still converges to $0.567$.
 \end{example}
 
 
@@ -276,7 +299,7 @@ The algorithm did not inject misinformation. It reshaped $W^I$ from complete to 
 
 Everything so far treats beliefs as a one-shot process: initial beliefs are updated once and converge. But beliefs about returns shape investment decisions, which produce outcomes, which become signals, which update beliefs. The loop is dynamic.
 
-\begin{proposition}[The Belief-Action-Signal Loop]\label{ch08:prop:loop}
+\begin{definition}[The Belief-Action-Signal Loop]\label{ch08:prop:loop}
 Consider a sequence of generations $t = 0, 1, 2, \ldots$. In generation $t$:
 \begin{enumerate}
 \item Agents form beliefs about returns: $\hat{r}_{i,t} = \sum_j W^I_{ij} r_{j,t-1}$ (DeGroot on observed returns).
@@ -284,8 +307,8 @@ Consider a sequence of generations $t = 0, 1, 2, \ldots$. In generation $t$:
 \item Actions produce outcomes: $r_{i,t} = g(a_{i,t}, \x_t)$ (realized returns, depending on the allocation).
 \item Outcomes become the next generation's signals.
 \end{enumerate}
-The steady state satisfies: $\hat{r}_i = \sum_j W^I_{ij} g(f(\hat{r}_j, \theta_j), \x^*)$ --- a fixed point of the belief-action-signal map.
-\end{proposition}
+A steady state is a fixed point of the belief-action-signal map: $\hat{r}_i = \sum_j W^I_{ij} g(f(\hat{r}_j, \theta_j), \x^*)$. (Existence and stability depend on $f$ and $g$; Part~III studies them.)
+\end{definition}
 
 \begin{keyinsight}
 When $W^I$ is block-diagonal, the belief-action-signal loop produces \textbf{two different steady states in the same economy}. Block~1 (modern sector) observes high returns, forms optimistic beliefs, invests heavily, achieves high returns --- confirming the beliefs. Block~2 (traditional sector) observes low returns, forms pessimistic beliefs, underinvests, achieves low returns --- confirming those beliefs too.
@@ -306,11 +329,11 @@ This is the formation mechanism: $W^I$ shapes beliefs, beliefs shape preferences
 \begin{enumerate}
 \item \textbf{DeGroot learning} on $W^I$ converges to a consensus $b^* = (\boldsymbol{\pi}^I)'\bb^{(0)}$: the Perron-weighted average of initial beliefs. Epistemic power $\pi^I_j$ determines each agent's influence on the long-run consensus.
 
-\item The \textbf{effective sample size} $N_{\text{eff}} = 1/\sum_j (\pi^I_j)^2$ measures the epistemic richness of the consensus. Concentrated $\boldsymbol{\pi}^I$ (asymmetric $W^I$) wastes information: $N_{\text{eff}} \ll N$.
+\item The \textbf{effective sample size} $\Neff = 1/\sum_j (\pi^I_j)^2$ measures the epistemic richness of the consensus: with equally precise independent signals the consensus error has variance $\sigma^2/\Neff$. Concentrated $\boldsymbol{\pi}^I$ wastes information: $\Neff \ll N$. Concentration and speed are distinct --- a hub everyone listens to gives fast consensus and low $\Neff$.
 
 \item \textbf{Misinformation amplification:} a biased hub contaminates the consensus in proportion to $\pi^I_h$. The contamination is permanent under DeGroot dynamics.
 
-\item \textbf{Manipulation cost} is proportional to $|b_T - b^*| / \Gamma^I$: small spectral gap makes manipulation cheap. Algorithmic platforms choose $W^I$ directly, collapsing the spectral gap by creating echo chambers.
+\item \textbf{Manipulation cost} is bounded below by $|b_T - b^*| / (\|Z\|_\infty \max_j|b^{(0)}_j - b^*|)$ and is infinite outside the range of initial beliefs. It is lowest in weakly coupled networks ($\lambda_2$ near $+1$, large $\|Z\|$), where small rewiring moves $\boldsymbol{\pi}^I$ a lot. Algorithmic platforms choose $W^I$ directly; cutting links among sources creates echo chambers and drives $\Gamma^I$ to zero.
 
 \item The \textbf{belief-action-signal loop} connects epistemic power to economic outcomes: $W^I$ shapes beliefs, beliefs shape actions, actions produce returns, returns become signals. When $W^I$ is block-diagonal, the loop produces self-confirming pessimism in the powerless block.
 \end{enumerate}
@@ -343,7 +366,7 @@ This is the formation mechanism: $W^I$ shapes beliefs, beliefs shape preferences
 \begin{enumerate}
 \item The current consensus is $b^*$. A manipulator wants $b_T = 0.8$. Compute the required shift in $\boldsymbol{\pi}^I$.
 \item What is the cheapest edge to change? (Hint: which edge has the largest effect on $\boldsymbol{\pi}^I$ per unit of perturbation?)
-\item How does the cost change if $\Gamma^I$ doubles? If it halves?
+\item Compute $Z$ and the lower bound of Proposition~\ref{ch08:thm:manipulation}. Then mix $W^I$ with the identity, $W_\alpha = \alpha W^I + (1-\alpha)I$ (same $\boldsymbol{\pi}^I$, eigenvalues $1 - \alpha(1-\lambda_k)$). How do $Z$ and the bound change as $\alpha$ falls?
 \end{enumerate}
 
 \item \textbf{The algorithm as $W^I$ designer.} Consider $N = 8$: 4 liberals ($b^{(0)}_i = 0.8$) and 4 conservatives ($b^{(0)}_i = 0.2$).
@@ -351,15 +374,16 @@ This is the formation mechanism: $W^I$ shapes beliefs, beliefs shape preferences
 \item Under $W^I = \frac{1}{8}\ones\ones'$: what is the consensus? What is $\Gamma^I$?
 \item Under $W^I$ = block-diagonal (liberals talk only to liberals, conservatives only to conservatives): what are the two ``consensuses''? What is $\Gamma^I$?
 \item An engagement-maximizing algorithm assigns $W^I_{ij} \propto \exp(-\beta|b_i^{(0)} - b_j^{(0)}|)$ (agents see content similar to their prior). Compute $W^I$ for $\beta = 0, 1, 5, 20$. Plot $\Gamma^I(\beta)$.
-\item At what $\beta$ does the society split from one consensus into two?
+\item Show that for every finite $\beta$ the matrix is symmetric with equal row sums, hence doubly stochastic, so the consensus is $0.5$ for every $\beta$: the society never splits into two consensuses. What diverges as $\beta$ grows? Compute the half-life of disagreement as a function of $\beta$ (show $\Gamma^I = 1 - \tanh(0.3\beta)$).
 \end{enumerate}
 
-\item \textbf{Bolivia's epistemic structure.} Bolivia has three major media markets: La Paz (state media dominant), Santa Cruz (private media dominant), and Cochabamba (mixed). Model this as $N = 3$ blocks.
+\item \textbf{Bolivia's epistemic structure.} As a stylized description, treat Bolivia as three media markets: La Paz (state media dominant), Santa Cruz (private media dominant), and Cochabamba (mixed). Model this as $N = 3$ blocks.
 \begin{enumerate}
 \item Construct plausible $W^I$ matrices for each block (who listens to whom within each city's media ecosystem).
 \item Compute $\boldsymbol{\pi}^I$ for the national composite.
 \item Under what initial beliefs $\bb^{(0)}$ about economic policy (e.g., nationalization vs.\ liberalization) does the consensus favor nationalization? Liberalization?
 \item How much would it cost (in $\|\Delta W^I\|_F$) to shift the consensus from 0.6 (mild pro-nationalization) to 0.4 (mild pro-liberalization)?
+\item \textit{Data.} Calibrate the within-city rows of $W^I$ with survey shares of main news sources (for instance from Latinobar\'{o}metro's questions on how respondents get political information) and recompute $\boldsymbol{\pi}^I$ and $\Neff$.
 \end{enumerate}
 
 \item \textbf{The belief-action-signal loop.} In a two-sector economy (Modern, Traditional):
@@ -419,7 +443,7 @@ def perron_left(W, tol=1e-12, max_iter=10000):
 
 \paragraph{Convergence of $(W^I)^t$.} Theorem~\ref{ch08:thm:degroot} states $(W^I)^t \to \ones(\boldsymbol{\pi}^I)'$. The rate: $\|(W^I)^t - \ones(\boldsymbol{\pi}^I)'\| \leq C |\lambda_2|^t$, where $C$ depends on the condition number of the eigenvector matrix.
 
-For practical purposes: if $|\lambda_2| = 0.7$, then after $t = 10$ rounds, the error is $0.7^{10} \approx 0.028$ (2.8\%). After $t = 20$: $0.7^{20} \approx 0.0008$ (0.08\%). Consensus is essentially reached in $\approx 3/\Gamma^I$ rounds.
+For practical purposes: if $|\lambda_2| = 0.7$, then after $t = 10$ rounds, the error is $0.7^{10} \approx 0.028$ (2.8\%). After $t = 20$: $0.7^{20} \approx 0.0008$ (0.08\%). Consensus to within 5\% is reached in about $\ln 20/(-\ln|\lambda_2|) \approx 3/\Gamma^I$ rounds when $\Gamma^I$ is small.
 
 
 \subsection*{Appendix 8B: Sensitivity of $\boldsymbol{\pi}^I$ to Perturbations of $W^I$}
@@ -428,14 +452,19 @@ For practical purposes: if $|\lambda_2| = 0.7$, then after $t = 10$ rounds, the 
 
 \paragraph{The question.} If we perturb $W^I$ by a small $\Delta W^I$, how much does $\boldsymbol{\pi}^I$ change?
 
-\paragraph{First-order perturbation.} Let $W^I$ have eigendecomposition with right eigenvectors $\mathbf{v}_k$ and left eigenvectors $\mathbf{u}_k$ (normalized so $\mathbf{u}_k'\mathbf{v}_k = 1$). The Perron eigenvector sensitivity:
+\paragraph{First-order perturbation.} The answer is Lemma~\ref{ch06:lem:perturbation} (Chapter~6, Appendix~6C). For a perturbation $t E$ that keeps the rows summing to one ($E\ones = 0$),
 \begin{equation}
-\Delta\boldsymbol{\pi}^I \approx \sum_{k=2}^N \frac{1}{1 - \lambda_k} \mathbf{u}_k (\mathbf{u}_k' \Delta W^I \mathbf{v}_1) + O(\|\Delta W^I\|^2).
+d(\boldsymbol{\pi}^I)' = t\,(\boldsymbol{\pi}^I)'EZ, \qquad Z = \bigl(I - W^I + \ones(\boldsymbol{\pi}^I)'\bigr)^{-1},
 \end{equation}
+or, when $W^I$ is diagonalizable with biorthogonal eigenvectors ($\mathbf{u}_k'\mathbf{v}_l = \delta_{kl}$),
+\begin{equation}
+d(\boldsymbol{\pi}^I)' = t\sum_{k=2}^N \frac{(\boldsymbol{\pi}^I)'E\mathbf{v}_k}{1 - \lambda_k}\,\mathbf{u}_k' .
+\end{equation}
+The projection is onto $(\boldsymbol{\pi}^I)'E$, not onto $E\mathbf{v}_1$: since $\mathbf{v}_1 = \ones$, $E\mathbf{v}_1 = 0$ for every admissible perturbation, so a formula built on $\mathbf{u}_k'E\mathbf{v}_1$ would be identically zero.
 
-The sensitivity is inversely proportional to $(1 - \lambda_k)$ for each eigenvalue. When $\lambda_2 \approx 1$ (small spectral gap), the sensitivity diverges: small perturbations in $W^I$ produce large changes in $\boldsymbol{\pi}^I$. This is why manipulation is cheap when $\Gamma^I$ is small.
+The sensitivity is inversely proportional to $1 - \lambda_k$. When some $\lambda_k$ is close to $+1$ (weakly coupled blocks), small perturbations in $W^I$ produce large changes in $\boldsymbol{\pi}^I$. This is why manipulation is cheap in fragmented networks. Eigenvalues near $-1$ (periodicity) give $1 - \lambda_k \approx 2$ and do not create sensitivity, even though they also make $\Gamma^I$ small.
 
-\paragraph{Implication for manipulation.} The cheapest manipulation targets the eigenvector direction corresponding to $\lambda_2$ --- the direction of maximum sensitivity. In a block-diagonal $W^I$, this direction corresponds to the between-block balance: a small rewiring that shifts attention from one block to another produces a large shift in epistemic power.
+\paragraph{Implication for manipulation.} The cheapest manipulation targets the direction associated with the eigenvalue closest to one. In a weakly coupled two-block $W^I$, this is the between-block balance: by Proposition~\ref{ch06:prop:block_power}, the blocks' shares of epistemic power are exactly $\varepsilon_2/(\varepsilon_1+\varepsilon_2)$ and $\varepsilon_1/(\varepsilon_1+\varepsilon_2)$, so a small rewiring that shifts attention from one block to the other produces a large shift in epistemic power when $\varepsilon_1, \varepsilon_2$ are small.
 
 
 %% =====================================================================
@@ -443,15 +472,16 @@ The sensitivity is inversely proportional to $(1 - \lambda_k)$ for each eigenval
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Quijano (2000)}
 %% =====================================================================
 
-An\'{i}bal Quijano (1930--2018) was a Peruvian sociologist whose 2000 essay ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (published in Lander, ed., \textit{La colonialidad del saber}) launched the decolonial turn in Latin American social theory. His argument was not about colonialism as a historical event but about \textbf{coloniality} as a persistent structure of power --- a structure that survived independence and continues to organize knowledge, labor, and social classification in the postcolonial world.
+% TODO-VERIFY: Quijano's birth year (sources give 1928 or 1930).
+An\'{i}bal Quijano (1930--2018) was a Peruvian sociologist who introduced the notion of the coloniality of power in the early 1990s. His 2000 essays ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (in Lander, ed., \textit{La colonialidad del saber}) and ``Colonialidad del poder y clasificaci\'{o}n social'' are central texts of the decolonial turn in Latin American social theory. His argument was not about colonialism as a historical event but about \textbf{coloniality} as a persistent structure of power --- a structure that survived independence and continues to organize knowledge, labor, and social classification in the postcolonial world.
 
 Quijano's framework maps onto the three-network model of this book in a specific and illuminating way.
 
 \textbf{Part 1: Racial classification as a node attribute that constrains $W$.} Quijano argued that the colonial invention of ``race'' was not a byproduct of conquest but its \textit{organizing principle}: a classification system that assigned social position on the basis of phenotype. In network terms: race is a \textbf{node attribute} that determines which edges exist in $W^U$, $W^P$, and $W^I$ simultaneously. People of European descent form dense connections among themselves across all three networks; people classified as ``Indian'' or ``Black'' are confined to sparse, peripheral positions. The weight matrix is not random or purely economic --- it is structured by a categorical attribute that was imposed by conquest and maintained by institutional inertia.
 
-\textbf{Part 2: Epistemic coloniality is $\boldsymbol{\pi}^I$ dominance.} The deepest dimension of coloniality, for Quijano, is epistemic: the colonial powers did not merely control trade routes and labor --- they controlled the \textit{definition of knowledge}. European science, philosophy, and social theory were installed as the universal standard; all other forms of knowledge were classified as ``traditional,'' ``local,'' ``pre-modern.'' In this chapter's notation: the global $W^I$ assigns European intellectual traditions a Perron weight $\pi^I_{\text{Euro}} \gg 1/N$, while Andean, African, and Asian intellectual traditions receive $\pi^I \approx 0$. The DeGroot consensus on ``what counts as knowledge'' converges to the European prior, not because that prior is more accurate but because $W^I$ is hub-dominated. The effective sample size is $N_{\text{eff}} \approx 1$ for epistemology: only one tradition's knowledge enters the consensus.
+\textbf{Part 2: Epistemic coloniality is $\boldsymbol{\pi}^I$ dominance.} The deepest dimension of coloniality, for Quijano, is epistemic: the colonial powers did not merely control trade routes and labor --- they controlled the \textit{definition of knowledge}. European science, philosophy, and social theory were installed as the universal standard; all other forms of knowledge were classified as ``traditional,'' ``local,'' ``pre-modern.'' In this chapter's notation: the global $W^I$ assigns European intellectual traditions a Perron weight $\pi^I_{\text{Euro}} \gg 1/N$, while Andean, African, and Asian intellectual traditions receive $\pi^I \approx 0$. The DeGroot consensus on ``what counts as knowledge'' converges to the European prior, not because that prior is more accurate but because $W^I$ is hub-dominated. The effective sample size for epistemology is close to one: little more than one tradition's knowledge enters the consensus.
 
-\textbf{Part 3: The coloniality of power operates across all three networks simultaneously.} Quijano's distinctive contribution was insisting that race structures $W^U$ (who you care about), $W^P$ (who you trade with and work for), and $W^I$ (whose knowledge you accept) \textit{simultaneously and correlatively}. The Perron eigenvector rankings are \textit{aligned across networks}: the agents who are powerful in $W^U$ are also powerful in $W^P$ and in $W^I$, and this alignment is not a coincidence but a structural feature maintained by the racial classification system. In the notation of Chapter~5: the three networks satisfy $\boldsymbol{\pi}^U \approx \boldsymbol{\pi}^P \approx \boldsymbol{\pi}^I$ --- the ``aligned networks'' case, which produces the maximum possible power concentration in the composite.
+\textbf{Part 3: The coloniality of power operates across all three networks simultaneously.} Quijano's distinctive contribution was insisting that race structures $W^U$ (who you care about), $W^P$ (who you trade with and work for), and $W^I$ (whose knowledge you accept) \textit{simultaneously and correlatively}. The Perron eigenvector rankings are \textit{aligned across networks}: the agents who are powerful in $W^U$ are also powerful in $W^P$ and in $W^I$, and this alignment is not a coincidence but a structural feature maintained by the racial classification system. In the notation of Chapter~5: the three networks satisfy $\boldsymbol{\pi}^U \approx \boldsymbol{\pi}^P \approx \boldsymbol{\pi}^I$ --- the ``aligned networks'' case. Alignment does not amplify concentration: row-stochastic layers that share a stationary vector $\boldsymbol{\pi}$ have a composite with that same $\boldsymbol{\pi}$, since $\boldsymbol{\pi}'\sum_k\alpha_kW^k = \boldsymbol{\pi}'$. What alignment removes is compensation: no channel offsets the others, so a group that is peripheral in one network is peripheral in all.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
@@ -460,15 +490,15 @@ Quijano's framework maps onto the three-network model of this book in a specific
 \midrule
 Race as organizing principle & Node attribute constraining $W$ & All three networks \\
 Epistemic coloniality & $\pi^I_{\text{Euro}} \gg 1/N$ & Def.~\ref{ch08:def:epistemic_power} \\
-One tradition dominates & $N_{\text{eff}} \approx 1$ & Def.~\ref{ch08:def:neff} \\
+One tradition dominates & $\Neff \approx 1$ & Rem.~\ref{ch08:def:neff} \\
 Consensus reproduces colonial priors & $b^* \approx b_{\text{Euro}}$ & Thm.~\ref{ch08:thm:degroot} \\
 Power aligned across networks & $\boldsymbol{\pi}^U \approx \boldsymbol{\pi}^P \approx \boldsymbol{\pi}^I$ & Ch.~5, aligned case \\
-Decoloniality as structural change & Rewire $W^I$ to equalize $\boldsymbol{\pi}^I$ & Thm.~\ref{ch08:thm:manipulation} \\
+Decoloniality as structural change & Rewire $W^I$ to equalize $\boldsymbol{\pi}^I$ & Prop.~\ref{ch08:thm:manipulation} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Quijano's decolonial project is, in matrix terms, a call to \textit{rewire $W^I$ so that $\boldsymbol{\pi}^I$ equalizes across racial categories}. This does not mean all knowledge traditions are equally accurate (that is an empirical question). It means all traditions should have equal \textit{voice} in the DeGroot process --- equal epistemic power --- so that the consensus reflects $N_{\text{eff}} = N$ rather than $N_{\text{eff}} = 1$. The wisdom-of-crowds theorem (Theorem~\ref{ch08:thm:wisdom}) tells us that this equalization would make the consensus more accurate, not less, as long as different traditions carry independent information.
+Quijano's decolonial project is, in matrix terms, a call to \textit{rewire $W^I$ so that $\boldsymbol{\pi}^I$ equalizes across racial categories}. This does not mean all knowledge traditions are equally accurate (that is an empirical question). It means all traditions should have equal \textit{voice} in the DeGroot process --- equal epistemic power --- so that the consensus reflects $N_{\text{eff}} = N$ rather than $N_{\text{eff}} = 1$. Proposition~\ref{ch08:thm:wisdom} tells us that this equalization would make the consensus more accurate, not less, as long as different traditions carry independent and comparably precise information (with unequal precisions, the accuracy-maximizing weights are proportional to precision --- which is itself an empirical question, not something $W^I$ should settle by fiat).
 
 Quijano wrote in Spanish, from Lima. He did not have the Perron eigenvector. He had the diagnosis: that the pattern of power is maintained not primarily by guns but by the control of what counts as knowledge. This chapter gives that diagnosis its eigenvalue.
 
@@ -478,13 +508,13 @@ Quijano wrote in Spanish, from Lima. He did not have the Perron eigenvector. He 
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{DeGroot learning:} DeGroot (1974), ``Reaching a Consensus,'' \textit{JASA}. Golub and Jackson (2010), ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds,'' \textit{AEJ: Microeconomics} --- the key paper, proving the wisdom-of-crowds result and the effective sample size formula.
+\textbf{DeGroot learning:} DeGroot (1974), ``Reaching a Consensus,'' \textit{JASA}. Golub and Jackson (2010), ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds,'' \textit{AEJ: Microeconomics} --- the key paper: naive learning is wise if and only if the most influential agent's weight vanishes. DeMarzo, Vayanos and Zwiebel (2003), ``Persuasion Bias, Social Influence, and Unidimensional Opinions,'' \textit{QJE}. Molavi, Tahbaz-Salehi and Jadbabaie (2018), ``A Theory of Non-Bayesian Social Learning,'' \textit{Econometrica}. Chandrasekhar, Larreguy and Xandri (2020), ``Testing Models of Social Learning on Networks,'' \textit{Econometrica}.
 
 \textbf{Bayesian vs.\ na\"{i}ve learning:} Acemoglu, Dahleh, Lobel, and Ozdaglar (2011), ``Bayesian Learning in Social Networks,'' \textit{ReStud}. Jadbabaie, Molavi, Sandroni, and Tahbaz-Salehi (2012), ``Non-Bayesian Social Learning,'' \textit{Games and Economic Behavior}.
 
 \textbf{Misinformation and manipulation:} Acemoglu, Ozdaglar, and ParandehGheibi (2010), ``Spread of (Mis)information in Social Networks,'' \textit{Games and Economic Behavior}. Candogan and Drakopoulos (2020), ``Optimal Signaling of Content Accuracy.'' Allcott and Gentzkow (2017), ``Social Media and Fake News in the 2016 Election,'' \textit{JEP}.
 
-\textbf{Decolonial theory:} Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina,'' in Lander (ed.), \textit{La colonialidad del saber}, Buenos Aires: CLACSO (the primary source). Mignolo (2000), \textit{Local Histories/Global Designs}. For the connection to economics: Ndikumana and Boyce (2011), \textit{Africa's Odious Debts}, Chapter~1.
+\textbf{Decolonial theory:} Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina,'' in Lander (ed.), \textit{La colonialidad del saber}, Buenos Aires: CLACSO (the primary source). Quijano (2000), ``Colonialidad del poder y clasificaci\'{o}n social,'' \textit{Journal of World-Systems Research} 6(2) (source of the epigraph). Mignolo (2000), \textit{Local Histories/Global Designs}. For the connection to economics: Ndikumana and Boyce (2011), \textit{Africa's Odious Debts}, Chapter~1.
 
 \textbf{Algorithmic information networks:} Ribeiro et al.\ (2020), ``Auditing Radicalization Pathways on YouTube.'' Huszar et al.\ (2022), ``Algorithmic Amplification of Politics on Twitter,'' \textit{PNAS}.
 
