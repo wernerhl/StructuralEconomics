@@ -65,9 +65,9 @@ Large anonymous markets for standardized goods. The buyer of a barrel of oil on 
 \begin{proposition}[Welfare Cost of Ignoring $W^U$]\label{ch04:prop:A1_cost}
 In the one-good quadratic economy of Chapter~2, when $W^U \neq 0$ and $\gamma_U > 0$, the externality-blind allocation (which ignores $W^U$) generates a social-welfare loss of
 \begin{equation}\label{ch04:eq:A1_loss}
-L_{A1} = \gamma_U^2 \cdot \Var(c_j^U) \cdot \Psi,
+L_{A1} = \gamma_U^2 \cdot \Var(c_j^U) \cdot \Psi + O(\gamma_U^3), \qquad \Psi = \frac{N(1-\kappa m)^2}{2\kappa},
 \end{equation}
-where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality in the utility network, to second order in $\gamma_U$, with $\Psi = N(1-\kappa m)^2/(2\kappa)$ in the quadratic economy (Chapter~2, Proposition~\ref{ch02:prop:ext_loss}, which also gives the exact formula).
+where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality in the utility network and $m = \Omega/N$ (Chapter~2, Proposition~\ref{ch02:prop:ext_loss}, which also gives the exact formula).
 \end{proposition}
 
 \textbf{Relaxed in:} Chapters~5 (the utility network defined), 7 (bargaining equilibrium with externalities), 12 (welfare under endogenous preferences).
@@ -218,7 +218,7 @@ The equation is self-referential: $\pi_i$ depends on $\pi_j$ for all $j$ who poi
 
 The preference parameter $\theta_i$ --- patience, risk aversion, time discount, aspiration level, labor supply elasticity --- is a primitive of the model. It does not change over time, does not respond to the network, and is not influenced by the allocations that the model produces.
 
-This is the Becker-Stigler (1977) position: ``de gustibus non est disputandum.'' Tastes are given. The economist's job is to derive behavior from fixed preferences, not to explain the preferences themselves.
+This is close to the Becker-Stigler (1977) position, ``de gustibus non est disputandum'': tastes are stable over time and similar across people, and apparent differences in tastes are to be explained by prices, incomes and accumulated consumption capital rather than by changing preferences. The economist's job is to derive behavior from stable preferences, not to explain the preferences themselves.
 
 \subsection{When It Approximately Holds}
 
@@ -228,17 +228,17 @@ Short-run analysis with stable social environments. If nothing in the agent's in
 
 \textbf{Intergenerational change.} Preferences visibly evolve across generations: attitudes toward gender roles, savings behavior, educational aspirations, labor force participation norms. These are not random mutations --- they correlate with changes in the information environment. The girl in Potos\'{i} with a phone has different aspirations than her mother, not because of a random preference shock but because $W^I$ changed.
 
-\textbf{Peer effects.} Sacerdote (2001), Duflo and Saez (2003): randomly assigned roommates, randomly placed coworkers influence each other's savings, retirement decisions, and educational investments. Preferences are contagious --- they travel along $W^I$.
+\begin{sloppypar}\textbf{Peer effects.} Sacerdote (2001), Duflo and Saez (2003): randomly assigned roommates and coworkers' information influence academic outcomes and retirement-savings decisions. Choices are contagious --- they travel along $W^I$; whether the underlying preferences travel too is what Part~III asks.\end{sloppypar}
 
-\textbf{Advertising and media.} $W^I$ is deliberately shaped by actors who benefit from specific preference configurations. Beverage companies don't advertise to inform; they advertise to change $\theta$.
+\textbf{Advertising and media.} $W^I$ is deliberately shaped by actors who benefit from specific preference configurations. Advertising can shift preferences as well as inform; to the extent it does, it changes $\theta$.
 
-\begin{proposition}[The Formation Equation (Preview)]\label{ch04:prop:A6_formation}
-When $\theta_i$ evolves according to the information network:
+\begin{definition}[The Formation Equation (Preview)]\label{ch04:prop:A6_formation}
+When $\theta_i$ evolves according to the information network, we write:
 \begin{equation}\label{ch04:eq:formation_preview}
 \theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta} + \mu\left(\sum_j W^I_{ij} r_{j,t} - r^*\right),
 \end{equation}
 where $\rho \in (0,1)$ is persistence, $\bar{\theta}$ is a long-run anchor, $r_{j,t}$ is the return observed from agent $j$, and $r^*$ is the reference return. The term $\sum_j W^I_{ij} r_{j,t}$ is the $W^I$-weighted average of observed returns: what you see depends on who you watch.
-\end{proposition}
+\end{definition}
 
 This equation is developed in full in Chapter~10. Its key implication: \textit{the structure produces the preferences that justify the structure.} If $W^I$ is block-diagonal (the girl in Potos\'{i} observes only traditional-sector outcomes), she forms low aspirations, which lead to low investment, which reproduces the traditional-sector allocation, which keeps $W^I$ block-diagonal. The fixed point is Furtado's ``autonomous process of underdevelopment.''
 
@@ -266,7 +266,7 @@ This equation is developed in full in Chapter~10. Its key implication: \textit{t
 \node[font=\footnotesize, anchor=west] at (4.5, 3.2) {A1: $W^U = 0$ (no off-diagonal in utility)};
 \node[font=\footnotesize, anchor=west] at (4.5, 2.6) {A2: $W^P$ exogenous (technology, not choice)};
 \node[font=\footnotesize, anchor=west] at (4.5, 2.0) {A3: $W^I$ absent (no belief channel)};
-\node[font=\footnotesize, anchor=west] at (4.5, 1.4) {A4: Uniform blue (anonymous aggregation)};
+\node[font=\footnotesize, anchor=west] at (4.5, 1.4) {A4: Identical rows (anonymous aggregation)};
 \node[font=\footnotesize, anchor=west] at (4.5, 0.8) {A5: $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power)};
 \node[font=\footnotesize, anchor=west] at (4.5, 0.2) {A6: $\theta_i$ fixed (preferences exogenous)};
 
@@ -274,24 +274,24 @@ This equation is developed in full in Chapter~10. Its key implication: \textit{t
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The uniform-blue heatmap is the visual signature of all six assumptions holding simultaneously. Every departure from uniform blue --- a bright column, a dark off-diagonal region, a block structure --- is a violation of at least one assumption.
+\small The uniform-blue heatmap is the visual signature of the equal-endowment benchmark, with all six assumptions holding. With unequal endowments the anonymous benchmark is $W^{\text{mkt}} = \ones\mathbf{s}'$: identical rows, columns of different brightness. Any other departure --- a dark off-diagonal region, a block structure, a bright column not explained by wealth --- violates at least one assumption.
 \end{vizpanel}
 
-The six assumptions are not independent. They form a logical hierarchy:
+The six assumptions are not independent. They form a rough hierarchy:
 
-\begin{proposition}[The Hierarchy of Assumptions]\label{ch04:prop:hierarchy}
+\begin{remark}[The Hierarchy of Assumptions]\label{ch04:prop:hierarchy}
 \begin{enumerate}
-\item A1--A3 are about the \textbf{existence} of the three networks. The standard model denies that $W^U$ matters, takes $W^P$ as exogenous, and ignores $W^I$ entirely.
-\item A4 is about the \textbf{symmetry} of the market mechanism. Given that $W^U$ and $W^I$ are absent, the remaining interaction (through prices) is assumed to be anonymous and equal.
-\item A5 is a \textbf{consequence} of A1--A4: if the only interaction is through the symmetric market, then the composite $W$ is doubly stochastic and $\boldsymbol{\pi} = \frac{1}{N}\ones$.
+\item A1--A3 are about the \textbf{existence} of the three networks. The benchmark model abstracts from $W^U$, takes $W^P$ as exogenous, and has no $W^I$.
+\item A4 is about the \textbf{anonymity} of the market mechanism. Given that $W^U$ and $W^I$ are absent, the remaining interaction (through prices) is anonymous and wealth-weighted: $W^{\text{mkt}} = \ones\mathbf{s}'$.
+\item A5 is \textbf{not} a consequence of A1--A4. If the only interaction is through the anonymous market, then $\boldsymbol{\pi} = \mathbf{s}$, which is uniform only with equal endowments. A5 adds equal endowments; and the First Welfare Theorem holds without it (Chapter~1, Section~\ref{ch01:sec:conventions}).
 \item A6 is the \textbf{deepest} assumption: it says the structure cannot change preferences. Without A6, even a correct diagnosis of the other five becomes dynamically unstable --- the preferences used to evaluate welfare are themselves produced by the network.
 \end{enumerate}
-\end{proposition}
+\end{remark}
 
 \begin{keyinsight}
-The six assumptions can be summarized in one sentence: \textit{the standard model assumes that social structure is irrelevant for economic outcomes.}
+The six assumptions can be summarized in one sentence: \textit{the benchmark model abstracts from social structure, so that structure cannot matter for economic outcomes.}
 
-$W^U = 0$: social bonds don't affect utility. $W^P$ exogenous: production structure is engineering, not social choice. $W^I$ absent: information doesn't flow through social channels. $W^{\text{market}} = \frac{1}{N}\ones\ones'$: the market treats everyone the same. $\boldsymbol{\pi} = \frac{1}{N}\ones$: nobody has structural power. $\theta$ fixed: the structure doesn't shape who you become.
+$W^U = 0$: social bonds don't affect utility. $W^P$ exogenous: production structure is engineering, not social choice. $W^I$ absent: information doesn't flow through social channels. $W^{\text{mkt}} = \ones\mathbf{s}'$: the market treats everyone anonymously, weighting only by wealth. $\boldsymbol{\pi} = \frac{1}{N}\ones$: with equal endowments, nobody has structural power. $\theta$ fixed: the structure doesn't shape who you become.
 
 Structural economics is the systematic relaxation of this sentence.
 \end{keyinsight}
@@ -311,14 +311,15 @@ Part~IV studies dynamics --- how the networks evolve and reproduce, relaxing A2 
 Parts V--VII apply the framework to three scales (global, national, individual), develop measurement tools, and analyze structural change.
 
 \begin{center}
+\small
 \begin{tabular}{clll}
 \toprule
-\textbf{Assumption} & \textbf{Standard model} & \textbf{Structural economics} & \textbf{Chapters} \\
+\textbf{Assumption} & \textbf{Benchmark model} & \textbf{Structural economics} & \textbf{Chapters} \\
 \midrule
 A1 ($W^U$) & $= 0$ & General $W^U$ & 5, 7, 12 \\
 A2 ($W^P$) & Exogenous & Endogenous, policy variable & 3, 13, 15 \\
 A3 ($W^I$) & Absent & Drives beliefs and aspirations & 5, 8, 9--12 \\
-A4 (Market) & $\frac{1}{N}\ones\ones'$ & Asymmetric, concentrated & 6, 7 \\
+A4 (Market) & $\ones\mathbf{s}'$ & Non-anonymous, concentrated & 6, 7 \\
 A5 (Power) & $\boldsymbol{\pi} = \frac{1}{N}\ones$ & $\boldsymbol{\pi}(W)$, computed & 6, 7, 16--19 \\
 A6 (Preferences) & Fixed $\theta$ & $\theta_{t+1} = f(W^I, \theta_t)$ & 9--12 \\
 \bottomrule
@@ -335,27 +336,30 @@ Each row of this table is a chapter (or group of chapters). Each cell is a resea
 
 A natural question: are we tilting at windmills? How badly do the assumptions fail in practice?
 
-\begin{proposition}[Empirical Departures]\label{ch04:prop:empirical}
-For each assumption, we can define a scalar measure of departure and estimate it from data:
-\begin{center}
-\begin{tabular}{clcc}
+For each assumption we can define a scalar measure of departure that could be estimated from data. Table~\ref{ch04:tab:departures} lists them, with orders of magnitude that are \textit{illustrative} placeholders, not estimates; Parts~V and~VI of the book estimate them.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{cLLc}
 \toprule
-& \textbf{Departure measure} & \textbf{Data source} & \textbf{Typical value} \\
+& \textbf{Departure measure} & \textbf{Data source} & \textbf{Illustrative range} \\
 \midrule
 A1 & $\gamma_U \|W^U\|_F$ (externality intensity) & Social surveys & $0.1$--$0.5$ \\
-A2 & $\Delta A / A$ (I-O change per decade) & I-O time series & $5$--$20\%$ \\
-A3 & $\Var(\pi^I_i)$ (epistemic power concentration) & Media data & $0.01$--$0.10$ \\
-A4 & $\Delta(W^{\text{market}})$ (column-sum asymmetry) & Market shares & $0.1$--$0.8$ \\
-A5 & $\Var(\pi_i)$ (power asymmetry) & Composite $W$ & $0.001$--$0.05$ \\
-A6 & $\Psi$ ratio (formation vs.\ enforcement) & Cohort-year data & $0.5$--$4.0$ \\
+A2 & $\|\Delta A\| / \|A\|$ (I-O change per decade) & I-O time series & $5$--$20\%$ \\
+A3 & $\Neff(\boldsymbol{\pi}^I)/N$ (epistemic concentration) & Media and network data & $0.2$--$0.8$ \\
+A4 & $d_\pi(W^{\text{mkt}})$ (power distance of market shares) & Market shares & $0.1$--$0.5$ \\
+A5 & $\Neff(\boldsymbol{\pi})/N$ (power concentration) & Composite $W$ & $0.3$--$0.9$ \\
+A6 & $\Psi$ ratio (formation vs.\ enforcement; Chapter~11) & Cohort-year data & $0.5$--$4.0$ \\
 \bottomrule
-\end{tabular}
-\end{center}
-\end{proposition}
+\end{tabularx}
+\caption{Departure measures for the six assumptions. \illustrative\ The ranges are placeholders chosen to be internally consistent ($\Neff/N \in [1/N, 1]$, $d_\pi \in [0, 1 - 1/N]$), not estimates from the data sources listed.}
+\label{ch04:tab:departures}
+\end{table}
 
-The departures are not small. In Bolivia's domestic production network, the column-sum asymmetry $\Delta(W^P)$ is approximately 0.4 (Chapter~3). The $\Psi$ ratio for female labor force participation in the US is approximately 2.1 (Chapter~11). The epistemic power concentration of global financial media gives $\Var(\pi^I_i) \approx 0.03$ for a 20-country sample.
+Whether the departures are large is an empirical question that the later parts of the book take up for Bolivia and for a cross-country sample. Variances of $\boldsymbol{\pi}$ are hard to compare across samples of different size --- their maximum is $(N-1)/N^2$ --- which is why the table uses $\Neff/N$.
 
-The standard model is a useful benchmark --- like Euclidean geometry in a curved universe. But the curvature is measurable, and in development economics it is large.
+The standard model is a useful benchmark --- like Euclidean geometry in a curved universe. The curvature is measurable, and the book's claim, to be tested, is that in development economics it is large.
 
 \begin{vizpanel}{From $W^{CE}$ to the real world: five departures}
 \begin{center}
@@ -371,7 +375,7 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
   }
 }
 \node[below, font=\tiny\bfseries] at ({4*\s}, -0.1) {$W^{CE}$};
-\node[below, font=\tiny] at ({4*\s}, -0.4) {All hold};
+\node[below, font=\tiny] at ({4*\s}, -0.4) {$\Gamma = 1$, $\Neff = 8$};
 
 %% Arrow
 \node[font=\scriptsize] at (3.0, 1.1) {$\to$};
@@ -403,7 +407,7 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
   }
 }
 \node[below, font=\tiny\bfseries] at ({4*\s}, -0.1) {A2 matters};
-\node[below, font=\tiny] at ({4*\s}, -0.4) {$W^P$ block-diag.};
+\node[below, font=\tiny] at ({4*\s}, -0.4) {$\Gamma = 0.15$, $\Neff = 7.95$};
 \end{scope}
 
 \node[font=\scriptsize] at (9.0, 1.1) {$\to$};
@@ -419,12 +423,12 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
   }
 }
 \node[below, font=\tiny\bfseries] at ({4*\s}, -0.1) {A3--A5 fail};
-\node[below, font=\tiny] at ({4*\s}, -0.4) {$\pi_1 \gg 1/N$};
+\node[below, font=\tiny] at ({4*\s}, -0.4) {$\pi_1 = 0.47$, $\Neff = 3.8$};
 \end{scope}
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Progressive departure from the competitive benchmark. Each step adds a structural feature that the standard model assumes away. The real world is on the right --- and further right than the last panel shows.
+\small Progressive departure from the competitive benchmark (heatmap weights, rows normalized; diagnostics from \texttt{code/ch04.py}). Each step adds a structural feature that the benchmark model abstracts from. The block structure slows integration ($\Gamma$ falls) without concentrating power; the hub concentrates power ($\Neff$ falls) while the gap stays high ($\Gamma = 0.855$). The book's claim is that the real world is on the right.
 \end{vizpanel}
 
 
@@ -434,15 +438,15 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 %% =====================================================================
 
 \begin{enumerate}
-\item The standard competitive model makes six assumptions, all expressible as properties of the weight matrix: $W^U = 0$, $W^P$ exogenous, $W^I$ absent, $W^{\text{market}} = \frac{1}{N}\ones\ones'$, $\boldsymbol{\pi} = \frac{1}{N}\ones$, and $\theta$ fixed.
+\item The benchmark competitive model abstracts from structure in six ways, five of them expressible as properties of weight matrices: $W^U = 0$, $W^P$ exogenous, no $W^I$, anonymous markets $W^{\text{mkt}} = \ones\mathbf{s}'$, $\boldsymbol{\pi} = \frac{1}{N}\ones$, and $\theta$ fixed.
 
-\item The assumptions form a hierarchy: A1--A3 deny the existence of three networks; A4 asserts symmetry of the remaining interaction; A5 follows as a consequence; A6 freezes the structure by fixing preferences.
+\item The assumptions form a rough hierarchy: A1--A3 concern the existence of three networks; A4 asserts anonymity of the remaining interaction; A5 does \textit{not} follow from A1--A4 --- it adds equal endowments, since the anonymous market gives $\boldsymbol{\pi} = \mathbf{s}$; A6 freezes the structure by fixing preferences.
 
-\item Each assumption has a measurable departure: externality intensity, I-O change rates, epistemic power concentration, column-sum asymmetry, power variance, and the $\Psi$ ratio. In developing economies, the departures are large.
+\item Each assumption has a measurable departure: externality intensity, I-O change rates, epistemic and overall power concentration ($\Neff/N$), the power distance of market shares, and the $\Psi$ ratio. How large they are in developing economies is an empirical question for Parts~V--VI.
 
 \item Structural economics is the systematic relaxation of these six assumptions: Parts II--VII develop general $W^U$, endogenous $W^P$, general $W^I$, asymmetric power, and endogenous preferences.
 
-\item The standard model is not wrong. It is the special case $W = \frac{1}{N}\ones\ones'$ with $\theta$ fixed. This book is the general case.
+\item The standard model is not wrong. It is the special case of anonymous interaction ($W^{\text{mkt}} = \ones\mathbf{s}'$, or $W^{CE}$ with equal endowments) with $W^U = 0$ and $\theta$ fixed. This book is the general case.
 \end{enumerate}
 
 
@@ -462,10 +466,13 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 \item Two ethnic groups in the same city trade goods but do not intermarry, share schools, or attend the same churches.
 \end{enumerate}
 
-\item \textbf{Measuring departure.} For a $3 \times 3$ row-stochastic matrix $W = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.7 & 0.2 \\ 0.2 & 0.1 & 0.7 \end{pmatrix}$:
+\item \textbf{Measuring departure.} For the $3 \times 3$ row-stochastic matrix
+\begin{equation*}
+W = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.7 & 0.2 \\ 0.2 & 0.1 & 0.7 \end{pmatrix}:
+\end{equation*}
 \begin{enumerate}
 \item Compute column sums. Is $W$ doubly stochastic?
-\item Compute $\Delta(W) = \|\ones'W - \ones'\|_2$.
+\item Compute the column-sum deviation $\delta_{\text{col}}(W) = \|\ones'W - \ones'\|_2$ (Chapter~2, Appendix~2A).
 \item Compute the Perron eigenvector $\boldsymbol{\pi}$ and $\Var(\pi_i)$.
 \item If this were Bolivia's composite $W$ (with $N = 3$ sectors), which assumption is most severely violated?
 \end{enumerate}
@@ -484,7 +491,8 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 \item Rank the six departures from largest to smallest. Which structural feature of Bolivia is the most severe deviation from the competitive benchmark?
 \end{enumerate}
 
-\item \textbf{Sunkel's five processes.} Sunkel (1971) argued that development, underdevelopment, dependency, marginalization, and spatial inequality are ``diverse manifestations of a single process.'' Formalize this: define each of the five processes as a property of the weight matrix $W$ or its components ($W^U$, $W^P$, $W^I$). What is the ``single process'' in matrix terms?
+\item \textbf{Sunkel's five processes.} Sunkel (1971) argued, in substance, that development, underdevelopment, dependency, marginalization, and spatial inequality are manifestations of a single process of transnational integration and national disintegration.
+% TODO-VERIFY: the phrase "diverse manifestations of a single process" was previously quoted here; find the wording in Sunkel (1971), Estudios Internacionales 4(16), or keep it as a paraphrase. Formalize this: define each of the five processes as a property of the weight matrix $W$ or its components ($W^U$, $W^P$, $W^I$). What is the ``single process'' in matrix terms?
 
 \item \textbf{A6 is the deepest.} Consider two economists:
 \begin{enumerate}
@@ -494,7 +502,7 @@ The standard model is a useful benchmark --- like Euclidean geometry in a curved
 \item What does this imply about the ``growth first, redistribute later'' consensus?
 \end{enumerate}
 
-\item \textbf{The spectral gap of the assumptions.} For $N = 8$, construct a sequence of matrices $W^{(k)}$ for $k = 0, 1, \ldots, 5$ where $W^{(0)} = \frac{1}{8}\ones\ones'$ and each successive matrix adds one structural feature (a cluster in $W^U$, a block in $W^P$, a hub in $W^I$, etc.). Compute $\Gamma^{(k)}$ and $L^{(k)}_{\text{power}}$ for each. Plot both as functions of $k$. Does the welfare loss grow linearly, convexly, or concavely in the number of structural features?
+\item \textbf{The spectral gap of the assumptions.} For $N = 8$, construct a sequence of matrices $W^{(k)}$ for $k = 0, 1, \ldots, 5$ where $W^{(0)} = \frac{1}{8}\ones\ones'$ and each successive matrix adds one structural feature (a cluster in $W^U$, a block in $W^P$, a hub in $W^I$, etc.). Compute $\Gamma^{(k)}$, $\Neff^{(k)}$ and $L^{(k)}_{\text{power}}$ for each (use $\Omega = 8$, $\kappa = 0.5$, $\Phi = 1$, and check $\kappa x_i < 1$). Plot all three as functions of $k$. Do $\Gamma$ and $\Neff$ move together? Does the welfare loss grow linearly, convexly, or concavely in the number of structural features?
 
 \end{enumerate}
 
@@ -520,7 +528,7 @@ If each component is row-stochastic, so is $W$: $W\ones = \alpha_U W^U\ones + \a
 
 \paragraph{Special cases.} If all three components have the same eigenvector ($\boldsymbol{\pi}^U = \boldsymbol{\pi}^P = \boldsymbol{\pi}^I = \boldsymbol{\pi}$), then $\boldsymbol{\pi}(W) = \boldsymbol{\pi}$ --- the composite inherits the common power structure. This is the ``aligned networks'' case from Chapter~5: all three networks agree on who is powerful. In this case, power is reinforced across channels.
 
-If the components have different eigenvectors, the composite $\boldsymbol{\pi}(W)$ is a nonlinear blend that depends on the $\alpha_k$ weights. Changing $\alpha_P$ (the importance of production linkages) relative to $\alpha_I$ (the importance of information) can shift $\boldsymbol{\pi}$ discontinuously when the leading eigenvectors of $W^P$ and $W^I$ point in very different directions. This is a structural phase transition: the economy's power structure flips when one network channel comes to dominate.
+If the components have different eigenvectors, the composite $\boldsymbol{\pi}(W)$ is a nonlinear blend that depends on the $\alpha_k$ weights. Changing $\alpha_P$ (the importance of production linkages) relative to $\alpha_I$ (the importance of information) moves $\boldsymbol{\pi}$ along a curve, not a straight line. As long as the composite is irreducible, its Perron root is simple and $\boldsymbol{\pi}$ is an analytic --- in particular continuous --- function of the $\alpha_k$: there are no jumps. (For the block layer and the hub layer of the visualization above, $\boldsymbol{\pi}$ never moves by more than $0.0007$ when $\alpha_P$ changes by $0.001$.) The change can nevertheless be fast when the composite is close to reducible, because the sensitivity of $\boldsymbol{\pi}$ grows as $1 - \lambda_2$ shrinks (Chapter~6, Lemma~\ref{ch06:lem:perturbation}). Genuine discontinuities arise only at the reducible boundary, where $\boldsymbol{\pi}$ ceases to be unique.
 
 \paragraph{Computing $\boldsymbol{\pi}(W)$.} Form $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$, then apply power iteration (Appendix~6A).
 
@@ -536,9 +544,9 @@ Their argument maps directly onto the six assumptions of this chapter.
 
 \textbf{Part 1: Mainstream theory assumes a closed, self-contained economy.} Sunkel and Paz began by noting that the neoclassical model analyzes an economy in isolation --- abstracting from its insertion in the global system. They argued that this is not an innocuous simplification but a fundamental distortion: the peripheral economy's structure is shaped by its relationship to the center. In our notation: the standard model treats $W^P$ as a domestic object, ignoring the global production network in which the domestic matrix is embedded. The domestic $W^P$ is not independent of the global $W^P$ --- the off-diagonal entries linking the domestic economy to the world are among the most important entries in the matrix.
 
-\textbf{Part 2: Five processes, one process.} The book's most original contribution was the claim that development, underdevelopment, dependency, marginalization, and spatial inequality are not five separate phenomena but ``diverse manifestations of a single process'' --- the simultaneous transnational integration and national disintegration produced by global capitalism. In matrix terms: the global weight matrix $W_{\text{global}}$ is being rewired in a way that increases cross-country connectivity among elite nodes (transnational integration) while decreasing within-country connectivity between elite and non-elite nodes (national disintegration). The five ``processes'' are five observables of one matrix transformation.
+\textbf{Part 2: One process, several manifestations.} The book's central thesis was that development and underdevelopment are two faces of a single historical process, not successive stages. Sunkel carried the thesis further in a 1971 essay, ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina'': development, underdevelopment, dependency, marginalization, and spatial inequality are not separate phenomena but manifestations of one process --- the simultaneous transnational integration and national disintegration produced by global capitalism. In matrix terms: the global weight matrix $W_{\text{global}}$ is being rewired in a way that increases cross-country connectivity among elite nodes (transnational integration) while decreasing within-country connectivity between elite and non-elite nodes (national disintegration). The five ``processes'' are five observables of one matrix transformation.
 
-\textbf{Part 3: The theory is part of the structure.} Sunkel and Paz argued --- anticipating Quijano by three decades --- that the economic theories taught at the center and exported to the periphery are not neutral analytical tools but products of the center's structural position. The theory of comparative advantage, the Heckscher-Ohlin model, the welfare theorems --- these are theorems about $W = \frac{1}{N}\ones\ones'$, which is the center's idealization of a world that serves the center's interests. Teaching these theorems in La Paz without noting that they assume a specific $W$ is an act of epistemic power: it naturalizes the assumption that makes the welfare theorems hold, thereby legitimating the structure that the theorems describe.
+\textbf{Part 3: The theory is part of the structure.} Sunkel and Paz argued that the theories of development taught at the center and exported to the periphery --- above all the theories of stages --- were not neutral descriptions of the periphery but generalizations from the center's own history, a theme Quijano would later radicalize. The extension to the formal models is this book's, not theirs. The theory of comparative advantage, the Heckscher-Ohlin model and the welfare theorems abstract from the structures catalogued in this chapter. Teaching them in La Paz without noting what they abstract from is an exercise of epistemic power: it naturalizes the abstractions, and so lends legitimacy to the structure that the theorems leave out.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
@@ -547,9 +555,9 @@ Their argument maps directly onto the six assumptions of this chapter.
 \midrule
 Economy not self-contained & A2: $W^P$ treated as domestic & Global embedding of $W^P$ \\
 Five processes, one process & A1--A5 fail simultaneously & $W \neq \frac{1}{N}\ones\ones'$, all channels \\
-National disintegration & A4: market not symmetric & Block-diagonal domestic $W$ \\
+National disintegration & A2: domestic $W^P$ fragmenting & Block-diagonal domestic $W^P$ \\
 Transnational integration & A2: $W^P$ changes endogenously & Elite cross-border linkages \\
-Theory is part of structure & A6: preferences exogenous & $W^I$ shapes beliefs about theory \\
+Theory is part of structure & A3: no information network & $W^I$ shapes beliefs about theory \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -564,9 +572,9 @@ Sunkel and Paz's book is the structuralist critique organized as a textbook. Thi
 
 \textbf{The welfare theorems and their assumptions:} MWG (1995), Chapter~16; Debreu (1959); Arrow (1951). For the assumptions' failure in developing economies: Stiglitz (1989), ``Markets, Market Failures, and Development,'' \textit{AER P\&P}.
 
-\textbf{Endogenous production networks:} Acemoglu et al.\ (2012); Baqaee and Farhi (2019); Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}.
+\textbf{Endogenous production networks:} Acemoglu et al.\ (2012); Baqaee and Farhi (2019); Oberfield (2018), ``A Theory of Input-Output Architecture,'' \textit{Econometrica}; Acemoglu and Azar (2020), ``Endogenous Production Networks,'' \textit{Econometrica}; Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}.
 
-\textbf{Information networks and belief dynamics:} DeGroot (1974); Golub and Jackson (2010); Acemoglu et al.\ (2011), ``Bayesian Learning in Social Networks,'' \textit{ReStud}.
+\textbf{Information networks and belief dynamics:} DeGroot (1974); Golub and Jackson (2010); Chandrasekhar, Larreguy, and Xandri (2020), ``Testing Models of Social Learning on Networks,'' \textit{Econometrica}; Acemoglu et al.\ (2011), ``Bayesian Learning in Social Networks,'' \textit{ReStud}.
 
 \textbf{Endogenous preferences:} Bowles (1998), ``Endogenous Preferences: The Cultural Consequences of Markets and Other Economic Institutions,'' \textit{JEL}; Bisin and Verdier (2001), ``The Economics of Cultural Transmission and the Dynamics of Preferences,'' \textit{JET}.
 

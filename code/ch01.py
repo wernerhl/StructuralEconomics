@@ -54,7 +54,7 @@ hdr("Allocation rule with equal disagreement payoffs and exact loss")
 for Npi in [np.array([.6, .2, .2])]:
     dbar = 0.3; Phi2 = Omega - 3 * dbar; x = Omega / 3 + (Npi - 1 / 3) * Phi2
     L = 3 * U(1, k) - U(x, k).sum(); Vp = np.mean((Npi - 1 / 3) ** 2)
-    print("Phi =", Phi2, "x =", x, "L =", L, "(kN/2)Phi^2 Var(pi) =", k * 3 / 2 * Phi2 ** 2 * Vp)
+    print("Phi =", Phi2, "x =", x, "Var(pi) =", round(Vp, 5), "L =", L, "(kN/2)Phi^2 Var(pi) =", k * 3 / 2 * Phi2 ** 2 * Vp)
     assert np.isclose(L, k * 3 / 2 * Phi2 ** 2 * Vp)
 
 hdr("Leontief example")

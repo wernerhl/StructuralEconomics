@@ -60,7 +60,7 @@ Wc = mk(lambda i, j: 60 if (i <= 3 and j <= 3 and i != j) else 30 if i == j else
 Wb = mk(lambda i, j: 60 if (i <= 4 and j <= 4) or (i > 4 and j > 4) else 3)
 p = perron(Ws); print("star: pi1 =", p[0].round(3), "N_eff =", round(neff(p), 2), "Gamma =", round(gap(Ws), 3))
 c = Wc.sum(0) - np.diag(Wc); print("cluster: c =", c.round(3), "Var(c) =", round(np.var(c), 4))
-p = perron(Wb); print("blocks: Gamma =", round(gap(Wb), 3), "N_eff =", round(neff(p), 2))
+p = perron(Wb); print("blocks: Gamma =", round(gap(Wb), 4), "N_eff =", round(neff(p), 2))
 
 hdr("Transfer vs structural example: N=4, Omega=20, kappa=0.1, dbar=3 -> Phi=8")
 def enclave(a, b):
@@ -131,7 +131,7 @@ for eps in [.02, .15]:
 hdr("Furtado fixed-point example: eps' = F(eps) = ebar eps^2/(eps^2+h^2), ebar=0.3, h=0.1")
 eb, h = .3, .1; F = lambda e: eb * e ** 2 / (e ** 2 + h ** 2); dF = lambda e: eb * 2 * e * h ** 2 / (e ** 2 + h ** 2) ** 2
 roots = [0.0] + sorted(np.roots([1, -eb, h ** 2]).real)
-for r in roots: print("fixed point", round(r, 4), "F'(e*) =", round(dF(r), 3), "stable" if abs(dF(r)) < 1 else "unstable")
+for r in roots: print("fixed point", round(r, 4), "F'(e*) =", round(dF(r), 4), "stable" if abs(dF(r)) < 1 else "unstable")
 for e0 in [.03, .05]:
     e = e0
     for t in range(60): e = F(e)

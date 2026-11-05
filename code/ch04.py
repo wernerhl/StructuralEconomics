@@ -46,7 +46,7 @@ pan = {"W^CE": lambda i, j: 80, "A1 cluster": lambda i, j: 95 if (i <= 3 and j <
        "A2 blocks": lambda i, j: 65 if (i <= 4 and j <= 4) else 55 if (i > 4 and j > 4) else 5,
        "A3-A5 hub": lambda i, j: 70 if j == 1 else 15 if i == 1 else 25 if i == j else 6}
 for k, fn in pan.items():
-    Wk = mk(fn); pk = perron(Wk); print(k, "Gamma =", round(gap(Wk), 3), "N_eff =", round(neff(pk), 2), "pi1 =", pk[0].round(3))
+    Wk = mk(fn); pk = perron(Wk); print(k, "Gamma =", round(gap(Wk), 4), "N_eff =", round(neff(pk), 3), "pi1 =", pk[0].round(3))
 
 hdr("Appendix 4A: pi of a composite is continuous in alpha (irreducible layers)")
 WPl = mk(pan["A2 blocks"]); WIl = mk(pan["A3-A5 hub"]); prev = None; jump = 0
