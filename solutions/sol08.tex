@@ -1,0 +1,281 @@
+% Solutions to the exercises of Chapter 8. Numbers: code/solutions/sol08.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{7}}{}% NN-1 when built standalone
+\setcounter{chapter}{7}% NN-1, so this chapter is numbered NN
+\chapter{Belief Manipulation and Epistemic Power}\label{sol08}
+
+The reading of $\boldsymbol{\pi}$ in force is the information reading: $\boldsymbol{\pi}^I$ is the vector of DeGroot consensus weights, $b^* = (\boldsymbol{\pi}^I)'\bb^{(0)}$ (Theorem~\ref{ch08:thm:degroot}). Every number is printed by the script \nolinkurl{code/solutions/sol08.py}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.1}{DeGroot by hand}
+
+\solpart{a} $\bb^{(t)} = W^I\bb^{(t-1)}$, row by row:
+\begin{align*}
+b^{(1)}_1 &= 0.5(1) + 0.3(0) + 0.2(0.5) = 0.600, \quad b^{(1)}_2 = 0.1(1) + 0.6(0) + 0.3(0.5) = 0.250,\\
+b^{(1)}_3 &= 0.3(1) + 0.2(0) + 0.5(0.5) = 0.550;\\
+b^{(2)}_1 &= 0.300 + 0.075 + 0.110 = 0.485, \quad b^{(2)}_2 = 0.060 + 0.150 + 0.165 = 0.375,\\
+b^{(2)}_3 &= 0.180 + 0.050 + 0.275 = 0.505;\\
+\bb^{(3)} &= (0.456,\ 0.425,\ 0.473),
+\end{align*}
+the last from $b^{(3)}_1 = 0.2425 + 0.1125 + 0.1010$, $b^{(3)}_2 = 0.0485 + 0.2250 + 0.1515$ and $b^{(3)}_3 = 0.1455 + 0.0750 + 0.2525$.
+The spread $\max_i b_i - \min_i b_i$ falls from $1$ to $0.35$, $0.13$ and $0.048$. Each round averages, so every $b_i^{(t)}$ lies in $[\min_j b^{(t-1)}_j, \max_j b^{(t-1)}_j]$, a useful check.
+
+\solpart{b} The column sums are $(0.9, 1.1, 1.0)$, so $W^I$ is not doubly stochastic and $\boldsymbol{\pi}^I$ is not uniform (Proposition~\ref{ch06:prop:equal_power}). Solving $\boldsymbol{\pi}'W^I = \boldsymbol{\pi}'$ with $\ones'\boldsymbol{\pi} = 1$ (e.g.\ replace one balance equation by the normalization) gives
+\[
+\boldsymbol{\pi}^I = \bigl(\tfrac{14}{50},\ \tfrac{19}{50},\ \tfrac{17}{50}\bigr) = (0.28,\ 0.38,\ 0.34).
+\]
+Check, first column: $0.28(0.5) + 0.38(0.1) + 0.34(0.3) = 0.140 + 0.038 + 0.102 = 0.28$.
+
+\solpart{c} $b^* = (\boldsymbol{\pi}^I)'\bb^{(0)} = 0.28(1) + 0.38(0) + 0.34(0.5) = 0.45$. The iterates confirm it: $\max_i|b^{(t)}_i - 0.45| = 2.68\cdot10^{-3}$ at $t = 5$, $5.37\cdot10^{-6}$ at $t = 10$ and $5.43\cdot10^{-11}$ at $t = 20$. $W^I > 0$ is primitive, so Theorem~\ref{ch08:thm:degroot} applies. Agent~2, the most epistemically powerful agent ($\pi_2 = 0.38$), starts at $0$, which is why the consensus lies below the simple mean of the priors ($0.5$).
+
+\solpart{d} The eigenvalues other than $1$ satisfy $\lambda_2 + \lambda_3 = \tr W - 1 = 0.6$ and $\lambda_2\lambda_3 = \det W = 0.1$, so $\lambda_{2,3} = 0.3 \pm 0.1\mathrm{i}$. Then $|\lambda_2| = \sqrt{0.1} = 0.3162$ and $\Gap^I = 0.6838$. By Proposition~\ref{ch08:prop:rate} the half-life of disagreement is
+\[
+t_{1/2} = \frac{\ln 2}{\ln(1/0.3162)} = 0.602 \text{ rounds}.
+\]
+Disagreement falls by more than half every round. With complex $\lambda_2$ the convergence oscillates slightly; the modulus governs the rate. \emph{Common mistake:} using $\operatorname{Re}\lambda_2 = 0.3$ instead of $|\lambda_2|$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.2}{Effective sample size}
+
+With $\pi_1 = p$ and the rest $(1-p)/99$ each, $\Neff(p) = 1/(p^2 + (1-p)^2/99)$ (Remark~\ref{ch08:def:neff}).
+
+\solpart{a} $\boldsymbol{\pi} = \frac{1}{100}\ones$: $\Neff = 100$, the maximum (Definition~\ref{ch06:def:neff}).
+
+\solpart{b} $p = 0.5$: $\Neff = 1/(0.25 + 0.25/99) = 3.96$.
+
+\solpart{c} $p = 0.9$: $\Neff = 1/(0.81 + 0.01/99) = 1.234$.
+
+\solpart{d} $\Neff(p)$ rises from $99$ at $p = 0$ to its maximum $100$ at $p = 0.01$ (uniform power) and then falls monotonically to $1$ at $p = 1$.
+\begin{center}
+\begin{tikzpicture}[x=8cm, y=0.035cm]
+\draw[->] (0,0) -- (1.05,0) node[right, font=\scriptsize] {$\pi^I_1$};
+\draw[->] (0,0) -- (0,108) node[above, font=\scriptsize] {$\Neff$};
+\foreach \xx in {0,0.25,0.5,0.75,1} \draw (\xx,0) -- (\xx,-2) node[below, font=\tiny] {\xx};
+\foreach \yy in {10,50,100} \draw (0,\yy) -- (-0.01,\yy) node[left, font=\tiny] {\yy};
+\draw[dashed, gray] (0,10) -- (1,10);
+\draw[blue!70!black, thick] plot coordinates {(0.000,99.00) (0.010,100.00) (0.020,99.00) (0.030,96.12) (0.050,86.09) (0.075,70.09) (0.100,55.00) (0.150,33.56) (0.200,21.52) (0.250,14.67) (0.300,10.53) (0.350,7.89) (0.400,6.11) (0.450,4.86) (0.500,3.96) (0.550,3.28) (0.600,2.77) (0.650,2.36) (0.700,2.04) (0.750,1.78) (0.800,1.56) (0.850,1.38) (0.900,1.23) (0.950,1.11) (1.000,1.00)};
+\draw[red] (0.3085,0) -- (0.3085,10);
+\node[red, font=\tiny, above right] at (0.3085,10) {$0.3085$};
+\end{tikzpicture}
+\end{center}
+$\Neff = 10$ solves $p^2 + (1-p)^2/99 = 0.1$, i.e.\ $100p^2 - 2p - 8.9 = 0$, whose positive root is
+\[
+p^* = \frac{2 + \sqrt{4 + 3560}}{200} = 0.3085 .
+\]
+$\Neff$ drops below $10$ once a single voice holds more than $30.85\%$ of epistemic weight. With equally precise independent signals, the consensus error variance is then more than $10$ times the $\sigma^2/100$ that equal weighting would achieve (Proposition~\ref{ch08:thm:wisdom}). \emph{Common mistake:} assuming $\Neff$ is monotone on all of $[0,1]$; it is not, because $p < 1/N$ concentrates weight on the other $99$ agents.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.3}{Manipulation cost}
+
+\solpart{a} The current consensus is $b^* = 0.45$, so the target requires $\Delta b = 0.35$. Any target in $[\min_j b_j^{(0)}, \max_j b_j^{(0)}] = [0, 1]$ is reachable (Definition~\ref{ch08:def:manip_cost}), so $0.8$ is. A shift $\Delta\boldsymbol{\pi}$ must satisfy $\Delta\boldsymbol{\pi}'\bb^{(0)} = 0.35$ and $\ones'\Delta\boldsymbol{\pi} = 0$, and it must keep $\boldsymbol{\pi} + \Delta\boldsymbol{\pi} \ge 0$. The shift of smallest Euclidean norm is proportional to the demeaned beliefs $\bb^{(0)} - \bar b\ones = (0.5, -0.5, 0)$:
+\[
+\Delta\boldsymbol{\pi} = 0.35\,\frac{(0.5, -0.5, 0)}{0.5} = (+0.35,\ -0.35,\ 0), \qquad \boldsymbol{\pi}^{\text{new}} = (0.63,\ 0.03,\ 0.34).
+\]
+Check: $0.63(1) + 0.03(0) + 0.34(0.5) = 0.80$. Epistemic weight must move from agent~2 (belief $0$) to agent~1 (belief $1$): agent~2's weight must fall by $92\%$. This is also the cheapest shift in $\ell_1$, since it moves mass between the two extreme beliefs.
+
+\solpart{b} By Proposition~\ref{ch08:thm:manipulation}, an elementary move $E = \mathbf{e}_j(\mathbf{e}_i - \mathbf{e}_k)'$ (row $j$ moves weight from $k$ to $i$) changes the consensus at rate $db^*/dt = \pi_j(z_i - z_k)$, with $\mathbf{z} = Z(\bb^{(0)} - b^*\ones)$. Here
+\[
+Z = (I - W^I + \ones\boldsymbol{\pi}')^{-1} = \begin{pmatrix} 1.296 & -0.084 & -0.212 \\ -0.304 & 1.316 & -0.012 \\ 0.096 & -0.284 & 1.188\end{pmatrix}, \qquad \mathbf{z} = (0.74,\ -0.76,\ 0.24).
+\]
+($Z\ones = \ones$ is a check.) The rate is largest for $i = 1$ (largest $z$), $k = 2$ (smallest $z$) and $j$ with the largest $\pi_j$. The ranking:
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+Edge change & $db^*/dt$ & capacity $W_{jk}$ \\
+\midrule
+Agent 2 moves weight from herself to agent 1 ($W_{22} \to W_{21}$) & 0.570 & 0.6 \\
+Agent 3 moves weight from agent 2 to agent 1 ($W_{32} \to W_{31}$) & 0.510 & 0.2 \\
+Agent 1 moves weight from agent 2 to herself ($W_{12} \to W_{11}$) & 0.420 & 0.3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The cheapest edge makes the most influential agent (agent~2) listen to the agent whose belief is the target (agent~1) instead of to herself. To first order the target needs $t = 0.35/0.57 = 0.614$, more than the capacity $0.6$. Exactly, moving all of $W_{22}$ only reaches $b^* = 0.636$, so no single edge suffices. Combining edges, the projected steepest-ascent path in $W$ (rows kept stochastic and nonnegative) reaches $b^* = 0.80$ with $\|\Delta W^I\|_F = 0.484$ (path length $0.506$), which is an upper bound on $C(0.8)$. The first-order estimate ignoring sign constraints is $0.35/\|P(G)\|_F = 0.557$, where $G_{jk} = \pi_jz_k$ is the gradient and $P$ removes row means. The resulting network has $\boldsymbol{\pi} = (0.6216, 0.0199, 0.3586)$, with agent~3 no longer listening to agent~2 at all ($W_{32} = 0$).
+
+\solpart{c} $\|Z\|_\infty = 1.632$ and $\max_j|b_j^{(0)} - b^*| = 0.55$, so the bound~\eqref{ch08:eq:manip_result} gives
+\[
+t\,\|E\|_\infty \ \ge\ \frac{0.35}{0.55 \times 1.632} = 0.390 .
+\]
+Also $\|Z\|_\infty = 1.632 \ge \max_k 1/|1 - \lambda_k| = 1/|0.7 - 0.1\mathrm{i}| = 1.414$, as the proposition requires.
+
+\emph{Lazy networks.} $W_\alpha = \alpha W^I + (1-\alpha)I$ has the same $\boldsymbol{\pi}$, and $I - W_\alpha = \alpha(I - W^I)$. On the invariant complement $\{\x : \boldsymbol{\pi}'\x = 0\}$ the inverse therefore scales by $1/\alpha$, which gives the exact identity
+\[
+Z_\alpha = \ones\boldsymbol{\pi}' + \frac{1}{\alpha}\bigl(Z - \ones\boldsymbol{\pi}'\bigr)
+\]
+(verified numerically). Since $\boldsymbol{\pi}'(\bb^{(0)} - b^*\ones) = 0$, $\mathbf{z}_\alpha = \mathbf{z}/\alpha$, and every edge's effect on the consensus scales by $1/\alpha$:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$\alpha$ & $\Gap(W_\alpha)$ & $\|Z_\alpha\|_\infty$ & bound on $t\|E\|_\infty$ & best edge $db^*/dt$ \\
+\midrule
+1 & 0.6838 & 1.632 & 0.3899 & 0.570 \\
+0.5 & 0.3481 & 3.624 & 0.1756 & 1.140 \\
+0.25 & 0.1746 & 7.688 & 0.0828 & 2.280 \\
+0.1 & 0.0699 & 19.880 & 0.0320 & 5.700 \\
+\bottomrule
+\end{tabular}
+\end{center}
+As $\alpha$ falls, $Z$ grows like $1/\alpha$, the lower bound on the cost falls in proportion to $\alpha$, and manipulation becomes cheaper. Two readings, both correct:
+\begin{enumerate}
+\item The eigenvalues $1 - \alpha(1 - \lambda_k)$ approach $+1$, which is the case Lemma~\ref{ch06:lem:perturbation} identifies as sensitive.
+\item In a sticky network agents give little weight to others, so a perturbation of given size is large relative to the existing off-diagonal weights. Redirecting even a little of a large self-weight changes who matters.
+\end{enumerate}
+\emph{Common mistake:} concluding that small $\Gap$ protects a society from manipulation because ``beliefs move slowly''. Slow mixing and a manipulable consensus go together when the small gap comes from eigenvalues near $+1$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.4}{The algorithm as $W^I$ designer}
+
+Agents 1--4 have $b^{(0)} = 0.8$ and agents 5--8 have $b^{(0)} = 0.2$.
+
+\solpart{a} $W^I = \frac18\ones\ones'$: $\boldsymbol{\pi}^I = \frac18\ones$, so $b^* = 0.5$. The matrix has rank one, so $\Gap^I = 1$ and consensus is reached in one round.
+
+\solpart{b} Block-diagonal with $\frac14$ on every within-block entry. Each block averages to its own prior in one round, so the limits are $0.8$ for liberals and $0.2$ for conservatives. The eigenvalue $1$ has multiplicity two (spectrum $\{1, 1, 0^{(6)}\}$), so $\Gap^I = 0$. $W^I$ is reducible and $\boldsymbol{\pi}^I$ is not unique; there is no global consensus.
+
+\solpart{c} Let $q = e^{-0.6\beta}$, since $|b_i - b_j| \in \{0, 0.6\}$. Every row has four entries $1$ and four entries $q$ before normalization, so within-group weights are $1/(4(1+q))$ and cross-group weights $q/(4(1+q))$:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$\beta$ & within $W_{ij}$ & across $W_{ij}$ & $\Gap^I = 1 - \tanh(0.3\beta)$ & half-life (rounds) \\
+\midrule
+0 & 0.125000 & $1.250\cdot10^{-1}$ & 1.0000 & 0 \\
+1 & 0.161414 & $8.859\cdot10^{-2}$ & 0.7087 & 0.562 \\
+5 & 0.238144 & $1.186\cdot10^{-2}$ & 0.0949 & 6.96 \\
+20 & 0.249998 & $1.536\cdot10^{-6}$ & $1.23\cdot10^{-5}$ & $5.64\cdot10^{4}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tikzpicture}[x=0.5cm, y=3cm]
+\draw[->] (0,0) -- (21,0) node[right, font=\scriptsize] {$\beta$};
+\draw[->] (0,0) -- (0,1.12) node[above, font=\scriptsize] {$\Gap^I(\beta)$};
+\foreach \xx in {0,5,10,15,20} \draw (\xx,0) -- (\xx,-0.03) node[below, font=\tiny] {\xx};
+\foreach \yy in {0.5,1} \draw (0,\yy) -- (-0.2,\yy) node[left, font=\tiny] {\yy};
+\draw[blue!70!black, thick] plot[smooth] coordinates {(0.0,1.0000) (1.0,0.7087) (2.0,0.4630) (3.0,0.2837) (4.0,0.1663) (5.0,0.0949) (6.0,0.0532) (7.0,0.0295) (8.0,0.0163) (9.0,0.0090) (10.0,0.0049) (11.0,0.0027) (12.0,0.0015) (13.0,0.0008) (14.0,0.0004) (15.0,0.0002) (16.0,0.0001) (17.0,0.0001) (18.0,0.0000) (19.0,0.0000) (20.0,0.0000)};
+\end{tikzpicture}
+\end{center}
+
+\solpart{d} \emph{Claim.} For every finite $\beta$, $W^I$ is symmetric and doubly stochastic, so $b^* = 0.5$.
+
+\emph{Proof.} The kernel $K_{ij} = e^{-\beta|b_i - b_j|}$ is symmetric. Its row sums are all equal: each row contains four entries $1$ (own group, including $i$) and four entries $q$, so $K\ones = 4(1+q)\ones$. Hence $W^I = K/(4(1+q))$ is symmetric with unit row sums, and therefore unit column sums. For $\beta < \infty$, $q > 0$ and $W^I > 0$ is primitive. By Proposition~\ref{ch06:prop:equal_power}, $\boldsymbol{\pi}^I = \frac18\ones$, and by Theorem~\ref{ch08:thm:degroot}, $b^* = \frac18(4(0.8) + 4(0.2)) = 0.5$. The society always reaches \emph{one} consensus, and it is the democratic one.
+
+\emph{Spectrum.} $W^I = \frac{1}{4(1+q)}\begin{pmatrix} J & qJ \\ qJ & J\end{pmatrix}$ with $J = \ones_4\ones_4'$. The partition into the two groups is exactly lumpable, with $\bar W = \frac{1}{1+q}\begin{pmatrix}1 & q\\ q & 1\end{pmatrix}$. Its eigenvalues are $1$ and $(1-q)/(1+q)$. The other six eigenvalues are $0$ (vectors summing to zero within each group). Hence
+\[
+|\lambda_2| = \frac{1 - e^{-0.6\beta}}{1 + e^{-0.6\beta}} = \tanh(0.3\beta), \qquad \Gap^I = 1 - \tanh(0.3\beta) .
+\]
+\emph{What diverges} is the time to consensus. The half-life is $t_{1/2}(\beta) = \ln 2/\ln(\coth(0.3\beta))$. Since $1 - \tanh x \approx 2e^{-2x}$, $t_{1/2} \approx \frac{\ln 2}{2}e^{0.6\beta}$ for large $\beta$: $6.96$ rounds at $\beta = 5$, about $140$ at $\beta = 10$, and $5.64\cdot10^4$ at $\beta = 20$. The algorithm does not change \emph{what} the society eventually believes. It changes \emph{when}: for any realistic horizon, at large $\beta$ the society behaves as if it were split into two echo chambers. The limit $\beta = \infty$ is the reducible matrix of (b). \emph{Common mistake:} inferring polarization of the \emph{limit} from polarization at every observed date. Here the limit is unique and equal-weighted; only the speed is affected. Concentration and integration are different coordinates (Proposition~\ref{ch06:prop:gap-power-independent}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.5}{Bolivia's epistemic structure}
+
+\emph{A model answer} \illustrative. No audience data are used in (a)--(d); the matrices are stylized and stated so that they can be replaced by data (part~(e)).
+
+\solpart{a} Each city has three nodes: the state outlet (S), the private outlet (P) and citizens (C). The within-city matrices (rows S, P, C; row $i$ is whom $i$ listens to) are
+\[
+B_{\text{LP}} = \begin{pmatrix} .8 & 0 & .2\\ .1 & .6 & .3\\ .5 & .2 & .3\end{pmatrix},\quad
+B_{\text{SC}} = \begin{pmatrix} .6 & .1 & .3\\ 0 & .8 & .2\\ .15 & .55 & .3\end{pmatrix},\quad
+B_{\text{CB}} = \begin{pmatrix} .7 & .1 & .2\\ .1 & .7 & .2\\ .35 & .35 & .3\end{pmatrix}.
+\]
+In La Paz citizens put $0.5$ on state media; in Santa Cruz $0.55$ on private media; Cochabamba is mixed. Outlets mostly reproduce their own line and listen somewhat to citizens. Alone, each city's Perron vector over (S, P, C) is $(0.647, 0.118, 0.235)$ in La Paz, $(0.087, 0.681, 0.232)$ in Santa Cruz and $(0.389, 0.389, 0.222)$ in Cochabamba.
+
+\solpart{b} \emph{National composite.} Every node keeps $1 - \eta = 0.9$ of its city row and gives $\eta = 0.1$ to the node of the same type in the other two cities ($0.05$ each): state outlets follow the national state network, private outlets each other, citizens other citizens. All nine rows sum to one. The national Perron vector is
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& State & Private & Citizens \\
+\midrule
+La Paz & 0.1851 & 0.0672 & 0.0811 \\
+Santa Cruz & 0.0576 & 0.1956 & 0.0802 \\
+Cochabamba & 0.1282 & 0.1304 & 0.0748 \\
+\midrule
+total by type & 0.3709 & 0.3931 & 0.2361 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Neff = 7.56$ of $9$ and $\Gap^I = 0.15$. Each city holds exactly $\frac13$. The city partition is lumpable with the symmetric chain $(1-\eta)I + \frac{\eta}{2}(J - I)$, whose stationary vector is uniform (Proposition~\ref{ch06:prop:block_power} generalized to three blocks). Its non-unit eigenvalue $1 - \frac32\eta = 0.85$ (double) sets $\Gap^I$: the cities mix slowly. Citizens, the majority of the population, hold only $24\%$ of epistemic weight. The outlets hold $76\%$, split almost evenly between state and private media.
+
+\solpart{c} $b^* = \sum_j\pi^I_jb^{(0)}_j$ is linear in the priors, so ``the consensus favors nationalization'' ($b^* > 0.5$, with $b = 1$ full nationalization) is a half-space of initial beliefs:
+\[
+0.3709\,\bar b_S + 0.3931\,\bar b_P + 0.2361\,\bar b_C > 0.5 ,
+\]
+where $\bar b_S$ is the $\pi$-weighted average belief of the state outlets, and so on. For example, with state outlets at $0.9$ and private outlets at $0.2$, the consensus favors nationalization iff the citizens' (common) prior exceeds $0.371$: $b^* = 0.483$ at a citizen prior of $0.3$, $0.530$ at $0.5$ and $0.578$ at $0.7$. Liberalization wins in the complementary half-space. Because state and private outlets carry similar total weight, the outcome is decided by the citizens' priors and by the small asymmetry between the media blocks, not by population.
+
+\solpart{d} Calibrate the citizens' prior so that $b^* = 0.6$ (state $0.9$, private $0.2$, citizens $0.7947$). The cost of reaching $b_T = 0.4$:
+\begin{itemize}
+\item \emph{Lower bound} (Proposition~\ref{ch08:thm:manipulation}): $\|Z\|_\infty = 9.11$, so $t\|E\|_\infty \ge 0.2/(0.4\cdot 9.11) = 0.055$.
+\item \emph{First-order Frobenius estimate}: $0.2/\|P(G)\|_F = 0.133$.
+\item \emph{Achieved} by the projected steepest-descent path (rows stochastic and nonnegative): $\|\Delta W^I\|_F = 0.212$ (path length $0.229$), an upper bound on $C(0.4)$. The optimal path spreads small changes over all nine rows (row norms $0.035$--$0.095$) and makes the Santa Cruz private outlet the dominant voice ($\pi^I = 0.551$).
+\end{itemize}
+Natural targeted policies cost more:
+\begin{itemize}
+\item every citizen moving $0.1$ of attention from her state outlet to her private outlet costs $\|\Delta W\|_F = 0.245$ and reaches only $b^* = 0.551$ (larger moves are infeasible in Santa Cruz, whose citizens give state media only $0.135$);
+\item state outlets moving $0.2$ of their own weight onto the city's private outlet costs $0.490$ and reaches $0.504$.
+\end{itemize}
+Shifting the consensus by $0.2$ thus costs a Frobenius perturbation of about $0.2$ when chosen optimally, far less than the targeted policies. It is cheap because inter-city coupling is weak ($\lambda_2 = 0.85$, $\|Z\|_\infty = 9.11$).
+
+\solpart{e} \emph{Data: method only.} Latinobar\'ometro microdata require registration and were \emph{not} fetched (\texttt{data/README.md}~\S9); audience ratings (Kantar IBOPE) are paywalled. No values are reported. Method:
+\begin{enumerate}
+\item \emph{Survey.} Latinobar\'ometro, Bolivia sample, the most recent wave that asks how respondents obtain political information (sources: television, radio, newspapers, social networks, family and friends) and records city or department. Check the codebook of the chosen wave for the exact item.
+\item \emph{Citizens' rows.} For each city, take the weighted shares of respondents naming each source. Map ``family and friends'' to the citizens' own node C. Split television and radio into state and private using channel-level audience shares (needed from a second source, or from a wave that asks which channel). Normalize to sum to $1 - \eta$, and calibrate the cross-city weight $\eta$ from the share of national (non-local) media.
+\item \emph{Outlets' rows.} These are not in the survey. Use content data, such as the share of an outlet's political stories sourced from government, from other outlets or from citizens, or keep the stylized rows and report the sensitivity of the results to them.
+\item \emph{Compute} $\boldsymbol{\pi}^I$, $\Neff$ (and $\Neff/9$), the city and type masses, and $\Gap^I$, with bootstrap intervals from the survey weights.
+\end{enumerate}
+\emph{Expected result (qualitative, not a finding).} Since citizens' rows place most weight on outlets and outlets place little on citizens, $\boldsymbol{\pi}^I$ should concentrate on the outlets, as in the stylized model. Whether state or private media hold more weight nationally depends on the measured city rows and on $\eta$; this exercise cannot settle it without the data.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.6}{The belief-action-signal loop}
+
+\solpart{a} With $W^I_{\text{block}} = \operatorname{diag}(W_{11}, W_{22})$ and each block row-stochastic, an agent in sector $s$ observes only returns from her own sector. Since all of them are $r_s$, $\hat r_i = \sum_jW^I_{ij}r_j = r_s$ (rows sum to one). Modern agents believe $\hat r_M = 0.15$ and Traditional agents $\hat r_T = 0.05$. Both beliefs are correct about the returns each sector observes (step~1 of Definition~\ref{ch08:prop:loop}), and neither sector learns the other's return.
+
+\solpart{b} $a = \theta\hat r$ rises from $0.05\theta$ to $0.10\theta$: by $0.05\theta$, i.e.\ it doubles ($+100\%$). The proportional effect does not depend on $\theta$.
+
+\solpart{c} Let $10\%$ of the Traditional sector (say $10$ of $100$ agents, next to $50$ Modern agents; uniform averaging within each block) put $0.5$ on the Modern block. \emph{Beliefs, one step} (the loop as defined, where agents observe returns): the treated agents believe $0.10$, the rest $0.05$, so the sector average rises from $0.05$ to $0.9(0.05) + 0.1(0.10) = 0.055$ ($+10\%$).
+
+\emph{Spectral gap.} Before, $W^I$ is block-diagonal with two closed classes, so $\Gap^I = 0$. After, the Modern block is the only closed class and the Traditional block is transient. The Traditional sub-block is rank one, $Q = \mathbf{q}\ones'/n_T$ with $q_i \in \{1, 0.5\}$, so its only non-zero eigenvalue is $\ones'\mathbf{q}/n_T = 1 - f/2 = 0.95$. Hence
+\[
+|\lambda_2| = 0.95, \qquad \Gap^I = f/2 = 0.05 .
+\]
+\emph{If agents also average each other's beliefs} (iterated DeGroot), there is now a single consensus equal to the Modern return. The Traditional sector's mean belief is $0.055$ after one round, $0.101$ after $14$ and $0.149$ after $100$, with half-life $\ln 2/\ln(1/0.95) = 13.5$ rounds. A few smartphones change the long-run belief of the whole sector, slowly. Which reading applies depends on whether agents transmit beliefs or only observe outcomes, and that is an empirical question.
+
+\solpart{d} \emph{The loop.} Generation $t$:
+\[
+\hat{\mathbf r}_t = W^I\mathbf r_{t-1}\ \longrightarrow\ a_{i,t} = \theta_i\hat r_{i,t}\ \longrightarrow\ r_{i,t} = g_i(a_{i,t})\ \longrightarrow\ \text{next signal } \mathbf r_t .
+\]
+With block-diagonal $W^I$ and linear returns $g_T(a) = r_0 + \gamma a$, the Traditional sector's return follows $r_{T,t} = r_0 + \gamma\theta\,r_{T,t-1}$. Its fixed point is $r_T^* = r_0/(1 - \gamma\theta)$.
+\begin{itemize}
+\item \emph{Dynamic stability.} The fixed point is stable iff $|\gamma\theta| < 1$. In general, a fixed point is locally stable iff the spectral radius of $W^I\,\mathrm{diag}(g_i'(a_i^*)\theta_i)$ is below one. Example: $\theta = 1$, $\gamma = 0.4$, $r_0 = 0.03$ gives $r_T^* = 0.05$, stable. With the smartphone share $f = 0.1$ (sector signal $(1 - f/2)r_T + (f/2)r_M$), the fixed point becomes $r_T^* = (r_0 + \gamma\theta\frac f2 r_M)/(1 - \gamma\theta(1 - \frac f2)) = 0.0532$. The simulated loop converges there.
+\item \emph{A trap.} For the low-return equilibrium to be a \emph{trap}, i.e.\ stable and coexisting with a high-return one, $g_T$ must be nonlinear: S-shaped, with slope $\gamma\theta > 1$ in a middle range. Then the low fixed point is stable if $\theta g_T'$ at it is below one \emph{and} $W^I$ gives the sector no weight on modern returns. With linear $g$ there is a unique steady state and no trap (compare Example~\ref{ch09:ex:two_steady}).
+\end{itemize}
+The block structure of $W^I$ is what makes the low equilibrium self-confirming: beliefs are correct about the returns observed, and actions reproduce those returns (keyinsight after Definition~\ref{ch08:prop:loop}). Part~III replaces $\hat r$ by the preference parameter $\theta$ (Definition~\ref{ch09:def:formation}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{8.7}{Quijano in matrix form}
+
+\solpart{a} A minimal model \illustrative: $N = 10$, with $2$ European-descended agents (E) and $8$ Indigenous agents (I).
+\begin{itemize}
+\item E rows: $0.45$ on each E agent, so $\varepsilon_{EI} = 0.1$ on I, spread as $0.0125$ each.
+\item I rows: $0.3$ on each E agent, so $\varepsilon_{IE} = 0.6$ on E; $0.2$ on oneself and $0.2/7 = 0.0286$ on each other I agent.
+\end{itemize}
+Every row of a block places the same total weight on the other block, so Proposition~\ref{ch06:prop:block_power} gives the E block's mass exactly: $\varepsilon_{IE}/(\varepsilon_{EI} + \varepsilon_{IE}) = 0.6/0.7 = 0.857$. Hence $\pi^I_E = 0.4286$ each ($4.3$ times $1/N$) and $\pi^I_I = 0.0179$ each ($0.18$ times $1/N$), with $\Neff = 2.70$ of $10$ and $\Gap^I = 0.7$. The network is well integrated and very unequal, which is the combination Proposition~\ref{ch06:prop:gap-power-independent} allows. The mechanism is \emph{deference}: Indigenous agents listen to Europeans, who do not listen back.
+
+\solpart{b} Let $b_i$ be the belief that Western science or formal schooling is the more valuable form of knowledge. Suppose $b = 0.9$ for E and $b = 0.3$ for I. The consensus is $b^* = 0.857(0.9) + 0.143(0.3) = 0.814$, against a population mean of priors of $0.42$. Society converges on the colonial valuation although $80\%$ of its members start from the opposite one. If the priors are noisy signals of the true value, the consensus error variance is $\sigma^2/\Neff = 0.370\sigma^2$, against $0.1\sigma^2$ with equal voice (Proposition~\ref{ch08:thm:wisdom}). The network discards most of the information held by Indigenous agents. Their priors are neither less accurate by assumption nor ignored by anyone's choice; they simply carry little weight in $\boldsymbol{\pi}^I$ (Definition~\ref{ch08:def:epistemic_power}).
+
+\solpart{c} Through the belief-action-signal loop (Definition~\ref{ch08:prop:loop}) and the formation equation~\eqref{ch09:eq:formation}, the consensus valuation becomes a signal about the returns to Spanish-language formal schooling, migration to the city and wage work, relative to Indigenous languages, traditional medicine and artisanal skill. Agents form $\theta$ accordingly: aspirations toward the valued forms, and away from the devalued ones even where the latter have real returns.
+
+For illustration, take Example~\ref{ch09:ex:two_steady}'s $\mu/(1-\rho) = 1.5$, anchor $1$ and reference $0.5$. Then $\theta^* = 1 + 1.5(0.814 - 0.5) = 1.47$ under the colonial consensus and $1 + 1.5(0.42 - 0.5) = 0.88$ under equal voice. The point is qualitative: preferences inherit the epistemic hierarchy. They then look like ``free choices'' (Section~\ref{ch09:sec:beliefs}), and they reproduce the asymmetry in $W^U$ and $W^P$ that Quijano emphasizes.
+
+\solpart{d} \emph{Decoloniality as a matrix perturbation.} Equal voice is $\boldsymbol{\pi}^I = \frac{1}{10}\ones$, i.e.\ $W^I + \Delta W^I$ doubly stochastic (Proposition~\ref{ch06:prop:equal_power}). Within the two-parameter family above it requires the E block's mass to equal $2/10$, i.e.\ $\varepsilon_{IE}/(\varepsilon_{EI} + \varepsilon_{IE}) = 0.2$, or $\varepsilon_{EI} = 4\,\varepsilon_{IE}$. Write $\Delta W^I = \Delta^{E} + \Delta^{I}$, where
+\begin{itemize}
+\item $\Delta^{E}$ changes the E rows: Europeans listen to Indigenous agents, moving weight from E columns to I columns;
+\item $\Delta^{I}$ changes the I rows: Indigenous agents stop deferring, moving weight from E columns to I columns.
+\end{itemize}
+Both terms have zero row sums. Two facts follow:
+\begin{enumerate}
+\item \emph{Giving voice alone is impossible.} With $\varepsilon_{IE} = 0.6$ unchanged, equal power needs $\varepsilon_{EI} = 2.4 > 1$. Deference must fall too: $\varepsilon_{IE} \le 0.25$.
+\item \emph{The cheapest equalizing perturbation in the family} has $\varepsilon_{IE} = 0.1625$ and $\varepsilon_{EI} = 0.650$, with $\|\Delta W^I\|_F = 1.258$. Europeans must place two-thirds of their attention on Indigenous voices, and Indigenous agents must cut their deference from $0.6$ to $0.16$. The consensus becomes the population mean, $0.42$, and $\Neff = 10$; $\Gap^I = 0.641$ stays high.
+\end{enumerate}
+Other equalizing choices, such as $(0.8, 0.2)$ or $(1.0, 0.25)$, cost $1.272$ and $1.335$. A partial reform, Europeans listening ($0.1 \to 0.8$) with deference unchanged, costs $0.783$ but leaves the E mass at $0.429$.
+
+\emph{Interpretation.} By Proposition~\ref{ch06:prop:monotone}, power is conferred by \emph{others'} attention, so decoloniality is a change in the rows of the powerful (who listens) as much as in the rows of the subordinated (who defers). The perturbation is large ($\|\Delta W^I\|_F$ above $1$ in a $10 \times 10$ row-stochastic matrix), consistent with the chapter's point that the obstacle is structural, not informational. Note what it does not claim: equal voice maximizes accuracy only if traditions carry independent and comparably precise information (Proposition~\ref{ch08:thm:wisdom}). \emph{Common mistake:} proposing to ``raise $\pi^I$ of Indigenous agents'' by changing their own rows toward themselves. Self-weight does raise one's Perron weight, but it isolates rather than integrates, and it typically lowers $\Gap^I$.
+
+\end{document}

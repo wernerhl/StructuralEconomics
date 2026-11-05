@@ -1,0 +1,281 @@
+% Solutions to the exercises of Chapter 17. Numbers: code/solutions/sol17.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\begingroup\setlength{\emergencystretch}{3em}% local to this chapter
+\ifSubfilesClassLoaded{\setcounter{chapter}{16}}{}% NN-1 when built standalone
+\setcounter{chapter}{16}% NN-1, so this chapter is numbered NN
+\chapter{Domestic Structural Diagnostics}\label{sol17}
+
+Every number below is printed by \texttt{python3} \nolinkurl{code/solutions/sol17.py}. Input-output results use INE's supply-use tables \citep{ine2026sut} as processed in \nolinkurl{data/processed/bolivia_Z} and \nolinkurl{bolivia_io_*.csv}; comparators use OECD ICIO 2023 \citep{oecd2023icio}; employment uses ILOSTAT \citep{ilo2026ilostat}. All were retrieved on 2026-11-05. Household-survey microdata (EH) and audience data were \textbf{not fetched} (\nolinkurl{data/README.md}, \S9). Exercises that need them get the method only.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.1}{Compute Bolivia's $\Gamma$}
+
+\textbf{Method.}
+\begin{enumerate}
+\item INE's 2019 supply-use tables (base 2017) are converted to a domestic industry$\times$industry table at basic prices: import proportionality, product-sales-structure model D (\nolinkurl{data/README.md}, \S2).
+\item Aggregate to the book's 12 sectors, rows = sellers.
+\item $a_{ss'} = Z_{s's}/X_s$ (Appendix~17A); $W^P = D^{-1}A$, so row $s$ is $Z_{\cdot s}/\sum_{s''}Z_{s''s}$.
+\item Domestic services has no intermediate purchases or sales, so its row is undefined and it is dropped; $N = 11$.
+\end{enumerate}
+
+\textbf{Results, input shares (book12).} The eigenvalues by modulus are $1$; $0.5326$; $0.3127$; $0.2233$; $-0.1951 \pm 0.0986i$; $0.1003 \pm 0.1035i$; $-0.0192$; $0.0171$; $-0.0137$. Hence $\lambda_2 = 0.5326$ (real, simple) and $\Gamma = 0.4674$. The Perron vector is
+\begin{center}
+\small
+\begin{tabular}{lc|lc|lc}
+\toprule
+Hydrocarbons & 0.039 & Construction & 0.029 & Agriculture & 0.091 \\
+Mining & 0.037 & Commerce & 0.095 & Other services & 0.270 \\
+Public administration & 0.005 & Transport & 0.092 & Personal services & 0.021 \\
+Manufacturing & 0.159 & Financial services & 0.162 & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+so $G(\bpi) = 0.4446$ and $\Neff = 6.48$. Checks: $\sum\pi = 1$; all values agree with Examples~\ref{ch17:ex:bolivia_gamma} and~\ref{ch17:ex:bolivia_pi} and with \nolinkurl{bolivia_io_summary.csv} to $10^{-9}$.
+
+\textbf{Normalizations and aggregations} (2019):
+\begin{center}
+\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llcccl}
+\toprule
+Aggregation & Normalization & $\Gamma$ & $G(\bpi)$ & $\Neff$ & $\arg\max\pi$ \\
+\midrule
+book12 & input shares & 0.467 & 0.445 & 6.48 & Other services (0.270) \\
+book12 & input, zero diagonal & 0.614 & 0.363 & 7.79 & Other services (0.190) \\
+book12 & sales shares & 0.694 & 0.319 & 7.88 & Manufacturing (0.241) \\
+book12 & sales, zero diagonal & 0.653 & 0.268 & 8.55 & Manufacturing (0.221) \\
+book12\_isic & input shares & 0.475 & 0.435 & 6.67 & Other services (0.258) \\
+8 sectors (here) & input shares & 0.589 & 0.517 & & Finance \& other serv.\ (0.416) \\
+8 sectors (here) & sales shares & 0.676 & 0.237 & & \\
+detail39 & input shares & 0.410 & 0.670 & & (CSV, $N = 38$) \\
+detail39 & sales shares & 0.331 & 0.428 & & (CSV) \\
+\bottomrule
+\end{tabular}
+\end{center}
+The 8-sector grouping merges hydrocarbons with mining, commerce with transport, finance with other services, and personal with domestic services.
+
+\textbf{How much do they change?} Across book12 and detail39, input or sales shares, with or without diagonal, $\Gamma$ ranges over $0.331$--$0.694$ (the book's $0.33$--$0.69$) and $G(\bpi)$ over $0.268$--$0.670$. The spread across normalizations, about $0.36$ in $\Gamma$, is wider than the spread across the 23 economies of Exercise~16.6 ($0.333$--$0.659$). Three regularities:
+\begin{itemize}
+\item Zeroing the diagonal raises $\Gamma$, because large self-purchases (finance $0.567$, other services $0.511$) are the slow modes.
+\item Sales shares raise $\Gamma$ and lower $G(\bpi)$: the hub becomes manufacturing as a buyer rather than other services as a supplier.
+\item Aggregating to 8 sectors raises $\Gamma$, but merging finance with other services creates a single large hub, which raises $G(\bpi)$.
+\end{itemize}
+
+\emph{Model answer.} Report $\Gamma$ with its normalization and aggregation, and compare countries only like-for-like (book12\_isic, domestic, input shares). Under any variant, no eigenvalue of Bolivia's $W^P$ is close to $1$, so there are no weakly coupled blocks at this resolution.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.2}{Between-block variance}
+
+\emph{Data status.} EH 2019 microdata were \textbf{not fetched} (INE ANDA portal; row 41 of the status table in \nolinkurl{data/README.md}).
+
+\solpart{a--b} \textbf{Method.}
+\begin{enumerate}
+\item From the EH 2019 person file, keep employed adults with positive labour income. Use the survey weights throughout; monthly labour income, or per-capita household income for the household version.
+\item Assign blocks: (1) workers in ISIC B (mining and hydrocarbons) or O (public administration); (2) formal urban, i.e.\ urban workers contributing to social security or employed by firms with 5 or more workers; (3) everyone else (informal or rural).
+\item With weights $w_i$, compute $\bar y = \sum_i w_iy_i/\sum_i w_i$, block shares $N_b/N = \sum_{i\in b}w_i/\sum_i w_i$, block means $\bar y_b$, $V_B$ by~\eqref{ch17:eq:between} and $V_T = \sum_i w_i(y_i - \bar y)^2/\sum_i w_i$. Then $\sigma_B = V_B/V_T$.
+\item Bootstrap $\sigma_B$ by resampling primary sampling units.
+\end{enumerate}
+With the chapter's illustrative inputs (Example~\ref{ch17:ex:bolivia_between}): $\bar y = 4{,}326$, $V_B = 19.98$M and $\sigma_B = 0.624$ for $V_T = 32$M.
+
+\solpart{c} \textbf{Two and four blocks.} Merging blocks 1 and 2 of the illustration into ``formal'' gives a formal mean of $7{,}674.4$, $V_B = 8.46$M and $\sigma_B = 0.264$: the coarser partition loses $11.52$M of between-block variance. That loss is exactly the variance of the two fine means inside the merged block, as the proof below shows. A four-block partition (gas, formal manufacturing, urban services, rural) can only raise $\sigma_B$ relative to any three-block partition it refines. \emph{Expected with real data:} $\sigma_B$ rises with the number of blocks, at a decreasing rate.
+
+\solpart{d} \textbf{Refinement never lowers $\sigma_B$.} Let $\mathcal{P}'$ refine $\mathcal{P}$: every block $B$ of $\mathcal{P}$ is a union of blocks $b$ of $\mathcal{P}'$. With $n_b$ the size of fine block $b$ and $n_B = \sum_{b\subseteq B}n_b$, the coarse mean is $\bar y_B = \sum_{b\subseteq B}(n_b/n_B)\bar y_b$. Then
+\[
+\textstyle V_B(\mathcal{P}') = \sum_B\sum_{b\subseteq B}\frac{n_b}{N}(\bar y_b - \bar y)^2 = V_B(\mathcal{P}) + \sum_B\frac{n_B}{N}\sum_{b\subseteq B}\frac{n_b}{n_B}(\bar y_b - \bar y_B)^2 \;\ge\; V_B(\mathcal{P}).
+\]
+The middle equality writes $\bar y_b - \bar y = (\bar y_b - \bar y_B) + (\bar y_B - \bar y)$ and notes that the cross term vanishes within each $B$ (the law of total variance applied to block means). $V_T$ does not depend on the partition, so $\sigma_B$ weakly rises under refinement, with equality iff all fine means inside every coarse block are equal. The highest $\sigma_B$ is reached by the finest partition: with singletons, $V_W = 0$ and $\sigma_B = 1$. The script checks both facts on $500$ random samples.
+
+\emph{Implications.} $\sigma_B$ is comparable across countries only for partitions of the same number and type of blocks. There is no ``natural'' partition in the data unless one is fixed in advance on substantive grounds, or read off $W^P$ by spectral clustering (Appendix~17B). A partition chosen by maximizing $\sigma_B$ is meaningless: the maximum is always the singleton partition.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.3}{Power-employment ratio}
+
+\solpart{a} $\bpi$ is that of Exercise~17.1 (input shares, book12, 2019).
+
+\solpart{b} \textbf{Ratios.} Employment is from ILOSTAT 2019 (ISIC Rev.~4 sections, mapped as in Example~\ref{ch17:ex:bolivia_pi}). VA per worker is INE value added divided by ILOSTAT employment, in thousand Bs per worker.
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Sector & Emp.\ share & $\pi_s$ & $\pi_s/\text{share}_s$ & VA per worker \\
+\midrule
+Hydrocarbons and mining & 0.013 & 0.077 & 5.74 & 464.6 \\
+Public administration & 0.026 & 0.005 & 0.19 & 313.0 \\
+Manufacturing & 0.112 & 0.159 & 1.42 & 60.4 \\
+Construction & 0.079 & 0.029 & 0.37 & 54.6 \\
+Commerce & 0.171 & 0.095 & 0.55 & 29.3 \\
+Transport & 0.071 & 0.092 & 1.30 & 39.1 \\
+Financial services & 0.007 & 0.162 & 23.36 & 378.1 \\
+Agriculture & 0.274 & 0.091 & 0.33 & 16.8 \\
+Other services & 0.121 & 0.270 & 2.23 & 81.7 \\
+Personal services & 0.107 & 0.021 & 0.20 & 41.3 \\
+Domestic services & 0.019 & --- & --- & 19.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{c} \textbf{Ranking and capital intensity.} The highest ratio is financial services ($23.4$); the lowest is public administration ($0.19$), then personal services ($0.20$) and agriculture ($0.33$). Regressing $\log(\pi/\text{share})$ on $\log(\text{VA per worker})$ over the 10 sectors gives a slope of $0.770$ and $R^2 = 0.328$ (Spearman $0.515$). So value added per worker, a proxy for capital intensity and labour productivity, explains about a third of the variation.
+
+The rest has a clean decomposition:
+\[
+\frac{\pi_s}{\text{emp}_s} = \frac{\pi_s}{\text{VA}_s/\text{VA}}\cdot\frac{\text{VA}_s/\text{emp}_s}{\text{VA}/\text{emp}}.
+\]
+The first factor, power per unit of value added, is $3.41$ for finance, $1.83$ for transport and $0.03$ for public administration. Public administration has the third-highest VA per worker but sells almost nothing to other sectors, so its residual is $-2.72$ log points. Finance has both a high VA per worker and a high power per unit of VA (residual $+1.93$). As the intuition box after Example~\ref{ch17:ex:bolivia_pi} says, the ratio mixes supplier centrality with productivity; it is not a measure of individual privilege.
+
+\solpart{d} \textbf{Moving from agriculture to manufacturing.} Let $\varphi := \Phi/\Omega \in [0,1]$ and $N = 11$ sectors. Sector $s$ receives $x_s = \Omega[1/N + (\pi_s - 1/N)\varphi]$ (Proposition~\ref{ch07:prop:allocation-rule}), shared equally by its $\text{emp}_s\cdot E$ workers. Relative to the national mean per worker $\Omega/E$, a worker in $s$ gets $[1/N + (\pi_s - 1/N)\varphi]/\text{emp}_s$:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$\varphi$ & 0 & 0.25 & 0.5 & 1 \\
+\midrule
+Agriculture & 0.332 & 0.332 & 0.332 & 0.332 \\
+Manufacturing & 0.810 & 0.962 & 1.113 & 1.415 \\
+Ratio & 2.44 & 2.90 & 3.35 & 4.26 \\
+\bottomrule
+\end{tabular}
+\end{center}
+At $\varphi = 1$ the relative allocation is exactly the power-employment ratio, so she gains a factor $1.42/0.33 = 4.26$. Agriculture's row does not move with $\varphi$ because $\pi_{\text{agr}} = 0.091 \approx 1/11$.
+
+\emph{What the calculation assumes.}
+\begin{enumerate}
+\item Sectoral $\bpi(W^P)$ is a bargaining weight (Assumption~7.A). That is a modelling assumption, and this layer is the least natural one for it.
+\item Sectors are the bargaining units and divide their share equally among workers.
+\item One worker's move changes neither $W^P$ nor $\bpi$ (it is marginal).
+\item Disagreement payoffs are equal across sectors.
+\end{enumerate}
+With a different $N$ (e.g.\ 39 sectors) the numbers change. \emph{Common mistake:} reading the factor $4.26$ as a wage premium; it is a division rule, not an estimate.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.4}{Information democracy}
+
+\emph{Data status.} Audience data were \textbf{not fetched} (Kantar IBOPE is paywalled; \nolinkurl{data/README.md}, \S9). Method only, plus a formal result on node sets.
+
+\solpart{a--b} \textbf{Method.}
+\begin{enumerate}
+\item List outlets (TV channels, radio networks, newspapers, major digital platforms) with audience measures from a ratings service or a representative survey (``where did you get news yesterday?'').
+\item Convert each outlet's reach to shares of total attention (minutes, or mentions as main source) that sum to $1$.
+\item Group outlets into ecosystems for the four-node comparison.
+\end{enumerate}
+Using audience shares $\mathbf{s}$ as $\bpi^I$ is exact only if $W^I = \ones\mathbf{s}'$, i.e.\ everyone attends to the same mix, which has $\Gamma(W^I) = 1$ (Example~\ref{ch17:ex:bolivia_neff}). With survey data on \emph{who} watches what, build $W^I$ by groups and take its Perron vector instead.
+
+\solpart{c} $\Neff = 1/\sum_j s_j^2$. For the chapter's four ecosystems, $\Neff = 3.381$.
+
+\solpart{d} \textbf{Node sets.} \emph{Claim:} refining the node set never lowers $\Neff$. If node $e$ splits into outlets $o \in e$ with shares $s_o$ summing to $s_e$, then $\sum_{o\in e}s_o^2 \le (\sum_{o\in e}s_o)^2 = s_e^2$, since the cross terms are nonnegative. Summing over $e$, $\sum_o s_o^2 \le \sum_e s_e^2$, with equality iff no node is actually split. Examples:
+\begin{itemize}
+\item an equal split of every ecosystem into $k$ outlets multiplies $\Neff$ by $k$: $6.761$ for $k = 2$ and $16.903$ for $k = 5$;
+\item an unequal split (0.8/0.2 for state media, 0.5/0.5 for private, none for community, 0.6/0.4 for social) gives $5.666$.
+\end{itemize}
+So ``Bolivia $3.4$ vs.\ the US $15$--$20$'' compares different node sets and says nothing. Compare on the same four-ecosystem partition, or report $\Neff/N$ on comparable outlet-level sets. \emph{Expected:} on four ecosystems most countries lie between 2 and 4; on outlet sets the numbers scale with the number of outlets measured.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.5}{Bolivia's structural trajectory}
+
+\solpart{a} \textbf{Every available year} (book12, domestic, input shares; from \nolinkurl{bolivia_io_summary.csv}, reproduced by the script from the flow matrices for the years in Example~\ref{ch17:ex:trajectory}):
+\begin{center}
+\scriptsize
+\begin{tabular}{lcccc|lcccc}
+\toprule
+Year & $N$ & $\Gamma$ & $G(\bpi)$ & $\pi_{\text{hyd}}$ & Year & $N$ & $\Gamma$ & $G(\bpi)$ & $\pi_{\text{hyd}}$ \\
+\midrule
+1988 & 10 & 0.563 & 0.442 & 0.025 & 2004 & 10 & 0.524 & 0.385 & 0.057 \\
+1989 & 10 & 0.565 & 0.429 & 0.029 & 2005 & 10 & 0.502 & 0.366 & 0.074 \\
+1990 & 10 & 0.567 & 0.420 & 0.037 & 2006 & 11 & 0.518 & 0.424 & 0.064 \\
+1991 & 10 & 0.578 & 0.431 & 0.030 & 2007 & 10 & 0.489 & 0.350 & 0.087 \\
+1992 & 10 & 0.571 & 0.417 & 0.030 & 2008 & 10 & 0.486 & 0.341 & 0.081 \\
+1993 & 10 & 0.573 & 0.419 & 0.026 & 2009 & 10 & 0.504 & 0.353 & 0.077 \\
+1994 & 10 & 0.567 & 0.413 & 0.022 & 2011 & 11 & 0.478 & 0.369 & 0.088 \\
+1995 & 10 & 0.578 & 0.411 & 0.025 & 2012 & 11 & 0.506 & 0.379 & 0.079 \\
+1996 & 10 & 0.566 & 0.407 & 0.026 & 2013 & 11 & 0.484 & 0.371 & 0.085 \\
+1997 & 10 & 0.553 & 0.409 & 0.027 & 2014 & 11 & 0.361 & 0.352 & 0.117 \\
+\cmidrule{6-10}
+1998 & 10 & 0.541 & 0.449 & 0.017 & 2017 & 11 & 0.506 & 0.446 & 0.045 \\
+1999 & 10 & 0.642 & 0.425 & 0.035 & 2018 & 11 & 0.493 & 0.444 & 0.042 \\
+2000 & 10 & 0.494 & 0.420 & 0.036 & 2019 & 11 & 0.467 & 0.445 & 0.039 \\
+2001 & 10 & 0.493 & 0.410 & 0.038 & 2020 & 11 & 0.418 & 0.463 & 0.035 \\
+2002 & 11 & 0.501 & 0.447 & 0.039 & 2022 & 11 & 0.400 & 0.475 & 0.026 \\
+2003 & 11 & 0.514 & 0.444 & 0.047 & 2024 & 11 & 0.419 & 0.470 & 0.021 \\
+\bottomrule
+\end{tabular}
+\end{center}
+(2021: $0.432$, $0.462$, $0.028$; 2023: $0.381$, $0.470$, $0.030$. The rule separates base 1990 from base 2017.)
+
+\textbf{Outliers.} On base 1990 the $z$-scores of $\Gamma$ exceed $1.5$ in absolute value in two years: 1999 ($\Gamma = 0.642$, $z = 2.15$) and 2014 ($0.361$, $z = -3.14$). In 2014 the slow mode $\mathbf{v}_2$ is concentrated on hydrocarbons ($1.0$, against at most $0.45$ in absolute value elsewhere). The hydrocarbons self-purchase share jumps from $0.478$ (2013) to $0.658$ (2014), the largest diagonal change of any sector. A near-absorbing diagonal entry creates an eigenvalue near the diagonal value, so the 2014 $\Gamma$ reflects one cell of the table, not a disintegration of the economy. It is most likely a compilation artefact of the last base-1990 table.
+
+\textbf{Why not compare across the change of base.} The 2017 base has a new classification (42 products, 39 industries against 35), a new SNA vintage and new valuation conventions. $\Gamma$, $G(\bpi)$ and $\pi_{\text{hyd}}$ depend on aggregation and conventions (Exercise~17.1), so a jump at the break mixes measurement with structure. A further caveat: on base 1990, $N$ alternates between 10 and 11, because public administration has no intermediate sales in diagonal-make years. Changes between, say, 2005 ($N = 10$) and 2006 ($N = 11$) are partly a change of node set.
+
+\solpart{b} \textbf{$\sigma_B$ by year: not computable here} (EH microdata not fetched). Method: Exercise~17.2 applied to EH 2000, 2005, 2011 (there is no 2010 survey), 2015 and 2019, with a fixed partition and fixed definitions of formality; then plot. INE's published Gini fell from $0.600$ (2005) to $0.426$ (2019) (Chapter~16), so the total variance fell. Whether $\sigma_B$ fell too depends on whether the fall was between or within blocks; decompositions attributing it to labour income at the bottom \citep{vargas2015explaining} suggest a fall in $V_B$.
+
+\solpart{c} \textbf{Structural breaks in $\Gamma$.} Chow tests on the annual base-1990 series, 1988--2013 (2014 excluded), with a model of level plus linear trend and a break in both:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{All years ($n = 25$)} & \multicolumn{2}{c}{Excluding 1999 ($n = 24$)} \\
+Break at & $F(2, n-4)$ & $p$ & $F$ & $p$ \\
+\midrule
+2006 (nationalization) & 0.108 & 0.898 & 0.940 & 0.407 \\
+2009 (constitution) & 0.170 & 0.845 & 1.193 & 0.324 \\
+\bottomrule
+\end{tabular}
+\end{center}
+No break is detected at either date, and the OLS trend is $-0.042$ per decade ($-0.041$ without 1999). The $p$-values come from the $F$ distribution, integrated numerically; the integration is checked against the 5\% critical value of $F(2,20)$, which is $3.49$. Consistent with Example~\ref{ch17:ex:trajectory}: the nationalization changed revenue flows, not $W^P$. $\pi_{\text{hyd}}$ shows the gas boom (from $0.047$ in 2003 to $0.088$ in 2011), but that rise starts before 2006.
+
+\solpart{d} \textbf{Projection of $\sigma_B$.} No data. With the book's \emph{illustrative} trajectory, $0.68$ (1990) to $0.62$ (2019), the trend is $-0.021$ per decade, and $\sigma_B$ would reach $0.40$ around 2125. That number illustrates the arithmetic only; a projection needs the EH series of part~(b) and a model of why $\sigma_B$ moves.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.6}{Dashboard comparison}
+
+\solpart{a} \textbf{Measured instruments} (2019, book12\_isic, domestic, input shares; INE for Bolivia, OECD ICIO 2023 for Chile and Costa Rica):
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+& $\Gamma$ & $G(\bpi)$ & $\Neff(W^P)$ of 11 & ECI 2019 & Gini (WDI) \\
+\midrule
+Bolivia & 0.475 & 0.435 & 6.67 & $-1.295$ & 41.6 (2019) \\
+Chile & 0.557 & 0.568 & 4.22 & $-0.059$ & 45.3 (2017) \\
+Costa Rica & 0.469 & 0.611 & 4.14 & $0.257$ & not in \nolinkurl{data/processed} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Costa Rica's ECI is from the Growth Lab rankings file in \nolinkurl{data/raw/atlas}. The largest power weights are other services in Chile ($0.429$) and in Costa Rica ($0.414$). $\sigma_B$ needs household microdata (CASEN for Chile, ENAHO for Costa Rica, EH for Bolivia); not fetched.
+
+\solpart{b} $\Neff(W^I)$: not computable (audience data not fetched). Method of Exercise~17.4 on a common four-ecosystem partition: state or public, private commercial, community, social media.
+
+\solpart{c} \textbf{Dashboard and ``healthiest''.} Rescaled bars (benchmark $= 1$):
+\begin{itemize}
+\item $\Gamma$: Bolivia $0.475$, Chile $0.557$, Costa Rica $0.469$;
+\item $1 - G(\bpi)$: $0.565$, $0.432$, $0.389$;
+\item $\Neff/N$: $0.606$, $0.384$, $0.377$.
+\end{itemize}
+Chile is the most integrated, Bolivia the least concentrated. On both production-network coordinates Costa Rica, the most complex of the three, is the furthest from the benchmark. ``Healthiest'' is therefore undefined without weights on independent coordinates (\nolinkurl{docs/conventions.md}, \S4), and the measured instruments rank the countries opposite to complexity. As in Chapter~17, a concentrated $\bpi(W^P)$ marks a service-hub structure, not exclusion.
+
+\solpart{d} \textbf{Recommendation.} The largest deficit depends on the coordinate:
+\begin{itemize}
+\item Bolivia: complexity (ECI $-1.30$). The recommended operators are $\mathcal{L}_{\text{info}}$ and $\mathcal{L}_{\text{HC}}$ aimed at related products, not $\Gamma$-raising operators.
+\item Costa Rica, on power concentration: an operator that diversifies suppliers away from the services hub. Proposition~\ref{ch15:prop:political_cost} says integration is free politically, but redistribution is not.
+\end{itemize}
+Choose the operator by the instrument, then sequence by Conjecture~\ref{ch15:thm:sequencing}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{17.7}{Bolivia's escape plan}
+
+\solpart{a} \textbf{Current position.} $\Gamma = 0.475$ (like-for-like) and $G(\bpi) = 0.435$, both measured. ECI $-1.30$ in 2019, down from $-1.21$ in 2006. $\sigma_B$, $\Neff(W^I)$ and $\Psi$ remain illustrative ($0.62$, $3.4$, $1.56$).
+
+\solpart{b} \textbf{Binding constraint.} Among the \emph{measured} instruments, none is far from comparators: $\Gamma$ sits inside the range, and $G(\bpi)$ is the lowest of 23 economies. The binding constraint is complexity, which is not a dashboard instrument but is the memo row of Example~\ref{ch17:ex:dashboard}. Among the illustrative rows, $\sigma_B$ and $\Neff(W^I)$ would be the candidates if the microdata confirmed them. Because $\Gamma$ and $G(\bpi)$ are independent coordinates, an operator chosen to raise $\Gamma$ does not address either.
+
+\solpart{c} \textbf{Sequence:} information, then institutions, education, infrastructure and ISI-B (Conjecture~\ref{ch15:thm:sequencing}), aimed at products related to the existing basket (Exercise~16.7(b)). Exercise~15.4 shows when this order beats the reverse: only if later operators are complementary to earlier ones.
+
+\solpart{d} \textbf{Political feasibility.} Integration and complexity operators need not cost any coalition power (Proposition~\ref{ch15:prop:political_cost}), so a coalition of the middle class and workers ($\{M, W\}$), or of the bourgeoisie, middle class and workers ($\{B, M, W\}$), can support them without internal conflict. The redistributive part, shifting rents or power from the hydrocarbons--state nexus, is where the coalition's own members' $\Delta\pi_i \ge 0$ constraints bind (Exercise~15.7). A $\{B, M, W\}$ coalition is compatible if the plan's surplus share $\Delta\Omega/N$ compensates $B$ for any power loss (Proposition~\ref{ch14:prop:power_gain}).
+
+\solpart{e} \textbf{Simulation.} Use the three-block model of Example~\ref{ch10:ex:bolivia_three} with $\rho = 0.85$ and $\mu = 0.2$. The script reproduces its steady state ($\theta^* = 1.1245$, $1.0411$, $0.9871$; $\rho(J) = 0.866$). Apply an information operator: cross-block $W^I$ weight per pair from $0.025$ to $0.05$, with own-block weights cut equally.
+\begin{itemize}
+\item \emph{Long run}: $\theta^* = (1.1009,\allowbreak 1.0439,\allowbreak 1.0062)$; the gas--rural preference gap falls from $0.1374$ to $0.0947$. The variance of allocations falls from $0.03890$ to $0.03229$; its power part ($0.01985$) is untouched, because $\bpi$ is.
+\item $\Gamma(W^I)$ rises from $0.225$ to $0.450$. $\Gamma(W^P) = 0.090$ and $\Neff(\bpi) = 8.34$ do not move.
+\item \emph{30 periods, generational} ($\rho = 0.85$; one period is one generation, Chapter~10): $14.0\%$ of the adjustment occurs after 1 period, $77.9\%$ after 10, $98.9\%$ after 30.
+\item \emph{30 years, annual} ($\rho_a = 0.85^{1/25}$, with $\mu_a = 0.00864$ chosen to keep $\mathcal{M}$ fixed; $\rho(J) = 0.9940$): only $0.6\%$ after one year, $5.9\%$ after ten and $16.6\%$ after thirty. The gap falls from $0.1374$ to $0.1303$.
+\end{itemize}
+\textbf{Answer.} Target the information structure ($\Neff(W^I)$, the cross-block weight of $W^I$) and complexity, not $\Gamma(W^P)$, which is already in the comparator range. With generational persistence $\rho = 0.85$, thirty \emph{years} buy about a sixth of the long-run preference convergence; most of the effect takes several generations. Plans should be judged against that horizon.
+
+\emph{Common mistake:} simulating 30 periods of the generational model and calling them years, which overstates the speed of formation by a factor of about six here ($98.9\%$ against $16.6\%$).
+
+\endgroup
+\end{document}

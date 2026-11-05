@@ -1,0 +1,235 @@
+% Solutions to the exercises of Chapter 18. Numbers: code/solutions/sol18.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\begingroup\setlength{\emergencystretch}{3em}% local to this chapter
+\ifSubfilesClassLoaded{\setcounter{chapter}{17}}{}% NN-1 when built standalone
+\setcounter{chapter}{17}% NN-1, so this chapter is numbered NN
+\chapter{The Individual Scale}\label{sol18}
+
+Every number below is printed by \texttt{python3} \nolinkurl{code/solutions/sol18.py}. Throughout, $K = \phi\circ K^{\max}$ are raw intensities and $W = D^{-1}K$. When $K$ is symmetric, $\bpi \propto K\ones$ (Proposition~\ref{ch18:prop:homophily_power}(i)).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.1}{Assortative mixing and $\Gamma$}
+
+\textbf{Set-up.} Three men and three women, $K^{\max}_{ij} = 1$ for every pair including $i = j$ (so $a = c = 1$ in Proposition~\ref{ch18:prop:assortative}(a)), $\phi = 1$ within gender and $\lambda_g$ across. Each row of $K$ sums to $3(1 + \lambda_g)$, so $W$ has $1/(3(1+\lambda_g))$ within and $\lambda_g/(3(1+\lambda_g))$ across.
+
+\textbf{Spectrum.} The partition is equitable, with quotient $\frac{1}{1+\lambda_g}\begin{pmatrix}1 & \lambda_g\\ \lambda_g & 1\end{pmatrix}$, so the eigenvalues are $1$ and $\frac{1-\lambda_g}{1+\lambda_g}$. Every vector summing to zero within each gender is mapped to $0$, because rows are constant within blocks. Hence
+\[
+\Gamma(\lambda_g) = 1 - \frac{1-\lambda_g}{1+\lambda_g} = \frac{2\lambda_g}{1+\lambda_g}.
+\]
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+$\lambda_g$ & 1 & 0.7 & 0.4 & 0.1 & 0 \\
+\midrule
+$|\lambda_2|$ & 0 & 0.1765 & 0.4286 & 0.8182 & 1 \\
+$\Gamma$ & 1.0000 & 0.8235 & 0.5714 & 0.1818 & 0 \\
+$\Gamma$, no self-loops & 0.8000 & 0.7561 & 0.6875 & 0.2609 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+At $\lambda_g = 0$, $W$ is block-diagonal and reducible; $1$ is a double eigenvalue and $\Gamma = 0$ (\nolinkurl{docs/conventions.md}, \S3). The script confirms the closed form to $10^{-12}$ at every $\lambda_g$.
+
+\textbf{Not linear.} $\Gamma$ is strictly increasing and strictly concave on $[0,1]$: $\Gamma' = 2/(1+\lambda_g)^2$ falls from $2$ at $\lambda_g = 0$ to $0.5$ at $\lambda_g = 1$, and $\Gamma'' = -4/(1+\lambda_g)^3 < 0$. At $\lambda_g = 0.5$, $\Gamma = 0.6667$, against $0.5$ on the chord. Integration is most sensitive to openness when groups are nearly segregated: the first cross-group edges buy the most mixing.
+
+\textbf{Robustness: self-loops matter.} Without self-loops ($K_{ii} = 0$), each row has within weight $1/(2+3\lambda_g)$ on each of the other two members of its group. The within-group zero-sum vectors then have eigenvalue $-1/(2+3\lambda_g)$, and the group eigenvalue is $(2-3\lambda_g)/(2+3\lambda_g)$. Hence $\Gamma = 6\lambda_g/(2+3\lambda_g)$ for $\lambda_g \le 1/3$ and $\Gamma = (1+3\lambda_g)/(2+3\lambda_g)$ above, where the negative eigenvalue binds. $\Gamma$ is still increasing, with a kink at $\lambda_g = 1/3$, and reaches only $0.8$ at $\lambda_g = 1$. The qualitative claim, segregation lowers $\Gamma$, survives; the exact formula depends on the diagonal, which must be stated.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.2}{Bolivia's gender power gap}
+
+\emph{Data.} EH 2019 microdata were not fetched. The sector-by-sex tabulation available in \nolinkurl{data/processed} is ILOSTAT's 2019 series of employment by sex and economic activity (source survey: Encuesta Continua de Empleo, processed by the ILO from the microdata), which is what the chapter uses \citep{ilo2026ilostat}. Combined with INE 2019 (base 2017, book12, domestic) for $\bpi$ and $BL$ \citep{ine2026sut}. Retrieved 2026-11-05. Sector mapping as in Example~\ref{ch17:ex:bolivia_pi}.
+
+\solpart{a} \textbf{Classification} (female share of employment):
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Sector & Female share & Class & $BL$ & $\pi_s$ \\
+\midrule
+Hydrocarbons and mining & 0.065 & male & 1.352 & 0.077 \\
+Public administration & 0.343 & male & 1.245 & 0.005 \\
+Construction & 0.031 & male & 1.574 & 0.029 \\
+Transport & 0.039 & male & 1.542 & 0.092 \\
+Manufacturing & 0.441 & mixed & 1.855 & 0.159 \\
+Financial services & 0.469 & mixed & 1.433 & 0.162 \\
+Agriculture & 0.460 & mixed & 1.549 & 0.091 \\
+Other services & 0.539 & mixed & 1.356 & 0.270 \\
+Commerce & 0.614 & female & 1.416 & 0.095 \\
+Personal services & 0.689 & female & 1.661 & 0.021 \\
+Domestic services & 0.939 & female & 1.000 & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+$BL$ for hydrocarbons and mining is the output-weighted average of the two sectors' backward linkages.
+
+\solpart{b} \textbf{Average Leontief multiplier} ($BL$, column sums of $(I - A')^{-1}$):
+\begin{itemize}
+\item male-dominated $1.428$ (employment-weighted $1.501$);
+\item mixed $1.548$ ($1.569$);
+\item female-dominated $1.359$ ($1.478$).
+\end{itemize}
+The mixed sectors have the highest multiplier, because they include manufacturing ($1.855$). The female group is pulled down by domestic services, which has no intermediate flows ($BL = 1$). The differences are modest, because Bolivia's linkages are compressed (all between $1.0$ and $1.86$).
+
+\solpart{c} \textbf{Per-capita power ratio.} Give each sector's $\pi_s$ equally to its workers (none to domestic service, which is outside $W^P$). Then
+\[
+\frac{\pi^F_{\text{avg}}}{\pi^M_{\text{avg}}} = \frac{\sum_s \pi_s f_s/F}{\sum_s \pi_s(1 - f_s)/M} = 0.8555,
+\]
+where $f_s$ is the female share of sector $s$ and $F$, $M$ are total female and male employment. This reproduces the $0.86$ of Example~\ref{ch18:ex:bolivia_gender}.
+
+\solpart{d} \textbf{Women at 40\% in male-dominated sectors.} By the $>60\%$-male rule, the male-dominated sectors are hydrocarbons and mining, public administration, construction and transport, with a combined female share of $8.0\%$. (The chapter's ``about 10\%'' excludes transport.) \emph{Counterfactual:} set each of these sectors' female share to $40\%$ at fixed sector employment. That moves $339.4$ thousand women, $13.25\%$ of female employment. Two assumptions about where they come from:
+\begin{itemize}
+\item From all other sectors in proportion to employment, with displaced men going the other way: the ratio rises to $0.8923$, closing $25.4\%$ of the gap ($1 - r$ falls from $0.1445$ to $0.1077$).
+\item From the female-dominated sectors only: the ratio becomes $1.0315$, overshooting parity, because it empties the low-$\pi$ commerce and personal-service jobs.
+\end{itemize}
+\emph{Which sector matters?} Leaving out one sector's change at a time (main counterfactual), the ratio would be:
+\begin{itemize}
+\item $0.8173$ without hydrocarbons and mining, the largest contribution, since $\pi/\text{share} = 5.7$;
+\item $0.8630$ without transport;
+\item $0.8966$ without public administration, and $0.9607$ without construction. Moving women into these two \emph{lowers} the ratio, because their power per worker ($0.19$, $0.37$) is below women's current average.
+\end{itemize}
+\textbf{Model answer.} Entering male-dominated sectors helps only where those sectors are central in $W^P$; occupational desegregation is not the same as power equalization. The calculation assumes fixed $\bpi$ and equal division within sectors (as in Exercise~17.3(d)).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.3}{Intersectionality}
+
+\solpart{a} \textbf{Separable constraint matrix.} Order: 1 non-indigenous man, 2 non-indigenous woman, 3 indigenous man, 4 indigenous woman. $\phi_{ij} = \lambda_g^{s_{ij}}\lambda_r^{e_{ij}}$, where $s_{ij} = 1$ if $i$ and $j$ differ in sex and $e_{ij} = 1$ if they differ in ethnicity (both $0$ otherwise):
+\[
+\phi = \begin{pmatrix}
+1 & 0.3 & 0.35 & 0.105\\
+0.3 & 1 & 0.105 & 0.35\\
+0.35 & 0.105 & 1 & 0.3\\
+0.105 & 0.35 & 0.3 & 1\end{pmatrix}.
+\]
+
+\solpart{b} \textbf{Uniform $\bpi$.} With $W^{\max} = \frac14\ones\ones'$, $K = \frac14\phi$ is symmetric, so $\pi_i \propto \sum_j\phi_{ij}$. Every row of $\phi$ sums to $(1+\lambda_g)(1+\lambda_r) = 1.755$: each agent has one partner identical on both attributes, one differing in sex only, one in ethnicity only, and one in both. Hence $\bpi = (0.25,\allowbreak 0.25,\allowbreak 0.25,\allowbreak 0.25)$. Edge suppression is symmetric, so with equal opportunities it cannot create a power gap (Proposition~\ref{ch18:prop:homophily_power}(i)--(ii) with $p = \frac12$).
+
+\solpart{c} \textbf{Population-weighted opportunities.} $K_{ij} = \phi_{ij}n_j$ is not symmetric, but $W$ is reversible with respect to $\pi_i \propto n_i d_i$, where $d_i = \sum_j\phi_{ij}n_j$: indeed $n_id_iW_{ij} = n_in_j\phi_{ij}$ is symmetric. So the per-capita power is $\pi_i/n_i \propto d_i$, and $d_i = (1+\lambda_g)(n^{\text{own eth.}} + \lambda_r n^{\text{other eth.}})$, where $n^{\text{own eth.}}$ and $n^{\text{other eth.}}$ are the population shares of a single sex in the agent's own and in the other ethnic group ($0.295$ and $0.205$ for a non-indigenous agent). Numerically:
+\begin{itemize}
+\item $\bpi = (0.3156,\allowbreak 0.3156,\allowbreak 0.1844,\allowbreak 0.1844)$;
+\item $\pi_i/n_i = (1.070,\allowbreak 1.070,\allowbreak 0.899,\allowbreak 0.899)$.
+\end{itemize}
+The indigenous groups have the lowest per-capita power, and men and women within an ethnic group are identical: gender makes no difference, because the two sexes are of equal size in each ethnic group and $\phi$ treats them symmetrically. $\Gamma(W) = 0.4615$, with eigenvalues $1, 0.5385, 0.4694, 0.2528$.
+
+\solpart{d} \textbf{The ratio.}
+\[
+\frac{\pi_4/n_4}{\pi_1/n_1} = \frac{0.205 + 0.35 \times 0.295}{0.295 + 0.35 \times 0.205} = 0.8405,
+\]
+which equals formula~\eqref{ch18:eq:minority_ratio} with $p = 0.41$ and $\lambda = \lambda_r$, to $10^{-12}$. Compare $\lambda_g\lambda_r = 0.105$. The indigenous woman's \emph{edge} to a non-indigenous man is suppressed to $10.5\%$ of its unconstrained weight. Her \emph{power} is $84\%$ of his per capita, and all of that gap comes from group size; gender contributes nothing. Edge suppression and power are different objects: power depends on the whole degree, and symmetric suppression of cross edges hurts the larger group too. This is the first caution of Section~\ref{ch18:sec:intersection}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.4}{The formation trap}
+
+\solpart{a} \textbf{Set-up.} With own weight $w = 1/(1+\lambda)$,
+\[
+\theta^g_{t+1} = \rho\theta^g_t + (1-\rho)\bar\theta + \mu\big(w\,r^g + (1-w)\,r^{-g} - r^*\big),\qquad r^A = 0.05 + 0.1\theta^A,\ r^D = 0.03 + 0.1\theta^D,
+\]
+with $\rho = 0.85$, $\mu = 0.3$, $\bar\theta = 1$, $r^* = 0.1$. The system is affine, $\btheta_{t+1} = J\btheta_t + \mathbf{c}$, with $J = \rho I + 0.1\mu\begin{pmatrix}w & 1-w\\ 1-w & w\end{pmatrix}$. Its eigenvalues are $\rho + 0.1\mu$ and $\rho + 0.1\mu(2w-1)$, so $\rho(J) = 0.88 < 1$ for every $\lambda$, and the steady state is unique and globally stable (Theorem~\ref{ch10:thm:existence}).
+
+\solpart{b} \textbf{Steady states, $\lambda = 0.25$} ($w = 0.8$). Solving $(I - J)\btheta = \mathbf{c}$: $\theta^{*A} = 1.11364$, $\theta^{*D} = 1.08636$, so $\Delta\theta^* = 0.02727$; returns are $r^A = 0.16136$ and $r^D = 0.13864$.
+
+\emph{Closed form.} Subtracting the two steady-state equations, with $q := 2w - 1 = \frac{1-\lambda}{1+\lambda}$ and $\Delta r = 0.02 + 0.1\Delta\theta$:
+\[
+(1-\rho)\Delta\theta^* = \mu q(0.02 + 0.1\Delta\theta^*) \quad\Longrightarrow\quad \Delta\theta^* = \frac{0.02\,\mu q}{(1-\rho) - 0.1\,\mu q}.
+\]
+At $q = 0.6$ this gives $0.0036/0.132 = 0.02727$. With fixed returns, Proposition~\ref{ch18:thm:attribute_trap} would give $\mathcal{M}q \times 0.02 = 2 \times 0.6 \times 0.02 = 0.024$. Endogenous returns amplify it by $1/(1 - 0.1\mathcal{M}q) = 1.1364$: the self-confirming feedback of item~3 of that proposition.
+
+\solpart{c} \textbf{$\lambda = 0.5$} ($w = 2/3$, $q = 1/3$): $\theta^{*A} = 1.10714$, $\theta^{*D} = 1.09286$, and $\Delta\theta^* = 0.002/0.14 = 0.01429$. The gap shrinks by $0.01299$, i.e.\ by $47.6\%$.
+
+\solpart{d} \textbf{Threshold.} $\Delta\theta^* < 0.01$ iff $0.006q < 0.01(0.15 - 0.03q)$, iff $q < 0.0015/0.0063 = 0.238095$, iff $\lambda > (1-q)/(1+q) = 0.6154$. Above this openness the aspiration gap is below $0.01$, even though the opportunity gap of $0.02$ is unchanged.
+
+\solpart{e} \textbf{Identical opportunity structures.} If $r^g = 0.05 + 0.1\theta^g$ for both groups, then $\Delta r = 0.1\Delta\theta$ and the difference equation becomes $\big[(1-\rho) - 0.1\mu q\big]\Delta\theta^* = 0$. The bracket is at least $0.15 - 0.03 = 0.12 > 0$ for every $q \in [0,1]$, so $\Delta\theta^* = 0$ for every $\lambda$, including complete segregation ($\lambda = 0$, $q = 1$). Numerically, both groups converge to $\theta^* = 1.12500$, which the script checks for $\lambda \in \{0,\allowbreak 0.25,\allowbreak 0.5,\allowbreak 0.9\}$. \emph{Interpretation:} assortative information does not create a gap; it propagates and amplifies an opportunity gap that exists elsewhere, here in the baseline returns. Removing the opportunity gap closes the aspiration gap without any change in $W^I$; raising $\lambda$ shrinks it without any change in opportunities. These are the two levers of Chapter~10.
+
+\emph{Common mistake:} solving each group's equation with the other group's $\theta$ held at the initial value. The two equations must be solved jointly.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.5}{The cost of discrimination}
+
+\textbf{Inputs} (Example~\ref{ch18:ex:cost}): two equal groups, $\kappa = 0.5$, $\Omega/N = \Phi/N = 1$. The power ratio is $r = (a_F + \lambda_gc)/(a_M + \lambda_gc)$ with $a_F = 0.454a_M$ and $c = a_M$: $r = 0.5800$ at $\lambda_g = 0.3$ and $0.7270$ at $\lambda_g = 1$. (The chapter rounds the latter to $0.73$; with $0.73$ exactly the loss would be $0.0061$.) With $N^2\Var(\bpi) = ((1-r)/(1+r))^2$:
+\begin{itemize}
+\item $L_{\text{power}}/N = \frac{\kappa}{2}N^2\Var(\bpi) = 0.01767$ at $\lambda_g = 0.3$, with $x_M = 1.2658$, $x_F = 0.7342$ and $\kappa x < 1$;
+\item $0.00625$ at $\lambda_g = 1$;
+\item cost of discrimination $\Delta L/N = 0.01142$.
+\end{itemize}
+Under the illustrative assumption $L_{\text{formation}} = \Psi L_{\text{power}}$ with $\Psi = 2.3$, the total is $3.3 \times 0.01142 = 0.03768$. The script checks the formula against $U(1) - \frac12[U(x_M) + U(x_F)]$.
+
+\textbf{From utility to GDP.} The losses are in utils, so a conversion is needed. Two choices, stated as assumptions:
+\begin{enumerate}
+\item \emph{Linear money metric}: divide by the marginal utility at the mean, $U'(1) = 1 - \kappa = 0.5$. The power channel then costs $0.0228$ of per-capita GDP, and the total $0.0754$.
+\item \emph{Equally distributed equivalent income} (Atkinson): find $x^{\text{ede}}$ with $U(x^{\text{ede}}) = U(1) - L/N$. Then the cost is $x^{\text{ede}}(\lambda_g = 1) - x^{\text{ede}}(\lambda_g = 0.3)$, which is $0.98758 - 0.96527 = 0.02231$ for the power channel and $0.95959 - 0.88951 = 0.07007$ in total.
+\end{enumerate}
+So discrimination costs about $2$--$2\tfrac14\%$ of GDP through the power channel, and $7$--$7\tfrac12\%$ once formation is included under $\Psi = 2.3$.
+
+\textbf{Comparison with the literature.} The two numbers measure different things.
+\begin{itemize}
+\item Here $\Omega$ is fixed: the bargaining allocation is Pareto efficient, and $L_{\text{power}}$ is a \emph{distributional} loss (\nolinkurl{docs/conventions.md}, \S5). The ``share of GDP'' is an equivalent-income measure of inequality, not output lost.
+\item \citet{cuberes2016aggregate} estimate \emph{output} losses from the misallocation of women's labour and entrepreneurial talent in an occupational-choice model. Their losses are of the order of several percent to well over ten percent of income per capita, depending on the region. (Check the paper's tables for the exact figures; they are not reproduced here.)
+\end{itemize}
+A complete account adds the two: the misallocation loss, which needs $\Omega$ to depend on $\lambda_g$ (outside this chapter's model), and the distributional loss computed here. \emph{Common mistake:} calling $L_{\text{power}}$ a GDP loss.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.6}{Optimal intervention design}
+
+This is an open design question. The numbers below follow from stated illustrative assumptions and the chapter's formulas; they are not estimates.
+
+\solpart{a} \textbf{Three interventions.}
+\begin{enumerate}
+\item \emph{Quota} ($\Delta W^P$): a 30\% female share in new hires in public administration, construction and transport contracts. Assumed effect: $\lambda_g^P$ from $0.30$ to $0.45$.
+\item \emph{Mentoring} ($\Delta W^I$): pairing young women with female and male professionals in male-dominated sectors, one year per cohort. Assumed effect: $\lambda_g^I$ from $0.30$ to $0.40$.
+\item \emph{Media campaign} ($\Delta W^I$): national broadcast and social-media role models. Cheaper, but a weaker change in who observes whom. Assumed effect: $\lambda_g^I$ from $0.30$ to $0.35$.
+\end{enumerate}
+
+\solpart{b} \textbf{$\Delta\lambda_g$ and $\Delta\Gamma$} for each layer, using $\Gamma = 2\lambda/(1+\lambda)$ ($a = c$, Proposition~\ref{ch18:prop:assortative}(a)) from a base $\Gamma = 0.4615$:
+\begin{itemize}
+\item quota: $\Delta\Gamma(W^P) = +0.1592$;
+\item mentoring: $\Delta\Gamma(W^I) = +0.1099$;
+\item media: $\Delta\Gamma(W^I) = +0.0570$.
+\end{itemize}
+
+\solpart{c} \textbf{Total effects.}
+\begin{itemize}
+\item \emph{Quota.} The enforcement effect on the power ratio is $(a_F + 0.45c)/(a_M + 0.45c) - 0.58 = +0.0434$ (Proposition~\ref{ch18:prop:homophily_power}(iii)). With $\Psi = 2.3$, the total is $(1+\Psi)E = +0.1434$. That would lift the ratio to $0.72$, close to its $\lambda_g = 1$ value of $0.727$. This shows how strong the assumption ``formation $= \Psi\times$ enforcement'' is.
+\item \emph{Mentoring and media.} At fixed preferences they change no allocation, so $E = 0$ and $\Psi$ is undefined (Remark~\ref{ch09:rem:psi}(5)). Their effect is pure formation. By Proposition~\ref{ch18:prop:gender_formation}, the steady-state aspiration gap is proportional to $(1-\lambda_g)/(1+\lambda_g)$, which falls by $20.4\%$ (mentoring) and $10.6\%$ (media).
+\end{itemize}
+
+\solpart{d} \textbf{Sequencing.} Following Conjecture~\ref{ch15:thm:sequencing} and the remark ``Policy Instruments for Attribute Constraints'': mentoring first, then media (cheap, and it shifts the next cohort's aspirations), then the quota. The quota's take-up and the retention of hires depend on aspirations, which is the complementarity of Exercise~15.4. If there is no such complementarity, the quota first is better, because it acts on $W^P$ at once.
+
+\textbf{Evaluation design}, which turns the assumed $\Delta\lambda_g$ into estimates:
+\begin{itemize}
+\item \emph{Design}: a cluster-randomized trial of the mentoring programme across municipalities.
+\item \emph{Primary outcome}: female business ownership or employment in male-dominated sectors after two years. \emph{Secondary}: network composition, the measured share of cross-gender contacts, which gives a direct estimate of $\lambda_g^I$.
+\item \emph{Power}: baseline $p_0 = 0.12$ (an assumed value), minimum detectable effect $4$ points, $\alpha = 0.05$ two-sided, power $0.8$. Individual randomization needs $n = (z_{0.975} + z_{0.8})^2 \cdot 2p_0(1-p_0)/\text{MDE}^2 = 2.8016^2 \times 0.2112/0.0016 = 1{,}036$ per arm. With $m = 20$ women per cluster and intra-cluster correlation $0.05$, the design effect is $1 + 19 \times 0.05 = 1.95$, giving $2{,}020$ women per arm, i.e.\ $102$ municipalities per arm.
+\item \emph{Identification threats}: spillovers to control municipalities through regional media (use distant controls or a buffer), and differential attrition of women who migrate for work (track them).
+\end{itemize}
+
+%% ---------------------------------------------------------------------
+\exercisesolution{18.7}{Aspirations data exercise}
+
+\emph{Data status.} No survey with an aspirations module was fetched. Method and expected qualitative result only.
+
+\solpart{a} \textbf{Aspiration gap.}
+\begin{enumerate}
+\item Choose a survey with the question ``how far in school do you want your child to go?'' and with ethnicity (self-identification or mother tongue), household income, location and the child's age. Candidates are a national household survey round with an education module, or a multi-country survey of the MICS or Young Lives type in a country where it exists; check availability before committing.
+\item Code aspirations as desired years of schooling, with a binary ``university'' outcome as a robustness check.
+\item Estimate by survey-weighted OLS
+\[
+\text{asp}_i = \beta_0 + \beta_1\text{Indig}_i + \beta_2\log y_i + \beta_3\text{Urban}_i + \beta_4\text{Indig}_i\times\text{Urban}_i + X_i'\gamma + \varepsilon_i,
+\]
+with $X$ containing the child's age and sex, the mother's education and region fixed effects; cluster standard errors by PSU. The conditional gap is $\beta_1$ (rural) and $\beta_1 + \beta_4$ (urban).
+\end{enumerate}
+
+\solpart{b} \textbf{Consistency with the model.} Proposition~\ref{ch18:thm:attribute_trap} predicts $\Delta\theta^* = \mathcal{M}\frac{1-\lambda_r}{1+\lambda_r}\Delta\bar r$. Two predictions:
+\begin{itemize}
+\item the conditional gap is larger where $W^I$ is more assortative (lower $\lambda_r$);
+\item the gap is zero where opportunity structures are equal (Exercise~18.4(e)).
+\end{itemize}
+Measure $\lambda_r$ directly where possible: the share of the mother's reported contacts or information sources from the other group, or the local index of residential or school segregation. Then interact the indigenous indicator with that measure instead of urban/rural.
+
+\solpart{c} \textbf{Urban La Paz vs.\ rural Altiplano.} The model predicts a smaller conditional gap in urban La Paz (higher $\lambda_r$), i.e.\ $\beta_4 < 0$ if $\beta_1 < 0$. The return gap $\Delta\bar r$ may also differ between the two places, so a smaller urban gap is not by itself evidence for the $W^I$ channel. Control for local returns to schooling by group, e.g.\ the Mincer returns estimated from the same survey. Identification threats:
+\begin{itemize}
+\item selective migration of high-aspiration indigenous families to the city (use the mother's birthplace, or restrict to non-migrants);
+\item self-identification changing with urban residence (use mother tongue as an alternative classification).
+\end{itemize}
+\emph{Expected result:} a negative conditional indigenous gap that is smaller in urban areas. Without data, no magnitude is given.
+
+\endgroup
+\end{document}

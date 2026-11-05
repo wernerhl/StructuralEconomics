@@ -1,0 +1,174 @@
+% Solutions to the exercises of Chapter 22. Numbers: code/solutions/sol22.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{21}}{}% NN-1 when built standalone
+\setcounter{chapter}{21}% NN-1, so this chapter is numbered NN
+\chapter{Measuring the Utility Network}\label{sol22}
+
+Every number below is printed by \texttt{python3 code/solutions/sol22.py}. The transfer matrix, alignment positions and audience table are the book's illustrative inputs. The EH microdata, MEFP budget tables and Latinobar\'ometro were not fetched (\path{data/README.md}, \S9). Remittances and Gini coefficients are from WDI (retrieved 2026-11-05).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.1}{Transfer-revealed $W^U$}
+
+\solpart{Received transfers in the EH: method} EH microdata were not fetched, so this part is method only.
+\begin{enumerate}
+\item From the EH 2019 income module, take each household's transfer income by source: transfers from other households in the country, remittances from abroad, and in-kind transfers valued as reported. Use the variable names and value conventions of the survey's own documentation.
+\item Classify each recipient household into the four groups: urban/rural from the survey's area variable, and indigenous from the head's self-identification or language.
+\item Report weighted totals and means by group and source. As a check, compare total remittances with the balance of payments: WDI gives US\$$1.336$\,bn $= 9.30$\,bn Bs in 2019, or $2.72\%$ of GDP (the peak was $8.04\%$ in 2007). Survey totals typically fall short because of under-reporting.
+\end{enumerate}
+
+\solpart{Why the sender is not identified} The EH interviews the \emph{recipient} household. It records the type of source (a household in Bolivia, a person abroad), not the identity or group of the sender. Each row of the estimable object is therefore a column total of $\tau$: we observe $\sum_{i}\tau_{ij}$ by type of $i$, not $\tau_{ij}$ by group of $i$. Definition~\ref{ch22:def:transfer_WU} needs rows (shares of what $i$ sends), and many different sender matrices share the same column sums. A dyadic module would ask each household, for every transfer sent \emph{and} received, the counterpart's relationship, location, ethnicity and sex. That identifies $\tau_{gg'}$ directly, gives both margins as a consistency check, and supports dyadic regressions with dyad-robust standard errors \citep{fafchamps2007formation}.
+
+\solpart{The illustrative matrix} Row-normalizing the chapter's raw shares gives (senders in rows):
+\[
+W^U = \begin{pmatrix} 0.7500 & 0.1333 & 0.0833 & 0.0333\\ 0.1250 & 0.5000 & 0.0625 & 0.3125\\ 0.1127 & 0.0423 & 0.7042 & 0.1408\\ 0.0375 & 0.1875 & 0.0875 & 0.6875\end{pmatrix}.
+\]
+The eigenvalues are $1$, $0.6999$, $0.6282$ and $0.3137$, all real, so $\Gamma = 0.3001$. The Perron vector is $\bpi = (0.2493, 0.2083, 0.2120, 0.3304)$ (sum $= 1$), and $\Neff = 3.851$ of 4 ($\Neff/n = 0.963$). The ethnic mixing parameter is $\lambda^U_{\text{eth}} = \bar O_{\text{cross}}/\bar O_{\text{within}}$, taken over the 8 cross-ethnic and 8 same-ethnicity cells, diagonal included: $0.0828/0.4172 = 0.198$. Geography gives $0.1089/0.3911 = 0.279$. Rural indigenous households carry the largest Perron weight, because their column sum is the largest ($1.1742$): urban indigenous households send them $0.3125$ of their transfers.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.2}{Experimental design}
+
+\solpart{Design} A directed dictator game run within subjects. Each dictator receives an endowment $E$ and makes nine allocation decisions:
+\begin{itemize}
+\item one for each of the $2 \times 2 \times 2 = 8$ recipient profiles: (a) same or different ethnicity, (b) same or different community, (c) same or different gender;
+\item one for an anonymous stranger, as a baseline.
+\end{itemize}
+One decision is drawn at random and paid. Further details:
+\begin{itemize}
+\item Recipients are real people drawn from lists in the dictator's own and a paired community, so there is no deception.
+\item Each recipient is described by the three attributes alone, through standardized cards and in the respondent's language, so that ethnicity is not confounded with signals of class.
+\item The profile order is randomized.
+\end{itemize}
+\emph{Number of treatments:} 8 profiles plus one baseline. The full factorial is what identifies the separable model and its interaction $\iota$ (Definition~\ref{ch18:thm:intersectionality}). A design with only three ``main effect'' arms cannot test separability.
+
+\solpart{Sample size} The standard deviations used here are design assumptions to be replaced with pilot data, not estimates.
+\begin{itemize}
+\item \emph{Main effects.} To detect a 5-point difference in the share given ($\delta = 0.05$), with an SD of the paired difference of $0.15$, $n = ((1.96 + 0.84)\cdot0.15/0.05)^2 = 70.6 \to 71$ dictators.
+\item \emph{Two-way interaction} (the ethnicity $\times$ community contrast, SD $0.25$): $n = 196.2 \to 197$. With communities of $m = 10$ dictators and an intra-community correlation of $0.05$, the design effect is $1.45$, so $286$ dictators.
+\item \emph{Between-subject alternative} (SD of shares $0.20$): $251$ per arm, $2268$ in total. The within-subject design is about eight times cheaper.
+\end{itemize}
+
+\solpart{From shares to weights} Under log altruism, $W^U = s/(1-s)$ (Definition~\ref{ch22:def:experimental}). The delta method gives $\mathrm{SE}(W) = \mathrm{SE}(s)/(1-s)^2$. With $n = 197$ and $\mathrm{SE}(s) = 0.0142$, this is $0.0184$ at $s = 0.12$ ($W = 0.136$), $0.0253$ at $s = 0.25$ ($W = 0.333$) and $0.0371$ at $s = 0.38$ ($W = 0.613$). The mapping is a modelling assumption: other utility functions give other mappings.
+
+\solpart{Threats} Experimenter demand and norm compliance, which are higher for co-ethnics observed by enumerators; enumerator ethnicity, to be randomized and controlled for; spillovers between dictators in the same community; and the stranger baseline, who may be perceived as a co-villager (Example~\ref{ch22:ex:experimental}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.3}{Fiscal $W^U$}
+
+\emph{Data not fetched}: the MEFP/UDAPE fiscal tables (\path{data/README.md}, \S9). Method:
+\begin{enumerate}
+\item \emph{Revenue.} IDH collections by year, from the tax administration and MEFP execution reports.
+\item \emph{Legal distribution.} The coparticipation rules that split IDH among the central treasury, departmental governments, municipalities, universities and earmarked funds, taken from the legal texts and verified against execution data. The rules are not reproduced here.
+\item \emph{Spending.} Each recipient's spending by programme (Renta Dignidad, Bono Juancito Pinto, investment, wages).
+\item \emph{Incidence.} Programme benefits allocated to the four household groups using EH benefit receipt (for cash transfers) or a stated rule (for public goods).
+\item \emph{Matrix.} Assemble the shares into $W^U_{\text{fiscal}}$.
+\end{enumerate}
+The chapter's illustrative incidence (12\% to poor households, 8\% to non-poor, 25\% reinvested in the sector) leaves $55\%$ unallocated. A real tracing must account for it: administration, other investment, the treasury.
+
+\solpart{Construction} Definition~\ref{ch22:def:fiscal} gives $W^U_{\text{fiscal},gg'} = \text{(net transfer } g \to g')/\text{capacity}_g$. Its row sums are the share of $g$'s fiscal capacity sent to others, so they are below one. To compute $\pi$ or $\Gamma$, add the retained share on the diagonal, which makes the matrix row-stochastic. One complication is specific to the IDH: it is paid by the gas sector, and ultimately by its export customers, not by a household group. In a household-group matrix it has no sender row. It must be treated as an exogenous inflow, or attributed to the owners of the sector's surplus, or to the state.
+
+\solpart{Why it is not anyone's utility weights} $W^U_{ij}$ is a parameter of $U_i$ (Definition~\ref{ch22:def:recall}). A fiscal flow is the \emph{outcome} of a political process: $\tau^{\text{fiscal}} = F(W^U, \bpi, \text{institutions})$.
+\begin{enumerate}
+\item \emph{Non-identification.} Two polities with different $W^U$ but the same $\bpi$ and rules can produce the same flows. A ruler with $W^U = 0$ can redistribute for political survival, and a solidaristic electorate can be blocked by veto players.
+\item \emph{Aggregation.} The inverse-optimal-tax approach recovers at most a \emph{vector} of marginal social welfare weights for the planner \citep{bourguignon2012tax}, not a matrix of interpersonal concern. By Arrow's theorem there is in general no coherent aggregate of individual $W^U$ rows to recover.
+\item \emph{No utility at the source.} The IDH's ``sender'', the gas sector, has no utility at all.
+\end{enumerate}
+$W^U_{\text{fiscal}}$ is therefore a \emph{revealed allocation rule of the polity}. It belongs in the composite as an institutional channel, and should not be read as solidarity.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.4}{The alignment test}
+
+\textbf{Partly ill-posed with the book's inputs.} The Chapter~20 SAM has two household accounts (poor, non-poor), not the four ethnic--geographic groups. Mapping it requires poverty incidence by group from the EH, which was not fetched. And the book's illustrative inputs use inconsistent population shares: Chapter~21's six groups aggregate to $(0.35, 0.25, 0.10, 0.30)$, while Chapter~22 uses $(0.35, 0.25, 0.15, 0.25)$. We solve the closest well-posed version: the measured-style layers where they exist, with Example~\ref{ch22:ex:alignment}'s illustrative $r^P$ in place of the SAM.
+
+\solpart{The three layers on four groups}
+\begin{itemize}
+\item $W^I$: Chapter~21's $6\times6$ media matrix, aggregated by the $\pi$-weighted rule of Definition~\ref{ch19:def:nesting}. Its Perron vector is the block sums, $\bpi^I = (0.35, 0.25, 0.10, 0.30)$, and $\Gamma(W^I_4) = 0.7449$.
+\item $W^U$: the transfer matrix, with $\bpi^U = (0.2493, 0.2083, 0.2120, 0.3304)$.
+\item $W^P$: $\bpi^P = r^P \circ p = (0.525, 0.200, 0.160, 0.115)$, from $r^P = (1.5, 0.8, 1.067, 0.46)$.
+\end{itemize}
+
+\solpart{Correlations}
+\begin{itemize}
+\item Levels: $\operatorname{corr}(\bpi^P, \bpi^U) = -0.175$, $\operatorname{corr}(\bpi^P, \bpi^I) = 0.566$, $\operatorname{corr}(\bpi^I, \bpi^U) = 0.525$.
+\item Per capita (with the Chapter~22 shares): $r^U = \bpi^U/p = (0.712, 0.833, 1.413, 1.322)$, and $\operatorname{corr}(r^P, r^U) = -0.532$.
+\item The media layer is degenerate per capita: $r^I = \bpi^I/p^{(21)} \equiv 1$ (Exercise~21.1), so its correlation with anything is undefined. Dividing by the other chapter's shares produces the spurious $(1, 1, 0.667, 1.2)$.
+\end{itemize}
+
+\solpart{Aligned or compensating?} On the chapter's own transfer matrix, \emph{compensating}. Rural indigenous households are the most cared-about group in $W^U$ ($r^U = 1.32$) and among the weakest in the illustrative $W^P$ ($r^P = 0.46$). This contradicts Example~\ref{ch22:ex:alignment}, which assumes $r^U = 0.30$ for them and reports correlations of $0.96$, $0.98$ and $0.99$. The two examples of the same chapter cannot both describe Bolivia. The test result depends entirely on which illustrative input one adopts, which is the point: alignment is an empirical question (Proposition~\ref{ch22:thm:alignment}). Two further points. Correlations of $\pi$ \emph{levels} mostly reflect group size, so the per-capita version is the relevant one. And with four groups none of these correlations has meaningful sampling precision.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.5}{Misalignment as policy}
+
+\solpart{Rank-one layers (Proposition~\ref{ch22:thm:alignment}(b))} Equal weights, Example~\ref{ch22:ex:alignment}'s positions. \emph{Before:} composite per-capita positions $r = (1.417, 0.900, 1.244, 0.370)$, $\Var(\bpi) = 0.02247$, $\Neff = 2.942$. \emph{Policy:} the utility layer moves towards the indigenous groups, $\bpi^{U\prime} = (1-s)\bpi^U + s\,q$, where $q$ is the indigenous population share normalized to one.
+\begin{center}\small
+\begin{tabular}{lccccc}
+\toprule
+& $r^U_{\text{RI}}$ & composite $r$ & $\Var(\bpi)$ & $\Neff$ & $\operatorname{corr}(\bpi^P,\bpi^U)$ \\
+\midrule
+before & 0.30 & $(1.417, 0.900, 1.244, 0.370)$ & 0.02247 & 2.942 & 0.96 \\
+$s = 0.25$ & 0.725 & $(1.304, 0.983, 1.132, 0.512)$ & 0.01600 & 3.185 & $+0.792$ \\
+$s = 0.50$ & 1.15 & $(1.192, 1.067, 1.019, 0.653)$ & 0.01128 & 3.388 & $-0.027$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+With rank-one layers the composite moves by exactly $\alpha_U$ times the change in the utility layer (verified): $\Delta r_{\text{RI}} = \tfrac13(1.15 - 0.30)$ at $s = 0.5$. Compound disadvantage falls. Rural indigenous households go from $0.370$ to $0.653$ of the average, and concentration falls with them, because the policy lowers the covariance between layers.
+
+\solpart{Full (non-rank-one) layers} Composite of the transfer $W^U$, the aggregated media $W^I_4$ and a rank-one $W^P$, with equal weights. \emph{Policy:} the two indigenous rows of $W^U$ move $0.10$ of their weight from non-indigenous to indigenous recipients (mutual aid among indigenous communities).
+\begin{itemize}
+\item $\bpi^U$ goes from $(0.2493, 0.2083, 0.2120, 0.3304)$ to $(0.1230, 0.2846, 0.0923, 0.5001)$, and $\Gamma(W^U)$ from $0.3001$ to $0.2138$.
+\item The composite $\bpi$ and its per-capita version move as follows:
+\begin{align*}
+\bpi &: (0.4207, 0.2207, 0.1426, 0.2159) \to (0.4097, 0.2286, 0.1327, 0.2290),\\
+\bpi/p &: (1.202, 0.883, 0.951, 0.864) \to (1.170, 0.915, 0.884, 0.916).
+\end{align*}
+\item Composite $\Gamma$ falls from $0.6840$ to $0.6626$, $\Neff$ rises from $3.417$ to $3.446$, and $\Var$ falls from $0.01067$ to $0.01004$.
+\end{itemize}
+
+\solpart{Answer} Yes, compound disadvantage of indigenous households decreases: rural indigenous $0.864 \to 0.916$, urban indigenous $0.883 \to 0.915$. Two qualifications. In the full-matrix case the gain is smaller than the rank-one formula suggests, and \emph{rural non-indigenous} households lose ($0.951 \to 0.884$), because the policy withdraws concern from them. And the policy makes $W^U$ more assortative ($\Gamma(W^U)$ falls), so it trades integration for compensation. Proposition~\ref{ch06:prop:gap-power-independent} again: the two coordinates move separately.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.6}{Cross-country comparison}
+
+\textbf{Partly ill-posed.} Latinobar\'ometro's standard trust item is \emph{generalized} interpersonal trust, one number per respondent, as Example~\ref{ch22:ex:social_cohesion} notes. A matrix $W^U$ on groups needs trust \emph{in} each group, so it cannot be estimated from generalized trust. A respondent-group-by-target-group matrix requires a group-specific battery. Where a wave contains trust items towards specific groups, they can be used; this was not verified, because the data were not fetched (registration).
+
+\solpart{Method (with a group-specific module)}
+\begin{enumerate}
+\item Define the same groups in each country (for instance indigenous or ethnic minority $\times$ urban/rural).
+\item Let $t_{gh}$ be the mean trust of respondents in $g$ towards group $h$ on the 1--4 scale. Rescale to $[0,1]$, set $K_{gh} = (t_{gh} - 1)/3$ and $W^U = D^{-1}K$.
+\item Compute $\Neff^U/n$, $\Gamma$ and $\lambda^U$ on the common node set.
+\end{enumerate}
+
+\solpart{Inequality (sourced)} WDI Gini: Bolivia $41.6$ (2019), Chile $45.3$ (2017, the latest survey year up to 2019), Uruguay $39.7$ (2019). \emph{Expected result:} no inference is possible. With three countries a correlation has one degree of freedom, and even a perfect rank agreement has chance probability $1/6$ (Exercise~21.7). Moreover $\Neff^U/n$ and $\Gamma^U$ are different coordinates. High within-group trust lowers $\Gamma$ without concentrating $\pi$, as in Exercise~22.1, so ``more solidarity'' can move them in opposite directions.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{22.7}{The complete measurement}
+
+\textbf{Illustrative, and partly ill-posed.} Bolivia's welfare loss cannot be decomposed from data in this repository. The SAM's $W^P$ is not on household groups (Exercise~22.4), and the welfare theorem needs $\Omega$, $\kappa$, $\Phi$ and $\gamma_U$, which are not measured. We carry out the computation on the four groups with explicitly illustrative inputs, treating each group as one representative agent. This ignores group sizes. A population-weighted version would replicate agents in proportion to $p$.
+
+\solpart{Composite} The layers are $W^U$, the transfer matrix (Exercise~22.1); $W^I$, the aggregated media matrix (Exercise~22.4); and $W^P = \ones\bpi^{P\prime}$ (illustrative). The weights are Chapter~5's $\alpha_U = 0.2$, $\alpha_P = 0.5$, $\alpha_I = 0.3$ (Example~\ref{ch05:ex:LaPaz}):
+\[
+W = \begin{pmatrix} 0.5545 & 0.2002 & 0.1258 & 0.1195\\ 0.3904 & 0.2802 & 0.1214 & 0.2079\\ 0.3869 & 0.1808 & 0.2524 & 0.1798\\ 0.3345 & 0.2108 & 0.1289 & 0.3258\end{pmatrix}.
+\]
+It is row-stochastic, with eigenvalues $1$, $0.2148$, $0.1279$ and $0.0703$. So $\Gamma = 0.7852$, $\bpi = (0.4541, 0.2167, 0.1436, 0.1856)$ and $\Neff = 3.244$.
+
+\solpart{Welfare decomposition (Theorem~\ref{ch07:thm:decomposition})} The calibration is Chapter~2's four-agent one: $N = 4$, $\Omega = 20$, $\kappa = 0.1$, $\bar d = 3$, so $\Phi = 8$, and $\gamma_U = 0.3$. The care weights $c_j$ are the column sums of the zero-diagonal, row-normalized $W^U$: $c = (0.7510, 1.2762, 0.7383, 1.2345)$, summing to $4$.
+\begin{itemize}
+\item Bargaining allocation, with $\max\kappa x = 0.663 < 1$:
+\[
+x^B = \Omega/N + (\pi - \ones/N)\Phi = (6.6326, 4.7337, 4.1488, 4.4849).
+\]
+\item First best, from $(1+\gamma_Uc_j)(1-\kappa x_j) = \mu$ and $\sum x = \Omega$:
+\[
+x^{FB} = (4.7136, 5.3160, 4.6972, 5.2732).
+\]
+\item Social welfare: $\mathcal S(x^{FB}) = 19.5226$, $\mathcal S(x^E) = 19.5000$, $\mathcal S(x^B) = 19.2126$.
+\end{itemize}
+Then
+\[
+L = 0.31000 = \underbrace{0.18630}_{L_{\text{power}}} + \underbrace{0.02264}_{L_{\text{externality}}} + \underbrace{0.10105}_{L_{\text{interaction}}},
+\]
+which holds exactly (sanity check). The interaction term also matches its closed form, with $\Cov(c,\pi) = -0.011820$.
+
+\solpart{Fractions and reading} Power accounts for $0.601$ of the loss, externality for $0.073$ and interaction for $0.326$. Power dominates because the composite concentrates on urban non-indigenous households ($\pi = 0.454$). The interaction term is large and \emph{adds} to the loss, because $\Cov(c, \pi) < 0$: the powerful group is the least cared-about in $W^U$, so the bargaining tilt takes resources from the groups that others care about most. Had the powerful also been the most cared-about, the term would offset part of $L_{\text{power}}$. \emph{What would be needed for Bolivia:} all three layers measured on the same groups, and $\Phi$, $\kappa$, $\gamma_U$ calibrated or estimated. The fractions above are a property of the illustrative inputs, not an estimate.
+
+\end{document}

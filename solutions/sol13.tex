@@ -1,0 +1,276 @@
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{12}}{}% NN-1 when built standalone
+\setcounter{chapter}{12}% NN-1, so this chapter is numbered NN
+\chapter{How Networks Evolve}\label{sol13}
+\sloppy
+
+All numbers below are printed by \texttt{python3} \nolinkurl{code/solutions/sol13.py}. The script takes about a minute, because Exercise~13.7 runs 1,300 simulations. $\Gamma = 1 - |\lambda_2|$ throughout (Definition~\ref{ch06:def:gap}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.1}{Edge creation by hand}
+$W_t$ is symmetric and doubly stochastic, so $\boldsymbol{\pi} = \frac14\ones$. Its eigenvalues are $1$, $0.96$ (the block-contrast mode $(1,1,-1,-1)'$, eigenvalue $0.6 + 0.38 - 0.02$) and $0.22$ (twice, the within-block contrasts, eigenvalue $0.6 - 0.38$). Hence $\Gamma = 0.04$. In this family $\Gamma = 4c$, where $c$ is the weight of each cross-block entry.
+
+\solpart{a} We use the weighted geodesic distance of Appendix~\ref{ch13:app:distance}, with edge length $1/W_{ij}$:
+\[
+d = \begin{pmatrix} 0 & 2.632 & 100 & 100 \\ 2.632 & 0 & 100 & 100 \\ 100 & 100 & 0 & 2.632 \\ 100 & 100 & 2.632 & 0 \end{pmatrix}.
+\]
+Within-block pairs (1,2) and (3,4) are closest ($1/0.38 = 2.632$). Every cross-block pair is at distance 100. An indirect path (e.g.\ $1\to 2\to 3$, length $102.6$) never beats the direct one. The effective-resistance distance, treating the off-diagonal $W$ as conductances, gives the same ranking: $2.564$ within and $26.282$ across. \textit{Common mistake:} using the unweighted hop count. In this complete graph it puts every pair at distance 1 and makes all edges equally likely.
+
+\solpart{b} With $\Pr(i,j) \propto 1/d(i,j)$ over the six unordered pairs, the weights are $0.38$ (twice) and $0.01$ (four times), summing to $0.80$:
+\[
+\Pr(1,2) = \Pr(3,4) = 0.4750, \qquad \Pr(\text{each cross pair}) = 0.0125 .
+\]
+The most likely new edge is within-block, (1,2) or (3,4), with 95\% of the probability. A cross-block edge forms with probability $0.05$. Note that $1/d_{ij} = W_{ij}$ here, so this creation rule is preferential attachment to existing weight.
+
+\solpart{c} Doubling the cross-block weights gives a total of $0.84$, so $\Pr(1,2) = \Pr(3,4) = 0.4524$ and each cross pair has probability $0.0238$ (cross total $0.0952$). The most likely new edge is \emph{still} within-block. The subsidy roughly doubles the chance of integration, but it does not overturn proximity, which favours within-block pairs by a factor of 38.
+
+\solpart{d} \emph{Rule.} Each period one edge of weight $\delta = 0.05$ is added to a pair drawn with the probabilities above (recomputed from the current $W_t$), symmetrically to $(i,j)$ and $(j,i)$. The rows are then renormalized (the operator $\mathcal{N}$ of Definition~\ref{ch13:def:evolution}). We report the mean-field path (expected increments) and 2,000 stochastic replications.
+\begin{center}
+\begin{tikzpicture}[xscale=0.3, yscale=30]
+\draw[->] (0,0.02) -- (21.5,0.02) node[right, font=\scriptsize] {$t$};
+\draw[->] (0,0.02) -- (0,0.15) node[above, font=\scriptsize] {$\Gamma_t$ (mean field)};
+\foreach \t in {0,5,10,15,20} {\draw (\t,0.0215) -- (\t,0.0185) node[below, font=\tiny] {\t};}
+\foreach \y in {0.04,0.08,0.12} {\draw (0.2,\y) -- (-0.2,\y) node[left, font=\tiny] {\y};}
+\draw[thick, blue!70!black] plot coordinates {(0,0.0400) (2,0.0429) (4,0.0456) (6,0.0483) (8,0.0508) (10,0.0531) (12,0.0554) (14,0.0575) (16,0.0596) (18,0.0615) (20,0.0634)};
+\draw[thick, red!70!black, dashed] plot coordinates {(0,0.0400) (2,0.0475) (4,0.0555) (6,0.0642) (8,0.0733) (10,0.0830) (12,0.0933) (14,0.1040) (16,0.1152) (18,0.1269) (20,0.1391)};
+\node[font=\tiny, blue!70!black, right] at (20,0.0634) {no subsidy};
+\node[font=\tiny, red!70!black, right] at (20,0.1391) {subsidy};
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{5}{c}{mean field $\Gamma_t$} & stochastic $\Gamma_{20}$ \\
+\cmidrule(lr){2-6}
+& $t=0$ & 5 & 10 & 15 & 20 & mean; median; $p_0$ \\
+\midrule
+no subsidy & 0.0400 & 0.0470 & 0.0531 & 0.0586 & 0.0634 & 0.0886; 0.0256; 0.510 \\
+subsidy & 0.0400 & 0.0598 & 0.0830 & 0.1095 & 0.1391 & 0.1952; 0.1796; 0.264 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Here $p_0$ is the probability that no cross-block edge forms in 20 periods. Two lessons.
+\begin{enumerate}
+\item In the mean field, $\Gamma$ rises slowly even without the subsidy. Because $\Pr \propto W_{ij}$, new weight is added in proportion to existing links and the self-weights shrink ($W_{ii}$: $0.60 \to 0.37$). The cross-block share of each row therefore rises ($0.01 \to 0.016$), while the within/cross ratio stays fixed.
+\item The realized process is very different from the mean field. Without the subsidy, in 51\% of replications \emph{no} cross edge forms in 20 periods. Within-block edges then dilute the cross weights, and $\Gamma_{20} = 0.025$, \emph{below} its start. The median path fragments. The subsidy halves that probability (26\%) and raises the median $\Gamma_{20}$ to $0.180$.
+\end{enumerate}
+Proximity-driven creation makes integration a low-probability event (Conjecture~\ref{ch13:thm:path_dependence}(3)), and a cross-block subsidy changes the odds without changing which edge is most likely.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.2}{Structural equilibria}
+\solpart{a} \emph{Power and gap along the family.} Let $W(c) = (1-c)B + c\ones\mathbf{s}'$ (equation~\eqref{ch13:eq:Wc}). Since $\mathbf{s}$ is constant within blocks, $(\mathbf{s}'B)_j = \sum_{i \in b(j)}\tfrac12 s_i = s_j$, so $\mathbf{s}'B = \mathbf{s}'$ (the script prints it). Then
+\[
+\mathbf{s}'W(c) = (1-c)\mathbf{s}'B + c(\mathbf{s}'\ones)\mathbf{s}' = (1-c)\mathbf{s}' + c\,\mathbf{s}' = \mathbf{s}'.
+\]
+For $c > 0$, $W(c)$ is strictly positive, so the Perron vector is unique, and $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$. For the spectrum, the span of the three block indicators $\mathbf{e}_b$ is invariant: $W(c)\mathbf{e}_b = (1-c)\mathbf{e}_b + c\,s_b\ones$, where $s_b = \mathbf{s}'\mathbf{e}_b$. On that span $W(c)$ acts as $(1-c)I_3 + c\ones\mathbf{s}_{\text{blk}}'$, with eigenvalues $1$ and $1-c$ (twice). On the complement (vectors summing to zero within each block) $B\mathbf{v} = 0$ and $\mathbf{s}'\mathbf{v} = 0$, so $W(c)\mathbf{v} = 0$. Hence $\Gamma(W(c)) = 1 - (1-c) = c$. The script confirms the spectrum $\{1, 1-c, 1-c, 0, 0, 0\}$ at $c = 0.05, 0.3, 0.65$.
+
+\emph{The three conditions of Definition~\ref{ch13:def:structural_eq}.}
+\begin{center}
+\small
+\begin{tabular}{lccccc}
+\toprule
+& $c$ & $|F(c) - c|$ & $\max|\boldsymbol{\theta}^* - T(\boldsymbol{\theta}^*)|$ & $\max|\x^* - h|$ & $g'(c) = 1 - \eta + \eta F'(c)$ \\
+\midrule
+$W^*_A$ & 0.0718 & $1\times 10^{-17}$ & $0$ & $0$ & 0.964 (stable) \\
+$\hat c$ & 0.2816 & $6\times 10^{-17}$ & $0$ & $0$ & 1.045 (unstable) \\
+$W^*_B$ & 0.6425 & $1\times 10^{-16}$ & $2\times 10^{-16}$ & $0$ & 0.955 (stable) \\
+\bottomrule
+\end{tabular}
+\end{center}
+Condition~1 holds because $\x^*$ is computed from $h(\boldsymbol{\pi}(W), \boldsymbol{\theta}^*, \boldsymbol{\omega})$; $\sum_i x_i^* = 6$ in each case. Condition~2 holds because $\boldsymbol{\theta}^* = \theta^{\circ}\ones + \mathcal{M}(W(c)\mathbf{r} - r^*\ones)$ is the fixed point of the affine formation map with $W^I = W(c)$. Condition~3 holds because $c\mapsto(1-\eta)c + \eta F(c)$ leaves $c$ unchanged exactly when $F(c) = c$. Stability follows from Proposition~\ref{ch13:prop:phase}: $F'(c_A) = 0.282$, $F'(\hat c) = 1.907$, $F'(c_B) = 0.099$. The equilibrium values are $\boldsymbol{\theta}^*_A = (1.128, 1.128, 1.029, 1.029, 0.955, 0.955)$, $\x^*_A = (1.174, \ldots, 0.851)$, $\boldsymbol{\theta}^*_B = (1.089, \ldots, 1.022)$ and $\x^*_B = (1.118, \ldots, 0.902)$, as in Example~\ref{ch13:ex:bolivia_two}.
+
+\solpart{b} Bisection on $F(c) - c$ over the bracket containing the middle sign change gives $\hat c = 0.2816$. Within the family, $\|W(c) - W(c_A)\|_F = |c - c_A|\,\|\ones\mathbf{s}' - B\|_F$, and the basin of $B$ is $\{W(c): c > \hat c\}$. Hence
+\[
+\varepsilon^* = \inf_{c > \hat c}|c - c_A|\,\|\ones\mathbf{s}' - B\|_F = (0.2816 - 0.0718)\times 1.4629 = 0.2098\times 1.4629 = 0.307 .
+\]
+The infimum is not attained: a push of exactly $\varepsilon^*$ lands on the unstable point. \textit{Caveat:} the evolution map is defined only on the one-parameter family, so $\varepsilon^*$ is the Frobenius distance to the basin \emph{within that family}. Definition~\ref{ch13:prop:cost} over all of $\mathcal{W}_\varepsilon$ would need $\mathcal{E}$ off the family.
+
+\solpart{c} Lowering the proximity weight in $F$ from $12$ to $8$:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+proximity weight & $c_A$ & $\hat c$ & $c_B$ & $\varepsilon^*$ \\
+\midrule
+12 & 0.0718 & 0.2816 & 0.6425 & 0.307 \\
+8 & 0.1434 & 0.2473 & 0.6132 & 0.152 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The fragmented equilibrium becomes less fragmented ($c_A$ doubles), the threshold falls, and the integrated equilibrium is slightly less integrated. The escape cost halves. The slopes are $F' = 0.742, 1.246, 0.325$; $c_A$ is still stable but closer to losing stability. Scanning the weight: the trap exists for weights $8$--$12$ and has disappeared at $7$, leaving a single integrated equilibrium ($c = 0.592$ at $7$, $0.555$ at $6$, $0.484$ at $5$). This supports item~2 after Definition~\ref{ch13:prop:cost}: lock-in is costly when proximity dominates link creation. Proximity is what makes $F$ steep in $c$, and steepness, i.e.\ complementarity, is what creates multiplicity.
+
+\solpart{d} Welfare at $A$ and $B$, using Chapter~12's four approaches with $\kappa = 0.5$, aspiration multiplier $0.8$ and $W^I = W(c)$:
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+Criterion & $A$ ($c = 0.072$) & $B$ ($c = 0.643$) & $B - A$ \\
+\midrule
+$W_1$: endogenous, $\mathbf{a} = 0.8\,W(c)\x$ & 1.1228 & 1.0404 & $-0.0824$ \\
+$W_2$: laundered, $\hat a = 0.8\bar x = 0.8$ & 1.1134 & 1.1280 & $+0.0146$ \\
+$W_3$: anchor, $\mathbf{a} = 0$ & 4.4734 & 4.4880 & $+0.0146$ \\
+Capability, $\min_i e_i$ & 0.9333 & 0.9333 & 0 \\
+Process $(\Neff(\boldsymbol{\pi}), \Neff(\boldsymbol{\pi}^I), \Gamma(W^I))$ & $(5.263, 5.263, 0.072)$ & $(5.263, 5.263, 0.643)$ & $\Gamma$ up \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item \emph{Fixed-aspiration criteria} ($W_2$, $W_3$; $W_4 = W_2$ with $\Wce$) rank $B$ higher. They depend only on $\Var(\x)$, which falls from $0.01773$ to $0.00803$ because rural preferences, and hence allocations, rise ($x_{\text{rural}}$: $0.851 \to 0.902$). The two gains are identical because $\sum_i v(x_i - \hat a) = Nv(1 - \hat a) - \frac{\kappa N}{2}\Var(\x)$ for any common $\hat a$ (Proposition~\ref{ch12:thm:structural_welfare}).
+\item \emph{Endogenous welfare} ranks $B$ \emph{lower}. Integration makes the rural block watch the gas block, so rural aspirations rise faster than rural allocations (rural $s$: $0.152 \to 0.109$). This is the satisfaction paradox in reverse (Proposition~\ref{ch12:thm:paradox}).
+\item \emph{Capability} records no change: $e_i = \omega_i + \pi_i\Phi$ and $\boldsymbol{\pi} = \mathbf{s}$ in both equilibria. Any capability gain would have to come through conversion factors $c_i$, which this model does not specify.
+\item \emph{Process:} $B$ is process-superior, equal on both $\Neff$ coordinates and strictly higher on $\Gamma(W^I)$.
+\end{itemize}
+The transition is therefore \emph{not} robustly ranked in the multi-criteria sense (Proposition~\ref{ch12:prop:robust}), because $W_1$ disagrees. It is a gain under every criterion that does not let the new aspirations judge the new structure. \textit{Common mistake:} expecting integration to redistribute power. In this family $\boldsymbol{\pi}$ is fixed, and the gains come from preference formation alone.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.3}{Bolivia's gas nationalization}
+\solpart{a} This is an \illustrative{} four-node model with nodes (MNC, Gas company, Government, Traditional sector); row $i$ gives $i$'s input/revenue dependence. Following Example~\ref{ch13:ex:gas}, the fiscal linkage is modelled as an edge, which requires the government to be a node.
+\[
+W^P_{\text{before}} = \begin{pmatrix} 0.70 & 0.25 & 0.03 & 0.02 \\ 0.55 & 0.30 & 0.10 & 0.05 \\ 0.05 & 0.15 & 0.50 & 0.30 \\ 0.02 & 0.03 & 0.15 & 0.80 \end{pmatrix},\qquad
+W^P_{\text{after}} = \begin{pmatrix} 0.85 & 0.10 & 0.03 & 0.02 \\ 0.10 & 0.40 & 0.40 & 0.10 \\ 0.02 & 0.35 & 0.40 & 0.23 \\ 0.02 & 0.03 & 0.15 & 0.80 \end{pmatrix}.
+\]
+\emph{Destruction:} the gas company's dependence on the MNC falls from $0.55$ to $0.10$. \emph{Creation:} gas $\to$ treasury rises from $0.10$ to $0.40$, and the government's weight on gas revenue from $0.15$ to $0.35$. The MNC reorients its own row away from Bolivia. The traditional sector's row is unchanged. All rows sum to one.
+
+\solpart{b} The eigenvalues before are $(1, 0.844, 0.394, 0.062)$ and after $(1, 0.831, 0.607, 0.012)$, so
+\[
+\Gamma_{\text{before}} = 0.156, \qquad \Gamma_{\text{after}} = 0.169 .
+\]
+In this toy $\Gamma$ rises slightly. The slowest mode (the MNC-and-gas block vs.\ the domestic block) loosens a little, because gas now links to the government. The direction depends on the matrices chosen, and the measured economy went the other way. On INE's 12-sector domestic tables (base 1990, input shares), $\Gamma(W^P)$ was $0.518$ in 2006 and $0.484$ in 2013, with $0.514$ (2003), $0.502$ (2005) and $0.504$ (2009) around it \citep{ine2026sut}. The toy's rise comes entirely from counting the treasury link as a production edge. INE's industry tables contain no such edge, because the IDH is a fiscal flow, not an intermediate purchase. That is the point of the book's remark that the gas-to-treasury channel is a \emph{fiscal} linkage in Hirschman's sense.
+
+\solpart{c} Perron vectors:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& MNC & Gas & Government & Traditional \\
+\midrule
+$\boldsymbol{\pi}_{\text{before}}$ & 0.3695 & 0.1769 & 0.1489 & 0.3046 \\
+$\boldsymbol{\pi}_{\text{after}}$ & 0.2056 & 0.1870 & 0.2294 & 0.3779 \\
+$\Delta\boldsymbol{\pi}$ & $-0.1639$ & $+0.0101$ & $+0.0805$ & $+0.0733$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Neff$ rises from $3.54$ to $3.67$. The MNC loses most of its power, and the government gains most. The gas company gains little ($+0.010$): its incoming weight from the government rises, but it loses the MNC's weight ($0.25 \to 0.10$). The traditional sector gains indirectly, through the government's continued weight on it. The first-order formula $\Delta\boldsymbol{\pi}' \approx \boldsymbol{\pi}'EZ$ (Lemma~\ref{ch06:lem:perturbation}) gives $(-0.149, -0.041, +0.090, +0.101)$. The perturbation is large: first order gets three of the four signs right, but not the gas company's, so use the exact recomputation. The data agree on the direction for hydrocarbons: $\pi_{\text{hydrocarbons}}$ in the measured $W^P$ rose from $0.064$ (2006) to $0.085$ (2013) (\texttt{data/processed/bolivia\_io\_pi.csv}).
+
+\solpart{d} Probably yes, but this is a hypothesis; no data on $W^I$ are used here. Hydrocarbon revenue was channelled through the treasury into visible programmes (the IDH-financed transfers discussed in Chapter~22). That raises the weight the traditional and urban-popular blocks place on the state's returns, i.e.\ the government's column of $W^I$, and makes the state a reference point for aspirations. In the formation model this is a $\Delta W^I$ toward the government node. By Proposition~\ref{ch10:prop:levers}(3) its effect works entirely through formation: no enforcement at fixed preferences, and preference effects over generations. The direction for the \emph{MNC} column is the opposite: foreign firms became less observed as a source of returns. Testing it would need media-audience or survey trust data by group, which are not available here (\texttt{data/README.md}, \S9).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.4}{The principle of relatedness}
+\solpart{a} Relatedness density \citep{hidalgo2007product} is $\omega_{cp} = \sum_q\phi_{pq}M_{cq}/\sum_q\phi_{pq}$. On the ring every row of $\phi$ sums to $2(0.3) + 2(0.05) = 0.7$. With $M = \{1, 2\}$:
+\[
+\begin{aligned}
+\omega &= \Big(\tfrac{0.3}{0.7},\ \tfrac{0.3}{0.7},\ \tfrac{0.3 + 0.05}{0.7},\ \tfrac{0.05}{0.7},\ \tfrac{0.05}{0.7},\ \tfrac{0.3 + 0.05}{0.7}\Big)\\
+&= (0.4286,\ 0.4286,\ 0.5000,\ 0.0714,\ 0.0714,\ 0.5000).
+\end{aligned}
+\]
+Product 4 is opposite 1 (distance 3, $\phi = 0$) and at distance 2 from product 2; product 5 is the mirror image of product 4.
+
+\solpart{b} Among the products not yet produced, 3 and 6 tie at $\omega = 0.50$, and 4 and 5 trail at $0.071$. The next entry is 3 or 6, each seven times as dense as 4 or 5.
+
+\solpart{c} Product 5 is at ring distance 2 from product 1 (via 6) and 3 from product 2. Moving one adjacent step per generation, the shortest path is $\{1,2\} \to +6 \to +5$: two steps, i.e.\ two generations. After entering 6, $\omega = (0.857, 0.5, 0.5, 0.143, 0.5, 0.5)$, so 5 ties for the top density with 2 and 3. If the tie in (b) is broken toward 3, the path $\{1,2,3\}$ gives $\omega_5 = 0.143$ and $\omega_4 = 0.5$, and reaching 5 takes three steps ($3 \to 4 \to 5$). The expected time therefore exceeds two generations unless the first step is steered.
+
+\solpart{d} The product-space distance is the discrete analogue of the escape threshold $\varepsilon^*$ (Definition~\ref{ch13:prop:cost}). Both measure how far the current structure is from the basin in which the target becomes self-sustaining. There are two ways to cover the distance:
+\begin{itemize}
+\item \emph{Stepping stones:} a sequence of steps, each small and probable, which costs time (two generations here) but little push per step.
+\item \emph{A jump:} enter product 5 directly. With a logistic entry rule $\sigma(p_0 + p_1\omega)$ (equation~\eqref{ch13:eq:creation}), making 5 as likely as 6 requires a subsidy worth $p_1(0.5 - 0.0714) = 0.4286\,p_1$ logit units: $0.857$ at $p_1 = 2$ and $2.143$ at $p_1 = 5$.
+\end{itemize}
+The stronger proximity is ($p_1$), the costlier the jump relative to the path. This mirrors Exercise~13.2(c), where the escape cost rises with the proximity weight. Strategic ``long jumps'' are costly for the same reason that $\varepsilon^*$ is large.
+
+\solpart{e} \textbf{Data status: not fetched.} The country $\times$ product RCA matrix and the product-space proximities are not in \texttt{data/processed}. The Growth Lab file needed (about 451~MB) is listed as fetchable but not done (\texttt{data/README.md}, \S9). No relatedness value is reported here. \emph{Method:}
+\begin{enumerate}
+\item Download the HS92 (4-digit) country $\times$ product export values from the Growth Lab Dataverse (doi:10.7910/DVN/T4CHWJ) for a recent year, e.g.\ 2019, and record the release.
+\item Compute $\text{RCA}_{cp} = (X_{cp}/\sum_p X_{cp})/(\sum_c X_{cp}/\sum_{c,p}X_{cp})$ and $M_{cp} = \mathbf{1}[\text{RCA}_{cp} \ge 1]$, using a three-year average to reduce noise.
+\item Compute proximities $\phi_{pq} = \min\{\Pr(M_{cp} = 1 \mid M_{cq} = 1), \Pr(M_{cq} = 1 \mid M_{cp} = 1)\}$ over all countries (Appendix~\ref{ch13:app:distance}), or download the Atlas proximity file.
+\item Compute $\omega_{\text{BOL},p} = \sum_q\phi_{pq}M_{\text{BOL},q}/\sum_q\phi_{pq}$ for all $p$ with $M_{\text{BOL},p} = 0$, and list the top five.
+\end{enumerate}
+\emph{Expected qualitative result:} Bolivia's basket is concentrated in natural gas, ores and metals, gold, and soy and other agricultural products (WDI: ores and metals $28.7\%$ and fuels $32.1\%$ of merchandise exports in 2019; \nolinkurl{data/processed/bolivia_facts.csv}). The highest-density unexported products should therefore lie near the primary-products periphery: other ores, concentrates and basic metal products, and processed agricultural goods. Densities should be low overall compared with Korea's, as Section~\ref{ch13:sec:relatedness} anticipates. The ranking itself must come from the data.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.5}{Sunkel's integration/disintegration}
+\solpart{a}
+\[
+W^P_{\text{after}} = \begin{pmatrix} 0.45 & 0.35 & 0.20 \\ 0.25 & 0.60 & 0.15 \\ 0.20 & 0.20 & 0.60 \end{pmatrix},
+\]
+with every row summing to $1$ and every entry nonnegative.
+
+\solpart{b} Domestic submatrix (Elite, Mass), rows renormalized:
+\[
+\text{before: } \begin{pmatrix} 0.75 & 0.25 \\ 0.25 & 0.75 \end{pmatrix},\ \lambda_2 = 0.5,\ \Gamma = 0.500;
+\]
+\[
+\text{after: } \begin{pmatrix} 0.8 & 0.2 \\ 0.25 & 0.75 \end{pmatrix},\ \lambda_2 = 0.55,\ \Gamma = 0.450 .
+\]
+
+\solpart{c} Globally, the eigenvalues before are $1$ and $0.4$ (twice), so $\Gamma = 0.600$. After, they are $1, 0.4396, 0.2104$, so $\Gamma = 0.560$.
+
+\solpart{d} No. Domestic $\Gamma$ falls, as Sunkel predicts, but global $\Gamma$ falls too. \emph{Why.} $W_{\text{before}}$ is symmetric with a double eigenvalue $0.4$, so first-order perturbation must be done on the whole eigenspace. Restrict $E = W_{\text{after}} - W_{\text{before}}$ to it, $V'EV$. Its eigenvalues are $+0.0396$ and $-0.1896$, so the leading eigenvalue moves to $0.4396$, which matches the exact value. In a symmetric three-node world there is no single binding cut. The reroute strengthens the Center--Elite link, but it weakens the Elite--Mass link, which is part of the slowest remaining mode, so integration falls.
+
+\emph{A starting matrix for which the prediction holds.} Make the Center the bottleneck:
+\[
+W'_{\text{before}} = \begin{pmatrix} 0.90 & 0.05 & 0.05 \\ 0.05 & 0.60 & 0.35 \\ 0.05 & 0.35 & 0.60 \end{pmatrix},
+\]
+with eigenvalues $1, 0.85, 0.25$. The slowest mode is $v_2 \propto (-0.8165, 0.4082, 0.4082)$, Center against periphery. Apply the same reroute: $W'_{12}$ rises by $0.15$, taken from the Center's self-weight, and $0.05$ moves from Elite$\to$Mass to Elite$\to$Center. Then
+\[
+\Gamma_{\text{global}}: 0.150 \to 0.317 \ (\text{rises}), \qquad \Gamma_{\text{domestic}}: 0.737 \to 0.702 \ (\text{falls}).
+\]
+First order: $d\lambda_2 = v_2'Ev_2 = -0.175$ (predicting $\lambda_2 = 0.675$; exact $0.683$). Sunkel's pattern requires two things. (i) The binding (slowest) cut of the global network is Center vs.\ periphery. (ii) The rerouted weight comes from links that do \emph{not} cross that cut: the Center's self-weight, or the periphery's internal links. The domestic loss then lowers domestic $\Gamma$ without touching the global bottleneck. The Cheeger bounds of Proposition~\ref{ch13:prop:integration} formalize (i): $\Gamma$ moves with the conductance of the weakest cut. If the weakest cut is domestic, as in the symmetric case, elite rerouting lowers both $\Gamma$'s. The prediction is about where the bottleneck is, not an identity, which is the Key Insight of Section~\ref{ch13:sec:integration}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.6}{WWII as structural change}
+The exercise leaves the model open. We use the block-level formation equation (Chapter~10), with every number \illustrative.
+\begin{itemize}
+\item \emph{Production.} $k_t := W^P_{F,\text{market}}$ is women's weight on market production. The return to market work observed among women is $r_{F,t} = \bar r k_t$, with $\bar r = 0.2$; men are fully in the market ($r_M = \bar r$).
+\item \emph{Information.} $\ell_t := W^I_{F,M}$ is the weight girls place on market (men's) returns. Women's signal is $s_t = (1-\ell_t)r_{F,t} + \ell_t\bar r$.
+\item \emph{Formation.} $\theta_{F,t+1} = \rho\theta_{F,t} + (1-\rho)\theta^{\circ} + \mu(s_t - r^*)$, with $\rho = 0.6$, $\mu = 0.5$ ($\mathcal{M} = 1.25$), $\theta^{\circ} = 0.5$, $r^* = 0.16$.
+\end{itemize}
+
+\solpart{a} Pre-war: $W^P$ is block-diagonal ($k = 0$) and $W^I$ too ($\ell = 0$). Then $s = 0$ and $\theta_F^* = 0.5 + 1.25(0 - 0.16) = 0.300$, as required. Men's steady state is $\theta_M^* = 0.5 + 1.25(0.2 - 0.16) = 0.550$.
+
+\solpart{b} War: $k$ jumps to $0.5$, a large cross-block edge in $W^P$. The \emph{immediate} effect on $\theta$ is zero. Preferences are predetermined within a generation, and the war is an enforcement shock to allocations (women's employment), not to $\theta$. What changes at once is the signal, $s$: $0 \to 0.1$. The next generation inherits $\theta = 0.6(0.3) + 0.2 + 0.5(0.1 - 0.16) = 0.350$ ($+0.050 = \mu\Delta s$).
+
+\solpart{c} Post-war: the production edge partly reverses ($k = 0.2$), but children of wartime workers keep information edges to the market ($\ell = 0.3$). Then $s = 0.7(0.04) + 0.3(0.2) = 0.088$. Iterating from $0.350$:
+\[
+\theta_F: 0.300 \ (\text{pre-war}) \to 0.350 \to 0.374 \to 0.388 \to 0.397,
+\]
+with new steady state $0.5 + 1.25(0.088 - 0.16) = 0.410$.
+\solpart{d} $\theta_F^*$ does not return to $0.3$; it converges to $0.41$. In the affine model persistence needs a permanent change in structure, not just a past shock. Counterfactuals:
+\begin{itemize}
+\item full reversal ($k = \ell = 0$): $0.330, 0.318, 0.311 \to 0.300$, i.e.\ no hysteresis (Proposition~\ref{ch09:thm:hysteresis});
+\item only the $W^I$ change persists ($k = 0$, $\ell = 0.3$): steady state $0.375$;
+\item only the partial $W^P$ change persists ($k = 0.2$, $\ell = 0$): steady state $0.350$.
+\end{itemize}
+Lasting multiplicity would need nonlinear returns, as in Example~\ref{ch10:ex:trap}, or the network complementarity of Example~\ref{ch13:ex:bolivia_two}. \citet{fernandez2013cultural} models the twentieth-century rise in female participation as \emph{learning} about the cost of working from observing working women. In this model that is the $\ell$ channel: what daughters see. Her mechanism adds an S-shaped dynamic absent from the affine model: the more women work, the more informative the signal. That would turn a temporary shock into a permanent one if it pushes beliefs past a threshold. Empirically, \citet{fernandez2004mothers} document an intergenerational channel through sons: men raised by working mothers are more likely to have working wives, a cross-gender $W^I$ edge. The reversal of much wartime employment by 1950 \citep{goldin1991role} is the $k$ channel switching off.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{13.7}{Network evolution simulation}
+\textbf{Program} (in \texttt{code/solutions/sol13.py}; an open design, with every parameter \illustrative). $N = 8$. Every row keeps a self-weight $0.2$, and links carry the other $0.8$. Each period:
+\begin{enumerate}
+\item \emph{Bargaining:} $\boldsymbol{\pi} = \boldsymbol{\pi}(W_t)$ and $x_i = 1 + 4(\pi_i - 1/8)$.
+\item \emph{Surplus:} $s_{ij} = 0.2 - |x_i - x_j|$; links between very unequal agents are unprofitable.
+\item \emph{Creation} (equation~\eqref{ch13:eq:creation}): $C_{ij} = \sigma\big(-2 + p_1(a_{ij} - 1) + 2s_{ij}\big)$. Proximity $a_{ij} = (W_t^2)_{ij}/\text{mean}$ is the two-step reach (friends of friends), normalized to mean one, so $p_1$ changes the contrast and not the average rate.
+\item \emph{Destruction} (equation~\eqref{ch13:eq:destruction}): $D_{ij} = 0.05 + \max(0, -s_{ij})$.
+\item \emph{Reweighting:} $+0.02\,s_{ij}W_{ij}$.
+\item \emph{Update:} $W_{t+1} = \mathcal{N}\big((\ones\ones' - D)\circ W_t + 0.05\,C + 0.02\,S\circ W_t\big)$ on the links, then restore the self-weight.
+\end{enumerate}
+Initial networks: 100 draws with Dirichlet$(0.5)$ rows (median $\Gamma_0 = 0.631$, range $0.446$--$0.740$). The same 100 draws are used for every $p_1$ (common random numbers). We run $T = 400$ periods.
+
+\solpart{a}--\solpart{c} Results ($\Gamma > 0.3$ is integrated, $\Gamma < 0.1$ fragmented):
+\begin{center}
+\small
+\begin{tabular}{lcccccccccc}
+\toprule
+$p_1$ & 0 & 0.25 & 0.5 & 0.75 & 1.0 & 1.25 & 1.5 & 1.75 & 2.0 & 3.0 \\
+\midrule
+integrated & 1.00 & 1.00 & 1.00 & 0.88 & 0.29 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 \\
+fragmented & 0.00 & 0.00 & 0.00 & 0.01 & 0.08 & 0.76 & 0.71 & 0.99 & 1.00 & 1.00 \\
+median $\Gamma_T$ & 0.808 & 0.898 & 0.803 & 0.762 & 0.200 & 0.085 & 0.062 & 0.073 & 0.068 & 0.025 \\
+settled & 1.00 & 0.86 & 0.05 & 0.01 & 0.00 & 0.00 & 0.00 & 0.03 & 0.69 & 0.69 \\
+\bottomrule
+\end{tabular}
+\end{center}
+(``Settled'': last-period change in $W$ below $10^{-4}$.) With weak proximity, every starting network converges to a well-mixed structure. For $p_1 = 0$ the off-diagonal entries end between $0.008$ and $0.132$ and $\Gamma = 0.81$. With strong proximity, every network fragments into small cliques. In a typical $p_1 = 3$ outcome, agents split into groups $\{1,4,7\}$, $\{2,5,8\}$ and the pair $\{3,6\}$, with cross weights of $0.01$ or less and $\Gamma = 0.0255$. The fraction depends on $p_1$ monotonically up to sampling noise (the dip at $1.5$ is within it). Between the regimes there is a band ($p_1 \approx 0.75$--$1.5$) where many runs are ``neither'' and have not settled after 400 periods. This is critical slowing down near the transition: the system lingers between configurations.
+
+\solpart{d} The fragmented share first exceeds 50\% between $p_1 = 1.0$ (8\%) and $1.25$ (76\%); linear interpolation gives $p_1^* \approx 1.15$. With $T = 800$ the shares at $p_1 = 1.0, 1.25, 1.5$ are $9\%$, $89\%$ and $66\%$ fragmented, so the threshold is robust to the horizon. The number itself depends on every design choice (the logistic intercept, the surplus weight, the self-weight); the qualitative result does not. Once $p_1$ exceeds about $1.15$, proximity-driven creation locks in whatever clustering the initial network contains. This is Conjecture~\ref{ch13:thm:path_dependence}(3) in a simulation, not a proof. \textit{Common mistakes:} classifying after too few periods near the threshold, and comparing $p_1$ values with different random starting networks.
+
+\fussy
+\end{document}

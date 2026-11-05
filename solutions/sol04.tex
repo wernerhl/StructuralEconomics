@@ -1,0 +1,254 @@
+% Solutions to the exercises of Chapter 4. Numbers: code/solutions/sol04.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{3}}{}% NN-1 when built standalone
+\setcounter{chapter}{3}% NN-1, so this chapter is numbered NN
+\chapter{What the Standard Model Assumes}\label{sol04}
+\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol04.py}. A1--A6 are the assumptions of Definition~\ref{ch04:def:six}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.1}{Classifying failures}
+
+For each scenario, the answer names the violated assumptions, the formal object, and the one that matters most.
+
+\solpart{a} \emph{Landlord and three tenants, no outside labour market.}
+\begin{itemize}
+\item Violated: A4 (no anonymous market; terms are set by bilateral bargaining) and A5 (the landlord's position gives him a large $\pi_i$).
+\item Formal object: the surplus is divided by $x_i = d_i + \pi_i(\Omega - \sum_jd_j)$ (Proposition~\ref{ch01:prop:nash_division}). With no outside labour market, the tenants' disagreement payoffs $d_i$ are also low.
+\item Most important: A4/A5. Note that the loss is distributional, not a Pareto inefficiency: weighted Nash bargaining is efficient (Proposition~\ref{ch04:prop:A4_loss}). A1 may also fail (patron--client obligations), but it is not the defining feature.
+\end{itemize}
+
+\solpart{b} \emph{Algorithmic content shifts purchasing behaviour.}
+\begin{itemize}
+\item Violated: A3 (a platform-shaped $W^I$ that is star-like, with the platform at the hub; Section~\ref{ch04:sec:A3}) and, if purchases move because tastes move rather than beliefs about products, A6.
+\item Most important: A6 if the shift persists after the content stops (preferences changed), A3 if it reverses (beliefs changed). A strong answer names this test: persistence after the signal is removed is the empirical signature of formation (Chapter~11).
+\end{itemize}
+
+\solpart{c} \emph{Gas revenues redistributed through transfers, the gas sector an enclave.}
+\begin{itemize}
+\item Violated: A2. The production structure is treated as given, and policy acts on $\boldsymbol\omega$, not on $A$ (Chapter~3, Section~\ref{ch03:sec:trickle}). The rents also give the state a central position in the fiscal network.
+\item Most important: A2. The transfers can equalize consumption without changing $A$, so the enclave persists.
+\end{itemize}
+
+\solpart{d} \emph{A girl in Potos\'i develops new aspirations.}
+\begin{itemize}
+\item Violated: A6, through a change in A3: $W^I$ changed (the phone), and $\theta_i$ responds via the formation equation~\eqref{ch04:eq:formation_preview}.
+\item Most important: A6, the deepest assumption (Remark~\ref{ch04:prop:hierarchy}).
+\end{itemize}
+
+\solpart{e} \emph{Two ethnic groups trade but do not intermarry, share schools or attend the same churches.}
+\begin{itemize}
+\item A4 roughly holds in goods markets (anonymous trade).
+\item A1 fails with a block-diagonal $W^U$ (caring stays within groups), and A3 fails with a block-diagonal $W^I$ (separate schools and churches, hence separate information ecosystems).
+\item Most important: A3. Block-diagonal $W^I$ means the two groups converge to different consensuses, which is the formation-level mechanism of reproduction (Chapter~5, Section~\ref{ch05:sec:topologies}). Whether power is unequal depends on the cross-block flows, not on the segregation itself (Proposition~\ref{ch06:prop:block_power}).
+\end{itemize}
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.2}{Measuring departure}
+
+\solpart{a} Column sums: $(0.5 + 0.1 + 0.2,\ 0.3 + 0.7 + 0.1,\ 0.2 + 0.2 + 0.7) = (0.8, 1.1, 1.1)$. $W$ is row-stochastic but not doubly stochastic.
+
+\solpart{b} $\delta_{\text{col}}(W) = \sqrt{(-0.2)^2 + 0.1^2 + 0.1^2} = \sqrt{0.06} = 0.2449$.
+
+\solpart{c} Solving $\boldsymbol\pi'W = \boldsymbol\pi'$, $\ones'\boldsymbol\pi = 1$ gives $\boldsymbol\pi = (7, 11, 12)/30 = (0.2333, 0.3667, 0.4)$. Check: $0.5\cdot\frac{7}{30} + 0.1\cdot\frac{11}{30} + 0.2\cdot\frac{12}{30} = \frac{3.5 + 1.1 + 2.4}{30} = \frac{7}{30}$. Then $\Var(\pi_i) = 0.005185$ (the maximum for $N = 3$ is $2/9 = 0.2222$), $\Neff = 2.8662$, $\Neff/N = 0.9554$, and $d_\pi = 0.1$. The eigenvalues are $1, 0.5, 0.4$, so $\Gamma = 0.5$.
+
+\solpart{d} With only the composite in hand, three departures can be measured:
+\begin{itemize}
+\item \textbf{A5 (power).} $\boldsymbol\pi \neq \frac13\ones$, but mildly: $\Neff/N = 0.9554$, $d_\pi = 0.1$.
+\item \textbf{A4 (anonymity).} The rows differ. The distance from the anonymous matrix with the same power is $\|W - \ones\boldsymbol\pi'\|_F = 0.6683$, comparable to the entries themselves. The strong self-weights ($0.5$, $0.7$, $0.7$) say each sector interacts mostly with itself.
+\item \textbf{Integration.} $\Gamma = 0.5$, half the benchmark's.
+\end{itemize}
+The most severely violated assumption is therefore A4: interaction is far from anonymous, while power is close to equal. Two cautions belong in the answer. First, the composite does not identify \emph{which} layer ($W^U$, $W^P$ or $W^I$) causes the departure, so A1--A3 cannot be assessed from $W$ alone (Proposition~\ref{ch04:prop:A5_decomp} needs the layers). Second, a ``Bolivia'' composite with three sectors would mix node sets: utility and information networks live on people, production on sectors, and a composite requires the same node set (Chapter~1, Section~\ref{ch01:sec:conventions}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.3}{The hierarchy in action}
+
+\textbf{Set-up.} $N = 4$, $\Omega = 4$ ($m = 1$), $\kappa = 0.5$, $\Phi = 1$, $\gamma_U = 0.5$. The utility network is zero-diagonal and row-stochastic, with agent~1 a patron whom everybody cares about:
+\[
+W^U = \begin{pmatrix} 0 & 0.5 & 0.25 & 0.25\\ 0.6 & 0 & 0.2 & 0.2\\ 0.6 & 0.2 & 0 & 0.2\\ 0.6 & 0.2 & 0.2 & 0\end{pmatrix}, \qquad \mathbf c = (1.8, 0.9, 0.65, 0.65),\ \Var(c_j) = 0.2237 .
+\]
+The market layer is $W^{CE}$ when A4 holds. When A4 fails, it is a market-power star with hub $h$: spokes put $a = 0.8$ on the hub and $0.2$ on themselves, and the hub keeps $s = 0.8$. Its Perron weight is $\pi_h = a/(a+1-s) = 0.8$ (Proposition~\ref{ch06:prop:star_power}). The composite is $W = 0.2\,W^U + 0.8\,W^{\text{mkt}}$ (Proposition~\ref{ch04:prop:A5_decomp}), and losses follow Theorem~\ref{ch02:thm:welfare_loss}. Every allocation below satisfies $\kappa x_i < 1$.
+
+\solpart{a} \emph{A1 fails, A4 holds:} $W = 0.2W^U + 0.8W^{CE}$. Its column sums are $(1.16, 0.98, 0.93, 0.93)$, so $\boldsymbol\pi = (0.2857, 0.2473, 0.2335, 0.2335)$ is \emph{not} uniform ($\Neff = 3.971$). Utility externalities enter power through the composite, even though the market is symmetric. The losses are $L_{\text{ext}} = 0.03233$, $L_{\text{power}} = 0.00046$ and $L_{\text{int}} = -0.00976$, so $L = 0.02302$. Uniformity is restored exactly when $W^U$ is doubly stochastic: with the ``ring of care'' (each agent cares $0.5$ about two neighbours), $\boldsymbol\pi = \frac14\ones$ (Proposition~\ref{ch01:prop:pi_uniform}).
+
+\solpart{b} \emph{A4 fails, A1 holds} ($W^U = 0$, so the composite is the star alone, hub agent~4): $\boldsymbol\pi = (0.0667, 0.0667, 0.0667, 0.8)$, $\Neff = 1.531$. Power is not uniform, and the loss is purely distributional: $L = L_{\text{power}} = 0.10083$.
+
+\solpart{c} \emph{Both fail.} The answer depends on \emph{who} holds market power, and that is the content of the interaction term.
+\begin{center}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+& $\boldsymbol\pi$ & $L_{\text{ext}}$ & $L_{\text{power}}$ & $L_{\text{int}}$ & $L$ \\
+\midrule
+(c1) hub $=$ agent 1 (the patron) & (0.6786, 0.1328, 0.0943, 0.0943) & 0.03233 & 0.06147 & $-0.06908$ & 0.02472\\
+(c2) hub $=$ agent 4 & (0.1614, 0.0962, 0.0870, 0.6554) & 0.03233 & 0.05561 & $+0.05502$ & 0.14296\\
+\bottomrule
+\end{tabular}}
+\end{center}
+By symmetry, the single-failure losses are the same whichever agent is the hub: $L(a) + L(b) = 0.02302 + 0.10083 = 0.12385$.
+\begin{itemize}
+\item In (c1), market power sits with the agent everybody cares about: $\Cov(\pi, c) = 0.11589 > 0$, $L_{\text{int}} < 0$, and the joint loss ($0.02472$) is far \emph{smaller} than the sum.
+\item In (c2), it sits with an agent nobody cares about especially: $\Cov(\pi, c) = -0.03508 < 0$, $L_{\text{int}} > 0$, and the joint loss ($0.14296$) \emph{exceeds} the sum by $0.01910$.
+\end{itemize}
+Answer: superadditivity is not a general property. Its sign is the sign of $L_{\text{int}}$, led by $-\gamma\Phi N(1-\kappa m)\Cov(\pi_j, c_j)$.
+
+\emph{Caution.} $L(c) - [L(a) + L(b)]$ is not exactly $L_{\text{int}}$: the composite changes $\boldsymbol\pi$ when layers are combined, so $L_{\text{power}}$ in (c) differs from both (a) and (b). The clean test of interaction is the three-term decomposition at the same $\boldsymbol\pi$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.4}{Bolivia's six assumptions (data exercise)}
+
+\textbf{Starting point.} The stylized dual economy has $W^P = \begin{pmatrix} 0.833 & 0.167\\ 0.091 & 0.909\end{pmatrix}$, so $\Gamma = 0.2576$ and $\boldsymbol\pi = (0.3529, 0.6471)$, with $\Neff/N = 0.9204$. Chapter~3, Section~\ref{ch03:sec:heterogeneity}, shows that the measured economy differs on the integration coordinate.
+
+\solpart{a} \emph{Assessment.}
+\begin{itemize}
+\item \textbf{A1 fails clearly.} Compadrazgo, kinship and community obligations are central to Bolivian economic life (Example~\ref{ch05:ex:vendors} is a stylization), so $W^U \neq 0$.
+\item \textbf{A2 fails.} $A$ changed substantially over time and was a policy object: the 2006 hydrocarbons nationalization, and industrialization plans for gas and lithium.
+\item \textbf{A3 fails.} Information ecosystems are segmented by language and region (Chapter~5).
+\item \textbf{A4 holds approximately} in some retail markets (urban food markets with many sellers) and \textbf{fails} in hydrocarbons, where YPFB is the dominant buyer and seller, and in thin rural markets.
+\item \textbf{A5 fails} in the production layer (below) and in wealth shares. Income inequality is high: INE's Gini of per-capita household income was $0.6$ in 2005 and $0.426$ in 2019.
+\item \textbf{A6} cannot be assessed without cohort data. The case for failure is the speed of change in aspirations and female participation, which Chapter~11 asks how to measure.
+\end{itemize}
+
+\solpart{b} \emph{Departure measures} (Table~\ref{ch04:tab:departures}). Two of the six can be computed from data in the repository; the rest were not fetched.
+
+\textbf{Computed (real results).} Source: INE supply-use tables and input-output matrices \citep{ine2026sut}, as processed by \texttt{data/compute/compute\_bolivia\_io.py}, retrieved 2026-11-05. Domestic flows, book12 aggregation.
+\begin{itemize}
+\item \textbf{A2}, $\|\Delta A\|_F/\|A\|_F$ per decade, computed from $A$ in the book's convention ($a_{ij} = Z_{ji}/x_i$), 12 sectors:
+\begin{itemize}
+\item $0.3154$ for 1990--2000;
+\item $0.4152$ per decade for 2000--2009 ($0.3737$ over nine years);
+\item $0.3014$ for 2003--2013;
+\item $0.3300$ per decade for 2017--2024 ($0.2310$ over seven years, on base 2017; 2023--2024 are preliminary).
+\end{itemize}
+Never compare across the change of base (1990 to 2017). These are 30--42\% per decade, \emph{above} the chapter's illustrative 5--20\% range. Part of this is measurement: the base-1990 make matrices are diagonal in most years, and aggregation changes the norm. But it confirms that $A$ is not a constant.
+\item \textbf{A5 (production layer only)}, $\Neff(\boldsymbol\pi)/N$ for 2019 $W^P$, input shares: $6.4795$ of $N = 11$, i.e.\ $\Neff/N = 0.5890$. The power Gini is $0.4446$, $d_\pi = 0.3228$, and $\pi_{\max} = 0.2702$ (other services). The domestic $W^P$ also has $\Gamma = 0.4674$. These are measured values for one layer, not for the composite.
+\end{itemize}
+
+\textbf{Not fetched (method only).}
+\begin{itemize}
+\item \emph{A4}, $d_\pi(W^{\text{mkt}})$: market shares by firm within markets (for example, from INE's industrial surveys or the national tax service), with $W^{\text{mkt}} = \ones\mathbf s'$ built per market. Expected result: near the maximum $1 - 1/N$ in hydrocarbons distribution and electricity, low in urban food retail.
+\item \emph{A3}, $\Neff(\boldsymbol\pi^I)/N$: audience shares by outlet (Kantar IBOPE ratings are paywalled; Latinobar\'ometro requires registration; \texttt{data/README.md}, \S9).
+\item \emph{A1}, $\gamma_U\|W^U\|_F$: survey modules on transfers and support networks (EH microdata; not fetched).
+\item \emph{A6}, $\Psi$: cohort-by-year panels (Chapter~11).
+\end{itemize}
+
+\solpart{c} \emph{Ranking.} The measures are in different units, so any ranking is a judgment. It should be stated as such and defended. On the available evidence:
+\begin{enumerate}
+\item \textbf{A2}: measured, large ($\approx 0.3$ per decade) and policy-driven.
+\item \textbf{A5 in the production layer}: measured, moderate ($\Neff/N = 0.589$). Lower concentration than in the OECD comparators (\texttt{data/README.md}, \S3.1).
+\item \textbf{A3 and A1}: likely large, but unmeasured here.
+\item \textbf{A4}: severe in specific markets, mild in others.
+\item \textbf{A6}: unmeasured.
+\end{enumerate}
+The most severe \emph{documented} deviation is the instability and policy-dependence of the production structure (A2), together with the enclave position of hydrocarbons inside it ($\pi = 0.039$, 70\% of output exported; Chapter~3). The stylized two-sector picture of a small $\Gamma(W^P)$ is \emph{not} borne out by the 2019 table ($0.467$, not $0.26$). \emph{Common mistake:} ranking by comparing numbers in different units, for example a $\Gamma$ against an $\Neff/N$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.5}{Sunkel's five processes}
+
+\textbf{Model answer.} Put the domestic agents and the foreign center on one node set: center $C$, domestic modern elite $E$, and traditional groups $T_1$ (urban informal) and $T_2$ (rural). The composite is $W$, and power $\boldsymbol\pi(W)$ divides surpluses by the allocation rule $x_i = \frac{\Omega}{N} + (\pi_i - \frac1N)\Phi$ (Proposition~\ref{ch01:prop:allocation_rule}). Each process is then a property of $W$:
+\begin{enumerate}
+\item \emph{Development} (of the modern pole): a rising $\pi_E$ and a rising $x_E$.
+\item \emph{Underdevelopment}: a falling block power $\pi_{T_1} + \pi_{T_2}$, and with it a falling $x_T$.
+\item \emph{Dependency}: domestic attention and inputs pointing abroad, $\sum_{i\neq C}\pi_iW_{iC}/\sum_{i \ne C}\pi_i$ (Dos Santos's ``conditioned by another economy'').
+\item \emph{Marginalization}: vanishing in-weights of $T$ from the modern pole ($W_{ET}\to0$), so $\pi_T \to 0$. Nobody depends on, cares about or listens to the marginalized.
+\item \emph{Spatial inequality}: a widening gap between block allocations, $x_E - \bar x_T$, i.e.\ a growing between-group term $L_{\text{block}}$ (Proposition~\ref{ch02:prop:block_loss}).
+\end{enumerate}
+
+\textbf{The single process} is one rewiring path $W(t) = W_0 + tE$ with $E\ones = 0$. It moves weight from the domestic cross-block entries ($W_{ET}$, $W_{TE}$) to the transnational ones ($W_{EC}$, $W_{CE}$): ``transnational integration and national disintegration''. By the perturbation lemma (Lemma~\ref{ch06:lem:perturbation}), all five observables move together, with first-order effect $d\boldsymbol\pi'/dt = \boldsymbol\pi'EZ$, $Z = (I - W_0 + \ones\boldsymbol\pi')^{-1}$.
+
+\textbf{A numerical example} (\illustrative). Order $(C, E, T_1, T_2)$:
+\[
+W_0 = \begin{pmatrix} 0.90 & 0.10 & 0 & 0\\ 0.20 & 0.40 & 0.20 & 0.20\\ 0.05 & 0.35 & 0.40 & 0.20\\ 0.05 & 0.25 & 0.20 & 0.50\end{pmatrix}\!,\quad
+W_1 = \begin{pmatrix} 0.80 & 0.20 & 0 & 0\\ 0.55 & 0.40 & 0.025 & 0.025\\ 0.05 & 0.10 & 0.65 & 0.20\\ 0.05 & 0.05 & 0.20 & 0.70\end{pmatrix}\!,
+\]
+with $E = W_1 - W_0$, $\Omega = 4$ and $\Phi = 2$:
+\begin{center}
+\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lccccccc}
+\toprule
+$t$ & $\boldsymbol\pi$ & dependency & $W_{CE} + W_{EC}$ & $E \leftrightarrow T$ weight & $\pi_T$ & $x_E - \bar x_T$ & $\Gamma(\text{domestic})$\\
+\midrule
+0 & (0.5447, 0.2114, 0.1138, 0.1301) & 0.1196 & 0.300 & 1.000 & 0.2439 & 0.1789 & 0.7105\\
+0.5 & (0.5903, 0.2094, 0.0942, 0.1060) & 0.2161 & 0.525 & 0.600 & 0.2003 & 0.2186 & 0.5380\\
+1 & (0.6701, 0.2350, 0.0452, 0.0497) & 0.4062 & 0.750 & 0.200 & 0.0949 & 0.3751 & 0.1878\\
+\bottomrule
+\end{tabular}}
+\end{center}
+One parameter produces all five observables:
+\begin{itemize}
+\item the elite's power and allocation rise ($\pi_E$ from $0.2114$ to $0.2350$; $x_E$ from $0.9228$ to $0.9701$);
+\item dependency more than triples;
+\item the traditional blocks are marginalized ($\pi_T$ falls from $0.2439$ to $0.0949$);
+\item the elite--traditional allocation gap doubles;
+\item the domestic network disintegrates (the gap of the renormalized domestic block falls from $0.7105$ to $0.1878$).
+\end{itemize}
+At $t = 0$ the lemma gives $d\boldsymbol\pi/dt = (0.1068, -0.0233, -0.0374, -0.0462)$, which matches finite differences. That is the formal content of ``one process, five manifestations''. The case study's caution applies: this is a formalization of Sunkel's thesis, not evidence for it. The empirical test is whether measured $W$ (global I-O plus domestic I-O) moved along such a direction (Chapter~23).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.6}{A6 is the deepest}
+
+\textbf{Set-up} (\illustrative). There are two groups of equal size: the modern group with income $y_E = 10$, and the traditional group, whose income depends on its aspiration/patience parameter $\theta$ through human-capital investment: $y_T = 4 + 2\theta + \tau$, where $\tau$ is a transfer from $E$ to $T$. Welfare is utilitarian with $U(x) = x - 0.025x^2$ ($\kappa = 0.05$; every income is below satiation at 20), evaluated on consumption with a fixed criterion (see the caution below). The transfer is conditional on remaining in the traditional sector. Recipients therefore attend more to traditional-sector peers: the weight on them in $W^I$ is $w(\tau) = 0.5 + 0.2\tau$, and perceived returns are $\hat r = w r_T + (1-w)r_M$, with $r_T = 0.05$, $r_M = 0.25$, $r^* = 0.15$. Preferences form by~\eqref{ch04:eq:formation_preview} with $\rho = 0.9$ and $\mu = 0.5$, so the steady state is $\theta^*(\tau) = \bar\theta + \mathcal M(\hat r(\tau) - r^*)$, with $\bar\theta = 1$ and $\mathcal M = \mu/(1-\rho) = 5$ (Definition~\ref{ch10:def:multiplier}).
+
+\solpart{a} \emph{Economist A} holds $\theta$ at $\theta^*(0) = 1$, so $y_T = 6 + \tau$. She equates marginal utilities, $1 - 0.05(10 - \tau) = 1 - 0.05(6 + \tau)$, so $T^* = \tau_A = 2$. Her welfare rises from $12.6$ to $12.8$.
+
+\solpart{b} \emph{Economist B} lets $\theta$ respond: $d\theta^*/d\tau = -\mathcal M\cdot0.2\cdot(r_M - r_T) = -0.2$, so in the long run $dy_T/d\tau = 1 - 2\cdot0.2 = 0.6$. At $\tau_A = 2$, $w = 0.9$, $\theta^* = 0.6$ and $y_T = 7.2$. The policy has changed $W^I$, which changed $\theta$, which changed the mapping from resources to welfare.
+
+\solpart{c} Under B's model, A's policy lowers long-run welfare from $12.6$ to $12.304$. The marginal effect of a first transfer is $dW_B/d\tau|_{0^+} = -U'(10) + 0.6\,U'(6) = -0.5 + 0.42 = -0.08 < 0$, so over $\tau \in [0,3]$ B's optimum is $\tau = 0$. The welfare path under A's policy, starting from $\theta_0 = 1$, is
+$12.8$, $12.7518$, $12.7082$ at $t = 0, 1, 2$; then $12.6008$ at $t = 5$, $12.4806$ at $t = 10$, $12.366$ at $t = 20$ and $12.3257$ at $t = 30$.
+It falls below the no-transfer level in generation~6. Short-run evaluations (one generation, $\theta$ fixed) confirm A's policy; long-run ones reverse it.
+
+The mechanism is the conditionality, not the transfer as such. The same transfer unconditionally ($w$ unaffected) keeps $\theta = 1$ and yields $12.8$. Conditioned on education, so that it lowers the weight on traditional peers ($\omega = -0.1$), it raises $\theta$ to $1.2$ and yields $13.036$. A6 matters because, once preferences form on $W^I$, the \emph{design} of a policy enters welfare through its effect on the network, not only through its size.
+
+\emph{Caution.} We evaluated welfare on consumption. Evaluating with each period's own preferences (patience $\theta_t$) raises the endogenous-preference welfare problem of Chapter~12: the policy can make people prefer the outcome it produces. A rigorous answer states which criterion is used. \emph{Common mistake:} ``proving'' the reversal by comparing utilities computed with different $\theta$.
+
+\solpart{d} The ``growth first, redistribute later'' consensus relies on the separation of efficiency and equity of the Second Welfare Theorem (Theorem~\ref{ch02:thm:SWT}): redistribution is a later, separable act. Without A6, three things change.
+\begin{itemize}
+\item \emph{Timing matters}: the structure in place during growth forms preferences ($\rho$ is persistence), and ``later'' redistribution meets a population whose $\theta$ was formed by the structure. With $\rho = 0.9$ the half-life of a formation effect is $\ln2/(-\ln0.9) = 6.579$ generations.
+\item \emph{Form matters}: transfers that change $W^I$ change the welfare they are meant to improve.
+\item \emph{Structural policy is not separable}: building linkages and information access (changing $A$ and $W^I$) is part of distribution, not something to do after it.
+\end{itemize}
+The consensus is right that transfers can move consumption one-for-one (Proposition~\ref{ch02:thm:transfer_trap}). It is wrong to assume they leave the network, and hence future preferences and incomes, untouched.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{4.7}{The spectral gap of the assumptions}
+
+\textbf{Construction} (\illustrative). $W^{(0)} = \frac18\ones\ones'$, and $W^{(k)} = \frac{1}{k+1}(W^{(0)} + F_1 + \cdots + F_k)$ adds one row-stochastic feature layer at a time:
+\begin{itemize}
+\item $F_1$, a $W^U$ cluster: agents 1--3 attend only to each other, and the others are anonymous;
+\item $F_2$, a $W^P$ block structure $\{1..4\},\{5..8\}$ with cross-block weight $0.05$;
+\item $F_3$, a $W^I$ hub: weight $0.5$ on agent~1 plus a uniform remainder;
+\item $F_4$, a market hub: weight $0.4$ on agent~2;
+\item $F_5$, a core--periphery layer: the core $\{1,2\}$ keeps $0.9$ in the core, and the periphery puts $0.7$ on the core.
+\end{itemize}
+The allocation is $x_i = 1 + (\pi_i - \frac18)$ ($\Omega = 8$, $\Phi = 1$), and $\kappa x_i \le 0.5744 < 1$ throughout. In the misaligned variant the hubs and the core are agents 8, 6 and $\{7, 8\}$ instead.
+\begin{center}
+\begin{tabular}{clccc|cc}
+\toprule
+& & \multicolumn{3}{c|}{aligned (hubs on 1, 2)} & \multicolumn{2}{c}{misaligned}\\
+$k$ & added & $\Gamma$ & $\Neff$ & $L_{\text{power}}$ & $\Neff$ & $L_{\text{power}}$\\
+\midrule
+0 & --- & 1.0000 & 8.0000 & 0 & 8.0000 & 0\\
+1 & $W^U$ cluster & 0.6875 & 7.1176 & 0.00387 & 7.1176 & 0.00387\\
+2 & $W^P$ blocks & 0.5468 & 7.4235 & 0.00243 & 7.4235 & 0.00243\\
+3 & $W^I$ hub & 0.6601 & 6.3965 & 0.00783 & 7.2641 & 0.00317\\
+4 & market hub & 0.7281 & 6.4787 & 0.00734 & 7.3523 & 0.00275\\
+5 & core--periphery & 0.7567 & 5.7342 & 0.01235 & 6.9633 & 0.00465\\
+\bottomrule
+\end{tabular}
+\end{center}
+($\Gamma$ in the misaligned variant is identical up to $k = 4$ and is $0.7620$ at $k = 5$; the reason is given below.)
+
+\emph{Do $\Gamma$ and $\Neff$ move together?} No. The block layer ($k = 2$) \emph{lowers} $\Gamma$ (from $0.6875$ to $0.5468$) and \emph{raises} $\Neff$, because it dilutes the cluster. The hub layers ($k = 3, 4$) \emph{raise} $\Gamma$ while they lower $\Neff$. Each hub layer has identical rows, $F = \ones\mathbf v'$. For any row-stochastic $W$, a left eigenvector $\mathbf u$ with eigenvalue $\lambda \ne 1$ satisfies $\mathbf u'\ones = 0$, so $\mathbf u'(aW + (1-a)\ones\mathbf v') = a\lambda\mathbf u'$. Adding the layer therefore shrinks every non-unit eigenvalue by the factor $k/(k+1)$, \emph{wherever} the hub is: $\Gamma(W^{(3)}) = 1 - 0.75(1 - 0.5468) = 0.6601$. This is why the aligned and misaligned variants share $\Gamma$ until the core--periphery layer, which is not of this form. This is Chapter~6, Proposition~\ref{ch06:prop:gap-power-independent} again.
+
+\emph{Shape of the loss.} The loss is neither linear, nor convex, nor concave in $k$. Its increments in the aligned case are $(0.0039, -0.0014, 0.0054, -0.0005, 0.005)$, with second differences of alternating sign. Three reasons:
+\begin{enumerate}
+\item $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\pi)$ is quadratic in $\boldsymbol\pi$, so features that concentrate power on the \emph{same} agents compound. Aligned features end at $L = 0.01235$, about $2.654$ times the misaligned $0.00465$.
+\item Features that \emph{dilute} (blocks, misaligned hubs) can lower the loss.
+\item In this construction each new layer also lowers the weight of the earlier ones (equal weights $\frac1{k+1}$).
+\end{enumerate}
+The number of structural features is not a sufficient statistic. \emph{Common mistake:} attributing a fixed loss to each ``feature'' and adding them up.
+
+\end{document}

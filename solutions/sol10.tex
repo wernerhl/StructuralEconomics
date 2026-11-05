@@ -1,0 +1,265 @@
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{9}}{}% NN-1 when built standalone
+\setcounter{chapter}{9}% NN-1, so this chapter is numbered NN
+\chapter{The Formal Formation Model}\label{sol10}
+\sloppy
+
+All numbers below are printed by \texttt{python3} \nolinkurl{code/solutions/sol10.py}. Throughout, $T$ is the formation map of equation~\eqref{ch10:eq:map}, $J = DT$ its Jacobian, and $\mathcal{M} = \mu/(1-\rho)$ the formation multiplier (Definition~\ref{ch10:def:multiplier}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.1}{The formation map by hand}
+\solpart{a} With reduced-form returns $r(\theta) = 0.05 + 0.1\theta$, the scalar version of~\eqref{ch10:eq:formation} is
+\[
+\begin{aligned}
+T(\theta) &= \rho\theta + (1-\rho)\theta^{\circ} + \mu\big(r(\theta) - r^*\big)\\
+&= 0.8\theta + 0.2 + 0.3\,(0.05 + 0.1\theta - 0.1) = 0.83\,\theta + 0.185 .
+\end{aligned}
+\]
+The slope is $\rho + \mu\cdot 0.1 = 0.83$ and the intercept $(1-\rho)\theta^{\circ} + \mu(0.05 - r^*) = 0.2 - 0.015 = 0.185$.
+
+\solpart{b} $T$ is affine with slope $0.83 \neq 1$, so by Theorem~\ref{ch10:thm:existence}(1) there is exactly one fixed point:
+\[
+\theta^* = \frac{0.185}{1 - 0.83} = \frac{0.185}{0.17} = 1.0882 .
+\]
+Check: $r(\theta^*) = 0.1588$, so the signal gap is $r - r^* = 0.0588$ and $\theta^{\circ} + \mathcal{M}\cdot 0.0588 = 1 + 1.5 \times 0.0588 = 1.0882$, as~\eqref{ch10:eq:steady_i} requires. The steady state lies above the anchor because the observed return exceeds the reference return.
+
+\solpart{c} $J = T'(\theta^*) = 0.83$. Since $|J| < 1$ the steady state is globally asymptotically stable (Theorem~\ref{ch10:thm:existence}(1); for an affine scalar map local and global stability coincide). Deviations shrink by 17\% per generation, with half-life $\ln 2/(-\ln 0.83) = 3.72$ generations.
+
+\solpart{d} The deviation obeys $\theta_t - \theta^* = 0.83^t(\theta_0 - \theta^*)$, so from $\theta_0 = 0.5$ (initial gap $0.5882$):
+\begin{center}
+\begin{tabular}{lcccccccc}
+\toprule
+$t$ & 0 & 1 & 2 & 3 & 5 & 10 & 15 & 20 \\
+\midrule
+$\theta_t$ & 0.5000 & 0.6000 & 0.6830 & 0.7519 & 0.8565 & 0.9970 & 1.0523 & 1.0741 \\
+$\theta^* - \theta_t$ & 0.5882 & 0.4882 & 0.4052 & 0.3363 & 0.2317 & 0.0913 & 0.0360 & 0.0142 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The script iterates the map and checks it against the closed form. After 20 generations $0.83^{20} = 2.4\%$ of the initial gap remains. The path is monotone because $J > 0$. \textit{Common mistake:} using $\rho = 0.8$ as the convergence rate. The loop adds $\mu\beta = 0.03$ to persistence, so convergence is slower than $\rho$ alone suggests.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.2}{Why convex returns are not enough}
+\solpart{a} Substituting $r(\theta) = 0.05 + 0.1\theta + 0.05\theta^2$,
+\[
+T(\theta) = 0.85\theta + 0.15 + 0.25\,(0.05\theta^2 + 0.1\theta - 0.05) = 0.0125\,\theta^2 + 0.875\,\theta + 0.1375 .
+\]
+Hence $T(\theta) - \theta = 0.0125\,\theta^2 - 0.125\,\theta + 0.1375 = 0.0125\,(\theta^2 - 10\theta + 11)$. This is a quadratic with positive leading coefficient, so it has at most two real roots. More generally, $T - \mathrm{id}$ is convex whenever $g$ is convex, and a convex function that is not identically zero on an interval vanishes at most twice.
+
+\solpart{b} The roots are $\theta = 5 \mp \sqrt{14}$:
+\[
+\theta_L = 1.2583, \qquad \theta_H = 8.7417 .
+\]
+$T'(\theta) = 0.875 + 0.025\theta$, so $T'(\theta_L) = 0.9065 < 1$ (stable) and $T'(\theta_H) = 1.0935 > 1$ (unstable), by Theorem~\ref{ch10:thm:stability}.
+
+\solpart{c} $T(\theta) - \theta$ is negative strictly between the roots and positive outside them.
+\begin{itemize}
+\item $\theta_0 = 0.9$: $\theta_1 = 0.9351$, $\theta_5 = 1.0435$, increasing to $1.2583$.
+\item $\theta_0 = 1.1$: $\theta_1 = 1.1151$, increasing to $1.2583$.
+\item $\theta_0 = 5$: $\theta_1 = 4.8250$, $\theta_5 = 4.1364$, decreasing to $1.2583$.
+\item $\theta_0 = 9$: $\theta_1 = 9.0250$, $\theta_5 = 9.1529$, and $\theta_t$ diverges (it exceeds $10^6$ after 44 periods).
+\end{itemize}
+There is \emph{no} poverty trap. A trap needs two stable steady states; here there is only one. Every start in $(-78.74, 8.7417)$ converges to $\theta_L$. (The lower edge is the other solution of $T(\theta) = \theta_H$, since $T$ is decreasing below its vertex at $\theta = -35$; it is irrelevant economically.) $\theta_H$ is an \emph{explosion threshold}: above it the convex feedback has nothing to stop it, and aspirations and returns grow without bound. An agent below $\theta_H$, including one far above $\theta_L$ such as $\theta_0 = 5$, is pulled \emph{down} to the unique steady state.
+
+\solpart{d} \textit{Claim.} Let $g$ be $C^1$, $\mu > 0$, $T(\theta) = \rho\theta + (1-\rho)\theta^{\circ} + \mu(g(\theta) - r^*)$, and suppose $T$ has two fixed points $\theta_L < \theta_H$ with $T'(\theta_L) < 1$ and $T'(\theta_H) < 1$ (the derivative condition behind local stability). Then $g'$ is not monotone on $[\theta_L, \theta_H]$: it rises and then falls.
+
+\textit{Proof.} Let $f = T - \mathrm{id}$, so $f' = \rho - 1 + \mu g'$. Since $f(\theta_L) = 0$ and $f'(\theta_L) < 0$, there is $\varepsilon > 0$ with $f(\theta_L + \varepsilon) < 0$. Since $f(\theta_H) = 0$ and $f'(\theta_H) < 0$, $f(\theta_H - \varepsilon) > 0$. By the mean value theorem there is $b \in (\theta_L + \varepsilon, \theta_H - \varepsilon)$ with $f'(b) > 0$. With $a := \theta_L$ and $c := \theta_H$ we have $a < b < c$ and
+\[
+g'(a) < \frac{1-\rho}{\mu}, \qquad g'(b) > \frac{1-\rho}{\mu}, \qquad g'(c) < \frac{1-\rho}{\mu}.
+\]
+So $g'$ increases somewhere on $(a, b)$ and decreases somewhere on $(b, c)$. If $g$ is $C^2$, $g''$ takes both signs: returns are convex and then concave, an S-shape. A convex $g$ ($g'$ nondecreasing) contradicts $g'(b) > g'(c)$; a concave $g$ contradicts $g'(a) < g'(b)$. By the intermediate value theorem there is also a third fixed point $\theta_U \in (\theta_L, \theta_H)$, the basin boundary of Proposition~\ref{ch10:prop:basin}. $\square$
+
+\textit{Interpretation.} A trap needs the loop gain $\mu g'$ to be below the damping $1 - \rho$ at low aspirations (so the low state is stable), above it in the middle (so there is a threshold), and below it again at high aspirations (so the high state is stable rather than explosive). The middle condition needs increasing returns; the last one needs \emph{saturation}. Convex returns give increasing returns without saturation, which produces explosion instead of a second steady state. This is the logic of the logistic return in Example~\ref{ch10:ex:trap}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.3}{The Jacobian}
+\solpart{a} With reduced-form returns $r_i = 0.1 + 0.1\theta_i$, the map is $T(\boldsymbol{\theta}) = \rho\boldsymbol{\theta} + (1-\rho)\theta^{\circ}\ones + \mu(W^I\mathbf{r}(\boldsymbol{\theta}) - r^*\ones)$, so $J = \rho I + 0.1\,\mu W^I$:
+\[
+J = 0.8\,I + 0.02\begin{pmatrix}\tfrac12 & \tfrac12 & 0 \\ \tfrac12 & \tfrac12 & 0 \\ 0 & 0 & 1\end{pmatrix}
+= \begin{pmatrix} 0.81 & 0.01 & 0 \\ 0.01 & 0.81 & 0 \\ 0 & 0 & 0.82 \end{pmatrix}.
+\]
+The anchor $\theta^{\circ}$ and $r^*$ only shift the intercept, so they do not enter $J$; stability does not depend on them.
+
+\solpart{b} $W^I$ is block-diagonal. Its eigenvalues are $1$ (eigenvector $(1,1,0)'$), $0$ (eigenvector $(1,-1,0)'$) and $1$ (eigenvector $(0,0,1)'$). Hence the eigenvalues of $J = 0.8I + 0.02W^I$ are
+\[
+0.82,\qquad 0.80,\qquad 0.82,
+\]
+so $\rho(J) = 0.82 < 1$ and the unique steady state is globally stable. The two unit eigenvalues of $W^I$ (one per block, because $W^I$ is reducible) carry the slowest modes: a common shift of each block's preferences decays at $0.82$. The within-block difference $\theta_1 - \theta_2$ is averaged away by the signal and decays at $\rho = 0.80$.
+
+\solpart{c} Doubling $\mu$ to $0.4$ gives $J = 0.8I + 0.04W^I$, with eigenvalues $0.84, 0.80, 0.84$. Only the eigenvalues on the unit modes of $W^I$ move. Stability is lost when $\rho + 0.1\,\mu\cdot 1 = 1$, i.e.\ at
+\[
+\mu = \frac{1 - \rho}{0.1} = 2 .
+\]
+\textit{Caveat (reduced form vs.\ full model).} With returns that depend on the \emph{level} $\theta_i$, a uniform rise in preferences raises everyone's return, so $\ones$ is no longer a pure $\rho$-mode. In the full model the allocation depends on $\theta_i - \bar\theta$, and Proposition~\ref{ch10:prop:jacobian}(2) gives $J\ones = \rho\ones$. Computing the full-model Jacobian $\rho I + \mu\phi W^I C P$ with $C = 0.1I$ and $\phi = 1$ gives eigenvalues $0.82, 0.80, 0.80$. The relative mode $(1,1,-2)'$ still has eigenvalue $0.82$ (it is an eigenvector of $W^IP$ with eigenvalue $1$), so the instability threshold is again $\mu = 2$. The uniform mode, however, now decays at $\rho$. \textit{Common mistake:} applying the norm bound~\eqref{ch10:eq:stability_condition} and reporting its threshold as the instability point; that bound is only sufficient.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.4}{Three policies for the stylized Bolivia}
+\solpart{a} With the parameters of Example~\ref{ch10:ex:bolivia_three}, $J = \rho I + \mu\phi W^I C P$ has $\rho(J) = 0.8664$. Solving $(I-J)\boldsymbol{\theta}^* = \mathbf{c}$ gives, by block (gas, urban, rural):
+\begin{gather*}
+\boldsymbol{\theta}^*_b = (1.1245,\ 1.0411,\ 0.9871),\\
+\bar x^*_b = (1.2486,\ 0.9852,\ 0.7662),\qquad \bar r^*_b = (0.2094,\ 0.1287,\ 0.0764).
+\end{gather*}
+Checks: $\sum_i x_i^* = 9 = \Omega$; $J\ones = \rho\ones$; and the fixed point satisfies~\eqref{ch10:eq:steady_i}, $\theta_i^* = \theta^{\circ} + \mathcal{M}(\sum_j W^I_{ij}r_j^* - r^*)$ with $\mathcal{M} = 1.333$ (maximum error $6\times 10^{-16}$). The preference gap is $\theta_1^* - \theta_3^* = 0.1374$, which equals the bound~\eqref{ch10:eq:dobrushin_bound} with $\tau_1(W^I) = 0.775$. The allocation gap is $\bar x_1^* - \bar x_3^* = 0.4824$.
+
+\solpart{b} Following Corollary~\ref{ch10:thm:decomposition}, for each policy we evaluate $E = \mathbf{r}(\boldsymbol{\theta}^0, \text{new}) - \mathbf{r}(\boldsymbol{\theta}^0, \text{old})$. We then solve for the new steady state and set $F(\infty) = \mathbf{r}(\boldsymbol{\theta}^*_{\text{new}}, \text{new}) - \mathbf{r}(\boldsymbol{\theta}^0, \text{new})$. Block values (gas, urban, rural):
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+& $\mu\Delta\mathbf{s}$ (signal) & $E$ (returns) & $F(\infty)$ (returns) & $\bar\Psi(\infty)$ & $\bar\Psi(1)$ & $\rho(J_{\text{new}})$ \\
+\midrule
+A & $(-0.0019, -0.0001, 0.0008)$ & $(-0.0118, 0, 0.0058)$ & $(-0.0013, 0.0002, 0.0005)$ & 0.117 & 0.016 & 0.8664 \\
+B & $(-0.0003, 0.0000, 0.0003)$ & $(-0.0020, 0, 0.0020)$ & $(-0.0003, 0.0000, 0.0001)$ & 0.091 & 0.012 & 0.8658 \\
+C & $(0, 0, 0.0040)$ & $(0, 0, 0)$ & $(-0.0011, -0.0008, 0.0011)$ & undef. & undef. & 0.8659 \\
+\bottomrule
+\end{tabular}}
+\end{center}
+The aggregate ratios use $\sum_i|E_i| = 0.0529$ (A) and $0.0122$ (B). For C, $\sum_i|E_i| = 0$, so $\bar\Psi$ is undefined (Remark~\ref{ch09:rem:psi}(5)); report $\sum_i|F_i(\infty)| = 0.0091$ and $\sum_i|F_i(1)| = 0.0013$ instead. The pattern matches Proposition~\ref{ch10:prop:levers}:
+\begin{itemize}
+\item The transfer's signal is $\mu W^IC\Delta\boldsymbol{\omega}$.
+\item The structural policy's is $\mu W^I\operatorname{diag}(\gamma)\Delta W^P\x^0$, small because $\gamma = 0.02$.
+\item The information policy's is $\mu\Delta W^I\mathbf{r}^0$. It is nonzero only in the rural rows, which now weight the gas block's higher returns more.
+\end{itemize}
+For every policy the script checks $\Delta\boldsymbol{\theta}^* = (I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$ (Theorem~\ref{ch10:thm:formation_effect}).
+
+\solpart{c} Long-run changes:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& $\Delta\boldsymbol{\theta}^*_b$ & $\Delta(\theta_1 - \theta_3)$ & $\Delta(\bar x_1 - \bar x_3)$ \\
+\midrule
+A: transfer & $(-0.0143, -0.0004, 0.0059)$ & $-0.0201$ (14.7\%) & $-0.2201$ (45.6\%) \\
+B: structural & $(-0.0024, -0.0000, 0.0022)$ & $-0.0046$ (3.3\%) & $-0.0046$ (0.9\%) \\
+C: information & $(-0.0013, -0.0009, 0.0272)$ & $-0.0285$ (20.7\%) & $-0.0285$ (5.9\%) \\
+\bottomrule
+\end{tabular}
+\end{center}
+The information policy narrows the \emph{preference} gap most. The transfer narrows the \emph{allocation} gap most, by far: it moves $0.1$ from each gas agent to each rural agent, which closes the gap by $0.2$ directly, plus $0.0201$ through preferences. For B and C the allocation gap moves only through $\phi(\theta_i - \bar\theta)$, with $\phi = 1$, so $\Delta(\bar x_1 - \bar x_3) = \Delta(\theta_1 - \theta_3)$. The ranking therefore depends on the outcome chosen. This is why $\Psi$ and policy rankings are always stated for a specific outcome (Remark~\ref{ch09:rem:psi}(1)).
+
+\solpart{d} Combined policy: apply A, B and C together ($W^I_C$, $W^P_B$, $\boldsymbol{\omega}_A$). Then $\rho(J_{\text{new}}) = 0.8656$, $\Delta\boldsymbol{\theta}^*_b = (-0.0165, -0.0012, 0.0297)$, and
+\[
+\Delta(\theta_1 - \theta_3) = -0.0462\ (33.6\%),
+\]
+versus $-0.0532$ for the sum of the three individual effects.
+The combined effect is \emph{smaller} than the sum; the interaction term is $+0.0069$ (identical for the allocation gap, $-0.2462$ versus $-0.2532$). The model is affine in $\boldsymbol{\theta}$ but not in the policies. The signal contains the product $\Delta W^I\cdot\Delta\mathbf{r}$: policy~C makes rural agents watch the gas block more, while policy~A lowers the gas block's returns. Rural agents thus observe more of a return that the transfer has reduced. The policies are mild \emph{substitutes} on this outcome. \textit{Common mistake:} adding the three rows of the table. Additivity holds only to first order in the size of the perturbations.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.5}{The formation Leontief inverse}
+\solpart{a} $\operatorname{tr}J = 1.75$ and $\det J = 0.765 - 0.0015 = 0.7635$, so
+\[
+\lambda_{1,2} = \tfrac12\big(1.75 \pm \sqrt{1.75^2 - 4\times 0.7635}\big) = \tfrac12\big(1.75 \pm \sqrt{0.0085}\big) = 0.9211,\ 0.8289 .
+\]
+Both are real and in $(0,1)$, so $\rho(J) = 0.9211 < 1$. (As a check, $\|J\|_\infty = 0.93 < 1$ already guarantees it.)
+
+\solpart{b} $I - J = \begin{pmatrix} 0.15 & -0.05 \\ -0.03 & 0.10\end{pmatrix}$ has determinant $0.0135$, so
+\[
+(I - J)^{-1} = \frac{1}{0.0135}\begin{pmatrix} 0.10 & 0.05 \\ 0.03 & 0.15\end{pmatrix}
+= \begin{pmatrix} 200/27 & 100/27 \\ 20/9 & 100/9\end{pmatrix}
+= \begin{pmatrix} 7.4074 & 3.7037 \\ 2.2222 & 11.1111\end{pmatrix}.
+\]
+All entries are positive, as they must be for a nonnegative $J$ with $\rho(J) < 1$ (Neumann series).
+
+\solpart{c} $S_{10} := \sum_{k=0}^{10}J^k = \begin{pmatrix} 5.6610 & 1.3229 \\ 0.7937 & 6.9839\end{pmatrix}$. The remainder is exactly $(I-J)^{-1} - S_{10} = J^{11}(I-J)^{-1} = \begin{pmatrix} 1.7464 & 2.3808 \\ 1.4285 & 4.1272\end{pmatrix}$. The partial sum captures only $76\%$ and $63\%$ of the diagonal entries and $36\%$ of the off-diagonal ones. The truncation error decays like $\rho(J)^{11} = 0.405$. The off-diagonal entries converge most slowly, because cross-agent feedback needs at least one round to start. Pushing the dominant mode below $1\%$ needs $\lceil\ln 0.01/\ln 0.9211\rceil = 57$ terms, i.e.\ 57 generations. This is the ``large and slow'' property of the formation Leontief inverse near the stability boundary.
+
+\solpart{d} $\mu\Delta\mathbf{s} = 0.2\times(0.01, 0)' = (0.002, 0)'$, so
+\[
+\Delta\boldsymbol{\theta}^* = (I-J)^{-1}\mu\Delta\mathbf{s} = (0.002\times 7.4074,\ 0.002\times 2.2222)' = (0.0148,\ 0.0044)'.
+\]
+Agent 2's long-run preference rises by $0.0044$ although her own signal did not change. In round~1 agent 1's higher $\theta$ enters agent 2's update through $J_{21} = 0.03$, and the feedback continues in later rounds. Agent~1's own long-run change is $7.4$ times the impact $0.002$: the formation Leontief inverse amplifies as well as propagates.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.6}{Basin boundaries and policy design}
+Fixed points of Example~\ref{ch10:ex:trap}: $\theta_L = 0.8814$ (stable), $\theta_U = 0.9801$ (unstable), $\theta_H = 1.1615$ (stable).
+
+\solpart{a} $T$ is strictly increasing, so by Proposition~\ref{ch10:prop:basin}(1) the basin of $\theta_H$ is $(\theta_U, \infty)$. A one-time push from $\theta_L$ escapes iff $\theta_L + \delta > \theta_U$:
+\[
+\delta > \theta_U - \theta_L = 0.0987 .
+\]
+Numerically, a push of $0.0967$ returns to $0.8814$ and a push of $0.1007$ converges to $1.1615$. At exactly $\delta = 0.0987$ the economy sits on the unstable point, so the minimum is an infimum, not attained. \textit{Common mistake:} using $\hat\theta - \theta^{\circ}$, or the distance to $\theta_H$.
+
+\solpart{b} A baseline-return subsidy enters as $T(\theta; \Delta\alpha) = T(\theta) + \mu\Delta\alpha$, so $\partial T/\partial\alpha = \mu = 0.25 > 0$. By Proposition~\ref{ch10:prop:basin}(2),
+\[
+\frac{d\theta_U}{d\alpha} = -\frac{\mu}{T'(\theta_U) - 1} = -\frac{0.25}{0.1145} = -2.183, \qquad
+\frac{d\theta_L}{d\alpha} = \frac{\mu}{1 - T'(\theta_L)} = 2.562 .
+\]
+The threshold falls and the trap rises, so the required push shrinks at rate $4.745$ per unit of $\alpha$. Finite changes: with $\Delta\alpha = 0.005$ the fixed points are $(0.8955, 0.9680, 1.1709)$, the threshold moves by $-0.0121$, and the gap falls to $0.0725$. With $\Delta\alpha = 0.01$ the gap falls to $0.0333$. For $\Delta\alpha > 0.0114$ the trap disappears altogether: $\theta_L$ and $\theta_U$ merge in a saddle-node (Appendix~\ref{ch10:app:bifurcation}), and every trajectory converges to the high state.
+
+\solpart{c} The instruments are in different units, so the comparison needs costs: $c_\theta$ per unit of $\theta$ pushed once, and $c_\alpha$ per unit of return subsidized per generation. In the model a return subsidy paid for one generation is itself a one-time push of size $\mu\Delta\alpha$. A temporary subsidy for $n$ generations escapes if $\theta_n$ exceeds $\theta_U$ once it is withdrawn. The minimum totals are:
+\begin{center}
+\begin{tabular}{lcccccccc}
+\toprule
+$n$ & 1 & 2 & 3 & 5 & 10 & 20 & 40 & 80 \\
+\midrule
+min $\Delta\alpha$ & 0.3949 & 0.2032 & 0.1384 & 0.0863 & 0.0472 & 0.0277 & 0.0183 & 0.0140 \\
+total $n\Delta\alpha$ & 0.3949 & 0.4063 & 0.4151 & 0.4314 & 0.4716 & 0.5546 & 0.7323 & 1.1205 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Undiscounted, the cheapest return-based escape is a single large payment, because a push spread over time partly decays at $T'(\theta_L) = 0.90$ before it accumulates. A permanent subsidy just above $0.0114$ removes the trap; its present value is $0.0114/(1-\delta_d)$, which is $0.114$ at discount factor $\delta_d = 0.9$ and $0.228$ at $0.95$. However, near the saddle-node the passage takes very long: even 80 generations need $\Delta\alpha = 0.0140$. Summary:
+\begin{itemize}
+\item The \emph{one-time push} dominates when
+\[
+c_\theta\times 0.0987 < \min\{c_\alpha\times 0.3949,\ \text{PV of the cheapest subsidy path}\},
+\]
+that is, when there is a cheap technology for moving aspirations directly, when the planner is impatient (the push works within one generation), and when $\theta_U$ is known precisely.
+\item The \emph{subsidy} dominates when aspiration technologies are expensive or unreliable, when the planner is patient, or when the threshold is uncertain or heterogeneous. A subsidy above $0.0114$ removes the low steady state for \emph{everyone}, whatever their $\theta_U$. A push must be sized to each agent's distance to the threshold, and it fails completely if it falls short.
+\end{itemize}
+
+\solpart{d} \citet{bernard2014future} randomize a one-time screening of documentaries about people from similar communities who improved their lives. In the model this is a one-time signal, so a one-time $\Delta\theta_i = \delta_i$ for viewer $i$. The prediction is a threshold rule. The effect is \emph{permanent} for viewers with $\theta_{i,0} + \delta_i > \theta_U$: they move to $\theta_H$, and their long-run change ($0.28$ here) exceeds the impact. It is \emph{transient} for the others, decaying back to $\theta_L$ at rate $T'(\theta_L) = 0.90$ per period. The long-run average treatment effect is (share escaping)$\times(\theta_H - \theta_L)$. It can exceed the short-run effect, and it implies a bimodal long-run distribution of treated outcomes. A short follow-up cannot tell the two cases apart: in both, the effect at a short horizon is roughly the impact $\delta_i$. Testing requires long horizons, a baseline measure of $\theta_{i,0}$ (to estimate heterogeneity by distance to the threshold), and dose variation in $\delta$. The model's period is a generation, so the experiment's within-generation horizon maps onto it only under the timing assumptions noted in Chapter~11 (Stylized Fact~\ref{ch11:prop:education}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{10.7}{Cardoso and Faletto's ``situations''}
+This is an open modelling exercise; we give one concrete calibration. Agents are ordered $(F, B, M, W)$ = (foreign capital, domestic bourgeoisie, middle class, workers). Row $i$ of $W^P$ gives $i$'s input dependence and row $i$ of $W^I$ whose returns $i$ observes. Power is the Perron vector of the bargaining layer, which we \emph{assume} to be the composite $\bar W = \tfrac12 W^P + \tfrac12 W^I$. This is a modelling assumption (the node sets coincide, so the composite is admissible; \texttt{docs/conventions.md}~\S1), not a result. All other parameters are common to the three situations, so differences come only from $(W^P, W^I)$:
+\begin{itemize}
+\item returns $\alpha = (0.06, 0.05, 0.04, 0.03)$, $\beta = (0.10, 0.08, 0.06, 0.04)$, $\gamma_i = 0.02$;
+\item allocation $\omega_i = 0.5$, $\Phi = 2$ (so $\Omega = 4$), $\phi = 1$;
+\item formation $\rho = 0.85$, $\mu = 0.2$, $\theta^{\circ} = 1$, $r^* = 0.1$.
+\end{itemize}
+Every result below is \illustrative.
+
+\solpart{a} \textbf{Enclave.} Every domestic class depends on foreign capital for inputs. Information is split: $F$ and $B$ observe each other, while $M$ and $W$ observe mainly each other.
+\[
+W^P = \begin{pmatrix} 0.85 & 0.05 & 0.05 & 0.05 \\ 0.60 & 0.30 & 0.05 & 0.05 \\ 0.50 & 0.10 & 0.30 & 0.10 \\ 0.60 & 0.05 & 0.05 & 0.30 \end{pmatrix},\qquad
+W^I = \begin{pmatrix} 0.70 & 0.20 & 0.05 & 0.05 \\ 0.40 & 0.50 & 0.05 & 0.05 \\ 0.05 & 0.05 & 0.60 & 0.30 \\ 0.02 & 0.03 & 0.30 & 0.65 \end{pmatrix}.
+\]
+\solpart{b} \textbf{National populism.} There is a dense domestic production and information cluster ($B$, $M$, $W$), and weak links to $F$.
+\[
+W^P = \begin{pmatrix} 0.60 & 0.20 & 0.10 & 0.10 \\ 0.05 & 0.45 & 0.20 & 0.30 \\ 0.05 & 0.30 & 0.40 & 0.25 \\ 0.05 & 0.35 & 0.20 & 0.40 \end{pmatrix},\qquad
+W^I = \begin{pmatrix} 0.70 & 0.10 & 0.10 & 0.10 \\ 0.05 & 0.35 & 0.30 & 0.30 \\ 0.05 & 0.30 & 0.35 & 0.30 \\ 0.05 & 0.30 & 0.30 & 0.35 \end{pmatrix}.
+\]
+\solpart{c} \textbf{Associated dependent.} There is a cross-border elite cluster $\{F, B\}$ in both layers. Workers depend partly on the elite for inputs, but they observe almost only their own class.
+\[
+W^P = \begin{pmatrix} 0.50 & 0.40 & 0.05 & 0.05 \\ 0.40 & 0.45 & 0.10 & 0.05 \\ 0.20 & 0.30 & 0.40 & 0.10 \\ 0.15 & 0.30 & 0.15 & 0.40 \end{pmatrix},\qquad
+W^I = \begin{pmatrix} 0.60 & 0.35 & 0.025 & 0.025 \\ 0.40 & 0.50 & 0.05 & 0.05 \\ 0.20 & 0.30 & 0.40 & 0.10 \\ 0.02 & 0.03 & 0.15 & 0.80 \end{pmatrix}.
+\]
+All six matrices are row-stochastic (checked in the script).
+
+\solpart{d} Solving $(I - J)\boldsymbol{\theta}^* = \mathbf{c}$ for each situation ($\rho(J) = 0.863, 0.863, 0.861$, all stable):
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+& $\boldsymbol{\pi}$ ($\Neff$) & $\boldsymbol{\theta}^*$ \\
+\midrule
+Enclave & $(0.626, 0.152, 0.107, 0.115)$ (2.27) & $(1.179, 1.126, 1.012, 0.994)$ \\
+National populism & $(0.125, 0.321, 0.264, 0.290)$ (3.67) & $(1.062, 1.040, 1.037, 1.035)$ \\
+Associated dependent & $(0.406, 0.382, 0.101, 0.111)$ (3.00) & $(1.134, 1.117, 1.062, 0.979)$ \\
+\midrule
+& $\x^*$ & $x_{\max}/x_{\min}$; Gini$(\x^*)$ \\
+\midrule
+Enclave & $(1.854, 0.851, 0.649, 0.646)$ & 2.87; 0.239 \\
+National populism & $(0.768, 1.137, 1.022, 1.072)$ & 1.48; 0.072 \\
+Associated dependent & $(1.373, 1.308, 0.691, 0.628)$ & 2.19; 0.178 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Each $\x^*$ sums to $\Omega = 4$. National populism produces the most equal allocation and the enclave the most unequal; associated-dependent development lies in between. Two observations matter more than the ranking.
+\begin{itemize}
+\item \textit{Power does most of the work.} The allocation decomposes as $\x^* = \boldsymbol{\omega} + \Phi(\boldsymbol{\pi} - \tfrac14\ones) + \phi P\boldsymbol{\theta}^*$. In the enclave the power term is $(0.752, -0.197, -0.285, -0.270)$ and the preference term $(0.101, 0.048, -0.066, -0.084)$. Formation \emph{reinforces} power, because the agents who observe high returns are the powerful ones. Under national populism the preference term is almost flat (range $0.027$), because the domestic $W^I$ rows are nearly identical. This is Proposition~\ref{ch10:prop:two_types}(1): a small $\tau_1(W^I)$ compresses preferences.
+\item \textit{The associated-dependent situation shows the worker disconnect.} Workers have the lowest $\theta^*$ ($0.979$) although their power ($0.111$) is above the middle class's ($0.101$). They observe only their own low returns, while the middle class observes the elite. This is the channel the case study emphasizes: what each group can \emph{see} differs.
+\end{itemize}
+\textit{Common mistakes:} (i) reading the ranking as a result about Latin America; it follows from the chosen matrices. (ii) Attaching $\Psi$ to a situation. $\Psi$ belongs to a perturbation (Definition~\ref{ch09:def:psi}); the comparable statement is that the same policy would have different formation effects in different situations.
+
+\fussy
+\end{document}

@@ -1,0 +1,214 @@
+% Solutions to the exercises of Chapter 16. Numbers: code/solutions/sol16.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\begingroup\setlength{\emergencystretch}{3em}% local to this chapter
+\ifSubfilesClassLoaded{\setcounter{chapter}{15}}{}% NN-1 when built standalone
+\setcounter{chapter}{15}% NN-1, so this chapter is numbered NN
+\chapter{The Global Weight Matrix}\label{sol16}
+
+Every number below is printed by \texttt{python3} \nolinkurl{code/solutions/sol16.py}. The data are those of \nolinkurl{data/processed} and the Growth Lab ranking file tracked in \nolinkurl{data/raw/atlas}, all retrieved on 2026-11-05 (\nolinkurl{data/README.md}, \S\S5, 7, 8). Most exercises in this chapter are data exercises. Where the data were not fetched, the manual says so and gives the method only.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.1}{Build the global $W^P$}
+
+\emph{Data.} The exercise names BACI (CEPII), which was \textbf{not fetched}. The same construction is carried out on the Growth Lab's HS92 bilateral goods-trade totals \citep{growthlab2026atlas} (\nolinkurl{atlas_bilateral_selected_years.csv.gz}), which contain 2018. BACI reconciles mirror flows differently, so its values will differ somewhat; the steps are identical.
+
+\solpart{a} \textbf{Method.}
+\begin{enumerate}
+\item Keep the 2018 rows (exporter, importer, value in current US\$).
+\item Pivot to $K_{cc'}$ = imports of $c$ from $c'$, and set the diagonal to $0$ (imports only, Definition~\ref{ch16:def:global_WP}).
+\item Drop, iteratively, countries with zero imports or zero exports inside the set, so that every row and column of $K$ is nonzero. This leaves $N = 230$ economies.
+\item For the 50-node version, keep the 49 largest traders (imports plus exports), which account for $91.4\%$ of world trade, and merge the other $181$ economies into a Rest-of-World node. Trade among ROW members is genuine cross-border trade, so it stays on ROW's diagonal ($W_{\text{ROW,ROW}} = 0.1237$); the alternative with that entry set to zero is also reported.
+\end{enumerate}
+
+\solpart{b} $W^P = D^{-1}K$. Row sums equal $1$ to machine precision, the diagonal is zero and all entries are nonnegative.
+
+\solpart{c} \textbf{Column sums} (2018). They average exactly $1$, because the $N$ rows each sum to $1$. Largest: China $28.75$, the United States $23.99$, Germany $10.98$, France $8.86$, Italy $7.56$. Smallest: three tiny territories (Norfolk Island, Saint Pierre and Miquelon, Heard and McDonald Islands), of order $3 \times 10^{-5}$. Bolivia: $0.0961$ (2019: $0.0997$, against $0.10$ in Remark~\ref{ch16:prop:global_properties}). $W^P$ is therefore far from doubly stochastic, so $\bpi$ is far from uniform (\nolinkurl{docs/conventions.md}, \S2).
+
+\solpart{d} \textbf{Perron vector.} Power iteration $\bpi_{k+1}' = \bpi_k'W$ from the uniform vector converges in $51$ steps to tolerance $10^{-14}$ (Appendix~6A), and agrees with the eigen-decomposition to $10^{-10}$. It converges because $W$ is irreducible and aperiodic, and $|\lambda_2| = 0.55$ sets the rate. The top ten in 2018 are China $0.1251$, the US $0.0883$, Germany $0.0848$, Japan $0.0436$, Korea $0.0348$, France $0.0324$, the Netherlands $0.0300$, Italy $0.0299$, the UK $0.0269$ and Russia $0.0253$; together they hold $52.1\%$. $\pi_{\text{BOL}} = 0.00051$.
+
+\emph{Correlation with GDP per capita.} GDP per capita (WDI, PPP, current international \$) is in \nolinkurl{data/processed} only for the 13 comparator economies (ARG, BOL, BRA, CHL, CHN, COL, DEU, JPN, KOR, MEX, PER, URY, USA). On those, $\operatorname{corr}(\pi_c, \text{GDP pc}) = 0.530$ and $\operatorname{corr}(\log\pi_c, \log\text{GDP pc}) = 0.622$. The correlation of $\log\pi_c$ with the log of the \emph{level} of GDP is $0.970$. Power in the trade matrix tracks economic size, as gravity predicts, much more than income per head. The sample is small and hand-picked, so these are descriptions, not estimates; with all 230 economies the method is the same.
+
+\solpart{e} \textbf{$\Gamma$, $\Neff$ and aggregation.}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+& $N$ & $\Gamma$ & $|\lambda_2|$ & $\Neff$ & $\Neff/N$ \\
+\midrule
+Full, 2018 & 230 & 0.4479 & 0.5521 & 23.00 & 0.100 \\
+Full, 2019 (check) & 230 & 0.4522 & 0.5478 & 22.58 & 0.098 \\
+49 + ROW, 2018 & 50 & 0.4844 & & 20.29 & 0.406 \\
+49 + ROW, ROW diagonal $=0$ & 50 & 0.4844 & & 20.47 & 0.409 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The 2019 row reproduces Remark~\ref{ch16:prop:global_properties} ($\Gamma = 0.452$, $\Neff = 22.6$), which validates the pipeline.
+
+Aggregation raises $\Gamma$ by $0.037$. Merging nodes averages rows, which removes some slow modes (the small-island and regional sub-networks). It barely moves $\Neff$ ($23.0 \to 20.3$): the ROW node holds $\pi_{\text{ROW}} = 0.0765$, but power was already concentrated in the 49 economies kept. $\Neff/N$, by contrast, quadruples. This is the convention's warning: $\Neff$ is not comparable across node sets without normalizing by $N$, and the normalized measure depends on the aggregation.
+
+\textbf{Gravity benchmark.} With world export shares $\mathbf{s}$ (within the 230), $W = \ones\mathbf{s}'$ has $\Gamma = 1$ and $\bpi = \mathbf{s}$. Measured, $\operatorname{corr}(\bpi, \mathbf{s}) = 0.9969$ and $\frac12\|\bpi - \mathbf{s}\|_1 = 0.0346$ (China $0.1251$ against $s = 0.1389$; the US $0.0883$ against $0.0901$; Bolivia $0.00051$ against $0.00047$). Compare $\frac12\|\bpi - \ones/N\|_1 = 0.7165$. So $\bpi$ is almost exactly the gravity benchmark, while $\Gamma = 0.448$ is far below its benchmark of $1$. Power is a matter of size; the gap measures the frictions (distance, regional blocs) that keep rows from being identical.
+
+\emph{Common mistake:} concluding from the small $\Gamma$ that power is concentrated. The two coordinates are independent (Proposition~\ref{ch06:prop:gap-power-independent}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.2}{Compute the ECI}
+
+\emph{Data.} Growth Lab, ``Growth Projections and Complexity Rankings'', v12, HS92 ECI \citep{growthlab2026atlas}, file \nolinkurl{data/raw/atlas/growth_proj_eci_rankings.csv} (tracked in the repository; retrieved 2026-11-05). ECI is re-estimated with each release, so the figures belong to this release.
+
+\solpart{a} \textbf{2018} ($145$ ranked economies).
+\begin{itemize}
+\item \emph{Top 10:} Japan $2.044$, Korea $1.797$, Switzerland $1.752$, Taiwan $1.742$, Singapore $1.631$, Germany $1.543$, Czechia $1.484$, Austria $1.400$, Sweden $1.396$, Finland $1.393$.
+\item \emph{Bottom 10}, from 136th to 145th: Iraq $-1.613$, Guinea $-1.708$, Libya $-1.762$, Sudan $-1.911$, DR Congo $-2.067$, Yemen $-2.102$, Chad $-2.118$, Equatorial Guinea $-2.181$, Nigeria $-2.198$, Papua New Guinea $-2.398$.
+\end{itemize}
+Oil and mineral exporters dominate the bottom.
+
+\solpart{b} \textbf{ECI and GDP per capita.} On the 13 comparators: $\operatorname{corr}(\text{ECI}, \text{GDP pc}) = 0.699$ and $\operatorname{corr}(\text{ECI}, \log\text{GDP pc}) = 0.753$, against $\operatorname{corr}(\log\pi_c, \log\text{GDP pc}) = 0.622$ for the trade Perron vector on the same countries. So ECI is the better correlate of income per head. That is expected: $\pi_c$ measures size (part~(d) of Exercise~16.1), while ECI is a $z$-score of the second eigenvector of $\tilde M$, a measure of the composition of the basket that is independent of scale (Proposition~\ref{ch16:thm:ECI_gamma}). Over all $145$ ranked economies, $\operatorname{corr}(\text{ECI}, \log\pi_c) = 0.665$: large traders tend to be complex, but the two objects differ.
+
+\solpart{c} \textbf{ECI and Gini.} The WDI Gini (latest year in 2014--2019) is available for the same 13 countries; $\operatorname{corr}(\text{ECI}_{2018}, \text{Gini}) = -0.474$. This is the negative association of Empirical Result~\ref{ch16:prop:ECI_inequality}, but 13 hand-picked countries cannot say whether the low-ECI, low-Gini quadrant is sparse. Bolivia ($-1.46$, Gini $41.6$ in 2019) and Peru ($-0.68$ in 2019, $41.5$) sit in it, with Ginis below Brazil's ($53.5$) and Colombia's ($52.5$), which have higher ECIs. \emph{Method for the full answer:} merge the ranking with WDI \texttt{SI.POV.GINI} for all countries, take the closest year within $\pm 3$ years, plot, and count the countries in each quadrant defined by the medians. Do not read the empty quadrant, if there is one, as Fajnzylber's casillero vac\'{i}o: his box is in growth$\times$equity space.
+
+\solpart{d} \textbf{Bolivia and Korea.} 2018: Bolivia $-1.464$ (rank 131), Korea $1.797$ (rank 2); the gap is $3.26$, i.e.\ more than three cross-country standard deviations, since ECI is a $z$-score. (2019: $-1.30$ and $1.81$, as in Chapter~17.)
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.3}{Relatedness density}
+
+\emph{Data status.} Country$\times$product RCA data and product-space proximities were \textbf{not fetched} (\nolinkurl{data/README.md}, \S9). The $\omega$ values of Example~\ref{ch16:ex:relatedness} are placeholders. Method and expected qualitative result only.
+
+\solpart{a} \textbf{Method.}
+\begin{enumerate}
+\item Download the Growth Lab HS92 country$\times$product$\times$year file (4 digits) and average exports over 2017--2019.
+\item Compute $R_{cp}$ (Definition~\ref{ch16:def:RCA}) for all countries and set $M_{cp} = \mathbf{1}[R_{cp} \ge 1]$.
+\item Compute $\phi_{pp'} = \sum_c M_{cp}M_{cp'}/\max(M_p, M_{p'})$ (Definition~\ref{ch16:def:proximity}), or use the Atlas's published proximities.
+\item Compute $\omega_{cp} = \sum_{p'}M_{cp'}\phi_{pp'}/\sum_{p'}\phi_{pp'}$ (Definition~\ref{ch16:def:relatedness}) for Bolivia and the targets: HS~8507 (accumulators, including lithium-ion; PCI $0.549$ in 2019), the processed-food headings (HS chapters 19--21) and pharmaceutical intermediates (HS~2933--2942).
+\item Report each $\omega$ also as a percentile within the country's distribution over the products it does not yet export, since raw densities are not comparable across product classifications.
+\end{enumerate}
+
+\solpart{b} Repeat for Chile, Peru and Colombia. \emph{Expected result:} all four Andean economies have low density to batteries and pharmaceuticals, all with ECI near or below zero (2019 ECI: Chile $-0.06$, Peru $-0.68$, Colombia $0.14$, Bolivia $-1.30$). Bolivia's and Peru's mining-heavy baskets should give the lowest densities; Colombia's more diversified manufacturing should give the highest, and processed food should be the most accessible target for all four.
+
+\solpart{c} The country with the most diversified basket in proximity-dense products, plausibly Colombia among these, has the highest average density to core products. The reason is mechanical: $\omega_{cp}$ is a $\phi$-weighted share of neighbours already exported, and core products are each other's neighbours. Diversity in the core raises density to the rest of the core.
+
+\solpart{d} \textbf{Sequence to reach $\omega > 0.3$ for batteries.} The density rises only by adding products $p'$ with high $\phi_{p',8507}$: electrical machinery, chemicals and metal products. Following Conjecture~\ref{ch15:thm:sequencing}:
+\begin{enumerate}
+\item $\mathcal{L}_{\text{info}}$: technical exchanges and FDI in assembly, which create $W^I$ links to battery producers.
+\item $\mathcal{L}_{\text{inst}}$: stable contracts for lithium, lowering the destruction rate $\delta_1$.
+\item $\mathcal{L}_{\text{HC}}$: chemistry and electrical-engineering training.
+\item $\mathcal{L}_{\text{infra}}$: power and transport links for the processing zones.
+\item $\mathcal{L}_{\text{ISI}}$ of type B: domestic supply of lithium compounds to cathode and cell plants.
+\end{enumerate}
+Use the computed $\phi$ to list the smallest set of neighbouring products whose acquisition lifts $\omega$ above $0.3$ (a greedy knapsack on $\phi_{p',8507}$). The length of that list is the honest measure of distance; it is likely to be long.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.4}{Prebisch--Singer}
+
+\solpart{a} \textbf{Terms of trade: not fetched.} The WDI net barter terms-of-trade index (\texttt{TT.PRI.MRCH.XD.WD}) is not in \nolinkurl{data/processed}, and CEPAL's series was not downloaded. \emph{Method:} download the series for 1960--2023; rebase to 2000 = 100; plot it in logs; date booms as runs of years above a centred 10-year moving average. \emph{Expected:} a long-run decline punctuated by the 1970s and 2003--2014 commodity booms. Whether the trend is significant depends on the sample and on structural breaks, which is why the literature remains divided \citep{grilli1988primary,harvey2010prebisch,arezki2014testing}.
+
+\solpart{b} \textbf{ECI during the boom} (data available). Bolivia's HS92 ECI was $-0.856$ in 2003, $-1.207$ in 2006, $-1.345$ in 2009 and $-1.342$ in 2014: a fall of $0.486$ over 2003--2014 (2012 shows a transitory $-0.916$). Before the boom it was flat ($-0.004$ over 1995--2003); after it, it recovered slightly ($+0.047$ over 2014--2019). Fuels rose from $12.2\%$ of merchandise exports (2000) to $48.8\%$ (2006) and $51.7\%$ (2014), and fell to $32.1\%$ (2019). The boom concentrated the basket in a low-PCI product (natural gas, PCI $-2.23$), and the ECI fell. Booms do not raise complexity; they lower it by changing the weights of the basket.
+
+\solpart{c} \textbf{Price vs.\ quantity in $\pi_{\text{BOL}}$.}
+\begin{itemize}
+\item \emph{Available results.} $\pi_{\text{BOL}}$ was $0.00047$ in 2006 (boom start) and $0.00071$ in 2014 (peak); it fell to $0.00051$ in 2018 and was $0.00055$ in 2023. Bolivia's world export share moved in step ($0.00033 \to 0.00071 \to 0.00047$).
+\item \emph{A decomposition by partners} is possible with values alone. Bolivia's column sum of $W$ rose from $0.0713$ to $0.1115$ between 2006 and 2014. The intensive margin, larger shares in partners present in both years, accounts for $+0.0451$; the extensive margin, new minus lost partners ($28$ new, $17$ lost), accounts for $-0.0050$. The largest single increase is Bolivia's share of Argentina's imports ($+0.0322$), which is gas. So the boom raised weights on existing edges; it did not add partners, as Example~\ref{ch16:ex:bot_terms} says.
+\item \emph{Price vs.\ quantity: not computable here.} It needs quantities or unit values (BACI reports quantities by HS6 product; not fetched). \emph{Method:} for a boom year $t_1$ (2014) and a bust year $t_0$ (2018 or 2019), deflate each flow by a product price index with base $t_0$, i.e.\ value flows at $t_0$ unit values; rebuild $W$ and $\bpi$. The price effect is $\pi_{\text{BOL}}(t_1) - \pi_{\text{BOL}}^{\text{const}}(t_1)$; the remainder is quantities and partners.
+\item \emph{Expected:} most of the 2006--2014 rise is price, given that the extensive margin was negative and gas prices moved strongly over the period.
+\end{itemize}
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.5}{Global $W^I$}
+
+\emph{Data status.} Citation data were \textbf{not fetched}. Scopus requires a licence; OpenAlex is an open alternative with the same structure. Method only.
+
+\solpart{a} \textbf{Construction.}
+\begin{enumerate}
+\item Take all journal articles in economics (or all fields) published in one window, e.g.\ 2015--2019.
+\item Assign each paper to countries by author affiliation, using fractional counting: a paper with $k$ affiliations gives weight $1/k$ to each.
+\item For each citing paper in country $c$ and each cited reference in country $c'$, add the product of the fractional weights to $K_{cc'}$.
+\item Keep the 19 largest producers and merge the rest into one node (20 nodes).
+\item Decide the diagonal. Self-citation of a country's own literature is real information flow, so the main specification keeps it; report also the zero-diagonal version.
+\item $W^I = D^{-1}K$.
+\end{enumerate}
+
+\solpart{b--c} Compute $\bpi^I$ by power iteration and $\Neff = 1/\sum(\pi^I_c)^2$ (Definition~\ref{ch06:def:neff}), with bootstrap intervals obtained by resampling papers. \emph{Expected:} the US first by a wide margin, then the UK, Germany, China and France. With a 20-node set, $\Neff$ should lie between the number of dominant producers (about 3) and 20; report it as $\Neff/20$. It is \emph{not} comparable with the $\Neff$ of the trade matrix, which has a different node set.
+
+\solpart{d} Correlate $\bpi^I$ with $\bpi^P$ from Exercise~16.1 restricted to the same 20 nodes (re-normalized to sum to 1); Spearman rank correlation is the more robust choice. A high correlation is the alignment of Remark~\ref{ch16:prop:three_global}. Because both layers are on the same node set, a composite $W = \alpha_PW^P + \alpha_IW^I$ is defined (\nolinkurl{docs/conventions.md}, \S1). Alignment means its Perron vector is close to both, so concentration in one layer is not offset by the other. Integration of the composite is a separate question: $\Gamma$ of the composite need not be small (a hub structure mixes fast).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.6}{Integration, power and inequality}
+
+\emph{Data.} \nolinkurl{data/processed} holds OECD ICIO 2023 domestic blocks for 22 economies, and INE's table for Bolivia \citep{oecd2023icio,ine2026sut}; 2019, 12 ISIC-based sectors (\nolinkurl{book12_isic}), domestic flows, input shares, diagonal kept. That gives 23 countries, below the 30--50 requested. The extra countries need the full ICIO (fetchable, not done; \nolinkurl{data/README.md}, \S9).
+
+\solpart{a} \textbf{Domestic $\Gamma$ and $\Neff$} (2019, $N = 11$ sectors with intermediate flows):
+\begin{center}
+\small
+\begin{tabular}{lcc|lcc|lcc}
+\toprule
+& $\Gamma$ & $\Neff$ & & $\Gamma$ & $\Neff$ & & $\Gamma$ & $\Neff$ \\
+\midrule
+VNM & 0.333 & 3.11 & ESP & 0.494 & 4.71 & DEU & 0.544 & 3.89 \\
+MYS & 0.381 & 5.18 & BRA & 0.496 & 4.35 & IND & 0.548 & 5.76 \\
+PER & 0.407 & 5.15 & JPN & 0.510 & 3.77 & POL & 0.552 & 5.44 \\
+COL & 0.460 & 4.78 & KOR & 0.511 & 3.62 & CHL & 0.557 & 4.22 \\
+USA & 0.463 & 3.89 & NOR & 0.515 & 5.38 & CHN & 0.582 & 3.44 \\
+CRI & 0.469 & 4.14 & ARG & 0.522 & 5.40 & THA & 0.604 & 4.28 \\
+BOL & 0.475 & 6.67 & ZAF & 0.531 & 5.44 & MEX & 0.649 & 4.30 \\
+CZE & 0.486 & 4.63 & & & & IDN & 0.659 & 6.07 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Gamma$ ranges over $0.333$--$0.659$ and $\Neff$ over $3.11$--$6.67$; $\operatorname{corr}(\Gamma, \Neff) = 0.154$. Bolivia has the \emph{highest} $\Neff$, the least concentrated sectoral power.
+
+\solpart{b} \textbf{No function of $\Gamma$ bounds $\Var(\bpi)$.} \emph{Claim.} For every $\gamma \in (0,1]$ and every $\bpi$ in the open simplex, $W_\gamma = \gamma\ones\bpi' + (1-\gamma)I$ is row-stochastic, irreducible and aperiodic, with $\bpi(W_\gamma) = \bpi$ and $\Gamma(W_\gamma) = \gamma$. Hence $\{\Var(\bpi(W)) : \Gamma(W) = \gamma\} = [0, (N-1)/N^2)$ for every $\gamma$, and no function $f$ with $\Var(\bpi) \le f(\Gamma)$ can be tighter than the trivial bound.
+
+\emph{Proof.} $W_\gamma \ge 0$ and $W_\gamma\ones = \gamma\ones + (1-\gamma)\ones = \ones$. Every off-diagonal entry is $\gamma\pi_j > 0$, so $W_\gamma$ is irreducible, and the positive diagonal makes it aperiodic. $\bpi'W_\gamma = \gamma(\bpi'\ones)\bpi' + (1-\gamma)\bpi' = \bpi'$, and by uniqueness of the stationary vector of an irreducible matrix it is \emph{the} Perron vector. For the spectrum, $\ones\bpi'$ has rank one, with eigenvalue $1$ on $\ones$ and $0$ on the $(N-1)$-dimensional space $\{\mathbf{v}: \bpi'\mathbf{v} = 0\}$. On that space $W_\gamma = (1-\gamma)I$. So the eigenvalues are $1$ and $1-\gamma$ (multiplicity $N-1$), and $\Gamma = 1 - |1-\gamma| = \gamma$. Finally, $\Var(\bpi)$ ranges over $[0, (N-1)/N^2)$ as $\bpi$ ranges over the open simplex: it is $0$ at $\ones/N$ and approaches the maximum as $\bpi \to \mathbf{e}_1$. $\square$
+
+\emph{Numerically} ($N = 11$, $\pi_1 = p_1$, the rest equal): for $\gamma = 0.05$, $0.5$ and $1$, $\Gamma = \gamma$ exactly, and $\Var(\bpi) = 0$, $0.01674$, $0.07380$ at $p_1 = 1/11$, $0.5$, $0.95$, whatever $\gamma$. The maximum is $(N-1)/N^2 = 0.08264$.
+
+\solpart{c} \textbf{Regressions} (n = 12). Countries with WDI Gini (latest 2014--2019), ECI 2019 and a domestic $\Gamma$: ARG, BOL, BRA, CHL, CHN, COL, DEU, JPN, KOR, MEX, PER, USA. OLS, standard errors in parentheses:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& (1) & (2) & (3) \\
+\midrule
+ECI & $-3.57$ (1.83) & $-1.07$ (2.92) & $-4.72$ (5.46) \\
+log GDP pc & & $-5.49$ (5.02) & $-4.66$ (5.76) \\
+$\Gamma$ & & & $+1.61$ (36.36) \\
+$\Neff$ & & & $-4.08$ (4.81) \\
+$R^2$ & 0.277 & 0.362 & 0.422 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The negative ECI--Gini association appears in (1). With income controlled it shrinks to $-1.07$, and adding $\Gamma$ and $\Neff$ \emph{enlarges} it to $-4.72$. A mediator would shrink it, so neither $\Gamma$ nor $\Neff$ mediates in this sample. $\Gamma$'s coefficient has a standard error of $36$ Gini points per unit of $\Gamma$. With 12 observations and 5 parameters nothing is identified; the exercise's 30--50 countries are the minimum for a meaningful test. Mediation should be tested properly: estimate the ECI coefficient with and without the mediators on the same sample, bootstrap the difference, and add regional fixed effects.
+
+\solpart{d} \textbf{Lower inequality than predicted.} Residuals from specification (2), actual minus predicted Gini: Bolivia $-6.9$, Peru $-5.2$, China $-4.9$, Japan $-4.3$, Germany $-4.0$, Korea $-4.0$. The largest positive residuals are Brazil ($+9.0$), Colombia ($+7.7$) and the United States ($+6.0$). In this sample Bolivia is the strongest over-performer. That is consistent with Stylized Fact~\ref{ch16:sf:bolivia_equity}: equity gains through labour income at the bottom and transfers, not through complexity. What the over-performers have in common is a policy and labour-market story (Bolivia, Peru: commodity-boom wage growth; Germany, Japan, Korea: compressed wage structures), not a common $\Gamma$. Their $\Gamma$s range from $0.407$ to $0.582$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{16.7}{Bolivia's structural position}
+
+\solpart{a} \textbf{Position} (sourced values).
+\begin{itemize}
+\item \emph{Global power}: $\pi_{\text{BOL}} = 0.00053$ in 2019, which is $0.121$ times the uniform share $1/230$.
+\item \emph{Complexity}: ECI $-1.30$ in 2019, rank 131 of 145. It was $-1.21$ in 2006, and fell by $0.58$ over 1999--2019.
+\item \emph{Domestic integration}: $\Gamma(W^P) = 0.467$ (Chapter~17).
+\item \emph{Terms of trade}: a boom-and-bust in shares rather than a structural change (Exercise~16.4).
+\item \emph{Relatedness to core products} and \emph{position in $W^I$}: not measured. Relatedness needs Exercise~16.3; for $W^I$, Bolivia is a peripheral receiver, with the expected position of Exercise~16.5.
+\end{itemize}
+
+\solpart{b} \textbf{A 20-year plan} (model answer). The binding constraint is complexity, not integration. Bolivia's $\Gamma$ is already in the comparator range, and its sectoral power is the least concentrated of the 23 economies in Exercise~16.6. So the plan targets new products near the existing basket, not $\Gamma$. Following the sequence of Conjecture~\ref{ch15:thm:sequencing}:
+\begin{enumerate}
+\item Years 1--3, $\mathcal{L}_{\text{info}}$ and $\mathcal{L}_{\text{inst}}$: technical exchanges, FDI in assembly, stable rules for lithium and agro-industry contracts.
+\item Years 2--10, $\mathcal{L}_{\text{HC}}$: chemical, electrical and food-engineering training tied to target firms.
+\item Years 5--15, $\mathcal{L}_{\text{infra}}$: power, logistics and testing laboratories in the processing zones.
+\item Years 8--20, $\mathcal{L}_{\text{ISI}}$ of type B: supplier-development contracts linking agro-industry and lithium to domestic metalworking and chemicals.
+\end{enumerate}
+Target products, in order of expected relatedness: processed food and food machinery (HS 8438), lithium compounds and battery precursors (HS 2836 to 8507), and pharmaceutical intermediates last.
+
+\solpart{c} \textbf{Orders of magnitude.}
+\begin{itemize}
+\item \emph{Cost.} A programme of $1\%$ of GDP a year for 20 years is $9.8$~bn US\$ at the 2019 GDP of $49.1$~bn. That is an assumption about scale, not an estimate.
+\item \emph{$\Delta$ECI.} Over 1999--2019, across the 140 economies ranked in both years, the median 20-year change was $+0.02$, the 75th percentile $+0.28$ and the 90th $+0.53$; only $11.4\%$ gained $0.5$ or more. A plan that delivered $+0.5$ would be a top-decile performance, and would still leave Bolivia near $-0.8$.
+\item \emph{$\Delta\Gamma$.} About $0$, and not a target. Across comparators $\Gamma$ moves by a few hundredths per decade in either direction.
+\item \emph{$\Delta$Gini.} No structural prediction. The 2005--2019 fall (from $0.600$ to $0.426$) came from labour income and transfers; the plan's contribution is to make it durable.
+\end{itemize}
+
+\solpart{d} \textbf{Political feasibility.} By Proposition~\ref{ch15:prop:political_cost}, the integration and complexity components need not cost any coalition power. The constraint bites only where the plan redistributes power, e.g.\ moving fiscal rents from the hydrocarbons--state coalition to new private suppliers. Under the coalition logic of Chapter~14 (Proposition~\ref{ch14:prop:power_gain}), the plan is feasible if its surplus component $\Delta\Omega/N$ is large enough to compensate the losers of $\Delta\bpi$. The plan should therefore be designed to raise $\Omega$ while leaving $\bpi$ of the current coalition roughly unchanged at first, and so it should be front-loaded with the operators that do not move $\bpi$.
+
+\endgroup
+\end{document}

@@ -1,0 +1,246 @@
+% Solutions to the exercises of Chapter 5. Numbers: code/solutions/sol05.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{4}}{}% NN-1 when built standalone
+\setcounter{chapter}{4}% NN-1, so this chapter is numbered NN
+\chapter{The Three Networks}\label{sol05}
+\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol05.py}. Raw intensities $K$ are row-normalized to $W = D^{-1}K$, and an all-zero row becomes a self-loop (Remark~\ref{ch05:prop:WU_properties}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.1}{Utility externalities: keeping up and falling behind}
+
+\solpart{a} With $U_i(x) = x - \frac12x^2$ and $\x = (0.6, 0.4, 0.8)$: $U = (0.42, 0.32, 0.48)$. By~\eqref{ch05:eq:utility_WU},
+\begin{align*}
+V_2 &= 0.32 + 0.5(0.25\cdot0.42 + 0.05\cdot0.48) = 0.32 + 0.5(0.105 + 0.024) = 0.3845,\\
+V_3 &= 0.48 + 0.5(0.02\cdot0.42 + 0.05\cdot0.32) = 0.48 + 0.5(0.0084 + 0.016) = 0.4922 .
+\end{align*}
+Check: $V_1 = 0.4728$, as in Example~\ref{ch05:ex:vendors}. Rosa's externality term is the largest ($0.0645$): she cares most about Mar\'ia, who has the second-highest private utility.
+
+\solpart{b} Social welfare is $\sum_iV_i = \sum_j\alpha_jU(x_j)$, with $\alpha_j = 1 + \gamma_Uc_j$ (Chapter~2, equation~\eqref{ch02:eq:planner_weight}). The column sums are $\mathbf c = (0.25 + 0.02,\ 0.30 + 0.05,\ 0.02 + 0.05) = (0.27, 0.35, 0.07)$, so $\boldsymbol\alpha = (1.135, 1.175, 1.035)$. The first-order conditions $\alpha_j(1 - x_j) = \nu$ and $\sum_jx_j = 1.8$ give $\nu = 1.2/\sum_j\alpha_j^{-1} = 0.44472$ and
+\[
+\x^{V} = (0.6082,\ 0.6215,\ 0.5703), \qquad \x^{U} = (0.6, 0.6, 0.6).
+\]
+Rosa, the most cared about ($c_2 = 0.35$), gets the most; Carlos, whom nobody much cares about, gets less than equal division. The gain in $\sum V$ over equal division is $0.000766$, exactly the formula of Proposition~\ref{ch02:prop:ext_loss} with $m = 0.6$, $\kappa = 1$. The cost in $\sum U$ is small: $1.259295$ against $1.26$. Satiation is not an issue ($x_j < 1$).
+
+\solpart{c} As $\gamma_U \to 1$, the weights become $\boldsymbol\alpha = (1.27, 1.35, 1.07)$ and the tilt grows: $\x^V = (0.6163, 0.6391, 0.5446)$, with a welfare gain of $0.002841$. The loss of equal division grows roughly with $\gamma_U^2\Var(c_j)$, as in~\eqref{ch02:eq:ext_loss}. As $\gamma_U \to 0$, $\alpha_j \to 1$ and the two allocations coincide: at $\gamma_U = 0.1$, $\x^V = (0.6016, 0.6047, 0.5937)$, and at $\gamma_U = 0$, $\x^V = (0.6, 0.6, 0.6)$. This is the benchmark A1 of Chapter~4. \emph{Common mistake:} using row sums (how much $i$ cares) instead of column sums (how much $j$ is cared about). Only the latter enter the planner's weights.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.2}{Three networks for a factory town}
+
+\solpart{a} \illustrative\ Agents are Owner $F$, Worker $W$, Shopkeeper $S$ and Mayor $M$. A plausible set of raw intensities (rows: who cares about, depends on, or listens to whom):
+\[
+K^U = \begin{pmatrix} 0 & .1 & .1 & .3\\ .1 & 0 & .4 & .1\\ .1 & .3 & 0 & .1\\ .3 & .2 & .2 & 0\end{pmatrix}\!,\
+K^P = \begin{pmatrix} .1 & .5 & .05 & .1\\ .6 & .2 & .1 & .1\\ .3 & 0 & .3 & .1\\ .5 & .1 & .2 & .2\end{pmatrix}\!,\
+K^I = \begin{pmatrix} .5 & .1 & .1 & .3\\ .3 & .2 & .3 & .2\\ .2 & .3 & .3 & .2\\ .4 & .1 & .2 & .3\end{pmatrix}\!.
+\]
+The owner cares about the mayor (politics). The worker and the shopkeeper are neighbours. The owner's production depends on labour; the worker's on the factory (capital and employment); the shop on the factory's products; and the municipality on the factory's taxes. Row-normalizing gives, for example, $W^P_{F\cdot} = (0.1333, 0.6667, 0.0667, 0.1333)$ and $W^U_{W\cdot} = (0.1667, 0, 0.6667, 0.1667)$. The layer Perron vectors are:
+\begin{itemize}
+\item $\boldsymbol\pi(W^U) = (0.202, 0.2801, 0.2917, 0.2262)$;
+\item $\boldsymbol\pi(W^P) = (0.3826, 0.3354, 0.1497, 0.1324)$;
+\item $\boldsymbol\pi(W^I) = (0.3835, 0.1548, 0.1968, 0.2648)$.
+\end{itemize}
+
+\solpart{b} The composite with $\alpha = \frac13$ each is
+\[
+W = \begin{pmatrix} 0.2111 & 0.3222 & 0.1222 & 0.3444\\ 0.3556 & 0.1333 & 0.3556 & 0.1556\\ 0.2762 & 0.3 & 0.2429 & 0.181\\ 0.4429 & 0.1619 & 0.2286 & 0.1667\end{pmatrix}.
+\]
+Its column sums are $(1.2857, 0.9175, 0.9492, 0.8476)$.
+
+\solpart{c} $\boldsymbol\pi = (0.3118, 0.2367, 0.2287, 0.2227)$, with $\Neff = 3.9186$ and $\Gamma = 0.7236$. The owner has the most power. By Proposition~\ref{ch05:prop:composite_power}, his power is the power directed at him through all three channels: everyone depends on his output ($W^P$ column $F$: $0.6$, $0.4286$, $0.5$), the mayor listens to him ($0.4$), and the mayor cares about him ($0.4286$). The mayor has the smallest column sum in the composite ($0.8476$), so he comes last.
+
+\solpart{d} When the factory closes, column $F$ of $K^P$ goes to zero (nobody can depend on output that no longer exists), and so does row $F$ (the factory buys no inputs). The owner's production row becomes a self-loop, and the other rows are renormalized: $W^P_{W\cdot} = (0, 0.5, 0.25, 0.25)$, $W^P_{S\cdot} = (0, 0, 0.75, 0.25)$, $W^P_{M\cdot} = (0, 0.2, 0.4, 0.4)$. The new Perron vector is $\boldsymbol\pi = (0.2721, 0.2065, 0.2802, 0.2411)$. The owner loses $0.0397$; the worker loses $0.0302$ (the factory was the main user of his labour); the shopkeeper gains $0.0515$ and becomes the most powerful agent, because the production weight shifts onto her shop. Power becomes \emph{less} concentrated ($\Neff = 3.9468$), and the town integrates more slowly ($\Gamma = 0.6103$). The owner keeps a residual weight through $W^U$ and $W^I$: losing the factory does not erase his social and informational position at once.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.3}{DeGroot learning}
+
+\solpart{a} Row sums: $0.5+0.3+0.2 = 0.1+0.6+0.3 = 0.2+0.2+0.6 = 1$, so $W^I$ is row-stochastic.
+
+\solpart{b} The powers are
+\[
+(W^I)^2 = \begin{pmatrix} 0.32 & 0.37 & 0.31\\ 0.17 & 0.45 & 0.38\\ 0.24 & 0.30 & 0.46\end{pmatrix},\quad
+(W^I)^5 = \begin{pmatrix} 0.2341 & 0.3751 & 0.3908\\ 0.2287 & 0.3740 & 0.3973\\ 0.2353 & 0.3685 & 0.3962\end{pmatrix}.
+\]
+The rows become more similar: the largest within-column spread falls from $0.15$ at $t = 2$ to $0.0066$ at $t = 5$. The rows converge to $\boldsymbol\pi'$ (Proposition~\ref{ch05:prop:DeGroot}).
+
+\solpart{c} Solving $\boldsymbol\pi'W^I = \boldsymbol\pi'$ gives $\boldsymbol\pi = (10, 16, 17)/43 = (0.2326, 0.3721, 0.3953)$. Agent~3 has the most epistemic power, as in Appendix~\ref{ch05:app:stochastic}. Power iteration from $\frac13\ones$ gives $(0.267, 0.367, 0.367)$, $(0.243, 0.373, 0.383)$ and $(0.233, 0.373, 0.395)$ at $t = 1, 2, 5$. The other eigenvalues are $0.35 \pm 0.0866i$, of modulus $0.3606$, so $\Gamma = 0.6394$.
+
+\solpart{d} With $\mathbf b^{(0)} = (0, 0.5, 1)'$, $\mathbf b^{(t)} = (W^I)^t\mathbf b^{(0)}$:
+\begin{center}
+\begin{tabular}{rcc}
+\toprule
+$t$ & $\mathbf b^{(t)}$ & $\max_i|b_i^{(t)} - b^*|$\\
+\midrule
+1 & (0.35, 0.6, 0.7) & $2.31\times10^{-1}$\\
+2 & (0.495, 0.605, 0.61) & $8.64\times10^{-2}$\\
+5 & (0.5783, 0.5843, 0.5804) & $3.08\times10^{-3}$\\
+10 & (0.5814, 0.5814, 0.5814) & $1.96\times10^{-5}$\\
+50 & (0.5814, 0.5814, 0.5814) & $7.77\times10^{-16}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The limit is $\boldsymbol\pi'\mathbf b^{(0)} = \frac{16\cdot0.5 + 17}{43} = 0.5814$, as in~\eqref{ch05:eq:consensus}. The errors shrink roughly by $|\lambda_2|^t = 0.3606^t$ per round, which is the geometric rate of Appendix~\ref{ch05:app:stochastic}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.4}{The phone as structural change}
+
+\solpart{a} \illustrative\ The agents are Mother, Friend, Cousin, TikTok, Teacher. The pre-phone network has the Mother row the exercise gives. Cousin and TikTok are unreachable from Potos\'i: nobody there listens to them, and the cousin hears nobody in Potos\'i (TikTok did not exist; it is coded as a self-loop).
+\[
+W^I_{\text{pre}} = \begin{pmatrix} .6 & .2 & 0 & 0 & .2\\ .3 & .5 & 0 & 0 & .2\\ 0 & 0 & 1 & 0 & 0\\ 0 & 0 & 0 & 1 & 0\\ .2 & .1 & 0 & 0 & .7\end{pmatrix},\qquad
+W^I_{\text{post}} = \begin{pmatrix} .55 & .15 & .05 & .05 & .2\\ .2 & .4 & .05 & .25 & .1\\ .1 & 0 & .8 & .1 & 0\\ 0 & .05 & .05 & .85 & .05\\ .2 & .1 & .05 & .05 & .6\end{pmatrix}.
+\]
+Post-phone, the mother and the teacher glance at the cousin and TikTok, the friend watches TikTok heavily, the cousin stays in touch by WhatsApp, and the feed responds weakly to local creators. Luisa's own rows are those of Example~\ref{ch05:ex:Luisa}: $(0.5, 0.3, 0, 0, 0.2)$ pre-phone and $(0.35, 0.25, 0.15, 0.15, 0.10)$ post-phone. Nobody in the five-agent network listens to Luisa, so she is a \emph{listener} outside the matrix.
+
+\solpart{b} \emph{Pre-phone}, $W^I_{\text{pre}}$ is reducible: the eigenvalue 1 has multiplicity 3, one for each closed class $\{$Mother, Friend, Teacher$\}$, $\{$Cousin$\}$, $\{$TikTok$\}$. The Perron vector is not unique (Chapter~3, Proposition~\ref{ch03:prop:block_spectral}(1)). Within the Potos\'i class it is $(0.3714, 0.2286, 0.4)$ on (Mother, Friend, Teacher): the teacher, whom both others heed, has the most epistemic power. \emph{Post-phone}, the network is irreducible and aperiodic, with
+\[
+\boldsymbol\pi = (0.1548,\ 0.097,\ 0.2,\ 0.397,\ 0.1513), \qquad \Neff = 3.9395,\quad \Gamma = 0.2315 .
+\]
+Epistemic power shifts massively to TikTok ($0.397$) and the cousin ($0.2$). They are listened to a little by everyone and listen mostly to themselves: the self-reliance effect of Example~\ref{ch05:ex:LaPaz}.
+
+\solpart{c} With $\mathbf b^{(0)} = (0.3, 0.3, 0.8, 0.6, 0.7)$:
+\begin{itemize}
+\item \emph{Pre-phone.} There is no single consensus. The Potos\'i class converges to $(0.3714, 0.2286, 0.4)\cdot(0.3, 0.3, 0.7) = 0.46$, while the cousin stays at $0.8$ and TikTok at $0.6$. Luisa listens only to Potos\'i, so her long-run belief is $0.46$.
+\item \emph{Post-phone.} Everyone converges to $\boldsymbol\pi'\mathbf b^{(0)} = 0.5796$, and so does Luisa.
+\end{itemize}
+
+\solpart{d} The phone raises Luisa's long-run belief about returns to education from $0.46$ to $0.5796$. The decomposition is the instructive part.
+\begin{itemize}
+\item If only \emph{Luisa} got a phone (her post-phone row, everyone else's pre-phone rows), her long-run belief would be $0.532$: $0.70\times0.46$ from Potos\'i plus $0.15\times0.8 + 0.15\times0.6$ from the cousin and TikTok, which keep their own beliefs.
+\item Once the \emph{network} has changed, Luisa's own row is irrelevant to her long-run belief: with the pre-phone row she still converges to $0.5796$. A listener whom nobody listens to has zero Perron weight (adding Luisa as a sixth agent gives her $\pi = 0$) and inherits the consensus.
+\end{itemize}
+The structural change that matters is in other people's rows. Whether the higher belief changes Luisa's $\theta$ is the formation question of Chapter~10.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.5}{When networks align}
+
+\solpart{a} \illustrative\ A village with
+\[
+W = \begin{pmatrix} 0.4 & 0.3 & 0.2 & 0.1\\ 0.3 & 0.4 & 0.1 & 0.2\\ 0.2 & 0.1 & 0.4 & 0.3\\ 0.1 & 0.2 & 0.3 & 0.4\end{pmatrix} = W^U = W^P = W^I .
+\]
+The composite is $\alpha_UW + \alpha_PW + \alpha_IW = W$ for every $\boldsymbol\alpha$, because the weights sum to one. $W$ is symmetric with unit row sums, hence doubly stochastic: $\boldsymbol\pi = \frac14\ones$, and $\Gamma = 0.6$. In this village no agent has more structural power than another, through any channel. (Using $W^U = W$ with a nonzero diagonal is a simplification; Remark~\ref{ch05:prop:WU_properties}.)
+
+\solpart{b} Agent~1 starts importing: half of its purchases from agent~2 ($0.15$ of $0.3$) are replaced by imports. Imports are not a domestic node, so the domestic production row loses mass, and after renormalization (Definition~\ref{ch05:def:composite}) it is $W^P_{1\cdot} = (0.4706, 0.1765, 0.2353, 0.1176)$. Only $W^P$ changes. With equal weights the composite's first row becomes $(0.4235, 0.2588, 0.2118, 0.1059)$, and
+\[
+\boldsymbol\pi = (0.2556,\ 0.2368,\ 0.2556,\ 0.2519)\quad(\Neff = 3.9962,\ \Gamma = 0.6101).
+\]
+Agent~2, the displaced supplier, loses power ($-0.0132$), and the others gain. With a heavier production weight, $\boldsymbol\alpha = (0.2, 0.5, 0.3)$, agent~2 loses $0.02$. In Leontief terms, take domestic technical coefficients $A = 0.5\,K$ (scaled so that $\rho(A) < 1$). Agent~1's output multiplier falls from $2$ to $1.8032$, because imported inputs leak. Agent~2's forward linkage falls from $2$ to $1.8032$. The other multipliers fall slightly too ($1.9582$, $1.9684$, $1.9765$), because the cascade now leaks.
+
+\solpart{c} Entering the global supply chain breaks the alignment that made the village simple. The production network now points partly outside the village, while the utility and information networks still point inside. Three things follow:
+\begin{itemize}
+\item a leakage of demand (lower multipliers);
+\item a redistribution of local power away from the agents whose sales are displaced;
+\item a divergence between the channels: agent~2 is still cared about and listened to, but less depended upon.
+\end{itemize}
+This is the first step of Dos Santos's third regime (case study): bridging links outward that do not connect inward. \emph{Common mistake:} representing the import as a new column in $W^P$ alone. The composite then mixes node sets (Chapter~1, Section~\ref{ch01:sec:conventions}). The outside world must be added as a node in every layer, or kept out of all of them.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.6}{Prebisch in $W^I$}
+
+\textbf{Construction} (\illustrative). Agents 1--2 are the center and 3--6 the periphery. Each center agent puts $0.45$ on each center agent and $0.025$ on each periphery agent, so total weight $\varepsilon_1 = 0.1$ on the periphery. Each periphery agent puts $0.35$ on each center agent and $0.075$ on each periphery agent, so $\varepsilon_2 = 0.7$ on the center. Within-block weights are uniform, so the partition is exactly lumpable.
+
+\solpart{a} By Proposition~\ref{ch06:prop:block_power}, the center's mass is $\varepsilon_2/(\varepsilon_1 + \varepsilon_2) = 0.7/0.8 = 0.875$: $\boldsymbol\pi = (0.4375, 0.4375, 0.0313, 0.0313, 0.0313, 0.0313)$, with $\Neff = 2.5859$ and $\Gamma = 0.8$. The two center countries hold $87.5\%$ of epistemic power, against $1/3$ under uniformity.
+
+\solpart{b} With $\mathbf b^{(0)} = (0, 0, 1, 1, 1, 1)$, the consensus is $\boldsymbol\pi'\mathbf b^{(0)} = 0.125$. After 30 rounds every agent holds $0.125$.
+
+\solpart{c} The center determines $87.5\%$ of the consensus, although it is a third of the agents. This is \emph{consistent with} a DeGroot reading of the Washington Consensus (Chapter~5's Prebisch box): the periphery's long-run view converges close to the center's. But the model does not show that the actual consensus arose this way. That would require measuring $W^I$ and the initial beliefs, and the chapter's case study is explicit that it offers no such evidence.
+
+\solpart{d} The periphery's belief carries weight $\varepsilon_1/(\varepsilon_1 + \varepsilon_2)$ in the consensus. It ``survives'' (dominates the consensus) if and only if $\varepsilon_1 > \varepsilon_2$: the center must listen to the periphery more than the periphery listens to the center.
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$\varepsilon_1$ & $\varepsilon_2$ & consensus & $\Gamma$\\
+\midrule
+0.10 & 0.70 & 0.1250 & 0.8\\
+0.10 & 0.30 & 0.2500 & 0.4\\
+0.40 & 0.30 & 0.5714 & 0.7\\
+0.70 & 0.10 & 0.8750 & 0.8\\
+\bottomrule
+\end{tabular}
+\end{center}
+Two routes lead there: the periphery listens less to the center (lower $\varepsilon_2$), or the center listens more to the periphery (higher $\varepsilon_1$). Only the \emph{ratio} matters: rows 1 and 4 have the same $\Gamma$ and opposite consensuses. In the limit $\varepsilon_2 \to 0$ the periphery becomes a closed class and keeps its own belief, but there is then no common consensus. Integration ($\Gamma$) is not what protects the periphery's view; the direction of attention is.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.7}{Composite power in the La Paz model}
+
+\solpart{a} Hold $\alpha_U/\alpha_I = 0.2/0.3$, so $\alpha_U = 0.4(1 - \alpha_P)$ and $\alpha_I = 0.6(1-\alpha_P)$. With $W^U$, $W^P$ and $W^I$ from Example~\ref{ch05:ex:LaPaz}:
+\begin{center}
+\begin{tabular}{lccccccccc}
+\toprule
+$\alpha_P$ & 0 & 0.2 & 0.4 & 0.5 & 0.6 & 0.8 & 0.9 & 0.99 & 1\\
+\midrule
+$\pi_3$ & 0.4539 & 0.4870 & 0.5323 & 0.5625 & 0.6005 & 0.7198 & 0.8239 & 0.9770 & 1.0000\\
+$\Gamma$ & 0.3323 & 0.2813 & 0.2299 & 0.2040 & 0.1781 & 0.1260 & 0.0998 & 0.0762 & 0.0735\\
+\bottomrule
+\end{tabular}
+\end{center}
+$\pi_3$ increases monotonically in $\alpha_P$ (on a grid of 1{,}001 points). Its minimum is $0.4539$ at $\alpha_P = 0$, and its maximum $1$ at $\alpha_P = 1$. At $\alpha_P = 0.5$ we recover the example's $(0.2108, 0.2267, 0.5625)$. At $\alpha_P = 1$ the composite is $W^P$, in which the vendor is an \emph{absorbing} state: her row is $(0, 0, 1)$ and the Minister's row leaks $1/6$ to her. So $\boldsymbol\pi = e_3$, the unique stationary vector of a chain with one closed class.
+
+\solpart{b} The vendor matters most in an economy organized around production dependence (high $\alpha_P$). The reason is not that others depend heavily on her; it is that weight flows into her and none flows out. She is least prominent when information and care dominate, but even then she leads ($0.4539$), because her column of $W^I$ is the heaviest. ``Invisible'' does not happen in this example. It would require that nobody depend on, care about or listen to her, i.e.\ a zero column in every layer, which gives $\pi_3 = 0$ (marginalization; Exercise~4.5 of this manual).
+
+\solpart{c} \illustrative\ Luisa (student) is agent~4, with raw rows:
+\begin{itemize}
+\item utility: she cares about the vendor (her mother) $0.5$, and the vendor now cares about her $0.6$;
+\item production: she helps at the stall, so the vendor's row gains $0.1$ on Luisa, and Luisa's own production row is empty (a self-loop);
+\item information: Luisa listens to Minister $0.1$, Executive $0.2$, Vendor $0.3$ and herself $0.4$, and the vendor listens to her $0.1$.
+\end{itemize}
+Other agents' rows are unchanged. The composite $W_4 = 0.2W^U + 0.5W^P + 0.3W^I$ has
+\[
+\boldsymbol\pi = (0.2058,\ 0.2332,\ 0.29,\ 0.2709), \qquad \Neff = 3.9327 .
+\]
+The vendor's power falls from $0.5625$ to $0.29$: she now sends weight to Luisa through all three channels, so weight no longer accumulates in her node. The household $\{$Vendor, Luisa$\}$ holds $0.561$, almost exactly the vendor's former share. Including a dependent redistributes power within the household rather than adding to it.
+
+\solpart{d} Replacing the vendor's self-loop in the normalized $W^U$ by $(\frac13, \frac13, \frac13)$ gives $\boldsymbol\pi = (0.3125, 0.3471, 0.3404)$: $\pi_3$ falls by $0.222$, from $0.5625$. If the production self-loop is replaced too, $\pi_3$ falls to $0.1713$. The vendor's top rank in the example is largely an artifact of how all-zero rows are coded. The self-loop convention makes a person who cares about nobody count as fully self-reliant, and the Perron vector rewards self-reliance. A strong answer reports the measure's sensitivity to this convention and treats ``power'' attributed to autonomous agents with caution, as the example's last paragraph warns.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{5.8}{From story to matrix: the chain from gas well to school (data)}
+
+\textbf{Data (real results).} INE Bolivia, supply-use tables, base 2017, year 2019, 39 industries $\times$ 42 products \citep{ine2026sut}, retrieved 2026-11-05. They are converted to industry-by-industry flows at basic prices by the repository's own code (\texttt{data/compute/compute\_bolivia\_io.py}: \texttt{load\_b17}, \texttt{sut\_to\_iot}). $Z^{\text{tot}}$ includes imported inputs; $Z^{\text{dom}}$ removes them by import proportionality. Coefficients follow the book's convention $a_{ij} = Z_{ji}/x_i$.
+
+\solpart{a} \emph{The links as entries of $A$ and $W^P$.} In the table, $a$ is the input per unit of the buyer's output, and $W^P$ is the domestic share of the buyer's inputs:
+\begin{center}
+\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llcccc}
+\toprule
+link & entry & $a$ (total) & $a$ (domestic) & imported share & $W^P$ \\
+\midrule
+gas well $\to$ processing (refining) & $a_{17,05}$ & 0.3616 & 0.3616 & 0.0000 & 0.5855\\
+gas $\to$ thermoelectric plant & $a_{23,05}$ & 0.0503 & 0.0493 & 0.0201 & 0.1069\\
+refined fuel $\to$ power plant & $a_{23,17}$ & 0.0178 & 0.0078 & 0.5598 & 0.0170\\
+electricity $\to$ flour mill & $a_{09,23}$ & 0.0067 & 0.0066 & 0.0096 & 0.0119\\
+flour $\to$ bakery (same industry) & $a_{09,09}$ & 0.1328 & 0.1147 & 0.1363 & 0.2074\\
+\bottomrule
+\end{tabular}}
+\end{center}
+The remaining links are not entries of $A$ at all.
+\begin{itemize}
+\item \emph{Bread $\to$ miner} is household final consumption: $8{,}596.9$ million Bs of milling and bakery products go to households, against $4{,}688.8$ to intermediate use. Mining's purchases from the milling industry are $a_{06,09} = 0.0003$.
+\item \emph{Tin $\to$ exports} is final demand: mining exports $39.14\%$ of its output.
+\item \emph{Export revenue $\to$ school} is a fiscal flow (royalties and taxes) that finances non-market education. It is not an intermediate purchase.
+\end{itemize}
+The input--output table sees only the first half of the story.
+
+\solpart{b} \emph{Testing the story's import claims.} Each claim is a hypothesis.
+\begin{itemize}
+\item \emph{The processing plant's equipment is imported.} This cannot be tested on intermediate inputs: equipment is capital formation. At product level, imports are $95.77\%$ of the total supply of machinery and equipment, so the claim is very plausible. The intermediate inputs of the processing step are domestic: refining buys its gas domestically (imported share 0), though $24.43\%$ of its total intermediate inputs are imported.
+\item \emph{The power plant was built by a foreign firm.} This is ownership or FDI, not an I-O fact, and not testable here. The plant's fuel is domestic gas (imported share $2.01\%$); refined fuels for power are $55.98\%$ imported, but they are a small input ($0.0178$).
+\item \emph{The mill buys imported wheat.} Wheat is not a separate product in the 42-product classification; it is inside ``agricultural products''. Under import proportionality the mill's agricultural inputs are $3.60\%$ imported ($a_{09,01} = 0.2464$, of which $0.2375$ domestic), and imports are only $3.50\%$ of agricultural supply. That figure is an \emph{assumption} (the same import share in every use), not an observation. Testing the wheat claim needs product-by-industry import matrices or customs data by HS code (wheat, HS 1001; flour, HS 1101), which were not fetched. Imports are $11.77\%$ of the supply of milling and bakery products themselves, so imported \emph{flour}, not wheat, is the more visible leak.
+\end{itemize}
+
+\solpart{c} \emph{Two blocks.} We use the 2019 12-sector domestic table, without domestic services, which have no intermediate flows. With the gas block $= \{$Hydrocarbons$\}$:
+\begin{itemize}
+\item $\varepsilon_1 = 0.9751$: the share of hydrocarbons' domestic inputs bought from the rest;
+\item $\varepsilon_2 = 0.0390$: the share of the rest's inputs bought from hydrocarbons.
+\end{itemize}
+The two-block formula of Proposition~\ref{ch06:prop:block_power} predicts block power $\varepsilon_2/(\varepsilon_1 + \varepsilon_2) = 0.0384$, against an actual $\pi_{\text{hyd}} = 0.0392$ in the 11-sector $W^P$. The prediction is close, although the hypothesis of equal $\varepsilon$ for every agent fails: the rest's sectors put between $0.0014$ and $0.1050$ on hydrocarbons. With the block $\{$Hydrocarbons, Mining$\}$: $\varepsilon_1 = 0.9729$, $\varepsilon_2 = 0.1234$, prediction $0.1125$, actual $0.0767$. Here the heterogeneity (from $0.0068$ to $0.2649$) matters more.
+
+\emph{Is the chain ``mostly imaginary''?} Partly.
+\begin{itemize}
+\item \emph{What exists.} The first link is real and domestic: refining's largest input is domestic gas. The gas-to-power link exists ($\varepsilon$-sized).
+\item \emph{What is thin.} Power-to-mill is tiny ($a = 0.0067$).
+\item \emph{What is not a production link.} The second half of the chain (bread, tin, school) runs through final demand and the budget, not through $A$.
+\end{itemize}
+The gas block buys almost all its domestic inputs from the rest, but the rest depends on it very little ($\varepsilon_2 = 0.039$), and it exports 70\% of its output. That is Pinto's heterogeneity in its \emph{one-way} form: weak forward linkages, not an absence of backward ones. \emph{Common mistake:} reading a story's sequence of transactions as a chain of technical coefficients.
+
+\end{document}

@@ -1,0 +1,226 @@
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{13}}{}% NN-1 when built standalone
+\setcounter{chapter}{13}% NN-1, so this chapter is numbered NN
+\chapter{Coalitions and Class Alliances}\label{sol14}
+\sloppy
+
+All numbers below are printed by \texttt{python3} \nolinkurl{code/solutions/sol14.py}. Agents are ordered $(F, B, M, W)$: foreign capital, domestic bourgeoisie, middle class, workers. The $\Delta\boldsymbol{\pi}$ vectors of the four alliances are those of Example~\ref{ch14:ex:four_alliances}; they are \illustrative.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.1}{Coalition payoffs}
+\solpart{a} By Proposition~\ref{ch07:prop:allocation-rule}, $x_i = \Omega/N + (\pi_i - 1/N)\Phi = 1 + 2(\pi_i - 0.25)$:
+\[
+\x^* = (1 + 0.2,\ 1 + 0.1,\ 1 - 0.1,\ 1 - 0.2) = (1.2,\ 1.1,\ 0.9,\ 0.8),
+\]
+which sums to $\Omega = 4$. Then $\kappa x_i = (0.60, 0.55, 0.45, 0.40) < 1$: every allocation is below satiation, as \texttt{docs/conventions.md}~\S6 requires.
+
+\solpart{b} With $\Delta\Omega = 0$ and $\Psi = 0$, Proposition~\ref{ch14:prop:power_gain} gives $v_i = \Phi\,\Delta\pi_i$. Moving to $\boldsymbol{\pi} = \frac14\ones$ gives $\Delta\boldsymbol{\pi} = (-0.10, -0.05, +0.05, +0.10)$, so
+\[
+v_3(\{3,4\}) = 2\times 0.05 = 0.10, \qquad v_4(\{3,4\}) = 2\times 0.10 = 0.20 .
+\]
+Both are positive; agents 1 and 2 lose $0.20$ and $0.10$, and the payoffs sum to zero (power is constant-sum). In utility terms with $U = x - \frac{\kappa}{2}x^2$, the changes are $(-0.0900, -0.0475, +0.0525, +0.1100)$, summing to $+0.025$. That sum is exactly the distributional loss $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi}) = 0.025$ removed by equalizing (equation~\eqref{ch07:eq:Lpower}).
+
+\solpart{c} As stated, feasibility cannot be checked: the exercise specifies neither $W$ nor $\phi(\cdot)$, and $\|\Delta W\|_F$ depends on both. We therefore solve the closest well-posed version: find the cheapest $\Delta W$ that delivers the target and compare it with $\phi(0.35)$.
+
+\emph{Minimum-norm $\Delta W$.} Let $\mathbf{u} = \frac14\ones$. We need $\mathbf{u}'(W + \Delta W) = \mathbf{u}'$ and $\Delta W\ones = 0$. The first condition is linear, $\mathbf{u}'\Delta W = \mathbf{r}' := \mathbf{u}'(I - W)$. Its minimum-Frobenius-norm solution is $\Delta W^\star = \mathbf{u}\mathbf{r}'/\|\mathbf{u}\|^2$. This also satisfies the second condition, since $\mathbf{r}'\ones = \mathbf{u}'(I - W)\ones = 0$. Its norm is $\|\mathbf{r}\|/\|\mathbf{u}\| = 2\|\mathbf{u}'(I - W)\|$.
+
+\emph{A concrete $W$.} Take $W = \gamma\ones\boldsymbol{\pi}' + (1-\gamma)I$, which has Perron vector $\boldsymbol{\pi}$ (Proposition~\ref{ch06:prop:gap-power-independent}). Then $\mathbf{r} = \gamma(\mathbf{u} - \boldsymbol{\pi})$, and
+\[
+\|\Delta W^\star\|_F = 2\gamma\,\|\mathbf{u} - \boldsymbol{\pi}\|_2 = 2\gamma\times 0.1581 = 0.3162\,\gamma ,
+\]
+i.e.\ $0.3162$, $0.1581$, $0.0632$ for $\gamma = 1, 0.5, 0.2$. Here $\Delta W^\star = \gamma\ones(\mathbf{u} - \boldsymbol{\pi})'$, and $W + \Delta W^\star \ge 0$ (checked).
+
+\emph{Feasibility.} With the linear $\phi(p) = p$ the bound is $0.35$, and the change is feasible for every $\gamma$. With the convex $\phi(p) = p^2$ the bound is $0.1225$, and the change is feasible only if $\gamma \le 0.387$. That is, only when the economy is weakly integrated, so that $\boldsymbol{\pi}$ is cheap to move (Appendix~\ref{ch14:app:sensitivity}). The answer depends on $\phi$ and on the integration of $W$, which is the content of Definition~\ref{ch14:prop:feasibility}.
+
+\solpart{d} Agent 2 is $B$. In $\{1,2\}$ (Alliance~1) $\Delta\pi_2 = +0.03$; in $\{2,3,4\}$ (Alliance~2) $\Delta\pi_2 = +0.02$. With a common positive factor $(1+\Psi)\Phi$, she prefers $\{1,2\}$ and stays (condition~\eqref{ch14:eq:no_defect}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.2}{Alliance stability}
+\textbf{All members gain.} Alliance~1: $F{+}0.05$, $B{+}0.03$. Alliance~2: $B{+}0.02$, $M{+}0.05$, $W{+}0.03$. Alliance~3: $F{+}0.03$, $B{+}0.04$, $M{+}0.02$. Alliance~4: $M{+}0.05$, $W{+}0.07$. Each vector sums to zero.
+
+\textbf{Internal stability against the other three alliances.} We read~\eqref{ch14:eq:no_defect} with each rival alliance's program as the payoff that member $i$ gets by joining it, $\Delta\pi_i(S' \cup \{i\}) := \Delta\pi_i(S')$. For~\eqref{ch14:eq:internal} we assume that a coalition missing a member cannot implement its program, so $\Delta\pi_i(S\setminus\{i\}) = 0$; the first condition then reduces to $\Delta\pi_i(S) \ge 0$, which holds for every member.
+\begin{center}
+\footnotesize
+\begin{tabular}{lll}
+\toprule
+Alliance & Defection test & Internally stable? \\
+\midrule
+1: $\{F,B\}$ & $B$: $0.04$ in A3 $> 0.03$ & No ($B$ leaves) \\
+2: $\{B,M,W\}$ & $B$: $0.04$ in A3 $> 0.02$; $W$: $0.07$ in A4 $> 0.03$; $M$: tie & No ($B$, $W$ leave) \\
+3: $\{F,B,M\}$ & $F$: $0.05$ in A1 $> 0.03$; $M$: $0.05$ in A2/A4 $> 0.02$ & No ($F$ and $M$ leave) \\
+4: $\{M,W\}$ & $M$: tie ($0.05$ in A2); $W$: $0.07$ is her best & Yes (weakly) \\
+\bottomrule
+\end{tabular}
+\end{center}
+Only Alliance~4 is internally stable, and only weakly, because $M$ is indifferent with Alliance~2. This matches Conjecture~\ref{ch14:thm:equilibrium}, which places the baseline $\boldsymbol{\pi}$ in the $\{M,W\}$ region. It is also externally stable: admitting $B$ would turn the program into Alliance~2's, under which $W$ gets $0.03 < 0.07$, so $W$ vetoes $B$.
+
+\textbf{When each breaks or would hold.} To deter every defection, each member must get at least her best rival offer. Compare the total required with what the program delivers to members (equal to what outsiders lose):
+\begin{itemize}
+\item A1 needs $F \ge 0.03$ and $B \ge 0.04$: $0.07$ in total, and it delivers $0.08$. A1 is \emph{viable after an internal transfer}: if $F$ cedes $0.01$ of its gain to $B$ (through a side payment or a different $\Delta W$), both stay. It breaks only because the split favours $F$.
+\item A2 needs $B \ge 0.04$, $M \ge 0.05$, $W \ge 0.07$: $0.16$ in total, against $0.10$ delivered. No reallocation within the program works. The program would have to strip $F$ of $0.16$ rather than $0.10$: a national-populist program holds together only if it is radical enough against foreign capital to pay both its bourgeois and its worker wings, i.e.\ only while $\pi_F$ is large.
+\item A3 needs $F \ge 0.05$, $B \ge 0.03$, $M \ge 0.05$: $0.13$ in total, against $0.09$ delivered, and it can only be taken from $W$, who holds $0.15$. A3 is stable only with near-complete exclusion of workers, i.e.\ where $\pi_W$ is already small (region~3 of Conjecture~\ref{ch14:thm:equilibrium}).
+\item A4 needs $M \ge 0.05$ and $W \ge 0.03$: $0.08$, against $0.12$ delivered. It has slack: $W$ could give up to $0.04$ to keep $M$ strictly loyal. It breaks if Alliance~2 can offer $M$ more than $W$ can spare, or if $F$ and $B$ can use the surplus term $\Delta\Omega/N$ to buy $M$ (with $\Delta\Omega \neq 0$ the stability conditions include it).
+\end{itemize}
+
+\textbf{Why $B$ does not join Alliance~4 without compensation.} Under Alliance~4's program $\Delta\pi_B = -0.02 < 0 = v_B(\{B\})$. Joining is individually irrational, by~\eqref{ch14:eq:internal}. $B$ joins only if paid at least $(1+\Psi)\Phi\times 0.02$ (equal to $0.04$ with $\Phi = 2$, $\Psi = 0$) through $\Delta\Omega/N$ or a side payment. That payment must be credible, which is Acemoglu's problem when the enforcer is the current $W$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.3}{The Latin American pendulum}
+\textbf{Specification} (an open design; every parameter \illustrative).
+\begin{itemize}
+\item \emph{Initial structure:} $W_0 = \tfrac12 I + \tfrac12\ones\boldsymbol{\pi}_0'$, where $\boldsymbol{\pi}_0 = (0.35, 0.30, 0.20, 0.15)$. Then $\boldsymbol{\pi}(W_0) = \boldsymbol{\pi}_0$ and $\Gamma = 0.5$.
+\item \emph{Feasibility:} $\mathcal{F}(S) = \{\Delta W : \Delta W\ones = 0,\ \|\Delta W\|_F \le 0.3\,\pi(S)\}$, i.e.\ $\phi(p) = 0.3p$ (Definition~\ref{ch14:prop:feasibility}).
+\item \emph{Surplus:} $\Omega(W) \equiv 4$. The game is then constant-sum, and $v_i = \Phi\Delta\pi_i$ with $\Phi = 2$ and $\Psi = 0$. By Proposition~\ref{ch14:prop:game_properties}(2) its core is empty, so \emph{some} instability is guaranteed.
+\item \emph{Coalition program:} $S$ maximizes $\sum_{i\in S}\Delta\pi_i$. By Lemma~\ref{ch06:lem:perturbation},
+\[
+d\textstyle\sum_{i\in S}\pi_i = \boldsymbol{\pi}'\,\Delta W\, Z\mathbf{1}_S,
+\]
+so the steepest feasible direction is the row-centred matrix $\boldsymbol{\pi}(Z\mathbf{1}_S)'$, scaled to the boundary of $\mathcal{F}(S)$. Entries are floored at $0.02$, rows renormalized, and the exact new $\boldsymbol{\pi}$ computed.
+\item \emph{Institutional inertia:} $W_{t+1} = 0.8(W_t + \Delta W_{S_t}) + 0.2\,W_0$.
+\item \emph{Defection:} at $W_{t+1}$, each member of $S_t$ compares the $\Delta\pi_i$ she would get from each \emph{viable} alliance containing her (viable: all its members gain under its own program at $W_{t+1}$) with that of $S_t$. If some member gains strictly more elsewhere, the alliance offering the largest improvement forms.
+\end{itemize}
+
+\textbf{Simulation} (8 periods, starting with Alliance~2):
+\begin{center}
+\small
+\begin{tabular}{clcccccl}
+\toprule
+$t$ & in power & $\pi_F$ & $\pi_B$ & $\pi_M$ & $\pi_W$ & $\Gamma$ & defection \\
+\midrule
+0 & A2 $\{B,M,W\}$ & 0.217 & 0.344 & 0.244 & 0.194 & 0.500 & $B \to$ A1 (+0.048) \\
+1 & A1 $\{F,B\}$ & 0.304 & 0.411 & 0.166 & 0.119 & 0.477 & none \\
+2 & A1 $\{F,B\}$ & 0.387 & 0.461 & 0.089 & 0.063 & 0.471 & $B \to$ A2 (+0.014) \\
+3 & A2 & 0.244 & 0.462 & 0.162 & 0.131 & 0.501 & $B \to$ A1 (+0.066) \\
+4 & A1 & 0.343 & 0.504 & 0.090 & 0.063 & 0.473 & $B \to$ A2 (+0.038) \\
+5 & A2 & 0.201 & 0.507 & 0.162 & 0.130 & 0.501 & $B \to$ A1 (+0.082) \\
+6 & A1 & 0.307 & 0.536 & 0.092 & 0.065 & 0.461 & $B \to$ A2 (+0.044) \\
+7 & A2 & 0.178 & 0.532 & 0.161 & 0.129 & 0.494 & $B \to$ A1 (+0.089) \\
+\bottomrule
+\end{tabular}
+\end{center}
+($\boldsymbol{\pi}$ is the value after the period's program.) Plotted over time, $\pi_F$, $\pi_M$ and $\pi_W$ oscillate with period two from $t = 2$ on, while $\pi_B$ ratchets up from $0.30$ to about $0.53$.
+
+\textbf{Does it cycle?} Yes, but not in the conjectured four phases. Power swings between the oligarchic-export alliance and the national-populist alliance, and the pivot is always $B$. Each alliance in power raises its members' $\pi$ until the domestic bourgeoisie gains more by switching partners. Under $\{F,B\}$, $F$'s power grows and $B$'s marginal gain from staying shrinks ($+0.029$ at $t=2$, against $+0.043$ from A2), so $B$ turns to the domestic classes. Under $\{B,M,W\}$ the reverse happens. Alliances~3 and~4 never form. Under $\{F,B\}$ rule, $M$ and $W$ are outsiders and cannot trigger a switch. Under $\{B,M,W\}$ rule, $W$'s best option at $W_{t+1}$ is to stay, since Alliance~4 offers less once $\pi_F$ has been cut. Without inertia ($W_0$-reversion set to zero) the sequence is similar (A2, A1, A1, A2, A1, A2, A1, A1), but $\pi_B$ climbs to $0.70$. The pendulum then concentrates power in the swing class.
+
+So the model generates the \emph{mechanism} of Conjecture~\ref{ch14:thm:cycling}: an alliance's success changes $\boldsymbol{\pi}$, which changes its members' outside options. But in this calibration the cycle is the two-phase $B$-pivot pendulum, not ISI $\to$ liberalization $\to$ left populism. Obtaining Phase~3 would need the outsiders $M$ and $W$ to be able to \emph{initiate} a coalition (a challenger rule), or a feasibility function that gives $\{M,W\}$ enough reach. \textit{Common mistake:} assuming the cycle visits every alliance. Which alliances recur depends on who holds the pivot.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.4}{Bolivia 1952--2019}
+This is an interpretive mapping onto the stylized typology of Example~\ref{ch14:ex:four_alliances}, not a test. The book itself flags the fit as loose. The events below are standard in the historiography \citep[e.g.][]{klein2011concise,dunkerley1984rebellion}. The model readings are ours, and every $\Delta\boldsymbol{\pi}$ is qualitative.
+
+\solpart{a} \textbf{1952, MNR revolution:} Alliance~2, national-populist $\{B, M, W\}$. The urban middle-class leadership of the MNR allied with organized miners (the COB) and, after 1953, with peasants.
+\begin{itemize}
+\item $\Delta W^P$: the nationalization of the three large tin companies into COMIBOL redirected the mining edges from foreign and oligarchic owners to the state; the 1953 agrarian reform cut landlord $\to$ peasant edges.
+\item $\Delta W^I$ and the bargaining layer: universal suffrage and the expansion of rural schooling.
+\item $\Delta\boldsymbol{\pi}$: the tin oligarchy (in the model, close to $F$ and the export bourgeoisie) lost; workers, peasants and the state-linked middle class gained.
+\end{itemize}
+
+\solpart{b} \textbf{1964--1982, military governments:} a switch away from Alliance~2. The core of the period, Barrientos's regime resting on the Military--Peasant Pact and later Banzer's, is closest to Alliance~3 ($\{F, B, M\}$, with peasants co-opted rather than members). It opened to foreign investment, repressed the miners and favoured agro-export interests in the east, so $\pi_W$ fell. The period was not uniform. The 1969 nationalization of Gulf Oil and the Torres government (1970--71) were short swings back toward Alliance~2. This is itself pendulum behaviour.
+
+\solpart{c} \textbf{1985, New Economic Policy:} Alliance~3, techno-bureaucratic. Decree 21060 ended hyperinflation, liberalized prices and trade, and led to mass dismissals at COMIBOL. In model terms: $W^P_{\text{domestic}}\downarrow$, $W^P_{\text{global}}\uparrow$, and a large fall in $\pi_W$ (the organized miners). That it was implemented by an MNR government illustrates the model's claim that the alliance, not the party label, determines $\Delta W$ (case study).
+
+\solpart{d} \textbf{2006, Evo Morales:} Alliance~4, left-populist $\{M, W\}$ plus peasant and indigenous organizations.
+\begin{itemize}
+\item $\Delta W^P$: the 2006 hydrocarbons nationalization (Supreme Decree 28701) and renegotiated contracts redirected gas revenue from foreign operators to YPFB and the treasury, the edge-destruction/creation event of Example~\ref{ch13:ex:gas}.
+\item In the measured domestic $W^P$ (INE, base 1990, 12 sectors, input shares), hydrocarbons' power rose from $0.064$ (2006) to $0.085$ (2013), while $\Gamma(W^P)$ fell slightly, from $0.518$ to $0.484$ (\nolinkurl{data/processed/bolivia_io_pi.csv} and \nolinkurl{bolivia_io_summary.csv}). The alliance shifted rents and power, not production integration, as the Prebisch box of Section~\ref{ch14:sec:stability} notes.
+\end{itemize}
+
+\solpart{e} \textbf{2019, breakdown.} The disputed October 2019 election and Morales's resignation in November ended the alliance. In the terms of Proposition~\ref{ch14:prop:alliance_stability}, two conditions failed.
+\begin{enumerate}
+\item \emph{No-defection~\eqref{ch14:eq:no_defect} for $M$.} A large part of the urban middle class came to expect more from an alternative coalition than from continued MAS rule. This was visible in the 2016 referendum against a further re-election and in the 2019 urban protests. $M$ is precisely the member who is indifferent in Exercise~14.2, the weak link of Alliance~4.
+\item \emph{The surplus that bought compensation shrank.} The proposition assumes $\Delta\Omega = 0$; side payments to members with weak power gains (and to $B$, as in Exercise~14.2) came from hydrocarbon rents. Natural-gas rents fell from $5.56\%$ of GDP (2013) to $2.07\%$ (2019), and fuels from $54.5\%$ to $32.1\%$ of merchandise exports (WDI, \texttt{data/processed/bolivia\_facts.csv}). With a falling $\Delta\Omega$, the payments that held the alliance's weaker members together could no longer be made.
+\end{enumerate}
+\textit{Caveat.} The mapping is not unique. A historian could place 1964--82 in Alliance~1, or treat 2006 as Alliance~2 with indigenous organizations as the core. The model disciplines the questions (who gained power, through which edges, and what made a member's outside option better), not the answers.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.5}{Why cash transfers are universal}
+\textbf{Claim 1: $\Delta\boldsymbol{\pi}(\Delta\boldsymbol{\omega}) = 0$ within the period.} Within a period $W$ is held fixed, and $\boldsymbol{\pi}$ is defined (Definition~\ref{ch06:def:eigenvector}) as the unique solution of $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$, $\boldsymbol{\pi}'\ones = 1$, for irreducible $W$. This system involves $W$ only. A transfer $\Delta\boldsymbol{\omega}$ changes the allocation $\x = \boldsymbol{\omega} + \Phi\boldsymbol{\pi} + \ldots$, but enters neither the equation nor the normalization. Hence $\boldsymbol{\pi}(W) = \boldsymbol{\pi}(W)$ before and after the transfer, i.e.\ $\Delta\boldsymbol{\pi} = 0$, and the power component of every payoff is zero: $v_i = \Delta\omega_i$ on impact. $\square$
+
+\textbf{Claim 2: transfers can change $\boldsymbol{\pi}_{t+1}$.} In the co-evolutionary system $W_{t+1} = \mathcal{E}(W_t; \x^*_t)$ (Definition~\ref{ch13:thm:coevolution}). If $\mathcal{E}$ is differentiable in $\x$, then $\Delta W_{t+1} \approx D_{\x}\mathcal{E}[\Delta\x_t]$ with $\Delta\x_t = \Delta\boldsymbol{\omega}$ (plus formation effects). This perturbation has zero row sums because $\mathcal{E}$ preserves stochasticity. By Lemma~\ref{ch06:lem:perturbation},
+\[
+\Delta\boldsymbol{\pi}_{t+1}' \approx \boldsymbol{\pi}_{t+1}'\,\big(D_{\x}\mathcal{E}[\Delta\boldsymbol{\omega}]\big)\,Z_{t+1}, \qquad Z = (I - W + \ones\boldsymbol{\pi}')^{-1},
+\]
+which is generally nonzero. \emph{Example.} Take $W_t = \tfrac12 I + \tfrac12\ones\boldsymbol{\pi}_0'$, with $\Phi = 2$ and $\omega_i = 0.5$, so $\x_t = (1.2, 1.1, 0.9, 0.8)$. Let the evolution map reweight partners by their resources (surplus-driven reweighting, Definition~\ref{ch13:def:reweighting}): $W_{t+1} = \mathcal{N}(W_t \circ (\ones\ones' + 0.5\,\ones\x_t'))$. A transfer of $0.1$ from $F$ to $W$ gives:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& $F$ & $B$ & $M$ & $W$ \\
+\midrule
+$\boldsymbol{\pi}_{t+1}$ without transfer & 0.3758 & 0.3070 & 0.1853 & 0.1319 \\
+$\boldsymbol{\pi}_{t+1}$ with transfer & 0.3620 & 0.3103 & 0.1872 & 0.1404 \\
+difference (exact) & $-0.0138$ & $+0.0033$ & $+0.0020$ & $+0.0085$ \\
+first-order formula & $-0.0137$ & $+0.0033$ & $+0.0020$ & $+0.0084$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The recipient's future power rises by $0.085$ per unit transferred. The change in $W$ induced by the transfer has Frobenius norm $0.020$, against $0.158$ for the minimum-norm $\Delta W$ that would equalize power outright (Exercise~14.1(c), $\gamma = 0.5$).
+
+\textbf{Least controversial.} On impact, a transfer threatens no one's structural position. It moves resources, not $\boldsymbol{\pi}$, so the constant-sum power fight of Proposition~\ref{ch14:prop:game_properties}(1) is not triggered. If it is financed out of growth ($\Delta\Omega > 0$), it can be Pareto-improving. And it is \emph{reversible}: a flow that the next coalition can stop, unlike a $\Delta W$, which persists and compounds through feasibility (Definition~\ref{ch14:prop:feasibility}). Every coalition can therefore agree to it, which is the last row of Definition~\ref{ch14:prop:policy_coalition}.
+
+\textbf{Least effective for structural change.} For the same reasons. It leaves $W$, and hence $\boldsymbol{\pi}$ and $\Gamma$, unchanged within the period. The bargaining surplus $\Phi$ is re-divided by the same $\boldsymbol{\pi}$ every period, so a transfer must be repeated forever to keep its effect (the Transfer Trap of Chapter~2). Its effect on future $\boldsymbol{\pi}$ is indirect, second-round and small: in the example, $+0.0085$ for the recipient after a transfer of $0.1$ (8\% of the donor's allocation). Its formation effect is also small ($\bar\Psi(\infty) = 0.12$ for Policy~A in Example~\ref{ch10:ex:policies}). Structural change requires the $\Delta W$ that some coalition will resist.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.6}{The formation amplifier in politics}
+\textbf{A premise to make explicit.} If $\boldsymbol{\pi}$ is the Perron vector of $W^P$ (or of a bargaining layer that excludes $W^I$), a pure $\Delta W^I$ leaves $\boldsymbol{\pi}$ unchanged. Then $E = 0$, and $\Psi_B$ is undefined (Proposition~\ref{ch10:prop:levers}(3); Remark~\ref{ch09:rem:psi}(5)). For Alliance~B to have the same $\Delta\boldsymbol{\pi}$ as Alliance~A and a finite $\Psi_B$, the bargaining layer must include $W^I$, e.g.\ a composite $\sum_k\alpha_kW^k$ on a common node set. We assume this.
+
+\solpart{a}--\solpart{c} With $\Delta\Omega = 0$, $v_i = (1+\Psi)\Phi\,\Delta\pi_i$. Take $\Phi = 2$ and a member with $\Delta\pi_i = 0.05$:
+\[
+v_i^A = (1+1)\times 2\times 0.05 = 0.20, \qquad v_i^B = (1+3)\times 2\times 0.05 = 0.40 .
+\]
+Alliance~B is twice as valuable to its members, and its rivals lose twice as much, since $(1+\Psi)$ multiplies losses too. Two qualifications matter.
+\begin{itemize}
+\item \emph{Horizon.} $\Psi = \Psi(\Delta W, T)$. Formation effects arrive over generations, so with discounting the relevant multiplier is not $1 + \Psi(\infty)$. In the one-loop model $\Psi(t) = \Psi(\infty)(1 - \lambda^t)$, so a member who receives $\Phi\Delta\pi_i(1 + \Psi(t))$ per generation, discounted at $\delta$, has the effective amplifier
+\[
+1 + \Psi(\infty)\,\frac{\delta(1-\lambda)}{1 - \delta\lambda}.
+\]
+\item With $\lambda_A = \lambda_B = 0.8$: A $1.643$, B $2.929$ at $\delta = 0.9$; A $1.167$, B $1.500$ at $\delta = 0.5$.
+\item If information effects are slower ($\lambda_B = 0.9$ against $\lambda_A = 0.6$): A $1.783$, B $2.421$ at $\delta = 0.9$, but A $1.286$ against B $1.273$ at $\delta = 0.5$. Impatient coalitions can prefer the production alliance.
+\end{itemize}
+
+\solpart{d} The $W^I$ alliance is harder to form, for four reasons.
+\begin{enumerate}
+\item \emph{Feasibility sequencing.} Reshaping media and education usually requires control of the state. That requires $\pi(S)$ large enough that $\phi(\pi(S))$ covers the needed $\|\Delta W^I\|$ (Definition~\ref{ch14:prop:feasibility}), which requires a prior alliance, usually built on $W^P$ or electoral power. The $W^I$ alliance is a second-stage coalition.
+\item \emph{Intertemporal free-riding.} Most of the $(1+\Psi)$ premium accrues to the next generation, i.e.\ to members' descendants and to whoever holds power then. Current members bear the cost now, so commitment problems are worse.
+\item \emph{Stronger resistance.} Losers' losses are amplified by the same $(1+\Psi_B)$, so the opposing coalition fights harder; its stakes double too.
+\item \emph{Verifiability.} $\Delta W^I$ is hard to observe and contract on, so side payments within the alliance are harder to enforce.
+\end{enumerate}
+This is the regress the hint points to: power over $W^I$ requires power, which requires an alliance, which is easier to build on the faster, enforceable $W^P$ channel. \textit{Common mistake:} treating $\Psi$ as a property of the layer. Here it belongs to each alliance's specific perturbation (Definition~\ref{ch09:def:psi}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{14.7}{Empty core}
+\textbf{The game.} Take three agents with $\boldsymbol{\pi} = \frac13\ones$, $W = \tfrac12\cdot\tfrac13\ones\ones' + \tfrac12 I$, and $\Phi = 2$. The policy space is the family $\Delta W = \gamma\ones\Delta\boldsymbol{\pi}'$ with $\gamma = 0.5$. Every such $\Delta W$ keeps rows stochastic and moves the Perron vector exactly to $\boldsymbol{\pi} + \Delta\boldsymbol{\pi}$ (Proposition~\ref{ch06:prop:gap-power-independent}), with $\|\Delta W\|_F = \gamma\sqrt3\|\Delta\boldsymbol{\pi}\|_2$. Feasibility is $\phi(p) = 0.6\max(0, p - \tfrac12)$: coalitions without a power majority cannot act. The TU value is
+\[
+v(S) = \max\Big\{(1+\Psi)\Phi\sum_{i\in S}\Delta\pi_i \;:\; \ones'\Delta\boldsymbol{\pi} = 0,\ \gamma\sqrt3\|\Delta\boldsymbol{\pi}\| \le \phi(\pi(S))\Big\}.
+\]
+Maximizing $\mathbf{1}_S'\Delta\boldsymbol{\pi}$ on a ball in the sum-zero subspace gives
+\[
+r_S\,\Big\|\mathbf{1}_S - \tfrac{|S|}{3}\ones\Big\| = r_S\sqrt{|S|(3-|S|)/3}, \qquad r_S = \frac{\phi(\pi(S))}{\gamma\sqrt3}.
+\] Hence, with $\Psi = 0$:
+\begin{itemize}
+\item singletons ($\pi = 1/3 < 1/2$): $v(\{i\}) = 0$;
+\item pairs: $r = 0.1/(0.5\sqrt3) = 0.1155$, so $v(\{i,j\}) = 2\times 0.1155\times\sqrt{2/3} = 0.4\sqrt2/3 = 0.18856 =: g$;
+\item the grand coalition: $v(N) = 0$, since $\mathbf{1}_N$ has no sum-zero component (power is constant-sum).
+\end{itemize}
+Coalition $\{1,2\}$ raises $\pi_1 + \pi_2$. Its optimal program is
+\[
+\Delta\boldsymbol{\pi} = (0.0471,\ 0.0471,\ -0.0943),
+\]
+which moves the Perron vector to $(0.3805, 0.3805, 0.2391)$ with $\|\Delta W\|_F = 0.1 = \phi(2/3)$.
+
+\textbf{The core is empty.} A core allocation needs $x_1 + x_2 + x_3 = v(N) = 0$ and $x_i + x_j \ge g$ for each pair. Summing the three pair constraints gives $2(x_1 + x_2 + x_3) \ge 3g > 0$, a contradiction. This is Proposition~\ref{ch14:prop:game_properties}(2): with $\Delta\Omega \equiv 0$, any coalition that can gain empties the core.
+
+\textbf{Adding surplus.} Suppose the grand coalition, and only it, can also implement an integrating $\Delta W$ that raises output by $\Delta\Omega$ while leaving $\boldsymbol{\pi}$ unchanged. For example, it can raise $\gamma$ within the same family, which raises $\Gamma$ but not $\boldsymbol{\pi}$. Then $v(N) = (1+\Psi)\Delta\Omega$, and pairs keep $g$. By Bondareva--Shapley \citep{bondareva1963some,shapley1967balanced}, the core is nonempty iff $\sum_S\lambda_S v(S) \le v(N)$ for every balanced collection. For three players the minimal balanced collections are:
+\begin{itemize}
+\item $\{\{1\},\{2\},\{3\}\}$, which requires $v(N) \ge 0$;
+\item $\{\{i,j\},\{k\}\}$ with unit weights, which requires $v(N) \ge g$;
+\item $\{\{1,2\},\{1,3\},\{2,3\}\}$ with weights $\tfrac12$, which requires $v(N) \ge \tfrac32 g$.
+\end{itemize}
+The binding one is the last. Hence
+\[
+\text{core} \neq \emptyset \iff (1+\Psi)\Delta\Omega \ge \tfrac32 g = 0.2\sqrt2 = 0.28284 .
+\]
+A grid search over the simplex confirms this: no core point at $(1+\Psi)\Delta\Omega = 0, 0.2, 0.28$; the unique point $\x = (0.0943, 0.0943, 0.0943)$ at $0.28284$; and, for example, $\x = (0.028, 0.161, 0.161)$ at $0.35$. With $\Phi$ general and pair power gain $G$ (in $\pi$ units), the condition is $(1+\Psi)\Delta\Omega \ge \tfrac32(1+\Psi)\Phi G$, i.e.\ $\Delta\Omega \ge \tfrac32\Phi G$. The amplifier cancels. The grand coalition is stable only if the integration surplus exceeds the power that pairs could grab, by a factor of $3/2$. \textit{Common mistake:} checking only the pairwise or singleton constraints. The binding balanced collection is the cover by all three pairs.
+
+\fussy
+\end{document}

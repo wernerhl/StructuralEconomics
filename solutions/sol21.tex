@@ -1,0 +1,168 @@
+% Solutions to the exercises of Chapter 21. Numbers: code/solutions/sol21.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{20}}{}% NN-1 when built standalone
+\setcounter{chapter}{20}% NN-1, so this chapter is numbered NN
+\chapter{Measuring the Information Network}\label{sol21}
+
+Every number below is printed by \texttt{python3 code/solutions/sol21.py}. The audience table $S$ and the population shares $p$ are the chapter's illustrative inputs (Example~\ref{ch21:ex:bolivia_media}). Internet-use figures are from WDI (IT.NET.USER.ZS, ITU estimates; retrieved 2026-11-05). No audience survey, Facebook or Latinobar\'ometro data were fetched.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.1}{Media overlap}
+
+\solpart{The raw overlap} $O = SS'$, with groups ordered as urban non-indigenous (NI) men, urban NI women, urban indigenous, rural NI, rural indigenous men and rural indigenous women:
+\[
+O = \begin{pmatrix}
+0.3218 & 0.3004 & 0.2100 & 0.2135 & 0.1290 & 0.1116\\
+0.3004 & 0.2838 & 0.2110 & 0.2140 & 0.1416 & 0.1286\\
+0.2100 & 0.2110 & 0.2150 & 0.2000 & 0.1920 & 0.1790\\
+0.2135 & 0.2140 & 0.2000 & 0.2250 & 0.1990 & 0.2205\\
+0.1290 & 0.1416 & 0.1920 & 0.1990 & 0.2448 & 0.2610\\
+0.1116 & 0.1286 & 0.1790 & 0.2205 & 0.2610 & 0.3148
+\end{pmatrix}.
+\]
+
+\solpart{The population-weighted matrix} With reach
+\[
+m = p'S = (0.2430, 0.2084, 0.1388, 0.1934, 0.2164),
+\]
+the matrix is
+{\small
+\[
+W^I_{\text{media}} = S\operatorname{diag}(m)^{-1}S'\operatorname{diag}(p) = \begin{pmatrix}
+0.2446 & 0.2429 & 0.2434 & 0.0965 & 0.0924 & 0.0802\\
+0.2294 & 0.2307 & 0.2466 & 0.0976 & 0.1026 & 0.0931\\
+0.1655 & 0.1776 & 0.2673 & 0.0965 & 0.1527 & 0.1404\\
+0.1640 & 0.1756 & 0.2412 & 0.1053 & 0.1505 & 0.1634\\
+0.1047 & 0.1231 & 0.2545 & 0.1003 & 0.2062 & 0.2112\\
+0.0909 & 0.1117 & 0.2339 & 0.1089 & 0.2112 & 0.2434
+\end{pmatrix}.
+\]
+}
+Its rows sum to one (sanity check). The eigenvalues are $1$, $0.2584$, $0.0323$, $0.0062$, $0.0007$ and $0$, all real. So $\Gamma = 0.7416$, $\bpi^I = p = (0.17, 0.18, 0.25, 0.10, 0.15, 0.15)$ and $\Neff = 5.593$ of 6. Row-normalizing $O$ directly gives $\Gamma = 0.7398$, with $\bpi \propto$ the row sums of $O$, $(0.1732, 0.1722, 0.1625, 0.1713, 0.1572, 0.1636)$, and $\Neff = 5.992$. Both normalizations round to the chapter's $\Gamma = 0.74$.
+
+\solpart{Proofs} Let $X = S$ ($G\times K$) and $Y = \operatorname{diag}(m)^{-1}S'\operatorname{diag}(p)$ ($K\times G$). Then $W_g = XY$ and $W_k = YX$.
+\begin{enumerate}
+\item \emph{Stochasticity.} $Y\ones = \operatorname{diag}(m)^{-1}S'p = \operatorname{diag}(m)^{-1}m = \ones$ and $X\ones = \ones$, so $W_g\ones = XY\ones = \ones$ and $W_k\ones = \ones$.
+\item \emph{$\bpi = p$.}
+\begin{align*}
+p'W_g &= p'S\operatorname{diag}(m)^{-1}S'\operatorname{diag}(p) = m'\operatorname{diag}(m)^{-1}S'\operatorname{diag}(p)\\
+&= \ones'S'\operatorname{diag}(p) = (S\ones)'\operatorname{diag}(p) = p'.
+\end{align*} Here $S > 0$, so $W_g > 0$ is irreducible and its stationary vector is unique.
+\item \emph{$\bpi = m$ for outlets.}
+\[
+m'W_k = m'\operatorname{diag}(m)^{-1}S'\operatorname{diag}(p)S = \ones'S'\operatorname{diag}(p)S = p'S = m'.
+\]
+\item \emph{Same $\Gamma$.} For any $X$ ($G\times K$) and $Y$ ($K\times G$), $\det(\mu I_G - XY)\,\mu^{K} = \det(\mu I_K - YX)\,\mu^{G}$ (Sylvester's determinant identity). So $XY$ and $YX$ have the same nonzero eigenvalues with the same algebraic multiplicities, and differ only in the number of zero eigenvalues (here $W_g$ has one more). The unit eigenvalue has the same multiplicity in both, so $|\lambda_2|$, and hence $\Gamma$, coincide. Numerically $\Gamma_g = \Gamma_k = 0.7416$, and outlet reach gives $\Neff = 4.855$ of 5.
+\item \emph{Reversibility.} $\operatorname{diag}(p)W_g = \operatorname{diag}(p)S\operatorname{diag}(m)^{-1}S'\operatorname{diag}(p)$ is symmetric, so $p_gW_{gg'} = p_{g'}W_{g'g}$ (detailed balance; verified). The spectrum is therefore real.
+\end{enumerate}
+\emph{Common mistake:} reporting $\Neff = 5.59$ as ``information is unconcentrated''. It is the concentration of the population, by construction, whatever the audience shares.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.2}{Reference groups: a five-question module}
+
+\solpart{Questions} For each named person, record sex, self-identified indigenous belonging or first language, urban/rural residence (municipality), occupation and sector, and relationship to the respondent.
+\begin{enumerate}
+\item \emph{Degree (uncensored).} ``About how many people outside your household do you talk with regularly about work, prices or money?''
+\item \emph{Comparison references.} ``Think of the people whose economic situation you pay most attention to when you judge how your household is doing. Name up to five.''
+\item \emph{Advice.} ``The last time you made an important economic decision (a job, migration, a purchase on credit, schooling), whom did you ask for advice? Name up to three.''
+\item \emph{Aggregated relational data.} ``How many people do you know who [speak Aymara or Quechua at home / live in a rural community / are women who run a business / work in mining or gas / live in Santa Cruz]?''
+\item \emph{Role model and intensity.} ``Whom would you like your children to resemble when they are adults?'' Then ``If people like that earn more, does that make you want to change what you do? (never / sometimes / often)'', a proxy for $\mu$.
+\end{enumerate}
+
+\solpart{Construction of $W^I_{\text{ref}}$}
+\begin{enumerate}
+\item Assign each named alter to one of the six groups $g'$ from the recorded attributes.
+\item With survey weights $w_i$ and $n_{ig'}$ the number of alters of respondent $i$ in group $g'$ (from Q2, or Q2 and Q3 pooled), set
+\[
+W^I_{\text{ref},gg'} = \frac{\sum_{i\in g} w_i\, n_{ig'}}{\sum_{i\in g} w_i\, n_i}, \qquad n_i = \sum_{g'} n_{ig'}.
+\]
+This is row-stochastic by construction (the script checks it on simulated responses). The indicator version of Definition~\ref{ch21:def:reference_WI}, $R_{ig'} \in \{0,1\}$, gives the share of $g$ naming anyone in $g'$. Its rows need not sum to one, so it must be row-normalized before $\bpi$ or $\Gamma$ are computed.
+\item \emph{Censoring correction.} Respondents who report $d_i$ contacts in Q1 but name only $k_i \le 5$ have their alters weighted by $d_i/k_i$ \citep{griffith2022name}.
+\item \emph{ARD.} Q4 identifies group-level tie propensities through a latent-space model \citep{breza2020using}, which serves as an independent estimate of the cross-group entries.
+\end{enumerate}
+
+\solpart{Sample size} Two power calculations:
+\begin{itemize}
+\item \emph{Precision.} Estimating a reference share near $0.3$ within $\pm0.03$ at 95\% needs $896$ respondents per group, or $1345$ with design effect $1.5$: $8067$ for six groups.
+\item \emph{Test.} Detecting a cross-group naming rate of $0.20$ against $0.30$ (two-sided $\alpha = 0.05$, power $0.8$) needs $290.4 \to 291$ per group, or $436$ with the design effect: $2616$ in total.
+\end{itemize}
+
+\solpart{Identification threats} Reference groups are not influence (Manski's reflection problem; Appendix~\ref{ch21:app:survey}). Alter attributes are reported by proxy, so ethnicity may be misclassified. Social desirability can suppress cross-ethnic comparisons, and homophily confounds contagion. The module measures $W^I$; validating it requires the tests of Definition~\ref{ch21:prop:validation}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.3}{Digital $W^I$ from Facebook data}
+
+\emph{Data not fetched.} The Marketing API returns estimated audience sizes for targeting specifications (demographics crossed with interests or pages), not attention shares. No such estimates are in the repository.
+
+\solpart{Construction} Define $K$ page or interest clusters (national news pages, regional pages, indigenous-language pages, entertainment, and so on). For each group $g$, obtain the estimated reach $a_{gk}$ of cluster $k$ among $g$'s users, and set $s^{\text{dig}}_{gk} = a_{gk}/\sum_k a_{gk}$. Users follow several clusters, so these are exposure shares, not exclusive choices. With $p^{\text{dig}}$ the group composition of the user base, build $W^I_{\text{digital}} = S^{\text{dig}}\operatorname{diag}(m^{\text{dig}})^{-1}S^{\text{dig}\prime}\operatorname{diag}(p^{\text{dig}})$ as in Definition~\ref{ch21:def:media_WI}. Then compute $O^{\text{dig}}$, $\Gamma$ and the $\lambda_k$, and compare cell by cell with $W^I_{\text{media}}$, on the same six groups. A composite exists only on a common node set (Definition~\ref{ch21:def:composite_WI}).
+
+\solpart{Is $\Neff$ higher or lower?} The proof in Exercise~21.1 settles the group-level question \emph{without} any digital data. For a population-weighted overlap matrix, $\bpi = p^{\text{dig}}$ for every $S^{\text{dig}}$ (verified on 200 random audience matrices). So $\Neff^{\text{groups}} = 1/\sum_g (p^{\text{dig}}_g)^2$ depends only on who is online, not on what they see. If penetration is lower among rural and indigenous groups, $p^{\text{dig}}$ shifts mass to the urban groups. Whether $\Neff$ then falls below $5.59$ depends on the shift: moving mass towards the largest group lowers it, while evening out the shares raises it. Bolivia's internet use rose from $47.5\%$ (2019) to $79.7\%$ (2024), which narrows such differences; their group pattern needs the EH or census. At the cluster level, $\Neff = 1/\sum_k (m_k^{\text{dig}})^2$ measures the concentration of reach across pages. One would expect it to be lower than on traditional media if a few national pages dominate. That is a hypothesis, not a result. \emph{The substantive comparison is $\Gamma$ and the $\lambda_k$}, which do depend on $S^{\text{dig}}$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.4}{Validation with Latinobar\'ometro}
+
+\emph{Data not fetched} (registration required; \path{data/README.md}, \S9). The method follows.
+\begin{enumerate}
+\item \emph{Groups.} In the Bolivia sample of a given wave, build the six groups from sex, urban/rural (size of town) and ethnic self-identification or language. Check each wave's questionnaire for the three outcomes. If an item is not asked (for example a quantitative inflation expectation), that test cannot be run for that wave.
+\item \emph{Group means.} Compute weighted means $\bar\theta_g$ for (a) expected inflation, (b) trust in government and (c) support for redistribution, with their sampling variances.
+\item \emph{Dyadic statistic.} For each of the $15$ unordered pairs, let $D_{gg'} = |\bar\theta_g - \bar\theta_{g'}|$. Compute $r = \operatorname{corr}(O_{gg'}, D_{gg'})$ over the dyads. The prediction is $r < 0$.
+\item \emph{QAP.} Permute the group labels jointly on the rows and columns of $D$ and recompute $r$. With six groups there are $720$ permutations, so enumerate them all. For the chapter's $O$, all $720$ permuted dyad vectors are distinct. The exact one-sided $p$-value is the share of permutations with $r_\pi \le r$, and the smallest attainable value is $1/720 = 0.0014$.
+\item \emph{Noise correction.} Under the null of equal group means, $E\,D_{gg'} > 0$ because of sampling noise. Subtract its expectation, or use $(\bar\theta_g - \bar\theta_{g'})^2 - \hat V_g - \hat V_{g'}$.
+\end{enumerate}
+\emph{Expected result and its limits.} Fifteen dyads give little power, and the $O$ used is illustrative, so a test on it validates a hypothesis, not Bolivia's $W^I$. The design should use municipality $\times$ group cells and pooled waves (Definition~\ref{ch21:prop:validation}, item~2). Given the high illustrative integration ($\Gamma = 0.74$), media overlap should predict little. Politically salient outcomes (b, c) are more likely to show dyadic structure than inflation expectations. A null result is evidence against media overlap as the channel, not against $W^I$ as such.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.5}{$\lambda_k$ estimation}
+
+\solpart{a} \emph{Gender.} Only the pairs (urban NI men, urban NI women) and (rural indigenous men, rural indigenous women) differ in gender alone. $\lambda_g = O_{12}/\tfrac12(O_{11} + O_{22}) = 0.992$, and $O_{56}/\tfrac12(O_{55} + O_{66}) = 0.933$.
+
+\solpart{b} \emph{Ethnicity} (NI $= \{1, 2, 4\}$, indigenous $= \{3, 5, 6\}$): the mean cross-block overlap divided by the mean of the two within-block means is $\lambda_r = 0.717$. If self-overlaps are excluded from the within means, $\lambda_r = 0.760$.
+
+\solpart{c} \emph{Urban/rural} (urban $= \{1, 2, 3\}$): $\lambda_u = 0.685$, or $0.718$ without the diagonal.
+
+\solpart{d} Geography shows the strongest assortative mixing, then ethnicity, and gender is negligible. The two main dimensions are confounded: rural groups are mostly indigenous in this design, and five pairs differ on both. A log-linear fit on the 21 cells,
+\[
+\log O_{gg'} = c + \mathbf 1[\text{eth}]\log\lambda_r + \mathbf 1[\text{urb}]\log\lambda_u + \mathbf 1[\text{sex}]\log\lambda_g,
+\]
+gives partial values $\lambda_r = 0.748$, $\lambda_u = 0.709$ and $\lambda_g = 1.034$ ($R^2 = 0.767$). The ordering survives conditioning. \emph{Comparison with Chapter~18.} Its illustrative values are $\lambda_r^P \approx 0.35$ and $\lambda_r^I \approx 0.30$ (Example~\ref{ch18:ex:bolivia_ethnic}) and $\lambda_g = 0.3$. Exercise~19.6 found that gender exposure across ISIC sections in Bolivia's 2019 employment data corresponds to $\lambda_g \approx 0.669$. So the audience table implies an information layer far \emph{less} assortative than both. Two cautions. The objects differ: Chapter~18's $\phi$ scales edge weights, while an overlap ratio compares inner products of attention vectors and stays well above zero unless two groups use disjoint outlets. And audience shares cannot see segregation \emph{within} channels.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.6}{The operator from data}
+
+\solpart{a} The darkest entry is $O_{16} = 0.1116$ (urban NI men and rural indigenous women), $0.351$ of the mean of their self-overlaps. It is also the smallest normalized overlap $O_{gg'}/\sqrt{O_{gg}O_{g'g'}}$ ($0.351$). It crosses all three dimensions at once.
+
+\solpart{b} \emph{Simulation.} Add $0.10$ to $O_{16}$ and $O_{61}$, and row-normalize, $\hat W = \operatorname{diag}(O\ones)^{-1}O$. The population-weighted matrix cannot take this perturbation, because it is built from $S$ and $p$, and an added overlap has no counterpart in $S$. The results:
+\begin{itemize}
+\item $\Gamma$ rises from $0.7398$ to $0.7914$ ($+0.0516$);
+\item $\Neff$ goes from $5.9924$ to $5.9814$ ($-0.0110$);
+\item $\bpi$ moves from
+\begin{align*}
+&(0.1732, 0.1722, 0.1625, 0.1713, 0.1572, 0.1636)\\
+\text{to}\quad &(0.1817, 0.1677, 0.1582, 0.1668, 0.1530, 0.1725).
+\end{align*}
+\end{itemize}
+\emph{Why $\Gamma$ moves.} The eigenvector of $\lambda_2 = 0.2602$ is the urban-NI-versus-rural-indigenous axis, $(0.893, 0.725, 0.069, -0.068, -0.735, -1)$ after normalization. The operator adds weight exactly across that axis. The perturbation lemma (Lemma~\ref{ch06:lem:perturbation}, eigenvalue part) predicts $d\lambda_2 = u_2'Ev_2 = -0.0587$, against an exact change of $-0.0516$. \emph{Why $\Neff$ does not move.} $\hat W$ is reversible with $\pi \propto O\ones$, so the operator changes $\pi$ only through two row sums, and it moves mass towards the two groups it connects. It is an integration operator, not a deconcentration operator (Proposition~\ref{ch06:prop:gap-power-independent}).
+
+\solpart{c} \textbf{Partly ill-posed.} Under Definition~\ref{ch09:def:psi}, $\Psi = F/E$ is defined only if the enforcement effect $E \ne 0$. A pure $W^I$ operator has $E = 0$: at fixed preferences, outcomes do not depend on $W^I$. So ``$\Psi = 2$ for this operator'' is undefined. We solve the closest well-posed version in two steps.
+\begin{enumerate}
+\item \emph{Formation model.} By Proposition~\ref{ch18:thm:attribute_trap}, the steady-state aspiration gap is $\mathcal M\,\lambda_2^{\text{grp}}\,\Delta\bar r$, where $\lambda_2^{\text{grp}}$ is the second eigenvalue of the two-group information matrix. Aggregating $\hat W$ to NI versus indigenous ($\pi$-weighted, Definition~\ref{ch19:def:nesting}) gives $\lambda_2^{\text{grp}} = 0.1636$ before and $0.1331$ after. At fixed returns the long-run aspiration gap therefore falls by $18.65\%$. Using instead $\lambda_r$ from $O$ ($0.7174 \to 0.7636$) and the factor $(1-\lambda)/(1+\lambda)$ ($0.1646 \to 0.1340$) gives $18.55\%$.
+\item \emph{Reading $\Psi = 2$ as a property of the existing ethnic outcome gap.} Interpret it as formation explaining $\Psi/(1+\Psi) = 2/3$ of that gap, the rest being enforcement. The information operator acts only on the formation part, so the outcome gap falls by $\tfrac23 \times 18.65\% = 12.43\%$ (or $12.37\%$).
+\end{enumerate}
+Both figures are long-run, reached at the rate $\rho$ per generation.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{21.7}{Cross-country comparison}
+
+\solpart{Sourced inputs} Internet users as a share of the population (WDI): Bolivia $47.5\%$ (2019) and $79.7\%$ (2024); Chile $85.0\%$ and $95.6\%$. Sweden is not in the repository's WDI extract. It is fetchable with the same script, but was not fetched. Audience shares and media-ownership concentration were not fetched for any of the three countries (\path{data/README.md}, \S9), so outlet-level $\Neff^I/n$ cannot be computed here.
+
+\solpart{Method}
+\begin{enumerate}
+\item Fix a common outlet list: the top $n-1$ outlets by audience plus ``other'', with the same $n$ in every country, because $\Neff/n$ depends on $n$ and lies in $[1/n, 1]$.
+\item Obtain reach shares $m_k$ from audience measurement, or ownership-group shares from a media-pluralism source, and compute $\Neff = 1/\sum_k m_k^2$.
+\item Report the result alongside internet penetration. Penetration changes which outlets enter the list; it does not change the formula.
+\end{enumerate}
+
+\solpart{Ranking and $\Psi$} Expected result, stated as a hypothesis: $\Neff/n$ measures the concentration of attention, not pluralism or independence. A strong public broadcaster can give a pluralistic system a \emph{low} $\Neff$, so the ranking need not follow press-freedom rankings. On this chapter's illustrative table, Bolivia's outlet-level $\Neff/n = 0.971$. Whether the ranking predicts the $\Psi$ ranking cannot be tested. $\Psi$ has not been estimated for any of the three countries (Chapter~11's values are illustrative). With three countries, even perfect rank agreement would occur by chance with probability $1/3! = 0.1667$. A test needs many countries, or within-country variation across regions.
+
+\end{document}

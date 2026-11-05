@@ -1,0 +1,275 @@
+% Solutions to the exercises of Chapter 7. Numbers: code/solutions/sol07.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{6}}{}% NN-1 when built standalone
+\setcounter{chapter}{6}% NN-1, so this chapter is numbered NN
+\chapter{The Bargaining Equilibrium}\label{sol07}
+
+All solutions use the transferable-utility rule of Proposition~\ref{ch07:prop:allocation-rule},
+\[
+x_i^* = d_i + \pi_i\Bigl(\Omega - \sum_j d_j\Bigr),
+\]
+and, with equal outside options, $x_i^* = \Omega/N + (\pi_i - 1/N)\Phi$. The weights are $\boldsymbol{\pi}(W)$ by Assumption~7.A, a modelling postulate. Allocations are evaluated with $U(x) = x - \frac{\kappa}{2}x^2$ below satiation. Every number is printed by the script \nolinkurl{code/solutions/sol07.py}.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.1}{Landlord--Farmer revisited}
+
+\solpart{a} With $K = 10$, $L = 2$ and $Y = AK^{0.3}L^{0.7} = 20$, $A = 20/(10^{0.3}2^{0.7}) = 6.1703$. Under Cobb--Douglas each factor's marginal-product payment is its exponent times $Y$: $MPK = 0.3\cdot 20/10 = 0.60$ and $MPL = 0.7\cdot 20/2 = 7.00$, so the Landlord is paid $0.6 \times 10 = 6$ and the Farmer $7 \times 2 = 14$ (they exhaust $Y$ by Euler's theorem). Relative to the original example, $(10, 10)$, the higher labor share benefits the \emph{Farmer} ($+4$) at the Landlord's expense ($-4$).
+
+\solpart{b} The bargaining allocation does not depend on the technology, only on $Y$ and the outside options: $S = 20 - 10 - 2 = 8$ and, by~\eqref{ch07:eq:nash_two}, $x_L = 10 + 0.7\cdot 8 = 15.6$, $x_F = 2 + 0.3\cdot 8 = 4.4$. Compared with the competitive allocation $(6, 14)$, the Landlord gets $9.6$ more and the Farmer $9.6$ less. The Farmer's share of the surplus is $30\%$ under bargaining and $(14-2)/8 = 150\%$ under marginal-product pricing.
+
+\solpart{c} A bargaining allocation gives the Farmer $x_F = 2 + 8\pi_F$. Reproducing $x_F = 14$ requires $\pi_F = 12/8 = 1.5 > 1$, so no $\pi_F \in [0,1]$ works. The general reason: every TU bargaining allocation is individually rational, so $x_L \ge d_L = 10$ and $x_F \ge d_F = 2$. The bargaining set is the segment $x_F \in [2, 10]$. The competitive payment to the Landlord, $6$, is \emph{below} his outside option $10$. That allocation violates his participation constraint, and no bargaining weight can deliver it: the Landlord would rather use his land elsewhere. More generally, the competitive allocation is reproducible iff the capital share $a$ satisfies $aY \ge d_L$ and $(1-a)Y \ge d_F$, i.e.\ $a \in [0.5, 0.9]$ here. Marginal-product pricing ignores the outside options; the bargaining model is built on them.
+
+In the original example ($a = 0.5$) the competitive allocation $(10, 10)$ requires $10 = 2 + 8\pi_F$, i.e.\ $\boldsymbol{\pi} = (\pi_L, \pi_F) = (0, 1)$: the Landlord is held exactly to his outside option and the Farmer takes the whole surplus. This is the boundary of the simplex. A Perron vector of an irreducible $W$ is strictly positive (Theorem~\ref{ch06:thm:PF}), so it can approach $(0,1)$ but never equal it. Under Assumption~7.A, the competitive outcome of that example is the limit of a network in which the Landlord's power vanishes.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.2}{The FOC in practice}
+
+\solpart{a} With one good, endowments $\boldsymbol{\omega} = (1.5, 1.0, 0.5)$ summing to $\Omega = 3$, and $d_i = U(\omega_i)$ (or $d_i = \omega_i$), a strictly positive surplus for every agent requires $x_i > \omega_i$ for all $i$, because $U$ is increasing below satiation. Summing gives $\sum_i x_i > \sum_i\omega_i = 3$, which contradicts feasibility. The only individually rational allocation is $\x = \boldsymbol{\omega}$, where every $S_i = 0$ and the Nash product $\sum_i\pi_i\ln S_i$ is $-\infty$ (Appendix~7A). There are no gains from cooperation, so hypothesis (iv) of Theorem~\ref{ch07:thm:existence} fails. In the exercise as posed, cooperation produces $\Omega = 3$ while the outside options sum to $1.2$, so there is a surplus of $1.8$ to divide.
+
+\solpart{b} With $S_i = x_i - d_i$, $\partial S_i/\partial x_i = 1$, and the Lagrangian of~\eqref{ch07:eq:bargaining} gives the FOC~\eqref{ch07:eq:foc_bargaining}:
+\[
+\frac{0.5}{x_1 - 0.6} = \mu, \qquad \frac{0.3}{x_2 - 0.4} = \mu, \qquad \frac{0.2}{x_3 - 0.2} = \mu, \qquad x_1 + x_2 + x_3 = 3 .
+\]
+That is four equations in $(x_1, x_2, x_3, \mu)$. Solving the first three for $x_i = d_i + \pi_i/\mu$ and substituting into the fourth gives $1/\mu = 3 - 1.2 = 1.8$.
+
+\solpart{c} A student with \texttt{scipy} would write
+\begin{verbatim}
+minimize(lambda x: -np.sum(pi*np.log(x-d)),
+         x0=np.ones(3), method="SLSQP",
+         constraints=[{"type": "eq",
+                       "fun": lambda x: x.sum()-3}],
+         bounds=[(di+1e-9, None) for di in d])
+\end{verbatim}
+The manual's script keeps to \texttt{numpy} and instead applies Newton's method to the FOC system of~(b), with Jacobian $\operatorname{diag}(-\pi_i/S_i^2)$ bordered by the constraint. It converges to
+\[
+\x^* = (1.5000,\ 0.9400,\ 0.5600), \qquad \mu = 0.5556 = 1/1.8,
+\]
+which is the closed form~\eqref{ch07:eq:LQ_solution}: $x_1 = 0.6 + 0.5(1.8)$, $x_2 = 0.4 + 0.3(1.8)$, $x_3 = 0.2 + 0.2(1.8)$. The objective is strictly concave, so this stationary point is the global maximum. As a check, none of 5000 random feasible allocations attains a higher weighted Nash product. Satiation: $\kappa\x^* = (0.375, 0.235, 0.140)$, all below $1$. The utilities are $U(\x^*) = (1.2188, 0.8296, 0.5208)$.
+
+\solpart{d} With $\boldsymbol{\pi} = \frac13\ones$, $\x = \boldsymbol{d} + \frac13(1.8)\ones = (1.2, 1.0, 0.8)$. The difference is $\x(\boldsymbol{\pi}) - \x(\tfrac13\ones) = (\boldsymbol{\pi} - \frac13\ones)\cdot 1.8 = (+0.30, -0.06, -0.24)$. Agent~1 ($\pi_1 = 0.5 > \frac13$) gains, and agents~2 and~3 ($\pi < \frac13$) lose, in proportion to their power deficit. Equal power does not mean equal consumption here, because the outside options differ: it means equal division of the \emph{surplus}. Utilitarian welfare is $\sum_iU(x_i) = 2.5691$ with unequal power, $2.6150$ with equal power, and $2.6250$ at equal division $(1,1,1)$. Both bargaining outcomes are Pareto efficient (Proposition~\ref{ch07:prop:direction}); the welfare differences are distributional.
+
+\emph{Remark (a common confusion).} The FOC~\eqref{ch07:eq:foc_bargaining} is written for surpluses in utility, $S_i = U_i(x_i) - d_i$. If the agents bargained over utility, with $S_i = U(x_i) - U(d_i)$, the FOC would be $\pi_i(1 - \kappa x_i)/S_i = \mu$. Newton's method gives $\x = (1.4627, 0.9550, 0.5823)$. Concavity of $U$ shifts consumption slightly away from the powerful agent, because her marginal utility falls as she consumes more. The exercise's TU specification, $S_i = x_i - d_i$, is the one in which the book's allocation rule holds exactly.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.3}{Welfare decomposition}
+
+Both economies have $N = 4$, $\Omega = 20$, $\bar d = 3$, $\Phi = 8$ and $\kappa = 0.1$ (Section~\ref{ch07:sec:worked}).
+
+\solpart{a} By~\eqref{ch07:eq:Lpower}, $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi}) = 12.8\,\Var(\boldsymbol{\pi})$.
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& $\boldsymbol{\pi}$ & $\Var(\boldsymbol{\pi})$ & $L_{\text{power}}$ \\
+\midrule
+A (village) & $(0.2564, 0.2821, 0.2179, 0.2436)$ & 0.000534 & 0.0068 \\
+B (enclave) & $(0.3342, 0.4158, 0.1250, 0.1250)$ & 0.016456 & 0.2106 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Economy~B's loss is $30.8$ times Economy~A's (the chapter's ``about 31''). The loss is computed both from the formula and as $\sum_i[U(5) - U(x_i)]$, with
+\[
+\x_A = (5.0513,\ 5.2564,\ 4.7436,\ 4.9487), \qquad \x_B = (5.6739,\ 6.3261,\ 4.0000,\ 4.0000);
+\]
+the two agree to machine precision.
+
+\solpart{b} \emph{Set-up.} $W^U = W^P - \operatorname{diag}(W^P)$, $\gamma_U = 0.3$. The caring weights are the column sums $c_j = \sum_{i\neq j}W^U_{ij}$:
+\begin{itemize}
+\item A: $\mathbf{c} = (0.4, 0.6, 0.5, 0.4)$;
+\item B: $\mathbf{c} = (0.46, 0.56, 0.32, 0.32)$.
+\end{itemize}
+($W^U$ is substochastic here, with row sums $0.4$--$0.6$. The theorem only needs $W^U \ge 0$.) Social welfare is $\mathcal{S}(\x) = \sum_j(1 + 0.3c_j)U(x_j)$. Its maximizer on $\sum_j x_j = 20$ solves $(1 + \gamma_Uc_j)(1 - \kappa x_j) = \mu$. That gives $x_j = (1 - \mu/w_j)/\kappa$ with $w_j = 1 + \gamma_U c_j$ and $\mu = (N - \kappa\Omega)/\sum_j w_j^{-1}$:
+\begin{itemize}
+\item A: $\x^{FB} = (4.9019, 5.1612, 5.0349, 4.9019)$;
+\item B: $\x^{FB} = (5.0629, 5.1897, 4.8737, 4.8737)$.
+\end{itemize}
+The three terms of Theorem~\ref{ch07:thm:decomposition} are:
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+& $L_{\text{power}}$ & $L_{\text{externality}}$ & $L_{\text{interaction}}$ & (linear, quadratic) & $L$ \\
+\midrule
+A & 0.006838 & 0.002680 & $-0.002730$ & $(-0.003846, 0.001116)$ & 0.006787 \\
+B & 0.210633 & 0.004075 & $-0.034386$ & $(-0.061891, 0.027505)$ & 0.180322 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Check:} the components add up to $L = \mathcal{S}(\x^{FB}) - \mathcal{S}(\x^B)$. For B, $\mathcal{S}(\x^{FB}) = 16.8716$ and $\mathcal{S}(\x^B) = 16.6913$. The interaction term equals the sum of its linear and quadratic parts in the theorem. \emph{The power component is the largest in both economies}: by a factor of about $2.5$ in A and $50$ in B over the externality term. The externality term is small because the $c_j$ vary little (weights $1 + \gamma_U c_j$ between $1.10$ and $1.18$). In A, $L_{\text{externality}}$ and $L_{\text{interaction}}$ almost cancel, so $L \approx L_{\text{power}}$.
+
+\solpart{c} The interaction term is \emph{negative} in both economies. Its leading term is
+\[
+-\gamma_U N\,U'(\Omega/N)\,\Phi\,\Cov(c_j, \pi_j), \qquad U'(5) = 0.5 > 0.
+\] Here $\Cov(c_j, \pi_j) = 0.000801$ in A and $0.012894$ in B (correlations $0.418$ and $0.992$). The positive quadratic term ($\gamma_U\frac{\kappa}{2}\Phi^2\sum_jc_j(\pi_j - \frac14)^2$) does not overturn the sign. The covariance is positive by construction. $\pi_j$ is large when column $j$ of $W^P$ receives a lot of weight, and $c_j$ is the off-diagonal part of the same column. ``Your production partners are your friends'' therefore makes the agents others care about the same agents who hold power.
+
+\emph{Interpretation.} A welfare function that counts interdependent utilities, $V_i = U_i + \gamma_U\sum_{j}W^U_{ij}U_j$, gives extra weight to the consumption of the cared-about. When the cared-about are also the powerful, the extra consumption that bargaining gives them is partly counted as a gain, and the measured loss falls: in B from $0.2106 + 0.0041$ to $0.1803$. This is not evidence that elite cohesion is benign. It is a property of the evaluation, and the chapter recommends evaluating structural outcomes with private utilities $U$. \emph{Common mistake:} reading $L < L_{\text{power}}$ as ``externalities reduce the cost of power''. The externalities raise the first-best benchmark ($L_{\text{externality}} > 0$); the reduction comes entirely from re-weighting the same allocation.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.4}{Structural policy vs.\ transfer}
+
+\emph{Baseline} (Economy~B):
+\[
+\boldsymbol{\pi} = (0.3342,\ 0.4158,\ 0.125,\ 0.125), \qquad \x = (5.6739,\ 6.3261,\ 4.0000,\ 4.0000).
+\] Utilitarian welfare is $\sum_iU(x_i) = 14.7894$ and the loss relative to equal division is $0.2106$. The Gini coefficient of consumption is $0.1082$ and $\max/\min = 1.582$.
+
+\solpart{a} \emph{Transfer.} $\boldsymbol{d}' = (2, 3, 3, 4)$ still sums to $12$, so $\Omega - \sum_j d'_j = 8$ and
+\[
+\x' = \boldsymbol{d}' + 8\boldsymbol{\pi} = (4.6739,\ 6.3261,\ 4.0000,\ 5.0000).
+\]
+The transfer passes through one-for-one: $\Delta\x = \Delta\boldsymbol{d}$, since $\partial x_i/\partial d_i = 1 - \pi_i$ and $\partial x_i/\partial d_j = -\pi_i$ cancel when $\sum_j d_j$ is fixed (Proposition~\ref{ch07:prop:comp_statics}). Welfare is $\sum_iU(x'_i) = 14.8568$, a gain of $0.0674$. The loss relative to equal division falls to $0.1432$, the Gini to $0.0913$; $\max/\min$ stays at $1.582$, because the Minister is untouched.
+
+\solpart{b} \emph{Structural policy.} Raising every cross-block entry to $0.05$ (from $0.01$ in the enclave rows and $0.03$ in the traditional rows), with the difference taken from the diagonal, gives
+\[
+W^P_{\text{new}} = \begin{pmatrix} 0.40 & 0.50 & 0.05 & 0.05 \\ 0.40 & 0.50 & 0.05 & 0.05 \\ 0.05 & 0.05 & 0.60 & 0.30 \\ 0.05 & 0.05 & 0.30 & 0.60\end{pmatrix}.
+\]
+Now both blocks leak $\varepsilon_1 = \varepsilon_2 = 0.10$, so by Proposition~\ref{ch06:prop:block_power} each block holds exactly half of the power:
+\begin{itemize}
+\item $\boldsymbol{\pi}_{\text{new}} = (0.225, 0.275, 0.250, 0.250)$, with $\Neff$ rising from $3.166$ to $3.980$;
+\item the spectrum is $\{1, 0.8, 0.3, 0\}$, so $\Gap$ rises from $0.08$ to $0.20$;
+\item $\x_{\text{new}} = (4.80, 5.20, 5.00, 5.00)$, and $\sum_iU = 14.9960$, a gain of $0.2066$;
+\item the loss relative to equal division is $0.0040$, the Gini $0.015$ and $\max/\min = 1.083$.
+\end{itemize}
+
+\solpart{c}
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& welfare gain & Gini$(\x)$ & Farmer's $x_4$ & $\boldsymbol{\pi}$ changed? \\
+\midrule
+Transfer & 0.0674 & 0.0913 & 5.00 & no \\
+Structural & 0.2066 & 0.0150 & 5.00 & yes \\
+\bottomrule
+\end{tabular}
+\end{center}
+The structural policy produces three times the welfare gain and reduces inequality much more. The transfer helps only the Farmer, and only by the amount transferred. The structural policy equalizes the two \emph{blocks}, lifting the Vendor as well, and compresses the gap within the enclave. Only the structural policy changes the power structure, because only it changes $W$. The Farmer's consumption happens to be $5.00$ under both. Note also why the structural policy works. It does not merely add cross-block links; it makes the enclave's dependence on the traditional block ($\varepsilon_1$: $0.02 \to 0.10$) rise more than the reverse ($\varepsilon_2$: $0.06 \to 0.10$), and the block masses depend only on the ratio $\varepsilon_2 : \varepsilon_1$. The two policies are complements: applying both gives $\x = (3.8, 5.2, 5.0, 6.0)$. \emph{Caveat:} the comparison holds the transfer's size fixed at one unit; a large enough transfer can always beat a given structural change on welfare. The difference is that a transfer must be repeated, while a change in $W$ persists.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.5}{The escape threshold}
+
+\solpart{a} In the notation of Proposition~\ref{ch06:prop:star_power}, $N = 5$, $a = 0.9$ and $s = 0.5$:
+\[
+\pi_h = \frac{a}{a + 1 - s} = \frac{0.9}{1.4} = 0.6429, \qquad \pi_{\text{spoke}} = \frac{1 - \pi_h}{4} = 0.0893,
+\]
+so $\boldsymbol{\pi} = (0.6429, 0.0893, 0.0893, 0.0893, 0.0893)$ and $\Neff = 2.246$. The spectrum is $\{1, s - a, 1 - a\ (\times 3)\} = \{1, -0.4, 0.1, 0.1, 0.1\}$, so $\Gap = 1 - \max(0.4, 0.1) = 0.6$. Integration is high and power is concentrated.
+
+\solpart{b} The spokes are symmetric, so ``the most peripheral agent'' is any spoke. Raising her power by $50\%$ means $\pi_{\text{spoke}} = 1.5 \times 0.0893 = 0.1339$, hence $\pi_h = 1 - 4(0.1339) = 0.4643$. Inverting $\pi_h = a/(a + 1 - s)$ gives $a = \pi_h(1-s)/(1 - \pi_h) = 0.4333$. Every spoke's dependence on the hub must fall from $0.9$ to $0.433$, by $0.467$, or $51.9\%$. (The new $\Gap = 0.433$, with spectrum $\{1, 0.567^{(3)}, 0.067\}$.) The response is smooth: $d\pi_{\text{spoke}}/da = -(1-s)/((N-1)(a+1-s)^2) = -0.0638$ at $a = 0.9$. The linear approximation is poor over this range: it predicts a gain of only $0.0638 \times 0.467 = 0.030$ instead of the required $0.045$, because $\pi_{\text{spoke}} = (1-s)/((N-1)(a + 1 - s))$ is convex in $a$.
+
+If a \emph{single} spoke lowers her own dependence, moving the weight onto herself while the others keep $a = 0.9$, she reaches $+50\%$ at $a_1 = 0.571$. Her power rises because she retains more of her own weight (Proposition~\ref{ch06:prop:monotone} with $j = i$), and the other spokes lose a little (e.g.\ at $a_1 = 0.6$: $\pi_1 = 0.1282$, the others $0.0855$, the hub $0.6154$). Whether that ``self-reliance'' power translates into bargaining power is precisely what Assumption~7.A takes for granted; Proposition~\ref{ch07:prop:escape_hard} treats the cost of such moves as a lower bound only.
+
+\solpart{c} In each case $a$ is the share of the agent's dependence that runs through a single hub, and the computation says that it must roughly halve before the periphery's position improves by half.
+\begin{itemize}
+\item \emph{Monopsony.} The spoke is a worker in a company town, the hub the employer. Lowering $a$ means alternative employers, a second job, or a union that the employer depends on. It is costly and gradual: each worker's outside options must change, and one worker's exit raises her own weight only modestly unless others move too.
+\item \emph{Export diversification.} The spoke is a commodity exporter whose earnings depend on one buyer or one commodity market. Lowering $a$ is diversification of markets and products. It moves the country's Perron weight only when the new partners also come to depend on it, i.e.\ when the change appears in their rows as well.
+\item \emph{Media.} The spoke is a viewer of state TV. Switching to independent sources lowers $a$ in $W^I$. Since $\pi_h$ falls only when \emph{many} spokes switch, the epistemic dominance of a broadcaster is robust to individual exit and fragile to coordinated exit.
+\end{itemize}
+In all three cases, Proposition~\ref{ch07:prop:escape_hard} says the spectral obstacle is mild in a well-mixed star ($\Gap = 0.6$, $\|Z\|_\infty$ small); the real obstacle is the cost of creating the alternatives, which the hub can influence. \emph{Common mistake:} expecting the hub's power to fall in proportion to $N$. By~\eqref{ch06:eq:star} it does not depend on $N$ at all.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.6}{Bolivia: the full model}
+
+This is an open construction; any internally consistent calibration is acceptable if it is stated and its matrices are row-stochastic on the same four nodes (\nolinkurl{docs/conventions.md}, \S1). The following is one model answer \illustrative. Nodes, in order: Gas (G), Government (Gov), Urban informal (U), Rural traditional (R).
+\begingroup\footnotesize
+\[
+W^P = \begin{pmatrix} .50 & .30 & .15 & .05 \\ .30 & .40 & .20 & .10 \\ .15 & .10 & .50 & .25 \\ .10 & .05 & .25 & .60\end{pmatrix},\ 
+W^U = \begin{pmatrix} .60 & .30 & .05 & .05 \\ .30 & .50 & .10 & .10 \\ .10 & .10 & .60 & .20 \\ .05 & .05 & .20 & .70\end{pmatrix},\ 
+W^I = \begin{pmatrix} .60 & .30 & .05 & .05 \\ .30 & .60 & .05 & .05 \\ .20 & .30 & .40 & .10 \\ .10 & .40 & .10 & .40\end{pmatrix}.
+\]
+\endgroup
+\emph{Reading.} In $W^P$ (input-cost shares) the sectors buy mostly within their own block, and rural producers buy few modern inputs. In $W^U$ caring is concentrated within classes. In $W^I$ urban and rural agents listen to the government (state media) and to gas-sector news; the elites listen almost only to each other. Composite weights $\boldsymbol{\alpha} = (0.4, 0.3, 0.3)$. Outside options $\boldsymbol{d} = (4, 3, 2, 1)$, joint output $\Omega = 20$ (surplus $10$), and $\kappa = 0.05$.
+
+\solpart{a} $W = 0.4W^P + 0.3W^U + 0.3W^I$ is row-stochastic with rows $(0.56, 0.30, 0.09, 0.05)$, $(0.30, 0.49, 0.125, 0.085)$, $(0.15, 0.16, 0.50, 0.19)$ and $(0.085, 0.155, 0.19, 0.57)$. Perron vectors:
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+& G & Gov & U & R & $\Neff$ & $\Gap$ \\
+\midrule
+$W^P$ & 0.2563 & 0.1975 & 0.2860 & 0.2602 & 3.934 & 0.423 \\
+$W^U$ & 0.2656 & 0.2324 & 0.2282 & 0.2739 & 3.975 & 0.285 \\
+$W^I$ & 0.3929 & 0.4405 & 0.0833 & 0.0833 & 2.761 & 0.600 \\
+Composite & 0.3107 & 0.3024 & 0.2018 & 0.1851 & 3.803 & 0.430 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Power in this calibration comes from the information layer: production and caring are nearly balanced, but in $W^I$ the elites hold $83\%$. Note that $\boldsymbol{\pi}(W) \neq \sum_k\alpha_k\boldsymbol{\pi}(W^k)$ in general; the composite must be computed.
+
+\solpart{b} $\x^* = \boldsymbol{d} + 10\boldsymbol{\pi} = (7.1072, 6.0235, 4.0185, 2.8509)$. The largest value of $\kappa x_i$ is $0.355 < 1$, and $\sum_iU(x_i) = 17.2233$. Rural Traditional gets the least: it has the lowest outside option and the lowest power.
+
+\solpart{c} Three policies, each defined so that rows stay stochastic:
+\begin{enumerate}
+\item[(i)] \emph{Transfer:} one unit of outside option from Gas to Rural, $\boldsymbol{d} = (3, 3, 2, 2)$.
+\item[(ii)] \emph{Gas-to-fertilizer plant:} Rural's $W^P$ row moves $0.10$ from itself to Gas (it now buys fertilizer), and fertilizer raises joint output by $2$ ($\Omega = 22$), an assumed productivity effect.
+\item[(iii)] \emph{Rural internet:} in $W^I$, Rural moves $0.10$ of attention from itself to Urban (it listens more), and, because rural voices become visible online, Urban moves $0.10$ and Government $0.05$ of their own weight onto Rural (Rural is heard more).
+\end{enumerate}
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccc}
+\toprule
+Policy & $\boldsymbol{\pi}$ & $x_R$ & $\Delta x_R$ & $\sum_iU$ \\
+\midrule
+Baseline & $(0.3107, 0.3024, 0.2018, 0.1851)$ & 2.8509 & --- & 17.2233 \\
+(i) Transfer & unchanged & 3.8509 & $+1.0000$ & 17.3861 \\
+(ii) Plant, network effect only & $(0.3247, 0.3054, 0.1995, 0.1704)$ & 2.7043 & $-0.1465$ & 17.1891 \\
+(ii) Plant, with $\Omega = 22$ & same & 3.0452 & $+0.1943$ & 18.6164 \\
+(ii$'$) Plant buys rural output, $\Omega = 22$ & $(0.2872, 0.2973, 0.2057, 0.2098)$ & 3.5174 & $+0.6665$ & 18.7269 \\
+(iii) Internet, two-way & $(0.3078, 0.2951, 0.2026, 0.1945)$ & 2.9450 & $+0.0942$ & 17.2401 \\
+(iii$'$) Internet, Rural only listens & $(0.3118, 0.3026, 0.2093, 0.1763)$ & 2.7627 & $-0.0881$ & 17.2159 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Answer.} In this calibration the transfer has the largest effect on Rural consumption ($+1.00$). It passes through one-for-one (Exercise~7.4). A structural policy beats it only if it raises $\pi_R$ by more than $1/(\Omega - \sum_jd_j) = 0.10$, a large change in a four-node network.
+
+The plant as specified \emph{lowers} Rural's power ($0.1851 \to 0.1704$). Buying fertilizer makes Rural depend on Gas, which raises the seller's Perron weight (Proposition~\ref{ch06:prop:monotone}; compare Exercise~6.7(c)). Rural gains only through the larger pie: $\partial x_R/\partial\Omega = \pi_R$ (Proposition~\ref{ch07:prop:comp_statics}). A plant that instead \emph{buys} rural output (row (ii$'$): Gas's $W^P$ row moves $0.10$ onto Rural) raises $\pi_R$ to $0.2098$ and gives $+0.67$. The internet works only to the extent that it makes Rural \emph{heard}. One-way access, where Rural listens more, lowers $\pi^I_R$ and her consumption.
+
+\emph{What the comparison leaves out.} (iii) is primarily a \emph{formation} policy: by changing whose returns Rural agents observe, it shifts $\boldsymbol{\theta}$ over generations (Chapters~9--10). Those effects, the $\Psi$ ratio of Definition~\ref{ch09:def:psi}, are not in this one-period bargaining calculation and could reverse the ranking at long horizons. Likewise, the transfer is a flow that must be financed every period, while (ii) and (iii) change $W$ permanently. \emph{Common mistakes:} composing layers defined on different node sets (sectors in $W^P$, persons in $W^I$), and assuming that ``more connection'' raises the connected agent's power whatever the direction of the new links.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{7.7}{Data: labor shares as bargaining outcomes}
+
+\emph{Status of the data.} CEPALSTAT labor-share series were \emph{not} fetched into the repository (\texttt{data/README.md} lists what was fetched), so no CEPALSTAT values are reported here. For Bolivia, the same concept can be computed from INE's supply-use tables, which are in \texttt{data/processed}. Those results are reported below. For Chile and Mexico only the method is given.
+
+\emph{Method.}
+\begin{enumerate}
+\item \emph{Series.} CEPALSTAT, national accounts, ``Gross domestic product by income component'': compensation of employees (D.1) and gross value added or GDP. Take annual values, 2010--latest, for BOL, CHL and MEX. Use the same denominator for all three (GVA at basic prices is preferable to GDP at market prices, because net taxes on products are not factor income).
+\item \emph{Adjustment for self-employment.} Compensation of employees omits the labor income of the self-employed, which sits in \emph{mixed income} (B.3). Self-employment is $68.1\%$ of employment in Bolivia, $24.4\%$ in Chile and $30.3\%$ in Mexico (2019; WDI series SL.EMP.SELF.ZS, ILO modelled estimates, in \nolinkurl{data/processed/wdi_long.csv}, retrieved 2026-11-05). The unadjusted share is therefore not comparable across these countries. Report an adjusted share that attributes to labor the fraction $D1/(D1 + B2)$ of mixed income (the economy-wide employee share of the non-mixed income).
+\item \emph{Two-agent TU model.} Normalize $\Omega = \text{GVA} = 1$, with labor and capital as the agents. Assume outside options $(d_L, d_K)$ as shares of GVA, satisfying $d_L \le s_L$ and $d_K \le 1 - s_L$ (individual rationality). By~\eqref{ch07:eq:LQ_solution}, $s_L = d_L + \pi_L(1 - d_L - d_K)$, so
+\[
+\pi_L = \frac{s_L - d_L}{1 - d_L - d_K}.
+\]
+\end{enumerate}
+
+\emph{Results for Bolivia} (INE, \textit{Cuadros de Oferta y Utilizaci\'on}, base 2017, use table, value-added block summed over the 39 industries; \citealp{ine2026sut}; \nolinkurl{data/processed/ine_sut_long.csv}, retrieved 2026-11-05). The accounting identity $B1b = D1 + D2 - D3 + B2b + B3b$ holds to $10^{-6}$ in every year (sanity check).
+\begin{center}
+\begin{tabular}{lcccccccc}
+\toprule
+& 2017 & 2018 & 2019 & 2020 & 2021 & 2022 & 2023 & 2024 \\
+\midrule
+$s_L = D1/B1b$ & 0.409 & 0.414 & 0.411 & 0.433 & 0.401 & 0.386 & 0.393 & 0.410 \\
+$s_L$ adjusted & 0.525 & 0.531 & 0.531 & 0.557 & 0.518 & 0.497 & 0.513 & 0.532 \\
+mixed income / GVA & 0.221 & 0.219 & 0.224 & 0.220 & 0.225 & 0.223 & 0.233 & 0.228 \\
+\bottomrule
+\end{tabular}
+\end{center}
+(2023 and 2024 are preliminary in INE's release.)
+
+\solpart{a} With 2019 values ($s_L = 0.4114$; adjusted $0.5307$), the implied labor weight under five outside-option assumptions is:
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+$(d_L, d_K)$ & $(0, 0)$ & $(0.2, 0.2)$ & $(0.3, 0.1)$ & $(0.1, 0.3)$ & $(0.35, 0.2)$ \\
+\midrule
+$\pi_L$, unadjusted $s_L$ & 0.411 & 0.352 & 0.186 & 0.519 & 0.136 \\
+$\pi_L$, adjusted $s_L$ & 0.531 & 0.551 & 0.384 & 0.718 & 0.402 \\
+\bottomrule
+\end{tabular}
+\end{center}
+A natural baseline is $d_L$ equal to subsistence or informal-sector earnings and $d_K$ equal to the return capital could earn abroad. With no outside options, $\pi_L = s_L$: the labor share \emph{is} the bargaining weight. For Chile and Mexico the computation is identical once the CEPALSTAT series are downloaded. Given the much lower self-employment rates there, one expects the adjustment to matter less than in Bolivia. That is a qualitative expectation, not a result.
+
+\solpart{b} The implied weight is very sensitive to the assumed outside options. Differentiating,
+\[
+\frac{\partial\pi_L}{\partial d_L} = -\frac{(1 - s_L) - d_K}{(1 - d_L - d_K)^2} < 0, \qquad \frac{\partial\pi_L}{\partial d_K} = \frac{s_L - d_L}{(1 - d_L - d_K)^2} > 0;
+\]
+at $s_L = 0.4114$ and $\boldsymbol{d} = (0.2, 0.2)$ these are $-1.080$ and $+0.587$. Moving $0.1$ of GVA between the two outside options changes $\pi_L$ from $0.186$ to $0.519$, a factor of nearly three, at the same observed labor share. As $d_L$ ranges over $[0, s_L)$ and $d_K$ over $[0, 1 - s_L)$, $\pi_L$ ranges over the whole interval $(0, 1)$.
+
+\emph{Implication for identification.} One observed share, $s_L$, is one equation in three unknowns $(\pi_L, d_L, d_K)$. Distributional data alone identify $\boldsymbol{\pi}$ only up to the outside options, and not at all without restrictions on them. Identification needs independent evidence on outside options (unemployment or informal-sector earnings, capital mobility), variation that shifts $\boldsymbol{d}$ but not $\boldsymbol{\pi}$ (or the reverse), or an independent measurement of $W$, from which $\boldsymbol{\pi}(W)$ can be computed and the allocation rule tested rather than inverted. This is the same lesson as Chapter~11's for $\Psi$: an outcome is not a structural parameter. \emph{Common mistakes:} using unadjusted compensation shares in economies with large self-employment; comparing shares with different denominators (GDP vs GVA); and treating the inverted $\pi_L$ as a measurement of power rather than as a residual that absorbs every misspecified outside option.
+
+\end{document}

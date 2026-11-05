@@ -1,0 +1,227 @@
+% Solutions to the exercises of Chapter 3. Numbers: code/solutions/sol03.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{2}}{}% NN-1 when built standalone
+\setcounter{chapter}{2}% NN-1, so this chapter is numbered NN
+\chapter{Growth and Distribution in Matrix Form}\label{sol03}
+\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol03.py}. Leontief inverses use the book's convention $L = (I - \gamma A')^{-1}$ with $\gamma = 1$ unless stated, and $W^P = D^{-1}A$ (Chapter~1, Section~\ref{ch01:sec:conventions}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.1}{Solow with two groups}
+
+\solpart{a} A young agent with wage $w$ chooses saving $s$ to maximize $\ln(w - s) + \theta\ln((1 + r)s)$ (Example~\ref{ch03:ex:two_group}). The first-order condition is $\frac{1}{w - s} = \frac{\theta}{s}$, so $s = \frac{\theta}{1+\theta}w$ and the savings rate is $\sigma(\theta) = \theta/(1+\theta)$, equation~\eqref{ch03:eq:savings_rate}. It does not depend on $r$, because log utility makes the income and substitution effects cancel. Then
+\[
+\sigma(\theta^M) = \tfrac{2}{3} = 0.6667, \qquad \sigma(\theta^F) = \tfrac{0.5}{1.5} = 0.3333 .
+\]
+
+\solpart{b} $\bar s = \frac12(0.6667 + 0.3333) = 0.5$.
+
+\solpart{c} From~\eqref{ch03:eq:K_OLG}, $K_{t+1} = \bar s(1-\alpha)K_t^\alpha$. The map $K \mapsto \bar s(1-\alpha)K^\alpha$ is increasing and strictly concave, with slope $\infty$ at 0 and slope $\to 0$ at $\infty$, so it has a unique positive fixed point, which is globally stable on $(0,\infty)$:
+\[
+K^* = \bigl[\bar s(1-\alpha)\bigr]^{1/(1-\alpha)} = (0.35)^{1/0.7} = 0.2232 .
+\]
+
+\solpart{d} With $\theta = 2$ for both groups, $\bar s = 2/3$ and $K^* = (0.4667)^{1/0.7} = 0.3366$. The ratio is $(0.5/0.6667)^{1/0.7} = 0.6630$: steady-state capital is $33.70\%$ lower. Output $Y = K^\alpha$ is $1 - 0.6630^{0.3} = 11.60\%$ lower ($0.6377$ against $0.7213$), and the wage $(1-\alpha)K^\alpha$ falls from $0.5049$ to $0.4464$.
+
+\emph{A caution a strong answer adds.} ``Lower $K^*$'' is not ``lower welfare''. In this economy (no population growth, full depreciation), the golden-rule capital stock solves $\alpha K^{\alpha-1} = 1$, i.e.\ $K_{gr} = 0.3^{1/0.7} = 0.1791$. Both steady states lie \emph{above} it: their gross marginal products are $0.8571$ and $0.6429$, both below 1, so both are dynamically inefficient. Steady-state aggregate consumption $C = K^\alpha - K$ is $0.4145$ with the gender gap and $0.3847$ without it. The ``macroeconomic cost of the formation mechanism'' is a cost in capital and output. Whether it is a welfare cost depends on the calibration, and on who bears it: women's lower old-age consumption, if $\theta^F$ is produced by the structure (Chapter~10), is the distributional object.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.2}{Propagation in a 3-sector economy}
+
+\solpart{a} The row sums of $A$ are $(0.35, 0.40, 0.25) < 1$, so the Neumann series converges. The inverse is
+\[
+L = (I - A')^{-1} = \begin{pmatrix} 1.1623 & 0.2083 & 0.0877\\ 0.2705 & 1.1806 & 0.1462\\ 0.1096 & 0.2083 & 1.1404\end{pmatrix}.
+\]
+
+\solpart{b} $\Delta\mathbf Y = L e_2 = (0.2083, 1.1806, 0.2083)'$: sector~2 rises by $1.1806$ (the impulse plus own-use feedback), and sectors~1 and~3 by $0.2083$ each. The total is $1.5972$.
+
+\solpart{c} The multipliers (column sums of $L$) are $(1.5424, 1.5972, 1.3743)$, so sector~2 has the highest. It has the most input-intensive recipe (row sum $0.40$), and its largest input is good~1 ($a_{21} = 0.15$), which itself buys heavily from sector~2 ($a_{12} = 0.20$). That two-sector loop $2 \to 1 \to 2$ recirculates demand. Sector~3 has the lightest recipe ($0.25$) and the lowest multiplier.
+
+\solpart{d} $\rho(A) = 0.3386$. Row-normalizing,
+\[
+W^P = \begin{pmatrix} 0.2857 & 0.5714 & 0.1429\\ 0.375 & 0.25 & 0.375\\ 0.2 & 0.4 & 0.4\end{pmatrix},
+\]
+with eigenvalues $1, -0.2416, 0.1774$, so $\Gamma(W^P) = 0.7584$. Its Perron vector is $\boldsymbol\pi = (0.2937, 0.3916, 0.3147)$, with $\Neff = 2.9529$ of 3. The cross-block mass of $\{1,2\}$ against $\{3\}$ is $\chi(A) = 0.35$. This economy is \emph{connected}: impulses mix fast, and every sector puts at least $14\%$ of its inputs on each other sector. As a check on Proposition~\ref{ch03:prop:propagation}: the mean off-diagonal Leontief entry is $0.1718$, below the norm bound $\|A\|_2/(1 - \|A\|_2) = 0.5198$ ($\|A\|_2 = 0.3420$).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.3}{The enclave}
+
+\solpart{a} With $a_{31} = a_{32} = a_{13} = a_{23} = 0.01$:
+\[
+L_{\text{enc}} = \begin{pmatrix} 1.1541 & 0.1925 & 0.0150\\ 0.2566 & 1.1541 & 0.0157\\ 0.0157 & 0.0150 & 1.1115\end{pmatrix}.
+\]
+A unit shock to sector~3 gives $L_{\text{enc}}e_3 = (0.0150, 0.0157, 1.1115)'$: $0.0306$ in total reaches sectors~1 and~2.
+
+\solpart{b} In the connected case, $Le_3 = (0.0877, 0.1462, 1.1404)'$, i.e.\ $0.2339$ reaches sectors~1 and~2. Propagation falls by a factor of $5.86$ to sector~1, $9.33$ to sector~2, and $7.64$ in total. The reverse direction collapses too: shocks to sectors~1 and~2 now reach sector~3 by $0.0157$ and $0.0150$, against $0.1096$ and $0.2083$. The multipliers fall to $(1.4264, 1.3615, 1.1421)$.
+
+\solpart{c} The new production network is
+\[
+W^P_{\text{enc}} = \begin{pmatrix} 0.3226 & 0.6452 & 0.0323\\ 0.5769 & 0.3846 & 0.0385\\ 0.0833 & 0.0833 & 0.8333\end{pmatrix},
+\]
+with eigenvalues $1, 0.7978, -0.2573$. So $\Gamma = 0.2022$, down from $0.7584$, and the second eigenvalue is now close to $+1$, the signature of weak coupling (Chapter~3, Proposition~\ref{ch03:prop:block_spectral}). The cross-block mass falls from $0.35$ to $\chi = 0.0580$. Sector~3 now buys $16.67\%$ of its inputs from the other block (before: $60\%$), and sectors~1 and~2 buy $3.23\%$ and $3.85\%$ from it (before: $14.29\%$ and $37.5\%$). Power moves toward the core: the $\{1,2\}$ block's Perron mass rises from $0.6853$ to $0.8243$, because sector~3 depends on it more (in share terms) than it depends on sector~3. Both indicators move here, but for different reasons. $\chi$ falls because the cross entries of $A$ fell. $\Gamma$ falls because, after row-normalization, the cross \emph{shares} fell.
+
+\solpart{d} This is the stylized version of Bolivia's gas sector as an enclave (Section~\ref{ch03:sec:trickle}): a sector with few domestic purchases and few domestic sales, whose growth barely reaches the rest of the economy. The measured economy is more nuanced (Exercise~1.7 of this manual):
+\begin{itemize}
+\item In INE's 2019 table, hydrocarbons buy only $0.225$ of domestic inputs per unit of output and export 70\% of their output, so cases~1 and~3 of the trickle-down intuition hold.
+\item But those few inputs come mostly from services, and the six-sector $\Gamma(W^P)$ is high ($0.7467$).
+\end{itemize}
+The enclave shows up in the size of the hydrocarbons column of $L$ and in its low Perron weight, not in a small aggregate $\Gamma$ (Section~\ref{ch03:sec:heterogeneity}). \emph{Common mistake:} inferring an enclave from $\Gamma$ alone.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.4}{Transfer vs.\ structural policy}
+
+\textbf{Set-up} (\illustrative; the exercise does not fix technology, so we take it from Example~\ref{ch03:ex:two_WP}). Technology is $f_i = Z_iK_i^{\alpha_i}L_i^{1-\alpha_i}$ with $\alpha_M = 0.4$, $\alpha_T = 0.3$, $Z = (2, 1)$, $L_M = L_T = 1$. Saving and depreciation are $s = 0.2$, $\delta = 0.05$, and $A = A_{\text{dual}}$ of Example~\ref{ch03:ex:bolivia}. Output is $\mathbf Y = (I - A')^{-1}\mathbf f(\K)$ and capital accumulates out of each sector's \emph{income}: $K_{i,t+1} = sI_i + (1-\delta)K_i$. Both policies start from the no-policy steady state $\K^* = (42.4315, 12.1740)$, with $\mathbf Y^* = (10.6079, 3.0435)$ and $Y_M/Y_T = 3.4854$. The productivity gap is measured by gross output per worker, $Y_M/Y_T$; value-added ratios are reported too.
+
+\solpart{a} \emph{Transfer:} $I_M = 0.9Y_M$, $I_T = Y_T + 0.1Y_M$. On impact, traditional income rises from $3.0435$ to $4.1043$ (by $1.0608 = 0.1Y_M$), and modern income falls to $9.5471$. The productivity gap does not move on impact: neither $A$ nor $\K$ has changed. Over time, higher saving out of the transfer raises $K_T$ and $Y_T$ (items~1--2 of Conjecture~\ref{ch03:prop:transfer_perversity}). After 10 periods $Y_M/Y_T = 3.3128$, and in the long run $2.9971$. The income ratio falls at once to $2.3261$.
+
+\solpart{b} \emph{Linkages:} the cross coefficients rise from $(0.03, 0.02)$ to $0.10$, and the cost is the same $0.1Y_M$ each period, so $I_M = 0.9Y_M$ and $I_T = Y_T$.
+\[
+L_{\text{dual}} = \begin{pmatrix} 1.1775 & 0.0294\\ 0.0442 & 1.2511\end{pmatrix} \ \longrightarrow\ L_{\text{link}} = \begin{pmatrix} 1.1940 & 0.1493\\ 0.1493 & 1.2687\end{pmatrix}.
+\]
+Propagation from Modern to Traditional rises from $0.0442$ to $0.1493$ (a factor of $3.38$), and the multipliers from $(1.2217, 1.2805)$ to $(1.3433, 1.4179)$. Because the new $A$ applies to the existing $\mathbf f(\K)$, the productivity ratio drops at once to $2.7374$.
+
+\solpart{c} After 10 periods:
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Policy & $Y_M/Y_T$ & $\text{VA}_M/\text{VA}_T$ & $I_M/I_T$ & total income & $K_T$ \\
+\midrule
+None & 3.4854 & 3.6642 & 3.4854 & 13.6514 & 12.1740\\
+Transfer & 3.3128 & 3.4826 & 2.2396 & 13.5722 & 13.9504\\
+Linkages & 2.6514 & 2.8408 & 2.3863 & 13.9200 & 13.8206\\
+\bottomrule
+\end{tabular}
+\end{center}
+Linkage policy closes the \emph{productivity} gap: it is $2.6514$ against $3.3128$, and in the long run (cost continuing) $2.4941$ against $2.9971$. It also raises total income. The transfer closes the \emph{income} gap slightly more ($2.2396$ against $2.3863$) and lowers total income below the no-policy level. It shifts accumulation toward the traditional sector, where the marginal product of capital at the baseline steady state is lower ($0.0522$ against $0.0844$ in $\mathbf f$). A strong answer reports both rankings and names the objective. Transfers act on $\boldsymbol\omega$ (who has what), and linkages act on $A$ (who is connected to whom), as the chapter's intuition box says.
+
+\emph{Caveats.}
+\begin{itemize}
+\item The reduced form is demand-pull. A genuine cost-reducing technology shock would travel downstream through the price dual (Section~\ref{ch03:sec:multi_sector}).
+\item Gross output double-counts intermediate sales, which is why the value-added ratio is also shown.
+\item The model has no labour mobility, so items~3--5 of Conjecture~\ref{ch03:prop:transfer_perversity} cannot be assessed here.
+\end{itemize}
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.5}{Prebisch in the global I-O table (data exercise)}
+
+\textbf{What was and was not fetched.} The table the exercise asks for, a multi-region input-output table with Bolivia as a separate economy (Eora, or CEPAL's regional input-output matrices for Latin America), was \emph{not} fetched. Eora requires registration, and Bolivia is in the rest-of-world block of the OECD ICIO tables (\texttt{data/README.md}, \S9). Parts (b) and (c) therefore get the method and the expected result only. Parts (a), (d) and (e) need only a row-stochastic country network. For them we use a \emph{trade-based proxy} for $W^P$, built from real data: Growth Lab bilateral goods trade, HS92, 2019 \citep{growthlab2026atlas}, retrieved 2026-11-05 (\texttt{data/processed/atlas\_bilateral\_selected\_years.csv.gz}). Row $i$ gives the shares of importer $i$'s goods imports by exporter. This is the construction of \texttt{data/compute/compute\_global\_wp.py}, aggregated to six nodes (USA, Germany, China, Bolivia, Nigeria, rest of world). It is \emph{not} an input-output table: it mixes intermediate, capital and final goods and has no gross output.
+
+\textbf{Method for the full exercise.}
+\begin{enumerate}
+\item Take the MRIO table for one year: the flows $Z_{(c,s),(c',s')}$ (sales of sector $s$ in country $c$ to sector $s'$ in $c'$) and the gross outputs $x_{(c,s)}$.
+\item Aggregate sectors within each country, and all other countries into ``rest of world'', by summing flows and outputs (\texttt{iolib.aggregate}).
+\item Form $A$ in the book's convention, $a_{ij} = Z_{ji}/x_i$; $L = (I - A')^{-1}$; and $W^P = D^{-1}A$.
+\item Multipliers are the column sums of $L$, computed from $A$, never from $W^P$.
+\item For a Bolivian productivity shock, use the price dual $\mathbf p = (I - A)^{-1}\mathbf v$: a cost reduction travels downstream to the users of Bolivian output (Section~\ref{ch03:sec:multi_sector}).
+\end{enumerate}
+
+\textbf{Results from the trade-based proxy (2019).} Rows are importers and columns exporters:
+\begin{center}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+& USA & DEU & CHN & BOL & NGA & ROW \\
+\midrule
+USA & 0 & 0.0566 & 0.1661 & 0.0002 & 0.0016 & 0.7754\\
+DEU & 0.0588 & 0 & 0.0898 & 0.0001 & 0.0018 & 0.8495\\
+CHN & 0.0623 & 0.0643 & 0 & 0.0002 & 0.0013 & 0.8719\\
+BOL & 0.0754 & 0.0201 & 0.1258 & 0 & 0.0000 & 0.7787\\
+NGA & 0.0672 & 0.0240 & 0.3475 & 0.0000 & 0 & 0.5612\\
+ROW & 0.1145 & 0.0943 & 0.1608 & 0.0006 & 0.0036 & 0.6262\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{a} Column sums (how much the others rely on each country's goods): USA $0.3783$, DEU $0.2594$, CHN $0.8901$, BOL $0.0011$, NGA $0.0083$ (ROW $4.4629$). China and the United States have the highest. Bolivia's column is the smallest by two orders of magnitude. The full 230-economy matrix (\texttt{data/processed/global\_wp\_pi.csv}) gives the same ranking: China $30.75$, USA $24.17$, Germany $11.13$, Nigeria $1.08$, Bolivia $0.10$.
+
+\solpart{b} \emph{Method only} (no gross output in the proxy). Expected result: in an MRIO the large, diversified economies (USA, Germany, China) have the highest output multipliers, because a larger share of their intermediate inputs is sourced domestically. Small commodity exporters (Bolivia, Nigeria) have low ones, because their inputs leak abroad. The measured domestic multipliers of Exercise~1.7 (Bolivia's hydrocarbons $1.324$) are consistent with this.
+
+\solpart{c} \emph{Method only} for the propagation itself. A first-order exposure measure is available from the proxy: Bolivia's goods are $0.000201$ of US imports and $0.000004$ of Nigeria's (US imports from Bolivia were 462 million USD in 2019; Nigeria's, 0.19 million). Expected result: a Bolivian agricultural productivity shock propagates to both by orders of magnitude less than to Bolivia's own sectors, and about $50$ times more to the USA than to Nigeria ($0.000201/0.000004 = 50.4$), in proportion to these exposures.
+
+\solpart{d} Take center $\{$USA, DEU, CHN$\}$ against periphery $\{$BOL, NGA$\}$, in the five-country system (rows renormalized over the five). Only $0.0340$ of the flows cross the center--periphery boundary, and they run one way. Bolivia and Nigeria source $100\%$ of their within-system imports from the center, while the center sources $0.82\%$, $1.28\%$ and $1.15\%$ (USA, DEU, CHN) of its within-system imports from the periphery. The six-node matrix has $\Gamma = 0.8004$: it mixes fast, because every row puts most of its weight on the rest of world. The aggregation matters: the 230-economy matrix has $\Gamma = 0.452$ (\texttt{data/README.md}, \S8). So the network is \emph{integrated} (large $\Gamma$) and \emph{asymmetric} (one-way dependence). It is not block-diagonal.
+
+\solpart{e} In the six-node proxy the Perron weights are USA $0.0923$, DEU $0.0791$, CHN $0.1346$, BOL $0.00046$, NGA $0.0029$ (ROW $0.6906$). The full 230-economy matrix gives USA $0.0889$, DEU $0.0824$, CHN $0.1302$, BOL $0.000526$, NGA $0.00286$, close to world export shares ($0.0905$, $0.0802$, $0.1422$, $0.000463$, $0.00296$). This is consistent with a center--periphery structure: three economies hold most of the production-reading power, and the US weight is $169$ times Bolivia's in the full matrix ($202$ in the six-node proxy). Two qualifications a strong answer adds:
+\begin{itemize}
+\item In a trade-share network, $\boldsymbol\pi$ largely reproduces export shares (a gravity effect), so it measures size as much as position.
+\item The production reading of $\boldsymbol\pi$ (Chapter~1, Section~\ref{ch01:sec:conventions}) is a statement about long-run influence in the network, not about the terms-of-trade mechanism Prebisch emphasized (Chapter~16).
+\end{itemize}
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.6}{Kuznets revisited}
+
+\textbf{Set-up} (\illustrative). $N = 2$, $f_i = Z_iK_i^{\alpha_i}$ with $L_i = 1$, $Z = (2, 1)$, $\alpha = (0.4, 0.3)$, $s = 0.2$, $\delta = 0.05$, $K_0 = (1,1)$, and $\mathbf Y_t = (I - A')^{-1}\mathbf f(\K_t)$, $\K_{t+1} = s\mathbf Y_t + (1-\delta)\K_t$. The diagonal of $A$ is $(0.15, 0.20)$, as in Example~\ref{ch03:ex:bolivia}.
+
+\solpart{a, b} The ratio $Y_M/Y_T$ for Case~A (off-diagonal $0.15$) and Case~B (off-diagonal $0.02$):
+\begin{center}
+\begin{tabular}{lccccccccc}
+\toprule
+$t$ & 0 & 1 & 2 & 5 & 10 & 20 & 30 & 40 & 50\\
+\midrule
+A & 1.5217 & 1.6015 & 1.6631 & 1.7883 & 1.9077 & 2.0302 & 2.0954 & 2.1357 & 2.1624\\
+B & 1.8202 & 1.9709 & 2.0967 & 2.3795 & 2.6834 & 3.0313 & 3.2324 & 3.3636 & 3.4543\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tikzpicture}[x=0.16cm,y=1.6cm]
+\draw[->] (0,1) -- (53,1) node[right] {$t$};
+\draw[->] (0,1) -- (0,3.9) node[above] {$Y_M/Y_T$};
+\foreach \t in {0,10,20,30,40,50} \draw (\t,1) -- (\t,0.95) node[below] {\small\t};
+\foreach \v in {1.5,2,2.5,3,3.5} \draw (0,\v) -- (-0.5,\v) node[left] {\small\v};
+\draw[thick,blue] plot coordinates {(0,1.5217) (1,1.6015) (2,1.6631) (5,1.7883) (10,1.9077) (20,2.0302) (30,2.0954) (40,2.1357) (50,2.1624)};
+\draw[thick,red,dashed] plot coordinates {(0,1.8202) (1,1.9709) (2,2.0967) (5,2.3795) (10,2.6834) (20,3.0313) (30,3.2324) (40,3.3636) (50,3.4543)};
+\node[blue,right] at (50,2.16) {\small A (0.15)};
+\node[red,right] at (50,3.45) {\small B (0.02)};
+\end{tikzpicture}
+\end{center}
+Both ratios rise monotonically toward their long-run values, $2.2292$ (A) and $3.7033$ (B). The modern sector's advantage in $Z$ and $\alpha$ makes it accumulate faster. Linkages pull the traditional sector up with it, so the long-run ratio in~A is $0.6019$ times that in~B.
+
+\solpart{c} With each sector's output assigned to its own workers ($L_M = L_T = 1$, labour shares $\frac12$), the between-sector variance of log output per worker is $\frac14(\ln y_M - \ln y_T)^2$. In Case~A it rises monotonically from $0.0441$ to $0.1487$; in Case~B from $0.0897$ to $0.3842$. Neither traces an inverted U: with fixed labour shares the index is a monotone function of the ratio, and the ratio is monotone. The Kuznets mechanism is missing from the model. In Kuznets the inverted U comes from the \emph{reallocation of workers}, not from the sectoral gap. The between-group variance with modern-sector employment share $w$ is $V_B = w(1-w)(\Delta\ln y)^2$. Holding the long-run Case-B log gap $1.3092$ fixed, $V_B = 0.1543, 0.36, 0.4285, 0.36, 0.1543$ at $w = 0.1, 0.3, 0.5, 0.7, 0.9$: an inverted U in $w$. To get Kuznets, add labour mobility (a Lewis or Harris--Todaro block). \emph{Common mistake:} reading a rising and then stable $Y_M/Y_T$ as an inverted U.
+
+\solpart{d} Long-run $Y_M/Y_T$ falls monotonically with the cross-linkage strength $c$:
+\begin{center}
+\begin{tabular}{lcccccccc}
+\toprule
+$c$ & 0 & 0.02 & 0.05 & 0.10 & 0.15 & 0.20 & 0.30 & 0.40\\
+\midrule
+$\rho(A)$ & 0.2000 & 0.2070 & 0.2309 & 0.2781 & 0.3271 & 0.3766 & 0.4760 & 0.5758\\
+$Y_M/Y_T$ & 4.2098 & 3.7033 & 3.1688 & 2.5964 & 2.2292 & 1.9718 & 1.6325 & 1.4171\\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Claim: with diminishing returns ($\alpha_i < 1$) and $\gamma\rho(A) < 1$, the ratio converges for every linkage strength, including $c = 0$.}
+
+\emph{Proof sketch.} The growth map $G(\K) = SL\mathbf f(\K) + (I - \Delta)\K$ of~\eqref{ch03:eq:growth_system} has the following properties:
+\begin{itemize}
+\item it is order-preserving, because $L \ge 0$ and $f_i$ is increasing;
+\item it is strictly subhomogeneous, $G(t\K) > tG(\K)$ for $t \in (0,1)$, because $t^{\alpha_i} > t$;
+\item it satisfies $G(\K) \ll \K$ for large $\K$, because $f_i/K_i \to 0$, and $G(\K) \gg \K$ for small $\K \gg 0$, because $f_i/K_i \to \infty$.
+\end{itemize}
+An order-preserving, strictly subhomogeneous map of the positive cone has at most one positive fixed point, and its orbits converge to it (Krause's theorem on concave monotone maps; the argument is a contraction in Thompson's part metric). Hence $\K_t \to \K^* \gg 0$, and $Y_M/Y_T \to$ a finite positive limit. Divergence needs constant returns. In the AK case ($\alpha_i = 1$, $Z = (0.3, 0.2)$), the decoupled economy ($c = 0$) has growth factors $1.0206$ and $1$, and the ratio grows without bound ($83.15$ at $t = 200$). Any $c > 0$ makes the growth matrix primitive, so the ratio converges to its Perron-direction value ($11.72$ for $c = 0.02$), though slowly.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{3.7}{The formation connection}
+
+The law of motion is $\theta^F_{t+1} = 0.8\theta^F_t + 0.4 + 0.1(0.1\lambda - 0.1)$. With $\lambda = 0.7$ the signal term is $-0.003$, so the fixed point is $\theta^* = (0.4 - 0.003)/0.2 = 1.9850$, and the long-run gap is $\theta^M - \theta^* = 0.0150$. This is the formation multiplier $\mathcal M = \mu/(1-\rho) = 0.5$ (Definition~\ref{ch10:def:multiplier}) times the perceived-return shortfall $(1-\lambda)r = 0.03$. Deviations from $\theta^*$ decay as $0.8^t$, so $\text{gap}_t = 0.015 + 1.485\cdot0.8^t$.
+
+\solpart{a, b} The simulated gap $\theta^M - \theta^F_t$ for $t = 0, 1, \ldots, 11$ is $1.5$, $1.203$, $0.9654$, $0.7753$, $0.6233$, $0.5016$, $0.4043$, $0.3264$, $0.2641$, $0.2143$, $0.1745$, $0.1426$, falling to $0.0364$ and $0.0321$ at $t = 19, 20$. Meanwhile $\theta^F_t$ rises from $0.5$ to $1.9679$ at $t = 20$.
+\begin{center}
+\begin{tikzpicture}[x=0.5cm,y=2.4cm]
+\draw[->] (0,0) -- (21,0) node[right] {$t$};
+\draw[->] (0,0) -- (0,1.7) node[above] {gap};
+\foreach \t in {0,5,10,15,20} \draw (\t,0) -- (\t,-0.04) node[below] {\small\t};
+\foreach \v in {0.5,1.0,1.5} \draw (0,\v) -- (-0.15,\v) node[left] {\small\v};
+\draw[thick,blue] plot coordinates {(0,1.5) (1,1.203) (2,0.9654) (3,0.7753) (4,0.6233) (5,0.5016) (6,0.4043) (7,0.3264) (8,0.2641) (9,0.2143) (10,0.1745) (11,0.1426) (12,0.117) (13,0.0966) (14,0.0803) (15,0.0672) (16,0.0568) (17,0.0484) (18,0.0418) (19,0.0364) (20,0.0321)};
+\draw[dashed] (0,0.75) -- (21,0.75) node[right] {\small half of 1.5};
+\end{tikzpicture}
+\end{center}
+
+\solpart{c} The gap first falls below half its initial value ($0.75$) in generation~4 ($0.6233$; generation~3 is $0.7753$). The continuous solution of $0.015 + 1.485\cdot0.8^t = 0.75$ is $t = 3.152$.
+
+\solpart{d} With $\lambda = 1$ from $t = 10$ on, the fixed point becomes $\theta^* = 2 = \theta^M$, so the gap decays to zero as $\text{gap}_{10}\cdot0.8^{k}$, starting from $\text{gap}_{10} = 0.1745$. It falls to $0.1396, 0.1116, 0.0893, 0.0715$, so it first halves after 4 more generations. The half-life is $\ln2/(-\ln 0.8) = 3.106$ generations, the same as in part~(c): it depends only on the persistence $\rho = 0.8$, not on where the gap starts or on the signal correction. This is the persistence result of Chapter~10 (Theorem~\ref{ch10:thm:stability}): with $J = \rho$ in this scalar case, deviations decay at rate $\rho$, so removing a distortion has its full effect only over several generations.
+
+\emph{What a strong answer notices.} Most of the gap closes even with $\lambda = 0.7$, because the anchor $\bar\theta = 2 = \theta^M$ pulls women toward men's patience. The distortion sustains only a gap of $0.015$. The exercise therefore illustrates persistence, not the size of the distortion. With an anchor $\bar\theta$ itself formed by the structure (Chapter~10), the permanent gap would be much larger. \emph{Common mistake:} crediting the signal correction at $t = 10$ with the closing of the gap.
+
+\end{document}

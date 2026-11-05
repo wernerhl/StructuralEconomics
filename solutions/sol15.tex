@@ -1,0 +1,306 @@
+% Solutions to the exercises of Chapter 15. Numbers: code/solutions/sol15.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\begingroup\setlength{\emergencystretch}{3em}% local to this chapter
+\ifSubfilesClassLoaded{\setcounter{chapter}{14}}{}% NN-1 when built standalone
+\setcounter{chapter}{14}% NN-1, so this chapter is numbered NN
+\chapter{Operator Design}\label{sol15}
+
+Every number below is printed by \texttt{python3} \nolinkurl{code/solutions/sol15.py}. Throughout, $\Gamma = 1 - |\lambda_2|$, $\bpi$ is the left Perron vector, $\Var(\bpi) = \frac1N\sum_i(\pi_i - 1/N)^2$, and $G$ is the gradient of $\Gamma$ in~\eqref{ch15:eq:gamma_sensitivity}, with left and right eigenvectors normalized biorthogonally (rows of $V^{-1}$).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.1}{Optimal edge selection}
+
+\solpart{a} \textbf{Set-up.} Two blocks $\{1,2\}$ and $\{3,4\}$; each row puts total weight $0.02$ across blocks, split equally, and $0.98$ inside its block, split equally:
+\[
+W^P = \begin{pmatrix} 0.49 & 0.49 & 0.01 & 0.01\\ 0.49 & 0.49 & 0.01 & 0.01\\ 0.01 & 0.01 & 0.49 & 0.49\\ 0.01 & 0.01 & 0.49 & 0.49 \end{pmatrix}.
+\]
+Rows sum to $1$. Rows inside a block are identical, so the partition is equitable (as in Proposition~\ref{ch18:prop:assortative}(a)): the quotient matrix is $\begin{pmatrix}0.98 & 0.02\\0.02 & 0.98\end{pmatrix}$, with eigenvalues $1$ and $0.96$, and every vector that sums to zero inside each block is mapped to $0$. Hence the spectrum is $\{1, 0.96, 0, 0\}$, $\lambda_2 = 0.96$ is real and simple, no other eigenvalue has modulus $0.96$, and $\Gamma = 0.04$. The hypotheses of Lemma~\ref{ch06:lem:perturbation} and of~\eqref{ch15:eq:gamma_sensitivity} hold. (An exactly block-diagonal matrix would have $\lambda_2 = 1$ twice, and $\Gamma$ would only have one-sided derivatives.)
+
+\textbf{Eigenvectors.} $\mathbf{v}_2 = \frac12(1,\allowbreak 1,\allowbreak -1,\allowbreak -1)'$ and $\mathbf{u}_2 = \frac12(1,\allowbreak 1,\allowbreak -1,\allowbreak -1)'$, so $\mathbf{u}_2'\mathbf{v}_2 = 1$ and $\mathbf{u}_2'\mathbf{v}_k = 0$ for the other eigenvectors ($W$ is symmetric). Because $\lambda_2 > 0$ is real, $G_{ij} = -u_{2,i}v_{2,j}$:
+\[
+G = \frac14\begin{pmatrix} -1 & -1 & 1 & 1\\ -1 & -1 & 1 & 1\\ 1 & 1 & -1 & -1\\ 1 & 1 & -1 & -1 \end{pmatrix}.
+\]
+$G_{ij} = +\frac14$ on every cross-block pair and $-\frac14$ on every within-block pair.
+
+\solpart{b} \textbf{The best move.} A feasible direction moves weight within a row, $E = \mathbf{e}_i(\mathbf{e}_j - \mathbf{e}_\ell)'$, at rate $G_{ij} - G_{i\ell}$ (Appendix~15A). The rates are
+\begin{itemize}
+\item $\frac12$ for moving weight from a within-block entry to a cross-block entry;
+\item $0$ for a move between two within-block entries or between two cross-block entries;
+\item $-\frac12$ for a move from cross to within.
+\end{itemize}
+The maximum $\frac12$ is attained by $16$ tied moves: any row $i$, any within-block donor $\ell$ (including the diagonal), any cross-block recipient $j$. By Proposition~\ref{ch15:thm:optimal_edge}(1), an $\ell_1$ budget $B$ buys a move of $B/2$, so $\Delta\Gamma \approx \frac{B}{2}\cdot\frac12 = \frac{B}{4}$: $0.25$ per unit of $\ell_1$ budget. All entries of $W$ are positive, so the nonnegativity constraint is slack for small $B$.
+
+\textbf{Checks.}
+\begin{itemize}
+\item The finite difference for the move $(1,1) \to (1,3)$ gives $0.5000$; for the within-block move $(1,1) \to (1,2)$ it gives $0$.
+\item Exact effect of the move with $\varepsilon = 0.01$: $\Delta\Gamma = 0.00497$ (first order $0.00500$). With $\varepsilon = 0.05$: $0.02435$ (first order $0.02500$). The concavity of the exact path shows the first-order rule overstates large moves slightly.
+\item Spreading the same $\ell_1$ norm over all four rows has the same first-order effect ($0.5$ per unit moved). Its exact effect at $\varepsilon = 0.01$ is $0.00500$, slightly larger than the single move's $0.00497$, because a symmetric perturbation keeps the partition equitable.
+\item Breaking the symmetry at random (entries perturbed by up to $\pm 0.005$, rows renormalized): in all $200$ draws the optimal recipient $j$ is in the other block.
+\end{itemize}
+
+\solpart{c} \textbf{Within or cross?} Cross-block, always. $G_{ij} = -u_{2,i}v_{2,j}$ is positive exactly when $u_{2,i}$ and $v_{2,j}$ have opposite signs, and the slow mode $\mathbf{v}_2$ has opposite signs on the two blocks. A within-block move cannot change $\lambda_2$ to first order, since it leaves the quotient matrix unchanged. With only two agents per block there is no ``bridge'' agent, so the core-versus-boundary distinction of the intuition box after Proposition~\ref{ch15:thm:optimal_edge} does not arise: all cross-block pairs tie.
+
+\emph{Common mistakes:} computing ``$\partial\Gamma/\partial W_{ij}$'' without a compensating entry (not a feasible direction), and using an exactly block-diagonal $W$, where $\lambda_2$ is not simple.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.2}{ISI-A vs.\ ISI-B}
+
+\solpart{a--b} \textbf{Set-up.} From the printed $A$ of Example~\ref{ch15:ex:isi}, the row sums are $(0.6, 0.6, 0.3, 0.3)$, all below $1$, so $\rho(A) < 1$. $W^P = D^{-1}A$ is the matrix printed in the example. Its eigenvalues are $1, 0.8867, 0.1333, 0.08$, so $\Gamma = 0.1133$. Its Perron vector is $\bpi = (0.3529,\allowbreak 0.3529,\allowbreak 0.1471,\allowbreak 0.1471)$, with $\Var(\bpi) = 0.01060$. The Leontief inverse is
+\[
+L = (I - A')^{-1} = \begin{pmatrix}
+1.7358 & 0.6489 & 0.0395 & 0.0395\\
+0.6489 & 1.7358 & 0.0395 & 0.0395\\
+0.0329 & 0.0329 & 1.2040 & 0.1794\\
+0.0329 & 0.0329 & 0.1794 & 1.2040\end{pmatrix},
+\]
+with backward linkages (column sums) $BL = (2.4506,\allowbreak 2.4506,\allowbreak 1.4625,\allowbreak 1.4625)$, forward linkages (row sums) $FL = (2.4638,\allowbreak 2.4638,\allowbreak 1.4493,\allowbreak 1.4493)$, and total output $\ones'L\ones = 7.8261$.
+
+\textbf{The two policies.} Each raises one entry of row M1 by $0.05$. Row M1 is renormalized in $W^P$; $A$ changes only in that entry.
+
+\begin{center}
+\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+& $\Gamma$ & $\Delta\Gamma$ & $\Var(\bpi)$ & $\Delta\Var(\bpi)$ & $\ones'L\ones$ & $\Delta$ output \\
+\midrule
+Base & 0.1133 & & 0.01060 & & 7.8261 & \\
+(a) ISI-A, $\Delta a_{M1,M2} = 0.05$ & 0.1121 & $-0.0012$ & 0.01155 & $+0.00095$ & 8.1381 & $+0.3120$ \\
+(b) ISI-B, $\Delta a_{M1,T1} = 0.05$ & 0.1502 & $+0.0369$ & 0.00032 & $-0.01027$ & 8.0066 & $+0.1805$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+After ISI-A, $\bpi = (0.3397,\allowbreak 0.3739,\allowbreak 0.1432,\allowbreak 0.1432)$. After ISI-B, $\bpi = (0.2646,\allowbreak 0.2677,\allowbreak 0.2449,\allowbreak 0.2228)$. These match the table of Example~\ref{ch15:ex:isi} to the precision printed there.
+
+\textbf{Why the output ranking reverses.} The change in $A$ is the rank-one update $\Delta A' = \varepsilon\,\mathbf{e}_j\mathbf{e}_{M1}'$. By the Sherman--Morrison formula,
+\[
+\Delta(\ones'L\ones) = \frac{\varepsilon\,(\ones'L\mathbf{e}_j)(\mathbf{e}_{M1}'L\ones)}{1 - \varepsilon\,L_{M1,j}} = \frac{\varepsilon\,BL_j\,FL_{M1}}{1 - \varepsilon\,L_{M1,j}}.
+\]
+This is exact: it gives $0.3120$ and $0.1805$, and the first-order terms $\varepsilon BL_jFL_{M1}$ are $0.3019$ and $0.1802$. So, given the buyer M1, the output gain is governed by the \emph{backward linkage of the new supplier}: $BL_{M2} = 2.4506$ against $BL_{T1} = 1.4625$ (and $L_{M1,M2} = 0.6489$ against $L_{M1,T1} = 0.0395$ in the denominator). The modern supplier is input-intensive, so a unit of demand for it triggers more rounds of production.
+
+\textbf{Who wins what.} ISI-B wins on integration ($\Omega_1$) and on power ($\Omega_2$): it nearly equalizes $\bpi$. ISI-A wins on output ($\Omega_3$). No single objective ranks them, as the intuition box ``Three objectives, three answers'' says.
+
+\solpart{c} \textbf{An input intensity at which ISI-B also wins on output.} Scale the traditional recipes, rows T1 and T2 of $A$, by $k > 1$: the traditional sectors buy more domestic inputs per unit of output, in the same proportions. Two facts make this the clean experiment:
+\begin{itemize}
+\item \emph{$W^P$ does not change.} $D^{-1}A$ is invariant to scaling a row of $A$. So $\Gamma$, $\bpi$ and both policies' $\Delta\Gamma$ and $\Delta\Var(\bpi)$ are exactly as above. Only the output objective moves. This is the independence of the $A$-based and $W$-based objectives in its sharpest form.
+\item \emph{$BL_{T1}$ rises with $k$}, while $BL_{M2}$ changes little.
+\end{itemize}
+Bisection on $k$ gives $k^* = 2.0409$, a traditional row sum of $0.6123$ (from $0.30$), with $\rho(A) = 0.6040 < 1$. At $k^*$ both policies raise output by $0.3445$. There $BL_{T1} = 2.5705 > BL_{M2} = 2.5034$: ISI-B's supplier now has the larger linkage, but ISI-A still benefits from the larger denominator term ($L_{M1,M2} = 0.6534$ against $L_{M1,T1} = 0.1342$), so the crossover is slightly past $BL_{T1} = BL_{M2}$. Checks: at $k = 1.5$ the gains are $0.3235$ (A) and $0.2364$ (B); at $k = 2.5$ (row sum $0.75$) they are $0.3793$ and $0.5399$. So ISI-B wins on all three objectives whenever the traditional sectors use at least about $0.61$ of domestic inputs per unit of output, about the input intensity of the modern block ($0.60$).
+
+\emph{A wrong route.} Raising the traditional sectors' purchases from the modern block instead ($a_{T,M} = 0.10$) does not work: it raises ISI-A's gain more ($0.3948$ against $0.3235$), and it changes $W^P$ ($\Gamma = 0.4535$), so it is no longer the same experiment.
+
+\emph{Common mistake:} computing the multiplier from $W^P$. For row-stochastic $W$, $(I - \gamma W)^{-1}\ones = \ones/(1-\gamma)$, so every policy has the same ``multiplier'' (Section~\ref{ch15:sec:problem}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.3}{The smartphone operator}
+
+\emph{Note on the exercise.} Example~\ref{ch15:ex:smartphone} is tagged illustrative, and its numbers ($\theta^*_T$ from $0.92$ to $0.96$ after one generation and to $1.01$ in the long run) are not generated by a stated model: \nolinkurl{code/ch15.py} only prints them. They cannot be ``reproduced''. The well-posed version is to put the smartphone operator into the formation model of Definition~\ref{ch10:def:model}, calibrated so that the initial steady state is $\theta^*_M = 1.09$, $\theta^*_T = 0.92$, and compute what it implies.
+
+\solpart{a} \textbf{Model.} Two blocks, modern $M$ and traditional $T$, three agents each ($N = 6$). Parameters follow Example~\ref{ch10:ex:bolivia_three}, collapsed to two blocks:
+\begin{itemize}
+\item $W^P$: within-block weight $0.94/3$, cross-block $0.02$ per pair. $W^I$: within $0.85/3$, cross $0.05$ per pair. Both are row-stochastic.
+\item Returns $r_i = \alpha_i + \beta_i x_i + \gamma\sum_j W^P_{ij}x_j$ with $\beta = 0.10$ ($M$), $0.04$ ($T$), $\gamma = 0.02$.
+\item Allocation~\eqref{ch10:eq:bargaining}: $\omega_i = 0.5$, $\Phi = 3$ ($\Omega/N = 1$), $\phi = 1$, bargaining weights $\pi_i = 0.20$ ($M$) and $0.1333$ ($T$), summing to $1$.
+\item Formation~\eqref{ch10:eq:formation}: $\rho = 0.85$, $\mu = 0.2$ ($\mathcal{M} = 1.33$), $\theta^\circ = 1$, $r^* = 0.1$.
+\end{itemize}
+The steady state is affine in the baselines $(\alpha_M, \alpha_T)$; solving the $2\times2$ system gives $\alpha_M = 0.0531$, $\alpha_T = -0.0367$, so that $\theta^*_M = 1.0900$ and $\theta^*_T = 0.9200$ exactly. (A negative baseline is a level normalization; the traditional return $r_T = 0.0127$ is positive.) The Jacobian $J = \rho I + \mu\phi W^ICP$ has $\rho(J) = 0.8623 < 1$, so the steady state is unique and globally stable (Theorem~\ref{ch10:thm:existence}). Base allocations: $x_M = 1.1850$, $x_T = 0.8150$; returns $r_M = 0.1948$, $r_T = 0.0127$.
+
+\textbf{The operator.} Each traditional row of $W^I$ gains $+0.05$ on each of the three modern columns (from $0.05$ to $0.10$), and its own-block weights fall equally, from $0.85/3$ to $0.70/3$, so rows still sum to $1$. Modern rows, $W^P$, $\bpi$ and endowments are unchanged.
+
+\solpart{b} \textbf{Dynamics for five generations} (from the old steady state, under the new $W^I$):
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+Generation & 0 & 1 & 2 & 3 & 4 & 5 \\
+\midrule
+$\theta_T$ & 0.9200 & 0.9255 & 0.9301 & 0.9341 & 0.9374 & 0.9403 \\
+$\theta_M$ & 1.0900 & 1.0900 & 1.0900 & 1.0899 & 1.0898 & 1.0896 \\
+Gap $\theta_M - \theta_T$ & 0.1700 & 0.1645 & 0.1598 & 0.1558 & 0.1523 & 0.1493 \\
+$x_T$ & 0.8150 & 0.8177 & 0.8201 & 0.8221 & 0.8238 & 0.8253 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Steady state.} $\theta^*_T = 0.9566$ ($\Delta\theta^*_T = +0.0366$) and $\theta^*_M = 1.0876$ ($-0.0024$). The preference gap falls from $0.1700$ to $0.1311$, closing by $22.9\%$. After five generations $55.5\%$ of the long-run movement of $\theta_T$ has occurred. The half-life of deviations is $\ln 2/(-\ln\rho(J)) = 4.58$ generations, with $\rho(J) = 0.8596$ after the operator. In the steady state $\Delta x_T = +0.0195$ and $\Delta x_M = -0.0195$. They sum to zero, as they must: the preference term of~\eqref{ch10:eq:bargaining} sums to zero, and $\Omega$ is unchanged.
+
+\textbf{Comparison with the example.} The calibrated model closes the gap by $23\%$ in the long run, not $53\%$, and by $3\%$ after one generation, not $24\%$. With $\rho = 0.85$, no change in $W^I$ alone can move preferences by a quarter of the gap in one generation, because the per-generation response is bounded by $\mu$ times the change in the signal. The example's numbers are optimistic for its own parameter.
+
+\solpart{c} \textbf{Two lessons from the model.}
+\begin{enumerate}
+\item \emph{The gain is distributional.} By Proposition~\ref{ch10:prop:jacobian}(3), only relative preferences matter, and $\sum_i\Delta x_i = 0$. The traditional block gains $0.0195$ per agent exactly what the modern block loses. The aggregate return even falls slightly, from $0.62250$ to $0.61900$, because resources move toward the block with the lower private return $\beta$. The example's ``investment increases, returns increase'' is not a property of this model. It needs returns that depend on own preferences through investment (as in Exercise~18.4), not only through the bargaining position.
+\item \emph{Why $\Psi$ is not defined.} By Definition~\ref{ch09:def:psi}, the enforcement effect is $E_i = y_i(\btheta^0, W + \Delta W) - y_i(\btheta^0, W)$. Allocations and returns depend on $W^I$ only through $\btheta$, so at fixed $\btheta^0$ the operator changes nothing: the script finds $\max|E| = 0$ for both $x$ and $r$. The ratio $F/E$ has a zero denominator; this is the case of Remark~\ref{ch09:rem:psi}(5). Report the formation effect itself: $F_T = +0.0195$ in allocation, $+0.0366$ in preference. A cost-benefit analysis at fixed preferences records zero benefit, which is correct for the enforcement channel and incomplete for the policy.
+\end{enumerate}
+
+\emph{Common mistake:} reading $\Psi = \infty$ as ``infinitely effective''. $\Psi$ is undefined, and the size of the effect is $F$, which here is modest.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.4}{Sequencing}
+
+\emph{Note on the exercise.} As posed, the exercise is underdetermined: it does not say how big each operator is, what ``education'' does to $W^P$, or how information affects later operators. And under the chapter's own definitions the information operator leaves $W^P$, and hence $\Gamma(W^P)$, unchanged (Definition~\ref{ch15:def:info}). Without a complementarity between operators the order cannot help sequence~B. The well-posed version below states a model with an explicit complementarity parameter $\eta$ and reports how the answer depends on it.
+
+\solpart{a--b} \textbf{Model.} Six sectors in three blocks: gas $(G_1, G_2)$, urban $(U_1, U_2)$, rural $(R_1, R_2)$. Raw intensities $K$ are $1$ inside each block (diagonal included) and $0.04$ (G--U), $0.04$ (U--R) and $0.01$ (G--R) across blocks; $W^P = D^{-1}K$, with $\Gamma_0 = 0.0571$. The gas block is the weakly coupled enclave. Operators act once, at the start of periods $1$, $4$ and $7$, and edges persist:
+\begin{itemize}
+\item \emph{Information}: the rural cross-block weight in $W^I$ rises from $0.10$ to $0.30$. Rural aspirations then follow the formation equation $\theta_{R,t+1} = \rho\theta_{R,t} + (1-\rho)\theta^\circ + \mu(s_{R,t} - r^*)$, with signal $s_R = (1 - w)r_R + w\,r_U$, fixed returns $r_U = 0.20$, $r_R = 0.08$, and $\rho = 0.85$, $\mu = 0.2$, $\theta^\circ = 1$, $r^* = 0.1$; $\theta_{R,0} = 0.92$, $\theta_U = 1.09$. $W^P$ does not change.
+\item \emph{Education}: adds $0.05$ to the U--R and G--R intensities, and raises rural capability $c$ from $0.5$ to $1$.
+\item \emph{ISI-B}: the enclave buys domestic inputs: adds $0.30\,u$ to the G--U and G--R intensities, with uptake $u = (c \cdot \min\{1, \theta_R/\theta_U\})^\eta$. $\eta = 0$ means no complementarity; $\eta > 0$ means ISI succeeds only where rural firms are capable and willing to supply.
+\end{itemize}
+
+\solpart{c} \textbf{Results} ($\Gamma_t$ for $t = 0, \ldots, 10$):
+\begin{itemize}
+\item $\eta = 0$. Sequence~A: $0.057$, then $0.296$ from $t = 1$ (after ISI), $0.368$ from $t = 4$. Sequence~B: $0.057$ to $t = 3$, $0.132$ from $t = 4$ (education), $0.368$ from $t = 7$. A reaches $\Gamma = 0.30$ at $t = 4$, B at $t = 7$. Both end at the same matrix (additive operators commute) and the same $\Gamma = 0.368$.
+\item $\eta = 1$. ISI applied first has uptake $0.92/1.09 \times 0.5 = 0.4220$. A reaches only $0.192$ after ISI and $0.280$ after education, never $0.30$. Under B, information raises $\theta_R$ to $0.9831$ by $t = 7$ (uptake $0.9019$), and $\Gamma_7 = 0.354$: B reaches the target at $t = 7$, A never.
+\item $\eta = 2$. A peaks at $0.231$; B reaches $0.342$ at $t = 7$.
+\item On a grid of step $0.25$, the smallest $\eta$ at which B reaches $0.30$ no later than A is $\eta = 0.75$.
+\end{itemize}
+Without information, $\theta_R$ would rise only to $0.9757$ by $t = 10$; with it, to $1.0014$.
+
+\textbf{Model answer.} The ordering of Conjecture~\ref{ch15:thm:sequencing} is right if and only if the later, ``hard'' operators are complementary to the earlier, ``soft'' ones: here, if ISI's uptake rises steeply enough with capability and aspirations ($\eta \ge 0.75$). Without such complementarity the ``hard'' operator acts on $W^P$ immediately and wins on $\Gamma$, since information never touches $\Gamma(W^P)$. So the conjecture is a claim about the size of a complementarity, which is an empirical parameter (the role $\Psi$ plays in the chapter's keyinsight box). Two side observations: the binding constraint on $\Gamma$ is the weakest cut (the gas enclave), so operators must target it; and education alone moves $\Gamma$ only to $0.132$, because it does not touch the G--U link.
+
+\emph{Common mistakes:} plotting $\Gamma(W^I)$ and $\Gamma(W^P)$ on the same axis, and treating the conjecture's ordering as a result rather than a hypothesis about $\eta$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.5}{Bolivia in the product space}
+
+\emph{Data status.} The country$\times$product RCA data and product-space proximities needed here were \textbf{not fetched} (the Growth Lab file is 451~MB; \nolinkurl{data/README.md}, \S9 and row~34 of its status table). What \emph{is} in \nolinkurl{data/processed} (retrieved 2026-11-05) is used below: Bolivia's ECI and the PCI of selected products \citep{growthlab2026atlas}.
+
+\solpart{a} \textbf{Top 10 exports and position.}
+\begin{enumerate}
+\item Download the Growth Lab country$\times$product$\times$year file (HS92, 4 digits; Harvard Dataverse, doi:10.7910/DVN/T4CHWJ) or the equivalent OEC table.
+\item Keep Bolivia, the latest year without a revision flag (e.g.\ 2019, to match the book), and sort by export value. Report each product's share of the basket.
+\item ``Core vs.\ periphery'': compute each product's eigenvector or degree centrality in the product-space proximity network $\phi$ (Definition~\ref{ch16:def:proximity}), or use the Atlas's published product-space coordinates and cluster labels. Classify as core if above the median of the centrality of all products.
+\end{enumerate}
+\emph{Expected result.} Natural gas, gold, zinc and silver ores, soy products, quinoa, Brazil nuts: almost all peripheral. Consistent with this, the PCIs available here are low: natural gas (HS~2711) $-2.23$, zinc ores (2608) $-1.67$, soya beans (1201) $-1.81$ in 2019, and Bolivia's ECI was $-1.30$ (Example~\ref{ch15:ex:bolivia_ps}).
+
+\solpart{b} \textbf{Relatedness density.} Build $M_{cp} = \mathbf{1}[R_{cp} \ge 1]$ (Definition~\ref{ch16:def:RCA}) for all countries; compute $\phi_{pp'}$ by~\eqref{ch16:eq:proximity}; then
+$\omega_{\text{BOL},p} = \sum_{p'}M_{\text{BOL},p'}\phi_{pp'}/\sum_{p'}\phi_{pp'}$ (Definition~\ref{ch16:def:relatedness}). Target codes: lithium-ion batteries are inside HS~8507 (electric accumulators; PCI $0.549$ in 2019); food-processing machinery is HS~8438; pharmaceutical intermediates are in HS~2933--2942. Use a 3-year average of exports for $R_{cp}$ to reduce noise, and report the percentile of each $\omega$ among all products Bolivia does not export. \emph{Expected:} low densities, well below the median for the country; the book's $\omega \approx 0.08$ is a placeholder.
+
+\solpart{c} \textbf{Edges needed.}
+\begin{itemize}
+\item \emph{Lithium batteries.} $\Delta W^P$: links from lithium carbonate (HS~2836, PCI $-0.573$) to cathode materials, cell assembly and electrical equipment; chemical-engineering inputs and imported capital goods. $\Delta W^I$: engineers trained in electrochemistry; links to foreign battery producers (joint ventures, licensing).
+\item \emph{Food-processing machinery.} $\Delta W^P$: metalworking, machining and repair shops supplying agro-industry (quinoa, soy, Brazil nuts), which are already domestic buyers. $\Delta W^I$: technical schools and supplier-development programmes that link agro-industry buyers to local metalworkers.
+\item \emph{Pharmaceutical intermediates.} $\Delta W^P$: organic chemistry and quality-control laboratories. $\Delta W^I$: regulatory know-how (GMP certification), university chemistry, links with regional pharmaceutical firms.
+\end{itemize}
+
+\solpart{d} \textbf{Sequencing cost, order of magnitude.} Count the missing capabilities: the number of products $p'$ with high $\phi_{pp'}$ that Bolivia lacks, weighted by $\phi$. Then multiply by a unit cost from comparable programmes. The ranking that follows from the method: food-processing machinery is the cheapest, because it sits nearest Bolivia's existing agro-food basket; lithium batteries are intermediate (the raw material is present, the chemistry and assembly are not); pharmaceutical intermediates are the most expensive. No numbers are given, because they would have to be invented.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.6}{Hirschman vs.\ spectral gap}
+
+\emph{Data.} INE supply-use tables 2019, base 2017, converted to a domestic industry$\times$industry table at basic prices and aggregated to the book's 12 sectors (\nolinkurl{data/processed/bolivia_Z/Z_2017_2019_book12.csv}, rows = sellers), with gross output from \nolinkurl{bolivia_io_linkages.csv} \citep{ine2026sut}; retrieved 2026-11-05.
+
+\solpart{a} \textbf{Backward linkages from $A$.} With the Chapter~1 convention, $a_{ss'} = Z_{s's}/X_s$ (Appendix~17A). Row sums of $A$, the domestic intermediate input per unit of output, range from $0$ (domestic services) and $0.162$ (public administration) to $0.558$ (manufacturing); hydrocarbons have $0.225$. With $L = (I - A')^{-1}$:
+\begin{center}
+\small
+\begin{tabular}{lcc|lcc}
+\toprule
+Sector & $BL$ & $FL$ & Sector & $BL$ & $FL$ \\
+\midrule
+Hydrocarbons & 1.340 & 1.195 & Transport & 1.542 & 1.522 \\
+Mining & 1.364 & 1.296 & Financial services & 1.433 & 1.570 \\
+Public administration & 1.245 & 1.023 & Agriculture & 1.549 & 1.704 \\
+Manufacturing & 1.855 & 2.207 & Other services & 1.356 & 2.018 \\
+Construction & 1.574 & 1.128 & Personal services & 1.661 & 1.097 \\
+Commerce & 1.416 & 1.576 & Domestic services & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Checks: all linkages are at least $1$; mean $BL$ = mean $FL$ = $1.4447$; the values agree with \nolinkurl{bolivia_io_linkages.csv} to $10^{-6}$ and with Example~\ref{ch17:ex:bolivia_gamma}.
+
+\textbf{The same computation on $W^P$ is uninformative.} On the 11 sectors with intermediate flows (domestic services dropped), $W^P = D^{-1}A$ is row-stochastic, so $(I - W^P{}')$ is singular and the Leontief inverse does not exist. With attenuation $\gamma < 1$:
+\begin{itemize}
+\item the column sums of $(I - \gamma W^P{}')^{-1}$ are $\big((I-\gamma W^P)^{-1}\ones\big)' = \ones'/(1-\gamma)$: all equal $2.0000$ at $\gamma = 0.5$ and $10.0000$ at $\gamma = 0.9$;
+\item the row sums of $(I - \gamma W^P)^{-1}$ are the same constants.
+\end{itemize}
+Every sector gets the same ``linkage''. What $(I-\gamma W^P)^{-1}$ does carry is the Acemoglu et al.\ influence vector, $\frac{1-\gamma}{N}\ones'(I-\gamma W^P)^{-1}$, which tends to $\bpi$ as $\gamma \to 1$ (at $\gamma = 0.99$ the largest difference is $0.0027$). That is a power measure, not a multiplier.
+
+\solpart{b} \textbf{Gradient of $\Gamma(W^P)$.} $\lambda_2 = 0.5326$ (real, simple), $|\lambda_3| = 0.3127$, $\Gamma = 0.4674$. Since $\lambda_2 > 0$, $G_{ij} = -u_{2,i}v_{2,j}$. Scaled to a maximum modulus of $1$:
+\begin{itemize}
+\item $\mathbf{v}_2$ is $1$ on financial services and $-0.48$ to $-0.67$ on personal services, manufacturing and construction;
+\item $\mathbf{u}_2$ is $1$ on financial services, $0.39$ on other services, and $-0.53$ on agriculture.
+\end{itemize}
+The slow mode is ``financial services against the rest''. Financial services buy $56.7\%$ of their inputs from themselves (the largest diagonal entry of $W^P$; other services $0.511$, agriculture $0.331$). The full $11 \times 11$ matrix $G$ is printed by the script; a finite difference confirms one entry to $10^{-4}$. Its largest entries lie in the financial-services row ($G_{\text{fin},\text{constr}} = 0.455$, $G_{\text{fin},\text{fin}} = -0.677$) and column ($G_{\text{agr},\text{fin}} = 0.361$).
+
+\textbf{Best feasible moves} (donor entry $W_{i\ell} > 0.01$):
+\begin{enumerate}
+\item Financial services shift purchases from themselves to construction: rate $1.132$. Moving $0.05$ of weight raises $\Gamma$ by $0.0595$ exactly (first order $0.0566$).
+\item The same row, to manufacturing ($1.021$), personal services ($1.000$) or hydrocarbons ($0.985$).
+\item Excluding self-purchases: agriculture shifting purchases from construction to financial services ($0.604$, but only $0.019$ of weight is available to move) or from manufacturing to financial services ($0.544$, with $0.181$ available).
+\end{enumerate}
+
+\solpart{c} \textbf{Agreement and disagreement.} Hirschman ranks \emph{sectors} by $BL$: manufacturing ($1.855$), personal services ($1.661$), construction ($1.574$). The spectral criterion ranks \emph{edges}. To compare, score each sector $j$ as a supplier by the best rate of moving weight towards it. The ranks agree moderately: Spearman correlation $0.636$. Manufacturing, construction and personal services are near the top on both lists. They disagree on two points:
+\begin{itemize}
+\item On the buyer side, the spectral criterion singles out financial services, ranked only 6th by $BL$ (Spearman $0.209$ between $BL$ and the buyer score).
+\item The spectral criterion's best edge is a change in an existing sector's \emph{input mix}, cutting its self-reliance. It is not an investment in a high-linkage sector.
+\end{itemize}
+
+\solpart{d} \textbf{When Hirschman's criterion misleads.} It maximizes output per unit of final demand, which is the right target for $\Omega_3$. It misleads, for integration or for power, when the high-$BL$ sector sits inside an already dense core, so that new demand deepens the core without bridging to the periphery (ISI-A in Exercise~15.2). Three cautions specific to these data:
+\begin{itemize}
+\item $\Gamma = 0.467$ and $\lambda_2$ is not close to $1$, so Bolivia's 12-sector $W^P$ has no weakly coupled block (Example~\ref{ch17:ex:bolivia_gamma}). The spectral criterion's gains are therefore modest, and its ``slow mode'' is an artefact of one large diagonal entry, which depends on the aggregation.
+\item Neither criterion sees the export enclave. Hydrocarbons export $70\%$ of output, and their linkage runs through the fiscal channel, as Hirschman himself stressed.
+\item Both criteria are first-order: large interventions change the gradient.
+\end{itemize}
+
+\emph{Common mistake:} ranking sectors by the row sums of $(I - \gamma W^P)^{-1}$, which are identical.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{15.7}{Political cost}
+
+\textbf{Set-up.} Agents: Gas (1), Government (2), Urban (3), Rural (4), with power $\bpi = (0.35,\allowbreak 0.30,\allowbreak 0.20,\allowbreak 0.15)$, the vector of Example~\ref{ch14:ex:four_alliances}, so $\pi_1 + \pi_2 = 0.65$. A stylized $W$ with exactly this Perron vector is the Metropolis chain with uniform proposals, $W_{ij} = \frac14\min\{1, \pi_j/\pi_i\}$ for $i \ne j$, with the remainder on the diagonal:
+\[
+W = \begin{pmatrix}
+0.5357 & 0.2143 & 0.1429 & 0.1071\\
+0.2500 & 0.4583 & 0.1667 & 0.1250\\
+0.2500 & 0.2500 & 0.3125 & 0.1875\\
+0.2500 & 0.2500 & 0.2500 & 0.2500\end{pmatrix}.
+\]
+It is reversible ($\pi_iW_{ij} = \pi_jW_{ji}$), so $\bpi'W = \bpi'$. Its eigenvalue moduli are $1, 0.2857, 0.2083, 0.0625$, so $\Gamma = 0.7143$; $\Var(\bpi) = 0.006250$. Its smallest entry is $0.107$, so every perturbation with $\|E\|_F \le 0.1$ keeps $W + E \ge 0$. The budget is Frobenius, as in Definition~\ref{ch14:prop:feasibility}.
+
+\solpart{a} \textbf{Integration: zero political cost.} Take $E = \ones\bpi' - W$, with $\|E\|_F = 0.3678$. By Proposition~\ref{ch15:prop:pi_path}, along $W + tE = (1-t)W + t\ones\bpi'$ the Perron vector stays $\bpi$, so $\Delta\pi_i = 0$ for every $i$ and the constraint $\Delta\pi_i \ge 0$ holds for any coalition. Meanwhile $\Gamma = 1 - (1-t)\cdot 0.2857$. With budget $B$, $t = \min\{1, B/0.3678\}$:
+\begin{itemize}
+\item $B = 0.1$: $t = 0.2719$ and $\Gamma = 0.7920$;
+\item $B \ge 0.3678$: $t = 1$ and $\Gamma = 1$, the maximum possible value of $\Gamma$, so the constrained and unconstrained optima coincide and $C_{\text{political}} = 0$.
+\end{itemize}
+The script confirms that $\bpi$ is unchanged at both points. (For $B < 0.3678$ the proposition gives only a lower bound on the constrained optimum.)
+
+\solpart{b} \textbf{Power: the exact constrained problem.} A reduction to a three-dimensional problem makes this exact.
+
+\emph{Reachability lemma.} A target $\tilde\bpi$ in the open simplex is the Perron vector of $W + E$ for some $E$ with $E\ones = 0$ and $\|E\|_F \le B$ if and only if $\|b\|_2 \le B\|\tilde\bpi\|_2$, where $b := (I - W')\tilde\bpi$; this ignores nonnegativity, which we check afterwards.
+
+\emph{Proof.} Necessity: $\tilde\bpi'(W + E) = \tilde\bpi'$ means $E'\tilde\bpi = b$, so $\|b\| \le \|E'\|_2\|\tilde\bpi\| \le \|E\|_F\|\tilde\bpi\|$. Sufficiency: let $E^* = \tilde\bpi b'/\|\tilde\bpi\|^2$. Then $E^*\ones = \tilde\bpi(b'\ones)/\|\tilde\bpi\|^2 = 0$, because $\ones'b = \ones'\tilde\bpi - (W\ones)'\tilde\bpi = 0$. Also $E^{*\prime}\tilde\bpi = b$, and $\|E^*\|_F = \|b\|/\|\tilde\bpi\|$. When $W + E^*$ is positive it is irreducible, so $\tilde\bpi$ is \emph{its} Perron vector. $E^*$ is also the minimum-norm solution: any other solution differs from it by some $F$ with $F\ones = 0$ and $F'\tilde\bpi = 0$, and $\langle E^*, F\rangle_F = b'F'\tilde\bpi/\|\tilde\bpi\|^2 = 0$. $\square$
+
+So the problem is: minimize $\Var(\tilde\bpi)$ over the simplex, subject to $\|(I-W')\tilde\bpi\| \le 0.1\,\|\tilde\bpi\|$ and, in the constrained case, $\tilde\pi_1 \ge 0.35$, $\tilde\pi_2 \ge 0.30$. The script solves it on a grid of step $0.001$ and checks that $W + E^* \ge 0$ and that $\bpi(W + E^*) = \tilde\bpi$.
+
+\begin{center}
+\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+& $\tilde\bpi$ & $\min\Var$ & $\Omega_2^*$ & $\|E^*\|_F$ \\
+\midrule
+Unconstrained & $(0.304,\allowbreak 0.283,\allowbreak 0.224,\allowbreak 0.189)$ & 0.002101 & 0.004149 & 0.0999 \\
+Constrained, $S^* = \{\text{Gas, Gov}\}$ & $(0.350,\allowbreak 0.300,\allowbreak 0.175,\allowbreak 0.175)$ & 0.005938 & 0.000312 & 0.0634 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Political cost:} $C_{\text{political}} = 0.004149 - 0.000312 = 0.003837$, which is $92.5\%$ of the unconstrained gain. Under the constraint the only redistribution left is between the two outsiders, and the best it can do is equalize them at $0.175$. That uses only $0.0634$ of the budget: the constraint, not the budget, binds. Even the unconstrained planner cannot reach uniform power, which would need $\|E\|_F \ge 0.2434$. As a cross-check, the perturbation lemma's $d\Var/dt = \frac2N\bpi'EZ(\bpi - \ones/N)$ along $E^*$ ($-0.005398$) matches the finite difference. A linearized solution overshoots in this problem: the first-order objective is linear in $E$, so it always spends the full budget.
+
+\textbf{Which coalition change reduces the cost?} The cost depends on whether the protected agents are the ones a variance-reducing reform must take power from:
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Coalition & $\{G\}$ & $\{G, Gov\}$ & $\{G, Gov, U\}$ & $\{Gov, U\}$ & $\{U, R\}$ \\
+\midrule
+Political cost & 0.001734 & 0.003837 & 0.004150 & 0.000275 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item Dropping Gas from the coalition, so that Government governs with Urban, cuts the cost by $93\%$.
+\item A coalition of the two least powerful agents faces no cost at all: its members want their own power to rise, which is what lowers $\Var(\bpi)$.
+\item Adding Urban to $\{G, Gov\}$ makes the cost total: with three members protected, no redistribution is possible.
+\end{itemize}
+This is the content of the chapter's conjecture that the cost is large when power is concentrated in the coalition: the cost depends on \emph{who} is protected, not on how many.
+
+\emph{Common mistakes:} stating a political cost for $\Omega_1$ (there is none once $B \ge \|\ones\bpi' - W\|$), and reading the cost as a Pareto loss. It is the forgone reduction in a distributional objective.
+
+\endgroup
+\end{document}

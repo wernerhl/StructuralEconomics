@@ -1,0 +1,198 @@
+% Solutions to the exercises of Chapter 20. Numbers: code/solutions/sol20.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{19}}{}% NN-1 when built standalone
+\setcounter{chapter}{19}% NN-1, so this chapter is numbered NN
+\chapter{Social Accounting Matrices as Weight Matrices}\label{sol20}
+
+Every number below is printed by \texttt{python3 code/solutions/sol20.py}. Exercise~20.1 asks for a Bolivian SAM built from INE, EH and fiscal data. The production, value-added and import blocks can be built from INE's 2019 supply--use tables, which are in the repository (retrieved 2026-11-05). The household and fiscal blocks need EH microdata and MEFP tables, which were not fetched. Exercises~20.2--20.6 refer to ``your SAM''. They are solved on the chapter's illustrative SAM (Example~\ref{ch20:ex:bolivia_sam}), and the real production block is reported alongside wherever it answers part of the question.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.1}{Build a SAM}
+
+\solpart{Method, step by step}
+\begin{enumerate}
+\item \emph{Production $\times$ production.} Start from the INE supply--use tables for 2019 (base 2017; \path{ine_sut_long.csv}). Remove net product taxes and trade margins, allocate imports proportionally, and form industry-by-industry domestic flows with the fixed product-sales assumption (\path{data/compute/compute_bolivia_io.py}). Then aggregate the 12 book sectors to the template's four accounts: Gas/Mining (hydrocarbons and mining), Agriculture, Manufacturing, and Services (everything else, including construction and public administration).
+\item \emph{Factors $\leftarrow$ production.} The use table's value-added rows split gross value added (B1b) into compensation of employees (D1) $\to$ Labour, operating surplus (B2) $\to$ Capital, mixed income (B3), and taxes on production net of subsidies $\to$ Government.
+\item \emph{Government and RoW $\leftarrow$ production.} Net product taxes on intermediates (output minus domestic inputs, imported inputs and value added) go to Government, and imported intermediates go to RoW.
+\item \emph{Production $\leftarrow$ final demand.} Exports are a RoW payment. Domestic final demand (household and government consumption, investment) is the remainder of output after intermediate sales and exports.
+\item \emph{Households, Government, RoW.} Factor income by household type and household consumption come from the EH 2019 income and expenditure modules. Taxes and transfers come from MEFP. Remittances come from the balance of payments; WDI gives the total, 9.30 bn Bs in 2019.
+\item \emph{Balance.} Reconcile the independent sources with RAS or cross-entropy (Appendix~\ref{ch20:app:balancing}).
+\end{enumerate}
+
+\solpart{Results for the blocks that can be built (INE 2019, million Bs)}
+\begin{center}\small
+\begin{tabular}{lrrrr}
+\toprule
+Paying column $\to$ & Gas/Mining & Agriculture & Manufacturing & Services \\
+\midrule
+Gas/Mining (domestic input) & 319 & 278 & 16917 & 4593 \\
+Agriculture & 128 & 5444 & 22006 & 3195 \\
+Manufacturing & 1756 & 2978 & 12494 & 29019 \\
+Services & 9554 & 7753 & 12433 & 59493 \\
+Labour (D1) & 5762 & 4457 & 12933 & 104361 \\
+Capital (B2) & 28779 & 3104 & 18719 & 60946 \\
+Mixed income (B3) & 111 & 18258 & 6089 & 44861 \\
+Gov: net production taxes & 271 & 55 & 355 & 905 \\
+Gov: net product taxes on inputs & 639 & 734 & 1780 & 5954 \\
+RoW: imported inputs & 3552 & 3412 & 10779 & 25529 \\
+\midrule
+Column total $=$ gross output & 50872 & 46473 & 114506 & 338857 \\
+\bottomrule
+\end{tabular}
+\end{center}
+On the receipt side, intermediate sales are 22107, 30773, 46247 and 89234; exports are 27905, 1122, 24783 and 10700; and domestic final demand is 861, 14578, 43476 and 238923.
+
+\emph{Balance checks.}
+\begin{itemize}
+\item The value-added identity (D1 $+$ D29 $-$ D39 $+$ B2 $+$ B3 $=$ B1b) holds to $2.8\times10^{-16}$.
+\item INE's own supply = use check has a maximum gap of $7.3\times10^{-11}$, and the output identity (intermediate plus final sales equal output) holds to $7.8\times10^{-16}$ (\path{bolivia_io_checks.csv}).
+\item Every production account therefore balances, row against column.
+\end{itemize}
+The household, government and capital rows and columns cannot be balanced until the EH and MEFP blocks are added.
+
+\solpart{What the real blocks already say}
+\begin{itemize}
+\item \emph{Gas/Mining.} Per unit of output it pays $0.566$ to capital and $0.113$ to labour, buys $0.231$ of domestic inputs, imports $0.070$, and exports $0.549$ of its output. Hydrocarbons alone export $70.1\%$ and buy $0.225$ of domestic inputs.
+\item \emph{Manufacturing} pays $0.113$ of output to labour and buys $0.558$ of domestic inputs.
+\item \emph{Agriculture.} Mixed income is $0.393$ of its output. Its ``labour'' is self-employment, so whether B3 is booked to Labour or to Capital changes the agricultural column completely.
+\end{itemize}
+
+\solpart{Two design points the template hides} The template has no savings--investment account. In real data investment demand is large and has to be paid by some account, so a real SAM needs an eleventh account (Capital account), or the RoW column has to carry net saving, as in the toy. And the household split needs EH microdata: poverty status is a household attribute, so the Labour $\to$ HH-P cell cannot be read off any national-accounts table.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.2}{Row-normalize and compute $\Gamma$}
+
+\solpart{Spectrum} For $W = \operatorname{diag}(y)^{-1}T$ on the illustrative SAM, the eigenvalues ordered by modulus are $1$, $0.013 \pm 0.598i$, $-0.486$, $0.400$, $-0.064 \pm 0.232i$, $0.202 \pm 0.017i$ and $-0.041$. So $\Gamma_{\text{SAM}} = 1 - 0.598 = 0.402$.
+
+\solpart{Production block} The toy production block has $\Gamma = 0.391$ for receipt shares (row-normalized $T_{PP}$) and $0.248$ for input-cost shares $W^P = D^{-1}A$. The smallest gap in this SAM is therefore that of $W^P$, and the full SAM mixes faster than its own production block (Proposition~\ref{ch20:prop:more_structure}(3): no general ordering). The real INE 2019 production block, aggregated to the same four accounts, has $\Gamma = 0.763$ for input shares ($\lambda_2 = 0.237$, real) and $0.801$ for receipt shares. At 11 sectors the input-share gap is $0.467$, so aggregation raises it, as in Exercise~19.1.
+
+\solpart{Complex eigenvalues and the circular flow} The leading pair has argument $88.8^\circ$, so it rotates by about a quarter turn per step, a period of $4.06$ steps. The phases of its right eigenvector, measured relative to Gas, fall into blocks:
+\begin{itemize}
+\item production accounts: $0^\circ$, $-8^\circ$, $30^\circ$, $82^\circ$;
+\item factors: $-42^\circ$, $-74^\circ$;
+\item households: $-135^\circ$, $-152^\circ$;
+\item Government and RoW: $119^\circ$, $117^\circ$.
+\end{itemize}
+The rotation runs around the four-stage circuit production $\to$ factors $\to$ households $\to$ Government/RoW $\to$ production. A pure three-stage cycle would have eigenvalues $1$ and $-0.5 \pm 0.866i$, all of modulus 1, and $\Gamma = 0$. Intra-block purchases and leakages damp the rotation to modulus $0.598$. A small $\Gamma_{\text{SAM}}$ can therefore signal a strong circular flow rather than fragmentation. Non-real eigenvalues also certify asymmetry: $T \ne T'$ (the largest asymmetry is the Cap $\to$ HH-NP cell, $6.3$ against $0$). If $T = T'$, $W$ would be similar to the symmetric matrix $Y^{-1/2}TY^{-1/2}$ and its spectrum would be real.
+
+\solpart{Perron vector $=$ account totals} \emph{Proof.} With $y = T\ones = T'\ones$, we have $y'\operatorname{diag}(y)^{-1}T = \ones'T = y'$. So $y/\ones'y$ is stationary. $W$ has the zero pattern of $T$ and is irreducible, so the stationary vector is unique. Numerically, for (Gas, \ldots, RoW),
+\[
+\bpi = (0.0861, 0.0614, 0.1238, 0.1518, 0.1119, 0.0764, 0.0732, 0.1485, 0.0635, 0.1033),
+\] which equals $y/\ones'y$ with $\ones'y = 92.9$ to machine precision (sum $= 1$), and $G(\bpi) = 0.179$. \emph{Common mistake:} reading this $\pi$ as power. It is turnover (Proposition~\ref{ch20:prop:pi_size}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.3}{SAM multipliers}
+
+\solpart{Computation} On the illustrative SAM, with endogenous accounts production, factors and households and exogenous Government and RoW, $\rho(A_n) = 0.801$. $M = (I - A_n)^{-1}$ exists, and $M = M_3M_2M_1$ holds to machine precision (Proposition~\ref{ch20:prop:decomposition}). Stone's additive components, as column sums by injected account:
+\begin{center}\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+& Gas & Agr & Mfg & Svc & Lab & Cap & HH-P & HH-NP \\
+\midrule
+initial & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+own-block & 0.53 & 0.99 & 1.16 & 1.03 & 0.00 & 0.00 & 0.00 & 0.00 \\
+open-loop & 1.62 & 1.73 & 1.52 & 1.59 & 2.06 & 1.82 & 2.14 & 1.01 \\
+closed-loop & 2.02 & 2.48 & 2.13 & 2.23 & 1.96 & 1.52 & 2.28 & 1.06 \\
+\midrule
+total & 5.18 & 6.20 & 5.82 & 5.85 & 5.02 & 4.34 & 5.42 & 3.08 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Sanity check.} The leakage coefficients $\ell_j = 1 - \sum_i (A_n)_{ij}$ are Gas $0.125$, Agr $0.053$, Mfg $0.122$, Svc $0.099$, Lab and Cap $0$, HH-P $0.25$ and HH-NP $0.645$, and $\ell'M = \ones'$ exactly: every injected unit eventually leaks.
+
+\solpart{Answers} \emph{Highest total multiplier:} Agriculture, $6.20$, both among the production sectors and over all eight accounts. \emph{Largest open-loop component:} Agriculture among the production sectors ($1.73$), and HH-P over all accounts ($2.14$). A unit given to poor households reaches production and factors more strongly than a unit injected into any sector, because poor households leak less ($0.25$ against $0.645$). For a gas injection the $5.18$ splits into $2.68$ in production, $1.25$ in factors and $1.25$ in households.
+
+\solpart{Real comparison and a warning} The INE 2019 own-block (Type I output) multipliers, the column sums of $(I - A)^{-1}$ for the real four-account production block, are Gas/Mining $1.348$, Agriculture $1.550$, Manufacturing $1.857$ and Services $1.446$. The toy's own-block multipliers $\ones'M_1$ are $1.534$, $1.989$, $2.161$ and $2.026$. The ranking of gas at the bottom survives in the real data, but the real own-block effects are smaller. Multiplying the column sums of $M_1, M_2, M_3$ is not a decomposition: for gas it gives $5.69$, not $5.18$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.4}{The gas enclave in the SAM}
+
+\solpart{The path} Per unit of gas output (Bs per Bs), the first stage pays:
+\begin{itemize}
+\item domestic intermediates: $0.2625$ to gas itself, $0.0375$ to manufacturing and $0.025$ to services;
+\item labour $0.10$ and capital $0.45$;
+\item government $0.125$, and RoW $0$.
+\end{itemize}
+Following the dominant branch of a 1B Bs injection:
+\begin{center}\small
+\begin{tabular}{lccc}
+\toprule
+Stage & mass & leakage rate & passed on \\
+& entering & (Gov $+$ RoW) & along the path \\
+\midrule
+Gas & 1.000 & 0.125 & 0.450 to Capital \\
+Capital & 0.450 & 0.000 & 0.887 to HH-NP \\
+HH-NP & 0.399 & 0.645 & 0.355 to domestic goods \\
+back in production & 0.142 & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+Households' leakage of $0.645$ splits into $0.174$ to Government and $0.471$ to RoW. The capital stage leaks nothing in this SAM because it has no capital-to-RoW cell. Foreign profit repatriation is absent by construction; in real data it would be a Cap $\to$ RoW cell taken from the balance of payments (primary income), which was not fetched. For comparison, labour passes $0.404$ of its income to poor households and leaks nothing, and poor households leak $0.250$.
+
+\solpart{Round by round} Let $x_k = A_n^k e_{\text{gas}}$ be the income created in round $k$. The leakage in round $k$ is $\ell'x_k$.
+\begin{center}\small
+\begin{tabular}{lccccc}
+\toprule
+round $k$ & in circulation & production & factors & households & cumulative leakage \\
+\midrule
+0 & 1.000 & 1.000 & 0.000 & 0.000 & 0.125 \\
+1 & 0.875 & 0.325 & 0.550 & 0.000 & 0.165 \\
+2 & 0.835 & 0.119 & 0.166 & 0.550 & 0.498 \\
+3 & 0.502 & 0.280 & 0.057 & 0.166 & 0.621 \\
+4 & 0.379 & 0.214 & 0.108 & 0.057 & 0.675 \\
+5 & 0.325 & 0.134 & 0.083 & 0.108 & 0.745 \\
+6 & 0.255 & 0.120 & 0.052 & 0.083 & 0.801 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Where the flow dies.} The decisive leak is at the household stage. In round 2, when the injection reaches households, $0.333$ leaks in a single round, and cumulative leakage jumps from $0.165$ to $0.498$. Over the whole circuit, HH-NP accounts for $0.626$ of all leakage, gas's own taxes for $0.178$, HH-P for $0.070$, services for $0.062$, manufacturing for $0.054$ and agriculture for $0.010$; $0.564$ goes to RoW and $0.436$ to Government. Cumulative leakage passes 90\% after round 10 and 99\% after round 20. The total multiplier is $5.18$, and the leakages sum to one (sanity check).
+
+\solpart{Real first stage (INE 2019, hydrocarbons alone)} Per unit of output, hydrocarbons buy $0.225$ of domestic inputs, import $0.030$ and generate value added of $0.736$, of which compensation is $0.044$ of output ($6.0\%$ of VA). The real enclave is therefore starker at stage 1 than the toy's. Very little of the injection goes to domestic suppliers or to labour, and most becomes surplus and taxes. Their destination (treasury, foreign owners, domestic capital) is exactly the information a real SAM must add.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.5}{Counterfactual: land reform}
+
+\solpart{Set-up} ``10\% of capital income'' is $0.71$ of $7.1$, so the Cap $\to$ HH-P coefficient rises by $0.1000$ and the Cap $\to$ HH-NP coefficient falls by the same amount. Following Definition~\ref{ch20:def:counterfactual}, we change $A_n$, hold the injections $x$ (Government and RoW columns) fixed, solve $y_e' = (I - A_n')^{-1}x$, and rebuild the SAM with the leakages at their coefficients. In the rebuilt SAM every endogenous account balances to $3.6\times10^{-15}$. The other reading, 10\% of the Cap $\to$ HH-NP cell ($0.63$, a coefficient shift of $0.0887$), is reported in brackets.
+
+\solpart{Results}
+\begin{center}\small
+\begin{tabular}{lccc}
+\toprule
+& before & after [other reading] & change \\
+\midrule
+$\Gamma_{\text{SAM}}$ & 0.4018 & 0.4050 [0.4047] & $+0.0032$ \\
+gas total multiplier & 5.180 & 5.365 [5.344] & $+3.56\%$ \\
+capital-injection multiplier & 4.342 & 4.619 [4.587] & $+6.39\%$ \\
+other multipliers & & & $+1.00\%$ to $+1.72\%$ \\
+poor households' income share & 0.3301 & 0.3642 [0.3604] & $+3.41$ points \\
+total endogenous income & 77.400 & 79.090 [78.897] & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{Which moves most, and why} In relative terms $\Gamma$ rises by $0.81\%$ and the poor's share by $10.33\%$. The poor's income share moves most. It responds directly, because every Bs of capital income is now redistributed. The multipliers move next, because the redistribution moves income from a household that leaks $0.645$ to one that leaks $0.25$: the capital column's multiplier rises most, and gas, whose output goes mostly to capital, gains more than the other sectors. $\Gamma$ barely moves. It measures how fast the row-normalized receipt matrix mixes, and the reform changes only the composition of two households' receipts. As in Example~\ref{ch20:ex:counterfactual}, distribution should be read off the multipliers and the household accounts, not off $\Gamma$. \emph{Caveat:} this is a fixed-price multiplier closure. A real land reform also changes production (the Capital and Agriculture columns), which the exercise does not model.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.6}{Counterfactual: education spending}
+
+\solpart{Set-up} Government spending on labour (account 9 $\to$ 5) is exogenous, so the injection vector gains $0.5$ in the Lab entry. The tax on gas is a new leakage in the gas column: the Gas $\to$ Gov coefficient rises by $t$, and the tax is paid out of gas's capital income (Gas $\to$ Cap falls by $t$). We choose $t$ so that the tax raises exactly $0.5$ in the new equilibrium, $t\,y_{\text{gas}}' = 0.5$, which keeps the operation budget-neutral. Bisection gives $t = 0.06243$ (the first-pass rate $0.5/8$ is $0.06250$).
+
+\solpart{Recomputed multipliers} Only the gas column of $A_n$ changes, but every multiplier moves, because every circuit passes through gas. The gas multiplier falls from $5.180$ to $4.797$ ($-7.40\%$). The others fall by $0.39\%$ (Cap) to $0.98\%$ (Mfg), and none changes by more than $0.057$. Measured by the multiplier matrix, the economy is slightly \emph{worse}: a tax is a leakage.
+
+\solpart{Is the reallocation multiplier-improving?} Yes, in total income. The $0.5$ that used to flow Gas $\to$ Cap now flows Gov $\to$ Lab. Total endogenous income rises from $77.400$ to $77.741$ ($+0.341$), which equals $0.5\,(m_{\text{Lab}} - m_{\text{Cap}}) = 0.5\,(5.024 - 4.342)$ to three decimals. The reason is again distributional: labour pays $40\%$ of its income to poor households and capital $11\%$, and poor households leak less. Gas output barely changes ($8.000 \to 8.009$), and the poor's share of household income rises from $0.3301$ to $0.3371$. \emph{What this omits:} the multiplier model counts education only as wage income. Its structural effect, new capabilities and edges in $W^P$ and $W^I$ (Definition~\ref{ch15:def:hc}), is invisible in a fixed-coefficient SAM and would have to be modelled as a change in $A_n$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{20.7}{Cross-country SAM comparison}
+
+\solpart{Data status} No published SAM for Bolivia, Chile or South Korea is in the repository, and INE does not publish one (Example~\ref{ch20:ex:data}). Parts (a)--(c) are therefore answered by method, with the production-block analogues that the repository does support.
+
+\solpart{a} \emph{Method.} Map each country's SAM to the same account classification (the 10-account template plus a savings--investment account), with the same treatment of mixed income and the same exogenous accounts. Row-normalize, and report $\Gamma_{\text{SAM}}$ together with the argument of $\lambda_2$: a near-periodic circular flow can produce a small $\Gamma$ by itself. \emph{Available analogue}, $\Gamma(W^P)$ for 2019 on the ISIC-based 12 sectors: Bolivia $0.475$ (INE), Chile $0.557$ and Korea $0.511$ (ICIO 2023).
+
+\solpart{b} \emph{Method.} Apply Proposition~\ref{ch20:prop:decomposition} to each SAM and report the manufacturing column of Stone's open-loop and closed-loop terms. \emph{Available analogue:} the own-block effect, the manufacturing Type I output multiplier from domestic flows. It is $1.851$ in Bolivia, $1.898$ in Chile and $2.013$ in Korea (forward linkages $2.224$, $2.289$ and $4.688$).
+
+\solpart{c} \emph{Expected result.} The circular flow is strongest where the closed-loop multipliers are largest. That requires low household leakage (import and saving propensities) and factor income that reaches households who spend domestically. The production block points to Korea, which has the deepest manufacturing linkages, especially forward. But the closed loop is determined by the factor and household blocks, which these data do not contain. The answer cannot be inferred from $\Gamma(W^P)$: Chile has the highest $\Gamma$ of the three and a smaller manufacturing multiplier than Korea's.
+
+\solpart{d} The SAM supplies two of the dashboard's coordinates (Definition~\ref{ch17:def:dashboard}): integration (and the multipliers that locate thin parts of the circular flow), and the size distribution of accounts. It does not supply $\sigma_B$, $\Neff(W^I)$ or $\Psi$ (Remark~\ref{ch20:prop:five_from_sam}). Its $G(\bpi)$ is the Gini of account sizes, not of power. A complete comparison therefore pairs the SAM diagnostics with household microdata and audience data.
+
+\end{document}

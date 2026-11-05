@@ -1,0 +1,252 @@
+% Solutions to the exercises of Chapter 19. Numbers: code/solutions/sol19.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{18}}{}% NN-1 when built standalone
+\setcounter{chapter}{18}% NN-1, so this chapter is numbered NN
+\chapter{Scale Invariance}\label{sol19}
+
+Every number below is printed by \texttt{python3 code/solutions/sol19.py}. Sourced inputs come from \path{data/processed} (retrieval date 2026-11-05; \path{data/README.md}). Numbers without a source are illustrative and are labelled as such.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.1}{Three-scale comparison}
+
+\solpart{Global column} \emph{Data and method.} Growth Lab bilateral goods trade, HS92, 2019 (\path{data/processed/atlas_bilateral_selected_years.csv.gz}). Set $K_{ij}$ to the imports of $i$ from $j$ with a zero diagonal, drop countries with zero imports or exports inside the set until none is left, and put $W_G = D^{-1}K$ (Definition~\ref{ch16:def:global_WP}). The script recomputes the matrix from the raw flows and matches \path{global_wp_summary.csv} to $10^{-9}$.
+\begin{center}\small
+\begin{tabular}{lcc}
+\toprule
+& Global ($n = 230$) & National ($n = 11$) \\
+\midrule
+$\lambda_2$ (real in both) & $0.5478$ & $0.5326$ \\
+$\Gamma$ & $0.452$ & $0.467$ \\
+$\pi_{\max}$ & $0.1302$ (CHN) & $0.2702$ (Other services) \\
+$\pi_{\min}$ & $1.38\times10^{-8}$ (HMD) & $0.0051$ (Public administration) \\
+$\max\pi/\min\pi$ & $9.4\times10^{6}$ & $53.2$ \\
+$\Neff$ ($\Neff/n$) & $22.58$ ($0.098$) & $6.48$ ($0.589$) \\
+$G(\bpi)$ & $0.854$ & $0.445$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The US/Laos ratio used in Example~\ref{ch19:ex:bolivia_three} is $193.1$, but the true global minimum is the Heard and McDonald Islands (HMD), an uninhabited territory with recorded imports. So $\max\pi/\min\pi$ is $9.4\times10^6$, and even the ratio of the 90th to the 10th percentile is $7986.5$. A max/min ratio is driven by the smallest node in the data set. Concentration should be reported as $\Neff/n$ or $G(\bpi)$, as the conventions require.
+
+\solpart{National column} INE supply--use tables 2019 (base 2017), domestic flows at basic prices, 12-sector book aggregation, input shares $W^P = D^{-1}A$ (\path{bolivia_Z/Z_2017_2019_book12.csv}). Domestic services has no intermediate flows and drops out, so $n = 11$. The values are in the table; $|\lambda_3| = 0.313$. The national gap depends on how it is built. Across the 12 variants in \path{bolivia_io_summary.csv} (book12, book12\_isic and detail39; input or sales shares; diagonal kept or zeroed), $\Gamma_N$ ranges from $0.331$ to $0.694$. The two measured gaps are almost equal: $\Gamma_N/\Gamma_G = 1.034$.
+
+\solpart{$\sigma_B$} Not computed: the household microdata were not fetched. \emph{Method.}
+\begin{enumerate}
+\item National: take the INE Encuesta de Hogares 2019 (ANDA portal) and per-capita household income $y_h$ with expansion factors $w_h$. Assign each household to a block (for instance the sector of the head, crossed with urban/rural). Compute the between-block variance $V_B = \sum_b s_b(\bar y_b - \bar y)^2$ and the total variance $V$, and report $\sigma_B = V_B/V$ (Definition~\ref{ch17:def:between}).
+\item Global: apply the same formula to harmonized microdata for many countries (LIS, or the PIP distribution files), with countries as blocks.
+\end{enumerate}
+Expected result: $\sigma_B$ rises with the number of blocks, since refining a partition never lowers $V_B$ (the refinement check in \texttt{code/ch17.py}). So $\sigma_B$ values at the two scales are comparable only for a stated, fixed partition. The book's $0.55$ and $0.62$ remain illustrative.
+
+\solpart{Individual scale} No data set observes $W_I$ for $10^6$--$10^8$ persons. A feasible design has two parts.
+\begin{enumerate}
+\item Aggregated relational data (ARD) in a national household survey: ``How many people do you know who are [indigenous / women / work in mining / live in El Alto]?'' A latent-space model recovers group-level ties and centralities from such answers \citep{breza2020using}.
+\item Complete-network censuses in a stratified random sample of communities, in the manner of the village networks of Example~\ref{ch21:ex:village}. These validate the ARD estimates and supply within-community structure.
+\end{enumerate}
+Sample size: to estimate a cross-group tie share near $0.2$ within $\pm0.02$ at 95\%, simple random sampling needs $1.96^2(0.2)(0.8)/0.02^2 = 1537$ respondents per group, and $3073$ with a design effect of $2$ for clustering. The sampling, censoring and misreporting problems of Section~\ref{ch21:sec:measurement} apply.
+
+\solpart{Why a lower fine-scale $\Gamma$ is not evidence of fragmentation} Under exact lumpability, Proposition~\ref{ch19:prop:lumpability} gives $WV = V\bar W$. Every eigenvector $x$ of $\bar W$ then lifts to the eigenvector $Vx$ of $W$, so $\sigma(\bar W) \subseteq \sigma(W)$ and $\Gamma(\bar W) \ge \Gamma(W)$ for every lumpable $W$. The inequality holds whatever the economics, so observing it tells us nothing. Without lumpability no ordering holds in either direction. Take
+\[
+W_a = \begin{pmatrix} 1-a & a & 0\\ 0 & 0 & 1 \\ 1 & 0 & 0\end{pmatrix},\qquad \det(W_a - \lambda I) = -(\lambda - 1)(\lambda^2 + a\lambda + a),
+\]
+so the non-unit eigenvalues are complex with $|\lambda_2| = \sqrt a$, and $\Gamma(W_a) = 1-\sqrt a$. The stationary vector is $\pi = (1, a, a)/(1+2a)$. With blocks $\{1\}$ and $\{2,3\}$, the $\pi$-weighted aggregate (which here equals the unweighted one) is $\bar W = \begin{pmatrix} 1-a & a\\ 1/2 & 1/2\end{pmatrix}$, with $\lambda_2 = \tfrac12 - a$. Rows 2 and 3 place different mass on block $\{2,3\}$ (1 and 0), so $W_a$ is not lumpable. For $a = 0.25$, $\Gamma_{\text{fine}} = 0.500 < \Gamma_{\text{coarse}} = 0.750$. For $a = 0.01$, $\Gamma_{\text{fine}} = 0.900 > \Gamma_{\text{coarse}} = 0.510$: aggregation \emph{lowers} the gap. The real tables show the same thing.
+\begin{itemize}
+\item Bolivia's 39-industry matrix has $\Gamma = 0.410$ against $0.467$ for its 12-sector aggregate.
+\item In ICIO 2019, the 45-industry and 12-sector values are KOR $0.455 \to 0.511$, DEU $0.372 \to 0.544$, MEX $0.560 \to 0.649$ and BRA $0.436 \to 0.496$, but USA $0.465 \to 0.463$.
+\end{itemize}
+A comparison of $\Gamma$ across scales is therefore uninformative unless it is made on a common node set or after an explicit aggregation. \emph{Common mistake:} reading $\Gamma_I \approx 0.10 < \Gamma_N = 0.467$ as a ``more fragmented'' individual scale.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.2}{Power nesting: three Bolivian agents}
+
+\solpart{Set-up} By Proposition~\ref{ch19:thm:nesting}, $\pi_{I,i} = \pi_{G,c}\,\pi_{N,s|c}\,\pi_{\text{within},i|s,c}$. Each factor is a share that sums to one over its level. With $L_c$ workers in $c$, of whom a fraction $e_{s|c}$ work in $s$, the within-sector share of person $i$ is $w_i/(e_{s|c}L_c)$, where the per-capita weights $w_i$ have mean one in the sector. Hence
+\[
+\pi_{I,i} = \frac{\pi_{G,c}}{L_c}\cdot\frac{\pi_{N,s|c}}{e_{s|c}}\cdot w_i .
+\]
+All three agents are Bolivian, so the country factor $\pi_{G,\text{BOL}}/L_{\text{BOL}}$ cancels from every ratio.
+
+\solpart{Sector factors (sourced)} $\pi_N$ comes from the 2019 INE $W^P$ (Exercise~19.1) and employment shares from ILOSTAT 2019. Hydrocarbons are pooled with mining (ISIC B) because ILOSTAT does not separate them.
+\begin{center}\small
+\begin{tabular}{lcccc}
+\toprule
+Sector & $\pi_N$ & $e$ & $\pi_N/e$ & female share \\
+\midrule
+Hydrocarbons and mining (B) & $0.0767$ & $0.0134$ & $5.737$ & $0.065$ \\
+Agriculture (A) & $0.0911$ & $0.2741$ & $0.332$ & $0.460$ \\
+Personal services (I, R, S) & $0.0211$ & $0.1067$ & $0.198$ & $0.689$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{Within factors (illustrative)} Chapter~18's calibration is relative to a non-indigenous man (Example~\ref{ch18:ex:bolivia_ethnic}): an indigenous person has $0.57$ of his per-capita power and a woman $0.58$. If the two factors are separable, the reference weights are $\rho_a = 1$, $\rho_b = 0.57$ and $\rho_c = 0.57 \times 0.58 = 0.3306$.
+
+\solpart{Ratios} The per-capita indices are $5.7369$, $0.1895$ and $0.0654$. The pairwise ratios, with the share of the log gap due to the sector factor, are:
+\begin{center}\small
+\begin{tabular}{lcccc}
+\toprule
+Pair & ratio & sector & within & sector share \\
+& & factor & factor & of $\log$ gap \\
+\midrule
+(a)/(b) gas man / farmer & $30.27$ & $17.26$ & $1.754$ & $0.835$ \\
+(a)/(c) gas man / vendor & $87.67$ & $28.99$ & $3.025$ & $0.753$ \\
+(b)/(c) farmer / vendor & $2.90$ & $1.68$ & $1.724$ & $0.488$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The sector factor dominates the two comparisons that involve the gas sector. Between the farmer and the vendor the two factors contribute about equally. The ratio $a/c = 87.67$ is the chapter's ``about 88'' (Example~\ref{ch19:ex:potosi}). The chapter rounds the within factor to $0.33$, but the conclusion does not depend on that rounding.
+
+\solpart{Two refinements a strong answer adds}
+\begin{enumerate}
+\item \emph{Pooling.} Hydrocarbons alone have $\pi = 0.0392$. Their employment is unknown but below the pooled $0.0134$, so their own factor is at least $0.0392/0.0134$, that is $2.93$, and $a/c$ is at least $44.8$. The pooled $5.7$ is a property of ``hydrocarbons and mining'', not of gas.
+\item \emph{Mean-one normalisation.} The formula needs $w_i = \rho_i/m_s$, where $m_s$ is the mean of $\rho$ in sector $s$. Using the reference ratios directly treats every sector as if all its workers were non-indigenous men. Correcting for gender composition alone (ILOSTAT female shares; ethnic composition by sector was not fetched) gives $m_s = 1 - f_s + 0.58 f_s = 0.973$, $0.807$ and $0.710$. The ratios become $a/b = 25.11$, $a/c = 64.05$ and $b/c = 2.55$. The ordering survives and the sector factor still dominates, but the gas/vendor gap shrinks by about a quarter.
+\end{enumerate}
+\emph{Common mistake:} comparing $\pi_N$ itself across sectors (gas $0.039$ against personal services $0.021$) without dividing by employment. The sector factor is high in gas because the sector employs very few people, not because it is central in $W^P$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.3}{The global comparison}
+
+\solpart{Country factor per worker (sourced)} The country shares come from the 2019 trade matrix and the labour forces from WDI (SL.TLF.TOTL.IN, 2019): Germany $\pi_G = 0.082407$ with $43.98$\,M workers, Brazil $0.013642$ with $106.26$\,M, Bolivia $0.000526$ with $5.95$\,M. Per worker and relative to Bolivia, the country factor is $21.19$ for Germany and $1.452$ for Brazil.
+
+\solpart{Ratios} The sector and within factors of the two foreign workers are set to one: a sector whose power share equals its employment share, and the reference worker. This is an assumption, because the repository has sector employment only for Bolivia. The vendor keeps $0.198$ and $0.3306$ from Exercise~19.2.
+\begin{center}\small
+\begin{tabular}{lcccc}
+\toprule
+& ratio & country share & sector share & within share \\
+& & \multicolumn{3}{c}{(of the $\log$ gap)} \\
+\midrule
+German engineer / Potos\'i vendor & $323.9$ & $0.528$ & $0.280$ & $0.191$ \\
+Brazilian factory worker / vendor & $22.2$ & $0.120$ & $0.523$ & $0.357$ \\
+German engineer / Brazilian worker & $14.6$ & \multicolumn{3}{c}{(country factor only)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Against the German engineer the global scale contributes most, about half of the log gap. Against the Brazilian worker the national (sector) scale contributes most: Brazil's country factor per worker is only $1.45$ times Bolivia's. The chapter's $325$ uses $1/0.33 = 3.03$ in place of $1/0.3306 = 3.025$. If Chapter~18's illustrative gender ratio $0.58$ is applied to the German engineer as well, her ratio falls to $188$.
+
+\solpart{Forgetting the workforce} Using $\pi_G$ in place of $\pi_G/L$ multiplies each ratio by $L_c/L_{\text{BOL}}$. The German ratio becomes $2396$ (a factor $7.40$ too large) and the Brazilian one $397$ (a factor $17.87$ too large). The error is larger for Brazil, whose workforce is larger, and it reverses the ranking of the two foreign workers' advantages: Germany/Brazil becomes $6.04$ instead of $14.6$. Shares at the country level are totals, and per-capita comparisons must divide by group size at every level.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.4}{Five processes as matrix properties}
+
+\solpart{Construction (\illustrative)} Nodes C1, C2 (core), S1, S2 (semi-periphery) and P1, P2 (periphery: an enclave and a subsistence node):
+\[
+W = \begin{pmatrix}
+0.50 & 0.46 & 0.03 & 0 & 0.01 & 0\\
+0.46 & 0.50 & 0 & 0.03 & 0.01 & 0\\
+0.04 & 0 & 0.60 & 0.36 & 0 & 0\\
+0 & 0.04 & 0.36 & 0.60 & 0 & 0\\
+0.30 & 0.20 & 0 & 0 & 0.45 & 0.05\\
+0.15 & 0.10 & 0.05 & 0 & 0.20 & 0.50
+\end{pmatrix}.
+\]
+$W$ is row-stochastic and irreducible (the script checks $(I+W)^6 > 0$). Its eigenvalues are $1$, $0.9306$, $0.5718$, $0.3676$, $0.2458$ and $0.0342$, all real. The Perron vector is $\bpi = (0.2826, 0.2814, 0.2122, 0.2121, 0.0106, 0.0011)$, with $\Neff = 4.01$ of 6 (sanity check: $\sum\pi_i = 1$).
+
+\solpart{The five phenomena}
+\begin{enumerate}
+\item \emph{Underdevelopment} (low $\Gamma$ from weak coupling). $\Gamma(W) = 1 - 0.9306 = 0.0694$. The bottleneck is the core--semi link. The semi block has stationary outflow $0.01697$ and conductance $\Phi = 0.0400$, and Cheeger's bound holds: $1 - \lambda_2 = 0.0694 \le 2\Phi = 0.0800$.
+\item \emph{Development} (high and rising $\Gamma$). The core's own renormalized block has $\Gamma_{\text{core}} = 0.958$. Moving weight $t$ from the diagonal to the core--semi edges raises the whole economy's $\Gamma$ to $0.168$, $0.264$ and $0.407$ at $t = 0.05$, $0.10$ and $0.20$, while $\Neff$ barely moves ($4.01 \to 4.08$). Integration rises without deconcentration (Proposition~\ref{ch06:prop:gap-power-independent}).
+\item \emph{Dependence} (asymmetric cross-block rows). Periphery rows place mean weight $0.375$ on the core, and core rows place $0.010$ on the periphery. The periphery's power is $\pi_P = 0.0117$, against its population share $2/N = 0.333$.
+\item \emph{Marginality} ($\pi_i \approx 0$). $\pi_{P2} = 0.0011$, against $1/N = 0.167$. Its column sum is $0.550$, but $0.50$ of that is its own self-loop: other nodes place only $0.050$ on it, all of it from P1.
+\item \emph{Spatial inequality in integration.} The renormalized regional blocks have $\Gamma_r = 0.958$ (core), $0.750$ (semi) and $0.386$ (periphery), so $\Var_r(\Gamma_r) = 0.0560$.
+\end{enumerate}
+
+\solpart{Are all five visible in the same matrix?} Yes, but only because the dictionary of Definition~\ref{ch19:thm:five} is applied to \emph{different submatrices}. ``Development = high $\Gamma$'' and ``underdevelopment = low $\Gamma$'' cannot both describe the whole matrix: the first is a property of the core block, the second of the full $W$. Two further points come out of the computation. First, the small $\Gamma$ is produced by the weak core--semi coupling, not by the periphery: the periphery's rows are strongly coupled to the core, but it carries almost no stationary mass, so it does not slow mixing. Second, dependence and marginality are column (in-weight) properties, while $\Gamma$ is a spectral property. That is why a policy that raises $\Gamma$ (item 2) leaves the periphery's $\pi$ essentially unchanged. \emph{Common mistake:} building the periphery as a weakly coupled block and then reading its small $\pi$ off the small $\Gamma$. The two are independent coordinates.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.5}{Cross-scale feedback simulation}
+
+\solpart{Model (\illustrative)} There are $3$ countries, $3$ sectors per country and $2$ agents per sector, an advantaged type A and a disadvantaged type D: $18$ nodes. Country $c$ has three state variables: national integration $e_c$, individual openness $\lambda_c$ and global attractiveness (complexity) $a_c$. The raw intensities are:
+\begin{itemize}
+\item $1$ on the self-loop;
+\item $\lambda_c$ to the other type in the same sector;
+\item $e_c$ to the same type in another domestic sector, and $\lambda_c e_c$ to the other type there;
+\item $g\,a_{c'}$ to a foreign agent of type A in country $c'$, and $g\,a_{c'}\lambda_{c'}$ to one of type D, with $g = 0.05$.
+\end{itemize}
+$W = D^{-1}K$ has exactly the nested form of Definition~\ref{ch19:def:nesting}. Each period the script computes $\bpi$, the country shares $\pi_{G,c}$, and $\Gamma_{N,c}$, the gap of country $c$'s stochastic complement (Proposition~\ref{ch19:thm:nesting}). The four links of Conjecture~\ref{ch19:prop:cross_scale} are then implemented as targets with logistic response, $\sigma(z) = 1/(1+e^{-z})$:
+\begin{align*}
+e_c^* &= 0.02 + 0.98\,\sigma\big(\beta[(3\pi_{G,c} - 1) + (\lambda_c - 0.5)]\big),\\
+\lambda_c^* &= 0.05 + 0.95\,\sigma\big(\beta[\Gamma_{N,c} - 0.5]\big),\\
+a_c^* &= 0.05 + 0.95\,\sigma\big(\beta[\Gamma_{N,c} - 0.5]\big).
+\end{align*}
+The first line carries the global$\to$national and individual$\to$national links, the second national$\to$individual and the third national$\to$global. Each variable then moves part of the way to its target, by partial adjustment $z_{t+1} = z_t + 0.2(z^* - z_t)$ for $z \in \{e, \lambda, a\}$. The parameter $\beta$ is the loop gain. The initial states are core $(0.9, 0.9, 0.9)$, semi-periphery $(0.5, 0.5, 0.5)$ and periphery $(e, \lambda, a) = (0.05, 0.1, 0.1)$; the run lasts 400 periods.
+
+\solpart{Results}
+\begin{itemize}
+\item $\beta = 1$ and $\beta = 2$: all three countries converge to the same state (at $\beta = 2$, $e = 0.594$, $\lambda = a = 0.672$, $\Gamma_N = 0.821$, $3\pi_G = 1$). No circle.
+\item $\beta = 3$: the semi-periphery joins the core, and the periphery is trapped at $e = 0.114$, $\lambda = 0.462$, $3\pi_G = 0.289$ and $\Gamma_N = 0.412$, against $0.877$ in the core.
+\item $\beta = 4$: periphery $e = 0.039$, $3\pi_G = 0.153$, $\Gamma_N = 0.326$.
+\item $\beta = 6$: periphery $e = 0.021$, $\lambda = a = 0.305$, $3\pi_G = 0.097$. Its type-D agents hold $0.603$ of type A's per-capita power, against $0.997$ in the core.
+\end{itemize}
+At the trapped state the script checks the nested factorisation $\pi_{I,i} = \pi_{G,c}\pi_{N,s|c}\pi_{\text{within},i}$ exactly.
+
+\solpart{When does the circle emerge and break?} Bisection on $\beta$ gives a critical loop gain $\beta^* = 2.704$. Below it, all three countries converge to the same state from these initial conditions. Above it, the periphery's low state is a second stable equilibrium: the vicious circle. At $\beta = 6$ the script applies a one-shot push to the periphery's state and asks whether it escapes:
+\begin{itemize}
+\item a push on $e$ alone, on $\lambda$ alone or on $a$ alone fails even when it raises the variable to its maximum of 1, because the other two scales pull it back;
+\item a simultaneous push of the same size on all three succeeds once it reaches $0.497$.
+\end{itemize}
+This is the content of Conjecture~\ref{ch19:prop:cross_scale}: with strong loops, piecemeal interventions fail and a coordinated one succeeds. \emph{What is general and what is not.} Bistability above a threshold loop gain is generic for loops with sigmoidal response (the same mechanism as Proposition~\ref{ch13:prop:multiplicity}). The values $\beta^* = 2.70$ and $0.497$ are properties of this calibration only.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.6}{The binding scale}
+
+\textbf{Ill-posed as stated.} $\Gamma_G$ is a property of the whole global matrix, so there is one value, $0.452$ in 2019, not one per country. The country-specific global object is the position $\pi_{G,c}$, best expressed per worker. We use it in place of a country-specific $\Gamma_G$.
+
+\solpart{Global position (sourced)} Per worker and relative to the world (WDI labour force: world $3.509$\,bn), $\pi_{G,c}/(L_c/L_W)$ is $0.310$ for Bolivia ($\pi_G = 0.00053$, $5.95$\,M workers), $3.972$ for Korea ($0.03233$, $28.56$\,M) and $1.120$ for Uruguay ($0.00055$, $1.72$\,M). Uruguay is small in total but not peripheral per worker.
+
+\solpart{National (sourced)} $\Gamma_N$ is $0.475$ for Bolivia (ISIC-based 12 sectors; $0.467$ on the book's sectors) and $0.511$ for Korea (OECD ICIO 2023). Uruguay is not in ICIO, so its $\Gamma_N$ is not available. A national I-O table from the Banco Central del Uruguay would be needed; it was not fetched.
+
+\solpart{Individual (partly sourced)} \emph{Method.} Occupational segregation gives a group-level exposure matrix. If workers interact uniformly within their ISIC section, the probability that a woman's co-worker is a woman is $Q_{FF} = \sum_s (f_s/F)(f_s/n_s)$, and likewise $Q_{MM}$. The $2\times2$ matrix $Q$ is row-stochastic, with Perron vector equal to the sex shares of employment and $\lambda_2 = Q_{FF} + Q_{MM} - 1$. For Bolivia, ILOSTAT 2019 (21 ISIC sections) gives a Duncan index $D = 0.312$, $Q_{FF} = 0.564$, $Q_{MM} = 0.635$, $\lambda_2 = 0.198$ and $\Gamma_I^{\text{gender}} = 0.802$. In the two-equal-group model of Proposition~\ref{ch18:prop:assortative}(a) with $a = c$, $\lambda_2 = (1-\lambda_g)/(1+\lambda_g)$, so this corresponds to $\lambda_g = 0.669$, far above Chapter~18's illustrative $0.3$. Ethnicity needs EH microdata (not fetched). Korea and Uruguay need the same ILOSTAT tables, which were not fetched.
+
+\solpart{Which scale binds?} Definition~\ref{ch19:prop:binding} ranks scales by $-c_s^{-1}\partial L_{\text{total}}/\partial\Gamma_s$. None of these data identifies a marginal loss or a cost, and the $\Gamma$ values at different scales are not comparable (Exercise~19.1). The data can only rule some answers out.
+\begin{itemize}
+\item \emph{Bolivia.} Neither $\Gamma_N$ ($0.475$) nor the gender-exposure $\Gamma_I$ ($0.802$) is low. What is low is the global position per worker ($0.310$) and export complexity (ECI $-1.30$ in 2019). On these data the case for a binding \emph{national aggregate} is weak. The defensible reading is the chapter's own caveat: the constraint runs through the export enclave and complexity.
+\item \emph{Korea.} Its global position per worker ($3.97$) rules out the global scale. The data cannot discriminate between the national and individual scales.
+\item \emph{Uruguay.} Per worker it sits above the world average ($1.12$), which weakens the chapter's suggestion that the global scale binds.
+\end{itemize}
+Whether these readings match the policy history (Korea's export discipline, Bolivia's rent capture in 2006) can be argued only qualitatively. The test the exercise has in mind needs time series of all three scales.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{19.7}{Multi-scale structural plan for Bolivia}
+
+\emph{An open design question. Sourced inputs are marked; the operator magnitudes are design choices.}
+
+\solpart{a} \emph{Global: three products.} The current basket sits at low product complexity. The 2019 PCI (Growth Lab HS92) is $-2.226$ for natural gas (2711), $-1.670$ for zinc ores (2608), $-2.809$ for gold (7108) and $-1.808$ for soya beans (1201). One value chain offers a ladder of increasing PCI that starts from a national resource:
+\begin{itemize}
+\item lithium carbonate (2836), PCI $-0.573$;
+\item lithium oxides and hydroxides (2825), $-0.276$;
+\item electric accumulators, including Li-ion (8507), $+0.549$.
+\end{itemize}
+Feasibility should be judged by relatedness density (Stylized Fact~\ref{ch15:prop:product_space}), which needs the country $\times$ product RCA matrix. That matrix was not computed here (\path{data/README.md}, \S9). \emph{Effect on $\pi_G$:} across the 230 economies $\pi_G$ tracks world export shares almost exactly (correlation $0.9974$). If every economy's imports from Bolivia doubled, $\pi_{\text{BOL}}$ would go from $0.000526$ to $0.001046$ (a factor $1.991$), while $\Gamma_G$ would move from $0.4522$ to $0.4520$. Bolivia can change its own position; it cannot change global integration.
+
+\solpart{b} \emph{National: the operator sequence of Conjecture~\ref{ch15:thm:sequencing}, quantified on the real 2019 $W^P$} (11 sectors; baseline $\Gamma = 0.4674$, $\pi_{\text{hydro}} = 0.0392$, $\Neff = 6.480$).
+\begin{enumerate}
+\item \emph{Information.} It changes $W^I$, not $W^P$, so $\Delta\Gamma(W^P) = 0$ by construction. Its effect is on formation.
+\item \emph{Education and infrastructure.} These enable the next two steps; their direct $\Delta W^P$ is not identified by any data here.
+\item \emph{Forward linkage (ISI).} Every sector replaces 10\% of its imported intermediate inputs by domestic gas-based inputs: 4249 million Bs, or $0.164$ of hydrocarbons output. Then $\Gamma = 0.4670$ ($-0.0004$) and $\pi_{\text{hydro}} = 0.0582$ ($+0.0190$).
+\item \emph{Backward linkage.} Hydrocarbons double their domestic purchases ($0.225 \to 0.449$ per unit of output), with the new half bought from agriculture and manufacturing. Then $\Gamma = 0.4648$ ($-0.0026$) and $\pi_{\text{hydro}} = 0.0378$ ($-0.0014$).
+\item \emph{Both together:} $\Gamma = 0.4625$ ($-0.0049$), $\pi_{\text{hydro}} = 0.0558$ ($+0.0166$), $\Neff = 6.788$.
+\end{enumerate}
+On Bolivia's measured matrix, linkage-building operators \emph{lower} $\Gamma$ slightly, because they concentrate flows on gas, agriculture and manufacturing. The targets should therefore be the enclave's linkages and $\pi_{\text{hydro}}$, not $\Gamma_N$.
+
+\solpart{c} \emph{Individual.} The instruments are those of Remark~\ref{ch18:prop:policy_attributes}: mentoring and anti-discrimination for $\lambda_g$, bilingual media and schooling for $\lambda_r$. Using Chapter~18's formulas (Proposition~\ref{ch18:prop:homophily_power}(ii) with $p = 0.41$, (iii) with $a_F = 0.454$ and $c = a_M = 1$; Proposition~\ref{ch18:thm:attribute_trap}):
+\begin{center}\small
+\begin{tabular}{lccc}
+\toprule
+$(\lambda_g, \lambda_r)$ & $(0.30, 0.35)$ & $(0.50, 0.50)$ & $(0.70, 0.70)$ \\
+\midrule
+women/men per-capita $\pi$ & $0.580$ & $0.636$ & $0.679$ \\
+indigenous/non-indigenous (homophily only) & $0.840$ & $0.887$ & $0.938$ \\
+aspiration-gap factor $(1-\lambda_g)/(1+\lambda_g)$ & $0.538$ & $0.333$ & $0.176$ \\
+two-group $\Gamma = 2\lambda_g/(1+\lambda_g)$ & $0.462$ & $0.667$ & $0.824$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{d} \emph{Combined $\Delta\Gamma$ and timeline.} Global: $\Delta\Gamma_G \approx 0$ ($-0.0001$ even when the world's imports from Bolivia double). National: $-0.0049$, the wrong yardstick, as shown in (b). Individual: $+0.205$ at the group level for $\lambda_g = 0.3 \to 0.5$. The scales move on different clocks.
+\begin{itemize}
+\item At $\rho = 0.85$ the formation half-life is $\ln 2/\ln(1/0.85) = 4.27$ generations, so aspiration gaps take generations to halve.
+\item Measured structural velocities are small: Bolivia $-0.036$ per decade over 1990--2013.
+\item A credible horizon is therefore 30 years or more, with intermediate targets set on $\pi_{\text{hydro}}$, domestic input intensity, ECI and $\lambda_g$ rather than on $\Gamma$ (compare the plan of Example~\ref{ch26:ex:plan}).
+\end{itemize}
+
+\solpart{e} \emph{Political feasibility.} Under the combined operators of (b), items 3 and 4, the gainers in $\pi$ are agriculture ($+0.0208$), hydrocarbons ($+0.0166$), manufacturing ($+0.0065$) and mining ($+0.0003$). The losers are other services ($-0.0182$), financial services ($-0.0098$), transport ($-0.0081$), commerce ($-0.0039$), and smaller amounts in construction, personal services and public administration. In the class terms of Chapter~14 this is the ISI alliance $\{B, M, W\}$ (domestic bourgeoisie, middle class, workers) of Definition~\ref{ch14:prop:policy_coalition}, here drawn from the gas, agricultural and manufacturing sectors, with the individual-scale reforms bringing in women and indigenous workers. Under power-bounded feasibility (Definition~\ref{ch14:prop:feasibility}) the coalition is weak. The gainers hold $\sum\pi = 0.327$ today, against $0.673$ for the losers. The plan is feasible only if the formation steps come first and shift preferences, which is the logic of the sequencing conjecture, or if the state compensates the service sectors.
+
+\end{document}
