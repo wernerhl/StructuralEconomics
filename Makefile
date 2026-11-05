@@ -22,6 +22,7 @@ chapters: $(CHAPTERS:chapter%=ch%)
 # Solutions manual (cross-references resolve against the book's .aux: run `make book` first)
 solutions:
 	mkdir -p $(BUILD)
+	grep -v '\\bibcite' $(BUILD)/structural_economics_book.aux > $(BUILD)/book_labels.aux
 	$(LATEX) -output-directory=$(BUILD) solutions_manual.tex
 	BIBINPUTS=.: bibtex $(BUILD)/solutions_manual || true
 	$(LATEX) -output-directory=$(BUILD) solutions_manual.tex
