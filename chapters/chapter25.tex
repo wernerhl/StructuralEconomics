@@ -17,7 +17,7 @@
 
 In this book's notation: the capital goods sector is identified with the \textbf{dense core} of the product space --- the cluster of products (machinery, metal products, electronics, chemicals) where the proximity matrix $\phi_{pp'}$ is densest. It is the bright core of the heatmap. And Latin America's heatmap has a hole where that core should be. (The identification is ours: Fajnzylber's nucleus is a sector \emph{plus} the domestic engineering and innovation capacity around it, not a set of export products.)
 
-This chapter formalizes Fajnzylber's diagnosis in terms of missing subgraphs. One distinction runs through it: a \emph{dense module} (products tightly related to each other) and a \emph{bridge} (products that connect otherwise separate clusters) have opposite effects on integration $\Gamma$. Removing a bridge provably lowers $\Gamma$; removing a dense module can raise it. Whether the capital-goods core is a bridge is therefore an empirical question, stated below as a conjecture. All country values in this chapter are \illustrative{} (reproduced by \texttt{code/ch25.py}).
+This chapter formalizes Fajnzylber's diagnosis in terms of missing subgraphs. One distinction runs through it: a \emph{dense module} (products tightly related to each other) and a \emph{bridge} (products that connect otherwise separate clusters) have opposite effects on integration $\Gamma$. Removing a bridge provably lowers $\Gamma$; removing a dense module can raise it. Whether the capital-goods core is a bridge is therefore an empirical question, stated below as a conjecture. The product-space quantities (the truncation index $\tau$, the size and density of $\mathcal{D}$, relatedness $\omega$) are \illustrative{}. Complexity (ECI, PCI), GDP per capita and the domestic $\Gamma$ of Bolivia and its comparators are sourced, and \texttt{code/ch25.py} reads them from \texttt{data/processed}. At the 12-sector level those sourced values give the chapter's central conjecture no support (Section~\ref{ch25:sec:data}).
 
 
 %% =====================================================================
@@ -109,24 +109,55 @@ In the observed product space the capital-goods core is a bridge set: without it
 This is testable (Exercise~25.3): measure the participation of $\mathcal{D}$'s products across clusters (betweenness, or the Guimer\`{a}--Amaral participation coefficient), compute the conductance of the commodity clusters with and without $\mathcal{D}$, and regress $\Gamma_c$ on $\tau_c$.
 \end{conjecture}
 
-\begin{example}[The Missing Core: Bolivia vs.\ South Korea \illustrative]\label{ch25:ex:missing}
+\begin{example}[The Missing Core: Bolivia vs.\ South Korea]\label{ch25:ex:missing}
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
 & Bolivia & South Korea \\
 \midrule
-Truncation index $\tau$ & 0.98 & 0.18 \\
-Products in $\mathcal{D}$ with RCA & 2 of $\approx$100 & 82 of $\approx$100 \\
-ECI & $-0.80$ & $+2.10$ \\
-$\Gamma(W^P)$ & 0.13 & 0.45 \\
-$\sigma_B$ & 0.62 & 0.20 \\
-GDP per capita (PPP, 2019) & \$8,800 & \$44,000 \\
+Truncation index $\tau$$^\dagger$ & 0.98 & 0.18 \\
+Products in $\mathcal{D}$ with RCA$^\dagger$ & 2 of $\approx$100 & 82 of $\approx$100 \\
+ECI (2019, HS92) & $-1.30$ & $+1.81$ \\
+$\Gamma(W^P)$ (2019, 12 sectors, like-for-like) & 0.475 & 0.511 \\
+$\sigma_B$$^\dagger$ & 0.62 & 0.20 \\
+GDP per capita (PPP, current intl.\ \$, 2019) & \$11,005 & \$46,511 \\
 \bottomrule
 \end{tabular}
+\par\footnotesize $^\dagger$\illustrative: $\tau$ and the counts in $\mathcal{D}$ need country $\times$ product RCA data, not computed here; $\sigma_B$ needs household microdata. Source for the other rows: ECI, Growth Lab, Atlas of Economic Complexity, HS92 country-year data \citep{growthlab2026atlas}; $\Gamma$, domestic input-share $W^P$ on the ISIC-based 12-sector aggregation, basic prices, diagonal kept, Bolivia from the INE supply-use tables, base 2017 \citep{ine2026sut}, Korea from OECD ICIO 2023 \citep{oecd2023icio}, author's calculations (data/compute/compute\_bolivia\_io.py, data/compute/compute\_oecd\_io.py); GDP per capita, WDI series NY.GDP.PCAP.PP.CD \citep{worldbank2026wdi}.
 \end{center}
 
-Bolivia has 2 products in the dense subgraph (tin processing, some basic chemicals). South Korea has 82. The gap is not gradual --- it is the difference between having the structural core and not having it. Bolivia's domestic $W^P$ is three weakly connected blocks (gas/mining, urban services, rural agriculture) --- weakly, not fully, disconnected, since a disconnected $W^P$ would have $\Gamma = 0$ --- and, on Conjecture~\ref{ch25:thm:truncation}, the capital goods sector that would connect them does not exist.
+On the illustrative counts, Bolivia has 2 products in the dense subgraph (tin processing, some basic chemicals) and South Korea has 82. The sourced rows say something sharper. The complexity gap is large: Bolivia ranks 131st on ECI in 2019, Korea 2nd. The integration gap is not: at the 12-sector level Bolivia's domestic $W^P$ is about as integrated as Korea's, and more integrated than that of the United States ($\Gamma = 0.463$). An earlier draft of this example described Bolivia's $W^P$ as three weakly connected blocks (gas/mining, urban services, rural agriculture); the INE tables do not show that. What they show is an enclave. Hydrocarbons, the leading export sector, have a domestic power share $\pi = 0.039$, export 70\% of their output, and buy 0.225 of domestic intermediate inputs per unit of output (manufacturing: 0.558) \citep{ine2026sut}. The enclave is measured by $\pi$ and by export orientation, not by $\Gamma$.
 \end{example}
+
+\subsection{What the 12-Sector Data Say}
+\label{ch25:sec:data}
+
+\begin{empiricalresult}[No Support for the Conjecture at 12 Sectors]\label{ch25:res:twelve}
+In 2019, on a common 12-sector classification (domestic flows, basic prices, input shares, diagonal kept):
+\begin{center}
+\begin{tabular}{lccccccc}
+\toprule
+& BOL & KOR & DEU & USA & CHL & CHN & MEX \\
+\midrule
+$\Gamma(W^P)$ & 0.475 & 0.511 & 0.544 & 0.463 & 0.557 & 0.582 & 0.649 \\
+ECI (HS92) & $-1.30$ & $+1.81$ & $+1.54$ & $+1.29$ & $-0.06$ & $+1.30$ & $+0.95$ \\
+\bottomrule
+\end{tabular}
+\par\footnotesize Source: as Example~\ref{ch25:ex:missing}; comparators' $\Gamma$ from OECD ICIO 2023 \citep{oecd2023icio}, author's calculations (data/compute/compute\_oecd\_io.py).
+\end{center}
+\begin{enumerate}
+\item \emph{Cross-section.} If truncation lowered integration, Bolivia, the least complex economy in the table, should have the lowest $\Gamma$. It sits inside the comparator range, above the United States.
+\item \emph{Time series.} Bolivia's $\Gamma$ fell from 0.567 (1990) to 0.484 (2013) (INE base 1990; the base-2017 value of 0.467 for 2019 is not strictly comparable). Korea's fell from 0.626 (1995) to 0.511 (2019) (OECD ICIO, 2021 and 2023 editions), while its ECI rose from $+1.10$ to $+1.81$. Aggregate $\Gamma$ does not separate the two development paths.
+\item \emph{Measurement.} The Bolivia--Korea gap in $\Gamma$ (0.04) is an order of magnitude smaller than the range of Bolivia's own 2019 $\Gamma$ across normalizations (0.33--0.69: input or sales shares, with or without the diagonal, 12 or 39 sectors).
+\end{enumerate}
+\end{empiricalresult}
+
+The result does not refute Conjecture~\ref{ch25:thm:truncation}, but it removes the evidence this chapter used to cite for it, and the chapter's quantitative claims about Bolivia's ``integration deficit'' are withdrawn. The conjecture is about bridges in the product space, and a 12-sector table cannot see them: the capital-goods core sits inside ``Manufacturing'', and aggregation can raise $\Gamma$ (Chapter~19). Two finer tests are needed.
+\begin{enumerate}
+\item \emph{Industry level.} INE's 39-industry detail against comparator tables at the same detail, with the capital-goods industries as separate nodes: compute the conductance of the commodity clusters with and without them. The detail values available now are not comparable (Bolivia 0.410 at INE's 39 industries, Korea 0.455 at ICIO's 45-industry detail); a concordance is needed first.
+\item \emph{Product level.} $\tau_c$ from Growth Lab country $\times$ product RCA data, the proxy $W_c$, the betweenness and participation of $\mathcal{D}$'s products, and the regression of $\Gamma_c$ on $\tau_c$ (Exercise~25.3).
+\end{enumerate}
+Until one of them is done, Conjecture~\ref{ch25:thm:truncation} is a conjecture without empirical support. The complexity gap is real; whether it is also an integration gap is open.
 
 \begin{vizpanel}{The product space: Bolivia vs.\ South Korea}
 \begin{center}
@@ -181,7 +212,7 @@ Bolivia has 2 products in the dense subgraph (tin processing, some basic chemica
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Bolivia (left): the periphery is lit (commodities), but the dense core (dashed red box) is dark. This is the ``truncated'' product space --- the missing subgraph. South Korea (right): the core is the brightest region, with moderate brightness extending outward. This is the ``complete'' product space. The panels are schematic (shading marks product presence, not matrix entries); the illustrative difference in $\Gamma$ is 0.13 vs.\ 0.45.
+\small Bolivia (left): the periphery is lit (commodities), but the dense core (dashed red box) is dark. This is the ``truncated'' product space --- the missing subgraph. South Korea (right): the core is the brightest region, with moderate brightness extending outward. This is the ``complete'' product space. The panels are schematic (shading marks product presence, not matrix entries). The measured domestic $\Gamma$ is 0.475 for Bolivia and 0.511 for Korea (Result~\ref{ch25:res:twelve}): the difference the panels draw is a difference in complexity, and it does not show up in 12-sector integration.
 \end{vizpanel}
 
 
@@ -205,16 +236,16 @@ In graph-theoretic terms, functions 1--2 are a claim that the capital goods sect
 
 How large is the cost of truncation? An earlier draft measured it as a welfare loss proportional to $(1-\Gamma)/\Gamma$. That rested on a claimed bound of $\Var(\boldsymbol{\pi})$ by $\Gamma$, which is false: the distributional loss is $(\kappa N/2)\Phi^2\Var(\boldsymbol{\pi})$ and is unrelated to $\Gamma$ (Proposition~\ref{ch06:prop:gap-power-independent}). What $(1-\Gamma)/\Gamma$ does measure is \emph{integration}: $1/\Gamma$ is the relaxation time of $W$ (the number of periods over which a shock's footprint decays by a factor $e$, to first order), so $(1-\Gamma)/\Gamma = 1/\Gamma - 1$ is the \emph{excess relaxation time} over a fully integrated network.
 
-\begin{example}[The Truncation Penalty in Relaxation Time \illustrative]\label{ch25:thm:penalty}
+\begin{example}[The Truncation Penalty in Relaxation Time: A Stylized Economy \illustrative]\label{ch25:thm:penalty}
 Define the truncation penalty as the part of the excess relaxation time removed by acquiring $\mathcal{D}$:
 \begin{equation}\label{ch25:eq:penalty}
 P_{\text{trunc}} = \frac{1-\Gamma(\tau_c)}{\Gamma(\tau_c)} - \frac{1-\Gamma(0)}{\Gamma(0)}.
 \end{equation}
-For Bolivia ($\tau = 0.98$, $\Gamma = 0.13$) against a counterfactual with the full dense subgraph ($\Gamma(0) \approx 0.35$):
+For a stylized truncated economy ($\tau = 0.98$, $\Gamma = 0.13$, the value an earlier draft attributed to Bolivia) against a counterfactual with the full dense subgraph ($\Gamma(0) \approx 0.35$):
 \begin{equation}
 P_{\text{trunc}} = \frac{0.87}{0.13} - \frac{0.65}{0.35} = 6.69 - 1.86 = 4.83,
 \end{equation}
-which is $4.83/6.69 = 72\%$ of Bolivia's excess relaxation time. The share is driven by the assumed counterfactual $\Gamma(0)$, which nobody observes (\texttt{code/ch25.py}):
+which is $4.83/6.69 = 72\%$ of its excess relaxation time. The share is driven by the assumed counterfactual $\Gamma(0)$, which nobody observes (\texttt{code/ch25.py}):
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
@@ -223,20 +254,22 @@ Share of excess relaxation time & 55\% & 65\% & 72\% & 82\% & 86\% \\
 \bottomrule
 \end{tabular}
 \end{center}
-Korea ($\tau = 0.18$) has $\Gamma = 0.45$ and Germany (Chapter~17) $0.52$, so the plausible range is wide: truncation accounts for somewhere between about half and nine-tenths of Bolivia's integration deficit, if Conjecture~\ref{ch25:thm:truncation} holds.
+The range is wide: truncation would account for between about half and nine-tenths of this economy's integration deficit, if Conjecture~\ref{ch25:thm:truncation} holds.
+
+Bolivia is not this economy. Its measured $\Gamma$ (0.475, Result~\ref{ch25:res:twelve}) gives an excess relaxation time of $1/0.475 - 1 = 1.11$, against Korea's $1/0.511 - 1 = 0.96$. With Korea's $\Gamma$ as the counterfactual, the penalty would be 13\% of Bolivia's excess relaxation time, a smaller effect than a change of normalization produces. At the 12-sector level there is no integration deficit for truncation to explain.
 \end{example}
 
 \begin{keyinsight}
 If Conjecture~\ref{ch25:thm:truncation} holds, the missing capital goods sector is not one gap among many but the central one. Its absence would explain:
 \begin{enumerate}
-\item Why $\Gamma$ is low (the sector that bridges blocks is missing).
-\item Why $\sigma_B$ is high (without the bridge, the blocks are independent, and between-block inequality dominates).
-\item Why ECI is negative (the missing products are precisely the highest-PCI products).
-\item Why the Leontief multiplier is small (the sector with the highest backward linkages is absent --- Chapter~20's gas multiplier of 1.39 vs.\ manufacturing's 2.51).
+\item Why $\Gamma$ is low (the sector that bridges blocks is missing). For Bolivia this prediction fails at the 12-sector level: its $\Gamma$ is not low (Result~\ref{ch25:res:twelve}).
+\item Why $\sigma_B$ is high (without the bridge, the blocks are independent, and between-block inequality dominates). Untested here: $\sigma_B$ needs household microdata.
+\item Why ECI is negative (the missing products are precisely the highest-PCI products). This prediction the data bear out: Bolivia's ECI is $-1.30$ in 2019, 131st.
+\item Why the export sector's multiplier is small (the sector with the highest backward linkages is absent). In INE's 2019 tables the output multiplier (Rasmussen backward linkage, domestic flows) is 1.34 for hydrocarbons and 1.86 for manufacturing \citep{ine2026sut}.
 \item Why the product space offers few diversification paths (the dense core, which is the hub of the product space, is missing --- relatedness density to core products is near zero).
 \end{enumerate}
 
-Fajnzylber saw this in \citeyear{fajnzylber1983industrializacion}. The product space literature rediscovered it in \citeyear{hidalgo2007product}. This chapter proves the part that is mathematics (removing a bridge bounds $\Gamma$ by twice the remaining conductance), states the part that is empirical as a conjecture, and estimates that truncation accounts for roughly 55--86\% of Bolivia's integration deficit, depending on the counterfactual.
+Fajnzylber saw this in \citeyear{fajnzylber1983industrializacion}. The product space literature rediscovered it in \citeyear{hidalgo2007product}. This chapter proves the part that is mathematics (removing a bridge bounds $\Gamma$ by twice the remaining conductance) and states the part that is empirical as a conjecture. The first test the data allow, 12-sector $\Gamma$, gives that conjecture no support. The complexity gap is real; whether it is also an integration gap must be tested at finer resolution.
 \end{keyinsight}
 
 
@@ -260,11 +293,11 @@ Fajnzylber saw this in \citeyear{fajnzylber1983industrializacion}. The product s
 \begin{example}[The Divergence: Latin America vs.\ East Asia \illustrative]\label{ch25:ex:divergence}
 In 1960 the large Latin American economies (Brazil, Mexico, Argentina) were richer and more industrialized than South Korea and Taiwan. Both regions pursued ISI. The divergence:
 
-\textbf{East Asia}: Targeted the dense subgraph deliberately. South Korea's Heavy and Chemical Industrialization (HCI) drive (1973--1979) created steel, shipbuilding, petrochemicals, machinery, and electronics from scratch. Taiwan's state research institute ITRI spun off UMC (1980) and TSMC (1987), anchored in the Hsinchu Science Park (1980). The strategy was politically costly (the Korean government bet the economy on heavy industry, with enormous fiscal risk) but structurally transformative: $\tau$ fell from $\approx 0.70$ to $\approx 0.20$ in 20 years. $\Gamma$ rose from $\approx 0.25$ to $\approx 0.40$ (1973--1993, on the Korean path of Chapter~23).
+\textbf{East Asia}: Targeted the dense subgraph deliberately. South Korea's Heavy and Chemical Industrialization (HCI) drive (1973--1979) created steel, shipbuilding, petrochemicals, machinery, and electronics from scratch. Taiwan's state research institute ITRI spun off UMC (1980) and TSMC (1987), anchored in the Hsinchu Science Park (1980). The strategy was politically costly (the Korean government bet the economy on heavy industry, with enormous fiscal risk) but structurally transformative: $\tau$ fell from $\approx 0.70$ to $\approx 0.20$ in 20 years. $\Gamma$ rose from $\approx 0.25$ to $\approx 0.40$ (1973--1993, on the illustrative Korean path of Chapter~23; pre-1995 input-output tables are not used here). From 1995, when the OECD ICIO data begin, Korea's 12-sector $\Gamma$ \emph{fell}, from 0.626 to 0.511 in 2019, while its ECI rose from $+1.10$ to $+1.81$. On the data available, deepening the core did not show up as rising aggregate $\Gamma$.
 
 \textbf{Latin America}: Mostly stalled at consumer and intermediate ISI. Brazil came closest: its Second National Development Plan (II PND, 1974--1979) was an explicit push into capital goods and basic inputs, and it built Embraer and Petrobras's engineering capacity. But the push was debt-financed and was cut short by the debt crisis of the 1980s before the core reached critical mass. Mexico built maquiladoras (assembly of imported components) --- a within-block operator that imported the dense subgraph as a service rather than building it domestically. Argentina deindustrialized from the 1970s onward. Bolivia never even attempted it.
 
-The result: East Asia entered the dense subgraph and achieved ``genuine competitiveness'' (Fajnzylber's term). Latin America remained truncated, with consumer manufacturing but no capital-goods core. The casillero vac\'{i}o (Chapter~16) --- the empty cell of growth \emph{and} equity --- is, on this chapter's conjecture and the conjecture of Chapter~26, the consequence: without the dense subgraph, ECI stays low and, if the core is a bridge, $\Gamma$ stays low, making sustained growth with equity hard to reach.
+The result: East Asia entered the dense subgraph and achieved ``genuine competitiveness'' (Fajnzylber's term). Latin America remained truncated, with consumer manufacturing but no capital-goods core. The casillero vac\'{i}o (Chapter~16) --- the empty cell of growth \emph{and} equity --- is, on this chapter's conjecture and the conjecture of Chapter~26, the consequence: without the dense subgraph, ECI stays low, as it has (2019: Chile $-0.06$, Bolivia $-1.30$, against Korea $+1.81$). The conjecture adds that $\Gamma$ stays low too. The 12-sector data do not show this: Argentina's $\Gamma$ is 0.522, Chile's 0.557 and Mexico's 0.649, all above Korea's 0.511.
 \end{example}
 
 
@@ -279,7 +312,7 @@ The result: East Asia entered the dense subgraph and achieved ``genuine competit
 
 \item \textbf{The Singapore strategy: attract the subgraph.} Foreign direct investment brings the dense subgraph to the country. Multinational corporations build plants that produce capital goods using domestic labor. Over time, capabilities transfer to domestic firms. Requires: human capital (educated workforce), institutional quality (property rights, contract enforcement), geographic advantage (proximity to markets). Applicable to: small open economies with high human capital (Costa Rica, Uruguay --- possibly Bolivia for specific niches).
 
-\item \textbf{The incremental strategy: grow toward $\mathcal{D}$ through the product space.} Start from current exports and diversify step by step through products with high relatedness density to the dense subgraph. Each step creates new capabilities that make the next step feasible. Requires: patience (decades), sequenced operators (Chapter~15), and political sustainability across electoral cycles. Applicable to: all countries, but slow for those far from $\mathcal{D}$ (Bolivia's illustrative average relatedness to $\mathcal{D}$ is 0.06 --- the incremental path would take about 4 product-space steps (Example~\ref{ch25:ex:bolivia_path}), roughly 20--30 years per step at current velocity).
+\item \textbf{The incremental strategy: grow toward $\mathcal{D}$ through the product space.} Start from current exports and diversify step by step through products with high relatedness density to the dense subgraph. Each step creates new capabilities that make the next step feasible. Requires: patience (decades), sequenced operators (Chapter~15), and political sustainability across electoral cycles. Applicable to: all countries, but slow for those far from $\mathcal{D}$ (Bolivia's illustrative average relatedness to $\mathcal{D}$ is 0.06 --- the incremental path would take about 4 product-space steps (Example~\ref{ch25:ex:bolivia_path}), roughly 20--30 years per step at the current pace of diversification, an illustrative figure).
 \end{enumerate}
 \end{remark}
 
@@ -294,13 +327,13 @@ Starting from Bolivia's current exports (gas, zinc, gold, soy, quinoa):
 
 \textbf{Step 4} (entering $\mathcal{D}$, $\omega \approx 0.04$): Precision instruments, advanced chemicals, electronic components. This IS the dense subgraph. Reaching it from Bolivia's current position requires the full multi-scale structural plan from Exercise~19.7.
 
-At Bolivia's current structural velocity ($v_\Gamma = +0.01$/decade), the path to Step 4 takes approximately 80--120 years (4 steps of 20--30 years). If step time scales inversely with velocity (an assumption), Korean-style acceleration ($v_\Gamma = +0.075$/decade, 7.5 times faster) cuts this to approximately 11--16 years. The gap between 120 years and 20 years is the gap between passive diversification and active operator design.
+At an illustrative 20--30 years per step, the path to Step 4 takes approximately 80--120 years. An earlier draft tied the step time to the structural velocity of $\Gamma$ and scaled it by Korea's. That cannot work. Bolivia's measured velocity is negative ($-0.036$ per decade, 1990--2013, INE base 1990), and so was Korea's over 1995--2014 ($-0.055$ per decade, OECD ICIO 2021) while it deepened its core. The clock for this path is the rate of entry into new products, measured in the product space, not $v_\Gamma$. If an active strategy made each step 7.5 times faster (an illustrative ratio), the path would take approximately 11--16 years. The gap between 120 years and 16 is the gap between passive diversification and active operator design.
 \end{example}
 
 \begin{prebisch}[From truncated to genuine competitiveness]
 In later work \citep{fajnzylber1988competitividad}, Fajnzylber distinguished between ``spurious competitiveness'' (based on low wages, resource extraction, currency depreciation) and ``genuine competitiveness'' (based on knowledge, technology, and institutional quality). In this chapter's notation:
 
-\textbf{Spurious competitiveness}: high $\pi_c$ in $W^P_{\text{global}}$ through commodity exports. High income during booms ($\Delta\omega$), but no structural change ($\Delta\Gamma = 0$). Bolivia's gas revenue era: GDP grew 4.9\%/year; $\Gamma$ was flat.
+\textbf{Spurious competitiveness}: high $\pi_c$ in $W^P_{\text{global}}$ through commodity exports. High income during booms ($\Delta\omega$), but no structural change ($\Delta\Gamma = 0$). Bolivia's gas revenue era fits: GDP grew 5.06\% a year on average in 2006--2014 \citep{worldbank2026wdi}, $\Gamma$ was roughly flat (0.518 in 2006, 0.484 in 2013, INE base 1990), and ECI fell ($-1.21$ to $-1.34$).
 
 \textbf{Genuine competitiveness}: high $\pi_c$ through capital-goods and high-tech exports. The dense subgraph IS the source of genuine competitiveness: it generates learning, spillovers, and diversification opportunities that sustain growth without commodity dependence.
 
@@ -316,13 +349,13 @@ The transition from spurious to genuine is the transition from the periphery of 
 \begin{enumerate}
 \item The \textbf{dense subgraph} is the maximizer of internal proximity per product, $e(S)/|S|$ (Goldberg; Charikar's peeling approximates it). In the product space it is the core of machinery, metal products and chemicals \citep{hidalgo2007product}, which holds the highest-PCI products.
 
-\item \textbf{Truncated industrialization}: Latin America lacks the dense subgraph. Bolivia's truncation index: 0.98 (2 of $\approx$100 products in $\mathcal{D}$); Korea's: 0.18 (illustrative).
+\item \textbf{Truncated industrialization}: Latin America lacks the dense subgraph. Bolivia's truncation index: 0.98 (2 of $\approx$100 products in $\mathcal{D}$); Korea's: 0.18 (both illustrative). The complexity gap is sourced: ECI $-1.30$ against $+1.81$ (2019).
 
 \item \textbf{Bridges, not density, drive integration.} Removing a bridge set bounds $\Gamma$ by twice the conductance that remains (Proposition~\ref{ch25:prop:bridge_bound}); removing a dense module can \emph{raise} $\Gamma$. That the capital-goods core is a bridge, so that truncation lowers $\Gamma$, is a testable conjecture.
 
-\item The \textbf{truncation penalty}, measured in excess relaxation time $1/\Gamma - 1$ (not in welfare), is 72\% of Bolivia's integration deficit for a counterfactual $\Gamma = 0.35$, and 55--86\% across plausible counterfactuals.
+\item The \textbf{truncation penalty}, measured in excess relaxation time $1/\Gamma - 1$ (not in welfare), can be large in a stylized truncated economy (55--86\% across counterfactuals). For Bolivia the conjecture gets \textbf{no support at the 12-sector level}: its $\Gamma$ (0.475) is inside the comparator range (Korea 0.511, United States 0.463), and aggregate $\Gamma$ fell in both Bolivia and Korea. Testing it needs 39-industry or product-level data.
 
-\item \textbf{Causes and strategies.} ISI stalled before the capital-goods core (Tavares), coalitions and the formation channel kept it there, and Fajnzylber added imitative consumption and transnational leadership. Strategies: build (Korea), attract (Singapore), or grow toward $\mathcal{D}$ (Bolivia: 80--120 years passively, 11--16 with Korean-style acceleration).
+\item \textbf{Causes and strategies.} ISI stalled before the capital-goods core (Tavares), coalitions and the formation channel kept it there, and Fajnzylber added imitative consumption and transnational leadership. Strategies: build (Korea), attract (Singapore), or grow toward $\mathcal{D}$ (Bolivia: 80--120 years passively, 11--16 at a 7.5-fold faster pace; both illustrative).
 \end{enumerate}
 
 
@@ -337,7 +370,7 @@ The transition from spurious to genuine is the transition from the periphery of 
 
 \item \textbf{Truncation index.} Compute $\tau_c$ for Bolivia, Brazil, Chile, South Korea, and Germany. Rank them. Plot $\tau_c$ vs.\ ECI. Is the correlation strong?
 
-\item \textbf{The truncation-$\Gamma$ relationship.} For 30 countries: estimate $\tau_c$ (from product-space data) and $\Gamma_c$, both from the product-space proxy $W_c = D_c^{-1}\phi_c$ and from OECD ICIO input shares. Is $\mathcal{D}$ a bridge (compute its betweenness and the conductance of the commodity clusters with and without it)? Plot $\Gamma_c$ vs.\ $\tau_c$. Estimate $f(\tau)$ by regression. Is $f'(\tau) < 0$ as predicted?
+\item \textbf{The truncation-$\Gamma$ relationship.} For 30 countries: estimate $\tau_c$ (from product-space data) and $\Gamma_c$, both from the product-space proxy $W_c = D_c^{-1}\phi_c$ and from OECD ICIO input shares. Is $\mathcal{D}$ a bridge (compute its betweenness and the conductance of the commodity clusters with and without it)? Plot $\Gamma_c$ vs.\ $\tau_c$. Estimate $f(\tau)$ by regression. Is $f'(\tau) < 0$ as predicted? Start from the 12-sector values of Result~\ref{ch25:res:twelve}, then repeat with INE's 39 industries and a concordance to the ICIO industries. Does the answer change with the resolution?
 
 \item \textbf{Counterfactual: Bolivia with the dense subgraph.} Suppose Bolivia magically acquired RCA in the 20 highest-PCI products in $\mathcal{D}$. Recompute $\tau$, ECI, and (approximately) $\Gamma$. How much would $\Gamma$ increase? How much would $\sigma_B$ decrease?
 
@@ -347,15 +380,16 @@ The transition from spurious to genuine is the transition from the periphery of 
 \begin{enumerate}
 \item Identify the 5 products with the highest relatedness density from Bolivia's current exports to the dense subgraph.
 \item For each: what capabilities are needed? What operators (Chapter~15)?
-\item Estimate the time required at Bolivia's current structural velocity vs.\ Korean-style velocity.
+\item Estimate the time required at Bolivia's observed rate of entry into new products (with RCA) vs.\ Korea's over 1995--2019. Why is the structural velocity $v_\Gamma$ the wrong clock here?
 \end{enumerate}
 
-\item \textbf{The lithium question.} Bolivia has the world's largest identified lithium resources (though not the largest proven reserves). Suppose lithium batteries are in the dense subgraph (illustrative $\text{PCI} \approx 1.5$; check the value in the Atlas).
+\item \textbf{The lithium question.} Bolivia has the world's largest identified lithium resources (though not the largest proven reserves). Suppose lithium batteries are in the dense subgraph. In the Atlas (HS92, 2019), electric accumulators (HS 8507, which include lithium-ion batteries) have PCI 0.549 (0.811 in 2023); carbonates including lithium carbonate (HS 2836) have $-0.573$, and natural gas (HS 2711) $-2.226$ \citep{growthlab2026atlas}.
 \begin{enumerate}
 \item Compute Bolivia's relatedness density to lithium batteries ($\omega_{c,\text{LiB}}$).
 \item What intermediate products connect Bolivia's current exports to lithium batteries?
 \item What is the operator sequence needed? (Hint: lithium extraction $\to$ lithium carbonate $\to$ cathode materials $\to$ battery cells. Each step requires different capabilities.)
 \item Is this a realistic entry point to $\mathcal{D}$? What are the risks?
+\item A PCI of 0.55 is above the product mean of zero but well below that of most machinery. Is HS 8507 in the $\mathcal{D}$ you found in Exercise~25.1?
 \end{enumerate}
 \end{enumerate}
 
@@ -412,7 +446,7 @@ Fajnzylber's argument has three parts. The mapping below is our formal reinterpr
 Missing capital goods sector & Truncation $\tau_c \to 1$ & Def.~\ref{ch25:def:truncated} \\
 Endogenous nucleus & Dense subgraph $\mathcal{D}$ (plus capabilities not in the notation) & Def.~\ref{ch25:def:dense} \\
 Truncation $\to$ low linkages & Bridge removal bounds $\Gamma$; $\tau \uparrow \Rightarrow \Gamma \downarrow$ if $\mathcal{D}$ is a bridge & Prop.~\ref{ch25:prop:bridge_bound}, Conj.~\ref{ch25:thm:truncation} \\
-Size of the gap & 55--86\% of excess relaxation time & Ex.~\ref{ch25:thm:penalty} \\
+Size of the gap & Stylized: 55--86\% of excess relaxation time; Bolivia: no 12-sector integration gap & Ex.~\ref{ch25:thm:penalty}, Result~\ref{ch25:res:twelve} \\
 Imitative consumption, TNC leadership & Causes of truncation & Remark~\ref{ch25:prop:three_reasons} \\
 Spurious vs.\ genuine (\citeyear{fajnzylber1988competitividad}) & Commodity $\pi$ vs.\ $\mathcal{D}$-based $\pi$ & Prebisch Connection \\
 Three strategies & Build, attract, or grow toward $\mathcal{D}$ & Remark~\ref{ch25:prop:strategies} \\
@@ -420,7 +454,7 @@ Three strategies & Build, attract, or grow toward $\mathcal{D}$ & Remark~\ref{ch
 \end{tabularx}
 \end{center}
 
-Fajnzylber died in 1991 at age 51, before seeing either the product space or the economic complexity literature that would echo his diagnosis. The casillero vac\'{i}o became the defining image of the structuralist diagnosis. This chapter gives his truncated industrialization a truncation index, a bridge bound, a testable conjecture, and an estimate of its cost in integration.
+Fajnzylber died in 1991 at age 51, before seeing either the product space or the economic complexity literature that would echo his diagnosis. The casillero vac\'{i}o became the defining image of the structuralist diagnosis. This chapter gives his truncated industrialization a truncation index, a bridge bound, a testable conjecture, and a measure of its cost in integration. For Bolivia, the 12-sector data show his missing nucleus in complexity, not in aggregate integration.
 
 
 %% =====================================================================

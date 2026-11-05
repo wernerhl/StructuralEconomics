@@ -50,17 +50,17 @@ Every reported $\Gamma$ or $\boldsymbol{\pi}$ must state the source, year, count
 
 For $N \approx 200$ countries and data from the BACI trade database (imports only) or an inter-country input-output table (absorption shares), $W^P_{\text{global}}$ is a row-stochastic matrix of that size. Aggregating countries into regions changes both $\Gamma$ and $\boldsymbol{\pi}$ (Exercise~\ref{ch16:ex:build}).
 
-\begin{remark}[Properties of $W^P_{\text{global}}$ \illustrative]\label{ch16:prop:global_properties}
-The numbers in this remark are illustrative; Exercise~\ref{ch16:ex:build} computes them from BACI.
+\begin{remark}[Properties of $W^P_{\text{global}}$]\label{ch16:prop:global_properties}
+The numbers in this remark are for 2019, from the Growth Lab bilateral goods-trade data (HS92), imports only (zero diagonal), 230 economies \citep{growthlab2026atlas}; author's calculations (\texttt{data/compute/compute\_global\_wp.py}). Exercise~\ref{ch16:ex:build} asks you to recompute them from BACI.
 \begin{enumerate}
-\item \textbf{Not doubly stochastic.} The column sums of any row-stochastic $N \times N$ matrix average exactly $1$; here they vary by orders of magnitude, because large exporters appear in almost every country's import basket and small exporters in few. The column sum of the US is the sum, over importers, of the US share of their imports --- well above $1$; Bolivia's is well below $1$. The world does not depend on Bolivia the way Bolivia depends on the world.
-\item \textbf{Core-periphery topology.} A dense core of 20--30 industrialized countries (high mutual trade) and a sparse periphery of 150+ countries (trade mostly with the core, rarely with each other).
-\item \textbf{Concentrated Perron vector.} In our illustrative numbers the US has $\pi \approx 0.18$, China $0.15$ and Germany $0.08$, with the top 10 countries holding $\approx 65\%$ of structural power and $\pi_{\text{Bolivia}} \approx 0.0005$. Concentration is what $\Neff$ and $\Var(\boldsymbol{\pi})$ measure.
-\item \textbf{The spectral gap measures frictions, not power.} A core-periphery structure in which everyone buys mainly from the core is close to rank one, and rank-one matrices have $\Gamma = 1$ for any $\boldsymbol{\pi}$. In frictionless gravity, every importer's shares equal the exporters' world shares $\mathbf{s}$: $W^P = \ones\mathbf{s}'$, with $\Gamma = 1$ and $\boldsymbol{\pi} = \mathbf{s}$, as concentrated as world exports. A measured $\Gamma$ below $1$ therefore reflects distance, trade costs and regional blocs --- how far the world is from anonymous market interaction (Chapter~1, Section~\ref{ch01:sec:conventions}) --- not how unequal power is (Proposition~\ref{ch06:prop:gap-power-independent}).
+\item \textbf{Not doubly stochastic.} The column sums of any row-stochastic $N \times N$ matrix average exactly $1$; here they vary by orders of magnitude, because large exporters appear in almost every country's import basket and small exporters in few. The column sum of the US is the sum, over importers, of the US share of their imports: $24.2$ in 2019 (China $30.7$, Germany $11.1$). Bolivia's is $0.10$. The world does not depend on Bolivia the way Bolivia depends on the world.
+\item \textbf{Core-periphery topology.} A dense core of industrialized countries (high mutual trade) and a sparse periphery of most of the rest (trade mostly with the core, rarely with each other). The size of the core depends on the threshold used to define it.
+\item \textbf{Concentrated Perron vector.} China has $\pi = 0.130$, the US $0.089$ and Germany $0.082$. The top 10 countries (China, the US, Germany, Japan, France, Korea, the Netherlands, Italy, the UK and Russia) hold $51.9\%$ of structural power, and $\pi_{\text{Bolivia}} = 0.00053$. With $N = 230$, $\Neff = 22.6$ and the power Gini is $0.85$. Concentration is what $\Neff$ and $\Var(\boldsymbol{\pi})$ measure.
+\item \textbf{The spectral gap measures frictions, not power.} A core-periphery structure in which everyone buys mainly from the core is close to rank one, and rank-one matrices have $\Gamma = 1$ for any $\boldsymbol{\pi}$. In frictionless gravity, every importer's shares equal the exporters' world shares $\mathbf{s}$: $W^P = \ones\mathbf{s}'$, with $\Gamma = 1$ and $\boldsymbol{\pi} = \mathbf{s}$, as concentrated as world exports. The measured $\boldsymbol{\pi}$ is indeed close to $\mathbf{s}$ (China $0.130$ against an export share of $0.142$; the US $0.089$ against $0.091$; Bolivia $0.00053$ against $0.00046$), but the measured gap is $\Gamma_{\text{global}} = 0.452$, far below $1$. That gap reflects distance, trade costs and regional blocs --- how far the world is from anonymous market interaction (Chapter~1, Section~\ref{ch01:sec:conventions}) --- not how unequal power is (Proposition~\ref{ch06:prop:gap-power-independent}).
 \end{enumerate}
 \end{remark}
 
-\begin{vizpanel}{The global $W^P$: a $10 \times 10$ schematic}
+\begin{vizpanel}{The global $W^P$: a $10 \times 10$ schematic, and the measured Perron vector}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\N{10}
@@ -101,19 +101,21 @@ The numbers in this remark are illustrative; Exercise~\ref{ch16:ex:build} comput
 \qquad
 \begin{tikzpicture}[scale=1]
 %% Power bars for 10 "countries"
-\foreach \k/\val/\lab in {1/0.18/USA,2/0.15/CHN,3/0.08/DEU,4/0.06/JPN,5/0.05/GBR,6/0.04/KOR,7/0.03/BRA,8/0.0005/BOL,9/0.0004/ETH,10/0.0003/LAO} {
+%% 2019 Perron vector of the trade W^P (Growth Lab HS92, 230 economies; code/ch16.py)
+\foreach \k/\val/\lab in {1/0.130/CHN,2/0.089/USA,3/0.082/DEU,4/0.043/JPN,5/0.032/KOR,6/0.026/GBR,7/0.0136/BRA,8/0.00053/BOL,9/0.00046/LAO,10/0.00014/ETH} {
   \pgfmathparse{\val*400}
   \edef\bp{\pgfmathresult}
   \fill[blue!\bp] (0, {(10-\k)*0.32}) rectangle ({\val*18}, {(10-\k)*0.32+0.26});
   \node[font=\tiny, left] at (-0.05, {(10-\k)*0.32+0.13}) {\lab};
 }
-\draw[red, dashed, thin] ({0.005*18}, 0) -- ({0.005*18}, 3.3);
-\node[font=\tiny, red, above] at ({0.005*18}, 3.3) {$\frac{1}{N}$};
-\node[below, font=\scriptsize\bfseries] at (1.5, -0.15) {$\boldsymbol{\pi}_{\text{global}}$};
+\draw[red, dashed, thin] ({0.00435*18}, 0) -- ({0.00435*18}, 3.3);
+\node[font=\tiny, red, above] at ({0.00435*18}, 3.3) {$\frac{1}{N}$};
+\node[below, font=\scriptsize\bfseries] at (1.2, -0.15) {$\boldsymbol{\pi}_{\text{global}}$ (2019)};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Left: schematic global $W^P$ (row-normalized cell values in \texttt{code/ch16.py}). The upper-left block (core) is bright: dense mutual trade. The lower-right (periphery) is dark except for column entries toward the core: the periphery depends on the core, not on each other. The lower-left rectangle is brighter than the upper-right: asymmetric dependence. This hub structure is close to rank one, so its spectral gap is \emph{large} ($\Gamma = 0.90$): everyone mixes quickly through the core. Its power is concentrated: the five core countries hold $0.163$ each, the periphery $0.016$ each. Right: an illustrative Perron vector for 200 countries. The dashed red line marks $1/N = 0.005$. The US alone has 36 times the ``fair share'' of structural power. Bolivia is barely visible.
+\small Left: schematic global $W^P$ (row-normalized cell values in \texttt{code/ch16.py}). The upper-left block (core) is bright: dense mutual trade. The lower-right (periphery) is dark except for column entries toward the core: the periphery depends on the core, not on each other. The lower-left rectangle is brighter than the upper-right: asymmetric dependence. This hub structure is close to rank one, so its spectral gap is \emph{large} ($\Gamma = 0.90$): everyone mixes quickly through the core. Its power is concentrated: the five core countries hold $0.163$ each, the periphery $0.016$ each. The measured 2019 matrix has $\Gamma = 0.452$: distance and regional blocs keep it further from rank one than the schematic. Right: the measured Perron vector for ten of the 230 economies. The dashed red line marks $1/N = 0.0043$. China has 30 times the ``fair share'' of structural power ($0.130 \times 230$), the US 20 times. Bolivia ($0.00053$) is barely visible.
+\par\footnotesize Source (right panel): Growth Lab bilateral goods trade, HS92, 2019 \citep{growthlab2026atlas}; imports-only $W^P$; author's calculations (\texttt{data/compute/compute\_global\_wp.py}). Left panel: schematic.
 \end{vizpanel}
 
 
@@ -149,7 +151,9 @@ Average (all economies) & 1.85 & 1.85 & equal by construction \\
 \end{tabular}
 \end{center}
 
-The center has $BL$ and $FL$ both above average: it generates demand AND supplies inputs. The periphery has both below average: its demand doesn't propagate, and its output isn't widely used. Bolivia's $BL = 1.28$ means that one dollar of final demand for Bolivian output generates only \$1.28 of gross output worldwide, including the dollar itself (vs.\ \$2.68 for China): Bolivian production uses few intermediate inputs per unit of output.
+The center has $BL$ and $FL$ both above average: it generates demand AND supplies inputs. The periphery has both below average: its demand doesn't propagate, and its output isn't widely used. In this illustration, a $BL$ of $1.28$ would mean that one dollar of final demand for the country's output generates only \$1.28 of gross output worldwide, including the dollar itself (vs.\ \$2.68 for China).
+
+The Bolivia and Ethiopia rows are placeholders, not estimates. What the INE supply-use tables do give is Bolivia's \emph{domestic} linkages (2019, base 2017, 12 sectors, domestic flows at basic prices; not comparable with the global figures above): the sector mean is $\bar{BL} = 1.445$, and the low-linkage activity is the export enclave, not the economy as a whole. Hydrocarbons have $BL = 1.34$ and $FL = 1.20$, both below the mean; they buy $0.225$ of domestic intermediate inputs per unit of output (manufacturing: $0.558$) and export $70\%$ of their output \citep{ine2026sut}; author's calculations (\texttt{data/compute/compute\_bolivia\_io.py}).
 \end{example}
 
 
@@ -224,7 +228,7 @@ Interpretation: ECI orders countries along the principal axis of differentiation
 \begin{intuition}[What the ECI measures, in this book's language]
 The ECI measures where a country sits on the second eigenvector of the export-similarity matrix $\tilde{M}$ --- the axis that captures the most information about who exports what. A country with $\text{ECI} > 0$ exports what the diversified core exports; a country with $\text{ECI} < 0$ exports what the periphery exports. Its link to power is indirect: in $\tilde{M}$ itself, power is diversity.
 
-Japan is at or near the top of the ranking: diversified and complex. Bolivia is in the lower part: concentrated and simple. The gap between them is a property of export baskets, which shapes --- but is not the same thing as --- the country's position in $W^P_{\text{global}}$.
+Japan is at the top of the ranking: diversified and complex (ECI $2.05$, rank~1 in 2019; Korea $1.81$, rank~2). Bolivia is near the bottom: concentrated and simple (ECI $-1.30$, rank~131), and it has fallen since 2006 ($-1.21$) \citep{growthlab2026atlas}. The gap between them is a property of export baskets, which shapes --- but is not the same thing as --- the country's position in $W^P_{\text{global}}$.
 \end{intuition}
 
 
@@ -245,6 +249,8 @@ The predictive power of ECI works through three channels:
 
 The standard explanation is that ECI proxies for human capital and institutions. The conjecture is that it also proxies for the integration of the domestic production network. Unlike the standard explanation, this one is testable with national input-output tables: compute domestic $\Gamma$ and multipliers and check whether they mediate the ECI--growth relation (Exercise~\ref{ch16:ex:bound}).
 
+A first look does not support channel~1 at the 12-sector level. On a common basis (12 ISIC-based sectors, domestic flows, input shares, 2019), Bolivia's domestic $\Gamma(W^P)$ is $0.475$ with an ECI of $-1.30$, against Korea's $0.511$ with an ECI of $1.81$; the US has $0.463$, Germany $0.544$, Chile $0.557$, China $0.582$ and Mexico $0.649$ \citep{ine2026sut,oecd2023icio}; author's calculations (\texttt{data/compute/compute\_oecd\_io.py}). Bolivia's own $\Gamma$ ranges from $0.33$ to $0.69$ across normalizations, a wider spread than the cross-country one. Aggregate $\Gamma$ does not separate these development paths. Whether multipliers, or $\Gamma$ at finer sector detail, do so is the part of channel~1 that remains open.
+
 
 %% =====================================================================
 \section{ECI and Inequality}
@@ -259,12 +265,18 @@ Countries with high ECI have lower income inequality (Gini), controlling for GDP
 It is tempting to explain this association with a ``spectral bound'': high ECI $\Rightarrow$ high $\Gamma$ $\Rightarrow$ low $\Var(\boldsymbol{\pi})$ $\Rightarrow$ low inequality. That chain fails at its second link. There is no bound of $\Var(\boldsymbol{\pi})$ by $\Gamma$: the matrix $W = \gamma\,\ones\boldsymbol{\pi}' + (1-\gamma)I$ has $\Gamma = \gamma$ and Perron vector $\boldsymbol{\pi}$ for \emph{any} $\boldsymbol{\pi}$ (Proposition~\ref{ch06:prop:gap-power-independent}); at $\gamma = 1$ a near-dictatorship has $\Gamma = 1$. The chain also mixes levels: $\boldsymbol{\pi}$ of $W^P_{\text{global}}$ describes inequality \emph{between} countries, while the Gini coefficient describes inequality \emph{within} them.
 
 What the framework does supply is the exact link between \emph{domestic} power concentration and distributional loss under the allocation rule of Chapter~7: $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$, with $\Var(\boldsymbol{\pi}) = \frac{1}{N}\big(\frac{1}{\Neff} - \frac{1}{N}\big)$. A structural explanation of the ECI--inequality association therefore has to run through the domestic power vector --- for example, a diversified production structure spreading $\boldsymbol{\pi}$ across more sectors and groups (higher $\Neff$) --- and that is an empirical hypothesis, testable with the diagnostics of Chapter~17.
+
+For the production network the hypothesis meets an obstacle in the data. On the common 12-sector basis of 2019, sectoral power in $W^P$ is \emph{less} concentrated in Bolivia (power Gini $0.435$, $\Neff = 6.67$ of 11) than in Korea ($0.658$, $3.62$) or Germany ($0.611$, $3.89$) \citep{ine2026sut,oecd2023icio}. In industrial economies $\boldsymbol{\pi}(W^P)$ concentrates on manufacturing and business-service hubs, which is industrial depth, not oppression. A distributional channel, if there is one, runs through bargaining weights over groups ($W^U$, $W^I$, under Assumption~7.A), not through the sectoral $\boldsymbol{\pi}$ of $W^P$.
 \end{remark}
+
+\begin{stylizedfact}[Bolivia, 2005--2019: equity gains without complexity gains]\label{ch16:sf:bolivia_equity}
+Bolivia's Gini of per-capita household income fell from $0.600$ in 2005 to $0.426$ in 2019, and extreme poverty from $38.2\%$ (2005) to $15.2\%$ (2018, on the old poverty lines; INE, \textit{Encuesta de Hogares}, cuadros 3.06.01.02--03). Over the same years its ECI fell from $-1.21$ (2006) to $-1.30$ (2019) \citep{growthlab2026atlas}, and its domestic $\Gamma(W^P)$ stayed roughly flat ($0.518$ in 2006 and $0.484$ in 2013, 12 sectors, INE base 1990; \citealt{ine2026sut}; author's calculations, \texttt{data/compute/compute\_bolivia\_io.py}). A cross-country association between complexity and inequality is not a law for change within a country: in Bolivia, large equity gains did not require rising ECI or rising $\Gamma$.
+\end{stylizedfact}
 
 \begin{prebisch}[Fajnzylber's casillero vac\'{i}o]
 In \citeyear{fajnzylber1990industrializacion}, Fernando Fajnzylber published ``Industrializaci\'{o}n en Am\'{e}rica Latina: de la `caja negra' al `casillero vac\'{i}o'\,'' documenting that no Latin American country occupied the cell of a $2 \times 2$ table that combines high growth with equity --- the ``casillero vac\'{i}o'' (empty box). Several countries outside the region, such as South Korea, did occupy it. The empty box is defined in the space of \emph{growth} $\times$ \emph{equity}, not of complexity $\times$ inequality.
 
-Chapter~17 develops Fajnzylber's argument as its case study. Its link to this chapter is the empirical association above: both high growth (Empirical Result~\ref{ch16:prop:ECI_growth}) and lower inequality (Empirical Result~\ref{ch16:prop:ECI_inequality}) go with high ECI, which is why raising complexity --- changing the production structure through the operators of Chapter~15 --- is the structuralist route into the box.
+Chapter~17 develops Fajnzylber's argument as its case study. Its link to this chapter is the empirical association above: both high growth (Empirical Result~\ref{ch16:prop:ECI_growth}) and lower inequality (Empirical Result~\ref{ch16:prop:ECI_inequality}) go with high ECI, which is why raising complexity --- changing the production structure through the operators of Chapter~15 --- is the structuralist route into the box. It is not the only route on record. Bolivia grew at $4.52\%$ a year over 2006--2019 \citep{worldbank2026wdi} while its Gini fell from $0.592$ to $0.426$ and its ECI declined (Stylized Fact~\ref{ch16:sf:bolivia_equity}). Whether that record is durable without structural change is the question Chapter~17 takes up.
 \end{prebisch}
 
 \begin{vizpanel}{Complexity and inequality: a schematic}
@@ -283,7 +295,7 @@ Chapter~17 develops Fajnzylber's argument as its case study. Its link to this ch
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Schematic only (illustrative, anonymous points): the negative association between complexity and inequality documented by \citet{hartmann2017linking}. There is no spectral ``fence'': the dispersion around the line is large, and nothing in the framework rules out low-complexity, low-inequality outcomes. Fajnzylber's casillero vac\'{i}o lives in a different plane, growth $\times$ equity (Chapter~17).
+\small Schematic only (illustrative, anonymous points): the negative association between complexity and inequality documented by \citet{hartmann2017linking}. There is no spectral ``fence'': the dispersion around the line is large, and nothing in the framework rules out low-complexity, low-inequality outcomes. Bolivia moved toward that quadrant over 2005--2019 (Stylized Fact~\ref{ch16:sf:bolivia_equity}). Fajnzylber's casillero vac\'{i}o lives in a different plane, growth $\times$ equity (Chapter~17).
 \end{vizpanel}
 
 
@@ -324,7 +336,9 @@ Average (all core products) & 0.06 & 0.55 \\
 \end{tabular}
 \end{center}
 
-Korea's average relatedness to core products is 9 times Bolivia's. (Korea already has comparative advantage in several of these products; its column illustrates the density of a country inside the core.) Korea can diversify into products like these with high probability; Bolivia cannot, without the sequenced operators from Chapter~15 (information $\to$ institutions $\to$ education $\to$ infrastructure $\to$ industrial policy).
+The $\omega$ values are placeholders, not estimates: computing them needs the country $\times$ product RCA data and the product-space proximities, which are not used in this book. In these illustrative numbers Korea's average relatedness to core products is 9 times Bolivia's. (Korea already has comparative advantage in several of these products; its column illustrates the density of a country inside the core.) Korea can diversify into products like these with high probability; Bolivia cannot, without the sequenced operators from Chapter~15 (information $\to$ institutions $\to$ education $\to$ infrastructure $\to$ industrial policy).
+
+The complexity data that are available point the same way. In 2019 the ECI was $-1.30$ for Bolivia and $1.81$ for Korea. The product complexity index (PCI) of electric accumulators (HS~8507, which includes lithium-ion batteries) was $0.55$, against $-0.57$ for lithium carbonate (HS~2836) and $-2.23$ for natural gas (HS~2711) \citep{growthlab2026atlas}.
 \end{example}
 
 
@@ -343,10 +357,11 @@ Countries with high structural power ($\pi_c > 1/N$) receive more than an equal 
 
 Two caveats keep this a conjecture. First, $x_c$ is a share of output, not a relative price: a theory of the terms of trade needs prices, which~\eqref{ch16:eq:global_bargaining} does not contain. Second, Prebisch's own mechanisms are different and more specific: low income elasticities of demand for primary goods, and asymmetric behaviour of wages and prices over the cycle, so that technical progress in the center is absorbed as higher incomes and in the periphery as lower prices. The empirical record on the long-run trend is itself debated \citep{grilli1988primary,harvey2010prebisch,arezki2014testing}. A spectral version would have to derive relative prices from $W$ and show that they move with $\boldsymbol{\pi}$.
 
-\begin{example}[Bolivia's Terms of Trade \illustrative]\label{ch16:ex:bot_terms}
-Bolivia's commodity export prices (gas, tin, zinc, soy) have experienced long-run terms-of-trade deterioration interspersed with commodity booms (1970s, 2003--2014). Because $W^P_{\text{global}}$ is built from trade \emph{values}, a price boom does change it: Bolivia's shares in its partners' imports rise, and so does $\pi_{\text{Bolivia}}$. But it changes only the weights on existing edges --- no new products, no new partners --- and the gain reverses with prices. After booms, $x_{\text{Bolivia}}$ returns toward the pre-boom trajectory.
+\begin{example}[Bolivia's Terms of Trade]\label{ch16:ex:bot_terms}
+Bolivia's commodity export prices (gas, tin, zinc, soy) have experienced long-run terms-of-trade deterioration interspersed with commodity booms (1970s, 2003--2014). Because $W^P_{\text{global}}$ is built from trade \emph{values}, a price boom does change it: Bolivia's shares in its partners' imports rise, and so does $\pi_{\text{Bolivia}}$. The trade data show exactly this: $\pi_{\text{Bolivia}}$ was $0.00017$ in 2000, $0.00047$ in 2006 and $0.00071$ in 2014, then fell back to $0.00051$ in 2018 and $0.00053$ in 2019. Fuels were $48.8\%$ of merchandise exports in 2006, $54.5\%$ in 2013 and $32.1\%$ in 2019. The boom changed only the weights on existing edges --- no new products, no new partners --- and the gain reversed with prices. After booms, $x_{\text{Bolivia}}$ returns toward the pre-boom trajectory.
 
-The gas nationalization of 2006 rerouted gas revenue from MNCs to the treasury --- a fiscal linkage --- but it did not add cross-sector domestic production linkages. Illustratively, Bolivia's ECI stood near $-0.85$ in 2006 and $-0.80$ in 2018: twelve years of gas revenue redistributed through fiscal channels, almost no change in the export structure.
+The gas nationalization of 2006 rerouted gas revenue from MNCs to the treasury --- a fiscal linkage --- but it did not add cross-sector domestic production linkages. Bolivia's ECI was $-1.21$ in 2006 and $-1.46$ in 2018 ($-1.30$ in 2019): over twelve years of gas revenue redistributed through fiscal channels, the export structure did not diversify; by this measure it became less complex.
+\par\footnotesize Sources: $\pi_{\text{Bolivia}}$, imports-only trade $W^P$ from Growth Lab bilateral trade (HS92); ECI, Growth Lab HS92 \citep{growthlab2026atlas}; author's calculations (\texttt{data/compute/compute\_global\_wp.py}, \texttt{compute\_eci\_facts.py}). Fuel export shares: WDI \texttt{TX.VAL.FUEL.ZS.UN} \citep{worldbank2026wdi}.
 \end{example}
 
 
@@ -370,7 +385,7 @@ The three networks are \textbf{aligned at the global scale}: the countries that 
 \end{remark}
 
 \begin{keyinsight}
-The global spectral structure tells the same story at all three layers. $W^P$: the center produces the goods. $W^I$: the center produces the ideas. $W^U$: the center produces the culture. The periphery consumes all three and produces the raw materials. The Perron eigenvector is aligned across layers. Reducing that concentration --- raising $\Neff$ of the global composite --- is a distributional objective, separate from integration: the world is already highly integrated through its core ($\Gamma$ is high in a hub structure), and more integration on the same hub structure leaves power where it is. The current structure reproduces itself through the formation model (Chapter~10): peripheral preferences are formed under a $W^I$ that transmits center consumption patterns and economic doctrines. The formation loop operates at the global scale exactly as it does at the domestic scale.
+The global spectral structure tells the same story at all three layers. $W^P$: the center produces the goods. $W^I$: the center produces the ideas. $W^U$: the center produces the culture. The periphery consumes all three and produces the raw materials. The Perron eigenvector is aligned across layers. Reducing that concentration --- raising $\Neff$ of the global composite --- is a distributional objective, separate from integration: the world is already integrated through its core ($\Gamma$ is high in a hub structure; the 2019 trade matrix has $\Gamma_{\text{global}} = 0.452$), and more integration on the same hub structure leaves power where it is. The current structure reproduces itself through the formation model (Chapter~10): peripheral preferences are formed under a $W^I$ that transmits center consumption patterns and economic doctrines. The formation loop operates at the global scale exactly as it does at the domestic scale.
 \end{keyinsight}
 
 
@@ -380,11 +395,11 @@ The global spectral structure tells the same story at all three layers. $W^P$: t
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{global production weight matrix} $W^P_{\text{global}} = D^{-1}K$ is estimated from trade data; its values depend on the source, year, aggregation and diagonal treatment. Its column sums average $1$ and vary by orders of magnitude; its Perron vector is concentrated (illustratively $\pi_{\text{US}} \approx 0.18$, $\pi_{\text{Bolivia}} \approx 0.0005$).
+\item The \textbf{global production weight matrix} $W^P_{\text{global}} = D^{-1}K$ is estimated from trade data; its values depend on the source, year, aggregation and diagonal treatment. Its column sums average $1$ and vary by orders of magnitude (US $24.2$, Bolivia $0.10$ in 2019); its Perron vector is concentrated ($\pi_{\text{China}} = 0.130$, $\pi_{\text{US}} = 0.089$, $\pi_{\text{Bolivia}} = 0.00053$; the top 10 hold $51.9\%$) and tracks world export shares, as gravity predicts.
 
-\item A core-periphery hub structure has a \emph{large} spectral gap (the schematic has $\Gamma = 0.90$; frictionless gravity has $\Gamma = 1$). $\Gamma$ measures trade frictions and mixing; power concentration is measured by $\boldsymbol{\pi}$, $\Neff$ and $\Var(\boldsymbol{\pi})$.
+\item A core-periphery hub structure has a \emph{large} spectral gap (the schematic has $\Gamma = 0.90$; frictionless gravity has $\Gamma = 1$; the measured 2019 matrix has $\Gamma = 0.452$, the distance reflecting trade frictions). $\Gamma$ measures trade frictions and mixing; power concentration is measured by $\boldsymbol{\pi}$, $\Neff$ and $\Var(\boldsymbol{\pi})$.
 
-\item The \textbf{ECI} is the second eigenvector of the export-similarity matrix $\tilde{M}$, not a function of $W^P_{\text{global}}$. $\tilde{M}$ has real eigenvalues in $[0,1]$ and a Perron vector proportional to diversity. ECI predicts growth and lower inequality empirically; the channels through domestic integration and domestic power are conjectures, and no spectral bound links $\Gamma$ to inequality.
+\item The \textbf{ECI} is the second eigenvector of the export-similarity matrix $\tilde{M}$, not a function of $W^P_{\text{global}}$. $\tilde{M}$ has real eigenvalues in $[0,1]$ and a Perron vector proportional to diversity. ECI predicts growth and lower inequality empirically; the channels through domestic integration and domestic power are conjectures, and no spectral bound links $\Gamma$ to inequality. Bolivia (ECI $-1.30$ in 2019, falling since 2006) has a domestic $\Gamma$ in the range of Korea's and the US's, and cut its Gini from $0.600$ to $0.426$ over 2005--2019.
 
 \item \textbf{Relatedness density} is the empirical counterpart of proximity-dominated edge creation (Chapter~13). Countries on the dense core diversify rapidly; countries on the sparse periphery are locked in. Linkages ($BL$, $FL \geq 1$) come from the coefficient matrix $A$, not from $W$.
 
@@ -399,7 +414,7 @@ The global spectral structure tells the same story at all three layers. $W^P$: t
 
 \begin{enumerate}[label=\textbf{16.\arabic*}, leftmargin=3em]
 
-\item \textbf{Build the global $W^P$.}\label{ch16:ex:build} Using BACI trade data (available at \texttt{cepii.fr}):
+\item \textbf{Build the global $W^P$.}\label{ch16:ex:build} Using BACI trade data (available at \texttt{cepii.fr}). (The 2019 values in Remark~\ref{ch16:prop:global_properties} were computed in the same way from the Growth Lab's HS92 bilateral data; use them as a check.)
 \begin{enumerate}
 \item Download bilateral trade data for 2018. Keep all countries, and also aggregate to 50 countries (rest of world as one node).
 \item Construct $W^P_{cc'}$ (Definition~\ref{ch16:def:global_WP}). Verify row-stochasticity.
@@ -531,7 +546,7 @@ Prebisch wrote the 1949 study at CEPAL in Santiago. Hirschman wrote \textit{Stra
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Economic complexity:} \citet{hidalgo2009building}, ``The Building Blocks of Economic Complexity.'' \citet{hausmann2014atlas}, \textit{The Atlas of Economic Complexity}. \citet{hidalgo2021economic}, ``Economic Complexity Theory and Applications.'' Data: \texttt{oec.world} and \texttt{atlas.cid.harvard.edu}.
+\textbf{Economic complexity:} \citet{hidalgo2009building}, ``The Building Blocks of Economic Complexity.'' \citet{hausmann2014atlas}, \textit{The Atlas of Economic Complexity}. \citet{hidalgo2021economic}, ``Economic Complexity Theory and Applications.'' Data: \texttt{oec.world} and \texttt{atlas.cid.harvard.edu}; the ECI and bilateral-trade figures in this chapter are from the Growth Lab's Dataverse releases \citep{growthlab2026atlas}.
 
 \textbf{Relatedness and the product space:} \citet{hidalgo2007product}, ``The Product Space Conditions the Development of Nations.'' \citet{hausmann2007structure}, ``The Structure of the Product Space.''
 
@@ -541,7 +556,7 @@ Prebisch wrote the 1949 study at CEPAL in Santiago. Hirschman wrote \textit{Stra
 
 \textbf{Linkages and production networks:} \citet{rasmussen1956studies}, \textit{Studies in Inter-Sectoral Relations}. \citet{chenery1958international}, ``International Comparisons of the Structure of Production.'' \citet*{acemoglu2012network}, ``The Network Origins of Aggregate Fluctuations'' --- the influence vector, a Katz-type centrality of the input-share matrix.
 
-\textbf{Global input-output:} OECD ICIO tables (\url{https://www.oecd.org/sti/ind/inter-country-input-output-tables.htm}). \citet{timmer2015illustrated}, ``An Illustrated User Guide to the World Input-Output Database.''
+\textbf{Global input-output:} OECD ICIO tables (\url{https://www.oecd.org/sti/ind/inter-country-input-output-tables.htm}); the comparator $\Gamma$ values in this chapter use the 2023 edition \citep{oecd2023icio}. \citet{timmer2015illustrated}, ``An Illustrated User Guide to the World Input-Output Database.''
 
 \textbf{The structuralist tradition:} \citet{prebisch1949desarrollo}, the manifesto. \citet{hirschman1958strategy}, \textit{The Strategy of Economic Development}, Chapters~6--7. \citet{singer1950distribution}, ``The Distribution of Gains between Investing and Borrowing Countries.''
 

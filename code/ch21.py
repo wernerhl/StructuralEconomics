@@ -91,3 +91,14 @@ for trial in range(300):
     assert np.allclose(perron(Wg_), p_) and np.allclose(perron(Wk_), m_)
     assert np.isclose(gap(Wg_)[0], gap(Wk_)[0])
 print("verified on 300 random audience matrices")
+
+print("\n=== Sourced: internet users, Bolivia (WDI IT.NET.USER.ZS, ITU) ===")
+import csv
+import pathlib
+PROC = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
+facts = {r["fact_id"]: float(r["value"]) for r in csv.DictReader(open(PROC / "bolivia_facts.csv", encoding="utf-8"))}
+for yr, text in ((2019, 47.5), (2023, 77.3), (2024, 79.7)):
+    v = facts[f"BOL_internet_users_{yr}"]
+    print(f"internet users {yr}: {v}% (text: {text}%)")
+    assert round(v, 1) == text
+assert 75 <= facts["BOL_internet_users_2024"] < 85      # "about four Bolivians in five"

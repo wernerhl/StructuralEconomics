@@ -64,7 +64,7 @@ Bolivia's nationalization of gas in 2006 was a simultaneous edge destruction and
 
 \textbf{Creation:} New edges from gas production to the domestic treasury ($W^P_{\text{gas, treasury}}$) were strengthened. Gas revenues began flowing through domestic fiscal channels to domestic social programs.
 
-\textbf{Net effect on $\Gamma$:} Ambiguous. The nationalization increased some within-country linkages (gas revenue to social spending) but did not create production linkages between the gas sector and the traditional economy. The upper-left block of $W^P$ (gas/government) became brighter internally, but the cross-block entries (gas to traditional) remained dark. $\Gamma$ may have increased slightly (more domestic fiscal links) without fundamentally changing the block-diagonal structure. Strictly, the gas-to-treasury channel is a \emph{fiscal} linkage in \citeauthor{hirschman1977generalized}'s \citeyearpar{hirschman1977generalized} sense rather than a production edge; modelling it inside $W^P$ requires a node set that includes the government as a sector.
+\textbf{Net effect on $\Gamma$:} Small, and not upward. The nationalization increased some within-country flows (gas revenue to social spending) but did not create production linkages between the gas sector and the rest of the economy. The INE input-output tables allow a check (12 sectors, domestic flows, input shares; base 1990): $\Gamma(W^P)$ was $0.518$ in 2006 and $0.484$ in 2013. It drifted down slightly, and it was never low: Bolivia's domestic $W^P$ is not block-diagonal, and its $\Gamma$ is in the range of Korea's and the US's on a common basis (Chapter~16). The enclave shows up elsewhere. Hydrocarbons' power share in $W^P$ rose with the boom, from $0.064$ in 2006 to $0.085$ in 2013, but in 2019 (base 2017) it was only $0.039$; the sector exports $70\%$ of its output, buys $0.225$ of domestic intermediate inputs per unit of output, and pays $6\%$ of its value added as compensation of employees \citep{ine2026sut}; author's calculations (\texttt{data/compute/compute\_bolivia\_io.py}). Its rents reach the economy through the treasury (the direct hydrocarbons tax, IDH), not through production edges. Strictly, the gas-to-treasury channel is a \emph{fiscal} linkage in \citeauthor{hirschman1977generalized}'s \citeyearpar{hirschman1977generalized} sense rather than a production edge; modelling it inside $W^P$ requires a node set that includes the government as a sector.
 \end{example}
 
 
@@ -163,8 +163,8 @@ Multiplicity requires a complementarity (here: cross-block links raise the surpl
 
 Neither type need differ in the distribution of power: $\Gamma$ and $\boldsymbol{\pi}$ are independent coordinates (Proposition~\ref{ch06:prop:gap-power-independent}), and in the example below $\boldsymbol{\pi}$ is identical in both equilibria.
 
-\begin{example}[Two Structural Equilibria for Bolivia]\label{ch13:ex:bolivia_two}
-$N = 6$: Gas block (agents 1--2), Urban block (agents 3--4), Rural block (agents 5--6). To make every step computable we restrict the evolution map to a one-parameter family. Let $B$ be within-block averaging ($B_{ij} = 0.5$ if $i, j$ are in the same block, $0$ otherwise) and let $\ones\mathbf{s}'$ be ``open'' links, in which every agent weights partners by their attractiveness $\mathbf{s} = (0.25, 0.25, 0.15, 0.15, 0.10, 0.10)'$. The network is
+\begin{example}[Two Structural Equilibria in a Stylized Bolivia \illustrative]\label{ch13:ex:bolivia_two}
+$N = 6$: Gas block (agents 1--2), Urban block (agents 3--4), Rural block (agents 5--6). The labels are Bolivian; the parameters are illustrative. To make every step computable we restrict the evolution map to a one-parameter family. Let $B$ be within-block averaging ($B_{ij} = 0.5$ if $i, j$ are in the same block, $0$ otherwise) and let $\ones\mathbf{s}'$ be ``open'' links, in which every agent weights partners by their attractiveness $\mathbf{s} = (0.25, 0.25, 0.15, 0.15, 0.10, 0.10)'$. The network is
 \begin{equation}\label{ch13:eq:Wc}
 W(c) = (1-c)\,B + c\,\ones\mathbf{s}', \qquad c \in [0.05, 0.65],
 \end{equation}
@@ -220,6 +220,8 @@ $\Gamma_B = 0.643$, max allocation gap $22\%$, with
 \end{gather*}
 
 In both equilibria $\boldsymbol{\pi} = \mathbf{s} = (0.25, 0.25, 0.15, 0.15, 0.10, 0.10)$ and $\Neff = 5.26$: the family~\eqref{ch13:eq:Wc} has $\Gamma(W(c)) = c$ exactly while $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$ (Proposition~\ref{ch06:prop:gap-power-independent}). Integration changes preferences and the allocation gap through $W^I$; it does not redistribute power. Same economy, same parameters, two self-reinforcing structures. Which obtains depends on history: starting below $\hat c = 0.282$ the economy converges to $A$, above it to $B$.
+
+Neither equilibrium is a description of Bolivia. Its measured domestic production network has $\Gamma(W^P) = 0.567$ (1990), $0.494$ (2000), $0.518$ (2006) and $0.484$ (2013) on INE's base 1990, and $0.467$ in 2019 on base 2017 (12 sectors, input shares), close to Korea's $0.511$ on a common basis \citep{ine2026sut,oecd2023icio}. If Bolivia is fragmented in the sense of equilibrium $A$, the fragmentation does not show in aggregate $\Gamma(W^P)$; it would have to lie in $W^I$ or $W^U$, or at finer sector detail.
 \end{example}
 
 \begin{vizpanel}{Two structural equilibria: fragmented and integrated}
@@ -453,7 +455,7 @@ W_t = \begin{pmatrix} 0.6 & 0.38 & 0.01 & 0.01 \\ 0.38 & 0.6 & 0.01 & 0.01 \\ 0.
 \item Simulate 20 periods of evolution with and without the subsidy. Plot $\Gamma_t$ in both cases.
 \end{enumerate}
 
-\item \textbf{Structural equilibria.} For the Bolivia two-equilibrium example (Example~\ref{ch13:ex:bolivia_two}):
+\item \textbf{Structural equilibria.} For the stylized Bolivia two-equilibrium example (Example~\ref{ch13:ex:bolivia_two}):
 \begin{enumerate}
 \item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{ch13:def:structural_eq}: $\boldsymbol{\theta}^* = T(\boldsymbol{\theta}^*; W)$, $\x^* = h(\cdot)$, and $F(c) = c$). Show that $\Gamma(W(c)) = c$ and $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$.
 \item Compute the basin boundary $\hat c$ by solving $F(c) = c$ on $(c_A, c_B)$. Starting from $W^*_A$, what is the minimum Frobenius push $\varepsilon^*$ that moves the system into the basin of $W^*_B$? (Answer: $\hat c = 0.282$, $\varepsilon^* = 0.307$.)

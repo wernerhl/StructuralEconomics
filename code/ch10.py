@@ -273,3 +273,48 @@ fpa = fixed_points(rs=rs_t - h)[1]
 pred = -mu_t / (rho_t + mu_t * gp(fp[1]) - 1)
 assert abs((fpa - fp[1]) / h - pred) < 1e-3 * abs(pred)
 print("basin threshold derivative: numeric", (fpa - fp[1]) / h, " formula", pred)
+
+# ---------------------------------------------------------------------------
+# Example ch10:ex:bolivia_three: the stylized W^P vs. the sourced Bolivia values
+# quoted next to it (data/processed/*.csv, read with the csv module)
+import csv
+import os
+
+DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed")
+
+
+def read_csv(name):
+    with open(os.path.join(DATA, name), newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def check(label, value, text, nd):
+    print(f"  {label}: {value:.6g} -> text {text}")
+    assert abs(value - text) <= 0.5 * 10 ** -nd + 1e-9, (label, value, text)
+
+
+print("\n== Stylized W^P of Example bolivia_three vs. sourced values")
+gWP = 1 - np.sort(np.abs(np.linalg.eigvals(WP)))[-2]
+check("Gamma(W^P) of the stylized economy", gWP, 0.09, 2)
+bsum = read_csv("bolivia_io_summary.csv")
+row = [x for x in bsum if x["base"] == "2017" and x["year"] == "2019" and x["aggregation"] == "book12"
+       and x["flows"] == "domestic" and x["normalization"] == "input_shares"]
+assert len(row) == 1
+check("Gamma Bolivia 2019 (INE, book12, input shares)", float(row[0]["Gamma"]), 0.467, 3)
+g19 = [float(x["Gamma"]) for x in bsum if x["base"] == "2017" and x["year"] == "2019" and x["flows"] == "domestic"
+       and x["aggregation"] in ("book12", "detail39")]
+check("Gamma range, min", min(g19), 0.33, 2)
+check("Gamma range, max", max(g19), 0.69, 2)
+icio = {x["country"]: float(x["Gamma"]) for x in read_csv("oecd_io_summary.csv")
+        if x["edition"] == "ICIO2023" and x["year"] == "2019" and x["aggregation"] == "book12_isic"
+        and x["flows"] == "domestic" and x["normalization"] == "input_shares"}
+check("Gamma Korea 2019 (ICIO, book12_isic)", icio["KOR"], 0.511, 3)
+check("Gamma USA 2019 (ICIO, book12_isic)", icio["USA"], 0.463, 3)
+pih = [float(x["pi"]) for x in read_csv("bolivia_io_pi.csv") if x["base"] == "2017" and x["year"] == "2019"
+       and x["aggregation"] == "book12" and x["flows"] == "domestic" and x["normalization"] == "input_shares"
+       and x["sector"] == "Hydrocarbons"]
+assert len(pih) == 1
+check("pi hydrocarbons 2019", pih[0], 0.039, 3)
+sf = [x for x in read_csv("bolivia_io_sector_facts.csv") if x["base"] == "2017" and x["year"] == "2019"
+      and x["book12"] == "Hydrocarbons"]
+check("hydrocarbons export share of output (%)", 100 * float(sf[0]["export_share_of_output"]), 70, 0)

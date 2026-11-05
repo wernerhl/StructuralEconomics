@@ -98,3 +98,19 @@ for _ in range(50):
         f = gb(gr) + sv - gr
         assert len(np.where(np.sign(f[:-1]) != np.sign(f[1:]))[0]) == n
 print("checked: symmetry, monotone map, reverse fold at -s*, global convergence for s > s*, random beta")
+
+print("\n=== Sourced: Bolivia's W^P around the 2006 nationalization (INE base 1990, book12) ===")
+import csv
+import pathlib
+PROC = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
+gam, pih = {}, {}
+for r in csv.DictReader(open(PROC / "bolivia_io_summary.csv", encoding="utf-8")):
+    if (r["base"], r["aggregation"], r["flows"], r["normalization"]) == ("1990", "book12", "domestic", "input_shares"):
+        gam[int(r["year"])] = float(r["Gamma"])
+for r in csv.DictReader(open(PROC / "bolivia_io_pi.csv", encoding="utf-8")):
+    if (r["base"], r["aggregation"], r["flows"], r["normalization"], r["sector"]) == \
+            ("1990", "book12", "domestic", "input_shares", "Hydrocarbons"):
+        pih[int(r["year"])] = float(r["pi"])
+print(f"Gamma 2006 = {gam[2006]:.3f}, 2009 = {gam[2009]:.3f}; max pi_hydrocarbons 2006-09 = {max(pih[y] for y in range(2006, 2010)):.3f}")
+assert round(gam[2006], 3) == 0.518 and round(gam[2009], 3) == 0.504
+assert max(pih[y] for y in range(2006, 2010)) < 0.09

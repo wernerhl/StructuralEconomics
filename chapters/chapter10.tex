@@ -169,8 +169,8 @@ If every agent's information row is similar ($\tau_1(W^I)$ small), steady-state 
 
 Note the measure: what compresses preferences is how \textit{similar} the agents' information rows are ($\tau_1$). Since $|\lambda_2(W^I)| \le \tau_1(W^I)$, a large spectral gap $\Gamma(W^I)$ is necessary for $\tau_1$ to be small, but it is not sufficient.
 
-\begin{example}[Bolivia: Three Blocks \illustrative]\label{ch10:ex:bolivia_three}
-$N = 9$: three blocks of 3 agents each. Block~1 (gas/government), block~2 (urban informal), block~3 (rural traditional). All parameters are illustrative.
+\begin{example}[A Stylized Bolivia: Three Blocks \illustrative]\label{ch10:ex:bolivia_three}
+$N = 9$: three blocks of 3 agents each. Block~1 (gas/government), block~2 (urban informal), block~3 (rural traditional). All parameters are illustrative: this is a stylized dual economy with Bolivian labels, not an estimate of Bolivia's structure.
 \begin{itemize}
 \item Returns: $\alpha = (0.06, 0.04, 0.03)$ and $\beta = (0.10, 0.07, 0.04)$ by block; $\gamma_i = 0.02$ for all $i$.
 \item $W^P$: within-block input shares $0.94/3$ each, cross-block $0.01$ each.
@@ -197,9 +197,11 @@ Power $\pi_i$ (per agent) & 0.150 & 0.110 & 0.073 \\
 \end{center}
 
 Three internally coherent cultures in one economy. The gas block is more patient and ambitious ($\theta_1^* = 1.12$) because it observes high returns. The rural block is less so ($\theta_3^* = 0.99$) because it observes low returns. The urban block is in between. Each block's preferences are consistent with the returns it observes. But the rural block's low returns are partly \textit{caused} by its low preferences (through $\phi$), which are partly caused by its isolation in $W^I$. The preference gap is $\theta_1^* - \theta_3^* = 0.137$. It attains the bound~\eqref{ch10:eq:dobrushin_bound} exactly ($\mathcal{M} = 1.33$, $\tau_1(W^I) = 0.775$, return range $0.133$), because returns are constant within blocks.
+
+The stylization departs from the data in two places. Its $W^P$ is nearly block-diagonal ($\Gamma(W^P) = 0.09$), whereas Bolivia's measured domestic $W^P$ is not: $\Gamma = 0.467$ on 12 sectors in 2019 (INE supply-use tables, base 2017, input shares; $0.33$--$0.69$ across normalizations), in the range of Korea ($0.511$) and the US ($0.463$) on a common basis \citep{ine2026sut,oecd2023icio}. And the gas block's large $\pi_i$ here is a bargaining weight (Assumption~7.A), not production centrality: in the measured $W^P$ hydrocarbons are peripheral ($\pi = 0.039$), with $70\%$ of their output exported. What the example illustrates --- stratified preferences from a block-diagonal $W^I$ --- depends on the information network, not on $\Gamma(W^P)$.
 \end{example}
 
-\begin{vizpanel}{Bolivia: three blocks, three steady states}
+\begin{vizpanel}{A stylized Bolivia: three blocks, three steady states}
 \begin{center}
 \begin{tikzpicture}[scale=1]
 \def\s{0.32}
@@ -445,7 +447,7 @@ Differentiate~\eqref{ch10:eq:bargaining}--\eqref{ch10:eq:formation} at fixed $\b
 
 Evidence that transfers shift aspirations and investment beyond their direct effect --- especially when the beneficiaries' reference groups are treated too --- includes \citet[\textit{EJ}]{macours2014changing} and \citet[\textit{AEJ: Applied}]{macours2012cash} on a Nicaraguan cash-transfer program.
 
-\begin{example}[Bolivia: Three Policies Compared \illustrative]\label{ch10:ex:policies}
+\begin{example}[A Stylized Bolivia: Three Policies Compared \illustrative]\label{ch10:ex:policies}
 Use Example~\ref{ch10:ex:bolivia_three}. Policy goal: reduce the preference gap between the gas block and the rural block (initially $0.137$). The outcome for $\Psi$ is returns; the aggregate ratio $\bar{\Psi}$ is used throughout.
 
 \textbf{Policy A --- Transfer.} Move $0.1$ of endowment from each gas agent to each rural agent.
@@ -506,7 +508,7 @@ Transfers and structural policy act at once and also, more slowly, on preference
 
 \item The \textbf{formation effect} of a perturbation is $Y(I - J^T)(I - J)^{-1}\mu\Delta\mathbf{s}$ at horizon $T$: the formation Leontief inverse applied to the signal shock. The $\Psi$ ratio of Chapter~9 follows; in a one-loop model, $\Psi(\infty) = \mu\beta\eta/(1 - \rho - \mu\beta\eta)$.
 
-\item \textbf{Three policy levers}: transfers and structural policy have enforcement effects and (first-order) formation effects through observed returns. Information policy has no enforcement effect ($\Psi$ undefined) and works entirely through formation. In the illustrative Bolivia calibration it narrows the preference gap most.
+\item \textbf{Three policy levers}: transfers and structural policy have enforcement effects and (first-order) formation effects through observed returns. Information policy has no enforcement effect ($\Psi$ undefined) and works entirely through formation. In the stylized Bolivia calibration it narrows the preference gap most.
 \end{enumerate}
 
 
@@ -540,7 +542,7 @@ Transfers and structural policy act at once and also, more slowly, on preference
 \item How do the eigenvalues change if $\mu$ doubles? At what $\mu$ does the steady state lose stability?
 \end{enumerate}
 
-\item \textbf{Three policies for Bolivia.} Reproduce Example~\ref{ch10:ex:policies}:
+\item \textbf{Three policies for the stylized Bolivia.} Reproduce Example~\ref{ch10:ex:policies}:
 \begin{enumerate}
 \item Verify the three-block steady state.
 \item Compute the enforcement and formation effects for each policy.

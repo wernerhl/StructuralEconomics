@@ -18,7 +18,7 @@ Parts~I--V developed the theory. Part~VI builds the measurement infrastructure. 
 
 The answer, for the production network $W^P$, is the Social Accounting Matrix (SAM): a square matrix that records every flow between every pair of accounts in the economy. The SAM is the natural data object for $W^P$, but two different matrices can be built from it, and they should not be confused. Normalizing \emph{columns} gives expenditure shares: the coefficient matrix behind multipliers and, for the production block, the input-cost shares $W^P = D^{-1}A$ of Chapter~1. Normalizing \emph{rows} gives receipt shares, a row-stochastic matrix over all accounts, whose Perron vector turns out to be nothing more than account size (Proposition~\ref{ch20:prop:pi_size}).
 
-This chapter translates the framework into SAM language, builds an illustrative SAM for Bolivia, and shows which of Chapter~17's diagnostics a SAM can deliver and which it cannot. The remaining chapters in Part~VI extend the measurement to $W^I$ (Chapter~21), $W^U$ (Chapter~22), and time series (Chapter~23).
+This chapter translates the framework into SAM language, builds an illustrative SAM for a stylized Bolivia-like economy, checks its gas sector against INE's supply-use tables, and shows which of Chapter~17's diagnostics a SAM can deliver and which it cannot. The remaining chapters in Part~VI extend the measurement to $W^I$ (Chapter~21), $W^U$ (Chapter~22), and time series (Chapter~23).
 
 
 %% =====================================================================
@@ -110,15 +110,16 @@ The sources one would use to build a Bolivian SAM:
 \toprule
 \textbf{SAM block} & \textbf{Data source} & \textbf{Detail} \\
 \midrule
-Production $\times$ Production & INE I-O table 2016 & 35 sectors \\
-Production $\times$ Factors & National Accounts & Value added by sector \\
-Factors $\times$ Households & EH 2016 & Wages, profits by HH type \\
-Households $\times$ Commodities & EH 2016 (consumption) & Expenditure by HH type \\
+Production $\times$ Production & INE supply-use tables, base 2017 & 42 products $\times$ 39 industries \\
+Production $\times$ Factors & Same tables, value-added block & Compensation, surplus by industry \\
+Factors $\times$ Households & EH 2019 & Wages, profits by HH type \\
+Households $\times$ Commodities & EH 2019 (consumption) & Expenditure by HH type \\
 Government $\times$ all & Fiscal data (MEFP) & Tax, transfers, spending \\
 Rest of world & Balance of payments & Exports, imports, FDI \\
 \bottomrule
 \end{tabular}
 \end{center}
+INE publishes supply-use tables annually for 2017--2024 on the base-2017 national accounts, and symmetric $35 \times 35$ input--output matrices for 1988--2009 and 2011--2014 on base 1990 \citep{ine2026sut}. There is no 2016 table. The supply-use tables do not separate domestic from imported use, so an industry-by-industry block of domestic flows has to be derived from them (net taxes and margins removed, imports allocated proportionally, fixed product-sales structure); \texttt{data/compute/compute\_bolivia\_io.py} does this and is the source of every Bolivian I-O number quoted below. INE does not publish a SAM.
 \end{example}
 
 \subsection{The SAM Structure}
@@ -148,7 +149,7 @@ Total & 8.0 & 5.7 & 11.5 & 14.1 & 10.4 & 7.1 & 6.8 & 13.8 & 5.9 & 9.6 \\
 \end{tabular}
 \end{center}
 \vspace{0.3em}
-\small Illustrative values in billions of Bs, not estimates. Empty cells are zero. Each column records an account's payments, each row its receipts, and every row total equals the corresponding column total (last row). Household columns record consumption of domestic goods, direct taxes, and payments to RoW. RoW payments are imports plus, since this simplified SAM has no separate savings--investment account, net saving placed abroad. Without the household-consumption cells, seven accounts would not balance; \texttt{code/ch20.py} checks the balance.
+\small Illustrative values in billions of Bs, not estimates. Empty cells are zero. Each column records an account's payments, each row its receipts, and every row total equals the corresponding column total (last row). Household columns record consumption of domestic goods, direct taxes, and payments to RoW. RoW payments are imports plus, since this simplified SAM has no separate savings--investment account, net saving placed abroad. Without the household-consumption cells, seven accounts would not balance; \texttt{code/ch20.py} checks the balance. The account sizes are not scaled to Bolivia's national accounts; the real hydrocarbons figures are in the Prebisch box after Example~\ref{ch20:ex:multipliers}.
 \end{example}
 
 \begin{vizpanel}{Bolivia's SAM as a heatmap}
@@ -317,7 +318,7 @@ Total & 5.18 & 6.20 & 5.82 & 5.85 & 5.42 & 3.08 \\
 
 The levels are high because this simplified SAM has no savings account: the only leakages are taxes and payments abroad. Key findings:
 \begin{enumerate}
-\item Gas has the \textit{lowest} total multiplier among the production sectors (5.18): 11\% below manufacturing and 16\% below agriculture. Its own-block effect is the smallest (0.53), because gas buys few domestic intermediates. Its circular-flow effects are also weaker: 45\% of its output pays capital, and only 11\% of capital income reaches poor households.
+\item Gas has the \textit{lowest} total multiplier among the production sectors (5.18): 11\% below manufacturing and 16\% below agriculture. Its own-block effect is the smallest (0.53), because gas buys few domestic intermediates. Its circular-flow effects are also weaker: 45\% of its output pays capital, and only 11\% of capital income reaches poor households. The real tables make the same point more sharply (see the box below).
 \item Agriculture, not manufacturing, has the highest multiplier (6.20). It pays a large share of its output to labor (37\%), and labor income reaches poor households at a rate of 40\%.
 \item Money given to poor households has a much higher multiplier (5.42) than money given to non-poor households (3.08). In this SAM the non-poor send 47\% of their spending abroad, against 16\% for the poor.
 \item Multiplying the column sums of $M_1, M_2, M_3$ is not a valid decomposition: for gas it would give 5.69 instead of the true 5.18.
@@ -327,6 +328,16 @@ The levels are high because this simplified SAM has no savings account: the only
 
 \begin{prebisch}[Why gas revenue doesn't develop Bolivia]
 The SAM multiplier makes visible what Chapter~17's dashboard suggested: in this illustrative SAM, Bolivia's gas sector behaves as an enclave. Its total multiplier is the lowest of the four production sectors. Gas revenue flows mainly to capital owners, and capital income reaches poor households only weakly (0.8 of 7.1). The circular flow is thinner where it passes through the distribution of income.
+
+The SAM is a toy, but its gas column can be checked against INE's 2019 supply-use tables (base 2017), and the real enclave is starker than the toy's:
+\begin{itemize}
+\item \emph{Export orientation.} Hydrocarbons export 70.1\% of their output (toy SAM: 56\%).
+\item \emph{Domestic linkages.} They buy 0.225 of domestic intermediate inputs per unit of output, against 0.558 for manufacturing (toy SAM: 0.325 against 0.574).
+\item \emph{Who is paid.} Compensation of employees is 6.0\% of the sector's value added (toy SAM: labor receives 18\% of the gas sector's factor payments).
+\item \emph{Size.} The sector is 4.7\% of gross output and 6.1\% of gross value added. The toy's gas account, a fifth of production, overstates it about fourfold.
+\item \emph{Position in $W^P$.} In the 12-sector domestic input-share matrix, the hydrocarbons sector's Perron weight is $\pi = 0.039$. The sector sits at the periphery of the domestic network, not at its center (Chapter~17).
+\end{itemize}
+This is the enclave of Pinto and Prebisch, measured by export orientation, domestic input intensity and $\pi$, not by $\Gamma$. The rents are captured fiscally (IDH and royalties, Chapter~22) rather than through linkages or wages. \par{\footnotesize Source: INE supply-use tables, base 2017, 2019 \citep{ine2026sut}; author's calculations (\texttt{data/compute/compute\_bolivia\_io.py}, \texttt{data/compute/compute\_bolivia\_facts.py}). Toy-SAM ratios: \texttt{code/ch20.py}.\par}
 
 This is a central theme of \citet{taylor1983structuralist}: in demand-driven structuralist models, the functional and size distribution of income shapes the multiplier, because different recipients have different spending and import propensities. In the SAM, it shows up as a strong Gas-to-Capital cell and a faint Capital-to-Poor-HH cell.
 
@@ -405,7 +416,7 @@ The reallocation is 23\% of gas value added (19\% if production taxes are includ
 
 \item The \textbf{SAM multiplier matrix} $(I - A_n)^{-1}$ factors as $M_3M_2M_1$: closed-loop, open-loop and transfer multipliers (Pyatt--Round). Stone's additive form reports their contributions as column sums that add up.
 
-\item \textbf{Bolivia's gas enclave} (illustrative): gas has the lowest multiplier of the production sectors (5.18, against 5.82 for manufacturing and 6.20 for agriculture). It buys few domestic inputs, and its income goes mainly to capital, which reaches poor households weakly.
+\item \textbf{Bolivia's gas enclave} (illustrative): gas has the lowest multiplier of the production sectors (5.18, against 5.82 for manufacturing and 6.20 for agriculture). It buys few domestic inputs, and its income goes mainly to capital, which reaches poor households weakly. INE's 2019 tables confirm the pattern: hydrocarbons export 70.1\% of output, buy 0.225 of domestic inputs per unit of output (manufacturing 0.558), pay 6.0\% of value added as compensation, and carry a Perron weight of only 0.039 in the domestic $W^P$. The enclave is measured by these numbers, not by $\Gamma$.
 
 \item \textbf{Counterfactual SAMs} evaluate structural interventions through the multiplier model. Shifting 1B Bs of gas value added from capital to labor raises the gas multiplier by 2.3\% and the poor's income share by 1.4 points, while leaving $\Gamma$ essentially unchanged. A SAM supports integration and multiplier diagnostics, but not between-group inequality or information concentration.
 \end{enumerate}
@@ -418,7 +429,7 @@ The reallocation is 23\% of gas value added (19\% if production taxes are includ
 
 \begin{enumerate}[label=\textbf{20.\arabic*}, leftmargin=3em]
 
-\item \textbf{Build a SAM.} Using Bolivia's I-O table, National Accounts, EH, and fiscal data: construct a $10 \times 10$ SAM following the template in Example~\ref{ch20:ex:bolivia_sam}. Verify that it balances.
+\item \textbf{Build a SAM.} Using INE's supply-use tables (base 2017), the EH, and fiscal data: construct a $10 \times 10$ SAM following the template in Example~\ref{ch20:ex:bolivia_sam}. Verify that it balances.
 
 \item \textbf{Row-normalize and compute $\Gamma$.} From your SAM: compute $W$, its eigenvalues, and $\Gamma_{\text{SAM}}$. Compare with $\Gamma$ of the production block alone. Which is smaller in your SAM? Are the leading eigenvalues complex, and what does that say about the circular flow? Verify that the Perron vector equals the vector of account totals.
 
@@ -530,6 +541,6 @@ Taylor's books \citeyearpar{taylor1983structuralist,taylor1990socially,taylor200
 
 \textbf{CGE modeling:} \citet*{lofgren2002standard}, ``A Standard Computable General Equilibrium (CGE) Model in GAMS.'' \citet*{dervis1982general}, \textit{General Equilibrium Models for Development Policy}. For Bolivia-specific CGE models, see the work of Luis Carlos Jemio. % TODO-VERIFY: exact title/year of the Jemio reference (the earlier "IISEC Working Paper, 2001" title could not be confirmed).
 
-\textbf{Bolivia SAM data:} INE (\texttt{ine.gob.bo}): I-O tables, National Accounts. UDAPE: social indicators and public expenditure. MEFP (Ministerio de Econom\'{i}a y Finanzas P\'{u}blicas): fiscal data.
+\textbf{Bolivia SAM data:} INE (\texttt{ine.gob.bo}): supply-use tables (base 2017) and input--output matrices (base 1990), National Accounts \citep{ine2026sut}. UDAPE: social indicators and public expenditure. MEFP (Ministerio de Econom\'{i}a y Finanzas P\'{u}blicas): fiscal data.
 
 \end{document}

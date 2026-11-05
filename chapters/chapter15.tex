@@ -209,7 +209,7 @@ Restrict the $\ell_1$ problem of Proposition~\ref{ch15:thm:optimal_edge} to dire
 
 Hirschman's answer and the spectral-gap answer (Proposition~\ref{ch15:thm:optimal_edge}) do not always agree. Hirschman targets the sector with the strongest linkages; the spectral-gap criterion targets the edge that connects the cores of weakly coupled blocks. When the high-linkage sector is in the already-dense core, Hirschman's investment deepens the core without bridging to the periphery; the spectral-gap criterion bridges, but by itself ignores output (Example~\ref{ch15:ex:isi}).
 
-Hirschman himself singled out mining and other primary-export enclaves as \emph{low}-linkage activities, and later \citeyearpar{hirschman1977generalized} added fiscal and consumption linkages to the list. For Bolivia his framework does not say ``invest in gas''; it says that gas generates mainly a fiscal linkage, and asks what that revenue is spent on. The spectral-gap criterion adds: invest in the \textit{edge between gas and the traditional sector} --- the processing plant, the local supply contract, the vocational training program that connects quinoa farmers to the gas-sector labor market.
+Hirschman himself singled out mining and other primary-export enclaves as \emph{low}-linkage activities, and later \citeyearpar{hirschman1977generalized} added fiscal and consumption linkages to the list. For Bolivia his framework does not say ``invest in gas''; it says that gas generates mainly a fiscal linkage, and asks what that revenue is spent on. The INE supply-use tables bear him out: in 2019 hydrocarbons bought $0.225$ of domestic intermediate inputs per unit of output (manufacturing: $0.558$), exported $70\%$ of their output, paid $6\%$ of their value added as compensation of employees, and had a power share of only $0.039$ in the domestic $W^P$ \citep{ine2026sut}; author's calculations (\texttt{data/compute/compute\_bolivia\_io.py}). The spectral-gap criterion adds: invest in the \textit{edge between gas and the traditional sector} --- the processing plant, the local supply contract, the vocational training program that connects quinoa farmers to the gas-sector labor market.
 \end{prebisch}
 
 
@@ -296,7 +296,7 @@ The sequencing conjecture inverts the conventional wisdom. The standard approach
 
 The reason is the formation amplifier. Each step's effectiveness depends on the $\Psi$ ratio. With illustrative values --- information $\Psi \sim 3$--$5$, institutions $\Psi \sim 1$--$2$, infrastructure $\Psi \sim 0.5$--$1$ --- starting with the high-$\Psi$ interventions produces the preference changes that make the low-$\Psi$ interventions politically feasible and economically effective. Estimating these $\Psi$ values (Chapter~11) is what would turn the conjecture into a policy rule.
 
-History is suggestive, not decisive. South Korea's sequence is usually summarized as land reform and mass education first, export promotion in the 1960s, and the heavy-and-chemical-industry drive in the 1970s --- education and institutions before industrial policy, though not in exactly the order of the conjecture. Bolivia's gas nationalization was industrial policy without prior information or institutional change: it changed $W^P$ but not $W^I$, and the formation preconditions were not in place.
+History is suggestive, not decisive. South Korea's sequence is usually summarized as land reform and mass education first, export promotion in the 1960s, and the heavy-and-chemical-industry drive in the 1970s --- education and institutions before industrial policy, though not in exactly the order of the conjecture. Bolivia's gas nationalization was industrial policy without prior information or institutional change: it changed ownership and the fiscal destination of gas rents but not $W^I$, and the formation preconditions were not in place. By the INE input-output tables it did not change the domestic production network much either: $\Gamma(W^P)$ was $0.518$ in 2006 and $0.484$ in 2013 \citep{ine2026sut}.
 \end{keyinsight}
 
 \begin{vizpanel}{Conjectured sequencing: $\Psi$-ordered operators}
@@ -352,7 +352,7 @@ The probability that a country develops comparative advantage in product $p'$ is
 The operator-design interpretation needs care. The product space is a network of \emph{capability similarity} between products, built from co-export patterns; it is not the input-output network $W^P$, and its edges are not input flows. It enters operator design as a constraint on which ISI operators are \emph{feasible} (likely to succeed), not as a map of $\partial\Gamma/\partial W^P$. Whether a new core product also raises $\Gamma(W^P)$ depends on its input-output links, which must be read from $A$.
 
 \begin{example}[Bolivia in the Product Space \illustrative]\label{ch15:ex:bolivia_ps}
-Bolivia's current export basket: natural gas, zinc, gold, soy, quinoa --- all on the sparse periphery of the product space. Relatedness density to the dense core (machinery, electronics, pharmaceuticals): low; we use $\omega_{c,\text{core}} \approx 0.08$ for illustration (compute the actual value in Exercise~\ref{ch15:ex:ps_data}).
+Bolivia's current export basket: natural gas, zinc, gold, soy, quinoa --- all on the sparse periphery of the product space. Relatedness density to the dense core (machinery, electronics, pharmaceuticals): low; we use $\omega_{c,\text{core}} \approx 0.08$ for illustration (compute the actual value in Exercise~\ref{ch15:ex:ps_data}). The sourced complexity figures agree. Bolivia's ECI was $-1.30$ in 2019 (rank~131), and the product complexity index of its main export lines is low: natural gas (HS~2711) $-2.23$, zinc ores (2608) $-1.67$, soya beans (1201) $-1.81$ \citep{growthlab2026atlas}. Fuels were $32.1\%$ and ores and metals $28.7\%$ of merchandise exports \citep{worldbank2026wdi}. The periphery here is a position in the product space and in export orientation. Bolivia's measured domestic $W^P$ has no weakly coupled block in the spectral sense ($\Gamma = 0.467$; Chapter~17), so the $\Delta\Gamma$ figures below are for a stylized dual economy.
 
 \textbf{Conventional ISI:} Target products adjacent in the product space --- gas processing, zinc smelting, soy flour. These increase domestic value added but do not connect to the dense core. They add edges within the peripheral block of $W^P$. Illustratively, $\Delta\Gamma \approx 0.02$. Modest.
 
@@ -432,11 +432,11 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 
 \item \textbf{The smartphone operator.} Reproduce Example~\ref{ch15:ex:smartphone}: for a two-block economy, add $\Delta W^I = 0.05$ cross-block edges. Simulate the formation dynamics for 5 generations. Compute the steady-state $\Delta\theta$ and $\Delta x$. Why is $\Psi$ not defined for this intervention?
 
-\item \textbf{Sequencing.} For a $6 \times 6$ Bolivia model (gas, urban, rural blocks), compare:
+\item \textbf{Sequencing.} For a stylized $6 \times 6$ Bolivia model (gas, urban, rural blocks), compare:
 \begin{enumerate}
 \item Sequence A: ISI first, then education, then information.
 \item Sequence B: Information first, then education, then ISI.
-\item Simulate both sequences for 10 periods. Plot $\Gamma_t$ for each. Which sequence reaches $\Gamma = 0.30$ first?
+\item Simulate both sequences for 10 periods. Plot $\Gamma_t$ for each. Which sequence reaches $\Gamma = 0.30$ first? (The target refers to the stylized model; Bolivia's measured domestic $\Gamma(W^P)$ is already $0.467$.)
 \end{enumerate}
 
 \item \textbf{Bolivia in the product space.}\label{ch15:ex:ps_data} Using OEC data (\texttt{oec.world}) for Bolivia:
@@ -447,7 +447,7 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 \item Estimate the sequencing cost for reaching each target (order of magnitude).
 \end{enumerate}
 
-\item \textbf{Hirschman vs.\ spectral gap.} For the Bolivia I-O table (from Exercise~1.7):
+\item \textbf{Hirschman vs.\ spectral gap.} For the Bolivia I-O table (from Exercise~1.7; the 12-sector domestic table for 2019 built from INE's supply-use tables is in \texttt{data/processed/bolivia\_Z/}):
 \begin{enumerate}
 \item Compute backward linkages (column sums of $(I - A')^{-1}$) from the technical coefficients $A$, and check that the same computation on $W^P = D^{-1}A$ is uninformative.
 \item Compute the gradient $G_{ij}$ of $\Gamma(W^P)$ for all edges.
@@ -455,7 +455,7 @@ The only way to close the gap is to change the coalition. Chapter~14 showed that
 \item When would Hirschman's criterion lead to the wrong investment?
 \end{enumerate}
 
-\item \textbf{Political cost.} For the $N = 4$ Bolivia model: the winning coalition is $\{$Gas, Government$\}$ ($\pi_1 + \pi_2 = 0.65$). (a) Show that for the objective $\Gamma$ the political cost is zero once the budget reaches $\|\ones\boldsymbol{\pi}' - W\|$ (Proposition~\ref{ch15:prop:political_cost}). (b) For the objective $\Var(\boldsymbol{\pi})$, compute the unconstrained optimum and the constrained optimum (subject to $\Delta\pi_1 \geq 0, \Delta\pi_2 \geq 0$) under a budget $B = 0.1$, numerically. What is the political cost? What coalition change would reduce it?
+\item \textbf{Political cost.} For a stylized $N = 4$ Bolivia model: the winning coalition is $\{$Gas, Government$\}$ ($\pi_1 + \pi_2 = 0.65$). (a) Show that for the objective $\Gamma$ the political cost is zero once the budget reaches $\|\ones\boldsymbol{\pi}' - W\|$ (Proposition~\ref{ch15:prop:political_cost}). (b) For the objective $\Var(\boldsymbol{\pi})$, compute the unconstrained optimum and the constrained optimum (subject to $\Delta\pi_1 \geq 0, \Delta\pi_2 \geq 0$) under a budget $B = 0.1$, numerically. What is the political cost? What coalition change would reduce it?
 \end{enumerate}
 
 

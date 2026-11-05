@@ -176,3 +176,56 @@ for trial in range(300):
     assert np.allclose(perron(Ts / Ts.sum(1, keepdims=True)), Ts.sum(1) / Ts.sum())
 assert np.abs(ev.imag).max() > 0.5 and not np.allclose(T, T.T)
 print("real spectrum for 300 random symmetric SAMs; the chapter's SAM is asymmetric with complex eigenvalues")
+
+print("\n=== Sourced check: the toy gas column against INE's 2019 supply-use tables ===")
+import csv
+import pathlib
+PROC = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
+
+
+def fact(fid):
+    for r in csv.DictReader(open(PROC / "bolivia_facts.csv", encoding="utf-8")):
+        if r["fact_id"] == fid:
+            return float(r["value"])
+    raise KeyError(fid)
+
+
+def sector_fact(sector, col, base="2017", year="2019"):
+    for r in csv.DictReader(open(PROC / "bolivia_io_sector_facts.csv", encoding="utf-8")):
+        if r["base"] == base and r["year"] == year and r["book12"] == sector:
+            return float(r[col])
+    raise KeyError((sector, col))
+
+
+def pi_sector(sector, base="2017", year="2019"):
+    for r in csv.DictReader(open(PROC / "bolivia_io_pi.csv", encoding="utf-8")):
+        if (r["base"], r["year"], r["aggregation"], r["flows"], r["normalization"], r["sector"]) == \
+                (base, year, "book12", "domestic", "input_shares", sector):
+            return float(r["pi"])
+    raise KeyError(sector)
+
+
+real = {
+    "export share of output (%)": (fact("BOL_hydrocarbons_export_share_of_output_2019_b2017"), 70.1, 1),
+    "dom. inputs per output, hydrocarbons": (fact("BOL_hydrocarbons_dom_inputs_per_output_2019_b2017"), 0.225, 3),
+    "dom. inputs per output, manufacturing": (sector_fact("Manufacturing", "dom_int_inputs_per_output"), 0.558, 3),
+    "compensation share of VA (%)": (fact("BOL_hydrocarbons_comp_share_of_va_2019_b2017"), 6.0, 1),
+    "share of gross output (%)": (fact("BOL_hydrocarbons_output_share_2019_b2017"), 4.7, 1),
+    "share of GVA (%)": (fact("BOL_hydrocarbons_va_share_2019_b2017"), 6.1, 1),
+    "pi_hydrocarbons in W^P (book12)": (pi_sector("Hydrocarbons"), 0.039, 3),
+}
+for k, (v, text, nd) in real.items():
+    print(f"INE 2019 {k:40s} = {v:.4f}  (text: {text})")
+    assert round(v, nd) == text, (k, v, text)
+# the same ratios in the toy SAM (gas = column 0, manufacturing = column 2)
+toy_exp = T[0, 9] / y[0]
+toy_dom_gas = T[:4, 0].sum() / y[0]
+toy_dom_mfg = T[:4, 2].sum() / y[2]
+toy_lab = T[4, 0] / (T[4, 0] + T[5, 0])
+toy_size = y[0] / y[:4].sum()
+print(f"toy SAM: export share {toy_exp:.3f}, dom. inputs gas {toy_dom_gas:.3f} / mfg {toy_dom_mfg:.3f}, "
+      f"labor share of gas factor payments {toy_lab:.3f}, gas share of production totals {toy_size:.3f}")
+assert round(100 * toy_exp) == 56 and round(toy_dom_gas, 3) == 0.325 and round(toy_dom_mfg, 3) == 0.574
+assert round(100 * toy_lab) == 18 and round(toy_size, 2) == 0.20
+print(f"toy gas size / real output share = {toy_size / (real['share of gross output (%)'][0] / 100):.1f} (text: about fourfold)")
+assert 3.5 < toy_size / (real['share of gross output (%)'][0] / 100) < 4.6

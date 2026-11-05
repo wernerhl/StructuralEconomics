@@ -186,3 +186,54 @@ for _ in range(200):
     G = gap(Wl)
     assert Ph ** 2 / 2 <= G + 1e-12 and G <= 2 * Ph + 1e-12
 print("Cheeger bounds and phase-diagram spectrum verified")
+
+# ---------------------------------------------------------------------------
+# Sourced Bolivia values quoted in Examples ch13:ex:gas and ch13:ex:bolivia_two
+# (data/processed/*.csv, read with the csv module)
+import csv
+import os
+
+DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed")
+
+
+def read_csv(name):
+    with open(os.path.join(DATA, name), newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def check(label, value, text, nd):
+    print(f"  {label}: {value:.6g} -> text {text}")
+    assert abs(value - text) <= 0.5 * 10 ** -nd + 1e-9, (label, value, text)
+
+
+def sel(rows, base, year, agg="book12"):
+    r = [x for x in rows if x["base"] == base and x["year"] == year and x["aggregation"] == agg
+         and x["flows"] == "domestic" and x["normalization"] == "input_shares"]
+    return r
+
+
+print("\n== Sourced: Bolivia domestic W^P (INE; book12, domestic, input shares)")
+bsum = read_csv("bolivia_io_summary.csv")
+for base, year, v in [("1990", "1990", 0.567), ("1990", "2000", 0.494), ("1990", "2006", 0.518),
+                      ("1990", "2013", 0.484), ("2017", "2019", 0.467)]:
+    r = sel(bsum, base, year)
+    assert len(r) == 1
+    check(f"Gamma {year} (base {base})", float(r[0]["Gamma"]), v, 3)
+kor = [x for x in read_csv("oecd_io_summary.csv") if x["edition"] == "ICIO2023" and x["country"] == "KOR"
+       and x["year"] == "2019" and x["aggregation"] == "book12_isic" and x["flows"] == "domestic"
+       and x["normalization"] == "input_shares"]
+check("Gamma Korea 2019 (ICIO 2023, book12_isic)", float(kor[0]["Gamma"]), 0.511, 3)
+bpi = read_csv("bolivia_io_pi.csv")
+for base, year, v in [("1990", "2006", 0.064), ("1990", "2013", 0.085), ("2017", "2019", 0.039)]:
+    r = [x for x in sel(bpi, base, year) if x["sector"] == "Hydrocarbons"]
+    assert len(r) == 1
+    check(f"pi hydrocarbons {year}", float(r[0]["pi"]), v, 3)
+sf = [x for x in read_csv("bolivia_io_sector_facts.csv") if x["base"] == "2017" and x["year"] == "2019"
+      and x["book12"] == "Hydrocarbons"][0]
+check("hydrocarbons export share of output (%)", 100 * float(sf["export_share_of_output"]), 70, 0)
+check("hydrocarbons domestic inputs per unit of output", float(sf["dom_int_inputs_per_output"]), 0.225, 3)
+check("hydrocarbons compensation share of VA (%)", 100 * float(sf["comp_share_of_va"]), 6, 0)
+# the stylized fragmented equilibrium is far below every measured Gamma quoted
+assert gap(Wc(cA)) < 0.1 < min(float(sel(bsum, b, y)[0]["Gamma"]) for b, y in
+                              [("1990", "1990"), ("1990", "2000"), ("1990", "2006"), ("1990", "2013"), ("2017", "2019")])
+print("stylized Gamma_A =", round(gap(Wc(cA)), 3), "is far below the measured Bolivian Gamma (0.47-0.57)")

@@ -76,7 +76,7 @@ Key patterns:
 \item Cross-ethnic transfers are low. Urban NI $\to$ Rural Indigenous is 0.033. Overall, $\lambda^U_{\text{ethnicity}} = 0.20$ (mean cross-ethnic share over mean within-ethnic share), and $\lambda^U_{\text{geography}} = 0.28$.
 \item Urban indigenous households send 31\% of their transfers to rural indigenous households: kinship networks that span the urban--rural divide.
 \end{enumerate}
-The group-level matrix has $\Gamma = 0.30$ and $\Neff = 3.85$ of 4. Transfers are strongly assortative, slowing integration, but the direction of concern is not concentrated on any one group. Remittances are a separate, exogenous inflow: Bolivia is a net \emph{recipient} of remittances, so they add to, rather than drain, households' resources. (Numbers: \texttt{code/ch22.py}.)
+The group-level matrix has $\Gamma = 0.30$ and $\Neff = 3.85$ of 4. Transfers are strongly assortative, slowing integration, but the direction of concern is not concentrated on any one group. Remittances are a separate, exogenous inflow: Bolivia is a net \emph{recipient} of remittances (US\$1.34 billion, 2.7\% of GDP, in 2019; \citealp{worldbank2026wdi}), so they add to, rather than drain, households' resources. (Numbers: \texttt{code/ch22.py}.)
 \end{example}
 
 \begin{vizpanel}{Transfer shares among four groups}
@@ -198,7 +198,7 @@ Orders of magnitude, to be checked against MEFP data. % TODO-VERIFY: IDH revenue
 
 Illustrative fiscal incidence of gas revenue: about 12\% reaches poor households through transfers, about 8\% reaches non-poor households (public salaries, urban infrastructure), and about 25\% is reinvested in the sector. These are shares of a sector's tax revenue, not utility weights of the gas sector: a sector has no utility.
 
-The fiscal channel is less assortative than the private channel: the state redistributes across groups more than households do. In aggregate it is also larger, with government transfers of about 15 billion Bs against about 10 billion Bs of private transfers (mostly remittances received from abroad). So the more redistributive channel is the bigger one, but the private channel is where cross-group concern, or its absence, shows directly.
+The fiscal channel is less assortative than the private channel: the state redistributes across groups more than households do. It is probably also larger in aggregate. Remittances received from abroad, the bulk of measured private transfers, were US\$1.336 billion in 2019, about 9.3 billion Bs at 6.96 Bs per dollar, or 2.7\% of GDP, down from a peak of 8.0\% in 2007 (WDI series BX.TRF.PWKR.CD.DT and BX.TRF.PWKR.DT.GD.ZS; \citealp{worldbank2026wdi}). Government transfers are of the order of 15 billion Bs, a figure not yet checked against MEFP data. If that order of magnitude holds, the more redistributive channel is the bigger one, but the private channel is where cross-group concern, or its absence, shows directly.
 \end{example}
 
 
@@ -287,7 +287,7 @@ This is why Chapters~20--22 are a trilogy: measuring each network separately is 
 
 \item From transfer data, the altruism FOC identifies $W^U_{ij} = (c_j/c_i)^\sigma$ for pairs with positive transfers, and only a bound for pairs without. Separating altruism from exchange and insurance needs dyadic data and exclusion restrictions.
 
-\item Private $W^U$ is \textbf{highly assortative} in the chapter's illustrative transfer matrix ($\lambda^U_{\text{ethnicity}} = 0.20$, $\Gamma = 0.30$) without being concentrated ($\Neff/n = 0.96$). $\Neff$ can be compared across networks only on a common node set or as $\Neff/n$. The fiscal channel is less assortative and, in aggregate, larger.
+\item Private $W^U$ is \textbf{highly assortative} in the chapter's illustrative transfer matrix ($\lambda^U_{\text{ethnicity}} = 0.20$, $\Gamma = 0.30$) without being concentrated ($\Neff/n = 0.96$). $\Neff$ can be compared across networks only on a common node set or as $\Neff/n$. The fiscal channel is less assortative and probably larger in aggregate (remittances were 9.3 billion Bs in 2019; government transfers are not yet sourced).
 
 \item \textbf{Alignment}: with rank-one layers, the composite Perron vector is the weighted average of the layers', so its variance rises with the layers' covariances but never exceeds the most concentrated layer's. Alignment maximizes compound disadvantage, and anti-alignment (``compensating institutions'') reduces it.
 

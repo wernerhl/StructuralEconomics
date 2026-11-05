@@ -36,7 +36,9 @@ The diagnostic toolkit has five instruments, each derived from the weight matrix
 
 Each instrument is computable from available data: input-output tables, household surveys, media data, and cohort-year panels. Together they provide a structural health check --- a way to diagnose where the economy departs from the benchmark $\Wce = \frac{1}{N}\ones\ones'$ along its two independent coordinates (Chapter~1, Section~\ref{ch01:sec:conventions}): the concentration of power ($G(\boldsymbol{\pi})$, $\Neff$) and the integration deficit ($1 - \Gamma$).
 
-Bolivia is the case study throughout. Not because Bolivia is special, but because it exhibits every structural pathology at measurable scale: an enclave production network, a block-diagonal information structure, a concentrated Perron eigenvector, and a large $\Psi$ ratio. All Bolivian numbers in this chapter are \illustrative: they are internally consistent, shared with Chapters~23--28, and reproduced by \texttt{code/ch17.py}, but they are not yet estimates from a documented dataset. The exercises show how to compute them from INE, CEPAL and household-survey data.
+Bolivia is the case study throughout. Two of the five instruments --- $\Gamma$ and the Perron vector of $W^P$ --- are computed here from INE's supply--use tables \citep{ine2026sut}, with comparators from the OECD's Inter-Country Input-Output tables \citep{oecd2023icio,oecd2021icio}; employment comes from ILOSTAT \citep{ilo2026ilostat}, complexity from the Growth Lab \citep{growthlab2026atlas}, and distribution from INE and the World Bank \citep{worldbank2026wdi}. The other three instruments ($\sigma_B$, $\Neff(W^I)$, $\Psi$) need household-survey microdata, audience data and cohort panels that are not used here, and their Bolivian values remain \illustrative. Every number is reproduced by \texttt{code/ch17.py}, which reads the sourced values from \texttt{data/processed}.
+
+The data do not confirm the picture that the structuralist tradition leads one to expect. Bolivia's production network is not unusually fragmented: its $\Gamma$ lies inside the range of Korea, Germany, the United States, Chile, China and Mexico, and its sectoral power is \emph{less} concentrated than theirs. The enclave is real, but it shows up in the Perron weight and the export orientation of hydrocarbons, not in $\Gamma$. Where Bolivia is distinctive is in complexity (a low and falling ECI) and in distribution (a large fall in inequality between 2005 and 2019 while $\Gamma$ stayed roughly flat). The chapter reads the instruments in that light.
 
 
 %% =====================================================================
@@ -54,79 +56,81 @@ W^P_{ss'} = \frac{a_{ss'}}{\sum_{s''} a_{ss''}},
 where $s, s'$ index domestic sectors; every term in row $s$ shares the denominator $X_s$, so the row is sector $s$'s input mix. The \textbf{domestic spectral gap} is $\Gamma(W^P_{\text{domestic}}) = 1 - |\lambda_2(W^P)|$. Report also the normalization used and the level of aggregation: both change $\Gamma$.
 \end{definition}
 
-\begin{example}[Bolivia's Domestic $\Gamma$ \illustrative]\label{ch17:ex:bolivia_gamma}
-A stylized 12-sector economy calibrated to Bolivia's broad structure (not computed from INE data), in three blocks: gas/mining/public administration, the formal urban economy, and the traditional/informal economy. Linkages are column and row sums of $L = (I - A')^{-1}$ computed from the coefficients $A$, so all are at least $1$ and their means coincide:
+\begin{example}[Bolivia's Domestic $\Gamma$, 2019]\label{ch17:ex:bolivia_gamma}
+INE's supply--use tables for 2019 (base 2017), converted to a domestic industry-by-industry table at basic prices and aggregated to the book's 12 sectors. Linkages are column and row sums of $L = (I - A')^{-1}$ computed from the coefficients $A$, so all are at least $1$ and their means coincide. ``Key'' sectors have both normalized linkages ($BL/\overline{BL}$, $FL/\overline{FL}$) at least $1$; ``backward'' or ``forward'' sectors have only one; ``weak'' sectors have neither:
 
 \begin{center}
 \begin{tabular}{lcccc}
 \toprule
 Sector & Output share & $BL$ & $FL$ & Type \\
 \midrule
-Hydrocarbons & 0.08 & 1.34 & 1.54 & Forward linkage (input provider) \\
-Mining & 0.06 & 1.47 & 1.27 & Weak linkages \\
-Public administration & 0.09 & 1.27 & 1.69 & Forward linkage \\
-Manufacturing & 0.15 & 1.93 & 2.15 & Key sector \\
-Construction & 0.07 & 1.85 & 1.38 & Backward linkage (demand) \\
-Commerce & 0.10 & 1.51 & 1.76 & Key sector \\
-Transport & 0.08 & 1.76 & 1.57 & Key sector \\
-Financial services & 0.04 & 1.42 & 1.38 & Weak linkages \\
-Agriculture & 0.12 & 1.50 & 1.52 & Key sector (marginal) \\
-Other services & 0.12 & 1.42 & 1.26 & Weak linkages \\
-Personal services & 0.06 & 1.21 & 1.18 & Peripheral \\
-Domestic services & 0.03 & 1.07 & 1.05 & Peripheral \\
+Hydrocarbons & 0.047 & 1.34 & 1.20 & Weak \\
+Mining & 0.045 & 1.36 & 1.30 & Weak \\
+Public administration & 0.107 & 1.24 & 1.02 & Weak \\
+Manufacturing & 0.208 & 1.86 & 2.21 & Key sector \\
+Construction & 0.093 & 1.57 & 1.13 & Backward \\
+Commerce & 0.078 & 1.42 & 1.58 & Forward \\
+Transport & 0.063 & 1.54 & 1.52 & Key sector \\
+Financial services & 0.041 & 1.43 & 1.57 & Forward \\
+Agriculture & 0.084 & 1.55 & 1.70 & Key sector \\
+Other services & 0.144 & 1.36 & 2.02 & Forward \\
+Personal services & 0.087 & 1.66 & 1.10 & Backward \\
+Domestic services & 0.004 & 1.00 & 1.00 & Weak (no intermediate flows) \\
 \midrule
-Average & & 1.48 & 1.48 & \\
+Average & & 1.44 & 1.44 & \\
 \bottomrule
 \end{tabular}
+\par\footnotesize Source: INE, Cuadros de Oferta y Utilizaci\'{o}n 2019, base 2017 \citep{ine2026sut}; domestic flows by import proportionality, basic prices, fixed product-sales structure (Eurostat model D); author's calculations (\texttt{data/compute/compute\_bolivia\_io.py}, \texttt{code/ch17.py}).
 \end{center}
 
-Spectral analysis of the $12 \times 12$ $W^P$:
+Domestic services (households as employers) neither buy nor sell intermediate inputs, so their row of $W^P$ is undefined; $W^P$ is $11 \times 11$. Its spectrum:
 \begin{itemize}
-\item $\lambda_1 = 1.000$ (row-stochastic).
-\item $\lambda_2 = 0.873$ and $\lambda_3 = 0.817$: two eigenvalues close to $1$, the signature of three weakly coupled blocks (eigenvalues do not belong to individual blocks; the slow modes describe how the blocks' aggregates equilibrate).
-\item $\Gamma = 1 - 0.873 = 0.127 \approx 0.13$.
+\item $\lambda_1 = 1$ (row-stochastic).
+\item $\lambda_2 = 0.533$ (real) and $|\lambda_3| = 0.313$: no eigenvalue close to $1$, so there is no sign of weakly coupled blocks at this level of aggregation.
+\item $\Gamma = 1 - 0.533 = 0.467$.
 \end{itemize}
 
-Bolivia's domestic $\Gamma = 0.13$: small. The production network is approximately block-diagonal, with weak links between the gas/mining/public-administration block, the formal economy and the traditional economy. The number depends on the normalization: if the same flows are normalized as sales shares (rows = sellers) instead of input shares, $\Gamma = 0.075$.
+Bolivia's domestic $\Gamma = 0.467$ is not small. The number depends on the normalization and the aggregation: normalized as sales shares (rows = sellers) the same flows give $\Gamma = 0.694$; at INE's 39-industry detail, input shares give $0.410$. Across the two aggregations, input or sales shares, and with or without the diagonal, Bolivia's 2019 $\Gamma$ ranges over $0.33$--$0.69$. Any single $\Gamma$ used to compare economies should be read against that range.
 
-For comparison (illustrative values, shared with Chapter~23): South Korea's $\Gamma \approx 0.45$; Germany's $\Gamma \approx 0.52$; the United States' $\Gamma \approx 0.48$.
+For comparison on a like-for-like basis (the same 12 groups built from ISIC Rev.~4, domestic flows, input shares, 2019), Bolivia's $\Gamma = 0.475$; South Korea's is $0.511$, Germany's $0.544$, the United States' $0.463$, Chile's $0.557$, China's $0.582$ and Mexico's $0.649$ \citep{oecd2023icio}. Bolivia sits inside the comparator range, above the United States. Aggregate $\Gamma$ does not separate Bolivia from the industrial economies.
 \end{example}
 
-\begin{vizpanel}{Bolivia's domestic $W^P$: the $12 \times 12$ heatmap}
+\begin{vizpanel}{Domestic $W^P$, 2019: Bolivia and South Korea}
 \begin{center}
+%% Brightness = 100 * W_ij / max(W), rows = buyers, columns = suppliers; from code/ch17.py (HEAT_BOL, HEAT_KOR)
 \begin{tikzpicture}[scale=1]
-\def\N{12}
+\def\N{11}
 \def\s{0.28}
-%% Brightness = 100 * W_ij / max(W), from code/ch17.py; blocks: gas (1-3), formal (4-8), traditional (9-12)
-\foreach \i/\j/\bp in {1/1/60,1/2/40,1/3/100,1/4/3,1/5/1,1/6/2,1/7/1,1/8/1,1/9/2,1/10/1,1/11/0,1/12/0,2/1/60,2/2/40,2/3/100,2/4/3,2/5/1,2/6/2,2/7/1,2/8/1,2/9/2,2/10/1,2/11/0,2/12/0,3/1/60,3/2/40,3/3/100,3/4/3,3/5/1,3/6/2,3/7/1,3/8/1,3/9/2,3/10/1,3/11/0,3/12/0,4/1/9,4/2/2,4/3/5,4/4/68,4/5/23,4/6/45,4/7/34,4/8/23,4/9/2,4/10/1,4/11/0,4/12/0,5/1/9,5/2/2,5/3/5,5/4/68,5/5/23,5/6/45,5/7/34,5/8/23,5/9/2,5/10/1,5/11/0,5/12/0,6/1/9,6/2/2,6/3/5,6/4/68,6/5/23,6/6/45,6/7/34,6/8/23,6/9/2,6/10/1,6/11/0,6/12/0,7/1/9,7/2/2,7/3/5,7/4/68,7/5/23,7/6/45,7/7/34,7/8/23,7/9/2,7/10/1,7/11/0,7/12/0,8/1/9,8/2/2,8/3/5,8/4/68,8/5/23,8/6/45,8/7/34,8/8/23,8/9/2,8/10/1,8/11/0,8/12/0,9/1/13,9/2/3,9/3/8,9/4/5,9/5/2,9/6/2,9/7/2,9/8/2,9/9/90,9/10/45,9/11/31,9/12/9,10/1/13,10/2/3,10/3/8,10/4/5,10/5/2,10/6/2,10/7/2,10/8/2,10/9/90,10/10/45,10/11/31,10/12/9,11/1/13,11/2/3,11/3/8,11/4/5,11/5/2,11/6/2,11/7/2,11/8/2,11/9/90,11/10/45,11/11/31,11/12/9,12/1/13,12/2/3,12/3/8,12/4/5,12/5/2,12/6/2,12/7/2,12/8/2,12/9/90,12/10/45,12/11/31,12/12/9} {
+\foreach \i/\j/\bp in {1/1/4,1/2/1,1/3/1,1/4/10,1/5/1,1/6/10,1/7/98,1/8/1,1/9/1,1/10/31,1/11/7,2/1/3,2/2/1,2/3/1,2/4/39,2/5/1,2/6/24,2/7/30,2/8/2,2/9/3,2/10/56,2/11/4,3/1/3,3/2/3,3/3/3,3/4/32,3/5/2,3/6/18,3/7/5,3/8/26,3/9/3,3/10/62,3/11/8,4/1/11,4/2/33,4/3/0,4/4/32,4/5/1,4/6/16,4/7/3,4/8/4,4/9/57,4/10/8,4/11/1,5/1/0,5/2/15,5/3/0,5/4/100,5/5/19,5/6/18,5/7/0,5/8/7,5/9/0,5/10/4,5/11/1,6/1/1,6/2/0,6/3/1,6/4/8,6/5/2,6/6/7,6/7/56,6/8/29,6/9/0,6/10/57,6/11/4,7/1/17,7/2/1,7/3/1,7/4/62,7/5/2,7/6/31,7/7/9,7/8/9,7/9/0,7/10/28,7/11/5,8/1/3,8/2/0,8/3/1,8/4/8,8/5/4,8/6/8,8/7/3,8/8/94,8/9/0,8/10/41,8/11/3,9/1/2,9/2/1,9/3/1,9/4/30,9/5/3,9/6/21,9/7/19,9/8/10,9/9/55,9/10/22,9/11/1,10/1/7,10/2/1,10/3/1,10/4/18,10/5/10,10/6/16,10/7/6,10/8/19,10/9/1,10/10/80,10/11/6,11/1/1,11/2/0,11/3/0,11/4/82,11/5/2,11/6/27,11/7/3,11/8/7,11/9/24,11/10/17,11/11/2} {
     \fill[blue!\bp, draw=white, line width=0.06pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
 }
-\node[font=\tiny, black, rotate=90] at (-0.25, {10.5*\s}) {Gas};
-\node[font=\tiny, black, rotate=90] at (-0.25, {6.5*\s}) {Formal};
-\node[font=\tiny, black, rotate=90] at (-0.25, {2*\s}) {Trad.};
-\draw[white, thin] (0, {9*\s}) -- ({\N*\s}, {9*\s});
-\draw[white, thin] (0, {4*\s}) -- ({\N*\s}, {4*\s});
-\draw[white, thin] ({3*\s}, 0) -- ({3*\s}, {\N*\s});
-\draw[white, thin] ({8*\s}, 0) -- ({8*\s}, {\N*\s});
-\node[below, font=\scriptsize\bfseries] at ({6*\s}, -0.15) {Bolivia $W^P$ (illustrative)};
-\node[below, font=\scriptsize] at ({6*\s}, -0.5) {$\Gamma = 0.13$};
+\foreach \k in {1,...,11} {
+  \node[font=\tiny, black] at ({(\k-0.5)*\s}, {\N*\s+0.12}) {\k};
+  \node[font=\tiny, black] at (-0.15, {(\N-\k+0.5)*\s}) {\k};
+}
+\node[below, font=\scriptsize\bfseries] at ({5.5*\s}, -0.15) {Bolivia $W^P$ (INE)};
+\node[below, font=\scriptsize] at ({5.5*\s}, -0.5) {$\Gamma = 0.475$};
 \end{tikzpicture}
 \qquad
 \begin{tikzpicture}[scale=1]
-\def\N{12}
+\def\N{11}
 \def\s{0.28}
-%% South Korea (illustrative): own-sector inputs on the diagonal, cross inputs spread evenly
-\foreach \i/\j/\bp in {1/1/100,1/2/7,1/3/6,1/4/6,1/5/6,1/6/7,1/7/7,1/8/6,1/9/6,1/10/6,1/11/7,1/12/7,2/1/6,2/2/99,2/3/6,2/4/7,2/5/7,2/6/6,2/7/6,2/8/6,2/9/7,2/10/7,2/11/6,2/12/6,3/1/7,3/2/7,3/3/99,3/4/6,3/5/6,3/6/7,3/7/7,3/8/6,3/9/6,3/10/6,3/11/7,3/12/7,4/1/6,4/2/6,4/3/6,4/4/100,4/5/7,4/6/6,4/7/6,4/8/6,4/9/7,4/10/7,4/11/6,4/12/6,5/1/6,5/2/7,5/3/7,5/4/6,5/5/99,5/6/6,5/7/7,5/8/7,5/9/6,5/10/6,5/11/6,5/12/7,6/1/6,6/2/6,6/3/6,6/4/7,6/5/7,6/6/99,6/7/6,6/8/6,6/9/7,6/10/7,6/11/6,6/12/6,7/1/6,7/2/7,7/3/7,7/4/6,7/5/6,7/6/6,7/7/100,7/8/7,7/9/6,7/10/6,7/11/6,7/12/7,8/1/7,8/2/6,8/3/6,8/4/6,8/5/7,8/6/7,8/7/6,8/8/99,8/9/6,8/10/7,8/11/7,8/12/6,9/1/6,9/2/7,9/3/7,9/4/6,9/5/6,9/6/6,9/7/7,9/8/7,9/9/99,9/10/6,9/11/6,9/12/7,10/1/7,10/2/6,10/3/6,10/4/6,10/5/7,10/6/7,10/7/6,10/8/6,10/9/6,10/10/100,10/11/7,10/12/6,11/1/6,11/2/6,11/3/7,11/4/7,11/5/6,11/6/6,11/7/6,11/8/7,11/9/7,11/10/6,11/11/99,11/12/6,12/1/7,12/2/6,12/3/6,12/4/6,12/5/7,12/6/7,12/7/6,12/8/6,12/9/6,12/10/7,12/11/7,12/12/99} {
+\foreach \i/\j/\bp in {1/1/0,1/2/0,1/3/0,1/4/52,1/5/2,1/6/5,1/7/17,1/8/10,1/9/1,1/10/61,1/11/4,2/1/0,2/2/0,2/3/0,2/4/44,2/5/2,2/6/5,2/7/39,2/8/14,2/9/0,2/10/36,2/11/11,3/1/0,3/2/0,3/3/7,3/4/40,3/5/5,3/6/6,3/7/9,3/8/20,3/9/1,3/10/51,3/11/12,4/1/0,4/2/1,4/3/0,4/4/100,4/5/0,4/6/14,4/7/6,4/8/3,4/9/5,4/10/19,4/11/2,5/1/0,5/2/0,5/3/0,5/4/99,5/5/1,5/6/8,5/7/3,5/8/6,5/9/0,5/10/32,5/11/2,6/1/0,6/2/0,6/3/0,6/4/20,6/5/1,6/6/14,6/7/28,6/8/11,6/9/0,6/10/60,6/11/17,7/1/0,7/2/0,7/3/1,7/4/62,7/5/1,7/6/7,7/7/29,7/8/5,7/9/0,7/10/37,7/11/9,8/1/0,8/2/0,8/3/1,8/4/9,8/5/1,8/6/3,8/7/2,8/8/64,8/9/0,8/10/62,8/11/10,9/1/0,9/2/0,9/3/1,9/4/81,9/5/1,9/6/17,9/7/5,9/8/10,9/9/17,9/10/15,9/11/4,10/1/0,10/2/0,10/3/0,10/4/37,10/5/6,10/6/9,10/7/4,10/8/15,10/9/1,10/10/65,10/11/14,11/1/0,11/2/0,11/3/0,11/4/72,11/5/1,11/6/17,11/7/2,11/8/6,11/9/9,11/10/34,11/11/9} {
     \fill[blue!\bp, draw=white, line width=0.06pt]
       ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
 }
-\node[below, font=\scriptsize\bfseries] at ({6*\s}, -0.15) {South Korea $W^P$ (illustrative)};
-\node[below, font=\scriptsize] at ({6*\s}, -0.5) {$\Gamma = 0.45$};
+\foreach \k in {1,...,11} {
+  \node[font=\tiny, black] at ({(\k-0.5)*\s}, {\N*\s+0.12}) {\k};
+  \node[font=\tiny, black] at (-0.15, {(\N-\k+0.5)*\s}) {\k};
+}
+\node[below, font=\scriptsize\bfseries] at ({5.5*\s}, -0.15) {South Korea $W^P$ (ICIO)};
+\node[below, font=\scriptsize] at ({5.5*\s}, -0.5) {$\Gamma = 0.511$};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Both matrices are illustrative and computed in \texttt{code/ch17.py}; brightness is $W_{ij}$ relative to each matrix's largest entry. Bolivia (left): three visible blocks, dark cross-block entries; the gas block (upper-left) barely connects to the traditional block (lower-right). The bright columns 1--3 show that every block buys from gas and public administration, which is why they hold the most power. South Korea (right): own-sector inputs on the diagonal and cross-sector inputs spread evenly --- no block structure, so the slowest mode is not a block mode. Bolivia's $\Gamma$ is 3.5 times smaller than Korea's.
+\small Row $s$ is sector $s$'s input mix ($W^P = D^{-1}A$, input shares); brightness is $W_{ss'}$ relative to each matrix's largest entry (Bolivia $0.60$, construction's purchases from manufacturing; Korea $0.66$, manufacturing's purchases from itself). Sectors: 1~hydrocarbons, 2~mining, 3~public administration, 4~manufacturing, 5~construction, 6~commerce, 7~transport, 8~financial services, 9~agriculture, 10~other services, 11~personal services; domestic services has no intermediate flows and is omitted. Both use the same ISIC-based 12-sector grouping, domestic flows at basic prices. Neither matrix is block-diagonal. In both, the bright columns are manufacturing (4) and other services (10), the two hubs most sectors buy from; Korea's manufacturing column is brighter still, which is why its Perron vector is more concentrated. Bolivia's hydrocarbons column (1) is dark: few domestic sectors buy from it, because 70\% of its output is exported. Its own row is dominated by one supplier, transport. Bolivia's $\Gamma$ is 7\% below Korea's, not 3.5 times below.
+\par\footnotesize Sources: INE supply--use tables 2019 \citep{ine2026sut}; OECD ICIO 2023, Korea domestic block \citep{oecd2023icio}; author's calculations (\texttt{code/ch17.py}).
 \end{vizpanel}
 
 

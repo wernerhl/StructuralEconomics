@@ -84,3 +84,19 @@ def region(pF, pW):
 for name, (pF, pW) in {"baseline": (0.35, 0.15), "Bolivia 1985": (0.30, 0.12), "Bolivia 2006": (0.15, 0.20)}.items():
     print(f"{name} (pi_F={pF}, pi_W={pW}) -> {region(pF, pW)}")
 assert region(0.30, 0.12) == "{F,B,M}" and region(0.15, 0.20) == "{M,W}"
+
+# ---------------------------------------------------------------------------
+print("\n== Sourced: Bolivia's domestic Gamma(W^P) across the nationalization phase ==")
+# INE input-output tables, base 1990, book12, domestic flows, input shares (data/processed, csv module)
+import csv
+import os
+
+_p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed", "bolivia_io_summary.csv")
+with open(_p, newline="", encoding="utf-8") as _f:
+    _g = {r["year"]: float(r["Gamma"]) for r in csv.DictReader(_f)
+          if r["base"] == "1990" and r["aggregation"] == "book12" and r["flows"] == "domestic"
+          and r["normalization"] == "input_shares"}
+for y, text in [("2006", 0.518), ("2013", 0.484)]:
+    print(f"Gamma {y}: {_g[y]:.4f} -> text {text}")
+    assert abs(_g[y] - text) <= 0.0005 + 1e-9
+assert _g["2013"] < _g["2006"]      # Phase 3 did not raise domestic Gamma in Bolivia

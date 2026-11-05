@@ -15,9 +15,9 @@
 
 This chapter states the book's policy conclusion. Twenty-five chapters have built the framework: the weight matrix, the Perron eigenvector, the spectral gap, the formation model, the co-evolutionary dynamics, the measurement infrastructure, the political economy. What does it all add up to?
 
-One conjecture: \textit{sustained growth with equity requires high $\Gamma$ and high ECI simultaneously}, together with a diverse information network. Neither alone is sufficient. High ECI without high $\Gamma$: Brazil (complex but unequal). High $\Gamma$ without high ECI: Cuba (equal but stagnant). Both together: South Korea, Taiwan, the Nordic countries. The intersection is small but achievable.
+One conjecture: \textit{sustained growth with equity requires high $\Gamma$ and high ECI simultaneously}, together with a diverse information network. Neither alone is sufficient. High ECI without equity: Brazil (complex but unequal). High $\Gamma$ without high ECI: Cuba (equal but stagnant). Both together: South Korea, Taiwan, the Nordic countries. The intersection is small but achievable. The data in this chapter strain the conjecture in two places. At the 12-sector level, aggregate $\Gamma$ hardly varies across very different economies (Brazil's is close to Korea's), so condition~(1) does not discriminate. And Bolivia cut inequality sharply over 2005--2019 with a negative and falling ECI (Remark~\ref{ch26:rem:bolivia}).
 
-Ocampo's neo-structuralism --- the synthesis of Prebisch's structuralism, CEPAL's institutional wisdom, and modern open-economy macroeconomics --- provides the policy framework. This chapter translates it into the language of this book --- with the caveat that the translation is ours, and that Ocampo's own framework is not built around these three variables (see the case study) --- and asks: what would it take for Bolivia to enter the intersection? All country values are \illustrative{} and consistent with Chapters~23--25 (\texttt{code/ch26.py}).
+Ocampo's neo-structuralism --- the synthesis of Prebisch's structuralism, CEPAL's institutional wisdom, and modern open-economy macroeconomics --- provides the policy framework. This chapter translates it into the language of this book --- with the caveat that the translation is ours, and that Ocampo's own framework is not built around these three variables (see the case study) --- and asks: what would it take for Bolivia to enter the intersection? Country values of $\Gamma$, ECI, GDP and distribution are sourced (INE, OECD ICIO, Growth Lab, WDI); thresholds, the plan and $\Neff^I$ remain \illustrative{}. \texttt{code/ch26.py} reads the sourced values from \texttt{data/processed} and checks them.
 
 
 %% =====================================================================
@@ -46,7 +46,7 @@ Sustained growth with declining inequality requires:
 
 \item $\Neff(W^I_c) > N^*_{\text{eff}}$ \textbf{(information democracy)}: the information network is diverse enough that the formation channel produces aspirations calibrated to the full range of economic opportunities, not just the local block. Illustrative threshold $N^*_{\text{eff}} \approx 8$.
 \end{enumerate}
-The thresholds are placeholders, not estimates: estimating them requires the cross-country data of Exercise~26.1. Violating any one condition is conjectured to produce a specific pathology:
+The thresholds are placeholders, not estimates: estimating them requires the cross-country data of Exercise~26.1. Violating any one condition is conjectured to produce a specific pathology (the examples are the conventional readings; for the measured values, see the note below the table):
 \begin{center}
 \begin{tabular}{lcccl}
 \toprule
@@ -55,13 +55,14 @@ Condition violated & $\Gamma$ & ECI & $N_{\text{eff}}$ & Pathology (illustrative
 (1) only & Low & High & High & Growth without equity (Brazil, Mexico) \\
 (2) only & High & Low & High & Equity without growth (---) \\
 (3) only & High & High & Low & Fragile growth (China; Korea before 1987) \\
-(1) and (2) & Low & Low & High & Stagnation (Bolivia) \\
+(1) and (2) & Low & Low & High & Stagnation (---) \\
 (1) and (3) & Low & High & Low & Enclave industrialization (---) \\
 (2) and (3) & High & Low & Low & Trapped equality (Cuba) \\
 All three & Low & Low & Low & Structural collapse (Venezuela, 2010s) \\
 None & High & High & High & Growth with equity (Korea today, Nordics) \\
 \bottomrule
 \end{tabular}
+\par\footnotesize Note: the ``Low $\Gamma$'' labels for Brazil and Mexico are not borne out at the 12-sector level, where their 2019 $\Gamma$ is 0.496 and 0.649 against Korea's 0.511 (OECD ICIO 2023 \citep{oecd2023icio}; author's calculations, data/compute/compute\_oecd\_io.py). An earlier draft put Bolivia in the ``Stagnation'' row; its measured $\Gamma$ is not low and its distribution improved strongly (Remark~\ref{ch26:rem:bolivia}).
 \end{center}
 \end{conjecture}
 
@@ -70,47 +71,67 @@ An earlier draft presented this as a theorem, with a proof of condition~(1) from
 \end{remark}
 
 \begin{remark}[Confronting Korea]\label{ch26:rem:korea}
-The conjecture's own leading example contradicts it as a statement about \emph{all} episodes of growth with equity. Korea grew fast with low and stable inequality from the 1960s, yet it was ruled by authoritarian governments with controlled media until 1987, violating condition~(3); on Chapter~23's illustrative path its $\Gamma$ stayed below $\Gamma^* = 0.30$ until about 1980, violating condition~(1); and its ECI in the 1960s, when it exported wigs, plywood and textiles, was probably not above the world mean (check with the Atlas SITC series from 1962). Taiwan is similar. Two readings are possible. Either the conjecture is false as a necessity claim, or it concerns \emph{sustaining} growth with equity beyond middle income, where early land reform and mass education (which Korea and Taiwan had) can substitute for integration and information diversity for a time. The second reading is narrower and still testable: it predicts that countries in Korea's 1970s position which did not later raise $\Gamma$ and $\Neff^I$ stalled.
+The conjecture's own leading example contradicts it as a statement about \emph{all} episodes of growth with equity. Korea grew fast with low and stable inequality from the 1960s, yet it was ruled by authoritarian governments with controlled media until 1987, violating condition~(3); on Chapter~23's illustrative path its $\Gamma$ stayed below $\Gamma^* = 0.30$ until about 1980, violating condition~(1) (pre-1995 tables are not used here; from 1995 the OECD ICIO data show Korea's 12-sector $\Gamma$ \emph{falling}, from 0.626 to 0.511 in 2019, while its ECI rose from $+1.10$ to $+1.81$); and its ECI in the 1960s, when it exported wigs, plywood and textiles, was probably not above the world mean (check with the Atlas SITC series from 1962). Taiwan is similar. Two readings are possible. Either the conjecture is false as a necessity claim, or it concerns \emph{sustaining} growth with equity beyond middle income, where early land reform and mass education (which Korea and Taiwan had) can substitute for integration and information diversity for a time. The second reading is narrower and still testable: it predicts that countries in Korea's 1970s position which did not later raise $\Gamma$ and $\Neff^I$ stalled.
 \end{remark}
 
-\begin{vizpanel}{The growth-equity conjecture in $(\Gamma, \text{ECI})$ space \illustrative}
+\begin{remark}[Confronting Bolivia]\label{ch26:rem:bolivia}
+Bolivia's 2005--2019 record is the sharpest test the book's own case offers, and the conjecture does not pass it as a claim about equity gains.
+\begin{itemize}
+\item \emph{Distribution.} The Gini of per-capita household income fell from 0.600 (2005) to 0.426 (2019). Extreme poverty fell from 38.2\% (2005) to 15.2\% (2018) on the old poverty lines, and stood at 13.2\% in 2019 on the updated lines (INE, \textit{Pobreza y desigualdad}, Encuesta de Hogares, cuadros 3.06.01.02 and 3.06.01.03, 2025 revision). The World Bank's income Gini fell from 0.585 to 0.416 over the same years \citep{worldbank2026pip}.
+\item \emph{Growth.} GDP grew 4.52\% a year on average over 2006--2019 \citep{worldbank2026wdi}.
+\item \emph{Integration.} $\Gamma$ stayed in the comparator range and, if anything, fell: 0.502 (2005), 0.518 (2006), 0.484 (2013) on INE's base 1990, and 0.467 in 2019 on base 2017 (not strictly comparable). Like-for-like in 2019 Bolivia's 0.475 sits between the United States (0.463) and Korea (0.511), below Germany (0.544), Chile (0.557), China (0.582) and Mexico (0.649). All of them clear the placeholder $\Gamma^* = 0.30$.
+\item \emph{Complexity.} ECI was negative and falling: $-1.10$ (2005), $-1.21$ (2006), $-1.46$ (2018), $-1.30$ (2019); Bolivia's rank fell from 120th to 131st \citep{growthlab2026atlas}.
+\end{itemize}
+So inequality and poverty fell steeply for fourteen years, with sustained growth, while condition~(2) was violated throughout and condition~(1) held only in the weak sense that every comparator also meets it. This is evidence against any claim that equity gains \emph{require} high $\Gamma$ or ECI $> 0$. Three readings remain, and they should be stated plainly:
+\begin{enumerate}
+\item \emph{The conjecture is false as a necessity claim about equity gains.} Redistribution financed by an export enclave can lower inequality for well over a decade without structural change.
+\item \emph{It is a claim about sustaining them.} The gains rested on commodity revenue: fuels were 48.8\% of merchandise exports in 2006 and 54.5\% in 2013, and 32.1\% in 2019 \citep{worldbank2026wdi}. Growth averaged 3.46\% a year over 2006--2024, against 4.52\% to 2019. The Gini was 0.418 in 2024 and 0.426 in 2025; extreme poverty was 13.3\% in 2024 and 16.7\% in 2025 on the updated lines (INE, same cuadros). Whether this is the beginning of a reversal is what the narrow reading predicts and what the next years will show.
+\item \emph{Condition~(1) is stated on the wrong object.} Aggregate $\Gamma$ does not separate development paths (Chapter~25, Result~\ref{ch25:res:twelve}). What distinguishes Bolivia's production structure is its export enclave: hydrocarbons have a domestic power share $\pi = 0.039$, export 70\% of their output, buy 0.225 of domestic inputs per unit of output and pay 6\% of their value added as compensation of employees \citep{ine2026sut}. The rent was captured fiscally (through the IDH tax), not through linkages. If condition~(1) is to carry content, it must be restated on the enclave's linkages ($\pi$ and domestic input intensity of the export sectors) or on $\Gamma$ at a resolution where the capital-goods core is a node.
+\end{enumerate}
+\end{remark}
+
+\begin{vizpanel}{The growth-equity conjecture in $(\Gamma, \text{ECI})$ space, 2019}
 \begin{center}
 \begin{tikzpicture}[scale=1]
-\draw[->] (0,0) -- (7,0) node[right, font=\small] {$\Gamma$};
-\draw[->] (0,-2) -- (0,4) node[above, font=\small] {ECI};
-
-%% Target zone
-\fill[green!12] (3,0) rectangle (7,4);
-\node[font=\scriptsize, green!50!black] at (5, 3.2) {Growth with Equity};
-\node[font=\tiny, green!50!black] at (5, 2.85) {(Fajnzylber's \textit{casillero})};
-
-%% Thresholds
-\draw[red, dashed, thick] (3, -2) -- (3, 4);
-\node[font=\tiny, red, above] at (3, 4) {$\Gamma^*$};
-\draw[red, dashed, thick] (0, 0) -- (7, 0);
-\node[font=\tiny, red, right] at (7, 0) {$\text{ECI} = 0$};
-
-%% Countries (illustrative; x = 10*Gamma, code/ch26.py)
-\foreach \cx/\cy/\lab in {
-  1.3/-0.8/BOL, 2.5/0.8/BRA, 2.0/-0.3/COL, 2.8/1.0/MEX,
-  4.5/2.1/KOR, 5.6/2.3/JPN, 5.2/1.8/DEU, 4.0/1.5/CZE,
-  2.8/0.3/CHL, 1.5/0.5/ARG, 1.0/-0.5/VEN,
-  4.2/0.8/MYS, 3.8/1.2/POL,
-  3.5/1.0/CHN} {
-  \fill[blue!50!black] (\cx, \cy) circle (1.5pt);
-  \node[font=\tiny, above right] at (\cx, \cy) {\lab};
+%% x = 20*(Gamma - 0.25), so Gamma* = 0.30 is at x = 1 (code/ch26.py)
+\draw[->] (0,0) -- (8.6,0) node[right, font=\small] {$\Gamma$};
+\draw[->] (0,-2) -- (0,2.6) node[above, font=\small] {ECI};
+\foreach \g/\x in {0.3/1, 0.4/3, 0.5/5, 0.6/7} {
+  \draw (\x, -2) -- (\x, -2.1) node[below, font=\tiny] {\g};
+}
+\foreach \e in {-1, 1, 2} {
+  \draw (0, \e) -- (-0.1, \e) node[left, font=\tiny] {\e};
 }
 
-%% Lower-left quadrant
-\node[font=\scriptsize, gray] at (1.5, -1.5) {stagnation};
+%% Target zone
+\fill[green!12] (1,0) rectangle (8.6,2.6);
+\node[font=\scriptsize, green!50!black] at (2.6, 2.35) {Growth with Equity};
+\node[font=\tiny, green!50!black] at (2.6, 2.05) {(Fajnzylber's \textit{casillero})};
 
-%% Bolivia arrow
-\draw[->, thick, red!60!black] (1.3, -0.8) -- (3.5, 0.5);
-\node[font=\tiny, red!60!black, below] at (2.4, -0.3) {Bolivia's needed path};
+%% Thresholds
+\draw[red, dashed, thick] (1, -2) -- (1, 2.6);
+\node[font=\tiny, red, above] at (1, 2.6) {$\Gamma^*$};
+\draw[red, dashed, thick] (0, 0) -- (8.6, 0);
+\node[font=\tiny, red, above left] at (8.6, 0) {$\text{ECI} = 0$};
+
+%% Countries: 2019 Gamma (book12_isic) and ECI (HS92); x = 20*(Gamma - 0.25)
+\foreach \cx/\cy/\lab/\pos in {
+  4.50/-1.30/BOL/right, 4.92/0.48/BRA/right, 4.21/0.14/COL/left, 7.98/0.95/MEX/right,
+  5.22/1.81/KOR/left, 5.20/2.05/JPN/right, 5.87/1.54/DEU/right, 4.72/1.48/CZE/left,
+  6.14/-0.06/CHL/right, 5.43/0.06/ARG/above, 2.62/1.03/MYS/right,
+  6.03/1.06/POL/right, 6.63/1.30/CHN/right} {
+  \fill[blue!50!black] (\cx, \cy) circle (1.5pt);
+  \node[font=\tiny, \pos] at (\cx, \cy) {\lab};
+}
+
+%% Bolivia: the gap is in ECI, not in Gamma
+\draw[->, thick, red!60!black] (4.50, -1.20) -- (4.50, -0.08);
+\node[font=\tiny, red!60!black, left] at (4.45, -0.65) {Bolivia's gap};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small The green zone is the region of conditions (1)--(2): $\Gamma > \Gamma^* = 0.30$ and $\text{ECI} > 0$. It is the cell that \citeauthor{fajnzylber1990industrializacion}'s (\citeyear{fajnzylber1990industrializacion}) \textit{casillero vac\'{i}o} refers to: the combination of growth \emph{and} equity that no Latin American country occupied in 1965--84. Korea, Japan, Germany, the Czech Republic, Poland and Malaysia are inside; so is China, which fails condition (3) (low $\Neff^I$), a reminder that the panel shows only two of the three conditions. Bolivia is in the lower-left: low $\Gamma$, negative ECI. The red arrow shows the path Bolivia would need to traverse. Brazil and Mexico have positive ECI but low $\Gamma$: complexity without integration (Mexico's assembly-based complexity is Chapter~25's imported core). Chile ($\Gamma = 0.28$, as in Chapter~23) approaches the threshold but is not yet inside. All coordinates are illustrative (\texttt{code/ch26.py}).
+\small The green zone is the region of conditions (1)--(2): $\Gamma > \Gamma^*$ and $\text{ECI} > 0$, with the placeholder $\Gamma^* = 0.30$ (\illustrative). It is the cell that \citeauthor{fajnzylber1990industrializacion}'s (\citeyear{fajnzylber1990industrializacion}) \textit{casillero vac\'{i}o} refers to: the combination of growth \emph{and} equity that no Latin American country occupied in 1965--84. With the measured values, every country plotted lies to the right of $\Gamma^*$, between 0.38 (Malaysia) and 0.65 (Mexico), so the panel separates them by ECI alone. Bolivia's $\Gamma$ (0.475) is in the middle of the range; its gap is vertical, in complexity (ECI $-1.30$). Chile ($-0.06$) and Argentina ($+0.06$) sit on the ECI line. Brazil and Mexico are not low-$\Gamma$ economies at this resolution, so ``complexity without integration'' is not visible in aggregate $\Gamma$. China is inside but fails condition (3) (low $\Neff^I$), a reminder that the panel shows only two of the three conditions. Venezuela (ECI $-1.02$) is not plotted: it is not a separate economy in OECD ICIO.
+\par\footnotesize Source: $\Gamma$, domestic input-share $W^P$, ISIC-based 12 sectors, basic prices, diagonal kept; Bolivia from INE supply-use tables, base 2017 \citep{ine2026sut}, others from OECD ICIO 2023 \citep{oecd2023icio}; author's calculations (data/compute/compute\_bolivia\_io.py, data/compute/compute\_oecd\_io.py). ECI: Growth Lab, HS92 \citep{growthlab2026atlas}. Bolivia's $\Gamma$ ranges over 0.33--0.69 across normalizations.
 \end{vizpanel}
 
 
@@ -132,7 +153,7 @@ This chapter's policy package, inspired by Ocampo's neo-structuralist synthesis 
 \textbf{Pillar 2: Structural integration} (raise $\Gamma$).
 \begin{enumerate}
 \setcounter{enumi}{3}
-\item Domestic linkage policy: the operator $\mathcal{L}_{\text{ISI-B}}$ (cross-block edges, Chapter~15). Build the connections between the gas sector and the traditional economy, between urban manufacturing and rural agriculture, between the formal and informal sectors.
+\item Domestic linkage policy: the operator $\mathcal{L}_{\text{ISI-B}}$ (cross-block edges, Chapter~15). Build the connections between the gas sector and the traditional economy, between urban manufacturing and rural agriculture, between the formal and informal sectors. For an enclave economy the target is the export sector's domestic linkages (its $\pi$ and its domestic input intensity), not aggregate $\Gamma$, which may already be in the comparator range (Remark~\ref{ch26:rem:bolivia}).
 \item Infrastructure: roads, telecommunications, energy connections that create physical $W^P$ edges between disconnected blocks.
 \end{enumerate}
 
@@ -164,9 +185,9 @@ The complementarity means that the return to each pillar is increasing in the le
 
 \begin{example}[A 30-Year Structural Plan for Bolivia \illustrative]\label{ch26:ex:plan}
 
-\textbf{Current position} (2019): $\Gamma = 0.13$, ECI $= -0.80$, $N_{\text{eff}} = 3.4$ (Chapter~17, four media ecosystems), $\sigma_B = 0.62$.
+\textbf{Current position} (2019): $\Gamma = 0.467$ on the book's 12 sectors (0.475 like-for-like; 0.33--0.69 across normalizations), ECI $= -1.30$, hydrocarbons' domestic $\pi = 0.039$ with 70\% of output exported (all sourced: Chapter~17, Remark~\ref{ch26:rem:bolivia}); $N_{\text{eff}} = 3.4$ (Chapter~17, four media ecosystems) and $\sigma_B = 0.62$ (both illustrative).
 
-\textbf{Target} (2055): $\Gamma \geq 0.35$, ECI $\geq 0$, $N_{\text{eff}} \geq 8$, $\sigma_B \leq 0.30$.
+\textbf{Target} (2055): ECI $\geq 0$, $N_{\text{eff}} \geq 8$, $\sigma_B \leq 0.30$, and export sectors whose domestic linkages (their $\pi$ and domestic input intensity) rise. Aggregate $\Gamma$ is not a target: it is already inside the comparator range. The ECI target is demanding. It requires $+1.30$, while Bolivia's ECI \emph{fell} by 0.44 over 1995--2019 and Korea's rose by 0.70 \citep{growthlab2026atlas}.
 
 \textbf{Phase 1 (2025--2035): Foundation.}
 
@@ -191,7 +212,7 @@ Pillar 1 + 2 (medium-$\Psi$ operators):
 \item Agricultural value-chain integration: connect quinoa, soy, and cattle to food processing and packaging (cross-block $W^P$ edges). Cost: \$1B.
 \end{enumerate}
 
-Expected effect by 2045: $\Gamma \approx 0.25$, ECI $\approx -0.30$, $\sigma_B \approx 0.40$.
+Expected effect by 2045: ECI $\approx -0.30$, $\sigma_B \approx 0.40$, and the first domestic supply chains into and out of the extractive sectors.
 
 \textbf{Phase 3 (2040--2055): The Dense Subgraph.}
 
@@ -203,9 +224,9 @@ Pillar 1 (low-$\Psi$ operators, now feasible because Phases 1--2 created the pre
 \item R\&D institutes linked to the polytechnics from Phase 2.
 \end{enumerate}
 
-Expected effect by 2055: $\Gamma \approx 0.35$, ECI $\approx 0$, $N_{\text{eff}} \approx 8$, $\sigma_B \approx 0.30$.
+Expected effect by 2055: ECI $\approx 0$, $N_{\text{eff}} \approx 8$, $\sigma_B \approx 0.30$.
 
-\textbf{Total cost}: approximately \$17B over 30 years (\$570M/year). For context: Bolivia's annual GDP is approximately \$40B. The plan requires sustained investment of $\approx 1.4\%$ of GDP per year in structural transformation. This is far smaller than the resources South Korea mobilized for its Heavy and Chemical Industrialization drive, which absorbed most manufacturing investment in the late 1970s, and well below the order of magnitude of Bolivia's annual gas revenue during the 2006--2014 boom (several billion dollars a year).
+\textbf{Total cost}: approximately \$17B over 30 years (\$570M/year). For context: Bolivia's GDP was \$49.1B in 2019 and \$54.9B in 2024, in current dollars \citep{worldbank2026wdi}. The plan requires sustained investment of $\approx 1.2\%$ of 2019 GDP per year (1.0\% of 2024 GDP) in structural transformation. This is far smaller than the resources South Korea mobilized for its Heavy and Chemical Industrialization drive, which absorbed most manufacturing investment in the late 1970s, and well below Bolivia's natural gas rents during the 2006--2014 boom, which peaked at 5.56\% of GDP in 2013 \citep{worldbank2026wdi}.
 
 \textbf{Political feasibility} (Chapter~14): Phase 1 is politically easy (education, broadband, and mentoring have broad support --- no coalition's $\pi$ is directly threatened). Phase 2 is harder (infrastructure and industrial investment require fiscal commitment and threaten import-dependent interests). Phase 3 is hardest (industrial policy targeting the dense subgraph requires a developmental-state coalition that does not yet exist in Bolivia).
 
@@ -215,9 +236,9 @@ The sequencing exploits the formation amplifier: Phase 1 changes $W^I$ and prefe
 \begin{keyinsight}
 The neo-structuralist synthesis, in this book's terms, is one conjecture and one plan:
 
-\textbf{The conjecture}: sustained growth with equity requires $\Gamma > \Gamma^*$, ECI $> 0$, and $N_{\text{eff}} > N^*_{\text{eff}}$ simultaneously. It is a precise, testable claim built on three measurable objects --- not a theorem, and not yet an estimate: the thresholds are placeholders, and Korea's early decades already strain it (Remark~\ref{ch26:rem:korea}).
+\textbf{The conjecture}: sustained growth with equity requires $\Gamma > \Gamma^*$, ECI $> 0$, and $N_{\text{eff}} > N^*_{\text{eff}}$ simultaneously. It is a precise, testable claim built on three measurable objects --- not a theorem, and not yet an estimate: the thresholds are placeholders, Korea's early decades already strain it (Remark~\ref{ch26:rem:korea}), and Bolivia's 2005--2019 fall in inequality, with a negative and falling ECI and $\Gamma$ in the comparator range, contradicts it as a claim about equity gains (Remark~\ref{ch26:rem:bolivia}).
 
-\textbf{The plan}: three policy pillars (productive transformation, structural integration, social cohesion), sequenced by $\Psi$ (information first, infrastructure second, industrial policy third), financed by sustained investment of $\approx 1.4\%$ of GDP.
+\textbf{The plan}: three policy pillars (productive transformation, structural integration, social cohesion), sequenced by $\Psi$ (information first, infrastructure second, industrial policy third), financed by sustained investment of $\approx 1.2\%$ of GDP.
 
 Every element of the plan corresponds to a specific operator from Chapter~15 targeting a specific entry of $W$. The expected effects are illustrative magnitudes, not derived results; turning them into estimates is the work of Exercises~26.4--26.6. That is what separates an engineering specification from aspirational prose: every number has a place where it can be checked.
 \end{keyinsight}
@@ -231,7 +252,7 @@ Every element of the plan corresponds to a specific operator from Chapter~15 tar
 \begin{remark}[The Insufficiency of Both Alternatives]\label{ch26:prop:insufficiency}
 \textbf{The neoliberal prescription} (Washington Consensus): liberalize trade, privatize, deregulate. In operator terms: remove the barriers (tariffs, controls) that shaped $W^P$ and let the market create new edges. The assumption: the market will create the ``right'' $W^P$ (the one that maximizes efficiency). The result: the market creates $W^P$ edges dominated by proximity (Chapter~13, the principle of relatedness), which means the existing structure reproduces itself. Commodity exporters liberalize into more commodity export. $\Gamma$ does not change. ECI does not change. The prescription fails condition (1) and (2) of Conjecture~\ref{ch26:conj:growth_equity}.
 
-\textbf{The populist prescription}: nationalize resources, redistribute revenue, expand social programs. In operator terms: change $\boldsymbol{\omega}$ (endowment redistribution) without changing $W$. The result: poverty falls and inequality falls --- in Bolivia substantially, and so far without reversal --- but $\Gamma$ does not change (Chapter~17: Bolivia's 30-year trajectory). The chapter's claim is that gains financed by commodity revenue are fiscally fragile when the cycle turns; whether they reverse is an empirical question that Bolivia's post-2014 data will answer. The prescription fails condition (1) because it does not raise $\Gamma$.
+\textbf{The populist prescription}: nationalize resources, redistribute revenue, expand social programs. In operator terms: change $\boldsymbol{\omega}$ (endowment redistribution) without changing $W$. The result: poverty falls and inequality falls --- in Bolivia substantially (Gini 0.600 in 2005, 0.426 in 2019) --- while the structure does not change: $\Gamma$ stayed roughly flat (Chapter~17) and ECI fell (Remark~\ref{ch26:rem:bolivia}). The chapter's claim is that gains financed by commodity revenue are fiscally fragile when the cycle turns. The post-2014 data are mixed so far: the Gini was 0.418 in 2024, but extreme poverty rose from 13.3\% (2024) to 16.7\% (2025). The prescription fails condition (2) because it does not raise ECI; on condition (1), aggregate $\Gamma$ cannot tell.
 
 \textbf{The neo-structuralist synthesis}: change $W$ itself --- the production structure ($W^P$), the information structure ($W^I$), and the solidarity structure ($W^U$) --- through deliberate, sequenced operator design. It aims at all three conditions simultaneously, seeking permanent structural change rather than redistribution alone.
 \end{remark}
@@ -263,11 +284,11 @@ The argument is one argument, stated with increasing precision over 78 years: \t
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{growth-equity conjecture}: sustained growth with equity requires $\Gamma > \Gamma^*$ (integration of the domestic input-share matrix), $\text{ECI} > 0$ (complexity, computed from the global export matrix and positional by construction) and $N_{\text{eff}} > N^*_{\text{eff}}$ (information diversity). It is testable, not proved; the old proof rested on a false $\Gamma$--$\Var(\boldsymbol{\pi})$ bound, and Korea's early decades violate conditions (1) and (3).
+\item The \textbf{growth-equity conjecture}: sustained growth with equity requires $\Gamma > \Gamma^*$ (integration of the domestic input-share matrix), $\text{ECI} > 0$ (complexity, computed from the global export matrix and positional by construction) and $N_{\text{eff}} > N^*_{\text{eff}}$ (information diversity). It is testable, not proved; the old proof rested on a false $\Gamma$--$\Var(\boldsymbol{\pi})$ bound, Korea's early decades violate conditions (1) and (3), and Bolivia's 2005--2019 record (Gini 0.600 $\to$ 0.426 with ECI $-1.10 \to -1.30$ and $\Gamma$ in the comparator range) contradicts it as a claim about equity gains. Aggregate $\Gamma$ does not discriminate among countries at the 12-sector level.
 
 \item The \textbf{neo-structuralist policy package} has three pillars: productive transformation (raise ECI), structural integration (raise $\Gamma$), social cohesion (raise $N_{\text{eff}}$, reduce attribute constraints). The pillars are complementary.
 
-\item \textbf{Bolivia's 30-year plan} (illustrative): \$17B, three phases ($W^I$ first, infrastructure second, industrial policy third), aiming at $\Gamma \approx 0.35$, ECI $\approx 0$, $N_{\text{eff}} \approx 8$ by 2055. Cost: 1.4\% of GDP/year.
+\item \textbf{Bolivia's 30-year plan} (illustrative): \$17B, three phases ($W^I$ first, infrastructure second, industrial policy third), aiming at ECI $\approx 0$ (from $-1.30$), $N_{\text{eff}} \approx 8$ and stronger domestic linkages of the export enclave by 2055. Cost: about 1.2\% of 2019 GDP a year.
 
 \item \textbf{Neither neoliberalism nor populism} addresses all three conditions. Neoliberalism changes prices but not structure. Populism changes endowments but not structure. The neo-structuralist synthesis changes $W$ itself.
 
@@ -284,20 +305,20 @@ The argument is one argument, stated with increasing precision over 78 years: \t
 
 \item \textbf{The three conditions.} For 30 countries: estimate $\Gamma$ from the row-normalized domestic input-share matrices of the OECD ICIO tables (same sector classification for all), ECI from the Atlas of Economic Complexity, and $N_{\text{eff}}$ from media concentration data. Why must $\Gamma$ \emph{not} be proxied by ECI? Plot each country in the $(\Gamma, \text{ECI})$ plane. Identify which countries satisfy all three conditions and which violate one or more.
 
-\item \textbf{Pathology classification.} Classify the following countries using the pathology table from Conjecture~\ref{ch26:conj:growth_equity}: (a) Brazil (high ECI, low $\Gamma$), (b) Cuba (high $\Gamma$, low ECI; what data would you need to check either?), (c) Venezuela (low $\Gamma$, low ECI, low $N_{\text{eff}}$), (d) Costa Rica (moderate $\Gamma$, moderate ECI, high $N_{\text{eff}}$), (e) Bolivia.
+\item \textbf{Pathology classification.} Classify the following countries using the pathology table from Conjecture~\ref{ch26:conj:growth_equity}: (a) Brazil (high ECI, low $\Gamma$), (b) Cuba (high $\Gamma$, low ECI; what data would you need to check either?), (c) Venezuela (low $\Gamma$, low ECI, low $N_{\text{eff}}$), (d) Costa Rica (moderate $\Gamma$, moderate ECI, high $N_{\text{eff}}$), (e) Bolivia, using the measured values of Remark~\ref{ch26:rem:bolivia}. Which row of the table fits Bolivia over 2005--2019, and what does that imply for the table?
 
 \item \textbf{Complementarity.} Simulate a 3-variable system $(\Gamma_t, \text{ECI}_t, N_{\text{eff},t})$ with complementary dynamics: $\Delta\Gamma_{t+1} = f(\Gamma_t, \text{ECI}_t, N_{\text{eff},t})$ increasing in all three. Compare: (a) investing in all three simultaneously, (b) investing in one at a time. Which reaches the target zone faster?
 
 \item \textbf{Bolivia's plan: cost-benefit.} Using the cost estimates from Example~\ref{ch26:ex:plan} and the expected $\Delta\Gamma$, $\Delta$ECI:
 \begin{enumerate}
-\item Estimate the GDP gain from moving from $\Gamma = 0.13$ to $\Gamma = 0.35$ (use the cross-country $\Gamma$--GDP relationship).
+\item Bolivia's $\Gamma$ (0.475) is already in the comparator range. Is there a cross-country $\Gamma$--GDP relationship at the 12-sector level at all? Estimate instead the GDP gain from moving ECI from $-1.30$ to 0 (use the cross-country ECI--growth relationship).
 \item Compute the net present value of the plan at a 5\% discount rate.
 \item At what discount rate does the plan break even?
 \end{enumerate}
 
 \item \textbf{The neoliberal counterfactual.} Suppose Bolivia had continued the 1985 neoliberal policy without the 2006 nationalization. Using the structural velocity from the 1985--2005 period: project $\Gamma$, ECI, and $\sigma_B$ to 2020. Would Bolivia have entered the target zone? Compare with the actual trajectory.
 
-\item \textbf{The populist counterfactual.} Suppose Bolivia had invested all gas revenue (2006--2019, total $\approx$\$50B) in the structural plan instead of transfers. Using the formation model: what $\Gamma$ and ECI would Bolivia have achieved by 2019? Would it be in the target zone?
+\item \textbf{The populist counterfactual.} Suppose Bolivia had invested all gas revenue (2006--2019, total $\approx$\$50B, illustrative) in the structural plan instead of transfers. Using the formation model: what $\Gamma$ and ECI would Bolivia have achieved by 2019? Would it be in the target zone?
 
 \item \textbf{The 78-year argument.} Read one page from each of: \citet{prebisch1949desarrollo}, \citet{furtado1961desenvolvimento}, \citet{pinto1970naturaleza}, \citet{fajnzylber1983industrializacion}, \citet{cepal2012structural}, and \citet{ocampo2009growth}. For each: identify the central claim and map it to a result or conjecture in this book. Write a one-paragraph synthesis: what is the one argument stated six times?
 \end{enumerate}
@@ -365,7 +386,7 @@ Growth with equity & $\Gamma > \Gamma^*$ + ECI $> 0$ + $N_{\text{eff}} > N^*$ & 
 \end{tabularx}
 \end{center}
 
-Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry; Furtado explained the reproduction; Pinto measured the heterogeneity; Fajnzylber identified the missing piece; CEPAL documented the stagnation; Ocampo synthesized the prescription. This book offers the synthesis a formal language. The weight matrix represents Prebisch's structure; the spectral gap measures the integration whose absence Pinto called structural heterogeneity; ECI is closely related to, but distinct from, Fajnzylber's truncation (Chapter~25); the formation model represents Furtado's cultural dependency. Conjecture~\ref{ch26:conj:growth_equity} borrows two of Ocampo's pillars, adds one of its own, and leaves his macroeconomics aside --- a precise claim that the next generation of data can confirm or refute.
+Ocampo's work completes the structuralist arc: Prebisch diagnosed the asymmetry; Furtado explained the reproduction; Pinto measured the heterogeneity; Fajnzylber identified the missing piece; CEPAL documented the stagnation; Ocampo synthesized the prescription. This book offers the synthesis a formal language. The weight matrix represents Prebisch's structure; the spectral gap measures integration, though in Bolivia's data Pinto's structural heterogeneity shows up in the export enclave's $\pi$ and export orientation rather than in aggregate $\Gamma$; ECI is closely related to, but distinct from, Fajnzylber's truncation (Chapter~25); the formation model represents Furtado's cultural dependency. Conjecture~\ref{ch26:conj:growth_equity} borrows two of Ocampo's pillars, adds one of its own, and leaves his macroeconomics aside --- a precise claim that the next generation of data can confirm or refute.
 
 
 %% =====================================================================

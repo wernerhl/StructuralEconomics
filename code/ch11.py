@@ -1,6 +1,8 @@
 """Chapter 11: reproduces every number used in the worked examples, tables,
 viz panels and exercise answers.  Run from the repo root:  python3 code/ch11.py
-numpy only.  All empirical magnitudes in Chapter 11 are illustrative."""
+numpy only, plus the csv module for the two sourced national figures (WDI, via
+data/processed/bolivia_facts.csv).  All other empirical magnitudes in Chapter 11
+are illustrative."""
 import numpy as np
 
 np.set_printoptions(precision=4, suppress=True)
@@ -162,3 +164,16 @@ for k in (1, 2):
     c = np.corrcoef(xg[k:], xg[:-k])[0, 1]
     assert abs(c - rr ** k * Rth) < 0.01
 print("id_params correlations verified: R_theta =", round(Rth, 3))
+
+# ---------------------------------------------------------------------------
+# Sourced national figures quoted in Example ch11:prop:bolivia and Exercise 11.7
+import csv
+import os
+
+_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed", "bolivia_facts.csv")
+with open(_path, newline="", encoding="utf-8") as _f:
+    facts = {r["fact_id"]: float(r["value"]) for r in csv.DictReader(_f)}
+for k, text in [("BOL_self_employed_2019", 68.1), ("BOL_female_lfp_2019", 66.2)]:
+    print(f"{k}: {facts[k]} -> text {text}")
+    assert abs(facts[k] - text) <= 0.05 + 1e-9
+assert facts["BOL_self_employed_2019"] > 65      # above the top of the hypothetical departmental range

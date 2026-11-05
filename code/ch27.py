@@ -1,6 +1,11 @@
-"""Chapter 27: engagement reweighting, Gamma vs Neff, bounded confidence.
-Run from the repo root: python3 code/ch27.py  (numpy only)."""
+"""Chapter 27: engagement reweighting, Gamma vs Neff, bounded confidence,
+and the sourced internet-use shares (data/processed/wdi_long.csv).
+Run from the repo root: python3 code/ch27.py  (numpy + csv)."""
+import csv
+import pathlib
 import numpy as np
+
+DATA = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
 
 
 def stats(W):
@@ -115,3 +120,12 @@ for _ in range(500):
     if lam <= 0.5:
         assert stats(Tp)[0] < G
 print("checked: lambda' formula on random W, same-family reweighting, Gamma = 1-|1-2lambda|, Neff = N")
+
+
+print("\n== Sourced: internet users, % of population (WDI IT.NET.USER.ZS) ==")
+with open(DATA / "wdi_long.csv", newline="") as fh:
+    net = {int(r["year"]): float(r["value"]) for r in csv.DictReader(fh)
+           if r["country_iso3"] == "BOL" and r["indicator"] == "IT.NET.USER.ZS" and r["value"]}
+for y, v in ((2010, 22.4), (2019, 47.5), (2023, 77.3)):
+    assert abs(net[y] - v) <= 0.05 + 1e-9, (y, net[y], v)
+    print(f"  {y}: {net[y]:.1f}%")

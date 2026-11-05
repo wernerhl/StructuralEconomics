@@ -138,3 +138,15 @@ assert ratio > 1.5
 d = rng.normal(size=5); d -= d.mean(); q1 = 0.2 + 0.02 * d; q2 = 0.2 - 0.03 * d
 a1 = 0.4; qc = a1 * q1 + (1 - a1) * q2
 assert np.isclose(qc.var(), (a1 * q1.std() - (1 - a1) * q2.std()) ** 2)
+
+print("\n=== Sourced: remittances received, Bolivia (WDI) ===")
+import csv
+import pathlib
+PROC = pathlib.Path(__file__).resolve().parent.parent / "data" / "processed"
+facts = {r["fact_id"]: float(r["value"]) for r in csv.DictReader(open(PROC / "bolivia_facts.csv", encoding="utf-8"))}
+rem, rem_bs = facts["BOL_remittances_2019"], facts["BOL_remittances_2019_Bs"]
+pct19, pct07 = facts["BOL_remittances_pct_gdp_2019"], facts["BOL_remittances_pct_gdp_2007"]
+print(f"2019: US${rem} bn = {rem_bs} bn Bs (at 6.96), {pct19}% of GDP; 2007 peak {pct07}% of GDP")
+assert round(rem, 3) == 1.336 and round(rem, 2) == 1.34 and round(rem_bs, 1) == 9.3
+assert abs(rem * 6.96 - rem_bs) < 0.01
+assert round(pct19, 1) == 2.7 and round(pct07, 1) == 8.0
