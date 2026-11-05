@@ -28,7 +28,7 @@ This chapter separates three structural departures and says which of them is an 
 \subsection{The Standard Statement and Proof}
 
 \begin{theorem}[First Welfare Theorem]\label{ch02:thm:FWT}
-If: (i) every agent maximizes utility given prices, (ii) markets clear, and (iii) preferences are locally nonsatiated, then the competitive equilibrium allocation is Pareto efficient.
+In an exchange economy, suppose: (i) every agent maximizes utility given prices, (ii) markets clear, (iii) preferences are locally nonsatiated, and (iv) each agent's utility $U_i$ depends only on her own bundle $x_i$ (no externalities, $W^U = 0$). Then the competitive equilibrium allocation is Pareto efficient \citep[Prop.~16.C.1]{mascolell1995microeconomic}.
 \end{theorem}
 
 \begin{proof}
@@ -36,7 +36,7 @@ Let $(p^*, X^*)$ be a competitive equilibrium. Suppose it is not Pareto efficien
 
 For agent $j$: since $x_j^*$ maximizes $U_j$ on the budget set and $\hat{x}_j$ is strictly preferred, $\hat{x}_j$ must not be affordable: $p^{*\prime}\hat{x}_j > p^{*\prime}\omega_j$.
 
-For all other agents $i \neq j$: by local nonsatiation, $U_i(\hat{x}_i) \geq U_i(x_i^*)$ implies $p^{*\prime}\hat{x}_i \geq p^{*\prime}\omega_i$ (if $\hat{x}_i$ were strictly cheaper, $i$ could find something even better in her budget set by continuity).
+For all other agents $i \neq j$: by local nonsatiation, $U_i(\hat{x}_i) \geq U_i(x_i^*)$ implies $p^{*\prime}\hat{x}_i \geq p^{*\prime}\omega_i$. Indeed, if $p^{*\prime}\hat{x}_i < p^{*\prime}\omega_i$, every bundle close enough to $\hat{x}_i$ is still affordable, and local nonsatiation gives one such bundle $x'$ with $U_i(x') > U_i(\hat{x}_i) \geq U_i(x_i^*)$, contradicting the optimality of $x_i^*$. (Both steps use (iv): ``$\hat x_i$ is at least as good for $i$'' is a statement about $\hat x_i$ alone.)
 
 Summing over all agents:
 \begin{equation}
@@ -49,7 +49,7 @@ But feasibility requires $\sum_i \hat{x}_{i\ell} = \sum_i \omega_{i\ell}$ for al
 \begin{intuition}[Where does structure enter the proof?]
 The proof uses two features of the competitive mechanism: every agent faces the \textit{same} price vector $p^*$ and takes it as given, and each agent's utility depends only on her own bundle. The price aggregates individual demands anonymously --- the identity of the agent does not affect the price she faces. Agent $i$'s weight in that aggregate is her wealth share $s_i$, not her ``position'' in any network.
 
-In weight-matrix language the interaction is $W^{\text{mkt}} = \ones\mathbf{s}'$ (Chapter~1, Section~\ref{ch01:sec:implicit_W}), and the proof goes through for \textit{every} $\mathbf{s}$: unequal wealth does not break it. What would break it is a step the proof uses silently. If $U_i$ depended on $x_j$ (an externality, $W^U \neq 0$), ``$\hat x_i$ is at least as good'' would no longer translate into a statement about $i$'s own budget. If agents did not take prices as given (market power), $x_i^*$ would not maximize $U_i$ on the budget set.
+In weight-matrix language the interaction is $W^{\text{mkt}} = \ones\mathbf{s}'$ (Chapter~1, Section~\ref{ch01:sec:implicit_W}), and the proof goes through for \textit{every} $\mathbf{s}$: unequal wealth does not break it. What would break it is hypothesis (iv), which the textbook statement often leaves implicit. If $U_i$ depended on $x_j$ (an externality, $W^U \neq 0$), ``$\hat x_i$ is at least as good'' would no longer translate into a statement about $i$'s own budget. If agents did not take prices as given (market power), $x_i^*$ would not maximize $U_i$ on the budget set.
 \end{intuition}
 
 
@@ -86,7 +86,7 @@ That is: all agents must have equal externality centrality.
 \end{proposition}
 
 \begin{proof}
-The blind optimum $x^U$ is characterized by $U_j'(x^U_j) = \mu$ for all $j$; the social optimum by $\alpha_j U_j'(x_j) = \mu'$. If all $\alpha_j$ equal $\alpha$, the two conditions coincide (with $\mu' = \alpha\mu$), and since both problems are strictly concave their solutions coincide. If $\alpha_j \neq \alpha_k$ for some $j, k$, then at $x^U$ we have $\alpha_j U_j'(x^U_j) \neq \alpha_k U_k'(x^U_k)$ because $U_j' = U_k' = \mu > 0$; moving a small amount from the agent with the lower $\alpha$ to the one with the higher $\alpha$ raises $\sum_j \alpha_j U_j$, so $x^U$ is not socially optimal.
+The blind optimum $x^U$ is characterized by $U_j'(x^U_j) = \mu$ for all $j$; the social optimum by $\alpha_j U_j'(x_j) = \mu'$. If all $\alpha_j$ equal $\alpha$, the two conditions coincide (with $\mu' = \alpha\mu$), and since both objectives are strictly concave ($\alpha_j \ge 1 > 0$) on the convex feasible set, each has at most one maximizer, so the solutions coincide. If $\alpha_j \neq \alpha_k$ for some $j, k$, then at $x^U$ we have $\alpha_j U_j'(x^U_j) \neq \alpha_k U_k'(x^U_k)$ because $U_j' = U_k' = \mu > 0$; moving a small amount from the agent with the lower $\alpha$ to the one with the higher $\alpha$ raises $\sum_j \alpha_j U_j$, so $x^U$ is not socially optimal.
 \end{proof}
 
 \begin{remark}
@@ -122,6 +122,10 @@ The blind and social optima coincide if:
 \item $W = \frac{1}{N}\ones\ones'$ (competitive benchmark). Then $c_j = (N-1)/N$ for all $j$.
 \end{enumerate}
 \end{corollary}
+
+\begin{proof}
+Under the hypotheses of Proposition~\ref{ch02:thm:FWT_matrix}, the two optima coincide if all $\alpha_j = 1 + \gamma c_j$ are equal. (1) With $\gamma = 0$, $\alpha_j = 1$. (2) With $W_{ij} = 1/N$, $c_j = \sum_{i \neq j} 1/N = (N-1)/N$ for every $j$. (In case (2) the diagonal of $W$ is not zero, so Proposition~\ref{ch02:prop:doubly_stochastic} does not apply; the conclusion comes directly from the equal $c_j$.)
+\end{proof}
 
 
 %% =====================================================================
@@ -200,7 +204,7 @@ where $\Var(c_j) = \frac{1}{N}\sum_j(c_j - \bar{c})^2$. The social optimum is $x
 \end{proposition}
 
 \begin{proof}
-Write $x_j = m + z_j$ with $\sum_j z_j = 0$. Exactly, $\sum_j \alpha_j U(m + z_j) = \sum_j \alpha_j U(m) + U'(m)\sum_j \alpha_j z_j - \frac{\kappa}{2}\sum_j \alpha_j z_j^2$. Maximizing over $z$ subject to $\sum_j z_j = 0$ gives $z_j = (U'(m)\alpha_j - \nu)/(\kappa\alpha_j)$, and the constraint gives $\nu = U'(m)H$. Let $Q = \sum_j (U'(m)\alpha_j - \nu)^2/\alpha_j = U'(m)^2\sum_j(\alpha_j - H)^2/\alpha_j$. Using $\sum_j z_j = 0$, one checks $U'(m)\sum_j\alpha_j z_j = Q/\kappa$ and $\frac{\kappa}{2}\sum_j\alpha_j z_j^2 = Q/(2\kappa)$, so the gain over $z = 0$ is $Q/(2\kappa)$. For the expansion, $\alpha_j - H = \gamma(c_j - \bar c) + O(\gamma^2)$ and $\alpha_j = 1 + O(\gamma)$.
+Write $x_j = m + z_j$ with $\sum_j z_j = 0$. Exactly, $\sum_j \alpha_j U(m + z_j) = \sum_j \alpha_j U(m) + U'(m)\sum_j \alpha_j z_j - \frac{\kappa}{2}\sum_j \alpha_j z_j^2$. Maximizing over $z$ subject to $\sum_j z_j = 0$ gives $z_j = (U'(m)\alpha_j - \nu)/(\kappa\alpha_j)$, and the constraint gives $\nu = U'(m)H$. Let $Q = \sum_j (U'(m)\alpha_j - \nu)^2/\alpha_j = U'(m)^2\sum_j(\alpha_j - H)^2/\alpha_j$. Since $\alpha_j z_j = U'(m)(\alpha_j - H)/\kappa$ and $\sum_j H/\alpha_j = N$, the identity $\sum_j(\alpha_j - H)^2/\alpha_j = \sum_j(\alpha_j - H) - H\sum_j(1 - H/\alpha_j) = \sum_j(\alpha_j - H)$ gives $U'(m)\sum_j\alpha_j z_j = Q/\kappa$ and $\frac{\kappa}{2}\sum_j\alpha_j z_j^2 = Q/(2\kappa)$, so the gain over $z = 0$ is $Q/(2\kappa)$. The objective is strictly concave ($\alpha_j > 0$), so this stationary point is the maximum; the hypothesis that it is interior with $\kappa x_j < 1$ makes it the social optimum of the constrained problem. For the expansion, $\sum_j \alpha_j^{-1} = N - \gamma N\bar c + O(\gamma^2)$ gives $H = 1 + \gamma\bar c + O(\gamma^2)$, so $\alpha_j - H = \gamma(c_j - \bar c) + O(\gamma^2)$; with $\alpha_j = 1 + O(\gamma)$, $\sum_j(\alpha_j - H)^2/\alpha_j = \gamma^2 N\Var(c_j) + O(\gamma^3)$.
 \end{proof}
 
 This loss exists even with equal power. To second order it is proportional to the \textit{variance of column sums} in $W^U$ --- how unevenly the caring is distributed. If everybody is cared about equally ($c_j$ constant), the loss is zero even with large $\gamma$. It vanishes at satiation ($\kappa m = 1$), which is one more reason to calibrate below it.
@@ -234,7 +238,7 @@ Each block $b$ solves its own welfare problem independently, achieving within-bl
 L &= \sum_b N_b \left[U(\bar{\omega}) - U(\bar{\omega}_b)\right] = \sum_b N_b \left[(\bar{\omega} - \bar{\omega}_b) - \frac{\kappa}{2}(\bar{\omega}^2 - \bar{\omega}_b^2)\right] \\
 &= -\frac{\kappa}{2}\sum_b N_b(\bar{\omega}^2 - \bar{\omega}_b^2) = \frac{\kappa}{2}\sum_b N_b(\bar{\omega}_b - \bar{\omega})^2,
 \end{align}
-using $\sum_b N_b(\bar{\omega} - \bar{\omega}_b) = 0$ (block means average to the population mean) and expanding the quadratic.
+using $\sum_b N_b\bar{\omega}_b = N\bar{\omega}$ (block means average to the population mean) twice: it removes the linear terms, and it gives $\sum_b N_b\bar{\omega}_b^2 - N\bar{\omega}^2 = \sum_b N_b(\bar{\omega}_b - \bar{\omega})^2$.
 \end{proof}
 
 \begin{intuition}[Between-group inequality as a structural loss]
@@ -313,8 +317,12 @@ Now connect the blocks: increase cross-block weights to 0.15 (structural policy)
 \subsection{The Standard Statement}
 
 \begin{theorem}[Second Welfare Theorem]\label{ch02:thm:SWT}
-Under convexity: any Pareto-efficient allocation $x^*$ can be supported as a competitive equilibrium after suitable lump-sum transfers of endowments.
+In an exchange economy with no externalities ($W^U = 0$), let every agent's preferences be continuous, convex and strongly monotone. Then any Pareto-efficient allocation $x^*$ with $x_i^* \gg 0$ for every $i$ can be supported as a competitive equilibrium after suitable lump-sum transfers of endowments: there is a price vector $p \ge 0$, $p \neq 0$, such that each $x_i^*$ maximizes $U_i$ on $\{x_i : p'x_i \le p'x_i^*\}$.
 \end{theorem}
+
+\begin{proof}[Proof sketch]
+This is \citet[Props.~16.D.1 and 16.D.2]{mascolell1995microeconomic}. The set of aggregate bundles $\sum_i x_i$ with $x_i \succ_i x_i^*$ for every $i$ is convex (convex preferences) and, by efficiency, does not contain the aggregate endowment. The separating hyperplane theorem gives $p \neq 0$ with $p'\sum_i x_i \ge p'\sum_i x^*_i$ on that set; monotonicity gives $p \ge 0$, and local nonsatiation turns this into: $x_i \succ_i x_i^*$ implies $p'x_i \ge p'x_i^*$ (a price quasi-equilibrium with transfers $p'x_i^* - p'\omega_i$). Because $x_i^* \gg 0$ and $p \ge 0$, $p \neq 0$, each agent has a strictly cheaper bundle, and continuity upgrades ``$\succ_i$ implies $\ge$'' to ``$\succ_i$ implies $>$'', which is utility maximization on the budget set.
+\end{proof}
 
 The standard interpretation: equity and efficiency are separable. A benevolent planner can achieve any desired distribution by (1) computing the required endowment transfers, (2) executing them, and (3) letting the market handle the allocation. The market handles efficiency; the planner handles equity.
 

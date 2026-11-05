@@ -162,3 +162,27 @@ for _ in range(2000):
     Q0 = P0.copy(); Q0[0, 1] += 0.15; Q0[0, 0] -= 0.15; Q0[1, 2] -= 0.05; Q0[1, 0] += 0.05
     n += 1; up += gap(Q0) > gap(P0)
 print(f"global Gamma rises in {up/n:.0%} of 2000 random diagonal-dominant starts")
+
+# ---------------------------------------------------------------------
+print("\n== Proof checks (Props. multiplicity, integration, phase) ==")
+# Prop. phase: spectrum of W(c) is {1, 1-c, 1-c, 0, 0, 0}; F is increasing (F' >= 0)
+for c in np.linspace(0.05, 0.65, 13):
+    ev = np.sort(np.real(np.linalg.eigvals(Wc(c))))[::-1]
+    assert np.allclose(ev, [1, 1 - c, 1 - c, 0, 0, 0], atol=1e-8)
+assert all(dF(c) >= 0 for c in np.linspace(0.05, 0.65, 61))
+assert dF(cA) < 1 and dF(cB) < 1 and dF(chat) > 1
+# Prop. integration: Cheeger phi^2/2 <= 1 - lambda_2 <= 2 phi for random lazy reversible chains,
+# and eigenvalues of lazy reversible W lie in [0, 1]
+rng = np.random.default_rng(13)
+for _ in range(200):
+    n = 5
+    Sym = rng.uniform(0, 1, (n, n)) * (rng.uniform(size=(n, n)) < 0.6)
+    Sym = Sym + Sym.T + 1e-3
+    P = Sym / Sym.sum(1)[:, None]                    # reversible w.r.t. degree
+    Wl = 0.5 * (np.eye(n) + P)                       # lazy
+    ev = np.real(np.linalg.eigvals(Wl))
+    assert ev.min() > -1e-10
+    Ph = conductance(Wl)
+    G = gap(Wl)
+    assert Ph ** 2 / 2 <= G + 1e-12 and G <= 2 * Ph + 1e-12
+print("Cheeger bounds and phase-diagram spectrum verified")

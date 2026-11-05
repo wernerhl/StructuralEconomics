@@ -66,7 +66,7 @@ v_i(S) = \underbrace{\Delta x_i^{\text{enf}}}_{\text{enforcement}} + \underbrace
 \end{definition}
 
 \begin{proposition}[Surplus and Power Components of the Payoff]\label{ch14:prop:power_gain}
-Under the allocation rule $x_i = \Omega(W)/N + (\pi_i(W) - 1/N)\,\Phi$ (Proposition~\ref{ch07:prop:allocation-rule}), with total output $\Omega(W)$ and bargaining surplus $\Phi$ held fixed, the enforcement payoff is exactly
+Let $W$ and $W + \Delta W_S$ be irreducible and row-stochastic, so that $\boldsymbol{\pi}$ is defined at both. Under the allocation rule $x_i = \Omega(W)/N + (\pi_i(W) - 1/N)\,\Phi$ (Proposition~\ref{ch07:prop:allocation-rule}), with total output $\Omega(W)$ allowed to depend on $W$ and the bargaining surplus $\Phi$ held fixed, the enforcement payoff (preferences fixed at $\boldsymbol{\theta}^*_W$) is exactly
 \begin{equation}\label{ch14:eq:power_gain}
 E_i(\Delta W_S) = \underbrace{\frac{\Delta\Omega}{N}}_{\text{surplus}} + \underbrace{\Phi\,\Delta\pi_i(W, \Delta W_S)}_{\text{power}},
 \end{equation}
@@ -81,7 +81,7 @@ v_i(S) \approx (1 + \Psi)\left(\frac{\Delta\Omega}{N} + \Phi\,\Delta\pi_i\right)
 \end{proposition}
 
 \begin{proof}
-Subtract the allocation rule at $W$ from the rule at $W + \Delta W_S$; the $-\Phi/N$ terms cancel. The rest is the stated assumption.
+Subtract the allocation rule at $W$ from the rule at $W + \Delta W_S$, at fixed preferences: $E_i = [\Omega(W+\Delta W_S) - \Omega(W)]/N + \Phi\,[\pi_i(W+\Delta W_S) - \pi_i(W)]$, since the $-\Phi/N$ terms cancel. Then~\eqref{ch14:eq:total_payoff} follows from $v_i = E_i + F_i$ in~\eqref{ch14:eq:payoff_decomp} and the assumed~\eqref{ch14:eq:formation_gain}; it is exact if~\eqref{ch14:eq:formation_gain} holds with equality.
 \end{proof}
 
 Summing over all agents, $\sum_i v_i \approx (1+\Psi)\Delta\Omega$, because $\sum_i \Delta\pi_i = 0$. The power component is \emph{exactly constant-sum}: one agent's gain in $\pi$ is another's loss. Only the surplus component $\Delta\Omega$ can make everyone better off.
@@ -103,7 +103,7 @@ The formation amplifier $(1 + \Psi)$ is crucial: when $\Psi > 0$, a structural c
 \begin{definition}[Stable Coalition Structure]\label{ch14:def:stable}
 A partition of agents into coalitions $\mathcal{S} = \{S_1, S_2, \ldots, S_k\}$ is \textbf{stable} if:
 \begin{enumerate}
-\item \textbf{Internal stability}: No member of any coalition $S_m$ would prefer to defect (to leave $S_m$ and either join another coalition or stand alone). For all $i \in S_m$: $v_i(S_m) \geq v_i(S_m \setminus \{i\})$ and $v_i(S_m) \geq v_i(\{i\})$.
+\item \textbf{Internal stability}: No member of any coalition $S_m$ would prefer to defect (to leave $S_m$ and either join another coalition or stand alone). Writing $v_i(R)$ for $i$'s payoff when coalition $R$ implements $\Delta W_R$ (whether or not $i \in R$): for all $i \in S_m$, $v_i(S_m) \geq v_i(S_m \setminus \{i\})$, $v_i(S_m) \geq v_i(\{i\})$, and $v_i(S_m) \geq v_i(S' \cup \{i\})$ for every rival coalition $S'$ that would admit $i$.
 \item \textbf{External stability}: No coalition $S_m$ would accept a new member from outside. For all $j \notin S_m$: if $j$ wants to join $S_m$, then at least one existing member of $S_m$ would be made worse off.
 \item \textbf{Coalition rationality}: Each coalition implements the $\Delta W_S$ that maximizes its collective payoff given the other coalitions' actions.
 \end{enumerate}
@@ -223,9 +223,9 @@ $F$ loses most; $W$ gains most. Evo Morales's Bolivia, Ch\'{a}vez's Venezuela.
 \subsection{When Alliances Hold}
 
 \begin{proposition}[Alliance Stability Conditions]\label{ch14:prop:alliance_stability}
-Suppose $\Delta\Omega = 0$ for the policies considered (pure redistribution of power), so that $v_i \propto \Delta\pi_i$ by Proposition~\ref{ch14:prop:power_gain}, and normalize the stand-alone payoff to zero. Alliance $S$ is internally stable (Definition~\ref{ch14:def:stable}) if and only if
+Suppose $\Delta\Omega = 0$ for the policies considered (pure redistribution of power), that $\Phi > 0$ and $\Psi > -1$ is common to these policies, so that $v_i = (1+\Psi)\Phi\,\Delta\pi_i$ with a positive factor (Proposition~\ref{ch14:prop:power_gain}), and normalize the stand-alone payoff to zero, $v_i(\{i\}) = 0$. Alliance $S$ is internally stable (Definition~\ref{ch14:def:stable}) if and only if
 \begin{equation}\label{ch14:eq:internal}
-\Delta\pi_i(W, \Delta W_S) \geq 0 \quad \text{for all } i \in S,
+\Delta\pi_i(W, \Delta W_S) \geq \max\big\{0,\ \Delta\pi_i(W, \Delta W_{S\setminus\{i\}})\big\} \quad \text{for all } i \in S,
 \end{equation}
 AND no member can achieve a higher $\Delta\pi_i$ by defecting to a rival alliance $S'$:
 \begin{equation}\label{ch14:eq:no_defect}
@@ -234,7 +234,7 @@ AND no member can achieve a higher $\Delta\pi_i$ by defecting to a rival allianc
 \end{proposition}
 
 \begin{proof}
-With $v_i = (1+\Psi)\Phi\,\Delta\pi_i$ and $v_i(\{i\}) = 0$, the two inequalities are the two clauses of internal stability in Definition~\ref{ch14:def:stable}.
+With $v_i(R) = (1+\Psi)\Phi\,\Delta\pi_i(W, \Delta W_R)$ for every coalition $R$, and $(1+\Psi)\Phi > 0$, each inequality $v_i(S) \geq v_i(R)$ in Definition~\ref{ch14:def:stable} is equivalent to $\Delta\pi_i(W, \Delta W_S) \geq \Delta\pi_i(W, \Delta W_R)$. Taking $R = \{i\}$ (payoff $0$) and $R = S\setminus\{i\}$ gives~\eqref{ch14:eq:internal}; taking $R = S' \cup \{i\}$ gives~\eqref{ch14:eq:no_defect}.
 \end{proof}
 
 \begin{example}[Why the National-Populist Alliance Breaks]\label{ch14:ex:breaks}
@@ -314,14 +314,14 @@ the most that coalition $S$ can secure for its members on its own (with $v(S) \g
 
 \begin{proposition}[Properties of the Structural Power Game]\label{ch14:prop:game_properties}
 \begin{enumerate}
-\item \textbf{Constant-sum power.} $\sum_i v_i = (1+\Psi)\Delta\Omega$. The game is constant-sum if and only if no feasible $\Delta W$ changes total surplus; it is positive-sum only through $\Delta\Omega$. Any $\Delta W$ that increases $\pi_i$ for some $i$ decreases $\pi_j$ for some $j$.
+\item \textbf{Constant-sum power.} $\sum_i v_i = (1+\Psi)\Delta\Omega$. If $\Psi > -1$, the game is constant-sum if and only if no feasible $\Delta W$ changes total surplus; it is positive-sum only through $\Delta\Omega$. Any $\Delta W$ that increases $\pi_i$ for some $i$ decreases $\pi_j$ for some $j$.
 \item \textbf{Empty core without surplus.} If $\Delta\Omega \equiv 0$, the core is empty as soon as some coalition can gain, i.e.\ $v(S) > 0$ for some $S$.
 \item \textbf{Path dependence.} The current $W$ determines the feasibility sets, which determine which coalitions can form, which determines the next $W$.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1) Sum~\eqref{ch14:eq:total_payoff} over $i$ and use $\sum_i\Delta\pi_i = 0$. (2) With $\Delta\Omega \equiv 0$, $v(N) = \max \sum_i v_i = 0$. A core allocation needs $x(N) = v(N) = 0$, $x(S) \geq v(S) > 0$ and $x(N \setminus S) \geq v(N\setminus S) \geq 0$, so $x(N) > 0$: a contradiction. (3) is immediate from Definition~\ref{ch14:prop:feasibility}.
+(1) Sum the payoff of Definition~\ref{ch14:def:game} over $i$ and use $\sum_i\Delta\pi_i = 0$ (both $\boldsymbol{\pi}(W)$ and $\boldsymbol{\pi}(W+\Delta W)$ sum to one). With $1 + \Psi > 0$ the sum vanishes for every feasible $\Delta W$ exactly when $\Delta\Omega = 0$ for every feasible $\Delta W$. If $\Delta\pi_i > 0$ then $\sum_{j\neq i}\Delta\pi_j < 0$, so some $\Delta\pi_j < 0$. (2) With $\Delta\Omega \equiv 0$, $v(N) = \max \sum_i v_i = 0$ (the argument is unchanged if the maximum is replaced by a supremum). A core allocation needs $x(N) = v(N) = 0$, $x(S) \geq v(S) > 0$ and $x(N \setminus S) \geq v(N\setminus S) \geq 0$, so $x(N) > 0$: a contradiction. (3) is immediate from Definition~\ref{ch14:prop:feasibility}.
 \end{proof}
 
 Concentrated power is not what empties the core: any power-shifting opportunity does, once surplus is held fixed (in the toy version of \texttt{code/ch14.py}, six coalitions have $v(S) > 0$). With $\Delta\Omega > 0$ the core can be nonempty; by the Bondareva--Shapley theorem it is nonempty if and only if the TU game is balanced. Superadditivity, $v(S \cup T) \geq v(S) + v(T)$ for disjoint $S, T$, fails when $\mathcal{F}(S \cup T)$ is smaller than the combined reach of $S$ and $T$ acting separately, which Definition~\ref{ch14:prop:feasibility} does not rule out.
@@ -434,7 +434,7 @@ Cash transfers (last row) do not change $W$ within the period and therefore do n
 \item Agent 2 considers defecting from $\{1, 2\}$ to $\{2, 3, 4\}$. Using the $\Delta\boldsymbol{\pi}$ of Alliances~1 and~2 in Example~\ref{ch14:ex:four_alliances}, compute $\Delta\pi_2$ under both coalitions. Which does she prefer? (Answer: $+0.03$ vs.\ $+0.02$; she stays.)
 \end{enumerate}
 
-\item \textbf{Alliance stability.} For Example~\ref{ch14:ex:four_alliances}: verify that each alliance is internally stable (all members gain) and identify the conditions under which each breaks. Why would $B$ not join Alliance~4 without compensation?
+\item \textbf{Alliance stability.} For Example~\ref{ch14:ex:four_alliances}: verify that in each alliance all members gain, and use~\eqref{ch14:eq:no_defect}, with the other three alliances as the rivals, to check which alliances are internally stable; identify the conditions under which each breaks. Why would $B$ not join Alliance~4 without compensation?
 
 \item \textbf{The Latin American pendulum.}\label{ch14:ex:pendulum} Specify $\mathcal{F}(S)$, $\Omega(W)$ and a $4\times 4$ initial $W$, and simulate the cycling conjecture for 8 periods. Start with Alliance~2 ($\{B,M,W\}$). At each period: (a) compute the coalition's $\Delta W$ and new $\boldsymbol{\pi}$, (b) check whether any member wants to defect, (c) if so, form the new alliance. Plot $\boldsymbol{\pi}_t$ over time. Does it cycle?
 
@@ -472,7 +472,7 @@ Cash transfers (last row) do not change $W$ within the period and therefore do n
 \addcontentsline{toc}{subsection}{Appendix 14A: Cooperative Game Theory}
 \label{ch14:app:cooperative}
 
-\paragraph{The transferable-utility game.} A TU game is $(N, v)$ where $v: 2^N \to \R$ assigns a value to each coalition. The \textbf{core} is the set of payoff vectors $\x$ with $\sum_{i \in S} x_i \geq v(S)$ for all $S$ and $\sum_i x_i = v(N)$. The core is non-empty if and only if the game is balanced (Bondareva-Shapley theorem).
+\paragraph{The transferable-utility game.} A TU game is $(N, v)$ where $v: 2^N \to \R$ assigns a value to each coalition. The \textbf{core} is the set of payoff vectors $\x$ with $\sum_{i \in S} x_i \geq v(S)$ for all $S$ and $\sum_i x_i = v(N)$. The core is non-empty if and only if the game is balanced (the Bondareva--Shapley theorem; \citealp{bondareva1963some,shapley1967balanced}).
 
 \paragraph{Application to structural change.} The TU version $v(S)$ defined before Proposition~\ref{ch14:prop:game_properties} is a TU game, but the structural power game is not a \emph{standard} one because: (1) the value of a coalition depends on the current $W$ (state-dependent), (2) the feasibility set depends on power (endogenous constraints), and (3) the formation amplifier $(1+\Psi)$ makes payoffs time-dependent (they include long-run preference effects). Nevertheless, the core concept provides useful predictions about which alliance structures are stable. When the power component is the only one ($\Delta\Omega \equiv 0$), the game is constant-sum and its core is empty as soon as any $v(S) > 0$.
 

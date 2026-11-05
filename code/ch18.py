@@ -186,3 +186,47 @@ _ratio = dict(zip(_c17["sectors"], _c17["p"] / _c17["emp"]))
 for _s in ["Hydrocarbons", "Mining", "Personal services", "Domestic services"]:
     print(f"  {_s:20s} pi/share = {_ratio[_s]:.2f}")
 assert _ratio["Hydrocarbons"] == max(_ratio.values())
+
+print("\n=== Proof pass: Prop. assortative (b) with three classes (constrained A_S) ===")
+for trial in range(300):
+    sizes = rng.integers(1, 5, size=3)
+    grp = np.repeat(np.arange(3), sizes)
+    n_ = len(grp)
+    Km = rng.random((n_, n_)); Km = (Km + Km.T) / 2
+    lam = rng.random()
+    same = grp[:, None] == grp[None, :]
+    K = Km * np.where(same, 1.0, lam)
+    for g0 in range(3):
+        S = grp == g0
+        C = Km[np.ix_(S, ~S)].sum()
+        AS, ASc = K[np.ix_(S, S)].sum(), K[np.ix_(~S, ~S)].sum()
+        assert gap(rownorm(K)) <= 2 * lam * C / (min(AS, ASc) + lam * C) + 1e-12
+print("bound holds for every class S in 300 random three-class economies")
+
+print("\n=== Proof pass: Prop. gender formation / attribute trap (closed form vs iteration) ===")
+for trial in range(200):
+    rho_, mu_, tb, rs = rng.uniform(0, 0.99), rng.uniform(0, 1), rng.normal(), rng.normal()
+    lam = rng.uniform(0, 1); rF, rM = rng.normal(size=2)
+    Wg = np.array([[1, lam], [lam, 1]]) / (1 + lam)
+    sbar = Wg @ np.array([rF, rM])
+    th = rng.normal(size=2) * 5
+    for t in range(4000):
+        th = rho_ * th + (1 - rho_) * tb + mu_ * (sbar - rs)
+    closed = tb + mu_ / (1 - rho_) * (sbar - rs)
+    assert np.allclose(th, closed, atol=1e-8)
+    assert np.isclose(th[0] - th[1], mu_ / (1 - rho_) * (1 - lam) / (1 + lam) * (rF - rM), atol=1e-8)
+    assert np.isclose(np.sort(np.linalg.eigvals(Wg).real)[0], (1 - lam) / (1 + lam))
+print("steady-state gap M (1-lam)/(1+lam) (r_F - r_M) verified in 200 random draws")
+
+print("\n=== Proof pass: Prop. homophily (ii)-(iii) at agent level ===")
+for trial in range(100):
+    nA, nB = rng.integers(1, 30, size=2); lam = rng.uniform(0.01, 1)
+    g_ = np.array([1] * nA + [0] * nB)
+    K = np.where(g_[:, None] == g_[None, :], 1.0, lam)
+    pv = perron(rownorm(K)); pA = nA / (nA + nB)
+    assert np.isclose(pv[:nA].mean() / pv[nA:].mean(), degree_ratio(pA, lam))
+    aF, aM_, c_ = rng.uniform(0.1, 2, size=3); n_ = rng.integers(1, 10)
+    K = np.full((2 * n_, 2 * n_), lam * c_); K[:n_, :n_] = aF; K[n_:, n_:] = aM_
+    pv = perron(rownorm(K))
+    assert np.isclose(pv[:n_].mean() / pv[n_:].mean(), (aF + lam * c_) / (aM_ + lam * c_))
+print("degree-ratio formulas verified in 100 random draws")

@@ -267,4 +267,57 @@ def dgap(W, j, i, k, t=1e-7):
 print("  dGamma, core 0 -> core 9 (from self-loop):", round(dgap(Wg, 0, 9, 0), 3))
 print("  dGamma, bridge 4 -> bridge 5 (from self-loop):", round(dgap(Wg, 4, 5, 4), 3))
 assert dgap(Wg, 0, 9, 0) > dgap(Wg, 4, 5, 4)
+
+print("=" * 70)
+print("Proof checks: Kac formula (Prop ch06:prop:monotone), Birkhoff contraction and")
+print("periodic eigenvalues (Appendix 6B), lumpable star / block spectra")
+for _ in range(500):
+    n = rng.integers(3, 8)
+    W = rownorm(rng.random((n, n)) * (rng.random((n, n)) < 0.6) + 0.3 * np.roll(np.eye(n), 1, 1))
+    p = perron(W)
+    i = rng.integers(n)
+    keep = [l for l in range(n) if l != i]
+    Q = W[np.ix_(keep, keep)]
+    assert max(abs(np.linalg.eigvals(Q))) < 1
+    h = np.linalg.solve(np.eye(n - 1) - Q, np.ones(n - 1))
+    m_i = 1 + W[i, keep] @ h
+    assert np.isclose(p[i], 1 / m_i)                       # Kac: pi_i = 1 / m_i
+print("ok: pi_i = 1/m_i on 500 random irreducible chains")
+
+
+def hilbert(x, y):
+    r = x / y
+    return np.log(r.max() / r.min())
+
+
+for _ in range(500):
+    n = rng.integers(2, 6)
+    Wp = rng.random((n, n)) + 0.01
+    phi = min(Wp[i, k] * Wp[j, l] / (Wp[j, k] * Wp[i, l])
+              for i in range(n) for j in range(n) for k in range(n) for l in range(n))
+    tau = (1 - np.sqrt(phi)) / (1 + np.sqrt(phi))
+    assert phi >= (Wp.min() / Wp.max()) ** 2 - 1e-12
+    x, y = rng.random(n) + 1e-3, rng.random(n) + 1e-3
+    assert hilbert(Wp @ x, Wp @ y) <= tau * hilbert(x, y) + 1e-10
+print("ok: Birkhoff d_H(Wx, Wy) <= tau(W) d_H(x, y) on 500 draws")
+for d in (2, 3, 4):
+    # irreducible with period d: cyclic classes of size 2, edges only C_r -> C_{r+1}
+    n = 2 * d
+    W = np.zeros((n, n))
+    for r in range(d):
+        W[2 * r:2 * r + 2, 2 * ((r + 1) % d):2 * ((r + 1) % d) + 2] = rng.random((2, 2)) + 0.1
+    W = rownorm(W)
+    lam = np.linalg.eigvals(W)
+    for k in range(d):
+        assert np.min(np.abs(lam - np.exp(2j * np.pi * k / d))) < 1e-9
+    assert np.isclose(gap(W), 0)
+print("ok: period-d chains have the d-th roots of unity in their spectrum (Gamma = 0)")
+for _ in range(200):
+    n = rng.integers(3, 9)
+    a, s = rng.random() * 0.98 + 0.01, rng.random() * 0.98
+    W = star(n, a, s)
+    ev = np.sort_complex(np.linalg.eigvals(W))
+    target = np.sort_complex(np.r_[1, s - a, np.full(n - 2, 1 - a)].astype(complex))
+    assert np.allclose(ev, target, atol=1e-7)
+print("ok: star spectrum = {1, s-a, 1-a (N-2 times)} on 200 draws")
 print("all assertions passed")

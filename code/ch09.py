@@ -100,3 +100,43 @@ print("\nmean theta*: block", steady(np.eye(2)).mean(), " w=0.3", steady(np.arra
       " w=0.5", steady(np.array([[0.5, 0.5], [0.5, 0.5]])).mean())
 # Viz panel heatmap colours (normalized to each matrix's max): block (1,0) -> 100/0; connected (0.6,0.4) -> 100/67
 print("heatmap colours connected:", round(100 * 0.6 / 0.6), round(100 * 0.4 / 0.6))
+
+# ---------------------------------------------------------------------------
+# Proof checks (proof pass)
+print("\n== Proof checks")
+rng = np.random.default_rng(9)
+# Prop ch09:thm:hysteresis: with Dg >= 0, lambda = rho + rho(mu W Dg) exactly
+for _ in range(300):
+    n = rng.integers(2, 7)
+    W = rng.dirichlet(np.ones(n), size=n)
+    Dg = rng.uniform(0, 0.5, (n, n)) * (rng.random((n, n)) < 0.5)
+    r0, m0 = rng.uniform(0.1, 0.9), rng.uniform(0.01, 0.5)
+    A = m0 * W @ Dg
+    lam = max(abs(np.linalg.eigvals(r0 * np.eye(n) + A)))
+    assert abs(lam - (r0 + max(abs(np.linalg.eigvals(A))))) < 1e-9
+    assert max(abs(np.linalg.eigvals(A))) >= max(np.diag(A)) - 1e-12
+# lambda = rho with Dg != 0: nobody observes agent 2 (column 2 of W is zero), only g_2 responds
+Wn = np.array([[1.0, 0.0], [1.0, 0.0]])
+Dgn = np.array([[0.0, 0.0], [0.0, 0.4]])
+assert abs(max(abs(np.linalg.eigvals(0.8 * np.eye(2) + 0.3 * Wn @ Dgn))) - 0.8) < 1e-12
+print("lambda = rho + rho(mu W Dg) verified; lambda = rho with Dg != 0 example verified")
+# Local contraction bound (affine case): ||J^t|| <= C (lambda+eps)^t
+J = 0.8 * np.eye(3) + 0.3 * rng.dirichlet(np.ones(3), size=3) @ np.diag([0.1, 0.2, 0.05])
+lamJ = max(abs(np.linalg.eigvals(J)))
+ratios = [np.linalg.norm(np.linalg.matrix_power(J, t), 2) / (lamJ + 0.01) ** t for t in range(1, 400)]
+assert max(ratios[200:]) <= max(ratios[:200]) + 1e-9
+# Prop ch09:thm:self_confirming (affine case): unique steady state is block-constant
+blocks = [[0, 1, 2], [3, 4]]
+Wb = np.zeros((5, 5))
+Gb = np.zeros((5, 5))
+ab = np.zeros(5)
+for B, (alpha, beta) in zip(blocks, [(0.05, 0.1), (0.03, 0.02)]):
+    Wb[np.ix_(B, B)] = rng.dirichlet(np.ones(len(B)), size=len(B))   # arbitrary within-block weights
+    row = rng.dirichlet(np.ones(len(B))) * beta                         # identical rows within block
+    for j in B:
+        Gb[j, B] = row
+        ab[j] = alpha
+thb = np.linalg.solve(np.eye(5) - M * Wb @ Gb, thbar + M * (Wb @ ab - rstar))
+assert np.allclose(thb[:3], thb[0]) and np.allclose(thb[3:], thb[3])
+assert np.allclose(thb[[0, 3]], th_block)
+print("block-wise steady state is block-constant:", np.round(thb, 4))

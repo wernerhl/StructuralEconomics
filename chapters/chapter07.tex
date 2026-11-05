@@ -176,7 +176,7 @@ x_i^* = \frac{\Omega}{N} + \left(\pi_i - \frac{1}{N}\right) \Phi .
 \end{proposition}
 
 \begin{proof}
-The objective $\sum_i \pi_i \ln(x_i - d_i)$ is strictly concave on $\{x_i > d_i\}$ and tends to $-\infty$ at its boundary; the feasible set $\{\sum_i x_i = \Omega,\ x_i > d_i\}$ is nonempty because $\sum_j d_j < \Omega$. The first-order conditions are $\pi_i/(x_i - d_i) = \mu$, i.e.\ $x_i - d_i = \pi_i/\mu$. Summing and using $\sum_i \pi_i = 1$ gives $1/\mu = \Omega - \sum_j d_j$, which is~\eqref{ch07:eq:LQ_solution}. With $d_i = \bar{d}$, $x_i^* = \bar{d} + \pi_i\Phi = (\Omega - \Phi)/N + \pi_i\Phi$, which is~\eqref{ch07:eq:LQ_equal_omega}.
+This is the transferable-utility closed form of the asymmetric Nash solution \citep{kalai1977nonsymmetric}. The objective $\sum_i \pi_i \ln(x_i - d_i)$ is strictly concave on $\{x_i > d_i\}$ (as $\boldsymbol{\pi} > 0$) and tends to $-\infty$ at its boundary. The feasible set $\{\sum_i x_i = \Omega,\ x_i > d_i\}$ is nonempty because $\sum_j d_j < \Omega$, and bounded, since $d_i < x_i < \Omega - \sum_{j \neq i} d_j$. A maximizer therefore exists, lies in the interior, and is unique. With a linear constraint and a concave objective, the Lagrange conditions are necessary and sufficient: $\pi_i/(x_i - d_i) = \mu$, i.e.\ $x_i - d_i = \pi_i/\mu$. Summing and using $\sum_i \pi_i = 1$ gives $1/\mu = \Omega - \sum_j d_j$, which is~\eqref{ch07:eq:LQ_solution}. With $d_i = \bar{d}$, $x_i^* = \bar{d} + \pi_i\Phi = (\Omega - \Phi)/N + \pi_i\Phi$, which is~\eqref{ch07:eq:LQ_equal_omega}.
 \end{proof}
 
 \begin{example}[The Allocation Rule at Work]\label{ch07:ex:LQ_bargaining}
@@ -207,7 +207,7 @@ Suppose: (i) each $U_i$ is continuous, increasing and strictly concave on a comp
 \end{theorem}
 
 \begin{proof}
-Let $X^+$ be the set of feasible allocations with $S_i > 0$ for all $i$; it is nonempty by (iv) and convex because each $S_i$ is concave. On $X^+$ the objective $f(\x) = \sum_i \pi_i \ln S_i(\x)$ is concave, and strictly concave: along any direction $\mathbf{h} \neq 0$ some $h_i \neq 0$, and $\ln S_i$ is strictly concave along $\mathbf{h}$ because $U_i$ is strictly concave in $x_i$ and $\ln$ is increasing and concave. Fix $\x^0 \in X^+$. Since $f \to -\infty$ at the boundary of $X^+$, the upper level set $\{\x \in X^+ : f(\x) \geq f(\x^0)\}$ is closed and bounded, hence compact, so $f$ attains its maximum; strict concavity makes the maximizer unique. Without (ii) --- for instance with envy, $W^U_{ij} < 0$ --- $V_i$ need not be concave and uniqueness can fail.
+Let $X^+$ be the set of feasible allocations with $S_i > 0$ for all $i$; it is nonempty by (iv) and convex because each $S_i$ is concave. On $X^+$ the objective $f(\x) = \sum_i \pi_i \ln S_i(\x)$ is concave, and strictly concave: along any direction $\mathbf{h} \neq 0$ some $h_i \neq 0$, and $\ln S_i$ is strictly concave along $\mathbf{h}$ because $U_i$ is strictly concave in $x_i$ and $\ln$ is increasing and concave. Fix $\x^0 \in X^+$ and let $F$ be the (compact) set of feasible allocations. Each $S_j$ is continuous, hence bounded above on $F$. Let $\x^n$ be a sequence in the upper level set $\{\x \in X^+ : f(\x) \geq f(\x^0)\}$ converging to $\bar{\x} \in F$. If $S_i(\bar{\x}) = 0$ for some $i$, then $\pi_i\ln S_i(\x^n) \to -\infty$ while the other terms stay bounded above, so $f(\x^n) \to -\infty$, a contradiction. Hence $\bar{\x} \in X^+$ and, by continuity, $f(\bar{\x}) \geq f(\x^0)$. The level set is therefore closed in the compact $F$, hence compact, so $f$ attains its maximum on it (and so on $X^+$); strict concavity makes the maximizer unique. Without (ii) --- for instance with envy, $W^U_{ij} < 0$ --- $V_i$ need not be concave and uniqueness can fail.
 \end{proof}
 
 \begin{proposition}[Equal Power Is Not Walras]\label{ch07:prop:nesting}
@@ -215,7 +215,7 @@ If $\boldsymbol{\pi} = \frac{1}{N}\ones$ and the disagreement payoffs are equal,
 \end{proposition}
 
 \begin{proof}
-The first statement is~\eqref{ch07:eq:LQ_equal_omega} with $\pi_i = 1/N$. For the second, take two agents with $U = \frac12\ln x + \frac12\ln y$ and endowments $(0.9, 0.3)$ and $(0.1, 0.7)$. The Walrasian equilibrium has price ratio one and gives agent~A the bundle $(0.600, 0.600)$. The symmetric Nash solution with the endowments as disagreement point lies on the same contract curve ($x_A = y_A$) but at $(0.631, 0.631)$ (\texttt{code/ch07.py}).
+The first statement is~\eqref{ch07:eq:LQ_equal_omega} with $\pi_i = 1/N$. For the second, take two agents with $U = \frac12\ln x + \frac12\ln y$ and endowments $(0.9, 0.3)$ and $(0.1, 0.7)$. The Walrasian equilibrium has price ratio one (each agent spends half her wealth on each good, and with $p_x = p_y$ demands sum to the endowment $(1, 1)$) and gives agent~A the bundle $(0.600, 0.600)$. Equal Cobb--Douglas preferences and aggregate endowment $(1,1)$ make the contract curve the diagonal $x_A = y_A = a$, along which $U_A = \ln a$ and $U_B = \ln(1-a)$. The symmetric Nash solution is Pareto efficient, so it lies on this curve and maximizes $\ln(\ln a - d_A) + \ln(\ln(1-a) - d_B)$ with $d_A = \frac12\ln 0.27$ and $d_B = \frac12\ln 0.07$; the maximizer is $a = 0.631 \neq 0.600$ (\texttt{code/ch07.py}).
 \end{proof}
 
 \begin{intuition}[What the competitive benchmark is]
@@ -264,17 +264,18 @@ L = L_{\text{power}} + L_{\text{externality}} + L_{\text{interaction}},
 exactly, where
 \begin{enumerate}
 \item $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$: the loss from unequal power, as in~\eqref{ch07:eq:Lpower};
-\item $L_{\text{externality}} = \mathcal{S}(\x^{FB}) - \mathcal{S}(\x^E) \geq 0$: the gain the planner forgoes by not tilting consumption toward the agents others care about; it is zero if and only if all $c_j$ are equal;
+\item $L_{\text{externality}} = \mathcal{S}(\x^{FB}) - \mathcal{S}(\x^E) \geq 0$: the gain the planner forgoes by not tilting consumption toward the agents others care about; for $\gamma_U > 0$ it is zero if and only if all $c_j$ are equal (for $\gamma_U = 0$ it is always zero);
 \item the interaction term
 \begin{align*}
 L_{\text{interaction}} &= \gamma_U \sum_j c_j \bigl[U(\tfrac{\Omega}{N}) - U(x_j^B)\bigr] \\
-&= -\gamma_U N\, U'(\tfrac{\Omega}{N})\,\Phi\,\Cov(c_j, \pi_j) + \gamma_U\tfrac{\kappa}{2}\Phi^2 \sum_j c_j\bigl(\pi_j - \tfrac1N\bigr)^2 .
+&= -\gamma_U N\, U'(\tfrac{\Omega}{N})\,\Phi\,\Cov(c_j, \pi_j) + \gamma_U\tfrac{\kappa}{2}\Phi^2 \sum_j c_j\bigl(\pi_j - \tfrac1N\bigr)^2 ,
 \end{align*}
+with $\Cov(c_j, \pi_j) = \frac1N\sum_j (c_j - \bar{c})(\pi_j - \frac1N)$ the covariance across agents (the same $\frac1N$ convention as $\Var(\boldsymbol{\pi})$).
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-Write $L = [\mathcal{S}(\x^{FB}) - \mathcal{S}(\x^E)] + [\mathcal{S}(\x^E) - \mathcal{S}(\x^B)]$. The first bracket is $L_{\text{externality}}$; it is nonnegative by optimality of $\x^{FB}$, and $\x^{FB} = \x^E$ iff the first-order conditions $(1 + \gamma_U c_j)(1 - \kappa x_j) = \mu$ hold at equal $x_j$, i.e.\ iff all $c_j$ are equal. The second bracket is $\sum_j [U(\Omega/N) - U(x^B_j)] + \gamma_U \sum_j c_j [U(\Omega/N) - U(x^B_j)] = L_{\text{power}} + L_{\text{interaction}}$. Finally, with $\delta_j = x^B_j - \Omega/N = (\pi_j - 1/N)\Phi$, $U(\Omega/N) - U(x^B_j) = -U'(\Omega/N)\delta_j + \frac{\kappa}{2}\delta_j^2$ exactly, and $\sum_j c_j(\pi_j - 1/N) = N\Cov(c_j, \pi_j)$.
+Write $L = [\mathcal{S}(\x^{FB}) - \mathcal{S}(\x^E)] + [\mathcal{S}(\x^E) - \mathcal{S}(\x^B)]$. The first bracket is $L_{\text{externality}}$; it is nonnegative by optimality of $\x^{FB}$. Because $\mathcal{S}$ is strictly concave ($\kappa > 0$, $1 + \gamma_U c_j > 0$), $\x^{FB}$ is its unique maximizer on $\{\sum_j x_j = \Omega\}$, characterized by $(1 + \gamma_U c_j)(1 - \kappa x_j) = \mu$ for all $j$. So $L_{\text{externality}} = 0$ iff $\x^E = \x^{FB}$, iff these conditions hold at equal $x_j$ with $1 - \kappa x_j > 0$, i.e.\ iff all $\gamma_U c_j$ are equal. The second bracket is $\sum_j [U(\Omega/N) - U(x^B_j)] + \gamma_U \sum_j c_j [U(\Omega/N) - U(x^B_j)] = L_{\text{power}} + L_{\text{interaction}}$. Finally, with $\delta_j = x^B_j - \Omega/N = (\pi_j - 1/N)\Phi$, $U(\Omega/N) - U(x^B_j) = -U'(\Omega/N)\delta_j + \frac{\kappa}{2}\delta_j^2$ exactly. Summing with weights $1$ gives $L_{\text{power}}$ (the linear terms cancel because $\sum_j \delta_j = 0$), and summing with weights $\gamma_U c_j$ gives the second line of $L_{\text{interaction}}$, using $\sum_j c_j(\pi_j - 1/N) = \sum_j (c_j - \bar{c})(\pi_j - 1/N) = N\Cov(c_j, \pi_j)$.
 \end{proof}
 
 \begin{intuition}[Three sources of structural welfare loss]
@@ -325,14 +326,14 @@ Under the allocation rule~\eqref{ch07:eq:LQ_solution}:
 \begin{enumerate}
 \item \textbf{Changing outside options} (for instance through endowments): $\partial x_i^*/\partial d_i = 1 - \pi_i > 0$ and $\partial x_i^*/\partial d_j = -\pi_i$ for $j \neq i$. Raising agent $i$'s outside option strengthens her bargaining position even if $\boldsymbol{\pi}$ is unchanged.
 
-\item \textbf{Changing the network} ($W \to W + t E$, with $E\ones = 0$): $dx_i^* = \Phi\, d\pi_i$, with $d\boldsymbol{\pi}' = t\,\boldsymbol{\pi}'EZ$ (Lemma~\ref{ch06:lem:perturbation}). Building a new production link can change who gets what without any transfer.
+\item \textbf{Changing the network} ($W \to W + t E$, with $W$ irreducible and $E$ as in Lemma~\ref{ch06:lem:perturbation}): $dx_i^*/dt = (\Omega - \sum_j d_j)\, d\pi_i/dt$ (which is $\Phi\, d\pi_i/dt$ with equal outside options), with $d\boldsymbol{\pi}'/dt = \boldsymbol{\pi}'EZ$ at $t = 0$. Building a new production link can change who gets what without any transfer.
 
 \item \textbf{Changing preferences or productivity} (e.g.\ through the formation mechanism of Chapter~10) acts through $\Omega$ and $\boldsymbol{d}$: $\partial x_i^*/\partial \Omega = \pi_i$.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-Differentiate~\eqref{ch07:eq:LQ_solution}; item 2 uses~\eqref{ch06:eq:dpi}.
+Differentiate~\eqref{ch07:eq:LQ_solution}, which is linear in $(\boldsymbol{d}, \Omega)$ for fixed $\boldsymbol{\pi}$ and linear in $\boldsymbol{\pi}$ for fixed $(\boldsymbol{d}, \Omega)$; $1 - \pi_i > 0$ because $\boldsymbol{\pi} > 0$ and $N \geq 2$. Item 2 then uses~\eqref{ch06:eq:dpi}.
 \end{proof}
 
 \begin{keyinsight}
@@ -480,7 +481,7 @@ where $\mathcal{P}$ is the set of agents with below-average power ($\pi_i < 1/N$
 \end{definition}
 
 \begin{proposition}[Escape Cost and Integration]\label{ch07:prop:escape_hard}
-Let $W$ be irreducible and row-stochastic, with fundamental matrix $Z = (I - W + \ones\boldsymbol{\pi}')^{-1}$. To first order, a perturbation $tE$ ($E\ones = 0$) that raises the power of the group $\mathcal{P}$ by $\Delta > 0$ must satisfy
+Let $W$ be irreducible and row-stochastic, with fundamental matrix $Z = (I - W + \ones\boldsymbol{\pi}')^{-1}$. To first order in $t$, a perturbation $tE$ (with $E$ as in Lemma~\ref{ch06:lem:perturbation}, so $E\ones = 0$) that raises the total power of the group $\mathcal{P}$ by $\Delta > 0$ must satisfy
 \begin{equation}
 t\,\|E\|_\infty \;\geq\; \frac{\Delta}{\|Z\|_\infty}, \qquad \|Z\|_\infty \geq \max_{k \geq 2} \frac{1}{|1 - \lambda_k|}.
 \end{equation}
@@ -676,7 +677,7 @@ Marini wrote in exile. The military governments that exiled him did not change t
 % TODO-VERIFY: authors/year/title of the production-network bargaining paper cited here (possibly Acemoglu and Tahbaz-Salehi, "The Macroeconomics of Supply Chain Disruptions").
 \textbf{Power and allocation:} on relationship-specific investments and bargaining in production networks, see \citet{acemoglu2025macroeconomics}. This is the closest existing work to the model in this chapter.
 
-\textbf{Welfare decomposition:} The decomposition~\eqref{ch07:eq:decomposition} is original to this book. \citet{emmanuel1969echange}, \textit{L'\'{e}change in\'{e}gal}, for the term ``unequal exchange.'' For related welfare loss analysis in network settings: \citet{elliott2014financial}, ``Financial Networks and Contagion.''
+\textbf{Welfare decomposition:} The decomposition~\eqref{ch07:eq:decomposition} is an exact second-order expansion of quadratic utility around equal division, weighted by $1 + \gamma_U c_j$; it is bookkeeping, not a new result, and its interest rests on Assumption~7.A. \citet{emmanuel1969echange}, \textit{L'\'{e}change in\'{e}gal}, for the term ``unequal exchange.'' For related welfare loss analysis in network settings: \citet{elliott2014financial}, ``Financial Networks and Contagion.''
 
 % TODO-VERIFY: "six-chapter essay" and the Prebisch (1981) chapter number below.
 \textbf{Dependency theory and labor:} \citet{marini1973dialectica}, \textit{Dial\'{e}ctica de la dependencia}, M\'{e}xico: Era (the six-chapter essay formalized in the case study above; available in Spanish at \texttt{marini-escritos.unam.mx}). \citet{cardoso1978desventuras}, ``Las desventuras de la dial\'{e}ctica de la dependencia,'' and \citet{marini1978razones}, ``Las razones del neodesarrollismo'' --- the critique and his response. \citet{prebisch1981capitalismo}, \textit{Capitalismo Perif\'{e}rico}, Chapter~4, for the structuralist version of the same argument without the Marxist vocabulary.

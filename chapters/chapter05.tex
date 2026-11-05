@@ -227,6 +227,10 @@ b_i^{(\infty)} = \boldsymbol{\pi}'\mathbf{b}^{(0)} = \sum_{j=1}^N \pi_j b_j^{(0)
 The long-run belief is a weighted average of the initial beliefs, with weights given by $\boldsymbol{\pi}$.
 \end{proposition}
 
+\begin{proof}
+A strongly connected (irreducible) and aperiodic nonnegative matrix is primitive. By the Perron--Frobenius theorem for primitive matrices (Theorem~\ref{ch06:thm:PF}, item~6; \citealp[Thms.~1.1--1.2]{seneta2006nonnegative}), $(W^I)^t/\rho^t \to \mathbf{v}\boldsymbol{\pi}'$ with $\boldsymbol{\pi}'\mathbf{v} = 1$, and $\boldsymbol{\pi}$ is the unique left eigenvector for $\rho$ up to scale. Row-stochasticity gives $W^I\ones = \ones$, so $\rho = 1$ and $\mathbf{v} = \ones$ once $\boldsymbol{\pi}$ is normalized to $\ones'\boldsymbol{\pi} = 1$. Then $\mathbf{b}^{(t)} = (W^I)^t\mathbf{b}^{(0)} \to \ones\boldsymbol{\pi}'\mathbf{b}^{(0)}$. Chapter~8 restates this as Theorem~\ref{ch08:thm:degroot}; the model is \citet{degroot1974reaching}'s.
+\end{proof}
+
 \begin{intuition}[What this says in words]
 Everyone eventually agrees --- but they agree on a \textit{weighted average} of initial beliefs, not the simple average. The weights $\pi_j$ are the Perron eigenvector entries: agents with high $\pi_j$ have more influence on the long-run consensus. This is not because they shout louder or coerce others. It is because the network structure channels information flow through them. They are listened to more, directly or indirectly, by more people.
 
@@ -508,7 +512,7 @@ An agent's power is the weighted sum of power directed toward her through all th
 \end{proposition}
 
 \begin{proof}
-$W$ is row-stochastic, so $\rho(W) = 1$ and $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$; write out the $i$-th entry of $\boldsymbol{\pi}'(\alpha_U W^U + \alpha_P W^P + \alpha_I W^I)$.
+$W$ is row-stochastic (each layer is, and the $\alpha$'s sum to one), so $\rho(W) = 1$; since $W$ is irreducible, the Perron--Frobenius theorem (Theorem~\ref{ch06:thm:PF}, Part~II) gives a unique positive $\boldsymbol{\pi}$ with $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$ and $\ones'\boldsymbol{\pi} = 1$. Write out the $i$-th entry of $\boldsymbol{\pi}'(\alpha_U W^U + \alpha_P W^P + \alpha_I W^I)$.
 \end{proof}
 
 \begin{intuition}[What determines power]

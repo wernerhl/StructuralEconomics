@@ -120,3 +120,45 @@ for m in [0.10, 0.18, 0.30, 0.50]:
 print("11.6 divergence at rho = 1 - 0.09 =", 0.91)
 # 11.7(d)
 print("11.7(d) generations to 90% with lambda=0.62:", np.log(0.1) / np.log(0.62))
+print("11.6(b) all four mu values stable; instability when mu*0.5 >= 1-0.62, i.e. mu >=", (1 - 0.62) / 0.5)
+assert all(0.62 + m * 0.5 < 1 for m in [0.10, 0.18, 0.30, 0.50])
+
+# ---------------------------------------------------------------------------
+# Proof checks (proof pass)
+print("\n== Proof checks")
+rng = np.random.default_rng(11)
+# Prop ch11:prop:challenge: OVB formula
+n = 400000
+th_ = rng.normal(size=n)
+p_ = 0.6 * th_ + rng.normal(size=n)
+x_ = 1.5 * p_ + 2.0 * th_ + rng.normal(size=n)
+bhat = np.cov(x_, p_)[0, 1] / np.var(p_, ddof=1)
+assert abs(bhat - (1.5 + 2.0 * 0.6 / 1.36)) < 0.01   # population: Cov(theta,p)=0.6, Var(p)=1.36
+print("OVB formula verified: plim beta_hat =", round(bhat, 3))
+# Prop ch11:prop:apc: ratio near 0 at k_delta when delta nearly linear; large at k_alpha when alpha nearly linear
+cc = np.arange(8.0)
+tt = np.arange(8.0)
+d_lin = 0.3 * cc + 0.01 * rng.normal(size=8)
+a_wig = rng.normal(size=8)
+k_d = -np.cov(d_lin, cc, bias=True)[0, 1] / pvar(cc)
+ratio = lambda d, a, k: pvar(d + k * cc) / pvar(a - k * tt)
+assert ratio(d_lin, a_wig, k_d) < 1e-3
+a_lin = -0.2 * tt + 0.01 * rng.normal(size=8)
+d_wig = rng.normal(size=8)
+k_a = np.cov(a_lin, tt, bias=True)[0, 1] / pvar(tt)
+assert ratio(d_wig, a_lin, k_a) > 1e3
+assert abs(ratio(d_wig, a_wig, 1e6) - pvar(cc) / pvar(tt)) < 1e-6
+print("APC ratio extremes verified:", ratio(d_lin, a_wig, k_d), ratio(d_wig, a_lin, k_a))
+# Prop ch11:prop:id_params: Corr(x_g, x_{g-k}) = rho^k R_theta for AR(1) theta + iid noise
+G, rr, bb = 400000, 0.62, 1.0
+th = np.zeros(G)
+eps = rng.normal(size=G)
+for g in range(1, G):
+    th[g] = rr * th[g - 1] + 0.3 * eps[g]
+xg = 0.2 + bb * th + rng.normal(scale=0.4, size=G)
+xg, th = xg[1000:], th[1000:]
+Rth = bb ** 2 * np.var(th) / np.var(xg)
+for k in (1, 2):
+    c = np.corrcoef(xg[k:], xg[:-k])[0, 1]
+    assert abs(c - rr ** k * Rth) < 0.01
+print("id_params correlations verified: R_theta =", round(Rth, 3))

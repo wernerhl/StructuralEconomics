@@ -64,24 +64,29 @@ The effect on $W^I$: women's information edges are confined to female-dominated 
 \end{example}
 
 \begin{proposition}[Assortative Mixing Reduces $\Gamma$]\label{ch18:prop:assortative}
-Let the raw interaction intensities be $K_{ij} = \phi(\mathbf{a}_i,\mathbf{a}_j)\,K^{\max}_{ij}$ and $W = D^{-1}K$ with $D = \operatorname{diag}(K\ones)$.
+Let the raw interaction intensities be $K_{ij} = \phi(\mathbf{a}_i,\mathbf{a}_j)\,K^{\max}_{ij} \ge 0$, with every row of $K$ nonzero, and $W = D^{-1}K$ with $D = \operatorname{diag}(K\ones)$.
 \begin{enumerate}
-\item[(a)] \textbf{Two equal groups (equitable partition).} Suppose there are two groups of $n$ agents, $K^{\max}_{ij} = a$ within groups and $K^{\max}_{ij} = c$ across groups, and $\phi = 1$ within, $\lambda_k$ across. Then
+\item[(a)] \textbf{Two equal groups (equitable partition).} Suppose there are two groups of $n$ agents, $K^{\max}_{ij} = a > 0$ within groups (including $i = j$) and $K^{\max}_{ij} = c > 0$ across groups, and $\phi = 1$ within, $\lambda_k \in [0,1]$ across. Then
 \begin{equation}\label{ch18:eq:assortative_gamma}
 \lambda_2(W) = \frac{a - \lambda_k c}{a + \lambda_k c}, \qquad \Gamma(W) = 1 - \frac{|a - \lambda_k c|}{a + \lambda_k c},
 \end{equation}
 and all other eigenvalues are $0$. If $c \le a$ (unconstrained cross-group links are no stronger than within-group links), then $\Gamma = 2\lambda_k c/(a + \lambda_k c)$ is strictly increasing in $\lambda_k$ on $[0,1]$.
-\item[(b)] \textbf{General symmetric case.} If $K^{\max}$ and $\phi$ are symmetric, then for any group $S$
+\item[(b)] \textbf{General symmetric case.} Let $K^{\max}$ and $\phi$ be symmetric, and let $S$ be a set of agents such that $\phi = \lambda_k$ on every pair with one member in $S$ and the other in $S^c$ (for instance, $S$ is one class of attribute $k$, with $\phi_k = 1$ within classes and $\lambda_k$ across them). Then
 \[
 \Gamma(W) \;\le\; 2\,\frac{\lambda_k C_S}{\min(A_S, A_{S^c}) + \lambda_k C_S},
 \]
-where $C_S = \sum_{i\in S,\, j\notin S} K^{\max}_{ij}$ and $A_S = \sum_{i,j\in S} K^{\max}_{ij}$. Strong assortative mixing ($\lambda_k \to 0$) therefore forces $\Gamma \to 0$.
+where $C_S = \sum_{i\in S,\, j\notin S} K^{\max}_{ij}$ is the unconstrained cross intensity and $A_S = \sum_{i,j\in S} K_{ij}$ the (constrained) intensity inside $S$; when $\phi = 1$ inside $S$, $A_S = \sum_{i,j\in S} K^{\max}_{ij}$. If $A_S$ and $A_{S^c}$ stay bounded away from zero, strong assortative mixing ($\lambda_k \to 0$) therefore forces $\Gamma \to 0$.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(a) Rows within a group are identical, so the partition into groups is equitable. The quotient (group-level) matrix is $\begin{pmatrix} \alpha & \beta \\ \beta & \alpha \end{pmatrix}$ with $\alpha = a/(a+\lambda_k c)$, $\beta = \lambda_k c/(a+\lambda_k c)$. Its eigenvalues are $1$ and $\alpha - \beta$. Vectors that sum to zero within each group are mapped to $0$. If $c \le a$ then $\lambda_k c \le a$, so $|\alpha-\beta| = (a-\lambda_k c)/(a+\lambda_k c)$, which is decreasing in $\lambda_k$.
-(b) With symmetric $K$, $W$ is reversible with $\pi_i \propto d_i = \sum_j K_{ij}$. Cheeger's inequality gives $1 - \lambda_2 \le 2\Phi$, where $\Phi$ is the conductance (Chapter~6), and $\Gamma = 1 - |\lambda_2| \le 1 - \lambda_2$. The conductance of the cut $(S, S^c)$ is $\lambda_k C_S/\min(\mathrm{vol}\,S, \mathrm{vol}\,S^c)$ with $\mathrm{vol}\,S = A_S + \lambda_k C_S$.
+(a) Every row of $K$ sums to $n(a + \lambda_k c)$, so $W_{ij} = \alpha/n$ within groups and $\beta/n$ across, with $\alpha = a/(a+\lambda_k c)$ and $\beta = \lambda_k c/(a+\lambda_k c) = 1 - \alpha$. Rows within a group are identical, so the partition into groups is equitable: with $V$ the $2n \times 2$ group-indicator matrix, $WV = VQ$ for the quotient $Q = \begin{pmatrix} \alpha & \beta \\ \beta & \alpha \end{pmatrix}$. Hence $\ones$ and the vector equal to $+1$ on one group and $-1$ on the other are eigenvectors of $W$ with eigenvalues $1$ and $\alpha - \beta$. Every vector that sums to zero within each group is mapped to $0$, and these vectors span the remaining $2n-2$ dimensions. So the spectrum is $\{1, \alpha-\beta, 0, \ldots, 0\}$, which gives~\eqref{ch18:eq:assortative_gamma}. If $c \le a$ then $\lambda_k c \le a$, so $|\alpha-\beta| = (a-\lambda_k c)/(a+\lambda_k c)$ and $\Gamma = 2\lambda_k c/(a+\lambda_k c)$, whose derivative in $\lambda_k$ is $2ac/(a+\lambda_k c)^2 > 0$.
+
+(b) Let $d_i = \sum_j K_{ij}$, $\mathrm{vol}(X) = \sum_{i\in X} d_i$ and $\pi_i = d_i/\mathrm{vol}(\text{all})$. Symmetry of $K$ gives $\pi_i W_{ij} = K_{ij}/\mathrm{vol}(\text{all}) = \pi_j W_{ji}$, so $W$ is reversible with respect to $\pi$, and its eigenvalues are real ($D^{1/2}WD^{-1/2} = D^{-1/2}KD^{-1/2}$ is symmetric). Order them $1 = \lambda_1 \ge \lambda_2^{\uparrow} \ge \cdots$. The variational characterization of the second eigenvalue of a reversible chain \citep[ch.~13]{levin2009markov} is
+\[
+1 - \lambda_2^{\uparrow} = \min_{f\ \text{non-constant}} \frac{\tfrac12\sum_{i,j}\pi_i W_{ij}(f_i - f_j)^2}{\Var_\pi(f)} .
+\]
+Take $f = \mathbf{1}_S$. The numerator is $Q(S,S^c) := \sum_{i\in S,\,j\notin S}\pi_i W_{ij}$ and the denominator is $\pi(S)\pi(S^c) \ge \tfrac12\min(\pi(S),\pi(S^c))$. Hence $1-\lambda_2^{\uparrow} \le 2\,Q(S,S^c)/\min(\pi(S),\pi(S^c))$, which is the upper half of Cheeger's inequality \citep[Thm.~13.14]{levin2009markov}. By the hypothesis on $\phi$, $\mathrm{vol}(\text{all})\,Q(S,S^c) = \sum_{i\in S,\,j\notin S}K_{ij} = \lambda_k C_S$ and $\mathrm{vol}(S) = A_S + \lambda_k C_S$, $\mathrm{vol}(S^c) = A_{S^c} + \lambda_k C_S$. Finally $\Gamma = 1 - \max_{l\ge2}|\lambda_l| \le 1 - |\lambda_2^{\uparrow}| \le 1 - \lambda_2^{\uparrow}$. (If $\lambda_k = 0$, $W$ is reducible and $\Gamma = 0$; the bound holds trivially.)
 \end{proof}
 
 \begin{remark}[What the proposition does not say]\label{ch18:rem:assortative_limits}
@@ -107,12 +112,12 @@ Let $K^{\max}$ and $\phi$ be symmetric, $K = \phi \circ K^{\max}$, and $W = D^{-
 \end{equation}
 \begin{enumerate}
 \item[(i)] $\pi_i = d_i/\sum_j d_j$, where $d_i = \sum_j K_{ij}$ is $i$'s total (constrained) interaction intensity. Power is proportional to degree.
-\item[(ii)] \textbf{Group size.} Suppose $K^{\max}_{ij} = 1$ for all pairs, two groups have population shares $p$ and $1-p$, and $\phi = 1$ within and $\lambda$ across groups. Then
+\item[(ii)] \textbf{Group size.} Suppose $K^{\max}_{ij} = 1$ for all pairs (including $i = j$), two groups have population shares $p$ and $1-p$, and $\phi = 1$ within and $\lambda \in (0,1]$ across groups. Then
 \begin{equation}\label{ch18:eq:minority_ratio}
 \frac{\pi^{\text{min}}_{\text{avg}}}{\pi^{\text{maj}}_{\text{avg}}} = \frac{p + \lambda(1-p)}{(1-p) + \lambda p},
 \end{equation}
 which is $<1$ if and only if $\lambda < 1$ and $p < \tfrac12$. With equal group sizes ($p = \tfrac12$) the ratio is $1$ for every $\lambda$.
-\item[(iii)] \textbf{Asymmetric opportunity structure.} With two equal groups, within-group intensities $a_F$, $a_M$ and unconstrained cross intensity $c$,
+\item[(iii)] \textbf{Asymmetric opportunity structure.} With two equal groups, within-group intensities $a_F, a_M > 0$ (including $i = j$), unconstrained cross intensity $c > 0$ and $\lambda_g \in (0,1]$,
 \[
 \frac{\pi^F_{\text{avg}}}{\pi^M_{\text{avg}}} = \frac{a_F + \lambda_g c}{a_M + \lambda_g c},
 \]
@@ -121,8 +126,10 @@ which is $<1$ iff $a_F < a_M$. Lowering $\lambda_g$ widens the gap, towards $a_F
 \end{proposition}
 
 \begin{proof}
-(i) Symmetry of $K$ gives $d'D^{-1}K = \ones'K = (K\ones)' = d'$, so $d/\sum_j d_j$ is the stationary vector. (ii) and (iii) compute $d_i$ for a member of each group and apply (i).
+(i) Symmetry of $K$ gives $d'D^{-1}K = \ones'K = (K'\ones)' = (K\ones)' = d'$, so $d/\sum_j d_j$ is a stationary vector, and it is the only one because $W$ is irreducible. This is the textbook stationary distribution of a random walk on a weighted undirected graph \citep[\S 9.1]{levin2009markov}. (ii) With $N$ agents, a minority member has $d = N[p + \lambda(1-p)]$ and a majority member $d = N[(1-p) + \lambda p]$; apply (i). The ratio is below one iff $p + \lambda(1-p) < (1-p) + \lambda p$, i.e.\ iff $(1-2p)(1-\lambda) > 0$. (iii) A member of group $g$ has $d = n(a_g + \lambda_g c)$; apply (i). The derivative of the ratio in $\lambda_g$ is $c(a_M - a_F)/(a_M + \lambda_g c)^2$, positive when $a_F < a_M$.
 \end{proof}
+
+Part~(ii) is a degree ratio. That homophily combined with minority size puts a minority at a ranking disadvantage is known from network science, for growing networks with preferential attachment \citep{avin2015homophily,karimi2018homophily}.
 
 A gender gap at roughly equal population shares therefore cannot come from homophily alone. It requires the asymmetry in (iii): women channelled into sectors with fewer inter-sectoral linkages (domestic work, informal services), or weaker connections to the high-linkage core. For an ethnic minority, group size (ii) already produces a gap. With $p = 0.41$ and $\lambda_r = 0.35$, formula~\eqref{ch18:eq:minority_ratio} gives $0.84$.
 
@@ -159,12 +166,16 @@ Gender norms constrain $W^I$ by gender: women observe disproportionately female 
 \end{equation}
 where $W^I_{ij}$ is gender-assortative ($W^I_{\text{F,F}} \gg W^I_{\text{F,M}}$). The signal $\sum_j W^I_{ij}r_{j,t}$ is a biased sample: it overweights female returns (low, if women's opportunity structure is constrained) and underweights male returns (high).
 
-The steady-state gender preference gap, for given group returns $\bar r^F, \bar r^M$, is:
+Let $0 \le \rho < 1$, let male agents follow the same equation, and hold returns fixed at group values $\bar r^F, \bar r^M$. Then $\theta^F_{i,t}$ converges to its steady state from any initial condition, and the steady-state gender preference gap is:
 \begin{equation}\label{ch18:eq:gender_theta_gap}
 \theta^{*F} - \theta^{*M} = \frac{\mu}{1-\rho}\left(\bar{s}^F - \bar{s}^M\right) = \frac{\mu}{1-\rho}\cdot\frac{1-\lambda_g}{1+\lambda_g}\left(\bar{r}^F - \bar{r}^M\right),
 \end{equation}
-where $\bar s^g = \sum_j W^I_{ij} \bar r_j$ is the signal observed by group $g$. The second equality holds for two equal groups with $W^I$ built as in Proposition~\ref{ch18:prop:assortative}(a) with $a = c$: the own-group weight is $1/(1+\lambda_g)$. The gap vanishes if returns are equal, \emph{or} if $\lambda_g = 1$ (everyone sees the same signal). The preference gap IS the aspiration gap: women form lower aspirations because they observe lower returns, which are lower because their structural position is constrained by gender norms.
+where $\bar s^g = \sum_j W^I_{ij} \bar r_j$ is the signal observed by a member $i$ of group $g$ (assumed the same for all members of $g$). The second equality holds for two equal groups with $W^I$ built as in Proposition~\ref{ch18:prop:assortative}(a) with $a = c$: the own-group weight is $1/(1+\lambda_g)$. The gap vanishes if returns are equal, \emph{or} if $\lambda_g = 1$ (everyone sees the same signal). The preference gap IS the aspiration gap: women form lower aspirations because they observe lower returns, which are lower because their structural position is constrained by gender norms.
 \end{proposition}
+
+\begin{proof}
+With returns fixed, the signal of agent $i$ in group $g$ is the constant $\bar s^g$, so~\eqref{ch18:eq:gender_formation} is the scalar affine recursion $\theta_{t+1} = \rho\theta_t + (1-\rho)\bar\theta + \mu(\bar s^g - r^*)$. Its unique fixed point is $\theta^{*g} = \bar\theta + \frac{\mu}{1-\rho}(\bar s^g - r^*)$, and $\theta_{t+1} - \theta^{*g} = \rho(\theta_t - \theta^{*g})$, so $\theta_t \to \theta^{*g}$ because $\rho < 1$. Subtracting the two groups' fixed points gives the first equality in~\eqref{ch18:eq:gender_theta_gap}. With two equal groups and $W^I$ as in Proposition~\ref{ch18:prop:assortative}(a) with $a = c$, every row puts total weight $1/(1+\lambda_g)$ on its own group and $\lambda_g/(1+\lambda_g)$ on the other. Hence $\bar s^F = \frac{\bar r^F + \lambda_g \bar r^M}{1+\lambda_g}$, $\bar s^M = \frac{\bar r^M + \lambda_g \bar r^F}{1+\lambda_g}$ and $\bar s^F - \bar s^M = \frac{1-\lambda_g}{1+\lambda_g}(\bar r^F - \bar r^M)$.
+\end{proof}
 
 \begin{keyinsight}
 The gender gap operates through all three channels simultaneously:
@@ -329,7 +340,7 @@ Take three constraints: gender ($\lambda_g$), race ($\lambda_r$) and class ($\la
 %% =====================================================================
 
 \begin{proposition}[Attribute-Mediated Self-Confirming Preferences]\label{ch18:thm:attribute_trap}
-Consider two equal groups with exogenous mean returns $\bar r_{\text{adv}} > \bar r_{\text{disadv}}$. The information matrix $W^I$ gives own-group weight $1/(1+\lambda_k)$ and cross-group weight $\lambda_k/(1+\lambda_k)$. Under the formation equation~\eqref{ch18:eq:gender_formation}, steady-state preferences are
+Consider two equal groups with exogenous, constant mean returns $\bar r_{\text{adv}} > \bar r_{\text{disadv}}$. The information matrix $W^I$ gives every member of a group total own-group weight $1/(1+\lambda_k)$ and cross-group weight $\lambda_k/(1+\lambda_k)$. Let $0 \le \rho < 1$. Under the formation equation~\eqref{ch18:eq:gender_formation}, applied to both groups, steady-state preferences are
 \begin{equation}\label{ch18:eq:attribute_formation}
 \theta^*_g = \bar{\theta} + \frac{\mu}{1-\rho}\left(\bar{s}_g - r^*\right), \qquad \bar s_g = \tfrac{1}{1+\lambda_k}\bar r_g + \tfrac{\lambda_k}{1+\lambda_k}\bar r_{-g},
 \end{equation}
@@ -341,12 +352,12 @@ The preference gap is:
 \begin{enumerate}
 \item Proportional to the formation multiplier $\mathcal{M}$: sticky preferences amplify the signal gap into a larger preference gap.
 \item Proportional to the return gap, scaled by $(1-\lambda_k)/(1+\lambda_k)$. This factor equals the second eigenvalue of the group-level $W^I$ (Proposition~\ref{ch18:prop:assortative}(a) with $a=c$) and vanishes at $\lambda_k = 1$.
-\item Self-confirming: each group's preferences are consistent with its $W^I$ signal. If returns depend on $\theta$ (Exercise~18.4), the gap feeds back on itself.
+\item Self-confirming: each group's preferences are consistent with its $W^I$ signal. If returns depend on $\theta$ (Exercise~18.4), the gap feeds back on itself. (This item interprets the steady state; it is not an additional claim.)
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-Set $\theta_{t+1} = \theta_t$ in~\eqref{ch18:eq:gender_formation}. Then $(1-\rho)\theta^*_g = (1-\rho)\bar\theta + \mu(\bar s_g - r^*)$. Subtract the two groups' equations and use $\bar s_{\text{adv}} - \bar s_{\text{disadv}} = \frac{1-\lambda_k}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}})$.
+This is Proposition~\ref{ch18:prop:gender_formation} with the groups relabelled. Set $\theta_{t+1} = \theta_t$ in~\eqref{ch18:eq:gender_formation}. Then $(1-\rho)\theta^*_g = (1-\rho)\bar\theta + \mu(\bar s_g - r^*)$, a unique fixed point since $\rho < 1$, and it is globally stable because deviations shrink by the factor $\rho$ each period. Subtract the two groups' equations and use $\bar s_{\text{adv}} - \bar s_{\text{disadv}} = \frac{1}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}}) - \frac{\lambda_k}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}}) = \frac{1-\lambda_k}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}})$. For item~2, the group-level $W^I$ is $\frac{1}{1+\lambda_k}\begin{pmatrix}1 & \lambda_k\\ \lambda_k & 1\end{pmatrix}$, whose eigenvalues are $1$ and $\frac{1-\lambda_k}{1+\lambda_k}$.
 \end{proof}
 
 \begin{example}[Gender Aspiration Gap in Bolivia \illustrative]\label{ch18:ex:gender_aspiration}

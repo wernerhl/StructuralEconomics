@@ -117,3 +117,26 @@ for name, G_, sB, ne, ps in [("Bolivia", gap(W), 0.62, 3.4, 1.56), ("Korea", 0.4
     print(f"{name}: Gamma = {G_:.2f}, 1-sigma_B = {1-sB:.2f}, 1-G(pi) = {1-(gini(p) if name=='Bolivia' else 0.28):.2f}, "
           f"Neff/20 = {ne/20:.2f}, 1/(1+Psi) = {1/(1+ps):.2f}")
 print(f"ratios: Gamma {0.45/0.13:.1f}x, sigma_B {0.62/0.20:.1f}x, G {0.52/0.28:.2f}x, Neff {12/3.4:.2f}x, Psi {1.56/0.6:.1f}x")
+
+# ---------------------------------------------------------------------
+print("\n== Proof check: Prop. between (exact quadratic decomposition) and Exercise (refinement) ==")
+rng_p = np.random.default_rng(17)
+for _ in range(200):
+    n = 60
+    y = rng_p.lognormal(0, 0.6, n)
+    kap = 0.9 / y.max()                               # kappa * y < 1
+    U = lambda z: z - kap / 2 * z ** 2
+    lab = rng_p.integers(0, 3, n)
+    def VB_VW(lab):
+        ybar = y.mean(); vb = vw = 0.0
+        for b in np.unique(lab):
+            yb = y[lab == b]; w = len(yb) / n
+            vb += w * (yb.mean() - ybar) ** 2; vw += w * yb.var()
+        return vb, vw
+    vb, vw = VB_VW(lab)
+    lhs = np.sum(U(y.mean()) - U(y))
+    assert abs(lhs - kap / 2 * n * (vb + vw)) < 1e-9
+    assert abs(vb + vw - y.var()) < 1e-12
+    fine = lab * 2 + rng_p.integers(0, 2, n)          # refine each block into two
+    assert VB_VW(fine)[0] >= vb - 1e-12               # refining never lowers V_B (hence sigma_B)
+print("sum[U(ybar) - U(y_i)] = (kappa/2) N (V_B + V_W) and refinement monotonicity verified")

@@ -144,20 +144,20 @@ The \textbf{between-block share} of total inequality is $\sigma_B = V_B / V_{\te
 \end{definition}
 
 \begin{proposition}[Between-Block Share as Structural Inequality]\label{ch17:prop:between}
-With quadratic utility $U(y) = y - \frac{\kappa}{2}y^2$ (and $\kappa y < 1$ for all $y$), the utilitarian loss from dispersion decomposes exactly as
+Let $N$ individuals with incomes $y_i$ be partitioned into blocks of sizes $N_b$, with block means $\bar y_b$, overall mean $\bar y = \frac1N\sum_i y_i$, $V_B$ as in~\eqref{ch17:eq:between}, and within-block variance $V_W = \sum_b \frac{N_b}{N}\cdot\frac{1}{N_b}\sum_{i\in b}(y_i - \bar y_b)^2$. With quadratic utility $U(y) = y - \frac{\kappa}{2}y^2$ (and $\kappa y < 1$ for all $y$, so that $U$ is increasing on the relevant range), the utilitarian loss from dispersion decomposes exactly as
 \[
 \textstyle\sum_i\big[U(\bar y) - U(y_i)\big] = \frac{\kappa}{2}N(V_B + V_W),
 \]
-so the between-block part is $L_{\text{block}} = \frac{\kappa}{2}NV_B$. The between-block share $\sigma_B$ is the fraction of this loss that is \textbf{between blocks} --- associated with the disconnection of the blocks --- as opposed to \textbf{within blocks}.
+so the between-block part is $L_{\text{block}} = \frac{\kappa}{2}NV_B$ (Chapter~2's $L_{\text{block}}$). With $V_{\text{total}} = V_B + V_W$, the between-block share $\sigma_B$ is the fraction of this loss that is \textbf{between blocks} --- associated with the disconnection of the blocks --- as opposed to \textbf{within blocks}.
+\end{proposition}
+
+\begin{proof}
+For each $i$, $U(\bar y) - U(y_i) = (1 - \kappa\bar y)(\bar y - y_i) + \frac{\kappa}{2}(y_i - \bar y)^2$, which is exact because $U$ is quadratic. Summing over $i$, the linear term vanishes because $\bar y$ is the mean of the $y_i$. For the quadratic term, write $y_i - \bar y = (y_i - \bar y_b) + (\bar y_b - \bar y)$ for $i$ in block $b$; the cross term sums to zero within each block, so $\sum_i (y_i - \bar y)^2 = \sum_b\sum_{i\in b}(y_i - \bar y_b)^2 + \sum_b N_b(\bar y_b - \bar y)^2 = N(V_W + V_B)$ (the law of total variance).
+\end{proof}
 
 When $\sigma_B$ is large: most inequality is between blocks. Transfers \emph{across} blocks (pensions, conditional transfers to rural households) reduce $V_B$ directly; transfers within blocks reduce only $V_W$. What transfers do not change is the productivity gap that regenerates $V_B$ each period; cross-block linkages act on that.
 
 When $\sigma_B$ is small: most inequality is within blocks. The economy's problem is not structural heterogeneity but within-sector inequality (which may still have structural causes at a finer scale).
-\end{proposition}
-
-\begin{proof}
-For each $i$ in block $b$, $U(\bar y) - U(y_i) = (1 - \kappa\bar y)(\bar y - y_i) + \frac{\kappa}{2}(y_i - \bar y)^2$. Summing, the linear term vanishes, and $\sum_i (y_i - \bar y)^2 = N(V_B + V_W)$ by the law of total variance.
-\end{proof}
 
 \begin{example}[Bolivia's Between-Block Inequality \illustrative]\label{ch17:ex:bolivia_between}
 Illustrative inputs, of the kind one would compute from Bolivia's Encuesta de Hogares (EH) 2019 (Exercise~\ref{ch17:ex:between}). Three blocks: (1) Hydrocarbons/Mining/Government ($N_1 = 0.08N$, $\bar{y}_1 = 18{,}500$ Bs/month), (2) Formal urban ($N_2 = 0.35N$, $\bar{y}_2 = 5{,}200$ Bs/month), (3) Informal/Rural ($N_3 = 0.57N$, $\bar{y}_3 = 1{,}800$ Bs/month).

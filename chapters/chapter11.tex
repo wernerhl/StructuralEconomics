@@ -40,7 +40,7 @@ Bolivia opens a gas pipeline to a rural region. Two things happen simultaneously
 \end{example}
 
 \begin{proposition}[Omitted-Preference Bias]\label{ch11:prop:challenge}
-Suppose $x_{i,t} = \beta p_{i,t} + b\,\theta_{i,t} + u_{i,t}$ with $\E[u \mid p, \theta] = 0$, and the econometrician regresses $x$ on $p$ alone. Then
+Suppose $x_{i,t} = \beta p_{i,t} + b\,\theta_{i,t} + u_{i,t}$ with $\E[u \mid p, \theta] = 0$, finite second moments and $\Var(p) > 0$, and the econometrician regresses $x$ on $p$ alone (with an intercept) in a random sample. Then
 \[
 \operatorname{plim}\hat{\beta} = \beta + b\,\frac{\Cov(p, \theta)}{\Var(p)}.
 \]
@@ -48,7 +48,7 @@ If the same structural change raises both prices and aspirations ($\Cov(p, \thet
 \end{proposition}
 
 \begin{proof}
-$\operatorname{plim}\hat{\beta} = \Cov(x, p)/\Var(p) = \beta + b\Cov(\theta, p)/\Var(p)$.
+By the law of large numbers, $\operatorname{plim}\hat{\beta} = \Cov(x, p)/\Var(p)$. Substituting the model, $\Cov(x, p) = \beta\Var(p) + b\Cov(\theta, p) + \Cov(u, p)$, and $\Cov(u, p) = 0$ because $\E[u \mid p, \theta] = 0$. This is the omitted-variable-bias formula \citep[\S3.2.2]{angrist2009mostly}.
 \end{proof}
 
 
@@ -82,17 +82,17 @@ Let age be $a = t - c$. For any constant $k$, the decompositions
 \[
 (\alpha_t, \delta_c, A_a) \quad\text{and}\quad (\alpha_t - kt,\; \delta_c + kc,\; A_a + ka)
 \]
-produce identical fitted values. So if age effects $A_a$ are included (and behavior has a life-cycle profile, as labor supply does), linear trends in $\alpha_t$ and $\delta_c$ are not identified. $\hat{\Psi}_{\text{var}}$ then varies with $k$ over an interval that becomes arbitrarily wide --- from near $0$ to very large --- when the cohort or year effects are close to linear. If age effects are omitted, as in~\eqref{ch11:eq:cohort_year}, they are loaded onto the cohort and year effects.
+produce identical fitted values. So if age effects $A_a$ are included (and behavior has a life-cycle profile, as labor supply does), linear trends in $\alpha_t$ and $\delta_c$ are not identified. $\hat{\Psi}_{\text{var}}$ then depends on $k$: it can be made close to $0$ when the cohort effects are close to linear in $c$, and very large when the year effects are close to linear in $t$ (in each case provided the other set of effects is not close to linear with the same slope $k$). If age effects are omitted, as in~\eqref{ch11:eq:cohort_year}, they are loaded onto the cohort and year effects.
 \end{proposition}
 
 \begin{proof}
-$(\alpha_t - kt) + (\delta_c + kc) + (A_a + k(t - c)) = \alpha_t + \delta_c + A_a$. $\Var(\delta_c + kc)/\Var(\alpha_t - kt)$ is a ratio of two nonnegative quadratics in $k$. The numerator is minimized at minus the slope of the least-squares trend through $\delta_c$; its minimum is the variance of the detrended $\delta_c$, which is near $0$ when $\delta_c$ is nearly linear. The same holds for the denominator.
+$(\alpha_t - kt) + (\delta_c + kc) + (A_a + k(t - c)) = \alpha_t + \delta_c + A_a$. $\Var(\delta_c + kc)/\Var(\alpha_t - kt)$ is a ratio of two nonnegative quadratics in $k$. The numerator $\Var(\delta_c) + 2k\Cov(\delta_c, c) + k^2\Var(c)$ is minimized at $k_\delta := -\Cov(\delta_c, c)/\Var(c)$, minus the slope of the least-squares trend through $\delta_c$; its minimum is the variance of the detrended $\delta_c$, which is near $0$ when $\delta_c$ is nearly linear. At $k_\delta$ the ratio is therefore near $0$ unless the denominator is also near $0$ there. Symmetrically, the denominator is minimized at $k_\alpha := \Cov(\alpha_t, t)/\Var(t)$ with minimum the variance of the detrended $\alpha_t$, so the ratio is very large at $k_\alpha$ when $\alpha_t$ is nearly linear and the numerator is not near $0$ there. (As $|k| \to \infty$ the ratio tends to $\Var(c)/\Var(t)$.)
 \end{proof}
 
 Any estimate of $\hat{\Psi}_{\text{var}}$ therefore requires an explicit identifying restriction. Common choices are Deaton's normalization (year effects orthogonal to a linear trend), equality of two adjacent age or cohort effects, or a proxy variable for one dimension. The restriction must be stated, and the sensitivity of $\hat{\Psi}_{\text{var}}$ to it reported \citep{hall1971measurement,heckman1985using,deaton1994saving,mckenzie2006disentangling,fosse2019analyzing}. Deaton's normalization assigns all trends to age and cohort, so it mechanically tends to \textit{raise} $\Var(\hat{\delta}_c)$ relative to $\Var(\hat{\alpha}_t)$. On the table of Exercise~11.1, the two-way fit gives $\hat{\Psi}_{\text{var}} = 8.0$. The observationally equivalent APC decompositions with $k = -0.10, -0.05, 0, +0.05$ per decade give $\hat{\Psi}_{\text{var}} = 0.03, 0.62, 8.0, 507$.
 
 \begin{proposition}[When the Variance Ratio Maps to $\Psi$]\label{ch11:prop:psivar_map}
-Suppose (i) the APC restriction used is correct; (ii) all year-effect variation is enforcement and all cohort-effect variation is formation; and (iii) a single structural index $z$ drives both, with $\alpha_t = e\,z_t$ and $\delta_c = f\,z_{\tau(c)}$, where $z_{\tau(c)}$ is the index in cohort $c$'s formative years, and the two sample windows have the same $\Var(z)$. Then $\hat{\Psi}_{\text{var}} \to (f/e)^2$, and $\sqrt{\hat{\Psi}_{\text{var}}}$ estimates $|\Psi(\Delta z, \infty)|$ for a permanent change in $z$, in the population of interest.
+Suppose (i) the APC restriction used is correct; (ii) all year-effect variation is enforcement and all cohort-effect variation is formation; and (iii) a single structural index $z$ drives both, with $\alpha_t = e\,z_t$ and $\delta_c = f\,z_{\tau(c)}$, where $z_{\tau(c)}$ is the index in cohort $c$'s formative years, and the two sample windows have the same $\Var(z) > 0$, with $e \neq 0$ and the fixed effects consistently estimated. Then $\hat{\Psi}_{\text{var}} \to (f/e)^2$, and $\sqrt{\hat{\Psi}_{\text{var}}}$ estimates $|\Psi(\Delta z, \infty)|$ for a permanent change in $z$, in the population of interest.
 \end{proposition}
 
 \begin{proof}
@@ -124,11 +124,12 @@ The key coefficient is $\beta$: the sensitivity of daughters' LFP to origin-coun
 \begin{proposition}[What the Epidemiological Coefficient Measures]\label{ch11:thm:epi_id}
 Assume:
 \begin{enumerate}
-\item the origin rate reflects origin preferences and origin enforcement, $\text{LFP}_A = a_A + b\,\theta_A + e_A$, with $e_A$ uncorrelated with $\theta_A$;
+\item the origin rate reflects origin preferences and origin enforcement, $\text{LFP}_A = a + b\,\theta_A + e_A$, with a common constant $a$ and $e_A$ uncorrelated with $\theta_A$;
 \item the mother carries the origin preference, $\theta_m = \theta_A$ (no selection on $\theta$ into migration);
 \item the daughter's preference follows the formation equation within the dynasty, $\theta_d = \rho\,\theta_m + (1-\rho)\theta^{\circ} + \mu s_B$, with a host-country signal $s_B$ that is common to all daughters in $B$ (and so absorbed by the constant);
 \item the daughter's behavior is $\text{LFP}_d = a_B + b\,\theta_d + u_d$, with $u_d$ uncorrelated with origin variables conditional on $Z$.
 \end{enumerate}
+All second moments below are conditional on $Z$ (that is, after partialling $Z$ out), and $\Var(\text{LFP}_A) > 0$.
 Then the population coefficient in~\eqref{ch11:eq:epi} is
 \begin{equation}\label{ch11:eq:epi_beta}
 \beta = \rho\,\lambda, \qquad \lambda := \frac{b^2\Var(\theta_A)}{b^2\Var(\theta_A) + \Var(e_A)} \in [0, 1].
@@ -141,7 +142,7 @@ We have
 \[
 \Cov(\text{LFP}_d, \text{LFP}_A) = b\rho\,\Cov(\theta_A, a_A + b\theta_A + e_A) = \rho b^2\Var(\theta_A),
 \]
-and $\Var(\text{LFP}_A) = b^2\Var(\theta_A) + \Var(e_A)$. Divide. For the third generation, iterate assumption~3 once more.
+using assumptions 2--4 ($\theta_d = \rho\theta_A + \text{const}$ and $\Cov(u_d, \text{LFP}_A) = 0$) and then assumption 1. Also $\Var(\text{LFP}_A) = b^2\Var(\theta_A) + \Var(e_A)$. Divide. For the third generation, iterate assumption~3 once more (the host-born mother's signal is also common), so $\theta_d = \rho^2\theta_A + \text{const}$.
 \end{proof}
 
 Three caveats follow from the derivation.
@@ -289,21 +290,21 @@ This is a linear-in-means (spatial-autoregressive) model. It has an \textit{endo
 The variance ratio is a reduced-form statistic. To recover the structural parameters of the formation equation ($\rho$, $\mu$, $\theta^{\circ}$), we need more moments --- and more assumptions.
 
 \begin{proposition}[Moments for the Formation Parameters]\label{ch11:prop:id_params}
-Let behavior be $x_g = a + b\,\theta_g + u_g$ in generation $g$ of a dynasty, where $u_g$ is i.i.d., independent of $\theta$, and the year effects have been removed. Let $\theta$ follow the formation equation in a stationary environment, with the network signal uncorrelated across generations. Write $R_\theta := b^2\Var(\theta)/\Var(x) \in [0,1]$ for the share of behavioral variance due to preferences. Then:
+Let behavior be $x_g = a + b\,\theta_g + u_g$ in generation $g$ of a dynasty, where $u_g$ is i.i.d., independent of $\theta$, and the year effects have been removed. Let $\theta$ follow the formation equation in a stationary environment, with the network signal uncorrelated across generations and with earlier preferences (no feedback from $\theta$ to the signal), so that $\theta_g = \rho\theta_{g-1} + \text{const} + \mu\,\varepsilon_g$ with $\varepsilon_g$ white noise independent of $\theta_{g-1}$. Write $R_\theta := b^2\Var(\theta)/\Var(x) \in [0,1]$ for the share of behavioral variance due to preferences. Then:
 \begin{enumerate}
 \item \textbf{Parent--child correlation}: $\operatorname{Corr}(x_g, x_{g-1}) = \rho\,R_\theta$. On its own, this does not identify $\rho$: it confounds persistence with the preference share $R_\theta$.
 \item \textbf{Multigenerational correlations}: $\operatorname{Corr}(x_g, x_{g-2}) = \rho^2 R_\theta$, so the ratio of the grandparent--grandchild to the parent--child correlation identifies $\rho$.
-\item \textbf{Response to a change in the environment}: after a permanent change in observed returns $\Delta r$, cohort effects move toward a new level at rate $\rho$, with long-run shift $b\,\mathcal{M}\,\Delta r$. Given $\rho$, this identifies $\mu$ if $\Delta r$ is measured.
+\item \textbf{Response to a change in the environment}: after a permanent change in observed returns $\Delta r$, cohort effects move toward a new level at rate $\rho$, with long-run shift $b\,\mathcal{M}\,\Delta r$. Given $\rho$ and $b$ (e.g.\ under the normalization $b = 1$, which fixes the units of $\theta$), this identifies $\mu$ if $\Delta r$ is measured.
 \item \textbf{Long-run level}: in a stable environment, the mean of $\theta$ identifies $\theta^{\circ} + \mathcal{M}(\bar{s} - r^*)$, which pins down the anchor $\theta^{\circ}$ only once the signal level $\bar{s}$ and $r^*$ are fixed.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1)--(2) With AR(1) $\theta$, $\Cov(\theta_g, \theta_{g-k}) = \rho^k\Var(\theta)$. So
+(1)--(2) With stationary AR(1) $\theta$, iterating gives $\theta_g = \rho^k\theta_{g-k} + (\text{terms independent of } \theta_{g-k})$, so $\Cov(\theta_g, \theta_{g-k}) = \rho^k\Var(\theta)$. Since the $u_g$ are i.i.d.\ and independent of $\theta$,
 \[
 \Cov(x_g, x_{g-k}) = b^2\rho^k\Var(\theta);
 \]
-divide by $\Var(x)$. (3) Chapter~9, Proposition~\ref{ch09:prop:steady}, and the persistence result. (4) Take expectations in the steady-state condition.
+divide by $\Var(x_g) = \Var(x_{g-k}) = \Var(x)$. The ratio in (2) is $\rho^2R_\theta/(\rho R_\theta) = \rho$ when $\rho R_\theta \neq 0$. (3) With no feedback, the mean preference after the change obeys $\bar{\theta}_{g+1} - \theta^*_{\text{new}} = \rho(\bar{\theta}_g - \theta^*_{\text{new}})$, and by Proposition~\ref{ch09:prop:steady} $\theta^*_{\text{new}} - \theta^*_{\text{old}} = \mathcal{M}\Delta r$; multiply by $b$. (4) Take expectations in the steady-state condition~\eqref{ch09:eq:steady}.
 \end{proof}
 
 \begin{example}[Estimating $(\hat{\rho}, \hat{\mu})$ for Female LFP \illustrative]\label{ch11:ex:rho_mu}
@@ -527,7 +528,7 @@ Born 1960s & 0.60 & 0.66 & 0.72 \\
 \item \textbf{Sensitivity analysis.} Use the one-loop model of Chapter~10 (Proposition~\ref{ch10:prop:psi_lq}), $\Psi(\infty) = \mu\beta\eta/(1 - \rho - \mu\beta\eta)$, with the illustrative values $\hat{\rho} = 0.62$, $\hat{\mu} = 0.18$ and $\beta\eta = 0.5$:
 \begin{enumerate}
 \item Compute $\Psi(\infty)$ under $\rho = 0.50, 0.62, 0.75, 0.90$. Plot $\Psi(\rho)$.
-\item Compute $\Psi(\infty)$ under $\mu = 0.10, 0.18, 0.30, 0.50$ at $\rho = 0.62$. Which value makes the steady state unstable?
+\item Compute $\Psi(\infty)$ under $\mu = 0.10, 0.18, 0.30, 0.50$ at $\rho = 0.62$. Is the steady state stable for all four values? At what $\mu$ does it become unstable?
 \item Which parameter does $\Psi$ depend on more sensitively near the values given?
 \item At what $\rho$ does $\Psi(\infty)$ diverge? (This is the stability boundary from Chapter~10.) Show that $\Psi(T) \le \mu\beta\eta\,T$ at every finite horizon. What does this mean empirically?
 \end{enumerate}

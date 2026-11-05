@@ -68,4 +68,25 @@ for t in range(1, 41):
     th = .8 * th + .2 * 2 + .1 * (.7 * .1 - .1)
     if t in (1, 5, 10, 20, 40): print("3.7 theta_F(t=%d) = %.4f gap = %.4f" % (t, th, 2 - th))
 print("3.7 fixed point with lambda=0.7:", round((.4 + .1 * (.07 - .1)) / .2, 4))
+
+hdr("Proof checks (randomized, seed 3): Prop block_spectral (1)-(3)")
+import itertools
+rng = np.random.default_rng(3)
+for _ in range(300):
+    a, b = rng.random(2) * 0.5 + 1e-3; W2 = np.array([[1 - a, a], [b, 1 - b]])          # part (2)
+    assert np.isclose(gap(W2), a + b) and np.allclose(perron(W2), np.array([b, a]) / (a + b))
+    t = rng.random() * (1 / (a + b)); W2t = np.array([[1 - t * a, t * a], [t * b, 1 - t * b]])
+    assert np.isclose(gap(W2t), t * (a + b)) and np.allclose(perron(W2t), perron(W2))
+    sizes = rng.integers(1, 4, rng.integers(2, 4)); n = sizes.sum(); Ab = np.zeros((n, n)); o = 0   # part (1)
+    for q in sizes:
+        Ab[o:o + q, o:o + q] = rng.random((q, q)) + .01; o += q
+    ev = np.linalg.eigvals(WP(Ab)); assert np.sum(np.isclose(ev, 1)) == len(sizes) and np.isclose(gap(WP(Ab)), 0)
+    n = rng.integers(2, 7); Ksym = rng.random((n, n)) * (rng.random((n, n)) < .7); Ksym = Ksym + Ksym.T + 1e-3 * np.eye(n)  # part (3)
+    Wr = Ksym / Ksym.sum(1, keepdims=True); pr = Ksym.sum(1) / Ksym.sum()            # reversible random walk
+    assert np.allclose(pr @ Wr, pr) and np.allclose(pr[:, None] * Wr, (pr[:, None] * Wr).T)
+    lam = np.sort(np.linalg.eigvals(Wr).real)[::-1]; l2 = lam[1]
+    Phi_c = min(sum(pr[i] * Wr[i, j] for i in S for j in range(n) if j not in S) / pr[list(S)].sum()
+                for r in range(1, n) for S in itertools.combinations(range(n), r) if pr[list(S)].sum() <= .5 + 1e-12)
+    assert Phi_c ** 2 / 2 - 1e-10 <= 1 - l2 <= 2 * Phi_c + 1e-10 and gap(Wr) <= 2 * Phi_c + 1e-10
+print("all randomized proof checks passed")
 print("\nall assertions passed")

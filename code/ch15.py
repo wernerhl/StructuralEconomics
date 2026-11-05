@@ -149,3 +149,35 @@ print("\n== Example: smartphone operator (illustrative) ==")
 thT0, thM, th1, thinf = 0.92, 1.09, 0.96, 1.01
 print(f"gap closed after one generation: {(th1-thT0)/(thM-thT0):.0%}; long run: {(thinf-thT0)/(thM-thT0):.0%}")
 print(f"long-run Delta theta_T = {thinf - thT0:.2f}")
+
+# ---------------------------------------------------------------------
+print("\n== Proof checks: Props. optimal_edge and isi_gamma ==")
+rng3 = np.random.default_rng(15)
+Gr = rng3.normal(size=(5, 5))
+Bb = 0.3
+best_l1 = Bb / 2 * max(Gr[i, j] - Gr[i, l] for i in range(5) for j in range(5) for l in range(5))
+Gt = Gr - Gr.mean(1)[:, None]
+best_fr = Bb * np.linalg.norm(Gt)
+for _ in range(5000):
+    E = rng3.normal(size=(5, 5)) * (rng3.uniform(size=(5, 5)) < 0.5)
+    E -= E.mean(1)[:, None]                          # E 1 = 0
+    E1 = Bb * E / np.abs(E).sum()                    # ||E||_1 = B
+    EF = Bb * E / np.linalg.norm(E)                  # ||E||_F = B
+    assert np.sum(Gr * E1) <= best_l1 + 1e-12
+    assert np.sum(Gr * EF) <= best_fr + 1e-12
+print(f"l1 bound (B/2) max(G_ij - G_il) = {best_l1:.4f} and Frobenius bound B||G~||_F = {best_fr:.4f} never exceeded")
+
+# domestic-Gamma direction  E^ = diag(K1)^-1 (delta - diag(delta 1) K^)  vs finite difference
+K = A.copy()
+Kh = K / K.sum(1)[:, None]
+lam, V, U = eigs(Kh)
+Gh = -np.real(np.conj(lam[1]) * np.outer(U[1], V[:, 1])) / abs(lam[1])
+for jj in (1, 2):                                    # ISI-A and ISI-B directions
+    dl = np.zeros((4, 4)); dl[0, jj] = 1.0
+    Eh = np.diag(1 / K.sum(1)) @ (dl - np.diag(dl.sum(1)) @ Kh)
+    assert np.allclose(Eh.sum(1), 0)
+    s_ = 1e-7
+    K2 = K + s_ * dl
+    fd = (gap(K2 / K2.sum(1)[:, None]) - gap(Kh)) / s_
+    assert abs(fd - np.sum(Gh * Eh)) < 1e-4
+    print(f"ISI direction a_M1,{jj+1}: first-order dGamma = {np.sum(Gh*Eh):+.4f}, finite difference = {fd:+.4f}")

@@ -93,4 +93,19 @@ N = 6
 Wc = 0.95 * np.outer(np.ones(N), np.eye(N)[0]) + 0.05 * np.eye(N)
 pc = perron(Wc)
 print("pi =", np.round(pc, 3), " N_eff =", round(neff(pc), 2), " Gamma =", round(gap(Wc), 3))
+
+print("=" * 70)
+print("Prop ch05:prop:DeGroot: random sparse primitive W^I, W^t -> 1 pi'")
+rng = np.random.default_rng(5)
+for _ in range(300):
+    n = rng.integers(3, 8)
+    K = rng.random((n, n)) * (rng.random((n, n)) < 0.5)
+    K += np.roll(np.eye(n), 1, 1) * 0.3          # a directed cycle: strongly connected
+    K[0, 0] += 0.2                               # one self-loop: aperiodic
+    Wd = rownorm(K)
+    pd = perron(Wd)
+    assert np.allclose(np.linalg.matrix_power(Wd, 3000), np.outer(np.ones(n), pd), atol=1e-8)
+    b0 = rng.random(n)
+    assert np.allclose(np.linalg.matrix_power(Wd, 3000) @ b0, pd @ b0)
+print("ok: 300 random strongly connected aperiodic W^I converge to 1 pi'")
 print("all assertions passed")

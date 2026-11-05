@@ -66,7 +66,7 @@ Let $W$ be irreducible and row-stochastic with Perron vector $\boldsymbol{\pi}$ 
 \end{proposition}
 
 \begin{proof}
-$\boldsymbol{\pi}'W_t = (1-t)\boldsymbol{\pi}' + t\boldsymbol{\pi}' = \boldsymbol{\pi}'$. If $W\mathbf{v} = \lambda\mathbf{v}$ with $\lambda \neq 1$, then $\boldsymbol{\pi}'\mathbf{v} = 0$, so $\ones\boldsymbol{\pi}'\mathbf{v} = 0$ and $W_t\mathbf{v} = (1-t)\lambda\mathbf{v}$ (the same holds for generalized eigenvectors). The non-unit eigenvalues of $W_t$ are therefore $(1-t)\lambda_k$. This is Proposition~\ref{ch06:prop:gap-power-independent} applied along a path.
+$W_t$ is a convex combination of row-stochastic matrices, hence row-stochastic, and $\boldsymbol{\pi}'W_t = (1-t)\boldsymbol{\pi}' + t\boldsymbol{\pi}' = \boldsymbol{\pi}'$. For $t < 1$, $W_t$ has at least the support of $W$, so it is irreducible; for $t > 0$ it is strictly positive. Either way its stationary vector is unique, so $\boldsymbol{\pi}(W_t) = \boldsymbol{\pi}$. For the spectrum, let $H = \{\mathbf{v} : \boldsymbol{\pi}'\mathbf{v} = 0\}$. $H$ is $W$-invariant, because $\boldsymbol{\pi}'W\mathbf{v} = \boldsymbol{\pi}'\mathbf{v}$, and $\R^N = \mathrm{span}(\ones) \oplus H$ since $\boldsymbol{\pi}'\ones = 1$. On $H$, $\ones\boldsymbol{\pi}'\mathbf{v} = 0$, so $W_t = (1-t)W$ there, while $W_t\ones = \ones$. Because $1$ is a simple eigenvalue of the irreducible $W$, the eigenvalues of $W|_H$ are $\lambda_2, \ldots, \lambda_N$, the non-Perron eigenvalues of $W$ counted with multiplicity. So the spectrum of $W_t$ is $\{1\} \cup \{(1-t)\lambda_k\}_{k\geq 2}$, and $\Gamma(W_t) = 1 - (1-t)|\lambda_2|$. This holds for periodic $W$ too, where $|\lambda_2| = 1$ and $\Gamma(W_t) = t$. The construction is the same as Proposition~\ref{ch06:prop:gap-power-independent}, applied along a path.
 \end{proof}
 
 For a random $4 \times 4$ matrix in \texttt{code/ch15.py}, $\Gamma$ rises from $0.541$ to $0.656$, $0.771$ and $0.885$ at $t = 0.25, 0.5, 0.75$ while $\Var(\boldsymbol{\pi})$ stays at $0.0066$. Raising integration never \emph{requires} anyone to give up power. Power redistribution is a separate objective, $\Omega_2$, with its own political cost (Section~\ref{ch15:sec:political}).
@@ -92,7 +92,11 @@ Maximize the linearized objective $\sum_{ij}G_{ij}\Delta W_{ij}$ subject to $\De
 \end{proposition}
 
 \begin{proof}
-The feasible set is a polytope (case 1) or an ellipsoid (case 2) intersected with the subspace $\{E: E\ones = 0\}$. (1) A linear function attains its maximum over a polytope at a vertex. The vertices of $\{E : E\ones = 0, \|E\|_1 \leq B\}$ are the minimal-support elements $\pm\frac{B}{2}(\mathbf{e}_i\mathbf{e}_j' - \mathbf{e}_i\mathbf{e}_\ell')$, on which the objective equals $\pm\frac{B}{2}(G_{ij} - G_{i\ell})$. (2) Over a Euclidean ball within a subspace, a linear function is maximized along the projection of its gradient onto the subspace, which is $\tilde G$.
+The feasible set is a polytope (case 1) or a Euclidean ball (case 2) intersected with the subspace $\{E: E\ones = 0\}$. (1) Take any feasible $E$ and any row $i$. Its positive and negative parts have equal mass $m_i = \frac12\sum_j |E_{ij}|$, because the row sums to zero. Pairing positive with negative mass, as in a transport plan, writes the row as $\sum_{j,\ell} c^i_{j\ell}(\mathbf{e}_j - \mathbf{e}_\ell)'$ with $c^i_{j\ell} \geq 0$ and $\sum_{j,\ell} c^i_{j\ell} = m_i$. Hence
+\[
+\textstyle\sum_{ij}G_{ij}E_{ij} = \sum_i\sum_{j,\ell} c^i_{j\ell}(G_{ij} - G_{i\ell}) \leq \Big(\sum_i m_i\Big)\max_{i,j,\ell}(G_{ij} - G_{i\ell}) \leq \frac{B}{2}\,(G_{i^*j^*} - G_{i^*\ell^*}),
+\]
+using $\sum_i m_i = \frac12\|E\|_1 \leq B/2$ and $\max_{i,j,\ell}(G_{ij} - G_{i\ell}) \geq 0$. The single move $E^* = \frac{B}{2}\mathbf{e}_{i^*}(\mathbf{e}_{j^*} - \mathbf{e}_{\ell^*})'$ attains the bound. (2) $\{E : E\ones = 0\}$ is a linear subspace, and the orthogonal projection onto it in the Frobenius inner product is $E \mapsto E - \frac1N E\ones\ones'$. So for feasible $E$, $\langle G, E\rangle_F = \langle \tilde G, E\rangle_F \leq \|\tilde G\|_F\,B$ by Cauchy--Schwarz, with equality at $E = B\tilde G/\|\tilde G\|_F$ (if $\tilde G = 0$, every feasible $E$ is optimal).
 \end{proof}
 
 The single-edge answer is therefore an artefact of the $\ell_1$ budget. With the same Frobenius norm $B = 0.05$, the projected-gradient step raises $\Gamma$ by $0.053$ in the example of \texttt{code/ch15.py}, against $0.041$ for the best single move. For symmetric (reversible) $W$ on a fixed graph, maximizing $\Gamma$ exactly --- not just to first order --- is a convex problem (the fastest-mixing Markov chain of \citealp*{boyd2004fastest}, solvable as a semidefinite program). For non-symmetric $W$, $|\lambda_2|$ is neither convex nor Lipschitz, and only local methods are available.
@@ -100,7 +104,7 @@ The single-edge answer is therefore an artefact of the $\ell_1$ budget. With the
 \begin{intuition}[Which edge to add: connect the cores]
 Where are the large entries of $G$? The second eigenvectors $\mathbf{u}_2$ and $\mathbf{v}_2$ describe the slowest mode of the matrix: they are roughly constant, with opposite signs, on the two weakly connected blocks, and close to zero on agents who sit \emph{between} the blocks. So $|u_{2,i}|$ and $|v_{2,j}|$ are largest \emph{deep inside} the blocks, not on the boundary.
 
-When $\lambda_2 > 0$, $G_{ij} > 0$ exactly when $u_{2,i}$ and $v_{2,j}$ have opposite signs: the best new edge runs from an agent deep in block~A to an agent deep in block~B. In the six-agent example of \texttt{code/ch15.py} (two blocks and one bridge agent), the scaled second left eigenvector is $(1, 1, -0.04, -0.65, -0.65, -0.65)$: the bridge agent has an entry near zero. The best edge runs from a core agent of block~A to a core agent of block~B ($d\Gamma/dt = 0.252$); the best edge into the bridge agent achieves only $0.032$. The optimal structural intervention is not the ``bridge builder'' who links boundary agents, but a direct link between the cores of the two blocks.
+When $\lambda_2 > 0$, $G_{ij} > 0$ exactly when $u_{2,i}$ and $v_{2,j}$ have opposite signs: the best new edge runs from an agent deep in block~A to an agent deep in block~B. In the six-agent example of \texttt{code/ch15.py} (two blocks and one bridge agent), the scaled second left eigenvector is $(1, 1, -0.04, -0.65, -0.65, -0.65)$: the bridge agent has an entry near zero. The best edge runs from a core agent of block~A to a core agent of block~B ($d\Gamma/dt = 0.252$); the best edge into the bridge agent achieves only $0.032$. The optimal structural intervention is not the ``bridge builder'' who links boundary agents, but a direct link between the cores of the two blocks. This is the Fiedler-vector heuristic of \citet{ghosh2006growing} for growing well-connected graphs (add the edge that maximizes $(v_{2,i} - v_{2,j})^2$), transposed to non-symmetric $W$.
 \end{intuition}
 
 
@@ -123,16 +127,23 @@ where $\delta_{ij}^{\text{dom}} > 0$ for domestic $(i,j)$ pairs (new domestic su
 \end{definition}
 
 \begin{proposition}[Effect of ISI on $\Gamma$, to First Order]\label{ch15:prop:isi_gamma}
-Let the domestic $\Gamma$ be the spectral gap of the domestic block of $W^P$ with rows renormalized, and suppose its $\lambda_2$ satisfies the hypotheses of~\eqref{ch15:eq:gamma_sensitivity}. To first order in the $\delta$'s, the ISI operator increases domestic $\Gamma$ if and only if:
+\begin{enumerate}
+\item \textbf{Global $\Gamma$.} Let $W^P$ be row-stochastic on a node set that includes the foreign suppliers, and suppose its $\lambda_2$ satisfies the hypotheses of~\eqref{ch15:eq:gamma_sensitivity}. Let the ISI operator be balanced row by row, $\sum_j \delta^{\text{dom}}_{ij} = \sum_j \delta^{\text{for}}_{ij}$ for every $i$, so that $E = \delta^{\text{dom}} - \delta^{\text{for}}$ has $E\ones = 0$, and let $\delta^{\text{for}}_{ij} > 0$ only where $W^P_{ij} > 0$. Scale the operator by $s > 0$. If
 \begin{equation}\label{ch15:eq:isi_condition}
 \sum_{(i,j) \in \text{domestic}} \delta_{ij}^{\text{dom}} G_{ij} > \sum_{(i,j) \in \text{foreign}} \delta_{ij}^{\text{for}} G_{ij},
 \end{equation}
-where $G$ is the gradient in~\eqref{ch15:eq:gamma_sensitivity} (rows rebalanced so that $\Delta W^P\ones = 0$).
-That is: the $\Gamma$-increasing effect of new domestic edges must exceed the $\Gamma$-decreasing effect of severed foreign edges. This condition typically fails if the new domestic edges are within-block (connecting agents who were already connected) rather than cross-block (connecting the modern and traditional sectors).
+with $G$ the gradient of $\Gamma(W^P)$ in~\eqref{ch15:eq:gamma_sensitivity}, then $\Gamma(W^P + sE) > \Gamma(W^P)$ for all sufficiently small $s$. If the reverse strict inequality holds, $\Gamma$ falls for small $s$.
+\item \textbf{Domestic $\Gamma$.} Let $K$ be the domestic block of $W^P$ (or of the domestic coefficients $A$), and let $\hat K = \operatorname{diag}(K\ones)^{-1}K$ be its row-renormalized version; suppose $\lambda_2(\hat K)$ satisfies the same hypotheses, and let $\hat G$ be the gradient~\eqref{ch15:eq:gamma_sensitivity} at $\hat K$. Then the severed foreign edges drop out of $\hat K$ altogether. To first order the domestic $\Gamma$ moves in the direction
+\begin{equation}\label{ch15:eq:isi_domestic}
+\hat E = \operatorname{diag}(K\ones)^{-1}\big(\delta^{\text{dom}} - \operatorname{diag}(\delta^{\text{dom}}\ones)\,\hat K\big), \qquad \hat E\ones = 0,
+\end{equation}
+and it rises for small $s$ if $\sum_{ij}\hat G_{ij}\hat E_{ij} > 0$.
+\end{enumerate}
+That is: the $\Gamma$-increasing effect of new domestic edges must exceed the $\Gamma$-decreasing effect of severed foreign edges, or, for the domestic $\Gamma$, the new domestic edges must point along the gradient once the row has been renormalized. This condition typically fails if the new domestic edges are within-block (connecting agents who were already connected) rather than cross-block (connecting the modern and traditional sectors).
 \end{proposition}
 
 \begin{proof}
-Apply~\eqref{ch15:eq:gamma_sensitivity} to the direction $E = \delta^{\text{dom}} - \delta^{\text{for}}$.
+(1) By Lemma~\ref{ch06:lem:perturbation} and~\eqref{ch15:eq:gamma_sensitivity}, $\Gamma(W^P + sE) = \Gamma(W^P) + s\sum_{ij}G_{ij}E_{ij} + o(s)$. The linear coefficient is the left side of~\eqref{ch15:eq:isi_condition} minus the right side, and its sign fixes the sign of the change for small $s$. Nonnegativity holds for small $s$ because $\delta^{\text{for}}$ is supported where $W^P > 0$. (2) The domestic block after the operator is $K + s\delta^{\text{dom}}$; the foreign entries are not in it. Differentiating $\hat K(s) = \operatorname{diag}((K + s\delta^{\text{dom}})\ones)^{-1}(K + s\delta^{\text{dom}})$ at $s = 0$ gives $\hat E$ in~\eqref{ch15:eq:isi_domestic}, and $\hat E\ones = \operatorname{diag}(K\ones)^{-1}(\delta^{\text{dom}}\ones - \delta^{\text{dom}}\ones) = 0$. Then apply~\eqref{ch15:eq:gamma_sensitivity} at $\hat K$ in the direction $\hat E$.
 \end{proof}
 
 \begin{example}[ISI That Works vs.\ ISI That Doesn't]\label{ch15:ex:isi}
@@ -186,8 +197,12 @@ The \textbf{infrastructure operator} $\mathcal{L}_{\text{infra}}$ creates new ed
 Infrastructure is the literal ``edge creation'' operator: a road between two regions creates an edge in $W^P$. The operator design problem for infrastructure is: which road to build?
 
 \begin{corollary}[Optimal Road Placement]\label{ch15:prop:road}
-To first order and under an $\ell_1$ budget, the road that maximizes $\Gamma$ creates the edge $(i^*, j^*)$ with the largest $G_{ij} - G_{i\ell}$ among pairs with $W^P_{ij} \approx 0$ (Proposition~\ref{ch15:thm:optimal_edge}): typically a link between the cores of the two most weakly connected blocks.
+To first order and under an $\ell_1$ budget, the road that maximizes $\Gamma$ creates the edge $(i^*, j^*)$ with the largest $G_{ij} - G_{i\ell}$ among pairs with $W^P_{ij} \approx 0$ and $W^P_{i\ell} > 0$ (Proposition~\ref{ch15:thm:optimal_edge}): typically a link between the cores of the two most weakly connected blocks.
 \end{corollary}
+
+\begin{proof}
+Restrict the $\ell_1$ problem of Proposition~\ref{ch15:thm:optimal_edge} to directions whose positive entries lie on absent edges ($W^P_{ij} \approx 0$) and whose negative entries lie where $W^P_{i\ell} > 0$, so that $W^P + E \geq 0$ for small $B$. The transport decomposition in that proof uses only pairs $(j, \ell)$ from these supports, so the bound and its attainment hold with the maximum taken over the admissible triples $(i, j, \ell)$. ``Typically the cores'' is not part of the claim; it is the heuristic explained after Proposition~\ref{ch15:thm:optimal_edge}.
+\end{proof}
 
 \begin{prebisch}[Hirschman's linkage argument as operator design]
 \citet{hirschman1958strategy} was the leading critic of the balanced-growth ``big push'' \citep{rosensteinrodan1943problems}. He argued instead for unbalanced growth: invest in sectors with strong backward and forward linkages, so that the pressures they create induce further investment. He measured linkages with direct input-output coefficients \citep{chenery1958international}; the Leontief-inverse indices --- column sums of $(I - A')^{-1}$ for backward linkages --- are \citeauthor{rasmussen1956studies}'s \citeyearpar{rasmussen1956studies}. Both are computed from the technical coefficients $A$, never from the row-stochastic $W^P$, whose Leontief inverse has identical row sums for every sector.
@@ -365,14 +380,14 @@ which is nonnegative because the constrained feasible set is a subset of the unc
 \end{definition}
 
 \begin{proposition}[Integration Carries No Political Cost]\label{ch15:prop:political_cost}
-For the integration objective $\Omega_1$ (maximize $\Gamma$), the direction $E = \ones\boldsymbol{\pi}' - W$ satisfies the political constraint with equality for every coalition. Hence the constrained optimum is at least $1 - (1 - \bar t)|\lambda_2|$, with $\bar t = \min\{1, B/\|\ones\boldsymbol{\pi}' - W\|\}$; and if the budget allows $\bar t = 1$, both the constrained and the unconstrained optimum equal $\Gamma = 1$, so $C_{\text{political}} = 0$.
+Let $W$ be irreducible and row-stochastic, and suppose $\mathcal{F}(S^*)$ contains every $t(\ones\boldsymbol{\pi}' - W)$ with $\|t(\ones\boldsymbol{\pi}' - W)\| \leq B$ (for instance, $\mathcal{F}(S^*)$ is a norm ball of radius at least $B$). For the integration objective $\Omega_1$ (maximize $\Gamma$), the direction $E = \ones\boldsymbol{\pi}' - W$ satisfies the political constraint with equality for every coalition. Hence the constrained optimum of $\Gamma(W + \Delta W)$ is at least $1 - (1 - \bar t)|\lambda_2|$, i.e.\ $\Omega^*_{1,\text{constrained}} \geq \bar t\,|\lambda_2|$, with $\bar t = \min\{1, B/\|\ones\boldsymbol{\pi}' - W\|\}$. If the budget allows $\bar t = 1$, both the constrained and the unconstrained optimum equal $\Gamma = 1$, so $C_{\text{political}} = 0$.
 \end{proposition}
 
 \begin{proof}
-Along $W + tE = (1-t)W + t\,\ones\boldsymbol{\pi}'$, Proposition~\ref{ch15:prop:pi_path} gives $\Delta\boldsymbol{\pi} = 0$ and $\Gamma = 1 - (1-t)|\lambda_2|$. The path is row-stochastic and nonnegative, and $\Gamma \leq 1$ always.
+Along $W + tE = (1-t)W + t\,\ones\boldsymbol{\pi}'$, Proposition~\ref{ch15:prop:pi_path} gives $\Delta\boldsymbol{\pi} = 0$ and $\Gamma = 1 - (1-t)|\lambda_2|$. The path is row-stochastic and nonnegative, and $\|tE\| \leq B$ for $t \leq \bar t$, so $t = \bar t$ is feasible for the constrained problem. Since $|\lambda_2| \geq 0$, $\Gamma \leq 1$ always; at $\bar t = 1$ the constrained value $1$ therefore equals the unconstrained optimum.
 \end{proof}
 
-So no coalition ever has to give up power to let the economy integrate: a ``political cost'' measured in $\Gamma$ is an artefact of reading $\Gamma$ as power. The political constraint bites on \emph{redistribution}. For the power objective $\Omega_2$ we conjecture that the cost is:
+So no coalition ever has to give up power to let the economy integrate: a ``political cost'' measured in $\Gamma$ is an artefact of reading $\Gamma$ as power. The political constraint bites on \emph{redistribution}. (Moving a stationary distribution by choosing edges, the unconstrained version of $\Omega_2$, is the PageRank-optimization problem studied by \citealp{dekerchove2008maximizing} and \citealp{csaji2014pagerank}.) For the power objective $\Omega_2$ we conjecture that the cost is:
 \begin{enumerate}
 \item \textbf{Large when power is concentrated}: the winning coalition is small and powerful, and protecting each member's $\pi_i$ rules out most variance-reducing $\Delta W$.
 \item \textbf{Small when power is equal}: the winning coalition is broad (near the grand coalition), and the political constraint is weak.

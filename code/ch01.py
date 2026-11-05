@@ -119,4 +119,35 @@ W6 = np.array([[1, 1, 1], [2, .5, .5], [0, 1.5, 1.5]]) / 3; print("1.6d rows", W
 # 1.9
 A9 = np.array([[.05, .3, .3], [.01, .05, .05], [.01, .05, .05]]); L9 = np.linalg.inv(np.eye(3) - A9.T)
 print("1.9 L =\n", L9.round(4), "\nmultipliers", L9.sum(0).round(4), " response to d=e2", (L9 @ [0, 1, 0]).round(4))
+
+hdr("Proof checks (randomized, seed 1): Props welfare_loss, nash_division, allocation_rule, pi_uniform, W_CE; Thm leontief")
+rng = np.random.default_rng(1)
+for _ in range(500):
+    n = rng.integers(2, 8); kk = rng.random() * 0.5 + 0.01
+    om_r = rng.random(n) * 3; Om_r = om_r.sum()
+    Lr = n * U(Om_r / n, kk) - U(om_r, kk).sum()                      # welfare_loss
+    assert np.isclose(Lr, kk * n / 2 * np.var(om_r)) and Lr >= -1e-12
+    lam = rng.random(n) + .01; lam /= lam.sum(); d_r = rng.random(n); Om_r = d_r.sum() + rng.random() * 3 + .01
+    xr = nash(lam, d_r, Om_r); obj = lambda x: np.sum(lam * np.log(x - d_r))
+    assert np.isclose(xr.sum(), Om_r) and np.all(xr > d_r)              # nash_division: feasible ...
+    for _ in range(20):                                                 # ... and beats feasible perturbations
+        e = rng.normal(size=n); e -= e.mean(); e *= 0.5 * (xr - d_r).min() / np.abs(e).max()
+        assert obj(xr + e) < obj(xr) + 1e-12
+    W_r = rng.random((n, n)); W_r /= W_r.sum(1, keepdims=True); pr = perron(W_r)   # allocation_rule
+    dbar = rng.random(); Phi_r = rng.random() * 3 + .01; Om_r = n * dbar + Phi_r
+    x_rule = Om_r / n + (pr - 1 / n) * Phi_r
+    assert np.allclose(x_rule, nash(pr, np.full(n, dbar), Om_r))
+    assert np.isclose(n * U(Om_r / n, kk) - U(x_rule, kk).sum(), kk * n / 2 * Phi_r ** 2 * np.mean((pr - 1 / n) ** 2))
+    D_r = rng.random((n, n)) + .01                                      # pi_uniform: Sinkhorn -> doubly stochastic
+    for _ in range(500): D_r /= D_r.sum(1, keepdims=True); D_r /= D_r.sum(0, keepdims=True)
+    D_r /= D_r.sum(1, keepdims=True)
+    assert np.allclose(perron(D_r), 1 / n, atol=1e-6)
+    assert np.allclose(perron(W_r), 1 / n) == np.allclose(W_r.sum(0), 1)
+    A_r = rng.random((n, n)); A_r *= rng.random() * 0.95 / max(abs(np.linalg.eigvals(A_r)))   # leontief
+    L_r = np.linalg.inv(np.eye(n) - A_r.T); S_r = sum(np.linalg.matrix_power(A_r.T, k) for k in range(2000))
+    assert np.allclose(L_r, S_r, atol=1e-8) and np.all(L_r >= -1e-12) and np.all(L_r - np.eye(n) >= -1e-12)
+    Wce_r = np.ones((n, n)) / n; ev = np.sort(abs(np.linalg.eigvals(Wce_r)))[::-1]     # W_CE
+    assert np.isclose(ev[0], 1) and np.allclose(ev[1:], 0) and np.allclose(perron(Wce_r), 1 / n)
+    s_r = rng.random(n); s_r /= s_r.sum(); assert np.allclose(perron(np.outer(np.ones(n), s_r)), s_r)
+print("all randomized proof checks passed")
 print("\nall assertions passed")

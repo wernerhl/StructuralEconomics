@@ -201,16 +201,18 @@ The first eigenvector is trivial ($\ones$, since $\tilde{M}$ is row-stochastic).
 Let $D_c = \operatorname{diag}(M_c)$ and $D_p = \operatorname{diag}(M_p)$, with all diversities and ubiquities positive. Then:
 \begin{enumerate}
 \item $\tilde{M} = D_c^{-1}MD_p^{-1}M'$ is row-stochastic, and its eigenvalues are real and lie in $[0, 1]$: they are the squared singular values of $S = D_c^{-1/2}MD_p^{-1/2}$.
-\item The left Perron vector of $\tilde{M}$ is proportional to diversity: $\boldsymbol{\pi}(\tilde{M})_c = M_c/\sum_{c'}M_{c'}$. In the ``power'' reading of this book, the structural power of a country in $\tilde{M}$ is its diversity share.
-\item ECI is a $z$-score, so its cross-country variance is $1$ by construction and carries no information about inequality.
+\item The diversity shares $M_c/\sum_{c'}M_{c'}$ form a stationary (left Perron) vector of $\tilde{M}$; if $\tilde{M}$ is irreducible (the bipartite country--product graph of $M$ is connected), it is the unique one, $\boldsymbol{\pi}(\tilde{M})_c = M_c/\sum_{c'}M_{c'}$. In the ``power'' reading of this book, the structural power of a country in $\tilde{M}$ is its diversity share.
+\item ECI is a $z$-score, so its cross-country variance is $1$ by construction and carries no information about inequality. (ECI is well defined, up to the sign convention, when $\lambda_2(\tilde{M})$ is simple.)
 \end{enumerate}
+These facts are known: \citet{mealy2019interpreting} show that ECI is the second eigenvector of the same $\tilde{M}$ and interpret it as a spectral-clustering coordinate.
 \end{proposition}
 
 \begin{proof}
-(1) Row sums: $\sum_{c'}\tilde{M}_{cc'} = \sum_p \frac{M_{cp}}{M_c}\sum_{c'}\frac{M_{c'p}}{M_p} = 1$. Also $\tilde{M} = D_c^{-1/2}(SS')D_c^{1/2}$ is similar to the positive semidefinite matrix $SS'$, whose eigenvalues are squared singular values; since $\tilde{M}$ is stochastic they are at most $1$. (2) For each $c'$,
+(1) Row sums: $\sum_{c'}\tilde{M}_{cc'} = \sum_p \frac{M_{cp}}{M_c}\sum_{c'}\frac{M_{c'p}}{M_p} = 1$. Also $SS' = D_c^{-1/2}MD_p^{-1}M'D_c^{-1/2}$, so $\tilde{M} = D_c^{-1/2}(SS')D_c^{1/2}$ is similar to the positive semidefinite matrix $SS'$, whose eigenvalues are the squared singular values of $S$, real and nonnegative. Since $\tilde{M}$ is nonnegative and row-stochastic, its spectral radius is $1$, so they are at most $1$. (2) For each $c'$,
 \[
 \textstyle\sum_c M_c\tilde{M}_{cc'} = \sum_p \frac{M_{c'p}}{M_p}\sum_c M_{cp} = \sum_p M_{c'p} = M_{c'}.
-\] (3) By definition~\eqref{ch16:eq:ECI}. \texttt{code/ch16.py} checks (1)--(2) numerically.
+\]
+Uniqueness under irreducibility is Perron--Frobenius \citep[Thm.~1.5]{seneta2006nonnegative}. (3) By definition~\eqref{ch16:eq:ECI}. \texttt{code/ch16.py} checks (1)--(2) numerically.
 \end{proof}
 
 Interpretation: ECI orders countries along the principal axis of differentiation in export baskets. High ECI = diverse, complex exports (machinery, chemicals, pharmaceuticals). Low ECI = concentrated, simple exports (oil, minerals, raw agriculture). $\lambda_2(\tilde{M})$ close to $1$ means that axis is strong (countries split sharply into two groups of baskets); close to $0$ means baskets are similar. The gap $1 - \lambda_2(\tilde{M})$ is the spectral gap of $\tilde{M}$, a different matrix from $W^P_{\text{global}}$; it says nothing about the integration of world trade.

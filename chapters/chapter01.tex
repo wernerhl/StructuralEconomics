@@ -254,7 +254,7 @@ The difference:
 \begin{equation}
 L = \mathcal{W}^{FB} - \mathcal{W}^{0} = \frac{\kappa}{2}\left(\sum_i \omega_i^2 - \frac{\Omega^2}{N}\right) = \frac{\kappa}{2} \cdot N \cdot \text{Var}(\omega_i).
 \end{equation}
-The last step uses the identity $\sum_i \omega_i^2 - \Omega^2/N = N \cdot \text{Var}(\omega_i)$.
+The last step uses the identity $\sum_i \omega_i^2 - \Omega^2/N = N \cdot \text{Var}(\omega_i)$. Since $\kappa N/2 > 0$, $L = 0$ if and only if $\text{Var}(\omega_i) = 0$, that is, if and only if every $\omega_i = \Omega/N$. (The planner's first-best is equal division because $\sum_i U(x_i)$ is strictly concave and symmetric, so its unique maximizer on $\sum_i x_i = \Omega$ is the symmetric point.)
 \end{proof}
 
 \begin{example}[Verifying the Formula]
@@ -281,15 +281,15 @@ where $d_i$ is agent $i$'s \textbf{disagreement payoff} --- what she gets if bar
 \end{definition}
 
 \begin{proposition}[Nash Division of the Surplus]\label{ch01:prop:nash_division}
-The solution of~\eqref{ch01:eq:nash} is
+Let $\lambda_i > 0$ for all $i$ and $\Omega > \sum_j d_j$. Then~\eqref{ch01:eq:nash} has the unique solution
 \begin{equation}\label{ch01:eq:nash_division}
 x_i = d_i + \lambda_i\Bigl(\Omega - \sum_{j} d_j\Bigr).
 \end{equation}
-Every agent receives her disagreement payoff plus a share $\lambda_i$ of the joint surplus. The allocation is Pareto efficient for every $\boldsymbol{\lambda}$.
+Every agent receives her disagreement payoff plus a share $\lambda_i$ of the joint surplus. The allocation exhausts the harvest, so it is Pareto efficient for every $\boldsymbol{\lambda}$: in units of the good, and in the utilities $U$ of~\eqref{ch01:eq:LQ} whenever $\kappa x_i \le 1$ for every $i$.
 \end{proposition}
 
 \begin{proof}
-The objective is strictly concave on $\{x_i > d_i\}$. The first-order condition is $\lambda_i/(x_i - d_i) = \mu$, so $x_i - d_i = \lambda_i/\mu$. Summing over $i$ and using $\sum_i\lambda_i = 1$ gives $1/\mu = \Omega - \sum_j d_j$. Efficiency: the whole harvest is allocated, and with $\kappa x_i < 1$ every agent's utility is increasing, so no reallocation can raise one agent's utility without lowering another's.
+This is the asymmetric Nash solution \citep{kalai1977nonsymmetric} for transferable utility. The feasible set $\{x : \sum_i x_i = \Omega,\ x_i > d_i\}$ is nonempty because $\Omega > \sum_j d_j$, and the objective is strictly concave on it and tends to $-\infty$ at its boundary, so a maximizer exists, is interior and is unique. The Lagrange condition is $\lambda_i/(x_i - d_i) = \mu$, so $x_i - d_i = \lambda_i/\mu$. Summing over $i$ and using $\sum_i\lambda_i = 1$ gives $1/\mu = \Omega - \sum_j d_j$. Efficiency: let $\x' \neq \x$ be any other allocation with $\sum_i x'_i \le \Omega$. Then $x'_j < x_j$ for some $j$. In units of the good $j$ is worse off. In utility, $U$ is strictly increasing on $(-\infty, 1/\kappa]$, so $\kappa x_j \le 1$ gives $U(x'_j) < U(x_j)$. Hence no feasible reallocation makes someone better off without making someone worse off.
 \end{proof}
 
 \begin{intuition}[What bargaining power does]
@@ -428,6 +428,10 @@ The proof uses the \textit{Neumann series}, which is the matrix version of the g
 \begin{equation}\label{ch01:eq:neumann}
 (I - A')^{-1} = I + A' + (A')^2 + (A')^3 + \cdots = \sum_{k=0}^{\infty} (A')^k.
 \end{equation}
+
+\begin{proof}
+Since $A'$ and $A$ have the same eigenvalues, $\rho(A') = \rho(A) < 1$. By Gelfand's formula \citep[\S5.6]{horn2012matrix} there are $C > 0$ and $r < 1$ with $\|(A')^k\| \le C r^k$ for all $k$ (Appendix~\ref{ch01:app:neumann}), so the partial sums $S_K = \sum_{k=0}^K (A')^k$ converge absolutely to a matrix $S$. Telescoping, $(I - A')S_K = S_K(I - A') = I - (A')^{K+1} \to I$, so $I - A'$ is invertible with $(I - A')^{-1} = S$. The material balance~\eqref{ch01:eq:leontief} therefore has the unique solution $\y = L\mathbf{d}$, and $\partial y_i/\partial d_j = \ell_{ij}$. Finally $L = \sum_k (A')^k \ge 0$ entrywise because $A \ge 0$, with $L \ge I$; the term $(A')^k$ collects the $k$-th round of indirect requirements.
+\end{proof}
 
 Round 0 is $I$ (direct demand). Round 1 is $A'$ (first-order indirect demand). Round 2 is $(A')^2$ (second-order). The Leontief inverse sums all rounds.
 
@@ -570,7 +574,7 @@ Properties (3) and (5) are shared by every rank-one row-stochastic matrix, inclu
 
 (3) Every row is $(1/N, 1/N, \ldots, 1/N)$, so all rows are proportional (in fact, identical). Rank $= 1$.
 
-(4) $\frac{1}{N}\ones'W^{CE} = \frac{1}{N^2}(\ones'\ones)\ones' = \frac{1}{N}\ones'$, so $\frac{1}{N}\ones$ is the (unique) stationary vector. Uniqueness among rank-one matrices: Section~\ref{ch01:sec:conventions}.
+(4) $\frac{1}{N}\ones'W^{CE} = \frac{1}{N^2}(\ones'\ones)\ones' = \frac{1}{N}\ones'$, so $\frac{1}{N}\ones$ is a stationary vector; it is the unique one because $W^{CE} > 0$ is irreducible (Perron--Frobenius, Chapter~6, Theorem~\ref{ch06:thm:PF}). Uniqueness of $W^{CE}$ among rank-one row-stochastic matrices with uniform $\boldsymbol{\pi}$: Section~\ref{ch01:sec:conventions}.
 
 (5) $W^{CE}\ones = \frac{1}{N}\ones(\ones'\ones) = \frac{1}{N}\ones \cdot N = \ones$, so $\ones$ is an eigenvector with eigenvalue 1. For any $\x$ perpendicular to $\ones$ (i.e., $\ones'\x = 0$): $W^{CE}\x = \frac{1}{N}\ones(\ones'\x) = 0$. So eigenvalue 0 has multiplicity $N-1$.
 \end{proof}
@@ -702,7 +706,7 @@ In the Cobb-Douglas equilibrium of Section~\ref{ch01:sec:consumer}, $\Neff(\math
 For an irreducible row-stochastic $W$, $\boldsymbol{\pi} = \frac{1}{N}\ones$ if and only if $W$ is doubly stochastic.
 \end{proposition}
 \begin{proof}
-If $\ones'W = \ones'$, then $\frac{1}{N}\ones'$ is a stationary probability vector, and by uniqueness it equals $\boldsymbol{\pi}'$. Conversely, $\frac{1}{N}\ones'W = \frac{1}{N}\ones'$ says every column sums to one.
+If $\ones'W = \ones'$, then $\frac{1}{N}\ones'$ is a stationary probability vector, and by uniqueness of the stationary vector of an irreducible stochastic matrix (Perron--Frobenius; \citealt[Thm.~8.4.4]{horn2012matrix}) it equals $\boldsymbol{\pi}'$. Conversely, $\frac{1}{N}\ones'W = \frac{1}{N}\ones'$ says every column sums to one.
 \end{proof}
 For a nonnegative $W$ that is \textit{not} row-stochastic, the condition is ``all column sums equal'', which is why we avoid non-stochastic $W$ when $\boldsymbol{\pi}$ is read as power.
 
@@ -712,7 +716,7 @@ For a nonnegative $W$ that is \textit{not} row-stochastic, the condition is ``al
 For a row-stochastic $W$ with eigenvalues ordered $1 = |\lambda_1| \ge |\lambda_2| \ge \cdots$, the \textbf{spectral gap} is $\Gap(W) = 1 - |\lambda_2(W)|$.
 \end{definition}
 
-$\Gap$ measures \textbf{integration}: deviations from consensus (or from the stationary distribution) decay like $|\lambda_2|^t$, with half-life $\ln 2/(-\ln|\lambda_2|)$. $\Gap = 0$ when $W$ is reducible (several unit eigenvalues, as for $W = I$) \textit{or} periodic (an eigenvalue of modulus one other than 1, as for a bipartite star or an even ring without self-loops); the lazy version $\frac{1}{2}(I + W)$ removes periodicity. For reversible $W$ with conductance $\Phi_c$, Cheeger's inequality $\Phi_c^2/2 \le 1 - \lambda_2 \le 2\Phi_c$ says that weak cross-block coupling implies a small gap. The converse fails: a small gap can come from periodicity rather than fragmentation.
+$\Gap$ measures \textbf{integration}: deviations from consensus (or from the stationary distribution) decay like $|\lambda_2|^t$, with half-life $\ln 2/(-\ln|\lambda_2|)$. $\Gap = 0$ when $W$ is reducible (several unit eigenvalues, as for $W = I$) \textit{or} periodic (an eigenvalue of modulus one other than 1, as for a bipartite star or an even ring without self-loops); the lazy version $\frac{1}{2}(I + W)$ removes periodicity. For reversible $W$ with conductance $\Phi_c$, Cheeger's inequality $\Phi_c^2/2 \le 1 - \lambda_2 \le 2\Phi_c$ \citep[Thm.~13.14]{levin2009markov} says that weak cross-block coupling implies a small gap. The converse fails: a small gap can come from periodicity rather than fragmentation.
 
 \textbf{$\Gap$ does not measure power.} For every $\boldsymbol{\pi}$ in the open simplex and every $\gamma \in (0, 1]$, the matrix $W = \gamma\,\ones\boldsymbol{\pi}' + (1-\gamma)I$ is irreducible, aperiodic and row-stochastic, with $\boldsymbol{\pi}(W) = \boldsymbol{\pi}$ (because $\boldsymbol{\pi}'W = \gamma\boldsymbol{\pi}' + (1-\gamma)\boldsymbol{\pi}'$) and spectrum $\{1, 1-\gamma, \ldots, 1-\gamma\}$, so $\Gap(W) = \gamma$. Any degree of concentration is compatible with any gap (Chapter~6, Proposition~\ref{ch06:prop:gap-power-independent}). With $N = 10$ and $\pi_1 = 0.91$, $\Neff = 1.21$ for every $\gamma$, while $\Gap$ ranges over $(0, 1]$. The stylized dual economy in the visualization above makes the opposite point: small $\Gap$ with almost uniform power.
 
@@ -736,7 +740,7 @@ The textbook benchmark is thus anonymous interaction with no externalities --- i
 \subsection{The Allocation Rule and the Calibration of Utility}
 
 \begin{proposition}[The Allocation Rule]\label{ch01:prop:allocation_rule}
-In the transferable-utility bargaining problem of Definition~\ref{ch01:def:nash}, let the weights be $\boldsymbol{\lambda} = \boldsymbol{\pi}$ and let all disagreement payoffs be equal, $d_i = \bar d$. Define the bargaining surplus $\Phi := \Omega - N\bar d$. Then
+In the transferable-utility bargaining problem of Definition~\ref{ch01:def:nash}, let the weights be $\boldsymbol{\lambda} = \boldsymbol{\pi}$, the Perron vector of an irreducible row-stochastic $W$ (so $\pi_i > 0$), and let all disagreement payoffs be equal, $d_i = \bar d$. Define the bargaining surplus $\Phi := \Omega - N\bar d$ and assume $\Phi > 0$. Then
 \begin{equation}\label{ch01:eq:allocation_rule}
 x_i = \frac{\Omega}{N} + \Bigl(\pi_i - \frac{1}{N}\Bigr)\Phi.
 \end{equation}
@@ -746,7 +750,7 @@ L_{\text{power}} := \sum_i \Bigl[U\bigl(\tfrac{\Omega}{N}\bigr) - U(x_i)\Bigr] =
 \end{equation}
 \end{proposition}
 \begin{proof}
-By~\eqref{ch01:eq:nash_division}, $x_i = \bar d + \pi_i\Phi = \frac{\Omega}{N} + (\pi_i - \frac1N)\Phi$, since $\bar d = \frac{\Omega}{N} - \frac{\Phi}{N}$. Write $m = \Omega/N$ and $z_i = x_i - m$, so $\sum_i z_i = 0$. Because $U$ is quadratic, $U(m + z_i) = U(m) + U'(m)z_i - \frac{\kappa}{2}z_i^2$ exactly. Summing, the linear terms cancel and $L_{\text{power}} = \frac{\kappa}{2}\sum_i z_i^2 = \frac{\kappa}{2}\Phi^2\sum_i(\pi_i - \frac1N)^2 = \frac{\kappa N}{2}\Phi^2\Var(\pi)$.
+The hypotheses of Proposition~\ref{ch01:prop:nash_division} hold ($\pi_i > 0$, $\Omega - \sum_j d_j = \Phi > 0$), so by~\eqref{ch01:eq:nash_division}, $x_i = \bar d + \pi_i\Phi = \frac{\Omega}{N} + (\pi_i - \frac1N)\Phi$, since $\bar d = \frac{\Omega}{N} - \frac{\Phi}{N}$. Write $m = \Omega/N$ and $z_i = x_i - m$, so $\sum_i z_i = 0$. Because $U$ is quadratic, $U(m + z_i) = U(m) + U'(m)z_i - \frac{\kappa}{2}z_i^2$ exactly. Summing, the linear terms cancel and $L_{\text{power}} = \frac{\kappa}{2}\sum_i z_i^2 = \frac{\kappa}{2}\Phi^2\sum_i(\pi_i - \frac1N)^2 = \frac{\kappa N}{2}\Phi^2\Var(\pi)$.
 \end{proof}
 
 Chapter~7 derives the same rule in the network setting (Proposition~\ref{ch07:prop:allocation-rule}). Two cautions. First, $\Phi$ is the \textit{surplus over disagreement}, not a curvature parameter. In a one-good exchange economy with endowments as the disagreement point there is nothing to bargain over and $\Phi = 0$. Second, every allocation used in an example must satisfy $\kappa x_i < 1$, so that utility is increasing. Past the satiation point $1/\kappa$, ``getting more'' makes an agent worse off and the welfare comparisons become meaningless. For example, with $\Omega = 3$, $\bar d = 0.3$ (so $\Phi = 2.1$), $\boldsymbol{\pi} = (0.6, 0.2, 0.2)$ and $\kappa = 0.5$: $\x = (1.56, 0.72, 0.72)$, $\Var(\pi) = 0.0356$, and $L_{\text{power}} = 0.75 \times 4.41 \times 0.0356 = 0.118$.
@@ -986,12 +990,12 @@ provided the series converges. The condition for convergence is $\rho(A) < 1$ (t
 
 \paragraph{Why it converges.} The entries of $A^k$ are \textit{not} bounded by $\rho(A)^k$ in general (for $A = \begin{pmatrix} 0.5 & 0.9 \\ 0 & 0.5\end{pmatrix}$, $\rho = 0.5$ but $a_{12} = 0.9$). What is true is Gelfand's formula, $\|A^k\|^{1/k} \to \rho(A)$: for any $\varepsilon > 0$ there is a constant $C$ with $\|A^k\| \le C(\rho(A) + \varepsilon)^k$. Since $\rho(A) < 1$, choose $\varepsilon$ with $\rho(A) + \varepsilon < 1$; the powers decay geometrically and $A^k \to 0$ as $k \to \infty$. The partial sums $\sum_{k=0}^K A^k$ converge to a finite matrix, which is $(I - A)^{-1}$.
 
-\paragraph{Verification.} Multiply both sides of~\eqref{ch01:eq:neumann_app} by $(I - A)$:
+\paragraph{Verification.} Multiply a partial sum by $(I - A)$:
 \begin{align}
-(I - A)(I + A + A^2 + \cdots) &= (I + A + A^2 + \cdots) - (A + A^2 + A^3 + \cdots) \\
-&= I.
+(I - A)(I + A + \cdots + A^K) &= (I + A + \cdots + A^K) - (A + A^2 + \cdots + A^{K+1}) \\
+&= I - A^{K+1}.
 \end{align}
-The infinite series telescopes, leaving only $I$. This confirms that $\sum_{k=0}^\infty A^k$ is indeed the inverse of $(I - A)$.
+The sum telescopes. Since $A^{K+1} \to 0$, letting $K \to \infty$ gives $(I - A)\sum_{k=0}^\infty A^k = I$ (and likewise with the factors in the other order). This confirms that $\sum_{k=0}^\infty A^k$ is indeed the inverse of $(I - A)$.
 
 \paragraph{Economic interpretation.} In the Leontief system:
 \begin{itemize}

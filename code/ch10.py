@@ -224,3 +224,52 @@ mu_pf = (1 - rho_t) / ((rH - rL) * s / 4)
 print("\n10B pitchfork variant: mu where T'(1)=1:", mu_pf,
       " fixed points at mu=0.12:", np.round(fixed_points(0.12, 0.13), 4),
       " at mu=0.16:", np.round(fixed_points(0.16, 0.13), 4))
+
+# ---------------------------------------------------------------------------
+# Proof checks (proof pass): randomized
+print("\n== Proof checks")
+rng = np.random.default_rng(10)
+for _ in range(300):
+    n = rng.integers(2, 8)
+    Wr = rng.dirichlet(np.ones(n) * rng.uniform(0.2, 3), size=n)
+    Wp = rng.dirichlet(np.ones(n), size=n)
+    be, ga = rng.uniform(0, 0.3, n), rng.uniform(0, 0.3, n)
+    rh, m, ph = rng.uniform(0.1, 0.95), rng.uniform(0.01, 1), rng.uniform(0, 2)
+    Pn = np.eye(n) - np.ones((n, n)) / n
+    Cn = np.diag(be) + np.diag(ga) @ Wp
+    Jr = rh * np.eye(n) + m * ph * Wr @ Cn @ Pn
+    # Prop ch10:prop:jacobian (2): J 1 = rho 1
+    assert np.allclose(Jr @ np.ones(n), rh * np.ones(n))
+    # Prop ch10:prop:stability_cond: rho(J) <= ||J||_inf <= rho + mu phi max(beta+gamma) 2(n-1)/n
+    rJ = max(abs(np.linalg.eigvals(Jr)))
+    assert rJ <= np.abs(Jr).sum(1).max() + 1e-12 <= rh + m * ph * max(be + ga) * 2 * (n - 1) / n + 2e-12
+    # Prop ch10:prop:two_types (1): |theta_i - theta_j| <= M tau1(W) (max r - min r) for any returns
+    rr = rng.normal(size=n)
+    thr = 1 + (m / (1 - rh)) * (Wr @ rr - 0.1)
+    assert thr.max() - thr.min() <= (m / (1 - rh)) * tau1(Wr) * (rr.max() - rr.min()) + 1e-12
+    # Dobrushin bound on lambda_2
+    ev = np.sort(abs(np.linalg.eigvals(Wr)))[::-1]
+    assert ev[1] <= tau1(Wr) + 1e-12
+    # Thm ch10:thm:formation_effect: d_T = (I - J^T)(I - J)^{-1} s for affine maps (any J with 1 not an eigenvalue)
+    s_ = rng.normal(size=n)
+    d = np.zeros(n)
+    for T in range(1, 8):
+        d = Jr @ d + s_
+        assert np.allclose(d, (np.eye(n) - np.linalg.matrix_power(Jr, T)) @ np.linalg.solve(np.eye(n) - Jr, s_))
+print("J1 = rho1, norm bound, Dobrushin bound, formation-effect formula: verified on 300 random draws")
+# Thm ch10:thm:stability: rho(J) > 1 -> a small deviation in the unstable subspace grows (nonlinear map)
+Ju = np.array([[1.1, 0.2], [0.0, 0.5]])
+f = lambda v: Ju @ v + 0.5 * np.array([v[0] ** 2, v[0] * v[1]])
+v = np.array([1e-8, 0.0])
+for _ in range(200):
+    v = f(v)
+    if np.linalg.norm(v) > 0.05:
+        break
+assert np.linalg.norm(v) > 0.05
+print("instability check (rho(J)=1.1): deviation 1e-8 leaves the 0.05-ball")
+# Prop ch10:prop:basin (2): d theta_U / d a = -(dT/da)/(T'(theta_U)-1); a = baseline return shift (enters as mu*a)
+h = 1e-6
+fpa = fixed_points(rs=rs_t - h)[1]
+pred = -mu_t / (rho_t + mu_t * gp(fp[1]) - 1)
+assert abs((fpa - fp[1]) / h - pred) < 1e-3 * abs(pred)
+print("basin threshold derivative: numeric", (fpa - fp[1]) / h, " formula", pred)

@@ -133,16 +133,16 @@ When $\mathcal{M}$ is large (strong signal sensitivity and/or persistent prefere
 \begin{theorem}[Existence, Uniqueness, Multiplicity]\label{ch10:thm:existence}
 \begin{enumerate}
 \item \textbf{Affine case} (the model of Definition~\ref{ch10:def:model}). $T(\boldsymbol{\theta}) = J\boldsymbol{\theta} + \mathbf{c}$. A steady state exists and is unique iff $1$ is not an eigenvalue of $J$. If $\rho(J) < 1$, it is globally asymptotically stable.
-\item \textbf{Nonlinear case.} If $\mathbf{g}\circ\mathbf{h}$ is continuous and $T$ maps a nonempty compact convex set $\Theta$ into itself (for instance, if the returns are bounded), a steady state exists (Brouwer). If, in addition, $\sup_{\boldsymbol{\theta}\in\Theta}\|DT(\boldsymbol{\theta})\| < 1$ for some induced matrix norm, the steady state in $\Theta$ is unique.
+\item \textbf{Nonlinear case.} If $\mathbf{g}\circ\mathbf{h}$ is continuous and $T$ maps a nonempty compact convex set $\Theta$ into itself (for instance, if the returns are bounded), a steady state exists (Brouwer). If, in addition, $T$ is continuously differentiable on an open set containing $\Theta$ and $\sup_{\boldsymbol{\theta}\in\Theta}\|DT(\boldsymbol{\theta})\| < 1$ for some induced matrix norm, the steady state in $\Theta$ is unique.
 \item \textbf{Multiplicity requires nonlinearity.} An affine map has zero, one, or a continuum of fixed points, never exactly two or three. Several isolated steady states can arise only when returns are nonlinear in preferences and the uniqueness condition in~(2) fails.
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-(1) $\boldsymbol{\theta} = J\boldsymbol{\theta} + \mathbf{c}$ iff $(I - J)\boldsymbol{\theta} = \mathbf{c}$, which has a unique solution iff $I - J$ is nonsingular. If $\rho(J) < 1$, the deviations $\boldsymbol{\theta}_t - \boldsymbol{\theta}^* = J^t(\boldsymbol{\theta}_0 - \boldsymbol{\theta}^*) \to 0$ from any start. (2) Brouwer gives existence. On a convex set, the mean-value inequality gives $\|T(\boldsymbol{\theta}) - T(\boldsymbol{\theta}')\| \leq \sup\|DT\|\,\|\boldsymbol{\theta} - \boldsymbol{\theta}'\|$, so $T$ is a contraction and Banach's theorem gives uniqueness. (3) The solution set of $(I-J)\boldsymbol{\theta} = \mathbf{c}$ is empty, a point, or an affine subspace.
+(1) $\boldsymbol{\theta} = J\boldsymbol{\theta} + \mathbf{c}$ iff $(I - J)\boldsymbol{\theta} = \mathbf{c}$, which has a unique solution iff $I - J$ is nonsingular. If $\rho(J) < 1$, the deviations $\boldsymbol{\theta}_t - \boldsymbol{\theta}^* = J^t(\boldsymbol{\theta}_0 - \boldsymbol{\theta}^*) \to 0$ from any start. (2) Brouwer gives existence. On a convex set, the mean-value inequality $T(\boldsymbol{\theta}) - T(\boldsymbol{\theta}') = \int_0^1 DT(\boldsymbol{\theta}' + s(\boldsymbol{\theta} - \boldsymbol{\theta}'))\,ds\,(\boldsymbol{\theta} - \boldsymbol{\theta}')$ gives $\|T(\boldsymbol{\theta}) - T(\boldsymbol{\theta}')\| \leq \sup_\Theta\|DT\|\,\|\boldsymbol{\theta} - \boldsymbol{\theta}'\|$, so $T$ is a contraction of the closed set $\Theta$ into itself and Banach's theorem gives uniqueness in $\Theta$. (3) The solution set of $(I-J)\boldsymbol{\theta} = \mathbf{c}$ is empty, a point, or an affine subspace.
 \end{proof}
 
-A convenient sufficient condition for the uniqueness bound in the affine model uses $\|W^I\|_\infty = 1$, $\|C\|_\infty = \max_i(\beta_i + \gamma_i)$ and $\|P\|_\infty = 2(N-1)/N$:
+A convenient sufficient condition for the uniqueness bound in the affine model (with $\boldsymbol{\beta}, \boldsymbol{\gamma} \ge 0$) uses $\|W^I\|_\infty = 1$, $\|C\|_\infty = \max_i(\beta_i + \gamma_i)$ and $\|P\|_\infty = 2(N-1)/N$:
 \begin{equation}\label{ch10:eq:contraction}
 \mu\phi\,\max_i(\beta_i + \gamma_i)\,\frac{2(N-1)}{N} < 1 - \rho \quad\Longrightarrow\quad \|J\|_\infty < 1.
 \end{equation}
@@ -159,12 +159,12 @@ Let $\boldsymbol{\theta}^*$ be a steady state with returns $\mathbf{r}^*$, and l
 |\theta_i^* - \theta_j^*| \;\leq\; \mathcal{M}\,\tau_1(W^I)\,\big(\max_k r_k^* - \min_k r_k^*\big).
 \end{equation}
 If every agent's information row is similar ($\tau_1(W^I)$ small), steady-state preferences are nearly uniform, whatever the dispersion of returns.
-\item \textbf{Fragmentation stratifies preferences.} If $W^I$ is block-diagonal, each block's steady state depends only on its own returns (Proposition~\ref{ch09:thm:self_confirming}). The economy fragments into $k$ ``cultures'', each internally coherent.
+\item \textbf{Fragmentation stratifies preferences.} If $W^I$ is block-diagonal, each agent's steady-state preference depends on the steady-state returns only through the returns of her own block (cf.\ Proposition~\ref{ch09:thm:self_confirming}); the returns themselves may still depend on other blocks through $\bar{\theta}$ and $W^P$. The economy fragments into $k$ ``cultures'', each internally coherent.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1) By~\eqref{ch10:eq:steady_i}, $\theta_i^* - \theta_j^* = \mathcal{M}\sum_k (W^I_{ik} - W^I_{jk}) r_k^*$. The weights $W^I_{ik} - W^I_{jk}$ sum to zero, and their positive part sums to $\frac12\sum_k|W^I_{ik} - W^I_{jk}| \le \tau_1(W^I)$. Hence the sum is at most $\tau_1(W^I)(\max_k r_k^* - \min_k r_k^*)$ in absolute value. (2) As in Chapter~9.
+(1) By~\eqref{ch10:eq:steady_i}, $\theta_i^* - \theta_j^* = \mathcal{M}\sum_k (W^I_{ik} - W^I_{jk}) r_k^*$. The weights $W^I_{ik} - W^I_{jk}$ sum to zero, and their positive part sums to $\frac12\sum_k|W^I_{ik} - W^I_{jk}| \le \tau_1(W^I)$. Hence the sum is at most $\tau_1(W^I)(\max_k r_k^* - \min_k r_k^*)$ in absolute value. (2) In~\eqref{ch10:eq:steady_i}, $W^I_{ij} = 0$ for $j$ outside $i$'s block.
 \end{proof}
 
 Note the measure: what compresses preferences is how \textit{similar} the agents' information rows are ($\tau_1$). Since $|\lambda_2(W^I)| \le \tau_1(W^I)$, a large spectral gap $\Gamma(W^I)$ is necessary for $\tau_1$ to be small, but it is not sufficient.
@@ -265,11 +265,13 @@ Let $T$ be continuously differentiable near a steady state $\boldsymbol{\theta}^
 \end{theorem}
 
 \begin{proof}
-For $\rho(J) < 1$, see the proof of Proposition~\ref{ch09:thm:hysteresis}. For $\rho(J) > 1$, this is the standard linearized-instability theorem for maps: a perturbation with a component on an eigenvector with $|\lambda| > 1$ grows locally.
+Write $T(\boldsymbol{\theta}^* + \Delta) - \boldsymbol{\theta}^* = J\Delta + R(\Delta)$ with $\|R(\Delta)\| = o(\|\Delta\|)$. For $\rho(J) < 1$, the argument in the proof of Proposition~\ref{ch09:thm:hysteresis} applies verbatim and gives $\|\Delta_t\| \le C(\rho(J) + \varepsilon)^t\|\Delta_0\|$ near $\boldsymbol{\theta}^*$.
+
+For $\nu := \rho(J) > 1$, let $m$ be the largest modulus of an eigenvalue of $J$ with modulus below $\nu$ ($m := 0$ if there is none), and pick $\max(m, 1) < a < b < \nu$. Split $\R^N = E_u \oplus E_s$ into the real $J$-invariant spectral subspaces for the eigenvalues of modulus $\nu$ and of modulus $\le m$, with restrictions $J_u, J_s$. Since $\rho(J_s) < a$ and $\rho(J_u^{-1}) = 1/\nu < 1/b$, there are norms on the two subspaces with $\|J_s x\| \le a\|x\|$ and $\|J_u x\| \ge b\|x\|$ \citep[Lemma~5.6.10]{horn2012matrix}; set $\|x\| := \max(\|x_u\|, \|x_s\|)$. Choose $\varepsilon > 0$ with $a + \varepsilon \le b - \varepsilon$ and $b - \varepsilon > 1$, and $\eta > 0$ with $\|R(\Delta)\| \le \varepsilon\|\Delta\|$ for $\|\Delta\| < \eta$. On the cone $K := \{\|\Delta_s\| \le \|\Delta_u\|\}$, where $\|\Delta\| = \|\Delta_u\|$, the next deviation $\Delta'$ satisfies $\|\Delta'_u\| \ge (b - \varepsilon)\|\Delta_u\|$ and $\|\Delta'_s\| \le a\|\Delta_s\| + \varepsilon\|\Delta_u\| \le (b - \varepsilon)\|\Delta_u\|$. So $K$ is forward invariant within the $\eta$-ball and $\|\Delta_t\|$ grows at least like $(b - \varepsilon)^t$ there. Every nonzero $\Delta_0 \in K$, however small, therefore leaves the $\eta$-ball, and $\boldsymbol{\theta}^*$ is not stable.
 \end{proof}
 
 \begin{proposition}[A Sufficient Condition for Stability]\label{ch10:prop:stability_cond}
-For any induced matrix norm, $\rho(J) \leq \|J\|$. With the $\infty$-norm, in the affine model,
+For any induced matrix norm, $\rho(J) \leq \|J\|$. With the $\infty$-norm, in the affine model with $\boldsymbol{\beta}, \boldsymbol{\gamma} \ge 0$ and $\phi \ge 0$,
 \begin{equation}\label{ch10:eq:spectral_bound}
 \rho(J) \;\leq\; \rho + \mu\phi\,\|W^I\|_\infty\,\|C\|_\infty\,\|P\|_\infty \;=\; \rho + \mu\phi\,\max_i(\beta_i + \gamma_i)\,\frac{2(N-1)}{N}.
 \end{equation}
@@ -281,7 +283,7 @@ The condition is sufficient, not necessary.
 \end{proposition}
 
 \begin{proof}
-Induced norms are submultiplicative and dominate the spectral radius. We have $\|W^I\|_\infty = 1$, because $W^I$ is row-stochastic, and
+Induced norms are submultiplicative and dominate the spectral radius, and the norm is subadditive, so $\|J\|_\infty \le \rho + \mu\phi\|W^I\|_\infty\|C\|_\infty\|P\|_\infty$. We have $\|W^I\|_\infty = 1$, because $W^I$ is row-stochastic, and
 \[
 \|C\|_\infty = \max_i\Big(\beta_i + \gamma_i\sum_j W^P_{ij}\Big) = \max_i(\beta_i + \gamma_i), \qquad \|P\|_\infty = \Big(1 - \frac1N\Big) + \frac{N-1}{N}.
 \]
@@ -318,12 +320,12 @@ Multiple steady states need nonlinear returns (Theorem~\ref{ch10:thm:existence}(
 Let $T: \R \to \R$ be continuous and strictly increasing, with exactly three fixed points $\theta_L < \theta_U < \theta_H$, such that $T(\theta) > \theta$ for $\theta < \theta_L$, $T(\theta) < \theta$ on $(\theta_L, \theta_U)$, $T(\theta) > \theta$ on $(\theta_U, \theta_H)$, and $T(\theta) < \theta$ for $\theta > \theta_H$. Then:
 \begin{enumerate}
 \item $\theta_L$ and $\theta_H$ are stable, with basins $(-\infty, \theta_U)$ and $(\theta_U, \infty)$; $\theta_U$ is the basin boundary.
-\item If $T$ is differentiable and depends on a parameter $a$ (e.g.\ the baseline return) with $\partial T/\partial a > 0$, and $T'(\theta_U) > 1$, then the threshold falls as $a$ rises: $d\theta_U/da = -(\partial T/\partial a)/(T'(\theta_U) - 1) < 0$. Higher baseline returns make escape easier.
+\item If $T$ is continuously differentiable in $(\theta, a)$ and depends on a parameter $a$ (e.g.\ the baseline return) with $\partial T/\partial a > 0$, and $T'(\theta_U) > 1$, then the threshold falls as $a$ rises: $d\theta_U/da = -(\partial T/\partial a)/(T'(\theta_U) - 1) < 0$. Higher baseline returns make escape easier.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-(1) An increasing map on the line generates monotone trajectories. Starting in $(\theta_L, \theta_U)$, $T(\theta) < \theta$, and since $T$ is increasing, $T(\theta) > T(\theta_L) = \theta_L$; the trajectory decreases and is bounded below by $\theta_L$, so it converges to a fixed point in $[\theta_L, \theta)$, which can only be $\theta_L$. The other intervals are analogous. (2) Implicit function theorem applied to $T(\theta, a) - \theta = 0$ at $\theta_U$.
+(1) An increasing map on the line generates monotone trajectories. Starting in $(\theta_L, \theta_U)$, $T(\theta) < \theta$, and since $T$ is increasing, $T(\theta) > T(\theta_L) = \theta_L$; the trajectory decreases and is bounded below by $\theta_L$, so it converges to a fixed point in $[\theta_L, \theta)$, which can only be $\theta_L$ (the limit is a fixed point by continuity of $T$). The other intervals are analogous; for instance, from $\theta < \theta_L$ the trajectory increases and is bounded above by $T(\theta_L) = \theta_L$. Stability in the sense of Lyapunov follows because each trajectory stays between its starting point and the fixed point it approaches. (2) Implicit function theorem applied to $T(\theta, a) - \theta = 0$ at $\theta_U$.
 \end{proof}
 
 \begin{example}[Poverty Trap as a Low-$\theta$ Basin \illustrative]\label{ch10:ex:trap}
@@ -371,11 +373,11 @@ With nonlinear returns the same formulas hold to first order in the size of the 
 \end{theorem}
 
 \begin{proof}
-Let $\mathbf{d}_t = \boldsymbol{\theta}_t - \boldsymbol{\theta}^0$. Since $T_{\text{new}}$ is affine, $\mathbf{d}_{t+1} = T_{\text{new}}(\boldsymbol{\theta}^0 + \mathbf{d}_t) - \boldsymbol{\theta}^0 = J_{\text{new}}\mathbf{d}_t + \mu\Delta\mathbf{s}$, with $\mathbf{d}_0 = 0$. Hence $\mathbf{d}_T = \sum_{k=0}^{T-1}J_{\text{new}}^k\mu\Delta\mathbf{s} = (I - J_{\text{new}}^T)(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$, which tends to $(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$ when $\rho(J_{\text{new}}) < 1$. In the nonlinear case, linearize $T_{\text{new}}$ at $\boldsymbol{\theta}^0$.
+Let $\mathbf{d}_t = \boldsymbol{\theta}_t - \boldsymbol{\theta}^0$. Since $T_{\text{new}}$ is affine, $\mathbf{d}_{t+1} = T_{\text{new}}(\boldsymbol{\theta}^0 + \mathbf{d}_t) - \boldsymbol{\theta}^0 = J_{\text{new}}\mathbf{d}_t + \mu\Delta\mathbf{s}$, with $\mathbf{d}_0 = 0$. Hence $\mathbf{d}_T = \sum_{k=0}^{T-1}J_{\text{new}}^k\mu\Delta\mathbf{s} = (I - J_{\text{new}}^T)(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$, which tends to $(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}$ when $\rho(J_{\text{new}}) < 1$. In the nonlinear case, index the perturbation by its size $s$, $T_s$, with $T_0$ the old map, $(\boldsymbol{\theta}, s) \mapsto T_s(\boldsymbol{\theta})$ twice continuously differentiable and $\rho(DT_0(\boldsymbol{\theta}^0)) < 1$. Then $\mu\Delta\mathbf{s} = O(s)$ and $J_{\text{new}} = DT_0(\boldsymbol{\theta}^0) + O(s)$. For finite $T$, $\mathbf{d}_{t+1} = J_{\text{new}}\mathbf{d}_t + \mu\Delta\mathbf{s} + O(\|\mathbf{d}_t\|^2)$, and induction gives $\mathbf{d}_t = O(s)$ and hence $\mathbf{d}_T = \sum_{k<T} J_{\text{new}}^k\mu\Delta\mathbf{s} + O(s^2)$. For $T = \infty$, the implicit function theorem applied to $\boldsymbol{\theta} - T_s(\boldsymbol{\theta}) = 0$ at $(\boldsymbol{\theta}^0, 0)$ (where $I - DT_0$ is invertible) gives a steady state $\boldsymbol{\theta}^*(s)$ with $\boldsymbol{\theta}^*(s) - \boldsymbol{\theta}^0 = (I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s} + O(s^2)$.
 \end{proof}
 
 \begin{corollary}[Enforcement and Formation in the Model]\label{ch10:thm:decomposition}
-For an outcome $\mathbf{y}$ that is affine in $\boldsymbol{\theta}$ with $D_{\boldsymbol{\theta}}\mathbf{y} = Y$ (e.g.\ $Y = \phi P$ for allocations, $Y = C\phi P$ for returns), Definition~\ref{ch09:def:psi} gives
+For an outcome $\mathbf{y}$ that is affine in $\boldsymbol{\theta}$, with $Y := D_{\boldsymbol{\theta}}\mathbf{y}$ evaluated under the new structure $W + \Delta W$ (e.g.\ $Y = \phi P$ for allocations, $Y = C_{\text{new}}\phi P$ for returns), in the affine model with $\rho(J_{\text{new}}) < 1$ Definition~\ref{ch09:def:psi} gives
 \begin{equation}\label{ch10:eq:decomposition}
 E_i = y_i(\boldsymbol{\theta}^0, W + \Delta W) - y_i(\boldsymbol{\theta}^0, W), \qquad
 F_i(T) = \Big[Y\,(I - J_{\text{new}}^T)(I - J_{\text{new}})^{-1}\mu\Delta\mathbf{s}\Big]_i.
@@ -398,7 +400,7 @@ When the spectral radius $\rho(J)$ is close to 1 (near the stability boundary), 
 The general $\Psi_i(\Delta W, T)$ of Definition~\ref{ch09:def:psi} is computed from Corollary~\ref{ch10:thm:decomposition}. A closed form is available when the loop reduces to a scalar.
 
 \begin{proposition}[The $\Psi$ Ratio in a One-Loop Model]\label{ch10:prop:psi_lq}
-Consider one agent (or a block treated as one agent) with outcome $x = e + \eta\theta$, return $r = \alpha + \beta x$, and the formation equation~\eqref{ch10:eq:formation}. A permanent policy shifts $e$ by $\Delta e \neq 0$. Let $\kappa := \mu\beta\eta$ and $\lambda := \rho + \kappa < 1$. Then
+Consider one agent (or a block treated as one agent) with outcome $x = e + \eta\theta$, return $r = \alpha + \beta x$, and the formation equation~\eqref{ch10:eq:formation}. A permanent policy shifts $e$ by $\Delta e \neq 0$. Let $\kappa := \mu\beta\eta$ and $\lambda := \rho + \kappa$, with $|\lambda| < 1$ (only $\lambda \neq 1$ is needed for $\Psi(T)$). Then
 \begin{equation}\label{ch10:eq:psi_formula}
 \Psi(T) = \kappa\,\frac{1 - \lambda^T}{1 - \lambda}, \qquad \Psi(\infty) = \frac{\mu\beta\eta}{1 - \rho - \mu\beta\eta}.
 \end{equation}
@@ -406,12 +408,12 @@ Limiting cases:
 \begin{enumerate}
 \item $\mu = 0$ (no formation sensitivity): $\Psi \equiv 0$. The benchmark model is complete.
 \item $\rho \to 0$ (no persistence): $\Psi(\infty) \to \frac{\mu\beta\eta}{1 - \mu\beta\eta}$.
-\item $\lambda \uparrow 1$, i.e.\ $\rho \uparrow 1 - \mu\beta\eta$ (the stability boundary): $\Psi(\infty) \to \infty$. But at any finite horizon $\Psi(T) \le \kappa T$: a near-unit root makes the long-run formation effect large \textit{and} slow. For $\rho > 1 - \mu\beta\eta$ the steady state is unstable and $\Psi(\infty)$ is not defined.
+\item $\lambda \uparrow 1$, i.e.\ $\rho \uparrow 1 - \mu\beta\eta$ with $\kappa > 0$ (the stability boundary): $\Psi(\infty) \to \infty$. But at any finite horizon $\Psi(T) \le \kappa T$: a near-unit root makes the long-run formation effect large \textit{and} slow. For $\rho > 1 - \mu\beta\eta$ the steady state is unstable and $\Psi(\infty)$ is not defined.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-$E = \Delta e$. At $\theta^0$ the signal shock is $\mu\beta\Delta e$ and the scalar Jacobian is $\lambda$. By Theorem~\ref{ch10:thm:formation_effect}, $\theta_T - \theta^0 = \mu\beta\Delta e\,(1 - \lambda^T)/(1 - \lambda)$, and $F = \eta(\theta_T - \theta^0)$. The bound uses $(1 - \lambda^T)/(1 - \lambda) = \sum_{k<T}\lambda^k \le T$ for $0 \le \lambda \le 1$.
+$E = \Delta e$. At $\theta^0$ the signal shock is $\mu\beta\Delta e$ and the scalar Jacobian is $\lambda$. By Theorem~\ref{ch10:thm:formation_effect}, $\theta_T - \theta^0 = \mu\beta\Delta e\,(1 - \lambda^T)/(1 - \lambda)$, and $F = \eta(\theta_T - \theta^0)$. Dividing, $\Psi(T) = F/E = \mu\beta\eta(1 - \lambda^T)/(1 - \lambda)$; letting $T \to \infty$ (using $|\lambda| < 1$) gives $\Psi(\infty)$. The bound uses $(1 - \lambda^T)/(1 - \lambda) = \sum_{k<T}\lambda^k \le \sum_{k<T}|\lambda|^k \le T$ for $|\lambda| \le 1$, with $\kappa > 0$.
 \end{proof}
 
 \begin{intuition}[The magnitude of $\Psi$]

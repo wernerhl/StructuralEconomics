@@ -136,4 +136,42 @@ for e0 in [.03, .05]:
     e = e0
     for t in range(60): e = F(e)
     print("start", e0, "-> after 60 periods", round(e, 4))
+
+hdr("Proof checks (randomized, seed 2): Props FWT_matrix, doubly_stochastic, power_loss, ext_loss, block_loss, transfer_trap; Thm welfare_loss")
+rng = np.random.default_rng(2)
+for _ in range(400):
+    n = rng.integers(2, 8)
+    Wz = rng.random((n, n)); np.fill_diagonal(Wz, 0); Wz /= Wz.sum(1, keepdims=True)      # doubly_stochastic
+    c = Wz.sum(0) - np.diag(Wz); assert np.isclose(c.sum(), n) and np.allclose(c, Wz.sum(0))
+    P = np.roll(np.eye(n), 1, axis=1); Wd = 0.5 * P + 0.5 * P.T if n > 2 else P            # zero-diagonal doubly stochastic
+    cd = Wd.sum(0) - np.diag(Wd); assert np.allclose(cd, 1)
+    k = rng.random() * 0.3 + 0.01; m = rng.random() * 0.8 / k; Up = 1 - k * m; g = rng.random()  # ext_loss
+    alpha = 1 + g * c; H = n / np.sum(1 / alpha)
+    Le, xV = Lext(alpha, k, m); val = lambda x: np.sum(alpha * U(x, k))
+    assert np.isclose(xV.sum(), n * m) and np.isclose(val(xV) - val(np.full(n, m)), Le)
+    for _ in range(10):
+        e = rng.normal(size=n); e -= e.mean(); e *= 0.1
+        assert val(xV + e) <= val(xV) + 1e-12
+    # FWT_matrix: at the blind optimum (equal division) the social gradient alpha_j U'(m) is equal iff c_j are equal
+    grad = alpha * Up; assert np.allclose(grad, grad[0]) == np.allclose(c, c[0])
+    pi = rng.random(n); pi /= pi.sum(); Phi = rng.random() * 2; z = (pi - 1 / n) * Phi; x = m + z   # power_loss + decomposition
+    assert np.isclose(n * U(m, k) - U(x, k).sum(), Lpower(k, n, Phi, pi))
+    Cov = np.mean((c - c.mean()) * (pi - 1 / n))
+    Li = k * g * Phi ** 2 / 2 * np.sum(c * (pi - 1 / n) ** 2) - g * Phi * n * Up * Cov
+    assert np.isclose(val(xV) - val(x), Le + Lpower(k, n, Phi, pi) + Li)
+    nb = rng.integers(1, 4); sizes = rng.integers(1, 5, nb); mb = rng.random(nb) * 5             # block_loss
+    om_all = np.repeat(mb, sizes); Wbar = om_all.mean()
+    Lb = sizes.sum() * U(Wbar, k) - np.sum(sizes * U(mb, k))
+    assert np.isclose(Lb, k / 2 * np.sum(sizes * (mb - Wbar) ** 2))
+    d = rng.random(n); Om = d.sum() + rng.random() * 3 + .01; Ph = Om - d.sum(); xb = d + pi * Ph   # transfer_trap
+    tau = rng.normal(size=n); tau -= tau.mean(); xt = (d + tau) + pi * (Om - (d + tau).sum())
+    assert np.allclose(xt, xb + tau)
+    tau_eq = Om / n - d - pi * Ph; assert np.isclose(tau_eq.sum(), 0) and np.allclose(d + tau_eq + pi * Ph, Om / n)
+    tau_eq2 = (1 / n - pi) * Ph; assert np.isclose(0.5 * np.abs(tau_eq2).sum(), Ph * 0.5 * np.abs(pi - 1 / n).sum())
+# second-order expansion of L_externality: L / gamma^2 -> N (1-km)^2/(2k) Var(c)
+c = np.array([.5, 1.1, 0.]); k, m = .5, 1.
+for g in [1e-2, 1e-3]:
+    Le, _ = Lext(1 + g * c, k, m); print("gamma", g, "L_ext/gamma^2 =", Le / g ** 2, " limit =", 3 * (1 - k * m) ** 2 / (2 * k) * np.var(c))
+assert abs(Lext(1 + 1e-4 * c, k, m)[0] / 1e-8 - 3 * (1 - k * m) ** 2 / (2 * k) * np.var(c)) < 1e-3
+print("all randomized proof checks passed")
 print("\nall assertions passed")

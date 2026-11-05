@@ -195,4 +195,51 @@ for _ in range(500):
     dp = p @ E @ Z
     assert np.abs(dp).sum() <= np.abs(E).sum(1).max() * np.abs(Z).sum(1).max() + 1e-12
 print("ok: bound holds on 500 random draws")
+
+print("=" * 70)
+print("Proof checks: Thm ch07:thm:decomposition (random c, pi) and Prop ch07:prop:comp_statics")
+for _ in range(300):
+    N = rng.integers(2, 7)
+    pi = rng.dirichlet(np.ones(N))
+    c = rng.random(N) if rng.random() < 0.7 else np.full(N, rng.random())   # also test equal c_j
+    g = rng.random(); dbar = rng.random(); Om = N * dbar + 0.5 + rng.random()
+    Phi = Om - N * dbar
+    x = rule(pi, np.full(N, dbar), Om)
+    w = 1 + g * c
+    k = 0.5 / x.max()
+    xfb = fb(w, k, Om)
+    if np.any(k * xfb >= 1):
+        continue
+    U = lambda z: z - k / 2 * z ** 2
+    SW = lambda z: np.sum(w * U(z))
+    xE = np.full(N, Om / N)
+    for _ in range(10):                            # x^FB maximizes S on the budget line
+        z = xfb + rng.standard_normal(N) * 0.1; z += (Om - z.sum()) / N
+        assert SW(z) <= SW(xfb) + 1e-12
+    Lp = k * N / 2 * Phi ** 2 * varpi(pi)
+    Lext = SW(xfb) - SW(xE)
+    cov = np.mean((c - c.mean()) * (pi - 1 / N))
+    Lint = -g * N * (1 - k * Om / N) * Phi * cov + g * k / 2 * Phi ** 2 * np.sum(c * (pi - 1 / N) ** 2)
+    assert np.isclose(SW(xfb) - SW(x), Lp + Lext + Lint)
+    assert Lext >= -1e-12
+    if np.allclose(g * c, g * c[0]):               # zero iff all gamma c_j equal
+        assert abs(Lext) < 1e-10 and np.allclose(xfb, xE)
+    else:
+        assert Lext > 0 and not np.allclose(xfb, xE)
+print("ok: L = L_power + L_ext + L_int exactly, L_ext = 0 iff gamma*c_j all equal (300 draws)")
+for _ in range(200):
+    N = rng.integers(2, 6)
+    pi = rng.dirichlet(np.ones(N)); d = rng.random(N); Om = d.sum() + 1 + rng.random()
+    h = 1e-6
+    J = np.array([(rule(pi, d + h * np.eye(N)[j], Om) - rule(pi, d - h * np.eye(N)[j], Om)) / (2 * h)
+                  for j in range(N)]).T          # J[i, j] = dx_i / dd_j
+    assert np.allclose(np.diag(J), 1 - pi) and np.allclose(J - np.diag(np.diag(J)),
+                                                            -np.outer(pi, np.ones(N)) + np.diag(pi))
+    assert np.allclose((rule(pi, d, Om + h) - rule(pi, d, Om - h)) / (2 * h), pi)
+    W = rng.random((N, N)); W /= W.sum(1, keepdims=True)
+    E = rng.standard_normal((N, N)); E -= E.mean(1, keepdims=True)
+    p = perron(W); Z = np.linalg.inv(np.eye(N) - W + np.outer(np.ones(N), p))
+    dx = (rule(perron(W + h * E), d, Om) - rule(perron(W - h * E), d, Om)) / (2 * h)
+    assert np.allclose(dx, (Om - d.sum()) * (p @ E @ Z), atol=1e-6)
+print("ok: dx_i/dd_i = 1 - pi_i, dx_i/dd_j = -pi_i, dx/dOmega = pi, dx/dt = (Omega - sum d) pi'EZ")
 print("all assertions passed")
