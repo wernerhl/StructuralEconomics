@@ -1,0 +1,83 @@
+\documentclass[12pt,a4paper,openright,twoside]{book}
+
+% Cross-references into the book: \ref{ch06:prop:monotone} prints the
+% book's own number. Build the book first (make book), then make solutions.
+\usepackage{xr-hyper}
+\usepackage{structecon}
+\usepackage{subfiles}
+\externaldocument{build/structural_economics_book}
+
+% One heading per exercise: \exercisesolution{6.1}{Computing centralities}
+\newcommand{\exercisesolution}[2]{%
+  \section*{Exercise #1\quad #2}%
+  \addcontentsline{toc}{section}{#1\quad #2}%
+  \markright{Exercise #1}}
+% Sub-part marker inside a solution: \part{a}
+\newcommand{\solpart}[1]{\par\medskip\noindent\textbf{(#1)}\enspace}
+
+\begin{document}
+
+\frontmatter
+\thispagestyle{empty}
+\vspace*{3cm}
+\begin{center}
+{\fontsize{26}{32}\selectfont\bfseries STRUCTURAL ECONOMICS}\\[0.8em]
+{\Large\itshape The General Case}\\[2.5cm]
+{\LARGE Solutions Manual}\\[3cm]
+{\Large Werner L.\ Hernani-Limarino}\\[4cm]
+{\large DRAFT --- \today}
+\end{center}
+\clearpage
+
+\chapter*{About this manual}
+This manual gives detailed solutions to every exercise in \emph{Structural Economics: The General Case}.
+Numbered references (Proposition~6.4, equation~(7.12)) point to the book.
+
+\paragraph{Numbers.}
+Every numerical answer is produced by a script in \texttt{code/solutions/solNN.py} (Python, \texttt{numpy}), run from the repository root: \texttt{python3 code/solutions/sol06.py}.
+The scripts print each value used here, so an instructor can change a parameter and regenerate the answers.
+
+\paragraph{Data exercises.}
+Exercises that ask students to work with real data (INE, OECD, CEPAL, the Atlas of Economic Complexity) are answered in two parts.
+First comes the method, step by step.
+Then come the results, wherever the data could be fetched into the repository's \texttt{data/} directory, with the source and retrieval date.
+Where the data could not be fetched, the manual says so and gives the method and the expected qualitative result only.
+
+\paragraph{Open-ended questions.}
+For interpretive questions, the manual gives a model answer: the argument a strong student should make, the formal object it rests on, and common mistakes.
+
+\tableofcontents
+
+\mainmatter
+\IfFileExists{solutions/sol01.tex}{\subfile{solutions/sol01}}{}
+\IfFileExists{solutions/sol02.tex}{\subfile{solutions/sol02}}{}
+\IfFileExists{solutions/sol03.tex}{\subfile{solutions/sol03}}{}
+\IfFileExists{solutions/sol04.tex}{\subfile{solutions/sol04}}{}
+\IfFileExists{solutions/sol05.tex}{\subfile{solutions/sol05}}{}
+\IfFileExists{solutions/sol06.tex}{\subfile{solutions/sol06}}{}
+\IfFileExists{solutions/sol07.tex}{\subfile{solutions/sol07}}{}
+\IfFileExists{solutions/sol08.tex}{\subfile{solutions/sol08}}{}
+\IfFileExists{solutions/sol09.tex}{\subfile{solutions/sol09}}{}
+\IfFileExists{solutions/sol10.tex}{\subfile{solutions/sol10}}{}
+\IfFileExists{solutions/sol11.tex}{\subfile{solutions/sol11}}{}
+\IfFileExists{solutions/sol12.tex}{\subfile{solutions/sol12}}{}
+\IfFileExists{solutions/sol13.tex}{\subfile{solutions/sol13}}{}
+\IfFileExists{solutions/sol14.tex}{\subfile{solutions/sol14}}{}
+\IfFileExists{solutions/sol15.tex}{\subfile{solutions/sol15}}{}
+\IfFileExists{solutions/sol16.tex}{\subfile{solutions/sol16}}{}
+\IfFileExists{solutions/sol17.tex}{\subfile{solutions/sol17}}{}
+\IfFileExists{solutions/sol18.tex}{\subfile{solutions/sol18}}{}
+\IfFileExists{solutions/sol19.tex}{\subfile{solutions/sol19}}{}
+\IfFileExists{solutions/sol20.tex}{\subfile{solutions/sol20}}{}
+\IfFileExists{solutions/sol21.tex}{\subfile{solutions/sol21}}{}
+\IfFileExists{solutions/sol22.tex}{\subfile{solutions/sol22}}{}
+\IfFileExists{solutions/sol23.tex}{\subfile{solutions/sol23}}{}
+\IfFileExists{solutions/sol24.tex}{\subfile{solutions/sol24}}{}
+\IfFileExists{solutions/sol25.tex}{\subfile{solutions/sol25}}{}
+\IfFileExists{solutions/sol26.tex}{\subfile{solutions/sol26}}{}
+\IfFileExists{solutions/sol27.tex}{\subfile{solutions/sol27}}{}
+
+\backmatter
+\bibliography{references}
+
+\end{document}

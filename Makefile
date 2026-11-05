@@ -3,7 +3,7 @@ LATEX = pdflatex -interaction=nonstopmode -halt-on-error
 BUILD = build
 CHAPTERS = $(patsubst chapters/%.tex,%,$(wildcard chapters/chapter*.tex))
 
-.PHONY: book chapters clean
+.PHONY: book chapters solutions clean
 book:
 	mkdir -p $(BUILD)
 	$(LATEX) -output-directory=$(BUILD) structural_economics_book.tex
@@ -18,6 +18,14 @@ ch%: FORCE
 	cd chapters && $(LATEX) -output-directory=../$(BUILD) chapter$*.tex && $(LATEX) -output-directory=../$(BUILD) chapter$*.tex
 
 chapters: $(CHAPTERS:chapter%=ch%)
+
+# Solutions manual (cross-references resolve against the book's .aux: run `make book` first)
+solutions:
+	mkdir -p $(BUILD)
+	$(LATEX) -output-directory=$(BUILD) solutions_manual.tex
+	BIBINPUTS=.: bibtex $(BUILD)/solutions_manual || true
+	$(LATEX) -output-directory=$(BUILD) solutions_manual.tex
+	$(LATEX) -output-directory=$(BUILD) solutions_manual.tex
 
 clean:
 	rm -rf $(BUILD)
