@@ -133,28 +133,29 @@ Part~(ii) is a degree ratio. That homophily combined with minority size puts a m
 
 A gender gap at roughly equal population shares therefore cannot come from homophily alone. It requires the asymmetry in (iii): women channelled into sectors with fewer inter-sectoral linkages (domestic work, informal services), or weaker connections to the high-linkage core. For an ethnic minority, group size (ii) already produces a gap. With $p = 0.41$ and $\lambda_r = 0.35$, formula~\eqref{ch18:eq:minority_ratio} gives $0.84$.
 
-\begin{example}[Bolivia's Gender Structure \illustrative]\label{ch18:ex:bolivia_gender}
-Approximate employment shares by gender (illustrative values; replace with a tabulation of the Encuesta de Hogares before use):
+\begin{example}[Bolivia's Gender Structure (partly \illustrative)]\label{ch18:ex:bolivia_gender}
+Employment by sex in 2019, from ILOSTAT's tabulation of Bolivia's household survey (ISIC Rev.~4 sections):
 
 \begin{center}
-\begin{tabular}{lcc}
+\begin{tabular}{llcc}
 \toprule
-& Male employment & Female employment \\
+& ISIC & Male employment & Female employment \\
 \midrule
-Gas/Mining & 95\% & 5\% \\
-Manufacturing & 62\% & 38\% \\
-Construction & 96\% & 4\% \\
-Commerce & 35\% & 65\% \\
-Agriculture & 55\% & 45\% \\
-Domestic service & 5\% & 95\% \\
-Government & 58\% & 42\% \\
+Gas/Mining & B & 93.5\% & 6.5\% \\
+Manufacturing & C & 55.9\% & 44.1\% \\
+Construction & F & 96.9\% & 3.1\% \\
+Commerce & G & 38.6\% & 61.4\% \\
+Agriculture & A & 54.0\% & 46.0\% \\
+Domestic service & T & 6.1\% & 93.9\% \\
+Government (public administration) & O & 65.7\% & 34.3\% \\
 \bottomrule
 \end{tabular}
+\par\footnotesize Source: ILOSTAT, DF\_EMP\_TEMP\_SEX\_ECO\_NB, Bolivia 2019 \citep{ilo2026ilostat}; author's calculations (\texttt{code/ch18.py}). ``Government'' is ISIC section~O only; public education and health are in sections P and Q.
 \end{center}
 
-In Chapter~17's sectoral power table (Example~\ref{ch17:ex:bolivia_pi}), power \emph{per worker} is highest in hydrocarbons ($\pi/\text{share} = 19.5$) and high in mining ($3.1$), which are male-dominated here, and low in personal and domestic services ($0.14$ and $0.12$; the latter is household production), where women are concentrated. This is the asymmetry of Proposition~\ref{ch18:prop:homophily_power}(iii). Gender norms enter twice: through $\phi_{\text{gender}}$, and through the occupational channelling that shapes the opportunity structure $K^{\max}$.
+Chapter~17's sectoral power table (Example~\ref{ch17:ex:bolivia_pi}) gives power \emph{per worker} in Bolivia's 2019 production network. The pattern by gender is mixed. The two most female sectors are at the bottom: personal services (69\% female) has $\pi/\text{share} = 0.20$, and domestic service (94\% female, household production) has no intermediate flows at all, so it is outside $W^P$ --- marginal in the strongest sense. Hydrocarbons and mining (6.5\% female) has a high ratio ($5.7$). This is the asymmetry of Proposition~\ref{ch18:prop:homophily_power}(iii). But the highest ratio is in financial services ($23.4$), where 47\% of workers are women, and male-dominated construction ($0.37$) and public administration ($0.19$) are near the bottom. Assigning each sector's $\pi$ equally to its workers (and none to domestic service), women's per-capita power in $W^P$ is $0.86$ of men's (author's calculations, \texttt{code/ch18.py}): the sectoral composition of employment produces a gap, but a modest one. Gender norms enter twice: through $\phi_{\text{gender}}$, and through the occupational channelling that shapes the opportunity structure $K^{\max}$; the sectoral data capture only the second, at the coarse level of 11 sectors.
 
-For illustration, take $\pi^F_{\text{avg}} / \pi^M_{\text{avg}} = 0.58$: women hold 58\% of men's structural power per capita. Part (iii) of the proposition reproduces this with equal group sizes, $\lambda_g = 0.3$, $c = a_M$ and a female within-block intensity of $a_F = 0.454\,a_M$. At the same densities with $\lambda_g = 1$ the ratio would be $0.73$, so in this calibration the attribute constraint accounts for only part of the gap. Whether the structural-position gap explains the gender earnings gap is a hypothesis to test, not a result of the model.
+For illustration, take $\pi^F_{\text{avg}} / \pi^M_{\text{avg}} = 0.58$: women hold 58\% of men's structural power per capita. This is a much larger gap than the sectoral composition alone produces ($0.86$); the difference would have to come from women's positions within sectors (occupation, firm size, formality) or from the information and utility layers, which the data used here do not measure. Part (iii) of the proposition reproduces $0.58$ with equal group sizes, $\lambda_g = 0.3$, $c = a_M$ and a female within-block intensity of $a_F = 0.454\,a_M$. At the same densities with $\lambda_g = 1$ the ratio would be $0.73$, so in this calibration the attribute constraint accounts for only part of the gap. Whether the structural-position gap explains the gender earnings gap is a hypothesis to test, not a result of the model.
 \end{example}
 
 \subsection{The Formation Effect of Gender Norms}
@@ -233,7 +234,7 @@ Addressing the gender gap through any single channel is insufficient. Raising wa
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Left: raw intensities $K$, brighter in the male block (55: denser linkages in male-dominated sectors) and dimmer in the female block (35: sparser linkages in female-dominated sectors). Cross-gender entries are dark (10). Right: the Perron vector of $W = D^{-1}K$. Since $K$ is symmetric, $\pi_i \propto d_i$ (Proposition~\ref{ch18:prop:homophily_power}): $\pi = 0.148$ for each man and $0.102$ for each woman, against $1/N = 0.125$. The gap comes from the unequal block densities. With equal densities the same cross weight would give uniform $\pi$.
+\small A stylized example, not Bolivia's measured structure (Example~\ref{ch18:ex:bolivia_gender}). Left: raw intensities $K$, brighter in the male block (55: denser linkages in male-dominated sectors) and dimmer in the female block (35: sparser linkages in female-dominated sectors). Cross-gender entries are dark (10). Right: the Perron vector of $W = D^{-1}K$. Since $K$ is symmetric, $\pi_i \propto d_i$ (Proposition~\ref{ch18:prop:homophily_power}): $\pi = 0.148$ for each man and $0.102$ for each woman, against $1/N = 0.125$. The gap comes from the unequal block densities. With equal densities the same cross weight would give uniform $\pi$.
 \end{vizpanel}
 
 
@@ -360,19 +361,21 @@ The preference gap is:
 This is Proposition~\ref{ch18:prop:gender_formation} with the groups relabelled. Set $\theta_{t+1} = \theta_t$ in~\eqref{ch18:eq:gender_formation}. Then $(1-\rho)\theta^*_g = (1-\rho)\bar\theta + \mu(\bar s_g - r^*)$, a unique fixed point since $\rho < 1$, and it is globally stable because deviations shrink by the factor $\rho$ each period. Subtract the two groups' equations and use $\bar s_{\text{adv}} - \bar s_{\text{disadv}} = \frac{1}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}}) - \frac{\lambda_k}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}}) = \frac{1-\lambda_k}{1+\lambda_k}(\bar r_{\text{adv}} - \bar r_{\text{disadv}})$. For item~2, the group-level $W^I$ is $\frac{1}{1+\lambda_k}\begin{pmatrix}1 & \lambda_k\\ \lambda_k & 1\end{pmatrix}$, whose eigenvalues are $1$ and $\frac{1-\lambda_k}{1+\lambda_k}$.
 \end{proof}
 
-\begin{example}[Gender Aspiration Gap in Bolivia \illustrative]\label{ch18:ex:gender_aspiration}
-Illustrative figures of the kind reported in the World Bank's Global Findex database. Replace them with the published Bolivia tabulations, using the database's own indicator definitions, before use.
-% TODO-VERIFY: Findex 2021 Bolivia account ownership and business saving/borrowing by gender.
+\begin{example}[Gender Aspiration Gap in Bolivia (partly \illustrative)]\label{ch18:ex:gender_aspiration}
+Account ownership is from the World Bank's Global Findex database, as published in the World Development Indicators. The business saving and borrowing rows are illustrative figures of the kind Findex reports; replace them with the published Bolivia tabulations, using the database's own indicator definitions, before use.
+% TODO-VERIFY: Findex 2021 Bolivia business saving/borrowing by gender (full Findex database; not in WDI).
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
 & Women & Men \\
 \midrule
-``Saved for business'' (past year) & 12\% & 22\% \\
-``Borrowed for business'' (past year) & 8\% & 18\% \\
-``Has a formal financial account'' & 42\% & 58\% \\
+``Saved for business'' (past year; illustrative) & 12\% & 22\% \\
+``Borrowed for business'' (past year; illustrative) & 8\% & 18\% \\
+Has an account, age 15+ (2021) & 63.3\% & 74.0\% \\
+Has an account, age 15+ (2024) & 53.5\% & 60.3\% \\
 \bottomrule
 \end{tabular}
+\par\footnotesize Source for account ownership: Global Findex via WDI, FX.OWN.TOTL.FE.ZS and FX.OWN.TOTL.MA.ZS \citep{worldbank2026wdi}.
 \end{center}
 
 The standard explanation: women have lower returns to business (enforcement: discrimination, credit constraints). The formation explanation: women observe lower returns in their network ($W^I$ is gender-assortative), form lower business aspirations ($\theta^{*F}_{\text{business}} < \theta^{*M}_{\text{business}}$), invest less, earn lower returns, confirming the aspirations.
@@ -476,7 +479,7 @@ The sequencing logic of Section~\ref{ch15:sec:sequencing} applies: high-$\Psi$ i
 \item Classify sectors as male-dominated ($>$60\% male), female-dominated ($>$60\% female), and mixed.
 \item Compute the average Leontief multiplier for each group. Which has the highest?
 \item Approximate $\pi^F_{\text{avg}}/\pi^M_{\text{avg}}$ from the sectoral Perron weights and gender composition.
-\item How much would the gender power gap close if women entered male-dominated sectors at 40\% (up from the current $\approx$10\%)?
+\item How much would the gender power gap close if women entered male-dominated sectors at 40\% (up from about 10\% in gas/mining, construction and public administration in 2019; Example~\ref{ch18:ex:bolivia_gender})?
 \end{enumerate}
 
 \item \textbf{Intersectionality.} For $N = 4$ group-agents: Agent 1 (non-indigenous man), Agent 2 (non-indigenous woman), Agent 3 (indigenous man), Agent 4 (indigenous woman), with population shares $n = (0.295, 0.295, 0.205, 0.205)$. Let $\lambda_g = 0.3$ and $\lambda_r = 0.35$.

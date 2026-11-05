@@ -177,15 +177,48 @@ for trial in range(200):
 print("Cheeger bound holds in 200 random trials; tight in the equal-group example:",
       np.isclose(2 * 0.3 / 1.3, 1 - abs(1 - 0.3) / 1.3))
 
-print("\n=== Example (Bolivia's gender structure): Chapter 17 sector power per worker ===")
-# Imported from code/ch17.py (Example ch17:ex:bolivia_pi) so Ch17 and Ch18 cannot drift.
+print("\n=== Example (Bolivia's gender structure): ILOSTAT 2019 and Chapter 17 sector power per worker ===")
+# Imported from code/ch17.py (Example ch17:ex:bolivia_pi), which reads INE and ILOSTAT from
+# data/processed, so Ch17 and Ch18 use the same sector mapping and cannot drift.
 import contextlib, io, os, runpy
 with contextlib.redirect_stdout(io.StringIO()):
     _c17 = runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "ch17.py"))
-_ratio = dict(zip(_c17["sectors"], _c17["p"] / _c17["emp"]))
-for _s in ["Hydrocarbons", "Mining", "Personal services", "Domestic services"]:
-    print(f"  {_s:20s} pi/share = {_ratio[_s]:.2f}")
-assert _ratio["Hydrocarbons"] == max(_ratio.values())
+_r, _fem, _emp, _pie = _c17["ratio"], _c17["fem_share"], _c17["emp"], _c17["pi_emp"]
+_chk = _c17["check"]
+# female share of employment, table of Example ch18:ex:bolivia_gender (percent, one decimal)
+FEM_TEXT = {"Hydrocarbons and mining": 6.5, "Manufacturing": 44.1, "Construction": 3.1, "Commerce": 61.4,
+            "Agriculture": 46.0, "Domestic services": 93.9, "Public administration": 34.3}
+_facts = _c17["FACTS"]
+_fid = {"Hydrocarbons and mining": "mining_quarrying_incl_hydrocarbons", "Manufacturing": "manufacturing",
+        "Construction": "construction", "Commerce": "commerce", "Agriculture": "agriculture",
+        "Domestic services": "domestic_services", "Public administration": "public_administration"}
+for _s, _v in FEM_TEXT.items():
+    _chk("female share " + _s, 100 * _fem[_s], _v, 1)
+    _chk("male share " + _s, 100 * (1 - _fem[_s]), round(100 - _v, 1), 1)
+    assert _facts[f"BOL_female_share_{_fid[_s]}_2019"] == _v          # data/processed/bolivia_facts.csv
+    print(f"  {_s:24s} female {100*_fem[_s]:5.1f}%  pi/share = {_r[_s]:.2f}")
+for _s, _v in {"Personal services": 69, "Financial services": 47}.items():
+    _chk("female share " + _s, 100 * _fem[_s], _v, 0)
+for _s, _v in {"Personal services": 0.20, "Hydrocarbons and mining": 5.7, "Financial services": 23.4,
+               "Construction": 0.37, "Public administration": 0.19}.items():
+    _chk("pi/share " + _s, _r[_s], _v, 1 if _v >= 5 else 2)
+# per-capita power by sex: each sector's pi shared equally among its workers; domestic service
+# (no W^P row) gets none.  pi_F / pi_M = [sum_s pi_s f_s / F] / [sum_s pi_s (1 - f_s) / M]
+_ILO = _c17["ILO"]
+_F, _M = _ILO[("SEX_F", "ECO_ISIC4_TOTAL")], _ILO[("SEX_M", "ECO_ISIC4_TOTAL")]
+_piF = sum(0 if np.isnan(_pie[s]) else _pie[s] * _fem[s] for s in _pie) / _F
+_piM = sum(0 if np.isnan(_pie[s]) else _pie[s] * (1 - _fem[s]) for s in _pie) / _M
+print(f"per-capita pi_F / pi_M from sector composition = {_piF/_piM:.3f}")
+_chk("pi_F/pi_M sectoral", _piF / _piM, 0.86, 2)
+# Exercise 18.2(d): female share in the table's male-dominated (>60% male) sectors, "about 10%"
+_md = [s for s in FEM_TEXT if _fem[s] < 0.4]
+_fs = sum(_fem[s] * _c17["emp_k"][s] for s in _md) / sum(_c17["emp_k"][s] for s in _md)
+print(f"male-dominated sectors {_md}: female share {100*_fs:.1f}%")
+_chk("female share in male-dominated sectors", 100 * _fs, 10, 0)
+# Findex account ownership (WDI), Example ch18:ex:gender_aspiration
+for _k, _v in {"female_2021": 63.3, "male_2021": 74.0, "female_2024": 53.5, "male_2024": 60.3}.items():
+    assert _facts[f"BOL_account_ownership_{_k}"] == _v, _k
+print("Findex account ownership 2021 F/M = 63.3/74.0; 2024 F/M = 53.5/60.3 (bolivia_facts.csv)")
 
 print("\n=== Proof pass: Prop. assortative (b) with three classes (constrained A_S) ===")
 for trial in range(300):
