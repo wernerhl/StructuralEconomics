@@ -85,7 +85,7 @@ Consequence for the formation model, on the sorted attribute: the self-confirmin
 \begin{example}[Bolivia: Facebook and the Urban-Rural Information Divide \illustrative]\label{ch27:ex:facebook}
 Bolivia has on the order of 7 million Facebook users (early 2020s; source to be added). The recommendation algorithm shows users content similar to what they have previously engaged with. Urban Bolivians engage with commercial media, political commentary, and global content. Rural Bolivians engage with local community posts, agricultural content, and regional news.
 
-The algorithm amplifies this difference: urban users see progressively more urban content; rural users see progressively more rural content. The cross-group mixing parameter between rural indigenous women and urban audiences, already low ($\lambda \approx 0.22$, Chapter~21), may decrease further under algorithmic filtering.
+The algorithm amplifies this difference: urban users see progressively more urban content; rural users see progressively more rural content. The cross-group mixing parameter between rural indigenous women and urban audiences, already low (illustratively $\lambda \approx 0.22$; in Chapter~21's audience table this pair has the lowest overlap, 35\% of self-overlap), may decrease further under algorithmic filtering.
 
 Illustrative effect: by \eqref{ch27:eq:echo}, an engagement premium of same-group content $e_s/e_c$ between 1.38 and 2.07 lowers $\lambda$ from 0.22 to between 0.17 and 0.12, i.e.\ $\Delta\lambda \approx -0.05$ to $-0.10$ (a 23--45\% cut in cross-group exposure relative to the organic feed; \texttt{code/ch27.py}). In the formation model, the steady-state aspiration gap between urban and rural populations widens by $\frac{\mu}{1-\rho}\,|\Delta\lambda|\,\Delta\bar{r}$, which is 0.03--0.06 preference units for $\rho = 0.85$ and an illustrative $\mu\Delta\bar{r} = 0.09$.
 \end{example}
@@ -101,7 +101,7 @@ N_{\text{eff}}(W^{I'}) \leq N_{\text{eff}}(W^I).
 
 The mechanism: the algorithm amplifies content with high initial engagement (likes, shares, comments). Content from well-connected, emotionally compelling sources gets shown to more users, generating more engagement, generating more amplification. Content from less-connected sources (community radio, local journalists, indigenous-language media) gets suppressed because it generates less engagement.
 
-The consequence: Bolivia's $\pi^I_{\text{community}}$ (already 0.05, Chapter~21) may decline further as algorithmic curation redirects attention to high-engagement commercial content, and $N_{\text{eff}}^I$ could drop from 3.4 toward 2.5--3.0 (illustrative).
+The consequence: Bolivia's $\pi^I_{\text{community}}$ (already small: $0.12$ on Chapter~17's four ecosystems; community radio reaches 14\% of attention in Chapter~21) may decline further as algorithmic curation redirects attention to high-engagement commercial content, and $N_{\text{eff}}^I$ could drop from 3.4 (Chapter~17) toward 2.5--3.0 (illustrative).
 \end{conjecture}
 
 \begin{remark}[Echo chambers and viral hubs move $\Gamma$ and $\Neff$ differently]\label{ch27:rem:gap_neff}

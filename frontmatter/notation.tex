@@ -1,0 +1,92 @@
+%% =====================================================================
+%% NOTATION
+%% Core notation as used in the chapters. "Where" gives the defining
+%% result (or chapter). Symbols with a second, local meaning are flagged.
+%% =====================================================================
+\chapter*{Notation}
+\addcontentsline{toc}{chapter}{Notation}
+\markboth{Notation}{Notation}
+
+Vectors are bold and are column vectors; $'$ is the transpose and $\ones$ the vector of ones. $N$ is the number of nodes (agents, sectors, groups, outlets or countries) of the matrix in question. Measures of concentration ($\Neff$, $\Var(\boldsymbol{\pi})$, $G(\boldsymbol{\pi})$) are comparable across matrices only on a common node set, or after normalizing by $N$.
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{11.3cm}@{}}
+\toprule
+\textbf{Symbol} & \textbf{Meaning (where defined)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Symbol} & \textbf{Meaning (where defined)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+\multicolumn{2}{@{}l}{\textit{Weight matrices}} \\[2pt]
+$W$, $W_{ij}$ & A row-stochastic interaction matrix ($W \ge 0$, $W\ones = \ones$); $W_{ij}$ is the weight agent $i$ places on agent $j$ (Chapter~\ref{ch:01}, Section~\ref{ch01:sec:conventions}). \\
+$K$, $D$ & A raw nonnegative intensity matrix and its row-sum diagonal, $D = \operatorname{diag}(K\ones)$; then $W = D^{-1}K$. \\
+$W^U$ & Utility network: who cares about whom; enters $V_i = U_i + \gamma_U\sum_j W^U_{ij}U_j$ (Definition~\ref{ch05:def:utility_WU}). The benchmark has $W^U = 0$ (no externalities). \\
+$W^P$ & Production weight matrix, $W^P = D^{-1}A$: input-cost shares, row-stochastic (Definition~\ref{ch05:def:WP}). Never used for multipliers or linkages. \\
+$W^I$ & Information network: who listens to whom; drives DeGroot learning (Definition~\ref{ch05:def:WI}). \\
+$\alpha_k$ & Weights of the composite $W = \sum_k \alpha_k W^k$, defined only when all layers live on the same node set (Definition~\ref{ch05:def:composite}). \\
+$A$, $a_{ij}$ & Technical coefficients: units of good $j$ per unit of good $i$; balance $\mathbf{y} = A'\mathbf{y} + \mathbf{d}$ (Definition~\ref{ch01:def:IO}). \\
+$L$ & Leontief inverse $(I - A')^{-1}$, requiring $\rho(A) < 1$ (Theorem~\ref{ch01:thm:leontief}). Multipliers and backward/forward linkages come from $L$. \textit{Also:} $L$ is the number of goods in Chapter~1 and, with a subscript, a welfare loss (below). \\
+$\chi(A)$ & Cross-block mass: share of intermediate requirements that cross blocks (Definition~\ref{ch03:def:heterogeneity}). \\
+$\mathbf{s}$ & Wealth (expenditure) shares (Definition~\ref{ch01:def:market_W}). \\
+$W^{\text{mkt}}$ & Market interaction matrix $\ones\mathbf{s}'$: anonymous, rank one, $\Gamma = 1$, $\boldsymbol{\pi} = \mathbf{s}$ (Definition~\ref{ch01:def:market_W}). \\
+$\Wce$ & Competitive benchmark $\frac{1}{N}\ones\ones'$, the equal-endowment case of $W^{\text{mkt}}$ (Definition~\ref{ch01:def:competitive_W}). \\
+$\Delta(W)$ & Departure from the benchmark, $W - \Wce$, summarized by the two independent coordinates $d_\pi$ and $1 - \Gamma$ (Section~\ref{ch01:sec:conventions}). \\[4pt]
+
+\multicolumn{2}{@{}l}{\textit{Power and integration}} \\[2pt]
+$\boldsymbol{\pi}$ & Power: the left Perron vector, $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$, $\boldsymbol{\pi} > 0$, $\sum_i\pi_i = 1$ (Definitions~\ref{ch01:def:perron} and~\ref{ch06:def:eigenvector}). Uniform iff $W$ is doubly stochastic (Proposition~\ref{ch06:prop:equal_power}). Superscripts ($\boldsymbol{\pi}^P$, $\boldsymbol{\pi}^I$, $\boldsymbol{\pi}^U$) name the layer. \\
+$\Neff$ & Effective number of agents, $1/\sum_i\pi_i^2 \in [1, N]$ (Definition~\ref{ch06:def:neff}). \\
+$\Var(\boldsymbol{\pi})$ & Variance of power, $\frac{1}{N}\sum_i(\pi_i - \frac{1}{N})^2 = \frac{1}{N}(\frac{1}{\Neff} - \frac{1}{N}) \le \frac{N-1}{N^2}$ (Definition~\ref{ch06:def:neff}). \\
+$G(\boldsymbol{\pi})$ & Power Gini: the Gini coefficient of the entries of $\boldsymbol{\pi}$ (Definition~\ref{ch06:def:neff}). \\
+$d_\pi$ & Power distance, $\frac{1}{2}\|\boldsymbol{\pi} - \frac{1}{N}\ones\|_1 \in [0, 1 - \frac{1}{N}]$ (Section~\ref{ch01:sec:conventions}). \\
+$\lambda_2$ & Eigenvalue of $W$ of second-largest modulus. \\
+$\Gamma$ & Spectral gap $1 - |\lambda_2(W)|$: integration (mixing speed), never concentration (Definition~\ref{ch06:def:gap}). Independent of $\boldsymbol{\pi}$ (Proposition~\ref{ch06:prop:gap-power-independent}). \\
+$\tau_1$ & Dobrushin coefficient $\frac{1}{2}\max_{i,j}\sum_k|W_{ik} - W_{jk}|$; $|\lambda_2| \le \tau_1$ and $\tau_1$ is submultiplicative (Proposition~\ref{ch10:prop:two_types}; Chapter~\ref{ch:23}). \\
+$Z$ & Fundamental matrix $(I - W + \ones\boldsymbol{\pi}')^{-1}$; $d\boldsymbol{\pi}'/dt = \boldsymbol{\pi}'EZ$ for a perturbation $E$ with $E\ones = 0$ (Lemma~\ref{ch06:lem:perturbation}). \\
+$\mathbf{b}^{(0)}$, $b^*$ & Initial beliefs and the DeGroot consensus $b^* = (\boldsymbol{\pi}^I)'\mathbf{b}^{(0)}$ (Theorem~\ref{ch08:thm:degroot}). \\
+$\sigma_B$ & Between-block share of inequality (Definition~\ref{ch17:def:between}). \\[4pt]
+
+\multicolumn{2}{@{}l}{\textit{Allocation and welfare}} \\[2pt]
+$X$, $\x$ & Allocation matrix ($N \times L$) and allocation vector (Definition~\ref{ch01:def:allocation}). \\
+$\boldsymbol{\omega}$, $\omega_i$ & Endowments. In Chapter~10 $\omega_i$ is also the endowment term of the bargaining rule. \textit{Also:} $\omega_m, \omega_r, \omega_n, \omega_d$ are the source weights of the composite $W^I$ (Chapter~\ref{ch:21}). \\
+$\Omega$ & Total resources (one good) or total joint output to be divided. In Chapter~1 also the $N \times L$ endowment matrix. \\
+$U$, $\kappa$ & Private utility; in examples $U(x) = x - \frac{\kappa}{2}x^2$, with every allocation below satiation, $\kappa x_i < 1$ (Chapter~\ref{ch:01}). \\
+$d_i$, $\bar d$ & Disagreement payoffs (outside options); $\bar d$ when they are equal. \\
+$\Phi$ & Bargaining surplus over disagreement, $\Phi = \Omega - N\bar d$ (not $1/\kappa$). Allocation rule $x_i = \Omega/N + (\pi_i - \frac{1}{N})\Phi$ (Proposition~\ref{ch07:prop:allocation-rule}), with $\boldsymbol{\pi}$ as Nash weights by assumption. \textit{Also:} conductance in the Cheeger inequality (Chapter~\ref{ch:25}). \\
+$c_j$ & Externality centrality: how much others care about $j$, the column sum of $W^U$ (Definition~\ref{ch02:def:ext_centrality}). \\
+$\gamma_U$, $\gamma_P$ & Intensity of utility externalities and of production spillovers (Chapter~\ref{ch:05}); $\gamma$ in Chapter~2. \\
+$V_i$, $\mathcal{S}$ & Interdependent utility and social welfare $\mathcal{S}(\x) = \sum_i V_i(\x)$ (Section~\ref{ch07:sec:welfare_loss}). \\
+$\mathcal{W}$ & Welfare totals, e.g.\ $\mathcal{W}^{FB}$ (first best) and $\mathcal{W}^0$ (endowments) (Proposition~\ref{ch01:prop:welfare_loss}). \textit{Also:} the set of row-stochastic matrices (Chapter~\ref{ch:15}), and $\mathcal{W}_\varepsilon$, those with all entries $\ge \varepsilon$ (Chapter~\ref{ch:13}). \\
+$L_{\text{power}}$ & Distributional (utilitarian) loss from unequal power, $\frac{\kappa N}{2}\Phi^2\Var(\boldsymbol{\pi})$; never a Pareto inefficiency (Theorem~\ref{ch07:thm:decomposition}). \\
+$L_{\text{externality}}$ & Loss of equal division relative to the social optimum when the $c_j$ differ; to second order $\propto \gamma^2\Var(c_j)$ (Theorem~\ref{ch07:thm:decomposition}; Proposition~\ref{ch02:prop:ext_loss}). \\
+$L_{\text{interaction}}$ & Interaction term; its leading part $\propto -\Cov(c_j, \pi_j)$ offsets the others when the powerful are the most cared about (Theorem~\ref{ch07:thm:decomposition}). \\
+$L_{\text{block}}$ & Between-block welfare loss (Proposition~\ref{ch02:prop:block_loss}). \\
+$L_{\text{formation}}$ & Additional loss from formed preferences, used in Chapter~18 (Definition~\ref{ch18:thm:welfare_attribute}); not one of the three terms above. \\[4pt]
+
+\multicolumn{2}{@{}l}{\textit{Preference formation}} \\[2pt]
+$\boldsymbol{\theta}$ & Preference vector (aspirations, patience, \ldots) (Definition~\ref{ch09:def:theta}). \\
+$\rho$, $\mu$ & Intergenerational persistence and weight of the network signal in the formation equation (Definition~\ref{ch09:def:formation}). \\
+$\theta^{\circ}$ & Anchor of the formation equation ($\bar\theta$ in Chapter~9), distinct from the cross-sectional mean $\bar\theta_t$ (Definition~\ref{ch10:def:model}). \\
+$r_j$, $r^*$ & Observed returns and the reference return. \\
+$h$, $\phi$ & Bargaining map $x_i = h_i(\boldsymbol{\pi}, \boldsymbol{\theta}, \boldsymbol{\omega}) = \omega_i + \pi_i\Phi + \phi(\theta_i - \bar\theta)$ and its preference weight $\phi$ (Definition~\ref{ch10:def:model}). \textit{Also:} $\phi(\mathbf{a}_i, \mathbf{a}_j)$ is the assortative mixing function of Chapter~18. \\
+$T$ & Formation map $\boldsymbol{\theta}_{t+1} = T(\boldsymbol{\theta}_t)$ (equation~\eqref{ch10:eq:map}); $T(\cdot\,; W)$ in Chapter~13. \textit{Also:} a horizon in generations, as in $\Psi_i(\Delta W, T)$. \\
+$J$, $C$, $P$ & Formation Jacobian $J = \rho I + \mu\phi W^I C P$, with return Jacobian $C = \operatorname{diag}(\boldsymbol{\beta}) + \operatorname{diag}(\boldsymbol{\gamma})W^P$ and centering matrix $P = I - \frac{1}{N}\ones\ones'$ (Proposition~\ref{ch10:prop:jacobian}). \\
+$\mathcal{M}$ & Formation multiplier $\mu/(1-\rho)$ (Definition~\ref{ch10:def:multiplier}). \\
+$E_i$, $F_i$ & Enforcement and formation effects of a stated perturbation $\Delta W$ (Definition~\ref{ch09:def:psi}). \\
+$\Psi$ & Formation-to-enforcement ratio $\Psi_i(\Delta W, T) = F_i/E_i$ of a perturbation, not of the economy; $\bar\Psi$ is its aggregate (Definition~\ref{ch09:def:psi}). $(1+\Psi)$ is the formation amplifier of Chapter~14. \\
+$\hat\Psi_{\text{var}}$ & Cohort--year variance ratio: a descriptive statistic, not $\Psi$ (Definition~\ref{ch11:thm:cohort_year}). \\[4pt]
+
+\multicolumn{2}{@{}l}{\textit{Network evolution, attributes, time and complexity}} \\[2pt]
+$\mathcal{E}$ & Network evolution map $W_{t+1} = \mathcal{E}(W_t; \x^*_t)$ (Definition~\ref{ch13:thm:coevolution}); $\mathcal{N}$ is its clip-and-renormalize step (Definition~\ref{ch13:def:evolution}). Written $\mathcal{E}$, not $\mathcal{T}$, to keep it apart from the formation map $T$. \\
+$\mathcal{J}$ & Jacobian of the co-evolutionary system in $(W, \boldsymbol{\theta})$ (Chapter~\ref{ch:13}, Appendix~13B). \\
+$\lambda_k$ & Assortative mixing (openness) parameter for attribute $k$: cross-group edges are scaled by $\lambda_k \in [0,1]$ (Definition~\ref{ch18:def:constrained_W}; e.g.\ $\lambda_g$ for gender). Not an eigenvalue. \\
+$\iota$ & Intersectional interaction $\phi - \prod_k\phi_k$ (equation~\eqref{ch18:eq:interaction}). \\
+$v_\Gamma$, SCI & Structural velocity and Structural Change Index (Definitions~\ref{ch23:def:velocity} and~\ref{ch23:def:SCI}). \\
+$M$, ECI & Country $\times$ product specialization matrix and the Economic Complexity Index, computed from $M$, not from $W$ (Definitions~\ref{ch16:def:RCA} and~\ref{ch16:def:ECI}). \\
+$\mathcal{D}$, $\tau_c$ & Dense subgraph of the product space and the truncation index (Definitions~\ref{ch25:def:dense} and~\ref{ch25:def:truncated}). \\
+\end{longtable}
+}

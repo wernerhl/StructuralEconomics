@@ -43,11 +43,11 @@ A \textbf{hegemonic equilibrium} is a structural equilibrium (Definition~\ref{ch
 
 Formally: a hegemonic equilibrium is a fixed point $(W^*, \boldsymbol{\theta}^*, \x^*)$ of the co-evolutionary system where:
 \begin{equation}\label{ch24:eq:hegemony}
-\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*; W^*), \quad \x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*), \quad W^* = \Psi(W^*; \x^*),
+\boldsymbol{\theta}^* = T(\boldsymbol{\theta}^*; W^*), \quad \x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*), \quad W^* = \mathcal{E}(W^*; \x^*),
 \end{equation}
 AND the three conditions of Definition~\ref{ch24:def:hegemony} hold at $(W^*, \boldsymbol{\theta}^*, \x^*)$; in particular, no agent, given her preferences $\theta_i^*$, prefers a feasible alternative allocation, so none demands a change in $W$.
 
-This definition asserts no existence result; whether such fixed points exist depends on $\Phi$, $h$ and $\Psi$ (Chapter~13). It is the Satisfaction Paradox (Theorem~\ref{ch12:thm:paradox}) with a political interpretation: the dominated classes do not demand structural change because their $W^I$-formed preferences are calibrated to the $W^P$-determined returns. The hegemony is self-reproducing.
+This definition asserts no existence result; whether such fixed points exist depends on the formation map $T$, the bargaining map $h$ and the network evolution map $\mathcal{E}$ (Chapter~13, Definition~\ref{ch13:thm:coevolution}). It is the Satisfaction Paradox (Proposition~\ref{ch12:thm:paradox}) with a political interpretation: the dominated classes do not demand structural change because their $W^I$-formed preferences are calibrated to the $W^P$-determined returns. The hegemony is self-reproducing.
 \end{definition}
 
 \begin{intuition}[Why hegemony is stable]
@@ -96,7 +96,7 @@ Pre-1952 & Tin-mining oligarchy & $\approx 1.5$ & Stable (few media) \\
 \end{tabular}
 \end{center}
 
-The trend: $N_{\text{eff}}^I$ has been increasing (from 1.5 to 3.5 over 70 years). On the reading of Definition~\ref{ch24:prop:maintenance}, each increase made the existing hegemony more expensive to maintain. The neoliberal consensus (1985--2003) collapsed after social movements (the Water War 2000, Gas War 2003) generated alternative $W^I$ channels that broke the information monopoly. The MAS hegemony (2006--2019) was already fragile at $N_{\text{eff}}^I \approx 3.0$--$3.4$ (the end-of-period value 3.4 is Chapter~21's); new digital channels contributed to destabilizing it in 2019. Whether digital media raise or lower $\Neff^I$ in the long run depends on the balance between new channels and algorithmic concentration within platforms (Chapter~27).
+The trend: $N_{\text{eff}}^I$ has been increasing (from 1.5 to 3.5 over 70 years). On the reading of Definition~\ref{ch24:prop:maintenance}, each increase made the existing hegemony more expensive to maintain. The neoliberal consensus (1985--2003) collapsed after social movements (the Water War 2000, Gas War 2003) generated alternative $W^I$ channels that broke the information monopoly. The MAS hegemony (2006--2019) was already fragile at $N_{\text{eff}}^I \approx 3.0$--$3.4$ (the end-of-period value 3.4 is Chapter~17's, on four media ecosystems; Example~\ref{ch17:ex:bolivia_neff}); new digital channels contributed to destabilizing it in 2019. Whether digital media raise or lower $\Neff^I$ in the long run depends on the balance between new channels and algorithmic concentration within platforms (Chapter~27).
 \end{example}
 
 
@@ -307,7 +307,7 @@ The hegemonies lasted between about 13 and 40 years. The first three collapsed a
 
 \item \textbf{Bolivia's hegemonic transitions.} Map all five hegemonies from the Prebisch Connection box to the structural power game (Chapter~14): for each, identify the coalition, the $W^I$ control mechanism, the $N_{\text{eff}}^I$, and the trigger for collapse.
 
-\item \textbf{Skocpol's conditions.} For the 2000--2006 Bolivian transition: verify each of the four conditions in Proposition~\ref{ch24:prop:collapse}. Which was the binding condition? Could the neoliberal hegemony have survived if any one condition had not been met?
+\item \textbf{Skocpol's conditions.} For the 2000--2006 Bolivian transition: verify each of the four conditions in Conjecture~\ref{ch24:prop:collapse}. Which was the binding condition? Could the neoliberal hegemony have survived if any one condition had not been met?
 
 \item \textbf{The acceleration of the cycle.} Plot the duration of each Latin American hegemonic epoch (from the Prebisch Connection box) against $N_{\text{eff}}^I$. Is there a negative correlation (more information diversity = shorter hegemonic periods)? What does this predict for the current period?
 
@@ -328,13 +328,13 @@ The hegemonies lasted between about 13 and 40 years. The first three collapsed a
 
 \paragraph{The hegemonic fixed point.} Let $(W^*, \boldsymbol{\theta}^*, \x^*)$ be a hegemonic equilibrium. The stability is governed by the eigenvalues of the co-evolutionary Jacobian (Chapter~13, Appendix~13B):
 \begin{equation}
-\mathcal{J} = \begin{pmatrix} \partial\Phi/\partial\boldsymbol{\theta} & \partial\Phi/\partial W \\ \partial\Psi/\partial\boldsymbol{\theta} & \partial\Psi/\partial W \end{pmatrix}.
+\mathcal{J} = \begin{pmatrix} \partial T/\partial\boldsymbol{\theta} & \partial T/\partial W \\ \partial\mathcal{E}/\partial\boldsymbol{\theta} & \partial\mathcal{E}/\partial W \end{pmatrix}.
 \end{equation}
 
 The hegemony is stable if $\rho(\mathcal{J}) < 1$. It loses stability when:
 \begin{enumerate}
-\item The formation feedback is too strong: $\rho(J) = \rho(\rho I + \mu W^I G'H') \to 1$. This may occur as counter-hegemonic channels strengthen the conformity feedback; in the scalar model \eqref{ch24:eq:counter_model} the relevant eigenvalue is $\rho + (1-\rho)g'(\theta_h)$, which reaches 1 exactly at the saddle-node.
-\item An exogenous shock changes the returns $\mathbf{r}$ suddenly, shifting the $\Phi$ map and moving the system outside the basin of attraction.
+\item The formation feedback is too strong: $\rho(J) \to 1$, where $J = \rho I + \mu\phi W^I C P$ is the formation Jacobian (Proposition~\ref{ch10:prop:jacobian}). This may occur as counter-hegemonic channels strengthen the conformity feedback; in the scalar model \eqref{ch24:eq:counter_model} the relevant eigenvalue is $\rho + (1-\rho)g'(\theta_h)$, which reaches 1 exactly at the saddle-node.
+\item An exogenous shock changes the returns $\mathbf{r}$ suddenly, shifting the formation map $T$ and moving the system outside the basin of attraction.
 \item The coalition dynamics (Chapter~14) produce an alliance switch that changes $W$ discretely.
 \end{enumerate}
 

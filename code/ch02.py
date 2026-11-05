@@ -38,7 +38,7 @@ WA = np.array([[0, .5, .5], [.5, 0, .5], [.5, .5, 0]]); WB = np.array([[0, .6, 0
 for name, Wu in [("A", WA), ("B", WB)]:
     c = Wu.sum(0) - np.diag(Wu); alpha = 1 + g * c; Le, xV = Lext(alpha, k, m)
     approx = len(c) * (1 - k * m) ** 2 / (2 * k) * g ** 2 * np.var(c)
-    print(name, "c =", c, "Var(c) =", round(np.var(c), 4), "alpha =", alpha, "L_ext exact =", round(Le, 5),
+    print(name, "c =", c, "Var(c) =", round(np.var(c), 4), "alpha =", alpha, "L_externality exact =", round(Le, 5),
           "2nd-order approx =", round(approx, 5), "x^V =", xV.round(4), "max kx", (k * xV).max().round(3))
     assert np.isclose(xV.sum(), 3) and np.all(k * xV < 1)
     # brute-force check of the exact formula
@@ -86,8 +86,8 @@ for name, p, c in [("connected", np.array([.26, .25, .25, .24]), np.array([1.02,
     Lp = Lpower(k, N, Phi, p)
     Li = k * g * Phi ** 2 / 2 * np.sum(c * (p - 1 / N) ** 2) - g * Phi * N * (1 - k * m) * np.mean((c - c.mean()) * (p - 1 / N))
     total = (np.sum(alpha * U(xV, k))) - np.sum(alpha * U(x, k))
-    print(name, "Cov(pi,c) =", round(np.mean((c - c.mean()) * (p - p.mean())), 5), "L_ext =", round(Le, 5),
-          "L_power =", round(Lp, 5), "L_int =", round(Li, 5), "sum =", round(Le + Lp + Li, 5), "direct =", round(total, 5))
+    print(name, "Cov(pi,c) =", round(np.mean((c - c.mean()) * (p - p.mean())), 5), "L_externality =", round(Le, 5),
+          "L_power =", round(Lp, 5), "L_interaction =", round(Li, 5), "sum =", round(Le + Lp + Li, 5), "direct =", round(total, 5))
     assert np.isclose(Le + Lp + Li, total) and np.all(k * xV < 1) and np.all(k * x < 1)
 
 hdr("Gamma and pi independent (W = g 1pi' + (1-g)I)")
@@ -113,7 +113,7 @@ W3 = np.array([[.5, .4, .1], [.2, .5, .3], [.1, .3, .6]]); p = perron(W3); c = W
 k, g, m, Phi = 0.5, 0.5, 1.0, 1.0; alpha = 1 + g * c; Le, xV = Lext(alpha, k, m)
 Li = k * g * Phi ** 2 / 2 * np.sum(c * (p - 1 / 3) ** 2) - g * Phi * 3 * (1 - k * m) * np.mean((c - c.mean()) * (p - 1 / 3))
 print("2.3b pi", p.round(4), "Var", round(var(p), 5), "c", c, "Var(c)", round(np.var(c), 5),
-      "Cov", round(np.mean((c - c.mean()) * (p - p.mean())), 5), "L_ext", round(Le, 5), "L_power", round(Lpower(k, 3, Phi, p), 5), "L_int", round(Li, 5))
+      "Cov", round(np.mean((c - c.mean()) * (p - p.mean())), 5), "L_externality", round(Le, 5), "L_power", round(Lpower(k, 3, Phi, p), 5), "L_interaction", round(Li, 5))
 n = 8; R = np.roll(np.eye(n), 1, axis=1); S = np.zeros((n, n)); S[0, 1:] = 1 / 7; S[1:, 0] = 1
 B = np.zeros((n, n)); B[:4, :4] = .25; B[4:, 4:] = .25
 for name, M in [("W^CE", np.ones((n, n)) / n), ("ring", R), ("blocks", B), ("star", S)]:

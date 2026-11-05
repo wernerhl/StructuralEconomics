@@ -27,13 +27,13 @@ The chapter develops five measurement strategies, applies them to Bolivia, and s
 %% =====================================================================
 
 \begin{definition}[The Utility Network --- Recall]\label{ch22:def:recall}
-From Chapter~5: agent $i$'s utility is $U_i(\x) = u_i(x_i) + \sum_{j \neq i} W^U_{ij} u_j(x_j)$. Entry $W^U_{ij} \in [0, 1]$ is the weight agent $i$ places on agent $j$'s utility. When $W^U_{ij} = 1$ for all $j \ne i$: $i$ weights everyone's utility as her own (utilitarian). Equal weights below one (e.g.\ $1/N$) are impartial but weaker concern. When $W^U_{ij} = 0$: $i$ is indifferent to $j$'s welfare. When $W^U_{ij}$ is large for a small set of $j$'s (family, community): $i$ cares intensely but narrowly. Raw $W^U$ need not be row-stochastic (Proposition~\ref{ch05:prop:WU_properties}). Perron-based statistics ($\pi^U$, $\Neff$, $\Gamma$) use the row-normalized $D^{-1}W^U$, which records the \emph{direction} of concern; the row sums record its \emph{intensity}.
+From Chapter~5: agent $i$'s utility is $U_i(\x) = u_i(x_i) + \sum_{j \neq i} W^U_{ij} u_j(x_j)$. Entry $W^U_{ij} \in [0, 1]$ is the weight agent $i$ places on agent $j$'s utility. When $W^U_{ij} = 1$ for all $j \ne i$: $i$ weights everyone's utility as her own (utilitarian). Equal weights below one (e.g.\ $1/N$) are impartial but weaker concern. When $W^U_{ij} = 0$: $i$ is indifferent to $j$'s welfare. When $W^U_{ij}$ is large for a small set of $j$'s (family, community): $i$ cares intensely but narrowly. Raw $W^U$ need not be row-stochastic (Remark~\ref{ch05:prop:WU_properties}). Perron-based statistics ($\pi^U$, $\Neff$, $\Gamma$) use the row-normalized $D^{-1}W^U$, which records the \emph{direction} of concern; the row sums record its \emph{intensity}.
 \end{definition}
 
 \begin{remark}[$W^U$ Determines Externality Centrality]\label{ch22:prop:externality}
 Following Definition~\ref{ch02:def:ext_centrality}, agent $j$'s externality centrality $c_j = \sum_i W^U_{ij}$ measures how much the rest of society cares about $j$'s welfare. When $c_j$ is high: $j$'s welfare matters to many people. When $c_j$ is low: $j$ is socially invisible --- her suffering does not register in others' utility.
 
-The welfare loss decomposition (Chapter~2) includes $L_{\text{ext}} = \frac{\kappa}{2}\Var(c_j)\Phi^2$: when externality centrality is unequal (some people are cared about more than others), there is a welfare loss from the mismatch between who needs resources and who receives social support. (Chapter~18 uses the same object inside $L_{\text{formation}}$; the two uses should be reconciled when the Chapter~2 decomposition is finalized.)
+The welfare loss decomposition (Theorem~\ref{ch07:thm:decomposition}; Chapter~2, Proposition~\ref{ch02:prop:ext_loss}) includes $L_{\text{externality}} \approx \frac{N(1-\kappa m)^2}{2\kappa}\gamma_U^2\Var(c_j)$, with $m = \Omega/N$, to second order in $\gamma_U$: when externality centrality is unequal (some people are cared about more than others), there is a welfare loss from the mismatch between who needs resources and who receives social support. (Chapter~18's $L_{\text{formation}}$ is a different object: the additional loss from formed preferences, not from unequal $c_j$.)
 \end{remark}
 
 
@@ -312,7 +312,7 @@ This is why Chapters~20--22 are a trilogy: measuring each network separately is 
 
 \item \textbf{Cross-country comparison.} Using Latinobar\'{o}metro trust data for Bolivia, Chile, and Uruguay: estimate a survey-based $W^U$ for each, on the same set of groups. Which country has the highest $N_{\text{eff}}^U/n$, and the highest $\Gamma$? Do they correlate with income inequality?
 
-\item \textbf{The complete measurement.} Combine Chapters~20--22: for Bolivia, you now have $W^P$ (SAM), $W^I$ (media + surveys), $W^U$ (transfers + voting + surveys). Map all three to a common node set (household groups), and compute the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ with weights from Chapter~5. Compute the composite $\Gamma$, $\boldsymbol{\pi}$, and the welfare loss decomposition $L = L_{\text{power}} + L_{\text{ext}} + L_{\text{interaction}}$. What fraction of Bolivia's welfare loss comes from each component?
+\item \textbf{The complete measurement.} Combine Chapters~20--22: for Bolivia, you now have $W^P$ (SAM), $W^I$ (media + surveys), $W^U$ (transfers + voting + surveys). Map all three to a common node set (household groups), and compute the composite $W = \alpha_U W^U + \alpha_P W^P + \alpha_I W^I$ with weights from Chapter~5. Compute the composite $\Gamma$, $\boldsymbol{\pi}$, and the welfare loss decomposition $L = L_{\text{power}} + L_{\text{externality}} + L_{\text{interaction}}$ (Theorem~\ref{ch07:thm:decomposition}). What fraction of Bolivia's welfare loss comes from each component?
 \end{enumerate}
 
 

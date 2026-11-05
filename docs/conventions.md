@@ -167,3 +167,16 @@ State it once, in a Chapter 6 appendix, with label `ch06:lem:perturbation`. Cite
 **Rule 3 (no opening stories)** stands. Move opening stories into exercises.
 
 **Summaries** have 5 numbered items. Keep the existing exercises; fix broken ones.
+
+## 9. Notation decisions made during the revision
+
+- **Formation model** (Ch9–10).
+  - The formation map is **T**, with anchor θ° and Jacobian J = ρI + μφW^I C P.
+  - Ψ_i(ΔW, T) is defined once, as `ch09:def:psi`.
+  - Ch11's variance-ratio statistic is **Ψ̂_var**, which is explicitly *not* Ψ.
+  - ℳ = μ/(1−ρ) is the "formation multiplier"; (1+Ψ) is the "formation amplifier".
+- **Network evolution map** (Ch13–14, 24): **ℰ**. It was renamed from Ψ and then from 𝒯 to avoid clashing with Ψ and T.
+- **Welfare totals:** 𝒲 (calligraphic), to avoid clashing with the weight matrix W.
+- **Welfare losses** use Ch7's names: L_power, L_externality, L_interaction (= −Cov(c, π)·…, which *offsets* when the powerful are also the most cared-about). L_formation (Ch18) and L_block (Ch2) are separate objects.
+- **Production:** technology in growth models is Z (Ch3), so A always means the I-O coefficient matrix.
+- The full table is in `frontmatter/notation.tex`, printed after the table of contents.

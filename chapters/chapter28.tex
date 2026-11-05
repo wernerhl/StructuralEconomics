@@ -59,28 +59,28 @@ The table restates each chapter's main result in terms of $W$ and lists the prim
 1 & Matrix notation & Allocation, production and interaction as matrices. The benchmark is anonymous market interaction $W^{\text{mkt}} = \ones\mathbf{s}'$; $\Wce$ is its equal-endowment case. & Endowments, preferences \\
 2 & Welfare theorems & FWT holds for any $\mathbf{s}$ given complete markets, price-taking and no externalities ($W^U = 0$). Unequal $\boldsymbol{\pi}$ is distributional: $L_{\text{power}} = (\kappa N/2)\Phi^2\Var(\boldsymbol{\pi})$. & $\kappa$, $\Phi$, $U$ \\
 3 & Growth \& distribution & Growth spreads across blocks at a speed set by the integration of $W^P$; multipliers come from $A$, not from $W$. & $A$, saving, technology \\
-4 & Benchmark assumptions & The benchmark's assumptions restated as restrictions on $W$: anonymity, $W^U = 0$, preferences not formed through $W^I$. & --- \\
+4 & Benchmark assumptions & Six assumptions restated as restrictions on $W$: $W^U = 0$, $W^P$ exogenous, no $W^I$, anonymity, $\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal endowments), fixed $\theta$. & --- \\
 5 & Three networks & $W^P$, $W^I$, $W^U$; a composite $\sum_k \alpha_k W^k$ exists only on a common node set. & $\alpha_k$ \\
 6 & Power & $\boldsymbol{\pi}' W = \boldsymbol{\pi}'$; $\boldsymbol{\pi}$ uniform iff $W$ doubly stochastic; $\Gamma$ and $\boldsymbol{\pi}$ independent. & Reading of $\boldsymbol{\pi}$ \\
 7 & Bargaining & With $\boldsymbol{\pi}$ as Nash weights (an assumption): $x_i = \Omega/N + (\pi_i - 1/N)\Phi$. & $d_i$, $S$, $\Phi$ \\
 8 & Beliefs & DeGroot consensus $b^* = \boldsymbol{\pi}'\bb^{(0)}$, reached at a speed set by $\Gamma(W^I)$; $\Neff = 1/\sum(\pi_j^I)^2$. & $\bb^{(0)}$ \\
-9 & Preferences & $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum_j W^I_{ij}r_j - r^*)$: preferences formed through $W^I$. & $\rho$, $\mu$, $\bar{\theta}_0$, $r^*$ \\
-10 & Formation model & The loop $\boldsymbol{\theta} \to \x^* \to \mathbf{r} \to \boldsymbol{\theta}$; its steady states depend on $W^I$ and on the feedback parameters. & $\rho$, $\mu$, returns \\
-11 & $\Psi$ ratio & $\hat{\Psi} = F/E$ separates formation from enforcement. & Identification design \\
-12 & Welfare & $W^I$ shapes the preferences that evaluate $W^P$ (``the ruler is rubber''). & Welfare criterion \\
-13 & Network evolution & $W_{t+1} = \Psi(W_t; \x^*_t)$: proximity-driven edge creation and destruction. & Creation, destruction rates \\
-14 & Coalitions & Coalitions form to change $\boldsymbol{\pi}$; outcomes depend on the coalition game. & Game form \\
-15 & Operator design & Choose $\Delta W$ to raise integration and to lower concentration; because $\Gamma \perp \boldsymbol{\pi}$, raising $\Gamma$ alone never costs anyone power. & Budget, costs \\
+9 & Preferences & $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\theta^{\circ} + \mu(\sum_j W^I_{ij}r_j - r^*)$: preferences formed through $W^I$. Definition: $\Psi_i(\Delta W, T) = F_i/E_i$, for a stated perturbation and horizon. & $\rho$, $\mu$, $\theta^{\circ}$, $r^*$ \\
+10 & Formation model & The loop $\boldsymbol{\theta} \to \x^* \to \mathbf{r} \to \boldsymbol{\theta}$ is a map $T$ with Jacobian $J = \rho I + \mu\phi W^I C P$; unique stable steady state if $\rho(J) < 1$ (affine case); traps need nonlinear returns. & $\rho$, $\mu$, returns \\
+11 & Measuring $\Psi$ & The cohort--year ratio $\hat{\Psi}_{\text{var}}$ is descriptive, not $\Psi$; identifying $\Psi$ needs strong assumptions or randomized $W^I$. & Identification design \\
+12 & Welfare & $W^I$ shapes the preferences that evaluate $W^P$ (``the ruler is rubber''). Under fixed aspirations, structures rank by $\Var(\boldsymbol{\pi})$, not by $\Gamma$. & Welfare criterion \\
+13 & Network evolution & $W_{t+1} = \mathcal{E}(W_t; \x^*_t)$: proximity-driven edge creation and destruction; structural equilibria exist and can be multiple (illustratively $\Gamma = 0.072$ and $0.643$, same $\boldsymbol{\pi}$). & Creation, destruction rates \\
+14 & Coalitions & Payoff $v_i \approx (1+\Psi)(\Delta\Omega/N + \Phi\,\Delta\pi_i)$: the power part is constant-sum; alliance cycling is a conjecture. & Game form \\
+15 & Operator design & Choose $\Delta W$ to raise integration and to lower concentration; because $\Gamma \perp \boldsymbol{\pi}$, raising $\Gamma$ need cost no one power. & Budget, costs \\
 16 & Global $W^P$ & Global input and trade shares; ECI comes from the country $\times$ product matrix $M$, not from $W$. & $M$, RCA rule \\
-17 & Domestic diagnostics & $\Gamma$, $\sigma_B$, $G(\boldsymbol{\pi})$, $\Neff$, $\Psi$, read separately. Bolivia: $\Gamma = 0.13$. & Data, aggregation \\
-18 & Gender \& race & Node attributes constrain $W$ through assortative mixing $\lambda_k$; intersectionality is the interaction term. & $\lambda_k$ \\
-19 & Scale invariance & $\pi_I \approx \pi_G \cdot \pi_N \cdot \pi_{\text{within}}$ across scales. & Nesting of scales \\
-20 & SAMs & A row-normalized SAM is a $W$; multipliers come from the SAM coefficient matrix. & SAM accounts \\
-21 & $W^I$ measurement & Media overlap, reference groups, social networks, digital traces. Bolivia: $\Neff = 3.4$. & Survey design \\
-22 & $W^U$ measurement & Transfers, experiments, voting, surveys. Bolivia: $\Neff^U = 2.8$ (different node set). & Survey design \\
+17 & Domestic diagnostics & $\Gamma$, $\sigma_B$, $G(\boldsymbol{\pi})$, $\Neff$, $\Psi$, read separately. Bolivia: $\Gamma = 0.13$, $\sigma_B = 0.62$, $G(\boldsymbol{\pi}) = 0.52$, $\Neff^I = 3.4$ (four media ecosystems). & Data, aggregation \\
+18 & Gender \& race & Node attributes constrain $W$ through assortative mixing $\lambda_k$, which lowers $\Gamma$ when within-group links dominate; power gaps need unequal group size or opportunity structure. Intersectionality is the interaction term. & $\lambda_k$ \\
+19 & Scale invariance & $\pi_I = \pi_G \cdot \pi_{N|c} \cdot \pi_{\text{within}}$ exactly (stochastic complementation); aggregation raises $\Gamma$; isomorphism is a conjecture. & Nesting of scales \\
+20 & SAMs & A row-normalized SAM is a $W$ whose Perron vector is account size; multipliers come from the SAM coefficient matrix. & SAM accounts \\
+21 & $W^I$ measurement & Media overlap, reference groups, social networks, digital traces; audience data measure integration and reach, not who is believed. Bolivia: $\Gamma^I = 0.74$, $\Neff = 5.59$ of 6 groups; no information bubbles in audience shares. & Survey design \\
+22 & $W^U$ measurement & Transfers, experiments, voting, surveys. Bolivia: assortative ($\Gamma = 0.30$) but not concentrated ($\Neff^U = 3.85$ of 4 groups). & Survey design \\
 23 & Time series & Per-period $\Gamma_t$ does not control $W_t\cdots W_s$: use $\tau_1$, the realized-product gap and the absolute probability sequence. Bolivia: $\Delta\Gamma \approx 0.02$ in 34 years; SCI $= 0.075$. & Filter, $\Gamma^{\text{ref}}$ \\
 24 & Hegemony & Hegemonic equilibrium: $W^I$-formed consent for $W^P$. Under conformity, counter-hegemony succeeds past a saddle-node threshold; the cycle is a conjecture. & $\rho$, $\beta$, $s$ \\
-25 & Truncation & Removing a bridge set bounds $\Gamma$ by twice the remaining conductance; that the capital-goods core is a bridge is a conjecture. Truncation: 55--86\% of Bolivia's integration deficit. & $\phi$, counterfactual $\Gamma$ \\
+25 & Truncation & Removing a bridge set bounds $\Gamma$ by twice the remaining conductance; that the capital-goods core is a bridge is a conjecture. Truncation: 55--86\% of Bolivia's integration deficit (in relaxation time). & $\phi$, counterfactual $\Gamma$ \\
 26 & Synthesis & Conjecture: sustained growth with equity needs $\Gamma > \Gamma^*$, ECI $> 0$ and $\Neff > N^*_{\text{eff}}$. & Thresholds \\
 27 & Algorithms & Engagement ranking lowers $\lambda_k$ and $\Gamma$ on the sorted attribute; viral hubs lower $\Neff$ but raise $\Gamma$. & Engagement $e_{ij}$ \\
 \bottomrule
@@ -148,17 +148,17 @@ Bolivia appeared in every chapter --- not because Bolivia is the only developing
 $\Gamma(W^P)$ & 0.13 & 1.00 & 17 \\
 $\sigma_B$ & 0.62 & 0.00 & 17 \\
 $G(\boldsymbol{\pi})$ & 0.52 & 0.00 & 17 \\
-$N_{\text{eff}}(W^I)$ & 3.4 & $N$ & 21 \\
-$N_{\text{eff}}(W^U)$ & 2.8 & $N$ & 22 \\
-$\Psi$ (self-employment) & 1.56 & --- & 11 \\
+$N_{\text{eff}}(W^I)$, four ecosystems & 3.4 & 4 & 17 \\
+$N_{\text{eff}}(W^U)$, four groups & 3.85 & 4 & 22 \\
+$\hat{\Psi}$ (self-employment) & 1.56 & --- & 17 \\
 ECI & $-0.80$ & $> 0$ & 16 \\
 Truncation $\tau$ & 0.98 & 0.00 & 25 \\
 $\pi_G$ (global power) & 0.0005 & $1/N_G$ & 16 \\
 $v_\Gamma$ (structural velocity) & $+0.01$/decade & & 23 \\
 SCI (1990--2019) & 0.075 & 1.00 & 23 \\
 \midrule
-\multicolumn{4}{l}{Power ratio: indigenous woman (Potos\'{i}) to German engineer $\approx$ 1 : 1{,}000 (Chapter~19)} \\
-\multicolumn{4}{l}{Truncation: 55--86\% of the integration deficit (72\% at $\Gamma(0) = 0.35$)} \\
+\multicolumn{4}{l}{Power ratio per capita: indigenous woman (Potos\'{i}) to German engineer $\approx$ 1 : 467 (Chapter~19)} \\
+\multicolumn{4}{l}{Truncation: 55--86\% of the integration deficit (72\% at counterfactual $\Gamma = 0.35$)} \\
 \multicolumn{4}{l}{30-year trajectory: massive poverty reduction, near-zero structural change} \\
 \bottomrule
 \end{tabular}
@@ -276,7 +276,7 @@ In this book: underdevelopment is a structural equilibrium (Definition~\ref{ch13
 
 \textbf{Claim 2: The structure produces the preferences that accept it.} Furtado's deepest insight, developed in \textit{O Mito do Desenvolvimento Econ\^{o}mico} (1974): underdevelopment persists not only because of economic structure but because of cultural structure --- the patterns of consumption that the economic structure produces and that in turn reproduce it. The high-income minority of the periphery imitates the consumption patterns of the center; producing those goods requires capital-intensive technologies imported from the center; those technologies absorb little labour and concentrate income further, which sustains the imitative minority. The ``myth'' is that the center's consumption standards could be generalized to the whole population of the periphery.
 
-In this book: this is the formation model (Chapters~9--10). Preferences are endogenous to $W^I$. The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\bar{\theta}_0 + \mu(\sum W^I_{ij}r_j - r^*)$ captures part of Furtado's mechanism: agents form preferences by observing $W^I$-weighted signals, and when $W^I$ is dominated by center signals (Chapter~8, epistemic Perron dominance), the formation produces center-mimicking preferences in the periphery --- Furtado's ``cultural dependency.'' What the formation equation does not capture is the link Furtado cared about most: from the composition of elite demand to technology choice and to the distribution of income. A faithful formalization would make the consumption basket, not a scalar aspiration, the formed object. The $\Psi$ ratio (Chapter~11) measures how much of observed behavior comes from the formation channel.
+In this book: this is the formation model (Chapters~9--10). Preferences are endogenous to $W^I$. The formation equation $\theta_{i,t+1} = \rho\theta_{i,t} + (1-\rho)\theta^{\circ} + \mu(\sum W^I_{ij}r_j - r^*)$ captures part of Furtado's mechanism: agents form preferences by observing $W^I$-weighted signals, and when $W^I$ is dominated by center signals (Chapter~8, epistemic Perron dominance), the formation produces center-mimicking preferences in the periphery --- Furtado's ``cultural dependency.'' What the formation equation does not capture is the link Furtado cared about most: from the composition of elite demand to technology choice and to the distribution of income. A faithful formalization would make the consumption basket, not a scalar aspiration, the formed object. The $\Psi$ ratio (Definition~\ref{ch09:def:psi}; Chapter~11 asks what data can reveal about it) measures how much of a perturbation's effect comes through the formation channel.
 
 \textbf{Claim 3: Structural change requires changing the structure, not the prices.} Furtado argued that neither market liberalization (which assumes the structure is efficient) nor simple redistribution (which operates within the structure) can solve underdevelopment. What is needed is structural transformation: changing the production structure ($W^P$), the information structure ($W^I$), and the institutional structure --- simultaneously and deliberately.
 

@@ -193,7 +193,7 @@ The social optimum equates $\alpha_j U_j'(x_j)$ across agents. The externality-b
 \begin{proposition}[Welfare Loss from Unpriced Externalities]\label{ch02:prop:ext_loss}
 Let $U(x) = x - \frac{\kappa}{2}x^2$, $m = \Omega/N$ with $1 - \kappa m > 0$, and $\alpha_j = 1 + \gamma c_j$, where $c_j = \sum_{i \neq j} W^U_{ij}$. Let $H = N/\sum_j \alpha_j^{-1}$ be the harmonic mean of the $\alpha_j$. If the social optimum is interior with $\kappa x_j < 1$, the loss of equal division, measured in social welfare $\sum_i V_i$, is exactly
 \begin{equation}\label{ch02:eq:ext_loss}
-L_{\text{ext}} = \frac{(1 - \kappa m)^2}{2\kappa}\sum_j \frac{(\alpha_j - H)^2}{\alpha_j} \;=\; \frac{N(1-\kappa m)^2}{2\kappa}\,\gamma^2\,\Var(c_j) + O(\gamma^3),
+L_{\text{externality}} = \frac{(1 - \kappa m)^2}{2\kappa}\sum_j \frac{(\alpha_j - H)^2}{\alpha_j} \;=\; \frac{N(1-\kappa m)^2}{2\kappa}\,\gamma^2\,\Var(c_j) + O(\gamma^3),
 \end{equation}
 where $\Var(c_j) = \frac{1}{N}\sum_j(c_j - \bar{c})^2$. The social optimum is $x_j = m + \frac{(1-\kappa m)(\alpha_j - H)}{\kappa\alpha_j}$.
 \end{proposition}
@@ -207,9 +207,9 @@ This loss exists even with equal power. To second order it is proportional to th
 \begin{example}[The Unpriced Bond]\label{ch02:ex:bond}
 $N = 3$, $\gamma = 0.5$, $\kappa = 0.5$, $\Omega = 3$ (so $m = 1$ and $1 - \kappa m = 0.5$).
 
-\textbf{Case A:} Symmetric externalities. $W^U = \begin{pmatrix} 0 & 0.5 & 0.5 \\ 0.5 & 0 & 0.5 \\ 0.5 & 0.5 & 0 \end{pmatrix}$. Column sums: $(1, 1, 1)$. Equal. $L_{\text{ext}} = 0$.
+\textbf{Case A:} Symmetric externalities. $W^U = \begin{pmatrix} 0 & 0.5 & 0.5 \\ 0.5 & 0 & 0.5 \\ 0.5 & 0.5 & 0 \end{pmatrix}$. Column sums: $(1, 1, 1)$. Equal. $L_{\text{externality}} = 0$.
 
-\textbf{Case B:} Asymmetric. $W^U = \begin{pmatrix} 0 & 0.6 & 0 \\ 0.5 & 0 & 0 \\ 0.0 & 0.5 & 0 \end{pmatrix}$. Column sums: $(0.5, 1.1, 0)$. Agent 2 is cared about by both others; Agent 3 is cared about by nobody. $\Var(c_j) = 0.202$ and $\boldsymbol{\alpha} = (1.25, 1.55, 1.00)$. The social optimum is $\x^V = (1.02, 1.21, 0.77)$, and the exact loss of equal division is $L_{\text{ext}} = 0.030$. (The second-order approximation gives $0.038$; $\gamma = 0.5$ is not small.)
+\textbf{Case B:} Asymmetric. $W^U = \begin{pmatrix} 0 & 0.6 & 0 \\ 0.5 & 0 & 0 \\ 0.0 & 0.5 & 0 \end{pmatrix}$. Column sums: $(0.5, 1.1, 0)$. Agent 2 is cared about by both others; Agent 3 is cared about by nobody. $\Var(c_j) = 0.202$ and $\boldsymbol{\alpha} = (1.25, 1.55, 1.00)$. The social optimum is $\x^V = (1.02, 1.21, 0.77)$, and the exact loss of equal division is $L_{\text{externality}} = 0.030$. (The second-order approximation gives $0.038$; $\gamma = 0.5$ is not small.)
 
 The planner gives more to Agent~2 (whose consumption others value). An allocation rule that ignores externalities equalizes marginal utilities, under-providing for Agent~2 and over-providing for Agent~3.
 \end{example}
@@ -386,16 +386,16 @@ Combining the three failures, the total welfare loss from structural departures:
 \begin{theorem}[Structural Welfare Loss]\label{ch02:thm:welfare_loss}
 Let allocation follow~\eqref{ch02:eq:power_correction} with $m = \Omega/N$, evaluate welfare by $\sum_i V_i = \sum_j \alpha_j U(x_j)$ with $U(x) = x - \frac{\kappa}{2}x^2$ and $\alpha_j = 1 + \gamma c_j$, and assume the social optimum is interior as in Proposition~\ref{ch02:prop:ext_loss}. The loss of the bargaining allocation relative to the social optimum is exactly
 \begin{equation}\label{ch02:eq:full_decomposition}
-L(W, \gamma) = L_{\text{ext}} + L_{\text{power}} + L_{\text{int}},
+L(W, \gamma) = L_{\text{externality}} + L_{\text{power}} + L_{\text{interaction}},
 \end{equation}
-with $L_{\text{ext}}$ given by~\eqref{ch02:eq:ext_loss}, $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$ as in~\eqref{ch02:eq:power_loss}, and
+with $L_{\text{externality}}$ given by~\eqref{ch02:eq:ext_loss}, $L_{\text{power}} = \frac{\kappa N}{2}\Phi^2\Var(\pi_i)$ as in~\eqref{ch02:eq:power_loss}, and (as in Chapter~7, Theorem~\ref{ch07:thm:decomposition}, with $\gamma = \gamma_U$)
 \begin{equation}\label{ch02:eq:L_int}
-L_{\text{int}} = \frac{\kappa\gamma\Phi^2}{2}\sum_j c_j\Bigl(\pi_j - \frac{1}{N}\Bigr)^2 - \gamma\Phi N(1 - \kappa m)\Cov(\pi_j, c_j).
+L_{\text{interaction}} = \frac{\kappa\gamma\Phi^2}{2}\sum_j c_j\Bigl(\pi_j - \frac{1}{N}\Bigr)^2 - \gamma\Phi N(1 - \kappa m)\Cov(\pi_j, c_j).
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Let $z_j = (\pi_j - \frac{1}{N})\Phi$, so $\sum_j z_j = 0$. Exactly, $\sum_j\alpha_j U(m + z_j) = \sum_j\alpha_j U(m) + (1-\kappa m)\sum_j\alpha_j z_j - \frac{\kappa}{2}\sum_j\alpha_j z_j^2$. Since $\sum_j z_j = 0$, $\sum_j\alpha_j z_j = \gamma\sum_j c_j z_j = \gamma\Phi N\Cov(\pi_j, c_j)$, and $\sum_j\alpha_j z_j^2 = \Phi^2\sum_j(\pi_j - \frac1N)^2 + \gamma\Phi^2\sum_j c_j(\pi_j - \frac1N)^2$. The social optimum exceeds $\sum_j\alpha_j U(m)$ by $L_{\text{ext}}$ (Proposition~\ref{ch02:prop:ext_loss}). Subtract.
+Let $z_j = (\pi_j - \frac{1}{N})\Phi$, so $\sum_j z_j = 0$. Exactly, $\sum_j\alpha_j U(m + z_j) = \sum_j\alpha_j U(m) + (1-\kappa m)\sum_j\alpha_j z_j - \frac{\kappa}{2}\sum_j\alpha_j z_j^2$. Since $\sum_j z_j = 0$, $\sum_j\alpha_j z_j = \gamma\sum_j c_j z_j = \gamma\Phi N\Cov(\pi_j, c_j)$, and $\sum_j\alpha_j z_j^2 = \Phi^2\sum_j(\pi_j - \frac1N)^2 + \gamma\Phi^2\sum_j c_j(\pi_j - \frac1N)^2$. The social optimum exceeds $\sum_j\alpha_j U(m)$ by $L_{\text{externality}}$ (Proposition~\ref{ch02:prop:ext_loss}). Subtract.
 \end{proof}
 
 The leading interaction term is \textit{minus} $\gamma\Phi N(1-\kappa m)\Cov(\pi_j, c_j)$. When the powerful are also the agents others care about ($\Cov > 0$), the bargaining tilt toward them is partly what a planner who counts that caring would choose, so the interaction \textit{offsets} the other two terms. The distortions compound when $\Cov < 0$: power held by agents nobody cares about.
@@ -405,12 +405,12 @@ The leading interaction term is \textit{minus} $\gamma\Phi N(1-\kappa m)\Cov(\pi
 
 \textbf{Connected economy:} $\boldsymbol{\pi} = (0.26, 0.25, 0.25, 0.24)$ and $\mathbf{c} = (1.02, 1.01, 0.99, 0.98)$:
 \begin{center}
-$L_{\text{ext}} = 0.00009, \quad L_{\text{power}} = 0.00064, \quad L_{\text{int}} = -0.00029, \quad L = 0.00044.$
+$L_{\text{externality}} = 0.00009, \quad L_{\text{power}} = 0.00064, \quad L_{\text{interaction}} = -0.00029, \quad L = 0.00044.$
 \end{center}
 
 \textbf{Enclave economy:} $\boldsymbol{\pi} = (\frac13, \frac13, \frac16, \frac16)$ (Example~\ref{ch02:ex:transfer_vs_structural}) and $\mathbf{c} = (1.24, 1.30, 0.72, 0.74)$:
 \begin{center}
-$L_{\text{ext}} = 0.0254, \quad L_{\text{power}} = 0.0889, \quad L_{\text{int}} = -0.0813, \quad L = 0.0329.$
+$L_{\text{externality}} = 0.0254, \quad L_{\text{power}} = 0.0889, \quad L_{\text{interaction}} = -0.0813, \quad L = 0.0329.$
 \end{center}
 
 The enclave's loss is about 75 times the connected economy's. But the interaction term is large and negative: the gas-government elite are both powerful and cared about by each other, so a social welfare function that counts their mutual caring endorses much of the tilt toward them. Whether such caring \textit{should} count in social welfare is a normative choice, not a matter of arithmetic (Chapter~12).
@@ -502,7 +502,7 @@ What the gap \textit{does} diagnose is the third failure. Weakly coupled blocks 
 
 \item The \textbf{Second Welfare Theorem} survives as arithmetic: transfers move the bargaining allocation one-for-one. But the power term $(\pi_i - \frac1N)\Phi$ is a property of $W$, and offsetting it by transfers costs $\Phi d_\pi$ every time the surplus is re-divided.
 
-\item The \textbf{welfare loss} decomposes exactly as $L = L_{\text{ext}} + L_{\text{power}} + L_{\text{int}}$. The leading interaction term is $-\gamma\Phi N(1-\kappa m)\Cov(\pi_j, c_j)$: it offsets the others when the powerful are also the most cared about.
+\item The \textbf{welfare loss} decomposes exactly as $L = L_{\text{externality}} + L_{\text{power}} + L_{\text{interaction}}$. The leading interaction term is $-\gamma\Phi N(1-\kappa m)\Cov(\pi_j, c_j)$: it offsets the others when the powerful are also the most cared about.
 
 \item \textbf{The spectral gap measures integration, not power.} It does not bound $L_{\text{power}}$; raising $\Gamma$ without changing the direction of dependence leaves $\boldsymbol{\pi}$, and the allocation, unchanged.
 \end{enumerate}
@@ -532,9 +532,9 @@ What the gap \textit{does} diagnose is the third failure. Weakly coupled blocks 
 
 \item \textbf{Welfare decomposition.} For $N = 3$, $\gamma = 0.5$, $\kappa = 0.5$, $\Omega = 3$, $\Phi = 1$, taking $W^U = W$ for the externality weights:
 \begin{enumerate}
-\item Let $W = \frac{1}{3}\ones\ones'$. Verify $L_{\text{power}} = L_{\text{ext}} = L_{\text{int}} = 0$.
+\item Let $W = \frac{1}{3}\ones\ones'$. Verify $L_{\text{power}} = L_{\text{externality}} = L_{\text{interaction}} = 0$.
 \item Let $W = \begin{pmatrix} 0.5 & 0.4 & 0.1 \\ 0.2 & 0.5 & 0.3 \\ 0.1 & 0.3 & 0.6 \end{pmatrix}$. Compute $\boldsymbol{\pi}$, $\Var(\pi_i)$, the off-diagonal column sums $c_j$, $\Var(c_j)$, and $\Cov(\pi_i, c_i)$. Then compute the three terms of Theorem~\ref{ch02:thm:welfare_loss}.
-\item Is $L_{\text{int}}$ positive or negative? What does the sign mean?
+\item Is $L_{\text{interaction}}$ positive or negative? What does the sign mean?
 \end{enumerate}
 
 \item \textbf{Spectral gap across topologies.} For $N = 8$, construct: (a) $W^{CE}$, (b) a ring, (c) two disconnected blocks of 4, (d) a star. For each, compute $\Gamma$ and, where $\boldsymbol{\pi}$ is unique, $\Neff$ and $\Var(\pi_i)$. Explain why the ring and the star without self-loops have $\Gamma = 0$ although they are connected, and why the two blocks have no unique $\boldsymbol{\pi}$. Repeat with the lazy versions $\frac{1}{2}(I + W)$. Do $\Gamma$ and $\Neff$ move together? Use Python.

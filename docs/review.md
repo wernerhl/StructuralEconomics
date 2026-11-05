@@ -6,6 +6,8 @@
 
 **On the quotation checks.** Some judgements about quotations and attributions come from reviewers' recall plus web checks. Each carries a confidence level and should be verified against the printed source before you change anything.
 
+> **Status (November 2026).** This review describes the manuscript as uploaded (commit `ebc350e`). The fixes are on branch `claude/trusting-cray-epyfjp`: the build restructuring, `docs/conventions.md`, per-chapter fixes with `code/chNN.py` reproduction scripts, and a cross-chapter consistency pass. What remains open: the bibliography (§4.1), sourcing the numbers now tagged *[Illustrative]* (§3), the quotations listed in `docs/verification_checklist.md`, and the template decisions noted in the commit history.
+
 ---
 
 ## 0. Executive summary

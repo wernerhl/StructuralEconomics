@@ -89,18 +89,18 @@ Combining creation, destruction, and reweighting, the network evolves according 
 
 \begin{definition}[Network Evolution Equation]\label{ch13:def:evolution}
 \begin{equation}\label{ch13:eq:evolution}
-W_{t+1} = \mathcal{N}\Big(\underbrace{(J - D_t) \circ W_t}_{\text{surviving edges}} + \underbrace{C_t \circ \tilde{W}^{\text{new}}_{t+1}}_{\text{new edges}} + \underbrace{\eta \cdot S_t}_{\text{reweighting}}\Big),
+W_{t+1} = \mathcal{N}\Big(\underbrace{(\ones\ones' - D_t) \circ W_t}_{\text{surviving edges}} + \underbrace{C_t \circ \tilde{W}^{\text{new}}_{t+1}}_{\text{new edges}} + \underbrace{\eta \cdot S_t}_{\text{reweighting}}\Big),
 \end{equation}
-where $\circ$ is the Hadamard (element-wise) product, $J = \ones\ones'$ is the all-ones matrix, $D_t$ is the $N \times N$ destruction probability matrix, $C_t$ is the creation probability matrix, $\tilde{W}^{\text{new}}_{t+1}$ is the weight assigned to newly created edges, and $S_t = [\partial s(i,j)/\partial W_{ij}]$ is the surplus gradient matrix. The operator $\mathcal{N}$ clips negative entries to zero and divides each row by its sum, so $W_{t+1}$ is again row-stochastic. Written with the probabilities $D_t, C_t$ (rather than realized draws), \eqref{ch13:eq:evolution} is the \textbf{mean-field} (expected) evolution map; the realized network fluctuates around it.
+where $\circ$ is the Hadamard (element-wise) product, $\ones\ones'$ is the all-ones matrix, $D_t$ is the $N \times N$ destruction probability matrix, $C_t$ is the creation probability matrix, $\tilde{W}^{\text{new}}_{t+1}$ is the weight assigned to newly created edges, and $S_t = [\partial s(i,j)/\partial W_{ij}]$ is the surplus gradient matrix. The operator $\mathcal{N}$ clips negative entries to zero and divides each row by its sum, so $W_{t+1}$ is again row-stochastic. Written with the probabilities $D_t, C_t$ (rather than realized draws), \eqref{ch13:eq:evolution} is the \textbf{mean-field} (expected) evolution map; the realized network fluctuates around it.
 \end{definition}
 
 \begin{definition}[The Co-Evolutionary System]\label{ch13:thm:coevolution}
 The complete structural economics model is a co-evolutionary system in $(W_t, \boldsymbol{\theta}_t)$:
 \begin{align}
-\boldsymbol{\theta}_{t+1} &= \Phi(\boldsymbol{\theta}_t; W_t) \quad \text{(formation equation, Chapter~10)}, \label{ch13:eq:coev_theta} \\
-W_{t+1} &= \mathcal{T}(W_t; \x^*(\boldsymbol{\theta}_t, W_t)) \quad \text{(network evolution map~\eqref{ch13:eq:evolution})}, \label{ch13:eq:coev_W}
+\boldsymbol{\theta}_{t+1} &= T(\boldsymbol{\theta}_t; W_t) \quad \text{(formation map~\eqref{ch10:eq:map})}, \label{ch13:eq:coev_theta} \\
+W_{t+1} &= \mathcal{E}(W_t; \x^*(\boldsymbol{\theta}_t, W_t)) \quad \text{(network evolution map~\eqref{ch13:eq:evolution})}, \label{ch13:eq:coev_W}
 \end{align}
-where $\x^*(\boldsymbol{\theta}_t, W_t)$ is the bargaining equilibrium at period $t$. (We write $\mathcal{T}$ for the network evolution map; the symbol $\Psi$ is reserved for the formation-to-enforcement ratio of Chapter~11.)
+where $\x^*(\boldsymbol{\theta}_t, W_t)$ is the bargaining equilibrium at period $t$. (The formation map is Chapter~10's $T$, with anchor $\theta^{\circ}$; its dependence on the network is written out as $T(\cdot\,; W)$. We write $\mathcal{E}$ for the network evolution map, rather than a second $T$, to keep the two maps apart. $\Phi$ is the bargaining surplus of Proposition~\ref{ch07:prop:allocation-rule}, and $\Psi$ is reserved for the formation-to-enforcement ratio of Definition~\ref{ch09:def:psi}.)
 
 The fast variable is $\x^*$ (clears within a period). The medium variable is $\boldsymbol{\theta}$ (adjusts across generations). The slow variable, absent deliberate intervention, is $W$ (evolves over years to decades). Three timescales, nested.
 \end{definition}
@@ -123,20 +123,20 @@ When we analyzed the bargaining equilibrium (Chapters~6--7), we held $W$ and $\b
 A \textbf{structural equilibrium} $(W^*, \boldsymbol{\theta}^*, \x^*)$ is a network, a preference profile and an allocation that satisfy three conditions:
 \begin{enumerate}
 \item $\x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*, \boldsymbol{\omega})$ (bargaining equilibrium),
-\item $\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*; W^*)$ (formation steady state),
-\item $W^* = \mathcal{T}(W^*; \x^*)$ (network steady state).
+\item $\boldsymbol{\theta}^* = T(\boldsymbol{\theta}^*; W^*)$ (formation steady state),
+\item $W^* = \mathcal{E}(W^*; \x^*)$ (network steady state).
 \end{enumerate}
 All three equations are simultaneously satisfied. The weight matrix produces the allocation and preferences that reproduce the weight matrix.
 \end{definition}
 
 \begin{theorem}[Existence of Structural Equilibrium]\label{ch13:thm:existence}
-Fix $\varepsilon \in (0, 1/N)$ and let $\mathcal{W}_\varepsilon = \{W \in \R^{N\times N} : W\ones = \ones,\ W_{ij} \geq \varepsilon\}$. Let $\Theta \subset \R^N$ be compact and convex. Assume (i) $\Phi(\cdot\,; W)$ maps $\Theta$ into $\Theta$; (ii) the mean-field evolution map $\mathcal{T}$ (including the renormalization $\mathcal{N}$) maps $\mathcal{W}_\varepsilon \times \R^N$ into $\mathcal{W}_\varepsilon$ (for instance, by mixing its output with weight $N\varepsilon$ on $\Wce$); (iii) $\Phi$, $\mathcal{T}$ and $h$ are continuous. Then at least one structural equilibrium with $W^* \in \mathcal{W}_\varepsilon$ exists.
+Fix $\varepsilon \in (0, 1/N)$ and let $\mathcal{W}_\varepsilon = \{W \in \R^{N\times N} : W\ones = \ones,\ W_{ij} \geq \varepsilon\}$. Let $\Theta \subset \R^N$ be compact and convex. Assume (i) $T(\cdot\,; W)$ maps $\Theta$ into $\Theta$; (ii) the mean-field evolution map $\mathcal{E}$ (including the renormalization $\mathcal{N}$) maps $\mathcal{W}_\varepsilon \times \R^N$ into $\mathcal{W}_\varepsilon$ (for instance, by mixing its output with weight $N\varepsilon$ on $\Wce$); (iii) $T$, $\mathcal{E}$ and $h$ are continuous. Then at least one structural equilibrium with $W^* \in \mathcal{W}_\varepsilon$ exists.
 \end{theorem}
 
 \begin{proof}
 Every $W \in \mathcal{W}_\varepsilon$ is strictly positive, hence primitive, so its Perron root $1$ is simple and $\boldsymbol{\pi}(W)$ is a continuous (indeed analytic) function on $\mathcal{W}_\varepsilon$. (On the full set of row-stochastic matrices this fails: at reducible $W$, such as an exactly block-diagonal matrix, $\boldsymbol{\pi}$ is not unique.) The composite map
 \[
-\Xi: (W, \boldsymbol{\theta}) \mapsto \Big(\mathcal{T}\big(W; h(\boldsymbol{\pi}(W), \Phi(\boldsymbol{\theta}; W), \boldsymbol{\omega})\big),\ \Phi(\boldsymbol{\theta}; W)\Big)
+\Xi: (W, \boldsymbol{\theta}) \mapsto \Big(\mathcal{E}\big(W; h(\boldsymbol{\pi}(W), T(\boldsymbol{\theta}; W), \boldsymbol{\omega})\big),\ T(\boldsymbol{\theta}; W)\Big)
 \]
 is therefore continuous and, by (i)--(ii), maps the nonempty compact convex set $\mathcal{W}_\varepsilon \times \Theta$ into itself. Brouwer's fixed-point theorem gives a fixed point $(W^*, \boldsymbol{\theta}^*)$; set $\x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*, \boldsymbol{\omega})$.
 \end{proof}
@@ -167,12 +167,12 @@ W(c) = (1-c)\,B + c\,\ones\mathbf{s}', \qquad c \in [0.05, 0.65],
 \end{equation}
 which is row-stochastic, asymmetric and strictly positive, so $W(c) \in \mathcal{W}_\varepsilon$. The three maps are:
 \begin{itemize}
-\item \textbf{Bargaining} $h$: $x_i = \Omega/N + (\pi_i - 1/N)\Phi_b + (\theta_i - \bar\theta)$ with $\Omega = 6$ and bargaining surplus $\Phi_b = 1$ (the allocation rule of Proposition~\ref{ch07:prop:allocation-rule} plus the preference term of Chapter~10).
-\item \textbf{Formation} $\Phi$ (Chapter~10) with $W^I = W(c)$, block returns $r = 0.20$ (gas), $0.12$ (urban), $0.06$ (rural), $\rho = 0.85$, $\mu = 0.2$, $\bar\theta_0 = 1$, $r^* = 0.10$. Its steady state is
+\item \textbf{Bargaining} $h$: $x_i = \Omega/N + (\pi_i - 1/N)\Phi + (\theta_i - \bar\theta)$ with $\Omega = 6$ and bargaining surplus $\Phi = 1$ (the allocation rule of Proposition~\ref{ch07:prop:allocation-rule} plus the preference term of Chapter~10).
+\item \textbf{Formation} $T$ (Chapter~10) with $W^I = W(c)$, block returns $r = 0.20$ (gas), $0.12$ (urban), $0.06$ (rural), $\rho = 0.85$, $\mu = 0.2$, $\theta^{\circ} = 1$, $r^* = 0.10$. Its steady state is
 \[
-\boldsymbol{\theta}^*(c) = \bar\theta_0\ones + \tfrac{\mu}{1-\rho}\big(W(c)\mathbf{r} - r^*\ones\big).
+\boldsymbol{\theta}^*(c) = \theta^{\circ}\ones + \tfrac{\mu}{1-\rho}\big(W(c)\mathbf{r} - r^*\ones\big).
 \]
-\item \textbf{Evolution} $\mathcal{T}$: cross-block intensity moves toward the logistic creation probability~\eqref{ch13:eq:creation}, $c_{t+1} = (1-\eta)c_t + \eta F(c_t)$ with $\eta = 0.05$ and
+\item \textbf{Evolution} $\mathcal{E}$: cross-block intensity moves toward the logistic creation probability~\eqref{ch13:eq:creation}, $c_{t+1} = (1-\eta)c_t + \eta F(c_t)$ with $\eta = 0.05$ and
 \[
 F(c) = 0.05 + 0.60\,\sigma\big(12\,(c - 0.30) + 12\,(\theta^*_{5}(c) - 1)\big).
 \]
@@ -420,7 +420,7 @@ Policy & South Korea's export-oriented industrialization and heavy-and-chemical-
 %% =====================================================================
 
 \begin{enumerate}
-\item Networks evolve through three mechanisms: \textbf{edge creation} (logistic in proximity, surplus and information; path-dependent), \textbf{edge destruction} (surplus-driven or shock-driven), and \textbf{edge reweighting} (continuous adjustment to surplus), combined in a renormalized mean-field evolution map $\mathcal{T}$.
+\item Networks evolve through three mechanisms: \textbf{edge creation} (logistic in proximity, surplus and information; path-dependent), \textbf{edge destruction} (surplus-driven or shock-driven), and \textbf{edge reweighting} (continuous adjustment to surplus), combined in a renormalized mean-field evolution map $\mathcal{E}$.
 
 \item The \textbf{co-evolutionary system} has three nested timescales: market clearing is fast, preference formation is slower, and network evolution is slowest. A structural equilibrium is a fixed point of all three. It exists by Brouwer once $W$ is kept strictly positive (there, $\boldsymbol{\pi}(W)$ is continuous).
 
@@ -452,7 +452,7 @@ W_t = \begin{pmatrix} 0.6 & 0.38 & 0.01 & 0.01 \\ 0.38 & 0.6 & 0.01 & 0.01 \\ 0.
 
 \item \textbf{Structural equilibria.} For the Bolivia two-equilibrium example (Example~\ref{ch13:ex:bolivia_two}):
 \begin{enumerate}
-\item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{ch13:def:structural_eq}: $\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*; W)$, $\x^* = h(\cdot)$, and $F(c) = c$). Show that $\Gamma(W(c)) = c$ and $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$.
+\item Verify that both $W^*_A$ and $W^*_B$ are structural equilibria (check all three conditions from Definition~\ref{ch13:def:structural_eq}: $\boldsymbol{\theta}^* = T(\boldsymbol{\theta}^*; W)$, $\x^* = h(\cdot)$, and $F(c) = c$). Show that $\Gamma(W(c)) = c$ and $\boldsymbol{\pi}(W(c)) = \mathbf{s}$ for every $c$.
 \item Compute the basin boundary $\hat c$ by solving $F(c) = c$ on $(c_A, c_B)$. Starting from $W^*_A$, what is the minimum Frobenius push $\varepsilon^*$ that moves the system into the basin of $W^*_B$? (Answer: $\hat c = 0.282$, $\varepsilon^* = 0.307$.)
 \item Lower the proximity weight in $F$ from $12$ to $8$ (keeping the surplus weight at $12$). How do $c_A$, $\hat c$, $c_B$ and $\varepsilon^*$ change?
 \item What is the welfare gain from the transition? Use all four criteria from Chapter~12.
@@ -529,12 +529,12 @@ A multinational corporation creates a link between Center and Periphery-Elite: $
 
 \paragraph{The Jacobian of the co-evolutionary system.} At a structural equilibrium $(W^*, \boldsymbol{\theta}^*)$, the linearized system has a block Jacobian:
 \begin{equation}
-\mathcal{J} = \begin{pmatrix} \partial\Phi/\partial\boldsymbol{\theta} & \partial\Phi/\partial W \\ \partial\mathcal{T}/\partial\boldsymbol{\theta} & \partial\mathcal{T}/\partial W \end{pmatrix}_{(W^*, \boldsymbol{\theta}^*)}.
+\mathcal{J} = \begin{pmatrix} \partial T/\partial\boldsymbol{\theta} & \partial T/\partial W \\ \partial\mathcal{E}/\partial\boldsymbol{\theta} & \partial\mathcal{E}/\partial W \end{pmatrix}_{(W^*, \boldsymbol{\theta}^*)}.
 \end{equation}
 
-Stability requires all eigenvalues of $\mathcal{J}$ to have modulus less than 1. The upper-left block $\partial\Phi/\partial\boldsymbol{\theta}$ is the formation Jacobian $J$ from Chapter~10. The lower-right block $\partial\mathcal{T}/\partial W$ governs network self-reinforcement. The off-diagonal blocks capture the cross-effects: how $\boldsymbol{\theta}$ changes affect $W$ (through the surplus, which depends on preferences), and how $W$ changes affect $\boldsymbol{\theta}$ (through the formation signal, which depends on the network).
+Stability requires all eigenvalues of $\mathcal{J}$ to have modulus less than 1. The upper-left block $\partial T/\partial\boldsymbol{\theta}$ is the formation Jacobian $J = \rho I + \mu\phi W^I C P$ of Proposition~\ref{ch10:prop:jacobian}. The lower-right block $\partial\mathcal{E}/\partial W$ governs network self-reinforcement. The off-diagonal blocks capture the cross-effects: how $\boldsymbol{\theta}$ changes affect $W$ (through the surplus, which depends on preferences), and how $W$ changes affect $\boldsymbol{\theta}$ (through the formation signal, which depends on the network).
 
-\paragraph{Two-timescale approximation.} When $\eta \ll 1-\rho$ (network evolution is much slower than preference formation), the system can be analyzed in two stages: (1) for each fixed $W$, find the formation steady state $\boldsymbol{\theta}^*(W)$, (2) study the dynamics of $W$ under the assumption that $\boldsymbol{\theta}$ instantly adjusts to $\boldsymbol{\theta}^*(W)$. The reduced dynamics are $W_{t+1} = \mathcal{T}(W_t; \x^*(\boldsymbol{\theta}^*(W_t), W_t))$, a system in $W$ alone. Example~\ref{ch13:ex:bolivia_two} is of this form, further restricted to the one-parameter family $W(c)$.
+\paragraph{Two-timescale approximation.} When $\eta \ll 1-\rho$ (network evolution is much slower than preference formation), the system can be analyzed in two stages: (1) for each fixed $W$, find the formation steady state $\boldsymbol{\theta}^*(W)$, (2) study the dynamics of $W$ under the assumption that $\boldsymbol{\theta}$ instantly adjusts to $\boldsymbol{\theta}^*(W)$. The reduced dynamics are $W_{t+1} = \mathcal{E}(W_t; \x^*(\boldsymbol{\theta}^*(W_t), W_t))$, a system in $W$ alone. Example~\ref{ch13:ex:bolivia_two} is of this form, further restricted to the one-parameter family $W(c)$.
 
 \paragraph{Transitions are products of matrices.} Along a transition $W_t$ changes every period, and the per-period gap $\Gamma(W_t)$ does not control the product $W_t \cdots W_1$ that governs how far shocks propagate: two matrices with $\Gamma = 0.850$ and $0.776$ can have a product with $\Gamma = 0.042$. Use the Dobrushin coefficient $\tau_1$, which is submultiplicative, for time-varying networks (Chapter~23).
 

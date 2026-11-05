@@ -69,7 +69,7 @@ Under the allocation rule $x_i = \Omega(W)/N + (\pi_i(W) - 1/N)\,\Phi$ (Proposit
 \begin{equation}\label{ch14:eq:power_gain}
 E_i(\Delta W_S) = \underbrace{\frac{\Delta\Omega}{N}}_{\text{surplus}} + \underbrace{\Phi\,\Delta\pi_i(W, \Delta W_S)}_{\text{power}},
 \end{equation}
-where $\Delta\Omega = \Omega(W + \Delta W_S) - \Omega(W)$ and $\Delta\pi_i = \pi_i(W + \Delta W_S) - \pi_i(W)$. If, in addition, we \emph{assume} that the formation effect is proportional to the enforcement effect with the formation-to-enforcement ratio $\Psi$ of Chapter~11,
+where $\Delta\Omega = \Omega(W + \Delta W_S) - \Omega(W)$ and $\Delta\pi_i = \pi_i(W + \Delta W_S) - \pi_i(W)$. If, in addition, we \emph{assume} that the formation effect is proportional to the enforcement effect, with a ratio $\Psi$ common to all agents --- the formation-to-enforcement ratio $\Psi_i(\Delta W_S, T)$ of the coalition's own perturbation $\Delta W_S$ (Definition~\ref{ch09:def:psi}) ---
 \begin{equation}\label{ch14:eq:formation_gain}
 F_i(\Delta W_S) \approx \Psi\, E_i(\Delta W_S),
 \end{equation}
@@ -397,7 +397,7 @@ Cash transfers & $\Delta\boldsymbol{\omega}$ (not $\Delta W$) & Any & $\Delta\bo
 \end{center}
 \end{definition}
 
-Cash transfers (last row) do not change $W$ within the period and therefore do not change $\boldsymbol{\pi}$ on impact. This is the Transfer Trap from Chapter~2, now with a political explanation: every coalition can agree on transfers (they don't threaten anyone's structural power), but no coalition will implement the $\Delta W$ that reduces its own $\boldsymbol{\pi}$. Over time the statement weakens: in the co-evolutionary system of Chapter~13, $W_{t+1} = \mathcal{T}(W_t; \x^*_t)$ depends on the allocation, so transfers that change $\x^*$ can change future links and hence future $\boldsymbol{\pi}$.
+Cash transfers (last row) do not change $W$ within the period and therefore do not change $\boldsymbol{\pi}$ on impact. This is the Transfer Trap from Chapter~2, now with a political explanation: every coalition can agree on transfers (they don't threaten anyone's structural power), but no coalition will implement the $\Delta W$ that reduces its own $\boldsymbol{\pi}$. Over time the statement weakens: in the co-evolutionary system of Chapter~13, $W_{t+1} = \mathcal{E}(W_t; \x^*_t)$ depends on the allocation, so transfers that change $\x^*$ can change future links and hence future $\boldsymbol{\pi}$.
 
 
 %% =====================================================================
@@ -408,7 +408,7 @@ Cash transfers (last row) do not change $W$ within the period and therefore do n
 \begin{enumerate}
 \item \textbf{Coalitions} are subsets of agents who jointly choose $\Delta W$ to maximize their collective payoff. The feasibility set $\mathcal{F}(S)$ depends on current power: the powerful can change more.
 
-\item The \textbf{coalition payoff} is $v_i(S) \approx (1+\Psi)(\Delta\Omega/N + \Phi\,\Delta\pi_i)$: a surplus component shared by all and a power component that is exactly constant-sum, both amplified by the formation multiplier. Without the surplus term the game is constant-sum, the grand coalition is indifferent among all $\Delta W$, and the core is empty whenever any coalition can gain power.
+\item The \textbf{coalition payoff} is $v_i(S) \approx (1+\Psi)(\Delta\Omega/N + \Phi\,\Delta\pi_i)$: a surplus component shared by all and a power component that is exactly constant-sum, both amplified by the formation amplifier $(1+\Psi)$, where $\Psi$ is the ratio of Definition~\ref{ch09:def:psi} for the coalition's perturbation. Without the surplus term the game is constant-sum, the grand coalition is indifferent among all $\Delta W$, and the core is empty whenever any coalition can gain power.
 
 \item \textbf{Four Latin American alliances} (a stylization): $\{F,B\}$ (oligarchic export), $\{B,M,W\}$ (national populist), $\{F,B,M\}$ (techno\-bureaucratic) and $\{M,W\}$ (left populist). Each implements a different $\Delta W$ with a different $\Delta\boldsymbol{\pi}$; which one forms is conjectured to depend on $(\pi_F, \pi_W)$.
 
@@ -446,13 +446,13 @@ Cash transfers (last row) do not change $W$ within the period and therefore do n
 \item Political crisis (2019): alliance breakdown. Which conditions from Proposition~\ref{ch14:prop:alliance_stability} failed?
 \end{enumerate}
 
-\item \textbf{Why cash transfers are universal.} Show formally that, holding $W$ fixed within the period, $\Delta\boldsymbol{\pi}(\Delta\boldsymbol{\omega}) = 0$: transfers do not change the Perron eigenvector. Then use the evolution map $W_{t+1} = \mathcal{T}(W_t; \x^*_t)$ of Chapter~13 to show how transfers can change $\boldsymbol{\pi}_{t+1}$. Explain why this makes transfers the \textit{least controversial} policy tool: no agent's structural power is threatened. Then explain why this makes transfers the \textit{least effective} tool for structural change.
+\item \textbf{Why cash transfers are universal.} Show formally that, holding $W$ fixed within the period, $\Delta\boldsymbol{\pi}(\Delta\boldsymbol{\omega}) = 0$: transfers do not change the Perron eigenvector. Then use the evolution map $W_{t+1} = \mathcal{E}(W_t; \x^*_t)$ of Chapter~13 (Definition~\ref{ch13:thm:coevolution}) to show how transfers can change $\boldsymbol{\pi}_{t+1}$. Explain why this makes transfers the \textit{least controversial} policy tool: no agent's structural power is threatened. Then explain why this makes transfers the \textit{least effective} tool for structural change.
 
 \item \textbf{The formation amplifier in politics.} Compare two alliances with the same $\Delta\boldsymbol{\pi}$ but different $\Psi$:
 \begin{enumerate}
-\item Alliance A controls $W^P$ (production policy): $\Psi_A \approx 1$.
-\item Alliance B controls $W^I$ (media, education): $\Psi_B \approx 3$.
-\item With $\Delta\Omega = 0$, compute the total payoff $v_i = (1+\Psi)\Phi\,\Delta\pi_i$ for each (treat $\Psi$ as the formation ratio of the layer the alliance controls). Which alliance is more valuable to its members?
+\item Alliance A controls $W^P$ (production policy); its perturbation $\Delta W_A$ has $\Psi_A := \Psi(\Delta W_A, T) \approx 1$.
+\item Alliance B controls $W^I$ (media, education); its perturbation $\Delta W_B$ has $\Psi_B := \Psi(\Delta W_B, T) \approx 3$.
+\item With $\Delta\Omega = 0$, compute the total payoff $v_i = (1+\Psi)\Phi\,\Delta\pi_i$ for each (Definition~\ref{ch09:def:psi}: $\Psi$ belongs to the perturbation, not to the alliance or the layer as such). Which alliance is more valuable to its members?
 \item Which type of alliance is harder to form? (Hint: controlling $W^I$ may require controlling the state first, which requires power, which requires an alliance\ldots)
 \end{enumerate}
 

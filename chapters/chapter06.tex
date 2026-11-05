@@ -625,13 +625,13 @@ W = \begin{pmatrix} 0 & 0 & 0.5 & 0.5 \\ 0 & 0 & 0.5 & 0.5 \\ 0.5 & 0.5 & 0 & 0 
 
 \item \textbf{Structural power vs.\ formal power.} An economy has 4 agents: President, General, Businesswoman, Farmer. Construct a plausible $4 \times 4$ weight matrix where the Farmer has the highest eigenvector centrality despite having the lowest formal rank. (Hint: make everyone's food supply depend on the Farmer, directly or indirectly.) Compute $\boldsymbol{\pi}$ and verify.
 
-\item \textbf{Bolivia's power structure.} Using the Bolivia three-sector model from Chapter~3 ($W^P$ with Gas, Manufacturing, Traditional):
+\item \textbf{Bolivia's power structure.} Using the two-sector Bolivia model of Example~\ref{ch03:ex:bolivia} (Modern/gas and Traditional, $W^P = D^{-1}A_{\text{Bolivia}}$):
 \begin{enumerate}
 \item Compute the left Perron eigenvector. Which sector has the most structural power?
 \item Now suppose gas revenues are redistributed to the traditional sector (a transfer). Does $\boldsymbol{\pi}$ change? Why or why not?
-\item Now suppose a gas-to-fertilizer plant is built, adding a link from Gas to Traditional ($W^P_{\text{Trad, Gas}}$ increases from 0.02 to 0.15, with the Traditional row's own entry reduced by the same amount so the row still sums to one). Recompute $\boldsymbol{\pi}$. How does the traditional sector's power change?
+\item Now suppose a gas-to-fertilizer plant is built, adding a link from Gas to Traditional (the technical coefficient $a_{TM}$, Traditional's purchases from the modern sector, rises from 0.02 to 0.15). Recompute $W^P = D^{-1}A$ and $\boldsymbol{\pi}$. How does the traditional sector's power change?
 \item Which policy --- the transfer or the plant --- changes the power structure?
-\item \textit{Data.} Download a published input-output table (INE Bolivia's \textit{Matriz Insumo-Producto}, or a Latin American country in the OECD ICIO tables), aggregate it to three sectors, form the share matrix $W^P = D^{-1}A$, and compute $\boldsymbol{\pi}$, $\Neff$ and $\Gamma$. Compare with the stylized model.
+\item \textit{Data.} Download a published input-output table (INE Bolivia's \textit{Matriz Insumo-Producto}, or a Latin American country in the OECD ICIO tables), aggregate it to two sectors (modern and traditional), form the share matrix $W^P = D^{-1}A$, and compute $\boldsymbol{\pi}$, $\Neff$ and $\Gamma$. Compare with the stylized model.
 \end{enumerate}
 
 \end{enumerate}

@@ -210,7 +210,7 @@ Simultaneously, it modifies $W^I$ by exposing the agent to new information:
 \end{equation}
 \end{definition}
 
-Education is a dual operator: it creates edges in BOTH $W^P$ (new production capabilities) and $W^I$ (new information sources). This is why education has a $\Psi$ ratio greater than 1 (Chapter~11): the production edge is the enforcement effect, the information edge is the formation effect. Education changes what you can do AND what you want.
+Education is a dual operator: it creates edges in BOTH $W^P$ (new production capabilities) and $W^I$ (new information sources). This is why education plausibly has a $\Psi$ ratio (Definition~\ref{ch09:def:psi}) greater than 1: the production edge is the enforcement effect, the information edge is the formation effect. Education changes what you can do AND what you want.
 
 
 \subsection{Operator 4: Information Policy (Rewire $W^I$)}
@@ -267,7 +267,7 @@ When the budget allows multiple interventions over time, a natural heuristic is 
 \end{equation}
 where $\Omega$ is an objective defined on \emph{all} layers (e.g.\ a weighted combination of $\Gamma(W^P)$, $\Var(\boldsymbol{\pi})$ and the formation gain, since the information operator leaves $W^P$, and hence $\Gamma(W^P)$, unchanged), with the dynamic constraint that each intervention changes $W_t$ and therefore the marginal effect of subsequent ones. A greedy rule is not optimal in general; it is optimal for special objectives (e.g.\ when marginal gains are diminishing in the submodular sense). We conjecture that, for plausible values of $\Psi$, the resulting sequence is:
 \begin{enumerate}
-\item \textbf{First, information policy} ($\mathcal{L}_{\text{info}}$): cheap per unit of formation gain (it operates on $W^I$, which has the highest formation multiplier), and it relaxes the political constraint by shifting preferences toward structural change.
+\item \textbf{First, information policy} ($\mathcal{L}_{\text{info}}$): cheap per unit of formation gain (it operates on $W^I$, whose perturbations have, illustratively, the highest $\Psi$), and it relaxes the political constraint by shifting preferences toward structural change.
 \item \textbf{Second, institutional reform} ($\mathcal{L}_{\text{inst}}$): reduces the destruction rate of future edges, making subsequent investments more durable.
 \item \textbf{Third, education/training} ($\mathcal{L}_{\text{HC}}$): dual operator, creates edges in both $W^P$ and $W^I$.
 \item \textbf{Fourth, infrastructure} ($\mathcal{L}_{\text{infra}}$): creates physical $W^P$ edges. Expensive, but by this point the institutional and informational preconditions are in place.
@@ -318,7 +318,7 @@ History is suggestive, not decisive. South Korea's sequence is usually summarize
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Operators ordered by (illustrative) $\Psi$: highest-$\Psi$ first. The red curve is schematic and shows $\Gamma_t$ rising --- steeply at first (cheap information interventions with large formation multipliers) and more gradually later (expensive industrial policy with smaller multipliers). Start soft, finish hard.
+\small Operators ordered by (illustrative) $\Psi$: highest-$\Psi$ first. The red curve is schematic and shows $\Gamma_t$ rising --- steeply at first (cheap information interventions with large $\Psi$) and more gradually later (expensive industrial policy with smaller $\Psi$). Start soft, finish hard.
 \end{vizpanel}
 
 
