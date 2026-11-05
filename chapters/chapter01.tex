@@ -1,0 +1,1065 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{float}
+
+\newtcolorbox{structroots}[1][]{
+  colback=green!3, colframe=green!40!black,
+  fonttitle=\bfseries, title={Structuralist Case Study: #1},
+  sharp corners, boxrule=0.5pt
+}
+\newtcolorbox{vizpanel}[1][]{
+  colback=gray!4, colframe=gray!50!black,
+  fonttitle=\bfseries, title={Visualization: #1},
+  sharp corners, boxrule=0.5pt
+}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{example}[definition]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\p}{\mathbf{p}}
+\newcommand{\w}{\mathbf{w}}
+\newcommand{\y}{\mathbf{y}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% Intuition boxes
+\newtcolorbox{intuition}[1][]{
+  colback=blue!3, colframe=blue!40!black,
+  fonttitle=\bfseries, title={Intuition: #1},
+  sharp corners, boxrule=0.5pt
+}
+
+% Key insight boxes
+\newtcolorbox{keyinsight}[1][]{
+  colback=orange!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title={Key Structural Insight},
+  sharp corners, boxrule=0.5pt
+}
+
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Chapter 1: Economics in Matrix Notation}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{\vspace{-1cm}\textbf{Chapter 1} \\[0.5em]
+\LARGE Economics in Matrix Notation \\[0.3em]
+\large\textit{The Standard Model, Rewritten So the Structure Becomes Visible}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{quote}
+\textit{``La realidad est\'{a} destruyendo en la Am\'{e}rica Latina aquel pret\'{e}rito esquema de la divisi\'{o}n internacional del trabajo que, despu\'{e}s de haber adquirido gran vigor en el siglo XIX, segu\'{i}a prevaleciendo doctrinariamente hasta muy avanzado el presente.''}\\[0.3em]
+\textnormal{[``Reality is destroying in Latin America that outdated scheme of the international division of labor.'']}\\
+\hfill --- Ra\'{u}l Prebisch, \textit{El desarrollo econ\'{o}mico de la Am\'{e}rica Latina} (1949)
+\end{quote}
+
+\begin{quote}
+\textit{``The purpose of abstracting is not to be vague, but to create a new semantic level in which one can be absolutely precise.''}\\
+\hfill --- Edsger W.\ Dijkstra
+\end{quote}
+
+\vspace{1em}
+
+This chapter does one thing: it rewrites the economics you already know in a notation that reveals the economics you have not been taught.
+
+Every result here is standard. If you have taken intermediate microeconomics, you know the consumer's problem, the producer's problem, and the idea of market equilibrium. If you have taken a first course in linear algebra, you know what a matrix is and how to multiply them. This chapter puts the two together.
+
+The payoff comes at the end. In Section~\ref{sec:implicit_W}, we will name an object that is present in every microeconomics textbook but that no microeconomics textbook names: the \textit{interaction matrix} --- the mathematical description of how agents in the economy relate to each other. The standard competitive model assumes a very specific interaction matrix, and that assumption is what makes the welfare theorems work. Structural economics is what happens when you replace that matrix with the one the world actually has.
+
+But first, the standard model.
+
+
+%% =====================================================================
+\section{Who Gets What: The Allocation Matrix}
+\label{sec:allocation}
+%% =====================================================================
+
+Economics studies how scarce resources are distributed among people. Let us write this down in the simplest possible way.
+
+\subsection{A Small Economy}
+
+Suppose there are 3 people and 2 goods --- call them Food and Clothing. Each person consumes some amount of each good. We can organize this information in a table:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& Food & Clothing \\
+\midrule
+Ana & 4 & 2 \\
+Boris & 3 & 5 \\
+Carmen & 1 & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ana eats 4 units of Food and wears 2 units of Clothing. Boris eats 3, wears 5. Carmen eats 1, wears 3. This table is the entire economy. Every question economics asks --- Is this allocation efficient? Fair? Sustainable? Better or worse than some alternative? --- is a question about the numbers in this table.
+
+Now write the table as a matrix:
+\begin{equation}\label{eq:X_example}
+X = \begin{pmatrix} 4 & 2 \\ 3 & 5 \\ 1 & 3 \end{pmatrix}.
+\end{equation}
+
+Each \textit{row} is a person. Each \textit{column} is a good. The entry $X_{i\ell}$ tells us how much of good $\ell$ person $i$ consumes.
+
+\begin{intuition}[Reading the matrix two ways]
+Read the matrix by rows and you see individuals: Ana's bundle is $(4, 2)$, Boris's is $(3, 5)$, Carmen's is $(1, 3)$. Read it by columns and you see the distribution of each good: Food is split $(4, 3, 1)$ across three people, Clothing is split $(2, 5, 3)$. The row view is how microeconomics usually thinks --- one person at a time. The column view is how a planner or a sociologist thinks --- one resource at a time, distributed across a population. This book uses both.
+\end{intuition}
+
+\begin{definition}[Allocation Matrix]\label{def:allocation}
+For an economy with $N$ agents and $L$ goods, the \textbf{allocation matrix} is the $N \times L$ matrix
+\begin{equation}\label{eq:X}
+X = \begin{pmatrix} x_1' \\ x_2' \\ \vdots \\ x_N' \end{pmatrix},
+\end{equation}
+where $x_i = (x_{i1}, x_{i2}, \ldots, x_{iL})' \in \R^L_+$ is agent $i$'s consumption vector. Row $i$ is person $i$'s bundle. Column $\ell$ is the distribution of good $\ell$ across agents.
+\end{definition}
+
+How much Food exists in total? Sum the first column: $4 + 3 + 1 = 8$. In matrix notation: $\ones'X e_1 = 8$, where $\ones = (1, 1, 1)'$ is the vector of ones and $e_1 = (1, 0)'$ picks out the first column.
+
+More generally, the total endowment of each good is the vector $\ones'X$: a $1 \times L$ row vector whose $\ell$-th entry is the total amount of good $\ell$ consumed.
+
+
+\subsection{Endowments: Where People Start}
+
+Before any trade or production happens, each person starts with some stuff. Ana might have 6 units of Food and 1 of Clothing (she is a farmer). Boris might have 1 of Food and 6 of Clothing (he is a tailor). Carmen might have 1 of each.
+
+\begin{equation}\label{eq:Omega_example}
+\Omega = \begin{pmatrix} 6 & 1 \\ 1 & 6 \\ 1 & 3 \end{pmatrix}.
+\end{equation}
+
+The endowment matrix $\Omega$ has the same shape as $X$: $N \times L$. Entry $\omega_{i\ell}$ is how much of good $\ell$ person $i$ starts with. The total supply of each good is $\ones'\Omega$: here, $(8, 10)$ --- 8 units of Food and 10 of Clothing exist in total.
+
+\begin{definition}[Feasibility]\label{def:feasibility}
+An allocation $X$ is \textbf{feasible} if nobody consumes more of any good than exists in total:
+\begin{equation}
+\ones'X \leq \ones'\Omega \qquad (\text{component-wise for each good}).
+\end{equation}
+With equality (no waste), this is $\ones'X = \ones'\Omega$: total consumption equals total endowment.
+\end{definition}
+
+Check: in our example, $\ones'X = (8, 10)$ and $\ones'\Omega = (8, 10)$. The allocation is feasible.
+
+
+%% =====================================================================
+\section{The Consumer's Problem}
+\label{sec:consumer}
+%% =====================================================================
+
+\subsection{What People Want}
+
+Each person has preferences over bundles. Ana might prefer more Food, Boris might prefer more Clothing, Carmen might want a balanced mix. We represent preferences by a utility function $U_i(x_i)$: a number that is higher when person $i$ is happier with her bundle $x_i$.
+
+Each person chooses the bundle that makes her happiest, subject to what she can afford. If prices are $p = (p_F, p_C)' = (1, 2)'$ (Food costs 1, Clothing costs 2), then Ana's budget is $p'\omega_{\text{Ana}} = 1 \cdot 6 + 2 \cdot 1 = 8$ dollars. She can buy any bundle $(x_F, x_C)$ with $x_F + 2x_C \leq 8$.
+
+\begin{definition}[The Consumer's Problem]\label{def:consumer_problem}
+Agent $i$ solves:
+\begin{equation}\label{eq:consumer}
+\max_{x_i \geq 0} \; U_i(x_i) \quad \text{subject to} \quad p'x_i \leq p'\omega_i.
+\end{equation}
+The solution $x_i^*(p, w_i)$ is agent $i$'s \textbf{Marshallian demand}, where $w_i = p'\omega_i$ is her wealth.
+\end{definition}
+
+For the entire economy, stack the $N$ problems. Define the wealth vector $\w = \Omega p$: an $N \times 1$ vector whose $i$-th entry is $w_i = p'\omega_i$. The budget constraints become:
+\begin{equation}\label{eq:budget_system}
+Xp \leq \Omega p = \w.
+\end{equation}
+
+\begin{intuition}[What this equation hides]
+Look at equation~\eqref{eq:consumer} carefully. Agent $i$'s utility depends only on $x_i$ --- her \textit{own} consumption. Nobody else's consumption appears. Ana does not care what Boris eats. Boris does not care what Carmen wears. Each person optimizes in isolation, connected to others only through the price vector $p$.
+
+This is an assumption, not a fact. In the real world, people care intensely about what others consume, earn, and do. The keeping-up-with-the-Joneses effect, peer pressure, status competition, network externalities --- all of these are cases where $U_i$ depends on $x_j$ for $j \neq i$. The standard model assumes all of these away.
+
+We will make this assumption visible and then relax it.
+\end{intuition}
+
+
+\subsection{A Worked Example: Cobb-Douglas}
+
+Suppose all three agents have the same preferences:
+\begin{equation}
+U_i(x_{i1}, x_{i2}) = x_{i1}^{1/2} \, x_{i2}^{1/2}.
+\end{equation}
+
+This is the Cobb-Douglas utility function with equal weights on both goods. The Marshallian demands (derived by setting up the Lagrangian and solving the first-order conditions --- see any intermediate micro text) are:
+\begin{equation}\label{eq:CD_demand}
+x_{i1}^* = \frac{w_i}{2p_1}, \qquad x_{i2}^* = \frac{w_i}{2p_2}.
+\end{equation}
+
+Each person spends half her income on each good. Let $p = (1, 1)'$ (both goods cost 1). Then:
+\begin{align}
+w_{\text{Ana}} &= 1 \cdot 6 + 1 \cdot 1 = 7, \\
+w_{\text{Boris}} &= 1 \cdot 1 + 1 \cdot 6 = 7, \\
+w_{\text{Carmen}} &= 1 \cdot 1 + 1 \cdot 3 = 4.
+\end{align}
+
+The demands are:
+\begin{equation}
+X^* = \begin{pmatrix} 3.5 & 3.5 \\ 3.5 & 3.5 \\ 2.0 & 2.0 \end{pmatrix}.
+\end{equation}
+
+\begin{intuition}[Two things to notice]
+First, Ana and Boris have \textit{identical demands} even though they start with very different endowments (Ana has mostly Food, Boris has mostly Clothing). The market --- through trade at prices $p$ --- erases the difference. This is the power of markets: they allow people to trade away from their endowments toward their preferred bundles.
+
+Second, Carmen consumes less of \textit{both} goods. Not because she has different preferences (all three have the same $U_i$), but because she is poorer. Her endowment has lower total value. The allocation matrix $X^*$ reflects not just preferences but wealth --- and wealth reflects endowments, which reflect history.
+
+This is the first hint of the structural question: where do the endowments come from?
+\end{intuition}
+
+Now write the demand in matrix form. From~\eqref{eq:CD_demand}, each person's bundle is $x_i^* = \frac{w_i}{2}(1/p_1, 1/p_2)'$. Stack them:
+\begin{equation}\label{eq:CD_matrix}
+X^* = \frac{1}{2} \w \cdot (1/p_1, \; 1/p_2) = \frac{1}{2} \begin{pmatrix} 7 \\ 7 \\ 4 \end{pmatrix} \begin{pmatrix} 1 & 1 \end{pmatrix}.
+\end{equation}
+
+The allocation matrix is the \textit{outer product} of the wealth vector $\w$ and the price-dependent expenditure-share vector $(1/2p_1, 1/2p_2)$. Every row is a scalar multiple of the same vector. People differ only in \textit{how much} they consume, not in \textit{what} they consume.
+
+\begin{keyinsight}
+In the Cobb-Douglas model, the allocation matrix $X^*$ is a \textbf{rank-1 matrix}: it can be written as a column vector times a row vector. Rank 1 means all rows are proportional. This is the mathematical signature of an economy where people differ only in wealth, not in preferences or social position.
+
+When we introduce social structure in Chapter~5, the allocation matrix will have higher rank. Different agents will consume different \textit{kinds} of bundles, not just different \textit{amounts} of the same bundle. The rank of $X$ is a measure of structural differentiation.
+\end{keyinsight}
+
+
+\subsection{Market Clearing: Does Everything Add Up?}
+
+Check feasibility: $\ones'X^* = (3.5 + 3.5 + 2.0, \; 3.5 + 3.5 + 2.0) = (9, 9)$. But total endowment is $\ones'\Omega = (8, 10)$. Food demand exceeds supply by 1; Clothing demand falls short by 1. The allocation is not feasible at these prices.
+
+This means $p = (1, 1)$ is not an equilibrium price. The correct price must adjust to equate supply and demand. We need to find $p^*$ such that $\ones'X^*(p^*) = \ones'\Omega$.
+
+Setting up the market-clearing condition for Food (normalizing $p_1 = 1$):
+\begin{equation}
+\frac{w_1}{2} + \frac{w_2}{2} + \frac{w_3}{2} = 8 \quad \Rightarrow \quad \frac{(6 + p_2) + (1 + 6p_2) + (1 + 3p_2)}{2} = 8.
+\end{equation}
+
+Solving: $\frac{8 + 10p_2}{2} = 8$, so $8 + 10p_2 = 16$, giving $p_2^* = 0.8$.
+
+At $p^* = (1, 0.8)$: $w_{\text{Ana}} = 6.8$, $w_{\text{Boris}} = 5.8$, $w_{\text{Carmen}} = 3.4$. The equilibrium allocation is:
+\begin{equation}
+X^* = \begin{pmatrix} 3.40 & 4.25 \\ 2.90 & 3.63 \\ 1.70 & 2.13 \end{pmatrix}.
+\end{equation}
+
+Verify: column sums are $(8.0, 10.0)$. Markets clear. This is the \textbf{Walrasian equilibrium}.
+
+
+%% =====================================================================
+\section{The One-Good Economy: Welfare and Power}
+\label{sec:one_good}
+%% =====================================================================
+
+The multi-good case demonstrates trade. But to see \textit{power} clearly, we need the simplest possible setting: one good, $N$ agents, and the question of who gets how much.
+
+\subsection{Setup}
+
+$N$ agents share a total endowment $\Omega > 0$ of a single good. Person $i$ starts with $\omega_i \geq 0$ and $\sum_i \omega_i = \Omega$. Preferences are quadratic:
+\begin{equation}\label{eq:LQ}
+U_i(x_i) = x_i - \frac{\kappa}{2}x_i^2, \qquad \kappa > 0.
+\end{equation}
+
+This utility function is concave: the first unit is worth approximately 1, each additional unit is worth less, and the marginal utility hits zero at $x_i = 1/\kappa$. The parameter $\kappa$ controls how fast the returns diminish. Think of it as how quickly a person gets ``full.''
+
+\begin{example}[Three People, One Good]\label{ex:one_good}
+Let $N = 3$, $\kappa = 1$, $\Omega = 3$. Endowments: $\omega_1 = 2$, $\omega_2 = 0.5$, $\omega_3 = 0.5$.
+
+Person 1 is rich (starts with 2 out of 3). Persons 2 and 3 are poor (start with 0.5 each).
+
+\textbf{What is the best possible allocation?} A utilitarian planner maximizes total welfare $\sum_i U_i(x_i)$ subject to $\sum_i x_i = 3$. The first-order conditions require equal marginal utility: $1 - x_i = 1 - x_j$, so $x_i = x_j$ for all $i, j$. Equal division: $x_i^{FB} = 1$ for all $i$.
+
+Total welfare at the first-best: $W^{FB} = 3 \times (1 - 0.5) = 1.5$.
+
+\textbf{What happens without a planner?} With one good and no trade mechanism, each person consumes their endowment: $x_1 = 2$, $x_2 = x_3 = 0.5$.
+
+Welfare: $W^{CE} = (2 - 2) + (0.5 - 0.125) + (0.5 - 0.125) = 0 + 0.375 + 0.375 = 0.75$.
+
+Person 1 is actually at zero utility! She has so much that the quadratic term wipes out all benefit (at $x = 2$ with $\kappa = 1$: $U = 2 - 2 = 0$). Meanwhile, persons 2 and 3 are at $U = 0.375$ each. The ``rich'' person is worse off than the poor ones --- the allocation is absurdly inefficient.
+
+\textbf{The welfare loss:} $L = W^{FB} - W^{CE} = 1.5 - 0.75 = 0.75$. Fully half the potential welfare is destroyed by the unequal starting point.
+\end{example}
+
+\begin{proposition}[Welfare Loss from Inequality]\label{prop:welfare_loss}
+In the one-good economy with quadratic utility~\eqref{eq:LQ}, the welfare loss from endowment inequality is:
+\begin{equation}\label{eq:welfare_loss}
+L = \frac{\kappa N}{2} \cdot \text{Var}(\omega_i),
+\end{equation}
+where $\text{Var}(\omega_i) = \frac{1}{N}\sum_i \omega_i^2 - \left(\frac{\Omega}{N}\right)^2$ is the variance of endowments. The loss is zero if and only if all endowments are equal.
+\end{proposition}
+
+\begin{intuition}[What this says in words]
+The cost of inequality is proportional to three things: how curved preferences are ($\kappa$), how many people there are ($N$), and how unequally the endowment is distributed ($\text{Var}(\omega_i)$). More curvature means the rich waste more of what they have (diminishing returns bite harder). More people means more total waste. More inequality means more mismatch between who has stuff and who can use it.
+
+This is the simplest possible welfare cost of inequality. In the structural model, the question becomes: where does $\text{Var}(\omega_i)$ come from? The answer will be: from the weight matrix.
+\end{intuition}
+
+\begin{proof}
+First-best welfare: $W^{FB} = N \cdot U(\Omega/N) = N[\Omega/N - \frac{\kappa}{2}(\Omega/N)^2] = \Omega - \frac{\kappa\Omega^2}{2N}$.
+
+Endowment welfare: $W^{CE} = \sum_i U_i(\omega_i) = \sum_i[\omega_i - \frac{\kappa}{2}\omega_i^2] = \Omega - \frac{\kappa}{2}\sum_i\omega_i^2$.
+
+The difference:
+\begin{equation}
+L = W^{FB} - W^{CE} = \frac{\kappa}{2}\left(\sum_i \omega_i^2 - \frac{\Omega^2}{N}\right) = \frac{\kappa}{2} \cdot N \cdot \text{Var}(\omega_i).
+\end{equation}
+The last step uses the identity $\sum_i \omega_i^2 - \Omega^2/N = N \cdot \text{Var}(\omega_i)$.
+\end{proof}
+
+\begin{example}[Verifying the Formula]
+In Example~\ref{ex:one_good}: $\text{Var}(\omega) = \frac{1}{3}(4 + 0.25 + 0.25) - 1^2 = 1.5 - 1 = 0.5$. So $L = \frac{1 \cdot 3}{2} \cdot 0.5 = 0.75$. Matches.
+\end{example}
+
+
+\subsection{Bargaining: When Power Enters}
+
+Now suppose the three agents can negotiate how to split $\Omega$, but they have unequal bargaining power. Agent 1 is a powerful landowner. Agents 2 and 3 are laborers with no outside options.
+
+We model this through the \textbf{generalized Nash bargaining solution}: the allocation maximizes a weighted product of gains from trade.
+
+\begin{definition}[Bargaining Power]\label{def:bargaining_power}
+The \textbf{bargaining weight vector} is $\boldsymbol{\lambda} = (\lambda_1, \ldots, \lambda_N)'$ with $\lambda_i > 0$ and $\sum_i \lambda_i = 1$. Agent $i$'s weight $\lambda_i$ represents her share of total bargaining power.
+\end{definition}
+
+\begin{definition}[Nash Bargaining Solution]\label{def:nash}
+The \textbf{Nash bargaining allocation} maximizes:
+\begin{equation}\label{eq:nash}
+\max_{\x \geq 0} \sum_{i=1}^N \lambda_i \ln\bigl(U_i(x_i) - U_i(\omega_i)\bigr) \quad \text{subject to} \quad \sum_i x_i = \Omega,
+\end{equation}
+where $U_i(\omega_i)$ is agent $i$'s \textbf{disagreement utility} --- what she gets if bargaining fails and she keeps her endowment.
+\end{definition}
+
+\begin{intuition}[What bargaining power does]
+The weight $\lambda_i$ acts like a ``voting share'' in the allocation decision. An agent with high $\lambda_i$ pulls the allocation toward her preferred outcome. In the extreme, if $\lambda_1 = 1$ and all others are zero, agent 1 gets everything she wants (subject to feasibility). If $\lambda_i = 1/N$ for all $i$, bargaining is symmetric and the allocation is ``fair'' in a specific sense.
+
+The critical question for this book: where does $\boldsymbol{\lambda}$ come from? In the standard model, it is assumed (usually implicitly as $\lambda_i = 1/N$). In the structural model, $\boldsymbol{\lambda}$ is determined by the weight matrix $W$: your power comes from your position in the network of economic relationships. This is the subject of Chapters 5--7.
+\end{intuition}
+
+\begin{example}[Bargaining with Asymmetric Power]\label{ex:bargaining}
+Same setup as Example~\ref{ex:one_good}: $N = 3$, $\kappa = 1$, $\Omega = 3$, $\boldsymbol{\omega} = (2, 0.5, 0.5)$. But now let $\boldsymbol{\lambda} = (0.6, 0.2, 0.2)$ --- agent 1 has three times the bargaining power of each other agent.
+
+The FOC for~\eqref{eq:nash} gives (working through the calculus):
+\begin{equation}
+\frac{\lambda_i}{S_i} \cdot (1 - \kappa x_i) = \mu \quad \text{for each } i,
+\end{equation}
+where $S_i = U_i(x_i) - U_i(\omega_i)$ is agent $i$'s surplus from trade. Powerful agents (high $\lambda_i$) receive allocations that give them a larger share of the total surplus.
+
+Numerically (solving the system): $x_1^B \approx 1.3$, $x_2^B \approx 0.85$, $x_3^B \approx 0.85$.
+
+Compare the three allocations:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& Agent 1 & Agent 2 & Agent 3 \\
+\midrule
+Endowment & 2.00 & 0.50 & 0.50 \\
+First-best (planner) & 1.00 & 1.00 & 1.00 \\
+Bargaining ($\lambda_1 = 0.6$) & 1.30 & 0.85 & 0.85 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The powerful agent gets more than the equal-division first-best. The weak agents get less. But everyone is better off than at the endowment --- the bargaining solution at least produces some redistribution (agent 1 gives up 0.7 units).
+
+Welfare: $W^B = U_1(1.3) + U_2(0.85) + U_3(0.85) = (1.3 - 0.845) + 2(0.85 - 0.361) = 0.455 + 0.978 = 1.433$.
+
+Compare: $W^{FB} = 1.5$, $W^B = 1.433$, $W^{CE} = 0.75$. Bargaining recovers most of the gains from trade, but power asymmetry prevents full efficiency.
+
+The welfare loss from power: $L_{\text{power}} = W^{FB} - W^B = 0.067$. Small compared to the welfare loss from no-trade ($L_{\text{no-trade}} = 0.75$), but real.
+\end{example}
+
+\begin{keyinsight}
+In the one-good economy, there are two sources of welfare loss. The first is \textit{endowment inequality}: some people start with too much, others with too little. The second is \textit{power inequality}: bargaining power determines who captures the gains from reallocation. The standard competitive model assumes power is symmetric ($\lambda_i = 1/N$), which eliminates the second source. This book studies what happens when it isn't.
+\end{keyinsight}
+
+
+%% =====================================================================
+\section{Production: The Leontief System}
+\label{sec:leontief}
+%% =====================================================================
+
+We now move from consumption to production. The production side introduces the first genuinely structural matrix in standard economics: the \textit{input-output matrix}.
+
+\subsection{A Story Before the Math}
+
+Consider a simple economy with three sectors: Farming, Milling, and Baking. To produce bread, you need flour. To produce flour, you need wheat. To produce wheat, you need\ldots bread? Well, you need to feed the farmers.
+
+This creates a web of dependencies:
+\begin{itemize}
+\item Baking needs Milling (for flour).
+\item Milling needs Farming (for wheat).
+\item Farming needs Baking (for food for the farmers).
+\end{itemize}
+
+Now suppose the country wants to \textit{export} 100 loaves of bread. How much wheat must be grown? Not just enough for 100 loaves --- also enough for the flour that those loaves require, and enough to feed the farmers who grow the wheat for the flour, and enough for the millers who mill the wheat that feeds the farmers who\ldots
+
+The cascade of indirect requirements goes on forever. Each round is smaller than the last (you don't need as much farmer-bread as you need consumer-bread), so the total converges. But computing the total requires summing an infinite series.
+
+This is exactly what the Leontief inverse does.
+
+\subsection{The Input-Output Matrix}
+
+\begin{example}[A Three-Sector Economy]\label{ex:IO}
+Let us assign numbers. To produce \$1 of output:
+\begin{itemize}
+\item Farming uses \$0.10 of its own output (seeds), \$0.05 from Milling, and \$0.10 from Baking.
+\item Milling uses \$0.20 from Farming, \$0.05 of its own output, and \$0.05 from Baking.
+\item Baking uses \$0.05 from Farming, \$0.20 from Milling, and \$0.10 of its own output.
+\end{itemize}
+
+We organize this as a matrix where entry $a_{ij}$ is the amount of good $j$ needed to produce one unit of good $i$:
+\begin{equation}\label{eq:A_example}
+A = \begin{pmatrix} 0.10 & 0.05 & 0.10 \\ 0.20 & 0.05 & 0.05 \\ 0.05 & 0.20 & 0.10 \end{pmatrix}.
+\end{equation}
+
+Row $i$ tells you what sector $i$ needs from each sector. Column $j$ tells you who uses sector $j$'s output.
+\end{example}
+
+\begin{definition}[Technical Coefficients Matrix]\label{def:IO}
+The \textbf{input-output matrix} $A$ is the $N \times N$ matrix where $a_{ij} \geq 0$ is the amount of good $j$ required to produce one unit of good $i$.
+\end{definition}
+
+The material balance for each sector says: what is produced ($y_i$) must equal what is used as inputs by all sectors ($\sum_j a_{ji} y_j$, the total demand for $i$'s output as intermediate inputs) plus what is consumed by final users ($d_i$, household consumption, exports, government):
+\begin{equation}
+y_i = \sum_{j=1}^N a_{ji} y_j + d_i.
+\end{equation}
+
+Wait --- read that carefully. The sum $\sum_j a_{ji} y_j$ uses $a_{ji}$, not $a_{ij}$. This is because sector $j$ uses $a_{ji}$ units of good $i$ to produce $y_j$ units. The total intermediate demand for good $i$ is the sum over all sectors of how much each sector uses.
+
+In matrix form, stacking all $N$ equations:
+\begin{equation}\label{eq:leontief}
+\y = A'\y + \mathbf{d} \qquad \Leftrightarrow \qquad (I - A')\y = \mathbf{d}.
+\end{equation}
+
+(Some textbooks define $A$ with rows and columns transposed; we follow the convention where $a_{ij}$ = ``sector $i$ needs good $j$,'' so the material balance uses $A'$. The reader should always check the convention.)
+
+\subsection{Why Infinite Rounds? The Cascade}
+
+Before solving the system, let us see what it means.
+
+\begin{example}[The Cascade for 100 Loaves]\label{ex:cascade}
+Suppose final demand is $\mathbf{d} = (0, 0, 100)'$: we want 100 units of Baking output and nothing else.
+
+\textbf{Round 0 (direct):} We need 100 units of Baking. Output needed: $(0, 0, 100)$.
+
+\textbf{Round 1 (first indirect):} To produce 100 units of Baking, we need $100 \times (0.05, 0.20, 0.10) = (5, 20, 10)$ units of inputs. So Farming must produce 5 more, Milling 20 more, Baking 10 more. Total after round 1: $(5, 20, 110)$.
+
+\textbf{Round 2:} The 5 extra Farming output needs inputs: $5 \times (0.10, 0.05, 0.10) = (0.5, 0.25, 0.5)$. The 20 extra Milling needs: $20 \times (0.20, 0.05, 0.05) = (4, 1, 1)$. The 10 extra Baking needs: $10 \times (0.05, 0.20, 0.10) = (0.5, 2, 1)$. Round 2 total: $(5, 3.25, 2.5)$.
+
+Each round is smaller. By round 5, the additions are tiny. The total converges to the solution of $(I - A')\y = \mathbf{d}$.
+\end{example}
+
+\begin{intuition}[Why the series converges]
+Each round of indirect effects is smaller because $a_{ij} < 1$ for all $i, j$: no sector uses more than one unit of any input to produce one unit of output. The total input requirement per unit of output (the column sum of $A$, or equivalently the row sum of $A'$) is less than 1 for each sector. This means the cascade ``leaks'' value at each round --- some of each round's output becomes final product rather than being recycled as input. The leak ensures convergence.
+
+Technically, convergence requires that the \textbf{spectral radius} of $A$ --- the largest eigenvalue in magnitude --- is less than 1. We explain eigenvalues in Appendix~\ref{app:spectral_radius}. For now: if the economy doesn't require more than a dollar of inputs to produce a dollar of output, the cascade converges.
+\end{intuition}
+
+
+\subsection{The Leontief Inverse: Solving the System}
+
+\begin{theorem}[The Leontief Inverse]\label{thm:leontief}
+If $\rho(A) < 1$ (the economy is \textbf{productive} --- see Appendix~\ref{app:spectral_radius} for what this means), then:
+\begin{equation}\label{eq:leontief_inverse}
+\y = (I - A')^{-1}\mathbf{d}.
+\end{equation}
+The matrix $L = (I - A')^{-1}$ is the \textbf{Leontief inverse}. Its entry $\ell_{ij}$ gives the total output of sector $i$ required to deliver one unit of good $j$ to final demand, counting all direct and indirect effects.
+\end{theorem}
+
+\begin{intuition}[What the Leontief inverse says in words]
+If you want one more loaf of bread (one more unit of final demand for Baking), how much extra wheat must be grown? Not just the direct input --- also the wheat to feed the millers, the wheat to feed the farmers who grow the extra wheat, and so on. The Leontief inverse answers this question exactly: $\ell_{\text{Farming, Baking}}$ is the total Farming output needed for one unit of Baking final demand, including all indirect rounds.
+\end{intuition}
+
+The proof uses the \textit{Neumann series}, which is the matrix version of the geometric series. We develop this in Appendix~\ref{app:neumann}. Here we state the key formula:
+\begin{equation}\label{eq:neumann}
+(I - A')^{-1} = I + A' + (A')^2 + (A')^3 + \cdots = \sum_{k=0}^{\infty} (A')^k.
+\end{equation}
+
+Round 0 is $I$ (direct demand). Round 1 is $A'$ (first-order indirect demand). Round 2 is $(A')^2$ (second-order). The Leontief inverse sums all rounds.
+
+\begin{example}[Computing the Leontief Inverse]\label{ex:leontief_numbers}
+For the matrix in Example~\ref{ex:IO}, computing $(I - A')^{-1}$ numerically (do this with Python --- see Exercise~1.7):
+\begin{equation}
+L = (I - A')^{-1} \approx \begin{pmatrix} 1.16 & 0.27 & 0.14 \\ 0.10 & 1.13 & 0.25 \\ 0.09 & 0.10 & 1.16 \end{pmatrix}.
+\end{equation}
+
+Reading column 3 (Baking): to deliver 1 unit of bread to final demand requires 1.16 units of Baking output (the 1 unit of bread plus 0.16 units recycled as input to other sectors that supply Baking), 0.25 units of Milling output, and 0.14 units of Farming output.
+
+The \textbf{output multiplier} of each sector is the column sum of $L$:
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Sector & Output multiplier \\
+\midrule
+Farming & $1.16 + 0.10 + 0.09 = 1.35$ \\
+Milling & $0.27 + 1.13 + 0.10 = 1.50$ \\
+Baking & $0.14 + 0.25 + 1.16 = 1.55$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Baking has the highest multiplier: stimulating bread demand generates the most total economic activity, because bread production is deeply embedded in the input chain (it needs flour, which needs wheat, which needs food). Farming has the lowest: it has fewer backward linkages.
+\end{example}
+
+\begin{keyinsight}
+The Leontief inverse is the first \textbf{structural multiplier} in this book. It shows that the effect of a change in one sector propagates through the entire economy, amplified by the network of inter-sectoral dependencies. The structure of $A$ --- which sectors depend on which --- determines the pattern and magnitude of propagation. Two economies with identical technologies but different $A$ matrices will respond differently to the same demand shock. The matrix $A$ \textit{is} the production structure.
+
+In Chapter~16, we will apply this to the global economy, with countries as ``sectors'' and international trade as the input-output matrix. The center-periphery structure that Prebisch described is a property of the column sums and spectral structure of the global $A$.
+\end{keyinsight}
+
+\begin{vizpanel}{The Leontief Inverse as a Heatmap}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\def\s{1.0}
+\foreach \i/\j/\v in {1/1/10,1/2/20,1/3/10,2/1/30,2/2/20,2/3/10,3/1/10,3/2/20,3/3/20} {
+  \fill[blue!\v, draw=white, line width=0.3pt]
+    ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
+  \pgfmathparse{\v/100}
+  \node[font=\tiny, white] at ({(\j-0.5)*\s}, {(3-\i+0.5)*\s}) {\pgfmathprintnumber[fixed,precision=1]{\pgfmathresult}};
+}
+\node[below, font=\small\bfseries] at ({1.5*\s}, -0.2) {$A$ (inputs)};
+\node[font=\Large] at (3.7, 1.5) {$\longrightarrow$};
+\begin{scope}[xshift=5cm]
+\foreach \i/\j/\v in {1/1/63,1/2/39,1/3/21,2/1/53,2/2/74,2/3/25,3/1/24,3/2/39,3/3/67} {
+  \fill[blue!\v, draw=white, line width=0.3pt]
+    ({(\j-1)*\s}, {(3-\i)*\s}) rectangle +(\s,\s);
+  \pgfmathparse{\v/50}
+  \node[font=\tiny, white] at ({(\j-0.5)*\s}, {(3-\i+0.5)*\s}) {\pgfmathprintnumber[fixed,precision=2]{\pgfmathresult}};
+}
+\node[below, font=\small\bfseries] at ({1.5*\s}, -0.2) {$(I-A)^{-1}$ (total effects)};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small The input matrix $A$ (left) is dim: weak direct dependencies. The Leontief inverse $(I-A)^{-1}$ (right) is brighter everywhere --- indirect effects amplify direct ones. The diagonal is always brightest. If the off-diagonal is bright, growth propagates. If dark (block-diagonal $A$), growth stays localized.
+\end{vizpanel}
+
+
+%% =====================================================================
+\section{General Equilibrium: Markets Clear}
+\label{sec:GE}
+%% =====================================================================
+
+\subsection{The Walrasian Equilibrium}
+
+We now combine consumption and production. The economy has $N$ agents, $L$ goods, prices $p$, and an allocation $X$.
+
+\begin{definition}[Walrasian Equilibrium]\label{def:walrasian}
+A \textbf{Walrasian equilibrium} is a price vector $p^*$ and an allocation $X^*$ such that:
+\begin{enumerate}
+\item Every agent optimizes: $x_i^*$ solves~\eqref{eq:consumer} at prices $p^*$.
+\item Markets clear: $\ones'X^* = \ones'\Omega$ (total demand equals total supply for each good).
+\end{enumerate}
+\end{definition}
+
+The equilibrium $p^*$ is a \textit{fixed point}: it is the price at which the demands generated by $p^*$ are exactly consistent with $p^*$. Under standard conditions (continuous preferences, positive endowments), such a price exists --- this is the content of the Arrow-Debreu existence theorem, proved using Brouwer's fixed-point theorem.
+
+We will not reproduce the proof here (see MWG Chapter~17). What matters for us is not the existence but the \textit{structural content} of the existence argument: it requires that agents interact only through $p$. If agents interacted through other channels --- peer effects, network externalities, bargaining relationships --- the standard proof would need to be modified. We provide the modified proof in Chapter~7.
+
+
+%% =====================================================================
+\section{The Implicit Weight Matrix}
+\label{sec:implicit_W}
+%% =====================================================================
+
+We are now ready for the chapter's punchline. 
+
+\subsection{How Do Agents Interact in the Standard Model?}
+
+Consider the economy we have developed: $N$ agents, each maximizing $U_i(x_i)$ subject to $p'x_i \leq w_i$, with market-clearing prices $p^*$. How does agent $i$ affect agent $j$?
+
+The answer: only through $p^*$. Agent $i$'s demand for goods affects aggregate demand, which affects the equilibrium price, which affects $j$'s budget set and optimal choice. The interaction is:
+
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{Anonymous}: the effect does not depend on who $i$ is --- only on $i$'s total demand.
+\item \textbf{Symmetric}: $i$'s effect on $j$ is the same magnitude as $j$'s effect on $i$ (both go through $p$).
+\item \textbf{Indirect}: $i$ does not enter $j$'s utility function. The effect passes through the market.
+\item \textbf{Equal-weighted}: in a competitive market, no single agent affects $p$ disproportionately. Each agent's demand has weight $1/N$ in the aggregate.
+\end{enumerate}
+
+These four properties describe a very specific pattern of interaction. We can write it as a matrix.
+
+\subsection{Naming the Matrix}
+
+\begin{definition}[The Competitive Interaction Matrix]\label{def:competitive_W}
+The \textbf{competitive interaction matrix} is:
+\begin{equation}\label{eq:W_CE}
+W^{CE} = \frac{1}{N}\ones\ones' = \frac{1}{N}\begin{pmatrix} 1 & 1 & \cdots & 1 \\ 1 & 1 & \cdots & 1 \\ \vdots & & \ddots & \vdots \\ 1 & 1 & \cdots & 1 \end{pmatrix}.
+\end{equation}
+Every entry is $1/N$: each agent affects every other agent equally.
+\end{definition}
+
+This matrix has remarkable properties, which we now catalog.
+
+\begin{proposition}[Properties of the Competitive Interaction Matrix]\label{prop:W_CE}
+$W^{CE} = \frac{1}{N}\ones\ones'$ satisfies:
+\begin{enumerate}
+\item \textbf{Doubly stochastic}: every row sums to 1, and every column sums to 1. Nobody gives or receives more total influence than anyone else.
+\item \textbf{Symmetric}: $W^{CE} = (W^{CE})'$. The effect of $i$ on $j$ equals the effect of $j$ on $i$.
+\item \textbf{Rank 1}: all rows are identical. The matrix can be written as the outer product of two vectors: $W^{CE} = \frac{1}{N}\ones \cdot \ones'$. This means $W^{CE}$ contains \textit{no information about individual positions} --- every agent looks the same.
+\item \textbf{Equal centrality}: for any reasonable centrality measure, all agents have the same centrality. (We will make ``centrality'' precise in Chapter~6 using the Perron eigenvector.)
+\item \textbf{Maximal spectral gap}: $W^{CE}$ has eigenvalue 1 (with eigenvector $\ones$) and eigenvalue 0 (with multiplicity $N-1$). The gap between the largest and second-largest eigenvalue is $1 - 0 = 1$, the maximum possible for any matrix with these properties. (See Appendix~\ref{app:spectral_radius} for eigenvalues.)
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\sum_j W^{CE}_{ij} = \sum_j 1/N = 1$. Similarly for column sums.
+
+(2) $(W^{CE})' = (1/N \cdot \ones\ones')' = 1/N \cdot \ones\ones' = W^{CE}$.
+
+(3) Every row is $(1/N, 1/N, \ldots, 1/N)$, so all rows are proportional (in fact, identical). Rank $= 1$.
+
+(4) See Chapter~6 for the formal definition. Informally: if every row of $W$ is the same, the ``importance'' of every agent is the same.
+
+(5) $W^{CE}\ones = \frac{1}{N}\ones(\ones'\ones) = \frac{1}{N}\ones \cdot N = \ones$, so $\ones$ is an eigenvector with eigenvalue 1. For any $\x$ perpendicular to $\ones$ (i.e., $\ones'\x = 0$): $W^{CE}\x = \frac{1}{N}\ones(\ones'\x) = 0$. So eigenvalue 0 has multiplicity $N-1$.
+\end{proof}
+
+\begin{intuition}[What $W^{CE}$ does to a vector]
+Apply $W^{CE}$ to any vector $\x$:
+\begin{equation}
+W^{CE}\x = \frac{1}{N}\ones(\ones'\x) = \bar{x} \cdot \ones,
+\end{equation}
+where $\bar{x} = \frac{1}{N}\sum_i x_i$ is the mean.
+
+The competitive interaction matrix \textbf{replaces every entry with the mean}. It destroys all information about individual positions and keeps only the aggregate. This is exactly what the competitive market does: individual identities are washed out by the price mechanism, and only the aggregate (total demand, total supply) determines the outcome.
+\end{intuition}
+
+
+\subsection{The Autarky Matrix}
+
+The other extreme is no interaction at all:
+\begin{equation}
+W^A = I = \begin{pmatrix} 1 & 0 & \cdots & 0 \\ 0 & 1 & \cdots & 0 \\ \vdots & & \ddots & \vdots \\ 0 & 0 & \cdots & 1 \end{pmatrix}.
+\end{equation}
+
+Each agent interacts only with herself. No trade, no externalities, no social contact. Robinson Crusoe, $N$ times.
+
+
+\subsection{The Space of All Possible Structures}
+
+Between $W = I$ (autarky) and $W = \frac{1}{N}\ones\ones'$ (anonymous competitive market) lies a vast space of possible interaction structures. Most real economies live somewhere in this space:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& \textbf{Autarky} & \textbf{General} $W$ & \textbf{Competitive} \\
+& $W = I$ & & $W = \frac{1}{N}\ones\ones'$ \\
+\midrule
+Interaction & None & Structured & Anonymous \\
+Power & Trivially equal & Asymmetric & Equal \\
+Information & Private & Filtered by $W^I$ & Symmetric \\
+Welfare theorems & Trivially hold & Fail & Hold \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{keyinsight}
+The program of this book is now visible. The standard competitive model lives at the right edge of this table. It assumes the most special possible interaction matrix: symmetric, rank 1, maximal spectral gap, equal centrality. \textit{Every} standard result --- the welfare theorems, the efficiency of competitive equilibrium, the irrelevance of social structure --- is a consequence of this assumption.
+
+Structural economics replaces $W^{CE}$ with a general $W$: asymmetric, high-rank, with a spectral gap that may be small, and centrality that varies across agents. Power becomes endogenous (Chapter~6). Preferences become endogenous to the network (Chapter~10). The welfare theorems fail (Chapter~2). And the question shifts from ``is the equilibrium efficient?'' to ``what is the structure, who does it benefit, and can it be changed?''
+
+The standard model is not wrong. It is a special case. This book is the general case.
+\end{keyinsight}
+
+\begin{vizpanel}{$W^{CE}$ vs.\ the real world}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\def\N{8}
+\def\s{0.4}
+\foreach \i in {1,...,\N} {
+  \foreach \j in {1,...,\N} {
+    \fill[blue!80!white, draw=white, line width=0.15pt]
+      ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
+  }
+}
+\node[below, font=\small\bfseries] at ({4*\s}, -0.2) {$W^{CE} = \frac{1}{N}\ones\ones'$};
+\node[below, font=\small] at ({4*\s}, -0.7) {Equal power. Welfare theorems hold.};
+\node[font=\large] at (5.2, 1.6) {$\neq$};
+\begin{scope}[xshift=6.4cm]
+\foreach \i in {1,...,\N} {
+  \foreach \j in {1,...,\N} {
+    \pgfmathparse{(\i<=3 && \j<=3) ? 70 : (\i>3 && \j>3) ? 55 : 5}
+    \edef\bp{\pgfmathresult}
+    \fill[blue!\bp, draw=white, line width=0.15pt]
+      ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
+  }
+}
+\node[below, font=\small\bfseries] at ({4*\s}, -0.2) {$W_{\text{Bolivia}}$};
+\node[below, font=\small] at ({4*\s}, -0.7) {Unequal power. Welfare theorems fail.};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small Left: the competitive weight matrix (Prologue pattern~2, ``Market''). Right: Bolivia's production structure (pattern~6, ``Dual Economy''). The difference between these two heatmaps is the subject of this book.
+\end{vizpanel}
+
+
+%% =====================================================================
+\section{Summary}
+\label{sec:summary}
+%% =====================================================================
+
+This chapter established five results, all of them standard economics expressed in matrix notation:
+
+\begin{enumerate}
+\item The \textbf{allocation matrix} $X$ organizes who gets what. Read by rows: individual bundles. Read by columns: distribution of each good. The rank of $X$ measures structural differentiation.
+
+\item The \textbf{consumer's problem} determines each row of $X$ independently under the standard model. Agent $i$'s utility depends only on $x_i$. This is a structural assumption: the weight agent $i$ places on agent $j$'s consumption is zero.
+
+\item The \textbf{welfare loss from inequality} in the one-good economy is $L = \frac{\kappa N}{2}\text{Var}(\omega_i)$. With bargaining power $\boldsymbol{\lambda}$, the allocation depends on who has power, not just who has endowments.
+
+\item The \textbf{Leontief inverse} $(I - A')^{-1}$ is the first structural matrix in standard economics. It encodes all direct and indirect inter-sectoral dependencies. Its properties (column sums, spectral radius) characterize the production structure.
+
+\item The \textbf{implicit interaction matrix} of the competitive model is $W^{CE} = \frac{1}{N}\ones\ones'$: doubly stochastic, symmetric, rank 1, maximal spectral gap, equal centrality. The welfare theorems hold for this matrix. Structural economics studies general $W$.
+\end{enumerate}
+
+No new economics was introduced. But the notation reveals an object --- the weight matrix $W$ --- that was always present but never named. The next chapters will show what changes when $W$ is not $\frac{1}{N}\ones\ones'$.
+
+
+%% =====================================================================
+\section{Exercises}
+\label{sec:exercises}
+%% =====================================================================
+
+\begin{enumerate}[label=\textbf{1.\arabic*}, leftmargin=3em]
+
+\item \textbf{Reading the allocation matrix.} For $N = 4$ agents and $L = 3$ goods (Food, Clothing, Housing), the allocation matrix is:
+\begin{equation}
+X = \begin{pmatrix} 5 & 3 & 1 \\ 2 & 4 & 2 \\ 1 & 1 & 5 \\ 4 & 2 & 2 \end{pmatrix}.
+\end{equation}
+\begin{enumerate}
+\item What is agent 3's consumption bundle? What is agent 3 likely ``good at'' (what might she produce)?
+\item What is the total consumption of Housing? Which agent consumes the most Housing?
+\item Is this allocation feasible if total endowments are $\ones'\Omega = (12, 10, 10)$?
+\item Compute the rank of $X$. Is this a ``structurally differentiated'' economy in the sense discussed above?
+\end{enumerate}
+
+\item \textbf{Cobb-Douglas equilibrium.} Three agents with $U_i = x_{i1}^{1/3}x_{i2}^{2/3}$ and endowments $\omega_1 = (4, 1)'$, $\omega_2 = (1, 3)'$, $\omega_3 = (3, 2)'$.
+\begin{enumerate}
+\item Derive the Marshallian demand functions.
+\item Find the equilibrium price $p_2^*$ (normalize $p_1 = 1$) by solving the market-clearing condition.
+\item Compute the equilibrium allocation $X^*$ and verify feasibility.
+\end{enumerate}
+
+\item \textbf{Welfare loss computation.} For $N = 5$, $\kappa = 2$, $\Omega = 5$:
+\begin{enumerate}
+\item Compute $L$ for $\boldsymbol{\omega} = (1, 1, 1, 1, 1)$. (Answer: 0.)
+\item Compute $L$ for $\boldsymbol{\omega} = (3, 1, 0.5, 0.25, 0.25)$.
+\item Compute $L$ for $\boldsymbol{\omega} = (5, 0, 0, 0, 0)$ (one person has everything).
+\item Plot $L$ as a function of the Gini coefficient of $\boldsymbol{\omega}$.
+\end{enumerate}
+
+\item \textbf{Bargaining with different power.} For $N = 2$, $\kappa = 1$, $\Omega = 2$, $\boldsymbol{\omega} = (1.5, 0.5)$:
+\begin{enumerate}
+\item Find the first-best allocation and welfare.
+\item Find the bargaining allocation for $\boldsymbol{\lambda} = (0.5, 0.5)$ (equal power). Compare to the first-best.
+\item Find the bargaining allocation for $\boldsymbol{\lambda} = (0.8, 0.2)$ (asymmetric power). Who benefits?
+\item For what $\boldsymbol{\lambda}$ does the bargaining allocation equal the first-best?
+\end{enumerate}
+
+\item \textbf{The cascade in action.} For the input-output matrix:
+\begin{equation}
+A = \begin{pmatrix} 0.2 & 0.1 \\ 0.3 & 0.1 \end{pmatrix}.
+\end{equation}
+\begin{enumerate}
+\item Compute the first five terms of the Neumann series: $I, A', (A')^2, (A')^3, (A')^4$. (Use a calculator or Python.)
+\item Sum them: $\sum_{k=0}^4 (A')^k$. Compare with the exact $(I - A')^{-1}$. How close are they?
+\item What is the spectral radius $\rho(A)$? (See Appendix~\ref{app:spectral_radius}.) Verify $\rho(A) < 1$.
+\item Compute output multipliers (column sums of $(I - A')^{-1}$). Which sector has stronger backward linkages?
+\end{enumerate}
+
+\item \textbf{Properties of $W^{CE}$.}
+\begin{enumerate}
+\item Show that $W^{CE}$ is idempotent: $(W^{CE})^2 = W^{CE}$. (Hint: compute $\frac{1}{N}\ones\ones' \cdot \frac{1}{N}\ones\ones'$.)
+\item Show that for any vector $\x$, $W^{CE}\x = \bar{x}\ones$. Interpret: the competitive market replaces individual variation with the average.
+\item Prove: $W^{CE}$ has eigenvalue 1 with eigenvector $\ones$, and eigenvalue 0 with multiplicity $N-1$. Find the eigenvectors for eigenvalue 0 when $N = 3$.
+\item For $N = 3$, consider the matrix $W = \frac{1}{3}\begin{pmatrix} 1 & 1 & 1 \\ 2 & 0.5 & 0.5 \\ 0 & 1.5 & 1.5 \end{pmatrix}$. Is this doubly stochastic? Compute $W\x$ for $\x = (3, 6, 9)'$ and compare with $W^{CE}\x$. What is different?
+\end{enumerate}
+
+\item \textbf{Bolivia's input-output table} (data exercise). Download the Bolivian input-output table from INE or the OECD ICIO database. Aggregate to 5--10 sectors.
+\begin{enumerate}
+\item Construct $A$ (normalize each column by gross output).
+\item Compute the Leontief inverse $(I - A')^{-1}$.
+\item Compute output multipliers for: Mining/Gas, Agriculture, Manufacturing, Services.
+\item Which sector has the highest multiplier? Lowest? Relate to Pinto's structural heterogeneity: is Bolivia's economy ``structurally connected'' or ``block-diagonal''?
+\item \textit{Challenge}: Is the gas sector connected to the rest of the economy, or is it an enclave?
+\end{enumerate}
+
+\item \textbf{From story to matrix.} Do\~{n}a Mar\'{i}a sells api morado on Calle Comercio in La Paz. To produce api, she buys corn from a wholesaler in El Alto, sugar from a shop on Calle Max Paredes, cinnamon from a market distributor, and charcoal from a supplier in the altiplano. The wholesaler buys from farmers in the Yungas.
+\begin{enumerate}
+\item Define 5 agents: Mar\'{i}a, Wholesaler, Sugar Shop, Cinnamon Distributor, Charcoal Supplier. Draw the directed dependency graph.
+\item Write the $5 \times 5$ adjacency matrix $A$ ($A_{ij} = 1$ if agent $i$ uses agent $j$'s output as input, 0 otherwise).
+\item Is $A$ symmetric? What does the asymmetry mean economically?
+\item Suppose the Wholesaler disappears. Set row and column 2 of $A$ to zero. Which other agents are directly affected? Which are indirectly affected (via the Leontief cascade)?
+\item Compare this adjacency matrix to $W^{CE}$ for $N = 5$. What structural information does $A$ contain that $W^{CE}$ destroys?
+\end{enumerate}
+
+\item \textbf{From sectors to countries.} Suppose the ``agents'' in the Leontief system are 3 countries:
+\begin{equation}
+A = \begin{pmatrix} 0.05 & 0.30 & 0.30 \\ 0.01 & 0.05 & 0.05 \\ 0.01 & 0.05 & 0.05 \end{pmatrix}.
+\end{equation}
+Country 1 is the ``center'' (Column 1 is small: few depend on it. Row 1 is large: it needs a lot from others). Wait --- check this. Actually Column 1 shows who needs Country 1: $0.05, 0.01, 0.01$. Country 1's output is barely used by others. But Row 1 shows Country 1 needs a lot from Countries 2 and 3 ($0.30$ each).
+\begin{enumerate}
+\item Which country is the ``center'' and which are ``periphery''? (Hint: look at \textit{column sums} of $(I - A')^{-1}$ --- who has the highest output multiplier?)
+\item If final demand rises by 1 unit in Country 2 only, how much total output is generated in each country?
+\item Argue informally that the center-periphery structure is a property of the asymmetry of $A$.
+\end{enumerate}
+\end{enumerate}
+
+
+%% =====================================================================
+\newpage
+\section*{Mathematical Appendices}
+\addcontentsline{toc}{section}{Mathematical Appendices}
+%% =====================================================================
+
+
+%% =====================================================================
+\subsection*{Appendix 1A: Matrices as Economic Objects}
+\addcontentsline{toc}{subsection}{Appendix 1A: Matrices as Economic Objects}
+\label{app:matrices}
+%% =====================================================================
+
+This appendix covers the matrix concepts used in Chapter~1, starting from scratch.
+
+\paragraph{What is a matrix?} A matrix is a rectangular table of numbers. An $N \times L$ matrix has $N$ rows and $L$ columns. In this book, matrices represent \textit{relationships}: the entry in row $i$, column $j$ describes the relationship between agent (or sector) $i$ and agent (or sector) $j$.
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Matrix} & \textbf{What it describes} \\
+\midrule
+Allocation $X$ ($N \times L$) & How much of each good each person consumes \\
+Endowment $\Omega$ ($N \times L$) & How much of each good each person starts with \\
+Input-output $A$ ($N \times N$) & How much of each sector's output each sector needs \\
+Interaction $W$ ($N \times N$) & How much each agent affects each other agent \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Special vectors.} Two vectors appear constantly:
+\begin{itemize}
+\item $\ones = (1, 1, \ldots, 1)'$: the vector of all ones. $\ones'x = \sum_i x_i$ sums the entries of $x$.
+\item $e_k$: the $k$-th standard basis vector (1 in position $k$, 0 elsewhere). $e_k'x = x_k$ picks out the $k$-th entry.
+\end{itemize}
+
+\paragraph{Matrix multiplication as ``flow through a system.''} If $A$ is $N \times N$ and $\x$ is $N \times 1$, then $A\x$ is $N \times 1$ with $(A\x)_i = \sum_j a_{ij}x_j$. Think of $x_j$ as the ``amount of stuff at node $j$'' and $a_{ij}$ as ``how much of node $j$'s stuff flows to node $i$.'' The product $A\x$ is the result of flowing everything through the system once.
+
+Flow through twice: $A(A\x) = A^2\x$. Flow $k$ times: $A^k\x$. The Leontief inverse $(I - A)^{-1} = I + A + A^2 + \cdots$ sums the result of flowing through all possible numbers of times.
+
+\paragraph{The outer product $\ones\ones'$.} This is an $N \times N$ matrix of all ones:
+\begin{equation}
+\ones\ones' = \begin{pmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{pmatrix} \begin{pmatrix} 1 & 1 & \cdots & 1 \end{pmatrix} = \begin{pmatrix} 1 & 1 & \cdots & 1 \\ 1 & 1 & \cdots & 1 \\ \vdots & & \ddots & \vdots \\ 1 & 1 & \cdots & 1 \end{pmatrix}.
+\end{equation}
+
+Dividing by $N$ gives $W^{CE} = \frac{1}{N}\ones\ones'$, where every entry is $1/N$. This matrix has a beautiful property: $W^{CE}\x = \bar{x}\ones$ --- it replaces every entry of $\x$ with the mean. It is the mathematical representation of ``anonymous, symmetric interaction.''
+
+\paragraph{The identity matrix $I$.} The $N \times N$ identity matrix has 1 on the diagonal and 0 elsewhere. $I\x = \x$ for any $\x$: it does nothing. It represents ``no interaction'' --- each agent affects only herself.
+
+\paragraph{Row sums and column sums.} For an $N \times N$ matrix $M$:
+\begin{itemize}
+\item Row sums: $M\ones$ is an $N \times 1$ vector whose $i$-th entry is $\sum_j m_{ij}$ (total outflow from $i$).
+\item Column sums: $\ones'M$ is a $1 \times N$ vector whose $j$-th entry is $\sum_i m_{ij}$ (total inflow to $j$).
+\end{itemize}
+
+A matrix is \textbf{row-stochastic} if all row sums equal 1: $M\ones = \ones$. It is \textbf{column-stochastic} if all column sums equal 1: $\ones'M = \ones'$. It is \textbf{doubly stochastic} if both. The competitive interaction matrix $W^{CE}$ is doubly stochastic.
+
+
+%% =====================================================================
+\subsection*{Appendix 1B: Eigenvalues and the Spectral Radius}
+\addcontentsline{toc}{subsection}{Appendix 1B: Eigenvalues and the Spectral Radius}
+\label{app:spectral_radius}
+%% =====================================================================
+
+\paragraph{The key idea.} An eigenvalue is a number that tells you how a matrix \textit{stretches} things. If $A\mathbf{v} = \lambda\mathbf{v}$ for some nonzero vector $\mathbf{v}$, then $\lambda$ is an eigenvalue and $\mathbf{v}$ is the corresponding eigenvector. Applying $A$ to $\mathbf{v}$ just rescales it by $\lambda$ --- the direction stays the same, only the magnitude changes.
+
+\paragraph{Why economists care.} Eigenvalues tell you whether a system explodes, converges, or oscillates:
+\begin{itemize}
+\item $|\lambda| < 1$: applying $A$ repeatedly shrinks the component along $\mathbf{v}$. The system converges.
+\item $|\lambda| = 1$: the component stays the same. Steady state.
+\item $|\lambda| > 1$: the component grows without bound. Explosion.
+\end{itemize}
+
+\paragraph{The spectral radius.} The \textbf{spectral radius} of $A$ is $\rho(A) = \max_i |\lambda_i|$ --- the largest eigenvalue in magnitude. It determines the long-run behavior of the system:
+\begin{itemize}
+\item $\rho(A) < 1$: $A^k \to 0$ as $k \to \infty$. The cascade of indirect effects dies out. The Leontief inverse exists.
+\item $\rho(A) = 1$: the system is on the boundary. Convergence is borderline.
+\item $\rho(A) > 1$: $A^k$ explodes. The system requires more inputs than it produces. The economy is ``unproductive.''
+\end{itemize}
+
+For the input-output matrix, $\rho(A) < 1$ means the economy is productive: it produces more output than it uses as input.
+
+\paragraph{Computing eigenvalues.} For a $2 \times 2$ matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, the eigenvalues solve $\det(A - \lambda I) = 0$:
+\begin{equation}
+\lambda^2 - (a + d)\lambda + (ad - bc) = 0.
+\end{equation}
+The solutions are $\lambda = \frac{(a+d) \pm \sqrt{(a+d)^2 - 4(ad-bc)}}{2}$. For larger matrices, use numerical software.
+
+\paragraph{Example.} For $A = \begin{pmatrix} 0.2 & 0.1 \\ 0.3 & 0.1 \end{pmatrix}$ (from Exercise~1.5): trace $= 0.3$, determinant $= 0.02 - 0.03 = -0.01$. Eigenvalues: $\lambda = \frac{0.3 \pm \sqrt{0.09 + 0.04}}{2} = \frac{0.3 \pm 0.36}{2}$. So $\lambda_1 = 0.33$ and $\lambda_2 = -0.03$. Spectral radius: $\rho(A) = 0.33 < 1$. The economy is productive.
+
+\paragraph{The spectral gap.} For an $N \times N$ matrix with eigenvalues $|\lambda_1| \geq |\lambda_2| \geq \cdots \geq |\lambda_N|$, the \textbf{spectral gap} is $\Gamma = |\lambda_1| - |\lambda_2|$: the distance between the largest and second-largest eigenvalue. In this book, the spectral gap measures \textit{structural asymmetry}:
+\begin{itemize}
+\item Large $\Gamma$ (close to $\rho$): the system is dominated by one ``mode'' --- fast convergence, symmetric structure. The competitive interaction matrix has $\Gamma = 1$ (maximum).
+\item Small $\Gamma$ (close to 0): the system has competing modes --- slow convergence, persistent asymmetries. Star networks and hub-spoke structures have small spectral gaps, allowing power to concentrate.
+\end{itemize}
+
+We will develop these connections formally in Chapter~6. For now: eigenvalues measure how a system amplifies or dampens, and the spectral gap measures how symmetric the system is. Both are properties of the matrix $W$, which is the social structure.
+
+
+%% =====================================================================
+\subsection*{Appendix 1C: The Neumann Series}
+\addcontentsline{toc}{subsection}{Appendix 1C: The Neumann Series}
+\label{app:neumann}
+%% =====================================================================
+
+\paragraph{Start with scalars.} You know the geometric series: if $|r| < 1$, then
+\begin{equation}
+1 + r + r^2 + r^3 + \cdots = \frac{1}{1 - r}.
+\end{equation}
+
+Rearranging: $(1 - r)(1 + r + r^2 + \cdots) = 1$, so $1 + r + r^2 + \cdots$ is the \textit{inverse} of $(1 - r)$.
+
+\paragraph{Now matrices.} Replace the scalar $r$ with a matrix $A$ and the number 1 with the identity matrix $I$:
+\begin{equation}\label{eq:neumann_app}
+I + A + A^2 + A^3 + \cdots = (I - A)^{-1},
+\end{equation}
+provided the series converges. The condition for convergence is $\rho(A) < 1$ (the spectral radius is less than 1) --- the matrix analog of $|r| < 1$.
+
+\paragraph{Why it converges.} Each power $A^k$ has entries bounded by $\rho(A)^k$ (roughly). Since $\rho(A) < 1$, these powers decay geometrically: $A^k \to 0$ as $k \to \infty$. The partial sums $\sum_{k=0}^K A^k$ converge to a finite matrix, which is $(I - A)^{-1}$.
+
+\paragraph{Verification.} Multiply both sides of~\eqref{eq:neumann_app} by $(I - A)$:
+\begin{align}
+(I - A)(I + A + A^2 + \cdots) &= (I + A + A^2 + \cdots) - (A + A^2 + A^3 + \cdots) \\
+&= I.
+\end{align}
+The infinite series telescopes, leaving only $I$. This confirms that $\sum_{k=0}^\infty A^k$ is indeed the inverse of $(I - A)$.
+
+\paragraph{Economic interpretation.} In the Leontief system:
+\begin{itemize}
+\item $I$: direct demand (round 0). Each unit of final demand requires one unit of direct output.
+\item $A'$: first-round indirect demand. Producing the direct output requires $A'$ units of intermediate inputs.
+\item $(A')^2$: second-round indirect demand. Producing the first-round inputs requires further inputs.
+\item $(A')^k$: $k$-th round. The cascade continues.
+\item $(I - A')^{-1}$: the total of all rounds. The complete direct + indirect requirement.
+\end{itemize}
+
+\paragraph{A numerical example.} For $A' = \begin{pmatrix} 0.2 & 0.3 \\ 0.1 & 0.1 \end{pmatrix}$:
+
+\begin{center}
+\begin{tabular}{l c c c c}
+\toprule
+& $(1,1)$ & $(1,2)$ & $(2,1)$ & $(2,2)$ \\
+\midrule
+$I$ & 1.000 & 0.000 & 0.000 & 1.000 \\
+$I + A'$ & 1.200 & 0.300 & 0.100 & 1.100 \\
+$I + A' + (A')^2$ & 1.270 & 0.360 & 0.130 & 1.140 \\
+$I + A' + \cdots + (A')^4$ & 1.283 & 0.370 & 0.134 & 1.147 \\
+$(I - A')^{-1}$ (exact) & 1.284 & 0.370 & 0.135 & 1.149 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+By round 4, the partial sum is within 0.2\% of the exact inverse. The cascade converges fast when $\rho(A)$ is small.
+
+
+%% =====================================================================
+\subsection*{Structuralist Case Study: Prebisch's 1949 Manifesto and the Weight Matrix}
+\addcontentsline{toc}{subsection}{Structuralist Case Study: Prebisch (1949)}
+%% =====================================================================
+
+In 1949, Ra\'{u}l Prebisch --- an Argentine economist who had served as head of his country's central bank --- published what Albert Hirschman later called the ``Latin American Manifesto'': \textit{El desarrollo econ\'{o}mico de la Am\'{e}rica Latina y algunos de sus principales problemas}. The essay served as the introduction to CEPAL's first \textit{Estudio econ\'{o}mico de Am\'{e}rica Latina} and laid the intellectual foundation for half a century of structuralist economics.
+
+Prebisch's argument has three steps, each of which corresponds to a property of the weight matrix developed in this chapter.
+
+\textbf{Step 1: The global economy has a structure.} Prebisch rejected the Ricardian doctrine that free trade benefits all participants symmetrically. He argued that the world economy is divided into an industrialized ``center'' and a primary-commodity-exporting ``periphery,'' connected by trade linkages that are fundamentally \textit{asymmetric}: the periphery exports raw materials with low value-added and imports manufactures with high value-added. In the notation of this chapter: the global input-output matrix $A_{\text{global}}$ has a core-periphery topology --- the center's column sums in the Leontief inverse $(I - A')^{-1}$ are large (high backward linkages), while the periphery's column sums are small. The structure is not $\frac{1}{N}\ones\ones'$.
+
+\textbf{Step 2: The structure generates asymmetric outcomes.} Prebisch argued that the fruits of technical progress are distributed unequally: center countries retain the productivity gains from industrialization (through higher wages negotiated by strong unions), while periphery countries transfer theirs to the center through deteriorating terms of trade. In our notation: the Perron eigenvector of the global $W$ assigns high weight to the center and low weight to the periphery --- $\pi_{\text{center}} \gg \pi_{\text{periphery}}$. The bargaining allocation (Chapter~7) gives the center more than its ``fair share'' of the surplus. The welfare loss from this asymmetry is proportional to $\text{Var}(\pi_i)$ --- the variance of the power distribution.
+
+\textbf{Step 3: The doctrine that defends the structure is produced by the structure.} Prebisch opened his essay by declaring that ``reality is destroying that outdated scheme of the international division of labor.'' The ``scheme'' he attacked was classical trade theory, which claimed that free trade was optimal for all participants. His point: the theory itself was produced at the center and propagated to the periphery through academic training, policy advice, and institutional pressure. In the language of Chapter~5: the global information network $W^I$ has a center-periphery topology --- the periphery absorbs economic doctrine from the center (the Perron eigenvector of $W^I$ assigns dominant weight to center economists), and the resulting ``consensus'' reflects center interests. The Washington Consensus, forty years later, is the DeGroot equilibrium of this $W^I$.
+
+Each step corresponds to a formal object in this book:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Prebisch's argument} & \textbf{Formal object} & \textbf{Chapter} \\
+\midrule
+The global economy has a structure & $W \neq \frac{1}{N}\ones\ones'$ & 1 \\
+The structure generates asymmetric outcomes & $\boldsymbol{\pi}(W) \neq \frac{1}{N}\ones$ & 6 \\
+The structure produces the doctrine & $W^I$ has center-periphery topology & 5, 8 \\
+Terms of trade deteriorate & Column sums of $(I-A')^{-1}$ are asymmetric & 3, 16 \\
+The welfare theorems fail & $W$ is not doubly stochastic & 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Prebisch wrote all of this in prose. The equations that formalize his argument are the content of Chapters~1--8. The structuralists built the cathedral in words. This book provides the engineering drawings. But the blueprint was always theirs.
+
+
+%% =====================================================================
+\subsection*{Further Reading}
+\addcontentsline{toc}{subsection}{Further Reading}
+%% =====================================================================
+
+\textbf{Standard microeconomics:} Mas-Colell, Whinston, and Green (1995), Chapters 1--3 (consumer theory), 5 (production), 15--17 (general equilibrium).
+
+\textbf{The Leontief system:} Leontief (1986), \textit{Input-Output Economics}. Miller and Blair (2009), \textit{Input-Output Analysis}, 2nd edition. Sargent and Stachurski (2024), \textit{Economic Networks}, Chapters 1--4.
+
+\textbf{Network perspective on production:} Acemoglu, Carvalho, Ozdaglar, and Tahbaz-Salehi (2012), ``The Network Origins of Aggregate Fluctuations,'' \textit{Econometrica}.
+
+\textbf{Linear algebra for economists:} Strang (2016), \textit{Introduction to Linear Algebra}, 5th edition. Simon and Blume (1994), \textit{Mathematics for Economists}. Sargent and Stachurski's QuantEcon lectures (\texttt{quantecon.org}).
+
+\textbf{The structuralist tradition:} Prebisch (1949), \textit{El desarrollo econ\'{o}mico de la Am\'{e}rica Latina y algunos de sus principales problemas}, CEPAL (the full text, in Spanish, is available at \texttt{repositorio.cepal.org}). Hirschman (1958), \textit{The Strategy of Economic Development}, Chapters 6--7. Taylor (1983), \textit{Structuralist Macroeconomics}, Chapter 1. Bielschowsky (2009), ``Sixty years of CEPAL: structuralism and neo-structuralism,'' \textit{CEPAL Review} 97.
+
+
+%% =====================================================================
+\subsection*{Answers to the Prologue Challenge}
+\addcontentsline{toc}{subsection}{Answers to the Prologue Challenge}
+%% =====================================================================
+
+\textbf{A}: Center--Periphery (Pattern 7). Persons 1--3 form the ``center'' (bright upper-left). The lower-left rectangle is brighter than the upper-right: dependence runs one way.
+
+\textbf{B}: Hub / Star (Pattern 4). One blazing column at position 4 --- not position 1. You had to read the columns.
+
+\textbf{C}: Chain / Ring (Pattern 3). Bright band along the diagonal, wrapping at corners.
+
+\textbf{D}: Triple Economy (Pattern 6, extended). Three bright squares: persons 1--3, 4--6, 7--8.
+
+\textbf{E}: Market / Complete (Pattern 2). Uniform brightness. $W = \frac{1}{N}\ones\ones'$.
+
+\textbf{F}: Hierarchy (Pattern 5). Brightness gradient from upper-left to lower-right.
+
+
+\end{document}

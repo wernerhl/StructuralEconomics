@@ -1,0 +1,784 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{float}
+
+\newtcolorbox{vizpanel}[1][]{
+  colback=gray!4, colframe=gray!50!black,
+  fonttitle=\bfseries, title={Visualization: #1},
+  sharp corners, boxrule=0.5pt
+}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.7em}{}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{example}[definition]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\x}{\mathbf{x}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newtcolorbox{intuition}[1][]{
+  colback=blue!3, colframe=blue!40!black,
+  fonttitle=\bfseries, title={Intuition: #1},
+  sharp corners, boxrule=0.5pt
+}
+\newtcolorbox{keyinsight}[1][]{
+  colback=orange!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title={Key Structural Insight},
+  sharp corners, boxrule=0.5pt
+}
+\newtcolorbox{prebisch}[1][]{
+  colback=green!3, colframe=green!40!black,
+  fonttitle=\bfseries, title={Prebisch Connection: #1},
+  sharp corners, boxrule=0.5pt
+}
+
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Chapter 6: Centrality, Power, and the Perron Vector}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{\vspace{-1cm}\textbf{Chapter 6} \\[0.5em]
+\LARGE Centrality, Power, and the Perron Vector \\[0.3em]
+\large\textit{Where Power Comes From}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{quote}
+\textit{``En el capitalismo perif\'{e}rico, la apropiaci\'{o}n del excedente econ\'{o}mico est\'{a} \'{i}ntimamente ligada a las relaciones de poder entre los distintos estratos sociales.''}\\[0.3em]
+\textnormal{[``In peripheral capitalism, the appropriation of the economic surplus is intimately linked to the power relations between different social strata.'']}\\
+\hfill --- Ra\'{u}l Prebisch, \textit{Capitalismo Perif\'{e}rico: Crisis y Transformaci\'{o}n} (1981)
+\end{quote}
+
+\vspace{0.3em}
+
+\begin{quote}
+\textit{``Power is not an institution, and not a structure; neither is it a certain strength we are endowed with; it is the name that one attributes to a complex strategical situation in a particular society.''}\\
+\hfill --- Michel Foucault, \textit{The History of Sexuality} (1976)
+\end{quote}
+
+\vspace{0.5em}
+
+\begin{quote}
+\textit{``Power is the left Perron eigenvector of the weight matrix.''}\\
+\hfill --- This book
+\end{quote}
+
+\vspace{1em}
+
+Foucault was right that power is not an attribute of individuals. He was wrong that it cannot be measured. Power is a property of the network --- specifically, of the weight matrix $W$ that encodes who affects whom. It is computed by the Perron-Frobenius theorem, the single most important result in this book.
+
+This chapter does three things. First, it develops the concept of centrality --- the idea that some positions in a network are more ``important'' than others --- through examples, building from simple degree counting to the recursive logic of eigenvector centrality. Second, it states and proves the Perron-Frobenius theorem, which guarantees that the centrality measure we want actually exists and is unique. Third, it derives the properties of the Perron eigenvector --- the power vector $\boldsymbol{\pi}$ --- and shows what the spectral gap $\Gamma$ tells us about the concentration and persistence of power.
+
+By the end, the student will know where power comes from (the network), how to compute it (the Perron eigenvector), when it concentrates (small spectral gap), and when the welfare theorems hold (power is equal, meaning $W$ is doubly stochastic).
+
+
+%% =====================================================================
+\section{Who Matters? Four Attempts at an Answer}
+\label{sec:who_matters}
+%% =====================================================================
+
+\subsection{A Small Economy}
+
+Consider five agents in a production network:
+
+\begin{equation}\label{eq:W5}
+W = \begin{pmatrix}
+0.2 & 0.4 & 0.1 & 0.0 & 0.0 \\
+0.3 & 0.1 & 0.2 & 0.1 & 0.0 \\
+0.1 & 0.3 & 0.2 & 0.2 & 0.1 \\
+0.0 & 0.1 & 0.3 & 0.2 & 0.3 \\
+0.0 & 0.0 & 0.1 & 0.3 & 0.4
+\end{pmatrix}.
+\end{equation}
+
+Read row $i$: these are the weights that agent $i$ places on others. Agent 1 depends heavily on agent 2 ($W_{12} = 0.4$). Agent 5 depends heavily on herself ($W_{55} = 0.4$) and on agent 4 ($W_{54} = 0.3$). Agent 3 is in the middle --- connected to everyone.
+
+Question: which agent is the most powerful?
+
+Four different answers emerge from four different ways of measuring importance. All four are ``correct'' in their own domain. Only one is the right measure of structural power.
+
+
+\subsection{Attempt 1: Count the Connections (Degree Centrality)}
+
+The simplest measure: how many connections does each agent have?
+
+\begin{definition}[Degree Centrality]\label{def:degree}
+For a weight matrix $W$, agent $i$'s \textbf{in-degree} is the column sum $d_i^{\text{in}} = \sum_{j} W_{ji}$ (total weight that others place on $i$). The \textbf{out-degree} is the row sum $d_i^{\text{out}} = \sum_j W_{ij}$ (total weight that $i$ places on others).
+\end{definition}
+
+For our $W$: the column sums (in-degree) are:
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Agent & 1 & 2 & 3 & 4 & 5 \\
+\midrule
+In-degree $d^{\text{in}}_i$ & 0.60 & 0.90 & 0.90 & 0.80 & 0.80 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Agents 2 and 3 are tied at the top: both receive the most total weight from others. Agent 1 is least important by this measure.
+
+\begin{intuition}[What degree gets right and wrong]
+Degree counts \textit{direct} connections: how many people depend on you (in-degree) or how much you depend on others (out-degree). It is easy to compute and often correlates with importance. But it misses something critical: \textit{who} depends on you matters. If you are depended upon by powerful agents, that should count more than being depended upon by peripheral agents. Degree treats all connections equally. A farmer who sells to the president and a farmer who sells to another farmer have the same in-degree, but they do not have the same power.
+\end{intuition}
+
+
+\subsection{Attempt 2: Count the Paths (Katz Centrality)}
+
+Degree counts direct connections. A more sophisticated measure counts \textit{all} paths --- direct and indirect.
+
+\begin{definition}[Katz Centrality]\label{def:katz}
+Agent $i$'s \textbf{Katz centrality} is:
+\begin{equation}\label{eq:katz}
+c_i^{\text{Katz}} = \sum_{k=1}^{\infty} \delta^k \sum_{j=1}^N (W^k)_{ji} = \left[(I - \delta W')^{-1} - I\right]_{i} \cdot \ones,
+\end{equation}
+where $\delta \in (0, 1/\rho(W))$ is a decay parameter that downweights longer paths, and $(W^k)_{ji}$ is the total weight of all paths of length $k$ from $i$ to $j$.
+\end{definition}
+
+Katz centrality says: agent $i$ is important if many paths lead to her, directly or indirectly, weighted by length. The parameter $\delta$ ensures convergence (same condition as the Leontief inverse from Chapter~1).
+
+\begin{intuition}[The Leontief connection]
+Katz centrality is the column sum of the Leontief inverse $(I - \delta W')^{-1}$. This is the output multiplier from Chapter~1 reinterpreted as a centrality measure. An agent with a high output multiplier generates a lot of total activity when her output increases --- she is ``important'' in the production network.
+
+Katz improves on degree by counting indirect connections. But it still has a flaw: it adds a fixed bonus $\delta^k$ for each path of length $k$, regardless of whether the agents along that path are themselves important. The weight of a path through the president should count more than a path through another farmer.
+\end{intuition}
+
+
+\subsection{Attempt 3: Ask the Neighbors (Bonacich Centrality)}
+
+\begin{definition}[Bonacich Centrality]\label{def:bonacich}
+Agent $i$'s \textbf{Bonacich centrality} is the $i$-th component of:
+\begin{equation}\label{eq:bonacich}
+\mathbf{c}^{\text{Bon}} = (I - \beta W')^{-1} W' \ones = (I - \beta W')^{-1} \mathbf{d}^{\text{in}},
+\end{equation}
+where $\beta \in (-1/\rho(W), 1/\rho(W))$ is a parameter and $\mathbf{d}^{\text{in}} = W'\ones$ is the in-degree vector.
+\end{definition}
+
+Bonacich centrality starts from degree (the $\mathbf{d}^{\text{in}}$ term) and then amplifies it through the Leontief-type multiplier $(I - \beta W')^{-1}$, which accounts for the centrality of your neighbors.
+
+The parameter $\beta$ has a remarkable interpretation. When $\beta > 0$, an agent is more central if her neighbors are also central --- this captures \textit{cooperation} (your friends' power helps you). When $\beta < 0$, an agent is more central if her neighbors are \textit{less} central --- this captures \textit{bargaining} (your power comes from your partners' weakness, because they have no outside options).
+
+Ballester, Calv\'{o}-Armengol, and Zenou (2006) proved the foundational result: in linear-quadratic games on networks, the Nash equilibrium action of each agent is proportional to her Bonacich centrality. This is the ``Bonacich-Nash linkage'' --- the first clean mapping from network position to economic outcome.
+
+\begin{intuition}[Getting closer]
+Bonacich centrality is a major advance: it makes the centrality of your neighbors matter for your own centrality. But it still depends on a parameter $\beta$ that must be chosen by the analyst. Different values of $\beta$ give different rankings. There is no ``canonical'' Bonacich centrality.
+
+What we want is a centrality measure that is \textit{parameter-free} --- determined entirely by the network, with no analyst degrees of freedom. That is the eigenvector.
+\end{intuition}
+
+
+\subsection{Attempt 4: The Recursive Definition (Eigenvector Centrality)}
+
+Here is the idea that resolves everything.
+
+\textit{An agent is powerful if powerful agents depend on her.}
+
+This is circular. The power of agent $i$ depends on the power of agents $j$ who point to $i$, which depends on the power of agents $k$ who point to $j$, and so on. We seem to need to know the answer before we can compute it.
+
+But this circularity is not a bug. It is a feature. The circularity defines a \textit{fixed-point equation}: we seek a vector $\boldsymbol{\pi}$ such that the power of each agent equals the total power directed toward her.
+
+\begin{definition}[Eigenvector Centrality --- Left Perron Eigenvector]\label{def:eigenvector}
+Agent $i$'s \textbf{eigenvector centrality} (or \textbf{structural power}) is $\pi_i$, the $i$-th component of the vector $\boldsymbol{\pi}$ satisfying:
+\begin{equation}\label{eq:perron_def}
+\boldsymbol{\pi}' W = \rho(W) \cdot \boldsymbol{\pi}',
+\end{equation}
+with $\boldsymbol{\pi} \geq 0$ and $\|\boldsymbol{\pi}\|_1 = \sum_i \pi_i = 1$.
+
+Equivalently, for each agent:
+\begin{equation}\label{eq:perron_component}
+\pi_i = \frac{1}{\rho(W)} \sum_{j=1}^N \pi_j W_{ji}.
+\end{equation}
+\end{definition}
+
+\begin{intuition}[Reading the equation]
+Equation~\eqref{eq:perron_component} says: agent $i$'s power is proportional to the sum, over all agents $j$, of (a) $j$'s power $\pi_j$ times (b) how much $j$ depends on $i$ (that is, $W_{ji}$). You are powerful if powerful agents point toward you.
+
+The factor $1/\rho(W)$ is just normalization --- it ensures $\sum_i \pi_i = 1$.
+
+This is the recursive definition we wanted: power depends on the power of those who depend on you. The Perron-Frobenius theorem (next section) guarantees that this circular definition has a unique solution.
+\end{intuition}
+
+\begin{example}[Computing Power for the Five-Agent Economy]\label{ex:five_power}
+For the matrix $W$ in~\eqref{eq:W5}, the left Perron eigenvector (computed iteratively --- see Appendix~6A) is:
+\begin{equation}
+\boldsymbol{\pi} \approx (0.122, \; 0.226, \; 0.257, \; 0.214, \; 0.181).
+\end{equation}
+
+\textbf{Agent 3 is the most powerful} ($\pi_3 = 0.257$), even though she tied with Agent~2 on in-degree. Why? Because Agent~3 is depended upon by Agent~4 ($W_{43} = 0.3$), who is himself fairly powerful ($\pi_4 = 0.214$). Agent~2 is depended upon by Agent~1 ($W_{12} = 0.4$), who is the \textit{least} powerful ($\pi_1 = 0.122$). Being depended upon by a weak agent counts for less.
+
+\textbf{Agent 1 is the least powerful} ($\pi_1 = 0.122$), despite having a nonzero connection to the most powerful agent. She is peripheral: few agents depend on her, and those who do are not particularly powerful themselves.
+
+Compare the four centrality measures:
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+& Agent 1 & Agent 2 & Agent 3 & Agent 4 & Agent 5 \\
+\midrule
+In-degree & 0.60 & \textbf{0.90} & \textbf{0.90} & 0.80 & 0.80 \\
+Katz ($\delta = 0.5$) & 0.87 & 1.32 & \textbf{1.41} & 1.24 & 1.16 \\
+Bonacich ($\beta = 0.3$) & 0.71 & 1.15 & \textbf{1.28} & 1.12 & 1.04 \\
+Eigenvector $\pi_i$ & 0.122 & 0.226 & \textbf{0.257} & 0.214 & 0.181 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All four agree that Agent~3 is the most important, but they disagree on the rest. The eigenvector is the only measure that correctly discounts connections to weak agents and amplifies connections to strong ones, recursively and without free parameters.
+\end{example}
+
+\begin{vizpanel}{The five-agent economy: heatmap and power distribution}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\def\s{0.5}
+%% W heatmap (5x5), values from eq (6.1)
+\foreach \i/\j/\v in {
+  1/1/40,1/2/80,1/3/20,1/4/0,1/5/0,
+  2/1/60,2/2/20,2/3/40,2/4/20,2/5/0,
+  3/1/20,3/2/60,3/3/40,3/4/40,3/5/20,
+  4/1/0,4/2/20,4/3/60,4/4/40,4/5/60,
+  5/1/0,5/2/0,5/3/20,5/4/60,5/5/80} {
+  \fill[blue!\v, draw=white, line width=0.15pt]
+    ({(\j-1)*\s}, {(5-\i)*\s}) rectangle +(\s,\s);
+}
+%% Row/col labels
+\foreach \k/\lab in {1/1,2/2,3/3,4/4,5/5} {
+  \node[font=\tiny, left] at (0, {(5-\k+0.5)*\s}) {\lab};
+  \node[font=\tiny, above] at ({(\k-0.5)*\s}, {5*\s}) {\lab};
+}
+\node[below, font=\scriptsize\bfseries] at ({2.5*\s}, -0.15) {$W$ (heatmap)};
+
+%% Power bars
+\begin{scope}[xshift=4.5cm]
+\foreach \k/\val/\pct in {1/0.122/24,2/0.226/45,3/0.257/51,4/0.214/43,5/0.181/36} {
+  \fill[blue!\pct!black] (0, {(5-\k)*0.5}) rectangle ({\val*8}, {(5-\k)*0.5+0.4});
+  \node[font=\tiny, left] at (0, {(5-\k)*0.5+0.2}) {\k};
+  \node[font=\tiny, right] at ({\val*8}, {(5-\k)*0.5+0.2}) {\val};
+}
+%% 1/N reference line
+\draw[red, dashed, thin] ({0.2*8}, 0) -- ({0.2*8}, 2.5);
+\node[font=\tiny, red] at ({0.2*8}, 2.7) {$1/N$};
+\node[below, font=\scriptsize\bfseries] at (1.2, -0.15) {$\boldsymbol{\pi}$ (power)};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small Left: the $5 \times 5$ weight matrix as a heatmap. Agent~3's column (column 3) receives weight from many rows --- she is depended upon broadly. Right: the Perron eigenvector. Agent~3 has the most power (0.257). The dashed red line marks $1/N = 0.20$ (equal power). Agents above the line are structurally advantaged; agents below it are disadvantaged. The distance from the red line is the power correction that enters the bargaining allocation (Chapter~7).
+\end{vizpanel}
+
+
+%% =====================================================================
+\section{The Perron-Frobenius Theorem}
+\label{sec:PF}
+%% =====================================================================
+
+The recursive definition of eigenvector centrality~\eqref{eq:perron_def} raises an obvious question: does it have a solution? Is the solution unique? Is it positive (do all agents have nonnegative power)?
+
+The answer to all three is yes, and the proof is the Perron-Frobenius theorem --- the single most important result in matrix theory for economics.
+
+\subsection{Statement}
+
+\begin{theorem}[Perron-Frobenius]\label{thm:PF}
+Let $W$ be an $N \times N$ nonnegative matrix ($W_{ij} \geq 0$ for all $i, j$). Then:
+
+\textbf{Part I (Perron, 1907):} If $W > 0$ (all entries strictly positive):
+\begin{enumerate}
+\item $W$ has a real eigenvalue $\rho = \rho(W) > 0$ that is strictly larger in magnitude than all other eigenvalues: $|\lambda_k| < \rho$ for all $k \neq 1$.
+\item The corresponding right eigenvector $\mathbf{v}$ can be chosen strictly positive: $v_i > 0$ for all $i$.
+\item The corresponding left eigenvector $\boldsymbol{\pi}$ can be chosen strictly positive: $\pi_i > 0$ for all $i$.
+\item Both $\mathbf{v}$ and $\boldsymbol{\pi}$ are unique up to normalization.
+\end{enumerate}
+
+\textbf{Part II (Frobenius, 1912):} If $W \geq 0$ (nonnegative, some entries may be zero) and $W$ is \textbf{irreducible} (the network is strongly connected --- every agent can reach every other agent through some chain of positive weights):
+\begin{enumerate}
+\setcounter{enumi}{4}
+\item All of (1)--(4) still hold.
+\item If additionally $W$ is \textbf{aperiodic} (the greatest common divisor of cycle lengths through any node is 1), then $\frac{1}{\rho^t}W^t \to \mathbf{v}\boldsymbol{\pi}'$ as $t \to \infty$.
+\end{enumerate}
+\end{theorem}
+
+\begin{intuition}[What each part says in words]
+\textbf{(1) Dominant eigenvalue:} Among all the eigenvalues of $W$, there is one --- the spectral radius $\rho$ --- that is real, positive, and strictly larger than all others. This means the long-run behavior of the system is dominated by a single ``mode.''
+
+\textbf{(2)--(3) Positive eigenvectors:} The right eigenvector $\mathbf{v}$ and left eigenvector $\boldsymbol{\pi}$ have all positive entries. No agent has zero power. No agent has negative power. Everyone matters, at least a little.
+
+\textbf{(4) Uniqueness:} There is only one such $\boldsymbol{\pi}$ (up to scaling). Power is determined uniquely by the network. There is no ambiguity, no analyst choice, no free parameter.
+
+\textbf{(5) Extension to sparse matrices:} Even if some entries of $W$ are zero (not everyone is directly connected to everyone), the theorem still holds as long as the network is \textit{connected}: there exists an indirect path between every pair of agents.
+
+\textbf{(6) Convergence:} If you repeatedly apply $W$ to any initial vector --- iterate beliefs through DeGroot learning, cascade shocks through the Leontief system, propagate influence through the network --- the system converges to a state described by the Perron eigenvectors. In the long run, only $\boldsymbol{\pi}$ matters.
+\end{intuition}
+
+\begin{keyinsight}
+The Perron-Frobenius theorem is why structural power is well-defined. Without it, the recursive definition $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$ might have no solution, multiple solutions, or solutions with negative entries (meaningless as a power measure). With it, the solution exists, is unique, and is positive. Power is a theorem, not an assumption.
+
+The theorem requires two conditions: nonnegativity ($W \geq 0$, which is natural --- dependencies are nonnegative) and irreducibility (the network is connected --- which is an empirical question). When the network is reducible (disconnected), it fragments into irreducible components, each with its own Perron eigenvector. This is the mathematical content of structural heterogeneity: a block-diagonal $W$ has multiple Perron vectors, one per block.
+\end{keyinsight}
+
+
+\subsection{Proof Sketch}
+
+The full proof is in Appendix~\ref{app:PF_proof}. Here we give the key ideas for the positive case ($W > 0$).
+
+\textbf{Step 1: The map $T$.} Define $T(\mathbf{u}) = W\x / \|W\x\|_1$ for $\x \geq 0$, $\x \neq 0$. This maps the positive simplex $\Delta = \{\x \geq 0 : \|\x\|_1 = 1\}$ to itself (because $W > 0$ ensures $W\x > 0$).
+
+\textbf{Step 2: $T$ is a contraction.} On the positive simplex with the Hilbert projective metric $d_H(\mathbf{u}, \mathbf{w}) = \ln\frac{\max_i x_i/y_i}{\min_i x_i/y_i}$, the map $T$ satisfies $d_H(T(\mathbf{u}), T(\mathbf{w})) \leq \tau \cdot d_H(\mathbf{u}, \mathbf{w})$ where $\tau < 1$ depends on the ratio of the smallest to largest entry of $W$. This is Birkhoff's contraction theorem (1957).
+
+\textbf{Step 3: Fixed point.} By the Banach fixed-point theorem, $T$ has a unique fixed point $\mathbf{v}^*$. This satisfies $W\mathbf{v}^* = \rho \mathbf{v}^*$ where $\rho = \|W\mathbf{v}^*\|_1$. So $\mathbf{v}^*$ is the right Perron eigenvector.
+
+\textbf{Step 4: Left eigenvector.} Apply the same argument to $W'$ (the transpose). The unique fixed point of $T'(\boldsymbol{\pi}) = W'\boldsymbol{\pi}/\|W'\boldsymbol{\pi}\|_1$ is $\boldsymbol{\pi}$, the left Perron eigenvector.
+
+\textbf{Step 5: Dominance.} Any other eigenvalue $\lambda$ satisfies $|\lambda| < \rho$ because the contraction property forces all initial conditions to converge to the same fixed point --- there is no room for competing eigenvectors at the same magnitude.
+
+
+%% =====================================================================
+\section{Properties of the Power Vector}
+\label{sec:properties}
+%% =====================================================================
+
+\subsection{Six Propositions About Power}
+
+\begin{proposition}[Power Sums to One]\label{prop:power_sum}
+$\sum_{i=1}^N \pi_i = 1$. Power is a distribution: it sums to 100\%. An agent's power $\pi_i$ can be interpreted as her ``share of total structural influence.''
+\end{proposition}
+
+\begin{proposition}[Equal Power iff Doubly Stochastic]\label{prop:equal_power}
+$\boldsymbol{\pi} = \frac{1}{N}\ones$ (equal power for all agents) if and only if $W$ is \textbf{doubly stochastic} (every row sum and every column sum equals 1).
+\end{proposition}
+
+\begin{proof}
+$(\Leftarrow)$: If $W$ is doubly stochastic, $\ones'W = \ones'$, so $\boldsymbol{\pi}' = \frac{1}{N}\ones'$ satisfies $\boldsymbol{\pi}'W = \frac{1}{N}\ones'W = \frac{1}{N}\ones'$. By uniqueness of the Perron eigenvector, $\boldsymbol{\pi} = \frac{1}{N}\ones$.
+
+$(\Rightarrow)$: If $\boldsymbol{\pi} = \frac{1}{N}\ones$, then $\frac{1}{N}\ones'W = \frac{1}{N}\ones'$, so $\ones'W = \ones'$, meaning column sums equal 1. Combined with row-stochasticity (if $W$ is row-stochastic), this gives doubly stochastic.
+\end{proof}
+
+\begin{intuition}[The deepest result in this chapter]
+Proposition~\ref{prop:equal_power} is the mathematical foundation of the entire book. It says: \textit{power is equal if and only if the interaction matrix is doubly stochastic.} The competitive model assumes $W^{CE} = \frac{1}{N}\ones\ones'$ (doubly stochastic), so power is equal, so the welfare theorems hold. Any deviation from doubly stochastic creates power asymmetry. The welfare theorems fail because someone has more power than others.
+
+The question ``why don't the welfare theorems hold in the real world?'' has a precise answer: because the real $W$ is not doubly stochastic. The column sums are not equal. Some agents receive more total weight than others. That asymmetry is power.
+\end{intuition}
+
+\begin{proposition}[Power is Monotone in Connections]\label{prop:monotone}
+If $W_{ji}$ increases (agent $j$ places more weight on agent $i$) while all other entries are adjusted to maintain row-stochasticity, then $\pi_i$ weakly increases. Being depended upon by more people, or more heavily, raises your power.
+\end{proposition}
+
+\begin{proposition}[Power Concentrates in Stars]\label{prop:star_power}
+In a star network with hub $h$: $\pi_h = 1 - O(1/N)$, i.e., the hub captures almost all the power as $N$ grows. The spectral gap $\Gamma \to 0$.
+\end{proposition}
+
+\begin{proposition}[Power Fragments in Block-Diagonal Networks]\label{prop:block_power}
+If $W$ is approximately block-diagonal with $k$ blocks, $\boldsymbol{\pi}$ is approximately concentrated on the block with the largest spectral radius, with weights proportional to the internal Perron eigenvector of that block.
+\end{proposition}
+
+\begin{proposition}[The Welfare Theorem Revisited]\label{prop:welfare_revisited}
+In the economy from Chapters~1--5, the competitive equilibrium is Pareto efficient if and only if the composite weight matrix $W$ is doubly stochastic (equivalently, if and only if $\boldsymbol{\pi} = \frac{1}{N}\ones$). When power is unequal, the equilibrium is inefficient, and the direction of inefficiency is determined by $\boldsymbol{\pi}$: powerful agents consume too much relative to the efficient allocation, and powerless agents consume too little.
+\end{proposition}
+
+
+%% =====================================================================
+\section{The Spectral Gap}
+\label{sec:gap}
+%% =====================================================================
+
+\subsection{Definition and Meaning}
+
+\begin{definition}[Spectral Gap]\label{def:gap}
+The \textbf{spectral gap} of $W$ is:
+\begin{equation}\label{eq:gap}
+\Gamma = \rho(W) - |\lambda_2(W)|,
+\end{equation}
+where $\rho(W)$ is the largest eigenvalue (the Perron root) and $|\lambda_2(W)|$ is the second-largest eigenvalue in magnitude.
+\end{definition}
+
+The spectral gap is the single most informative structural diagnostic in this book. It measures four things simultaneously:
+
+\begin{enumerate}
+\item \textbf{Speed of convergence.} In DeGroot learning, beliefs converge at rate $|\lambda_2/\rho|^t$. Large $\Gamma$ means fast convergence to consensus. Small $\Gamma$ means slow convergence and persistent disagreement.
+
+\item \textbf{Strength of propagation.} In the Leontief system, shocks propagate through the network. The off-diagonal entries of $(I - \gamma W)^{-1}$ are bounded by terms involving $\Gamma$. Large $\Gamma$ means strong cross-agent propagation. Small $\Gamma$ means shocks stay localized.
+
+\item \textbf{Symmetry of power.} Large $\Gamma$ implies that $\boldsymbol{\pi}$ is close to uniform ($\frac{1}{N}\ones$): power is relatively equal. Small $\Gamma$ means the Perron eigenvector can be highly concentrated: power is unequal.
+
+\item \textbf{Structural integrity.} Large $\Gamma$ means the network is well-connected: there is one dominant ``mode'' and the system behaves as a unified whole. Small $\Gamma$ means competing modes: the network is approximately reducible (block-diagonal), and different parts of the system can evolve independently.
+\end{enumerate}
+
+\begin{example}[Spectral Gap Across Topologies]\label{ex:gap}
+For $N = 10$:
+
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+Topology & $\Gamma$ & Max $\pi_i$ & Interpretation \\
+\midrule
+Complete & 1.000 & 0.100 & Maximum symmetry, fast convergence \\
+Ring & $\approx 0.19$ & 0.100 & Slow propagation along chain \\
+Small-world & $\approx 0.35$ & $\approx 0.12$ & Moderate: shortcuts help \\
+Star & $\approx 0.05$ & $\approx 0.50$ & Near-zero: hub dominates \\
+Block-diagonal & $\approx 0.08$ & $\approx 0.13$ & Near-zero: disconnected sectors \\
+Core-periphery & $\approx 0.25$ & $\approx 0.20$ & Moderate asymmetry \\
+Scale-free & $\approx 0.10$ & $\approx 0.35$ & Hubs concentrate power \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The complete graph has $\Gamma = 1$ (maximum). The star and block-diagonal have $\Gamma \approx 0$ (minimum among connected graphs). The spectral gap collapses whenever there are competing power centers (block-diagonal) or a dominant hub (star).
+\end{example}
+
+\begin{vizpanel}{Four topologies, four power distributions}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+%% Complete: flat bars
+\begin{scope}
+\foreach \k in {1,...,8} {
+  \fill[blue!50] (0, {(8-\k)*0.22}) rectangle ({0.125*5}, {(8-\k)*0.22+0.18});
+}
+\draw[red, dashed, thin] ({0.125*5}, 0) -- ({0.125*5}, 1.9);
+\node[below, font=\scriptsize\bfseries] at (0.4, -0.1) {Complete};
+\node[below, font=\scriptsize] at (0.4, -0.4) {$\Gamma = 1.0$};
+\end{scope}
+
+%% Star: one tall bar
+\begin{scope}[xshift=2.5cm]
+\fill[blue!90] (0, {7*0.22}) rectangle ({0.50*5}, {7*0.22+0.18});
+\foreach \k in {1,...,7} {
+  \fill[blue!25] (0, {(\k-1)*0.22}) rectangle ({0.071*5}, {(\k-1)*0.22+0.18});
+}
+\draw[red, dashed, thin] ({0.125*5}, 0) -- ({0.125*5}, 1.9);
+\node[below, font=\scriptsize\bfseries] at (0.5, -0.1) {Star};
+\node[below, font=\scriptsize] at (0.5, -0.4) {$\Gamma \approx 0.05$};
+\end{scope}
+
+%% Block-diagonal: two tiers
+\begin{scope}[xshift=5.5cm]
+\foreach \k in {1,...,4} {
+  \fill[blue!55] (0, {(8-\k)*0.22}) rectangle ({0.15*5}, {(8-\k)*0.22+0.18});
+}
+\foreach \k in {5,...,8} {
+  \fill[blue!40] (0, {(8-\k)*0.22}) rectangle ({0.10*5}, {(8-\k)*0.22+0.18});
+}
+\draw[red, dashed, thin] ({0.125*5}, 0) -- ({0.125*5}, 1.9);
+\node[below, font=\scriptsize\bfseries] at (0.5, -0.1) {Block-diagonal};
+\node[below, font=\scriptsize] at (0.5, -0.4) {$\Gamma \approx 0.08$};
+\end{scope}
+
+%% Core-periphery: gradient
+\begin{scope}[xshift=8.5cm]
+\foreach \k/\val in {1/0.20,2/0.18,3/0.16,4/0.12,5/0.10,6/0.09,7/0.08,8/0.07} {
+  \pgfmathparse{\val*400}
+  \edef\bp{\pgfmathresult}
+  \fill[blue!\bp] (0, {(8-\k)*0.22}) rectangle ({\val*5}, {(8-\k)*0.22+0.18});
+}
+\draw[red, dashed, thin] ({0.125*5}, 0) -- ({0.125*5}, 1.9);
+\node[below, font=\scriptsize\bfseries] at (0.5, -0.1) {Core-periphery};
+\node[below, font=\scriptsize] at (0.5, -0.4) {$\Gamma \approx 0.25$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small Power distributions ($\boldsymbol{\pi}$) for four topologies at $N = 8$. Dashed red line: $1/N = 0.125$ (equal power). Complete: perfectly flat. Star: one bar dominates. Block-diagonal: two tiers. Core-periphery: smooth gradient. The spectral gap $\Gamma$ predicts the shape: large $\Gamma$ means flat; small $\Gamma$ means concentrated or tiered.
+\end{vizpanel}
+
+\subsection{The Spectral Gap as Development Diagnostic}
+
+\begin{prebisch}[The spectral gap of the global economy]
+Combining the insights from Chapters~3 and~5: the spectral gap of the global production network $W^P_{\text{global}}$ measures how well-integrated the global economy is. If $\Gamma$ is large, productivity shocks propagate from center to periphery and back --- growth is shared. If $\Gamma$ is small, the global economy is approximately block-diagonal: center and periphery evolve independently, and gains from trade accrue primarily to the center.
+
+Prebisch's argument is that $\Gamma_{\text{global}}$ is small --- not because the global economy is disconnected (trade volumes are enormous) but because the linkages are \textit{asymmetric}: the periphery depends on the center ($W^P_{\text{periphery, center}}$ is large) but the center barely depends on the periphery ($W^P_{\text{center, periphery}} \approx 0$). The matrix is not block-diagonal; it is core-periphery. The spectral gap is reduced not by disconnection but by asymmetry.
+
+The spectral gap of Bolivia's domestic $W^P$ measures internal structural heterogeneity (Chapter~3). The spectral gap of the global $W^I$ measures epistemic dependence (Chapter~5). Both are small for the periphery. This is the double trap: weak economic propagation AND weak informational autonomy. The eigenvalues tell the same story at both scales.
+\end{prebisch}
+
+
+%% =====================================================================
+\section{Power in Practice}
+\label{sec:practice}
+%% =====================================================================
+
+\subsection{Where Does Power Come From?}
+
+The Perron eigenvector gives us a precise answer. From equation~\eqref{eq:perron_component}:
+\begin{equation}
+\pi_i = \frac{1}{\rho} \sum_{j=1}^N \pi_j W_{ji}.
+\end{equation}
+
+Your power is the weighted sum of the power of agents who depend on you, where the weights are how much they depend on you. This generates three \textit{sources} of structural power:
+
+\textbf{1. Being needed (production power).} If many agents use your output as an input ($W^P_{ji}$ large for many $j$), you have production power. Saudi Arabia has production power in the global oil network. TSMC has production power in the semiconductor network.
+
+\textbf{2. Being cared about (social power).} If powerful agents care about your wellbeing ($W^U_{ji}$ large for powerful $j$), you have social power. The president's spouse has social power. A patron's favored client has social power.
+
+\textbf{3. Being listened to (epistemic power).} If powerful agents pay attention to your signals ($W^I_{ji}$ large for powerful $j$), you have epistemic power. The Federal Reserve chair has epistemic power. A TikTok influencer has epistemic power.
+
+\subsection{Power vs.\ Wealth}
+
+Power $(\boldsymbol{\pi})$ and wealth $(\mathbf{w})$ are not the same thing.
+
+Wealth is what you have --- your endowment $\omega_i$, your capital $K_i$, your income $Y_i$. Wealth can be redistributed by transfers: tax the rich, give to the poor, and $\mathbf{w}$ changes.
+
+Power is where you sit --- your position in $W$. Power cannot be redistributed by transfers, because transfers change $\boldsymbol{\omega}$ but not $W$. The Perron eigenvector is a property of the matrix, not of the endowment vector.
+
+\begin{example}[A Rich Farmer and a Poor Minister]\label{ex:rich_poor}
+Suppose agent 1 is a wealthy farmer ($w_1 = 100$) and agent 2 is a poor government minister ($w_2 = 10$). In a $2 \times 2$ economy with:
+\begin{equation}
+W = \begin{pmatrix} 0.8 & 0.2 \\ 0.9 & 0.1 \end{pmatrix},
+\end{equation}
+the farmer depends on himself ($W_{11} = 0.8$) and barely on the minister ($W_{12} = 0.2$). But the minister depends heavily on the farmer ($W_{21} = 0.9$) --- because agricultural output feeds the government's tax base.
+
+The left Perron eigenvector: $\boldsymbol{\pi}' W = \rho \boldsymbol{\pi}'$. From the first column: $0.8\pi_1 + 0.9\pi_2 = \rho\pi_1$, so $\pi_2/\pi_1 = (\rho - 0.8)/0.9$. The spectral radius is $\rho = (0.8 + 0.1)/2 + \sqrt{((0.8-0.1)/2)^2 + 0.18} = 0.45 + \sqrt{0.1225 + 0.18} = 0.45 + 0.55 = 1.0$. Wait --- check: for a row-stochastic matrix, $\rho = 1$. Let's verify: row sums are $0.8 + 0.2 = 1$ and $0.9 + 0.1 = 1$. Yes, $\rho = 1$.
+
+So $\pi_2/\pi_1 = (1 - 0.8)/0.9 = 0.2/0.9 = 2/9$. With $\pi_1 + \pi_2 = 1$: $\pi_1 = 9/11 \approx 0.818$, $\pi_2 = 2/11 \approx 0.182$.
+
+The farmer has 82\% of the structural power despite the minister having the political title. Why? Because the minister depends on the farmer (for tax revenue) more than the farmer depends on the minister (for governance). The dependency is asymmetric, and asymmetry is power.
+
+The farmer is rich AND powerful. The minister is poor AND less powerful. This is a structurally stable configuration: power and wealth reinforce each other. Chapter~13 will show that such configurations are fixed points of the structural reproduction process.
+\end{example}
+
+
+%% =====================================================================
+\section{Summary}
+\label{sec:summary}
+%% =====================================================================
+
+\begin{enumerate}
+\item \textbf{Four centrality measures} capture different aspects of network importance: degree (direct connections), Katz (all paths), Bonacich (neighbor-weighted paths), and eigenvector (recursive power). Only eigenvector centrality is parameter-free and self-consistent.
+
+\item \textbf{The Perron-Frobenius theorem} guarantees that the eigenvector centrality $\boldsymbol{\pi}$ exists, is unique, and is positive for any connected nonnegative matrix. Power is a theorem, not an assumption.
+
+\item \textbf{Power is equal if and only if $W$ is doubly stochastic.} This is the structural content of the welfare theorems: efficiency requires symmetric interaction. Any deviation from doubly stochastic creates power asymmetry and inefficiency.
+
+\item \textbf{The spectral gap} $\Gamma = \rho - |\lambda_2|$ measures convergence speed, propagation strength, power symmetry, and structural integrity --- four dimensions of the same underlying property.
+
+\item \textbf{Power comes from position}, not endowment. Transfers change $\boldsymbol{\omega}$ but not $\boldsymbol{\pi}$. Structural policy changes $W$ and therefore $\boldsymbol{\pi}$.
+\end{enumerate}
+
+
+%% =====================================================================
+\section{Exercises}
+\label{sec:exercises}
+%% =====================================================================
+
+\begin{enumerate}[label=\textbf{6.\arabic*}, leftmargin=3em]
+
+\item \textbf{Computing centralities.} For the five-agent economy~\eqref{eq:W5}:
+\begin{enumerate}
+\item Compute all four centrality measures (degree, Katz with $\delta = 0.5$, Bonacich with $\beta = 0.3$, eigenvector). Use Python.
+\item Do they agree on the ranking? Where do they disagree?
+\item Now double $W_{31}$ (Agent~3 depends more on Agent~1). Recompute the eigenvector centrality. Does Agent~1's power rise? By how much?
+\end{enumerate}
+
+\item \textbf{Doubly stochastic or not.} Classify each matrix as doubly stochastic (equal power) or not (asymmetric power), and for those that are not, find the Perron eigenvector:
+\begin{enumerate}
+\item $W = \frac{1}{3}\begin{pmatrix} 1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{pmatrix}$
+\item $W = \begin{pmatrix} 0.5 & 0.5 \\ 0.8 & 0.2 \end{pmatrix}$
+\item $W = \begin{pmatrix} 1/3 & 1/3 & 1/3 \\ 1/3 & 1/3 & 1/3 \\ 1/3 & 1/3 & 1/3 \end{pmatrix}$
+\item $W = \begin{pmatrix} 0.4 & 0.3 & 0.3 \\ 0.3 & 0.4 & 0.3 \\ 0.3 & 0.3 & 0.4 \end{pmatrix}$
+\end{enumerate}
+
+\item \textbf{The spectral gap and convergence.} For each topology (complete, star, ring, block-diagonal) with $N = 8$:
+\begin{enumerate}
+\item Compute $\Gamma$.
+\item Starting from $\mathbf{b}^{(0)} = (1, 0, 0, 0, 0, 0, 0, 0)'$, iterate $\mathbf{b}^{(t+1)} = W\mathbf{b}^{(t)}$ for $t = 1, \ldots, 50$. Plot $\|\mathbf{b}^{(t)} - \boldsymbol{\pi}'\mathbf{b}^{(0)}\ones\|$ (distance from consensus) against $t$.
+\item Verify that the convergence rate matches $|\lambda_2|^t$.
+\end{enumerate}
+
+\item \textbf{Bonacich with negative $\beta$.} For a buyer-seller network:
+\begin{equation}
+W = \begin{pmatrix} 0 & 0 & 0.5 & 0.5 \\ 0 & 0 & 0.5 & 0.5 \\ 0.5 & 0.5 & 0 & 0 \\ 0.5 & 0.5 & 0 & 0 \end{pmatrix}.
+\end{equation}
+\begin{enumerate}
+\item Compute Bonacich centrality with $\beta = 0.3$ (cooperation) and $\beta = -0.3$ (bargaining).
+\item Under bargaining ($\beta < 0$), which agents have higher centrality? Why?
+\item Relate to Manea's (2011) bargaining result: in symmetric bipartite networks, all agents have equal bargaining power. Does the eigenvector centrality confirm this?
+\end{enumerate}
+
+\item \textbf{Power iteration by hand.} For $W = \begin{pmatrix} 0.6 & 0.4 \\ 0.2 & 0.8 \end{pmatrix}$:
+\begin{enumerate}
+\item Start with $\mathbf{v}^{(0)} = (1, 1)$. Compute $\mathbf{v}^{(1)} = W'\mathbf{v}^{(0)}$, normalize. Repeat for $t = 2, 3, 4, 5$.
+\item At what iteration does $\mathbf{v}^{(t)}$ converge to two decimal places?
+\item Compute the exact Perron eigenvector algebraically (solve $\boldsymbol{\pi}'W = \boldsymbol{\pi}'$).
+\item Compare with the iterative result. Compute $\Gamma$ and verify the convergence rate.
+\end{enumerate}
+
+\item \textbf{Structural power vs.\ formal power.} An economy has 4 agents: President, General, Businesswoman, Farmer. Construct a plausible $4 \times 4$ weight matrix where the Farmer has the highest eigenvector centrality despite having the lowest formal rank. (Hint: make everyone's food supply depend on the Farmer, directly or indirectly.) Compute $\boldsymbol{\pi}$ and verify.
+
+\item \textbf{Bolivia's power structure.} Using the Bolivia three-sector model from Chapter~3 ($W^P$ with Gas, Manufacturing, Traditional):
+\begin{enumerate}
+\item Compute the left Perron eigenvector. Which sector has the most structural power?
+\item Now suppose gas revenues are redistributed to the traditional sector (a transfer). Does $\boldsymbol{\pi}$ change? Why or why not?
+\item Now suppose a gas-to-fertilizer plant is built, adding a link from Gas to Traditional ($W^P_{\text{Trad, Gas}}$ increases from 0.02 to 0.15). Recompute $\boldsymbol{\pi}$. How does the traditional sector's power change?
+\item Which policy --- the transfer or the plant --- changes the power structure?
+\end{enumerate}
+
+\end{enumerate}
+
+
+%% =====================================================================
+\newpage
+\section*{Mathematical Appendices}
+\addcontentsline{toc}{section}{Mathematical Appendices}
+%% =====================================================================
+
+
+\subsection*{Appendix 6A: Computing the Perron Eigenvector}
+\addcontentsline{toc}{subsection}{Appendix 6A: Computing the Perron Eigenvector}
+\label{app:computing}
+
+\paragraph{Power iteration.} The simplest algorithm:
+\begin{enumerate}
+\item Start with $\mathbf{v}^{(0)} = \frac{1}{N}\ones$ (or any positive vector).
+\item Iterate: $\tilde{\mathbf{v}}^{(t+1)} = W' \mathbf{v}^{(t)}$ (multiply by the transpose).
+\item Normalize: $\mathbf{v}^{(t+1)} = \tilde{\mathbf{v}}^{(t+1)} / \|\tilde{\mathbf{v}}^{(t+1)}\|_1$.
+\item Repeat until $\|\mathbf{v}^{(t+1)} - \mathbf{v}^{(t)}\|_\infty < \varepsilon$ (convergence tolerance).
+\end{enumerate}
+
+The spectral radius is estimated as $\rho \approx \|\tilde{\mathbf{v}}^{(t+1)}\|_1 / \|\mathbf{v}^{(t)}\|_1$ (the growth factor before normalization).
+
+\paragraph{Convergence rate.} The error after $t$ iterations is $\|\mathbf{v}^{(t)} - \boldsymbol{\pi}\| = O(|\lambda_2/\rho|^t)$. This is geometric with rate $|\lambda_2/\rho| = 1 - \Gamma/\rho$. For the complete graph ($\Gamma = 1$, $\rho = 1$): convergence in one step. For a near-block-diagonal graph ($\Gamma \approx 0.01$): convergence requires $\sim 100$ iterations for each digit of accuracy.
+
+\paragraph{Python code.}
+\begin{verbatim}
+import numpy as np
+
+def perron_eigenvector(W, tol=1e-10, maxiter=1000):
+    """Left Perron eigenvector of W."""
+    n = W.shape[0]
+    v = np.ones(n) / n
+    for _ in range(maxiter):
+        v_new = W.T @ v
+        v_new = v_new / v_new.sum()
+        if np.max(np.abs(v_new - v)) < tol:
+            return v_new
+        v = v_new
+    return v
+
+def spectral_gap(W):
+    """Spectral gap of W."""
+    eigenvalues = np.sort(np.abs(np.linalg.eigvals(W)))[::-1]
+    return eigenvalues[0] - eigenvalues[1]
+\end{verbatim}
+
+\paragraph{Computational complexity.} Each iteration of power iteration requires one matrix-vector multiplication: $O(N^2)$ for a dense matrix, $O(\text{nnz})$ for a sparse matrix (where $\text{nnz}$ is the number of nonzero entries). For most economic networks (sparse, $\text{nnz} \ll N^2$), this is efficient even for $N$ in the millions.
+
+
+\subsection*{Appendix 6B: Proof of Perron-Frobenius (Positive Case)}
+\addcontentsline{toc}{subsection}{Appendix 6B: Proof of Perron-Frobenius (Positive Case)}
+\label{app:PF_proof}
+
+We prove Theorem~\ref{thm:PF} for the case $W > 0$ (all entries strictly positive). The irreducible case requires additional machinery (see Horn and Johnson, 2012, Chapter~8).
+
+\paragraph{Setup.} Let $W > 0$ be $N \times N$ with all entries strictly positive. Define the positive cone $\mathcal{K} = \{\x \in \R^N : x_i > 0 \text{ for all } i\}$ and the simplex $\Delta = \{\x \in \mathcal{K} : \|\x\|_1 = 1\}$.
+
+\paragraph{Step 1: $W$ maps the positive cone to itself.} Since $W > 0$ and $\x > 0$, the product $W\x$ has all positive entries: $(W\x)_i = \sum_j W_{ij}x_j > 0$.
+
+\paragraph{Step 2: Hilbert projective metric.} For $\mathbf{u}, \mathbf{w} \in \mathcal{K}$, define:
+\begin{equation}
+M(\mathbf{u}/\mathbf{w}) = \max_i \frac{x_i}{y_i}, \qquad m(\mathbf{u}/\mathbf{w}) = \min_i \frac{x_i}{y_i}, \qquad d_H(\mathbf{u}, \mathbf{w}) = \ln \frac{M(\mathbf{u}/\mathbf{w})}{m(\mathbf{u}/\mathbf{w})}.
+\end{equation}
+This is a pseudo-metric on the positive cone ($d_H(\mathbf{u}, \mathbf{w}) = 0$ iff $\mathbf{u} = c\mathbf{w}$ for some $c > 0$). It becomes a true metric on the projective space (rays in $\mathcal{K}$), which is equivalent to the simplex $\Delta$.
+
+\paragraph{Step 3: Birkhoff's contraction.} For $W > 0$, define $\tau(W) = \frac{1 - \sqrt{\phi(W)}}{1 + \sqrt{\phi(W)}}$ where $\phi(W) = \frac{\min_{i,j,k,l} W_{ij}W_{kl}}{\max_{i,j,k,l} W_{ij}W_{kl}}$. Then for all $\mathbf{u}, \mathbf{w} \in \mathcal{K}$:
+\begin{equation}
+d_H(W\mathbf{u}, W\mathbf{w}) \leq \tau(W) \cdot d_H(\mathbf{u}, \mathbf{w}).
+\end{equation}
+Since $W > 0$ implies $\phi(W) > 0$, we have $\tau(W) < 1$: the map $\x \mapsto W\x$ is a strict contraction in the Hilbert metric.
+
+\paragraph{Step 4: Existence and uniqueness.} The normalized map $T(\mathbf{u}) = W\x/\|W\x\|_1$ is a contraction on the compact simplex $\Delta$ (with Hilbert metric). By the Banach fixed-point theorem, $T$ has a unique fixed point $\mathbf{v}^* \in \Delta$. This satisfies $W\mathbf{v}^* = \rho \mathbf{v}^*$ where $\rho = \|W\mathbf{v}^*\|_1 > 0$.
+
+\paragraph{Step 5: Positivity.} Since $W > 0$ and $\mathbf{v}^* > 0$ (it lies in $\mathcal{K}$), the eigenvector is strictly positive.
+
+\paragraph{Step 6: Dominance.} Suppose $W\mathbf{u} = \lambda\mathbf{u}$ for some $|\lambda| = \rho$ and $\mathbf{u} \neq c\mathbf{v}^*$. Take the vector of absolute values $|\mathbf{u}|$. Then $\rho|\mathbf{u}| = |\lambda\mathbf{u}| = |W\mathbf{u}| \leq W|\mathbf{u}|$ (triangle inequality applied entry-wise). But $W|\mathbf{u}| \geq \rho|\mathbf{u}|$ by the Perron root characterization. So equality holds, meaning $|W\mathbf{u}| = W|\mathbf{u}|$, which (for $W > 0$) requires $\mathbf{u} = e^{i\theta}\mathbf{v}^*$ for some $\theta$. For real $W$ and real $\lambda$, this means $\mathbf{u} = \pm\mathbf{v}^*$. But $\mathbf{v}^* > 0$ and $W\mathbf{u} = \lambda\mathbf{u}$ with $\lambda = \rho > 0$ forces $\mathbf{u} > 0$, so $\mathbf{u} = \mathbf{v}^*$. Contradiction. Hence no other eigenvalue has magnitude $\rho$.
+
+\paragraph{Step 7: Left eigenvector.} Apply the same argument to $W'$ (which is also positive). The unique left eigenvector is $\boldsymbol{\pi}$, the Perron eigenvector of $W'$, satisfying $\boldsymbol{\pi}'W = \rho\boldsymbol{\pi}'$.
+
+This completes the proof for the positive case. $\square$
+
+
+%% =====================================================================
+\subsection*{Structuralist Case Study: Prebisch's \textit{Capitalismo Perif\'{e}rico} and the Perron Eigenvector}
+\addcontentsline{toc}{subsection}{Structuralist Case Study: Prebisch (1981)}
+%% =====================================================================
+
+In 1981, at the age of eighty, Ra\'{u}l Prebisch published \textit{Capitalismo Perif\'{e}rico: Crisis y Transformaci\'{o}n} (M\'{e}xico: Fondo de Cultura Econ\'{o}mica, 344~pp.) --- his final major work and, in many ways, his most theoretically ambitious. Where the 1949 manifesto diagnosed the center-periphery structure of international trade, \textit{Capitalismo Perif\'{e}rico} turned inward, analyzing the \textbf{power structure within peripheral capitalism} and the mechanisms through which the economic surplus is appropriated by those at the top of the social hierarchy.
+
+The book's argument maps directly onto this chapter's formal framework.
+
+\textbf{Part 1: The surplus and its appropriation.} Prebisch defined the \textit{excedente econ\'{o}mico} (economic surplus) as the difference between total output and the consumption necessary to sustain the labor force. In a capitalist economy, the surplus is not distributed by a planner; it is \textit{appropriated} through a power structure. The agents who appropriate the most surplus are not necessarily the most productive --- they are the ones with the strongest structural position. In this chapter's notation: the surplus allocation is proportional to the Perron eigenvector $\boldsymbol{\pi}(W)$. The agents with the highest $\pi_i$ capture the largest share, regardless of their marginal product. Proposition~\ref{prop:equal_power} states the condition under which appropriation equals contribution: $W$ must be doubly stochastic. Prebisch's entire book is an argument that peripheral $W$ is not doubly stochastic.
+
+\textbf{Part 2: Power is relational, not individual.} Prebisch explicitly rejected the neoclassical view that factor payments reflect marginal products. In peripheral capitalism, wages are held below marginal product not because of market imperfections (in the neoclassical sense) but because \textit{the power structure of the labor market favors employers}. The employer's structural position --- monopsony in thin labor markets, control over hiring and firing in the absence of unions, political connections that shape regulation --- gives her a Perron weight $\pi_{\text{employer}} \gg 1/N$. The worker's structural position --- limited outside options, geographic immobility, dependence on a single employer --- gives $\pi_{\text{worker}} \ll 1/N$. The wage is determined not by the intersection of supply and demand curves but by the bargaining equilibrium of Chapter~7, with weights from the Perron eigenvector of this chapter.
+
+This is exactly equation~\eqref{eq:perron_component}: $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$. The worker's power is low because the powerful agents who ``point toward'' her (her employers) do not depend heavily on her individually ($W_{ji}$ small for any specific worker $j$). The employer's power is high because workers depend heavily on her ($W_{ij}$ large for many workers $i$). The recursion --- power comes from being depended upon by the powerful --- is the mathematical content of Prebisch's argument that ``power relations between social strata'' determine surplus appropriation.
+
+\textbf{Part 3: The political economy of structural reproduction.} Prebisch argued that the power structure reproduces itself politically: those who appropriate the surplus use part of it to maintain the institutions (legal frameworks, education systems, media) that sustain their structural position. In the notation of Chapters~5 and~8: the powerful invest in $W^I$ (shaping information flows to justify the existing distribution) and in $W^P$ (maintaining production structures that keep their Perron weight high). The spectral gap $\Gamma$ measures how entrenched this reproduction is: small $\Gamma$ means highly concentrated power that is difficult to dislodge (Proposition~\ref{prop:star_power}).
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Prebisch's argument (1981)} & \textbf{Formal object} & \textbf{This chapter} \\
+\midrule
+Surplus appropriated by power & $\boldsymbol{\pi}(W)$ governs allocation & Def.~\ref{def:eigenvector} \\
+Power is relational, not individual & $\pi_i = \frac{1}{\rho}\sum_j \pi_j W_{ji}$ (recursive) & Eq.~\eqref{eq:perron_component} \\
+Equal pay iff symmetric interaction & $\boldsymbol{\pi} = \frac{1}{N}\ones$ iff doubly stochastic & Prop.~\ref{prop:equal_power} \\
+Power concentrates in hubs & Star: $\pi_h \to 1$ as $N \to \infty$ & Prop.~\ref{prop:star_power} \\
+Structure reproduces itself & Small $\Gamma$ = entrenched power & Ex.~\ref{ex:gap} \\
+Power $\neq$ wealth & $\boldsymbol{\pi}$ is property of $W$, not $\boldsymbol{\omega}$ & Ex.~\ref{ex:rich_poor} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Prebisch was eighty when he wrote this. He had spent three decades building institutions (CEPAL, UNCTAD, ILPES) and two decades watching those institutions' prescriptions --- import substitution, regional integration, international commodity agreements --- partially succeed and partially fail. \textit{Capitalismo Perif\'{e}rico} was his attempt to explain why: the structural policies he had championed changed $W^P$ (the production network) but did not change the \textit{power structure} that determined who appropriated the gains. The Perron eigenvector shifted, but not enough, because the other networks ($W^U$, $W^I$) reproduced the old $\boldsymbol{\pi}$.
+
+The Perron-Frobenius theorem guarantees that $\boldsymbol{\pi}$ exists and is unique for any connected $W$. What Prebisch understood at eighty, without the theorem, is that $\boldsymbol{\pi}$ is the object that determines who gets what --- and that changing it requires changing all three networks, not just one.
+
+
+%% =====================================================================
+\subsection*{Further Reading}
+\addcontentsline{toc}{subsection}{Further Reading}
+%% =====================================================================
+
+\textbf{The Perron-Frobenius theorem:} Horn and Johnson (2012), \textit{Matrix Analysis}, Chapter~8 --- the definitive treatment. Seneta (2006), \textit{Non-Negative Matrices and Markov Chains} --- for the probabilistic perspective. Meyer (2000), \textit{Matrix Analysis and Applied Linear Algebra}, Chapter~8 --- accessible.
+
+\textbf{Centrality measures:} Bonacich (1987), ``Power and Centrality: A Family of Measures,'' \textit{American Journal of Sociology}. Ballester, Calv\'{o}-Armengol, and Zenou (2006), ``Who's Who in Networks,'' \textit{Econometrica}. Jackson (2008), \textit{Social and Economic Networks}, Chapter~2.
+
+\textbf{Spectral methods in economics:} Golub (2025), ``Eigenvalues in Microeconomics,'' \textit{Notices of the AMS}. Sargent and Stachurski (2024), \textit{Economic Networks}, Chapters~2--3. Acemoglu et al.\ (2012), ``Network Origins of Aggregate Fluctuations,'' for the ``influence vector'' (which is the Perron eigenvector of the input-output network).
+
+\textbf{Birkhoff's contraction:} Birkhoff (1957), ``Extensions of Jentzsch's Theorem,'' \textit{Transactions of the AMS}. Lemmens and Nussbaum (2012), \textit{Nonlinear Perron-Frobenius Theory} --- the modern reference.
+
+\textbf{The structuralist tradition on power:} Prebisch (1981), \textit{Capitalismo Perif\'{e}rico: Crisis y Transformaci\'{o}n}, M\'{e}xico: FCE (the primary source for the case study above). Marini (1973), \textit{Dial\'{e}ctica de la dependencia} (superexploitation as $\pi_{\text{worker}} \ll 1/N$). Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (power as a multi-layer matrix).
+
+\end{document}

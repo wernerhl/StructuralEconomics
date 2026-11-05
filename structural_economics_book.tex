@@ -1,0 +1,341 @@
+\documentclass[12pt,a4paper,openright,twoside]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{emptypage}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
+
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+
+%% Part page styling
+\titleformat{\part}[display]
+  {\centering\Huge\bfseries}
+  {\Large\textsc{Part \thepart}}
+  {0.5em}
+  {}
+\titlespacing*{\part}{0pt}{-30pt}{40pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape\leftmark}
+\fancyhead[RO]{\small\itshape\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\begin{document}
+
+%% =====================================================================
+%% FRONT COVER / HALF TITLE
+%% =====================================================================
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  %% Dark background
+  \fill[black!92] (current page.south west) rectangle (current page.north east);
+  
+  %% Heatmap grid (the signature image)
+  \begin{scope}[shift={(current page.center)}, yshift=1.5cm]
+    \def\N{12}
+    \def\s{0.55}
+    \foreach \i in {1,...,\N} {
+      \foreach \j in {1,...,\N} {
+        \pgfmathparse{
+          (\i<=4 && \j<=4) ? 60 + mod(\i*7+\j*3, 20) :
+          (\i>=5 && \i<=8 && \j>=5 && \j<=8) ? 40 + mod(\i*5+\j*2, 15) :
+          (\i>=9 && \j>=9) ? 50 + mod(\i*3+\j*7, 15) :
+          3 + mod(\i+\j, 8)
+        }
+        \edef\bp{\pgfmathresult}
+        \fill[blue!\bp, draw=black!85, line width=0.15pt]
+          ({(\j-1)*\s - \N*\s/2}, {(\N-\i)*\s - \N*\s/2}) rectangle +(\s,\s);
+      }
+    }
+  \end{scope}
+  
+  %% Title
+  \node[white, font=\fontsize{36}{42}\selectfont\bfseries, anchor=south] 
+    at ([yshift=8.5cm]current page.center) {STRUCTURAL};
+  \node[white, font=\fontsize{36}{42}\selectfont\bfseries, anchor=south] 
+    at ([yshift=7.5cm]current page.center) {ECONOMICS};
+  
+  %% Subtitle
+  \node[white!70, font=\fontsize{14}{18}\selectfont\itshape, anchor=south] 
+    at ([yshift=6.8cm]current page.center) {The General Case};
+  
+  %% Author
+  \node[white!80, font=\fontsize{16}{20}\selectfont, anchor=north] 
+    at ([yshift=-6.5cm]current page.center) {Werner L.\ Hernani-Limarino};
+    
+  %% The equation
+  \node[white!50, font=\fontsize{10}{12}\selectfont] 
+    at ([yshift=-7.8cm]current page.center) {$W^{CE} = \frac{1}{N}\mathbf{11}' \quad \longrightarrow \quad W = W^{CE} + \Delta(W)$};
+\end{tikzpicture}
+\clearpage
+
+
+%% =====================================================================
+%% TITLE PAGE
+%% =====================================================================
+\thispagestyle{empty}
+\vspace*{3cm}
+\begin{center}
+{\fontsize{30}{36}\selectfont\bfseries STRUCTURAL ECONOMICS}\\[0.8em]
+{\Large\itshape The General Case}\\[3cm]
+{\LARGE Werner L.\ Hernani-Limarino}\\[0.5em]
+{\normalsize wernerhl@gmail.com}\\[5cm]
+{\large DRAFT --- September 2027}
+\end{center}
+\clearpage
+
+
+%% =====================================================================
+%% COPYRIGHT PAGE
+%% =====================================================================
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{small}
+\noindent\textcopyright\ 2027 Werner L.\ Hernani-Limarino. All rights reserved.\\[1em]
+\noindent Opinions expressed do not reflect the views of affiliated institutions; all errors are the author's own.\\[1em]
+\noindent Typeset in Palatino using \LaTeX\\[1em]
+\noindent Draft manuscript. Not yet published.
+\end{small}
+\clearpage
+
+
+%% =====================================================================
+%% DEDICATION
+%% =====================================================================
+\thispagestyle{empty}
+\vspace*{5cm}
+\begin{center}
+\textit{For my daughter --- the park I care about most.}
+\end{center}
+\clearpage
+
+
+%% =====================================================================
+%% EPIGRAPH PAGE
+%% =====================================================================
+\thispagestyle{empty}
+\vspace*{4cm}
+\begin{quote}
+\large\itshape
+``O subdesenvolvimento n\~{a}o constitui uma etapa necess\'{a}ria do processo de forma\c{c}\~{a}o das economias capitalistas modernas. \'{E}, em si, um processo particular, resultante da penetra\c{c}\~{a}o de empresas capitalistas modernas em estruturas arcaicas.''
+
+\vspace{1em}
+\normalsize\upshape
+\hfill --- Celso Furtado, \textit{Desenvolvimento e Subdesenvolvimento} (1961)
+\end{quote}
+
+\vspace{2cm}
+
+\begin{quote}
+\large\itshape
+``The neoclassical model is the special case $W = \frac{1}{N}\mathbf{11}'$.\\
+Structural economics is the general case.''
+
+\vspace{1em}
+\normalsize\upshape
+\hfill --- This book
+\end{quote}
+\clearpage
+
+
+%% =====================================================================
+%% TABLE OF CONTENTS
+%% =====================================================================
+\frontmatter
+\tableofcontents
+
+
+%% =====================================================================
+%% MAIN MATTER
+%% =====================================================================
+\mainmatter
+
+%% The content below provides the structure. In the full manuscript,
+%% each chapter's .tex content would replace the placeholder text.
+%% For now, this compiles as the book's skeleton with part pages and TOC.
+
+\addcontentsline{toc}{chapter}{Preface}
+\chapter*{Preface}
+\markboth{Preface}{Preface}
+\textit{9 pages. See} \texttt{preface\_structural\_economics.pdf}
+
+\addcontentsline{toc}{chapter}{Visual Prologue: Seeing the Matrix}
+\chapter*{Visual Prologue: Seeing the Matrix}
+\markboth{Visual Prologue}{Visual Prologue}
+\textit{9 pages. See} \texttt{visual\_prologue\_seeing\_the\_matrix.pdf}
+
+
+%% =====================================================================
+\part{The Matrix Reformulation}
+%% =====================================================================
+
+\chapter{Economics in Matrix Notation}
+\textit{29 pages. Epigraph: Prebisch (1949). Case study: Prebisch's 3-step argument $\to$ $W \neq \frac{1}{N}\mathbf{11}'$.}
+
+\chapter{The Welfare Theorems in Matrix Form}
+\textit{17 pages. Epigraph: Furtado (1961). Case study: Underdevelopment as stable fixed point of $W$.}
+
+\chapter{Growth and Distribution in the Weight Matrix}
+\textit{24 pages. Epigraph: Pinto (1970). Case study: Tripartite structure $\to$ block-diagonal $W^P$.}
+
+\chapter{What the Standard Model Assumes}
+\textit{17 pages. Epigraph: Sunkel \& Paz (1970). Case study: Six assumptions as matrix properties.}
+
+
+%% =====================================================================
+\part{The Three Networks}
+%% =====================================================================
+
+\chapter{Three Networks, One Economy}
+\textit{28 pages. Epigraph: Dos Santos (1970). Case study: Three historical regimes of $W$.}
+
+\chapter{Power and the Perron Eigenvector}
+\textit{21 pages. Epigraph: Prebisch (1981). Case study: Surplus appropriation $\to$ Perron eigenvector.}
+
+\chapter{The Bargaining Equilibrium}
+\textit{21 pages. Epigraph: Marini (1973). Case study: Superexploitation $= \pi_{\text{worker}} \ll 1/N$.}
+
+\chapter{Belief Manipulation and Epistemic Power}
+\textit{16 pages. Epigraph: Quijano (2000). Case study: Coloniality as $W^I$ $\to$ epistemic Perron dominance.}
+
+
+%% =====================================================================
+\part{The Formation Model}
+%% =====================================================================
+
+\chapter{Where Preferences Come From}
+\textit{19 pages. Epigraph: Furtado (1974). Case study: Cultural dependency $\to$ endogenous preferences.}
+
+\chapter{The Formal Formation Model}
+\textit{19 pages. Epigraph: Cardoso \& Faletto (1969). Case study: Situations of dependency as network topology.}
+
+\chapter{The $\Psi$ Ratio: Measuring Formation}
+\textit{16 pages. Epigraph: Bragg. Empirical chapter, no case study.}
+
+\chapter{Welfare Under Endogenous Preferences}
+\textit{17 pages. Epigraph: Sen (1999). Case study: Capabilities under endogenous preferences.}
+
+
+%% =====================================================================
+\part{Dynamics of Structural Change}
+%% =====================================================================
+
+\chapter{How Networks Evolve}
+\textit{18 pages. Epigraph: Sunkel (1971). Case study: Integration/disintegration as network rewiring.}
+
+\chapter{Coalitions and Class Alliances}
+\textit{16 pages. Epigraph: Cardoso \& Faletto (1969). Case study: Class alliances as coalitions.}
+
+\chapter{Operator Design: Engineering the Weight Matrix}
+\textit{17 pages. Epigraph: Tavares (1972). Case study: ISI as operator design on $W^P$.}
+
+
+%% =====================================================================
+\part{Three Scales}
+%% =====================================================================
+
+\chapter{The Global Weight Matrix}
+\textit{16 pages. Epigraph: Prebisch (1949) + Hirschman (1958). Case study: Global $W^P$ and linkages.}
+
+\chapter{Domestic Structural Diagnostics}
+\textit{17 pages. Epigraph: Pinto (1970) + Fajnzylber (1990). Case study: Domestic $\Gamma$ + casillero vac\'{i}o.}
+
+\chapter{The Individual Scale: Gender, Race, and Structure}
+\textit{16 pages. Epigraph: Quijano (2000) + Marini (1973). Case study: Node attributes constraining $W$.}
+
+\chapter{Scale Invariance: Five Processes, One Process}
+\textit{15 pages. Epigraph: Sunkel \& Paz (1970). Case study: Three-scale invariance of $\boldsymbol{\pi}$.}
+
+
+%% =====================================================================
+\part{Measurement}
+%% =====================================================================
+
+\chapter{Social Accounting Matrices as Weight Matrices}
+\textit{14 pages. Epigraph: Taylor (1983). Case study: SAMs as the data infrastructure.}
+
+\chapter{Measuring the Information Network}
+\textit{12 pages. Case study: Media and formation in Latin America.}
+
+\chapter{Measuring the Utility Network}
+\textit{12 pages. Case study: The Andean ayllu as structured solidarity.}
+
+\chapter{Tracking Structural Change Over Time}
+\textit{13 pages. Epigraph: CEPAL (2012). Case study: CEPAL's structural change program.}
+
+
+%% =====================================================================
+\part{Political Economy and Conclusion}
+%% =====================================================================
+
+\chapter{Hegemony and Counter-Hegemony}
+\textit{14 pages. Epigraph: Gramsci (1929--1935). Case study: Gramsci + Skocpol on structural crisis.}
+
+\chapter{Truncated Industrialization}
+\textit{13 pages. Epigraph: Fajnzylber (1983). Case study: The missing dense subgraph.}
+
+\chapter{The Neo-Structuralist Synthesis}
+\textit{12 pages. Epigraph: Ocampo (2009). Case study: High $\Gamma$ + high ECI $=$ growth with equity.}
+
+\chapter{Algorithmic $W^I$}
+\textit{12 pages. Case study: The algorithmic $W^I$ in the Global South.}
+
+\chapter{The General Case}
+\textit{12 pages. Epigraph: Furtado (1961). Case study: Furtado's return.}
+
+
+%% =====================================================================
+%% BACK MATTER
+%% =====================================================================
+\backmatter
+
+%% =====================================================================
+%% BACK COVER (inside back)
+%% =====================================================================
+\cleardoublepage
+\thispagestyle{empty}
+\newpage
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[black!92] (current page.south west) rectangle (current page.north east);
+  
+  %% Blurb
+  \node[white, text width=13cm, font=\normalsize, anchor=north] at ([yshift=-2.5cm]current page.north) {
+    \textbf{\large The neoclassical model assumes that social structure does not matter.}\\[0.8em]
+    It assumes all agents interact symmetrically, all information flows freely, and all preferences are formed independently. It assumes, in matrix notation, that the weight matrix $W = \frac{1}{N}\mathbf{11}'$.\\[0.8em]
+    This book drops the assumption.\\[0.8em]
+    \textit{Structural Economics: The General Case} develops a complete mathematical framework in which social structure --- production networks, information flows, and solidarity bonds --- enters every equation. The Perron eigenvector measures power. The spectral gap measures structural health. The formation model explains how the structure produces the preferences that accept it. The operator design framework shows how to change it.\\[0.8em]
+    Drawing on 15 structuralist thinkers from Prebisch (1949) to Ocampo (2009), and using Bolivia as a running empirical case, the book proves that every result in development economics --- welfare theorems, growth models, inequality dynamics, political economy --- is a corollary of the departure $\Delta(W) = W - \frac{1}{N}\mathbf{11}'$.\\[0.8em]
+    The neoclassical model is the special case.\\
+    This book is the general case.
+  };
+  
+  %% Author bio
+  \node[white!70, text width=13cm, font=\small, anchor=south] at ([yshift=3cm]current page.south) {
+    \textbf{Werner L.\ Hernani-Limarino} is a development economist working at the intersection of economic theory, quantitative methods, and policy, with a focus on Bolivia and Latin America. He holds a Master's degree from the University of Pennsylvania and has worked at the World Bank, IDB, and IPEA (Brazil). He has authored over 30 working papers and 6 books.
+  };
+  
+  %% The equation at the bottom
+  \node[white!40, font=\small] at ([yshift=1.5cm]current page.south) {
+    $W = \frac{1}{N}\mathbf{11}' + \Delta(W)$
+  };
+\end{tikzpicture}
+
+
+\end{document}

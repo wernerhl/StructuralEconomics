@@ -1,0 +1,446 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{float}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{example}[definition]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\x}{\mathbf{x}}
+\DeclareMathOperator{\Var}{Var}
+
+\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
+  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
+\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
+\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
+  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
+\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
+  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
+
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Chapter 24: Hegemony and Counter-Hegemony}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{\vspace{-1cm}\textbf{Chapter 24} \\[0.5em]
+\LARGE Hegemony and Counter-Hegemony \\[0.3em]
+\large\textit{When the Dominated Accept the Matrix, and When They Don't}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{quote}
+\textit{``Il vecchio mondo sta morendo. Quello nuovo tarda a comparire. E in questo chiaroscuro nascono i mostri.''}\\[0.3em]
+\textnormal{[``The old world is dying. The new one is slow to appear. And in this chiaroscuro, monsters are born.'']}\\
+\hfill --- Antonio Gramsci, \textit{Quaderni del carcere} (1929--1935)
+\end{quote}
+
+\vspace{1em}
+
+Part~VII opens where Parts~I--VI left a question unanswered: if the current $W$ is far from $W^{CE}$, and if structural reform would make nearly everyone better off (the Structural Welfare Theorem, Chapter~12), why does the structure persist?
+
+The answer from Chapter~14 is political: coalitions block structural change that threatens their power. But this answer is incomplete. It explains why the powerful resist change. It does not explain why the powerless \textit{accept} the structure --- why the indigenous woman in Potos\'{i} does not demand the operators that would raise her $\pi_I$ from $10^{-5}$ to something closer to $1/N$.
+
+The answer is hegemony: the process by which the dominant coalition's preferred $W$ becomes the \textit{accepted} $W$ --- not through coercion but through the formation of preferences that regard the structure as natural, inevitable, or even desirable. In this book's notation: hegemony is the steady state of the formation model (Chapter~10) in which the $W^I$-shaped preferences of the dominated classes are calibrated to accept the $W^P$-determined allocation.
+
+Counter-hegemony is the disruption: a change in $W^I$ that produces new preferences, new demands, new coalitions, and ultimately a new $W$. This chapter formalizes both.
+
+
+%% =====================================================================
+\section{Hegemony as a Structural Equilibrium}
+\label{sec:hegemony}
+%% =====================================================================
+
+\subsection{Gramsci's Concept, Formalized}
+
+\begin{definition}[Hegemony]\label{def:hegemony}
+A weight matrix $W$ is \textbf{hegemonic} if it satisfies three conditions simultaneously:
+\begin{enumerate}
+\item \textbf{Power concentration}: $\Var(\pi_i) > 0$ (the allocation is unequal --- the structure benefits some agents more than others).
+\item \textbf{Consent}: the steady-state preferences $\boldsymbol{\theta}^*(W^I)$ evaluate the allocation $\x^*(W, \boldsymbol{\theta}^*)$ favorably: $U_i(x_i^*, \theta_i^*) \geq U_i(x_i', \theta_i^*)$ for all feasible $x_i'$ (each agent is satisfied given her preferences).
+\item \textbf{Formation alignment}: the information network $W^I$ is controlled (directly or indirectly) by the coalition that benefits from $W$: $\boldsymbol{\pi}^I \propto \boldsymbol{\pi}^P$ (epistemic power is aligned with production power).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Hegemony as a Fixed Point]\label{thm:hegemony}
+A hegemonic structure is a structural equilibrium (Chapter~13, Definition~13.3) with the additional property that the formation channel ($W^I$) \textit{stabilizes} the power structure ($W^P$) by producing preferences that consent to it.
+
+Formally: a hegemonic equilibrium is a fixed point $(W^*, \boldsymbol{\theta}^*, \x^*)$ of the co-evolutionary system where:
+\begin{equation}\label{eq:hegemony}
+\boldsymbol{\theta}^* = \Phi(\boldsymbol{\theta}^*; W^*), \quad \x^* = h(\boldsymbol{\pi}(W^*), \boldsymbol{\theta}^*), \quad W^* = \Psi(W^*; \x^*),
+\end{equation}
+AND the consent condition holds: no agent, given her preferences $\theta_i^*$, wants to change $W$.
+
+This is the Satisfaction Paradox of Chapter~12 (Theorem~12.1) with a political interpretation: the dominated classes do not demand structural change because their $W^I$-formed preferences are calibrated to the $W^P$-determined returns. The hegemony is self-reproducing.
+\end{theorem}
+
+\begin{intuition}[Why hegemony is stable]
+Three reinforcing loops:
+
+\textbf{Loop 1 (Production)}: $W^P$ determines the allocation $\x^*$ through the bargaining equilibrium. The dominated receive less, but their sectors are structurally peripheral (low $\pi_i$), so there is no economic lever for change.
+
+\textbf{Loop 2 (Information)}: $W^I$ shows the dominated their own group's returns (assortative mixing, Chapter~18). They observe low returns and form low aspirations ($\theta^*_{\text{disadv}} < \theta^*_{\text{adv}}$, Theorem~18.5). Low aspirations produce low investment, low returns, confirming the signal.
+
+\textbf{Loop 3 (Solidarity)}: $W^U$ is assortative by the same groups. The dominated care about their own group, not about the advantaged group. Cross-group solidarity is low ($\lambda^U \approx 0.2$, Chapter~22). The dominated do not form cross-class coalitions because they do not identify with the advantaged class's interests.
+
+Hegemony is the triple alignment of loops 1, 2, and 3: the same groups are peripheral in $W^P$, informationally isolated in $W^I$, and solidaristically self-contained in $W^U$. The alignment IS the hegemony. Breaking it requires disrupting at least one loop.
+\end{intuition}
+
+
+\subsection{The Cost of Maintaining Hegemony}
+
+\begin{proposition}[Hegemony Maintenance Cost]\label{prop:maintenance}
+Maintaining hegemony requires the dominant coalition to invest in $W^I$ control:
+\begin{equation}\label{eq:maintenance}
+C_H = \sum_{(i,j) \in \text{cross-block}} \mu_H \cdot |b_T - b^*_j| / \Gamma^I,
+\end{equation}
+where $b_T$ is the target belief (``the structure is natural/efficient''), $b^*_j$ is agent $j$'s belief absent manipulation, and $\Gamma^I$ is the spectral gap of $W^I$ (from Chapter~8, the manipulation cost is inversely proportional to $\Gamma^I$).
+
+When $\Gamma^I$ is small (concentrated information): manipulation is cheap. The dominant coalition controls a few media outlets and the consensus follows.
+
+When $\Gamma^I$ is large (diverse information): manipulation is expensive. Many independent voices resist the dominant narrative. The hegemony becomes fragile.
+\end{proposition}
+
+\begin{example}[Bolivia's Hegemonic Transitions]\label{ex:bolivia_hegemony}
+\begin{center}
+\begin{tabular}{llcl}
+\toprule
+Period & Hegemonic structure & $N_{\text{eff}}^I$ & Stability \\
+\midrule
+Pre-1952 & Tin-mining oligarchy & $\approx 1.5$ & Stable (few media) \\
+1952--1964 & MNR revolutionary state & $\approx 2.0$ & Moderately stable \\
+1964--1982 & Military governments & $\approx 1.8$ & Coercion-dependent \\
+1985--2003 & Neoliberal consensus & $\approx 2.5$ & Stable, then collapsed \\
+2006--2019 & MAS/indigenous hegemony & $\approx 3.2$ & Fragile (social media) \\
+2019-- & Contested & $\approx 3.5$ & No hegemony \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The trend: $N_{\text{eff}}^I$ has been increasing (from 1.5 to 3.5 over 70 years). Each increase made the existing hegemony more expensive to maintain. The neoliberal consensus (1985--2003) collapsed when $N_{\text{eff}}^I$ crossed a threshold: social movements (the Water War 2000, Gas War 2003) generated alternative $W^I$ channels that broke the information monopoly. The MAS hegemony (2006--2019) was already fragile at $N_{\text{eff}}^I = 3.2$; social media provided the alternative $W^I$ channel that destabilized it in 2019.
+\end{example}
+
+
+%% =====================================================================
+\section{Counter-Hegemony as $\Delta W^I$}
+\label{sec:counter}
+%% =====================================================================
+
+\begin{definition}[Counter-Hegemonic Movement]\label{def:counter}
+A \textbf{counter-hegemonic movement} is a coalition $S$ of dominated agents that implements $\Delta W^I$ --- a change in the information network that disrupts the formation channel supporting the current hegemony. The movement creates alternative $W^I$ edges: new media, new narratives, new reference groups, new signals that show the dominated a different set of returns.
+\end{definition}
+
+\begin{theorem}[Counter-Hegemony as Formation Disruption]\label{thm:counter}
+A counter-hegemonic $\Delta W^I$ destabilizes the hegemonic equilibrium if it satisfies:
+\begin{equation}\label{eq:counter_condition}
+\mu \cdot \|\Delta(W^I \mathbf{r})\| > (1-\rho)(\theta^*_{\text{hegemonic}} - \theta^*_{\text{alternative}}),
+\end{equation}
+where $\Delta(W^I\mathbf{r})$ is the change in the formation signal (agents now see different returns), $\theta^*_{\text{hegemonic}}$ is the preference that sustains the current structure, and $\theta^*_{\text{alternative}}$ is the preference that would sustain an alternative structure.
+
+In words: the counter-hegemonic signal must be strong enough to shift preferences beyond the basin boundary (Chapter~10) that separates the hegemonic from the alternative equilibrium. Once preferences cross the boundary, the formation dynamics carry them to the new steady state --- and the demand for structural change becomes self-sustaining.
+\end{theorem}
+
+\begin{example}[Three Counter-Hegemonic Episodes in Bolivia]\label{ex:counter}
+\textbf{1. The 1952 Revolution.} The MNR created alternative $W^I$ channels: miners' radio (Radio 21 de Diciembre), campesino unions, the COB (Central Obrera Boliviana). These channels showed workers and campesinos returns from organization and land reform --- signals invisible under the oligarchic $W^I$. The formation signal shifted aspirations: land ownership, universal suffrage, education. The hegemonic preference (``the patr\'{o}n knows best'') gave way to the revolutionary preference (``the land belongs to those who work it''). Coalition shift: $\{B, M, W\}$ replaced $\{F, B\}$.
+
+\textbf{2. The Water War (2000) and Gas War (2003).} The neoliberal hegemony (1985--2003) was sustained by a $W^I$ dominated by private media that framed privatization as modernization. The counter-hegemonic movement created alternative channels: community radio, neighborhood assemblies (\textit{juntas vecinales}), the six federations of the Chapare. These channels showed alternative returns: the cost of water privatization (tripled bills), the destination of gas revenue (foreign companies). The signal strength exceeded the persistence threshold: $\mu \cdot \|\Delta(W^I\mathbf{r})\| > (1-\rho)\Delta\theta^*$. Preferences shifted: privatization went from ``modern'' to ``theft.'' Coalition shift: $\{M, W\}$ formed and eventually became the MAS coalition.
+
+\textbf{3. The 2019 Crisis.} The MAS hegemony (2006--2019) was sustained by $W^I$ dominated by state media and indigenous-movement networks. Counter-hegemonic channels: social media (Facebook, WhatsApp), urban civic committees, the ``pititas'' movement. These channels showed alternative signals: electoral irregularities, environmental devastation (Chiquitano fires). The formation signal was amplified by the digital $W^I$ (Chapter~21: $\omega_d = 0.50$ for urban youth). The MAS hegemony fractured: preferences in urban areas shifted away from the ``process of change'' narrative.
+\end{example}
+
+\begin{vizpanel}{Counter-hegemony as $W^I$ rewiring}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\def\N{6}
+\def\s{0.32}
+
+%% Hegemonic W^I: hub-spoke centered on dominant media
+\node[font=\scriptsize\bfseries, above] at ({3*\s}, {\N*\s+0.3}) {Hegemonic $W^I$};
+\foreach \i in {1,...,\N} {
+  \foreach \j in {1,...,\N} {
+    \pgfmathparse{
+      (\i==1 && \j==1) ? 80 :
+      (\i==1) ? 50 :
+      (\j==1) ? 40 :
+      (\i==\j) ? 30 :
+      5
+    }
+    \edef\bp{\pgfmathresult}
+    \fill[blue!\bp, draw=white, line width=0.08pt]
+      ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
+  }
+}
+\node[font=\tiny] at ({-0.4}, {5.5*\s}) {Dom.};
+
+%% Arrow
+\node[font=\large] at (3.5, 1.0) {$\to$};
+
+%% Counter-hegemonic W^I: more distributed
+\begin{scope}[xshift=5cm]
+\node[font=\scriptsize\bfseries, above] at ({3*\s}, {\N*\s+0.3}) {Counter-hegemonic $W^I$};
+\foreach \i in {1,...,\N} {
+  \foreach \j in {1,...,\N} {
+    \pgfmathparse{
+      (\i==1 && \j==1) ? 45 :
+      (\i==1) ? 20 :
+      (\j==1) ? 15 :
+      (\i==\j) ? 35 :
+      (\i>=4 && \j>=4) ? 30 :
+      12
+    }
+    \edef\bp{\pgfmathresult}
+    \fill[blue!\bp, draw=white, line width=0.08pt]
+      ({(\j-1)*\s}, {(\N-\i)*\s}) rectangle +(\s,\s);
+  }
+}
+\node[font=\tiny] at ({-0.4}, {5.5*\s}) {Dom.};
+\node[font=\tiny] at ({-0.4}, {1.5*\s}) {Counter};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small Left: hegemonic $W^I$ --- hub-spoke, centered on the dominant coalition's media. The first row (dominant's outgoing signal) is bright; the rest are dim. Right: counter-hegemonic $W^I$ --- the dominated agents (lower-right block) have formed their own information network. The dominant's hub is weaker; new cross-block edges appear. $N_{\text{eff}}$ has increased.
+\end{vizpanel}
+
+
+%% =====================================================================
+\section{State Crisis as Hegemonic Collapse}
+\label{sec:crisis}
+%% =====================================================================
+
+\begin{definition}[State Crisis --- Skocpol (1979)]\label{def:crisis}
+A \textbf{state crisis} occurs when the hegemonic equilibrium loses stability: the three loops (production, information, solidarity) decouple, and the dominant coalition can no longer maintain consent. In the co-evolutionary dynamics (Chapter~13), this corresponds to the Jacobian $\mathcal{J}$ of the hegemonic fixed point acquiring an eigenvalue with modulus $> 1$: the equilibrium becomes unstable.
+\end{definition}
+
+\begin{proposition}[Conditions for Hegemonic Collapse]\label{prop:collapse}
+The hegemonic equilibrium loses stability when:
+\begin{enumerate}
+\item \textbf{$N_{\text{eff}}^I$ crosses a threshold}: the information network becomes too diverse for the dominant coalition to control. Counter-hegemonic channels accumulate until $\mu\|\Delta(W^I\mathbf{r})\|$ exceeds the persistence barrier.
+
+\item \textbf{An exogenous shock exposes the gap}: a crisis (financial, environmental, health) reveals the allocation inequality that the hegemonic $W^I$ had normalized. The shock changes the returns $\mathbf{r}_t$ dramatically, and the $W^I$-weighted signal shifts even under the existing information structure.
+
+\item \textbf{Cross-class coalition forms}: following Skocpol (1979), state crisis requires an alliance between elite defectors (who have power) and mass movements (who have numbers). In Chapter~14's terms: the alliance $\{B, M, W\}$ or $\{M, W\}$ forms when the elite split (some $B$ agents defect from $\{F, B\}$ to $\{B, M, W\}$).
+
+\item \textbf{International pressure changes the external $W^P$}: sanctions, trade disruption, or shifts in global commodity markets weaken the dominant coalition's resource base, shrinking its feasibility set $\mathcal{F}(S)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{example}[Bolivia 2000--2006: From Crisis to Counter-Hegemony]\label{ex:crisis}
+The neoliberal hegemony collapsed through a sequence matching all four conditions:
+
+\textbf{Condition 1}: Community radio and social movements created alternative $W^I$ channels throughout the 1990s. $N_{\text{eff}}^I$ rose from $\approx 2.0$ to $\approx 2.8$.
+
+\textbf{Condition 2}: The Water War (2000) exposed the cost of privatization (water bills tripled). The shock changed $\mathbf{r}_t$: the ``returns to privatization'' signal turned negative for poor households.
+
+\textbf{Condition 3}: The Gas War (2003) formed a cross-class coalition: urban El Alto (working class), rural cocaleros (peasants), and middle-class professionals united against gas export plans. The alliance $\{M, W\}$ acquired enough power to topple two presidents.
+
+\textbf{Condition 4}: Declining commodity prices (2001--2002) weakened the fiscal position of the privatized gas companies, shrinking the $\{F, B\}$ coalition's resource base.
+
+The hegemonic equilibrium was unstable by 2003. The transition to the MAS hegemony (2006) was the co-evolutionary system settling into a new structural equilibrium --- with different $W^P$ (nationalized gas), different $W^I$ (state media + indigenous networks), and different $\boldsymbol{\theta}^*$ (indigenous identity, state-led development, plurinationalism).
+\end{example}
+
+
+%% =====================================================================
+\section{The Hegemonic Cycle}
+\label{sec:cycle}
+%% =====================================================================
+
+\begin{theorem}[The Hegemonic Cycle]\label{thm:cycle}
+In the co-evolutionary system with formation and coalition dynamics, the long-run trajectory exhibits a hegemonic cycle:
+\begin{enumerate}
+\item \textbf{Establishment}: A coalition wins and implements $\Delta W$ (production restructuring) + $\Delta W^I$ (narrative control). The new structure becomes a structural equilibrium. Consent is formed through $W^I$.
+\item \textbf{Consolidation}: The hegemony stabilizes. Preferences converge to $\boldsymbol{\theta}^*$. Growth occurs within the structure. Inequality is accepted.
+\item \textbf{Erosion}: $N_{\text{eff}}^I$ increases (new media, new movements). The formation signal diversifies. Peripheral agents begin to see alternative returns. $\Delta\theta$ begins.
+\item \textbf{Crisis}: An exogenous shock or accumulated $\Delta W^I$ pushes preferences past the basin boundary. The hegemonic equilibrium becomes unstable. The dominant coalition fragments.
+\item \textbf{Transition}: A new coalition forms and implements a new $\Delta W$. Return to step 1 with a different structure.
+\end{enumerate}
+
+The cycle period depends on: (a) the speed of $N_{\text{eff}}^I$ growth (faster media diversification = shorter cycle), (b) the persistence parameter $\rho$ (stickier preferences = longer consolidation phase), (c) the frequency of exogenous shocks (more shocks = more crisis triggers).
+\end{theorem}
+
+\begin{prebisch}[The Latin American hegemonic cycle]
+The Latin American political cycle (Chapter~14's pendulum) is the hegemonic cycle operating at the regional scale:
+
+\textbf{Oligarchic hegemony} (pre-1930): export agriculture and mining, $N_{\text{eff}}^I \approx 1$--2. Collapsed with the Great Depression (exogenous shock to $W^P_{\text{global}}$).
+
+\textbf{National-populist hegemony} (1930--1960s): ISI, mass media controlled by the state, labor incorporation. Collapsed as the bourgeoisie defected (ISI success raised $\pi_B$, triggering alliance switch per Chapter~14).
+
+\textbf{Bureaucratic-authoritarian hegemony} (1960s--1980s): military rule, controlled media ($N_{\text{eff}}^I$ suppressed by censorship), alliance $\{F, B, M\}$. Collapsed with the debt crisis (exogenous shock) and democratization.
+
+\textbf{Neoliberal hegemony} (1985--2003): Washington Consensus, private media, $N_{\text{eff}}^I \approx 2$--3. Collapsed as social movements created alternative $W^I$.
+
+\textbf{Left-populist hegemony} (2006--2019 in Bolivia): resource nationalism, state + indigenous media, $N_{\text{eff}}^I \approx 3$. Eroding as social media diversifies $W^I$.
+
+Each hegemony lasted 20--40 years. Each collapsed when the information monopoly broke. The cycle is accelerating because $N_{\text{eff}}^I$ is growing (digital media adds channels faster than any coalition can control them).
+\end{prebisch}
+
+
+%% =====================================================================
+\section{Summary}
+\label{sec:summary}
+%% =====================================================================
+
+\begin{enumerate}
+\item \textbf{Hegemony} is a structural equilibrium where the dominant coalition's preferred $W$ is sustained by $W^I$-formed preferences that consent to it. Three conditions: power concentration, consent, formation alignment.
+
+\item Hegemony is stable because three loops reinforce: $W^P$ (unequal allocation), $W^I$ (biased signals), $W^U$ (assortative solidarity). The alignment across all three networks IS the hegemony.
+
+\item The \textbf{maintenance cost} of hegemony is inversely proportional to $N_{\text{eff}}^I$: concentrated information is cheap to control; diverse information is expensive.
+
+\item \textbf{Counter-hegemony} is $\Delta W^I$: the creation of alternative information channels that show the dominated different returns. The counter-hegemonic signal must exceed the persistence threshold to shift preferences past the basin boundary.
+
+\item \textbf{State crisis} (Skocpol) occurs when the hegemonic equilibrium becomes unstable: $N_{\text{eff}}^I$ crosses a threshold, a shock exposes inequality, a cross-class coalition forms, and external pressure weakens the dominant coalition.
+
+\item The \textbf{hegemonic cycle} (establishment $\to$ consolidation $\to$ erosion $\to$ crisis $\to$ transition) is the long-run dynamics of the co-evolutionary system. The cycle is accelerating as digital media increases $N_{\text{eff}}^I$ faster than any coalition can control it.
+\end{enumerate}
+
+
+%% =====================================================================
+\section{Exercises}
+\label{sec:exercises}
+%% =====================================================================
+
+\begin{enumerate}[label=\textbf{24.\arabic*}, leftmargin=3em]
+
+\item \textbf{Hegemony as fixed point.} For a 2-group economy (Elite $E$, Masses $M$): write the co-evolutionary system (Chapter~13) with $W^I$ controlled by $E$. Show that the hegemonic equilibrium satisfies all three conditions of Definition~\ref{def:hegemony}. Under what parameter values does a counter-hegemonic equilibrium also exist?
+
+\item \textbf{Maintenance cost.} For Bolivia's MAS hegemony (2006--2019): estimate the cost of $W^I$ control (state media budget, community communication spending). How does it compare with the government's total budget? At what $N_{\text{eff}}^I$ does the cost exceed the coalition's willingness to pay?
+
+\item \textbf{Counter-hegemony simulation.} Start from a hegemonic equilibrium. Add counter-hegemonic $\Delta W^I$ edges incrementally ($\Delta\lambda^I = +0.02$ per period). Simulate 50 periods. At what period does the hegemonic equilibrium collapse? How does this depend on $\rho$?
+
+\item \textbf{Bolivia's hegemonic transitions.} Map all five hegemonies from the Prebisch Connection box to the structural power game (Chapter~14): for each, identify the coalition, the $W^I$ control mechanism, the $N_{\text{eff}}^I$, and the trigger for collapse.
+
+\item \textbf{Skocpol's conditions.} For the 2000--2006 Bolivian transition: verify each of the four conditions in Proposition~\ref{prop:collapse}. Which was the binding condition? Could the neoliberal hegemony have survived if any one condition had not been met?
+
+\item \textbf{The acceleration of the cycle.} Plot the duration of each Latin American hegemonic epoch (from the Prebisch Connection box) against $N_{\text{eff}}^I$. Is there a negative correlation (more information diversity = shorter hegemonic periods)? What does this predict for the current period?
+
+\item \textbf{Gramsci vs.\ Skocpol.} Gramsci emphasized consent (the formation of preferences). Skocpol emphasized structural conditions (fiscal crisis, military defeat, elite splits). In the model: Gramsci's hegemony is the $W^I$ loop (preference formation); Skocpol's crisis is the $W^P$ loop (economic disruption) + the coalition loop (elite defection). Are these complementary or competing? Under what parameter values does each mechanism dominate?
+\end{enumerate}
+
+
+%% =====================================================================
+\newpage
+\section*{Mathematical Appendices}
+\addcontentsline{toc}{section}{Mathematical Appendices}
+%% =====================================================================
+
+
+\subsection*{Appendix 24A: Stability of the Hegemonic Equilibrium}
+\addcontentsline{toc}{subsection}{Appendix 24A: Stability Analysis}
+\label{app:stability}
+
+\paragraph{The hegemonic fixed point.} Let $(W^*, \boldsymbol{\theta}^*, \x^*)$ be a hegemonic equilibrium. The stability is governed by the eigenvalues of the co-evolutionary Jacobian (Chapter~13, Appendix~13B):
+\begin{equation}
+\mathcal{J} = \begin{pmatrix} \partial\Phi/\partial\boldsymbol{\theta} & \partial\Phi/\partial W \\ \partial\Psi/\partial\boldsymbol{\theta} & \partial\Psi/\partial W \end{pmatrix}.
+\end{equation}
+
+The hegemony is stable if $\rho(\mathcal{J}) < 1$. It loses stability when:
+\begin{enumerate}
+\item The formation feedback is too strong: $\rho(J) = \rho(\rho I + \mu W^I G'H') \to 1$. This occurs when $N_{\text{eff}}^I$ increases, diversifying the formation signal and reducing the dominant coalition's control.
+\item An exogenous shock changes the returns $\mathbf{r}$ suddenly, shifting the $\Phi$ map and moving the system outside the basin of attraction.
+\item The coalition dynamics (Chapter~14) produce an alliance switch that changes $W$ discretely.
+\end{enumerate}
+
+\paragraph{Bifurcation.} As $N_{\text{eff}}^I$ increases continuously, the hegemonic fixed point can undergo a pitchfork bifurcation: the unique hegemonic equilibrium splits into two --- the hegemonic and the counter-hegemonic. The bifurcation point $N_{\text{eff}}^{I,*}$ is the critical information diversity threshold. Below it: one stable equilibrium (hegemony). Above it: two stable equilibria (hegemony and counter-hegemony) separated by an unstable boundary. A shock can push the system across the boundary.
+
+
+\subsection*{Appendix 24B: Gramsci's Categories in Matrix Notation}
+\addcontentsline{toc}{subsection}{Appendix 24B: Gramsci in Matrix Notation}
+\label{app:gramsci}
+
+\paragraph{Hegemony.} A structural equilibrium where the dominant group's power ($\boldsymbol{\pi}$) is reproduced by $W^I$-formed consent ($\boldsymbol{\theta}^*$). The dominant group does not need coercion because the formation channel produces acceptance.
+
+\paragraph{Organic intellectuals.} Agents with high $\pi^I_j$ (epistemic power) who produce the narratives that sustain the hegemonic $W^I$. In Chapter~8's terms: the DeGroot influencers whose steady-state beliefs become the population's consensus.
+
+\paragraph{War of position.} The slow process of building alternative $W^I$ channels (counter-hegemonic institutions: schools, media, unions, parties). In this chapter: the gradual increase of $N_{\text{eff}}^I$ through new information edges. The ``war of position'' IS the accumulation of $\Delta W^I$ over time.
+
+\paragraph{War of maneuver.} The rapid seizure of state power once the counter-hegemonic movement has sufficient support. In this chapter: the moment when preferences cross the basin boundary and the demand for structural change becomes politically irresistible. The ``war of maneuver'' IS the coalition switch (Chapter~14) triggered by the preference shift.
+
+\paragraph{Interregnum.} The period between the collapse of one hegemony and the establishment of the next: ``the old world is dying, the new one is slow to appear.'' In this chapter: the co-evolutionary system is between structural equilibria. $W^I$ is contested; $\boldsymbol{\theta}$ is in flux; $W^P$ is unstable. This is the period of maximum vulnerability --- and of ``monsters'' (political instability, democratic backsliding, authoritarianism).
+
+
+%% =====================================================================
+\subsection*{Structuralist Case Study: Gramsci and Skocpol on Structural Crisis}
+\addcontentsline{toc}{subsection}{Structuralist Case Study: Gramsci and Skocpol}
+%% =====================================================================
+
+Antonio Gramsci (1891--1937) and Theda Skocpol (b.\ 1947) represent two approaches to the same question: why do structures of domination persist, and how do they collapse? Gramsci emphasized consent and cultural production. Skocpol emphasized structural conditions and state capacity. This chapter argues that both are correct about different loops of the same co-evolutionary system.
+
+\textbf{Gramsci: hegemony as formation.} Gramsci, writing from Mussolini's prison, asked why the Italian working class accepted capitalist domination even when it was materially disadvantaged. His answer: hegemony --- the process by which the dominant class's worldview becomes the ``common sense'' of society. In this book's notation: hegemony is the steady state of the formation model where $W^I$ produces preferences that consent to the $W^P$-determined allocation. Gramsci's ``common sense'' is $\boldsymbol{\theta}^*$; his ``organic intellectuals'' are the high-$\pi^I$ agents; his ``war of position'' is the accumulation of counter-hegemonic $\Delta W^I$.
+
+The mapping is not metaphorical. Gramsci described exactly the mechanism of Chapters~8--10: ideas are produced by specific agents (organic intellectuals = high-$\pi^I$ nodes), disseminated through specific channels (media, schools, churches = $W^I$ edges), and internalized as preferences that shape behavior (formation equation). The hegemony IS the information structure.
+
+\textbf{Skocpol: crisis as structural breakdown.} Skocpol, analyzing the French, Russian, and Chinese revolutions, argued that revolutions are not caused by ideas or movements alone but by structural conditions: fiscal crisis of the state, military defeat, and splits within the dominant elite. In this chapter's notation: state crisis is the co-evolutionary system losing stability --- the hegemonic fixed point becomes unstable because the dominant coalition's resource base ($W^P$ position) weakens, the information monopoly ($W^I$ control) breaks, and the coalition fragments (elite defection per Chapter~14).
+
+Skocpol's three conditions map precisely: fiscal crisis = the dominant coalition's $\pi_G$ or $\pi_N$ declines (shrinking $\mathcal{F}(S)$). Military defeat = exogenous shock to $W^P$. Elite splits = $B$ defects from $\{F, B\}$ to $\{B, M, W\}$ (the coalition dynamics of Chapter~14).
+
+\textbf{The synthesis.} Gramsci explains why structures persist (the formation loop produces consent). Skocpol explains when they collapse (structural conditions destabilize the fixed point). Both are needed: without Gramsci, we cannot explain why the dominated accept the structure during ``normal'' times. Without Skocpol, we cannot explain the timing of crises. The co-evolutionary system integrates both: hegemony IS a stable fixed point (Gramsci), and crisis IS the loss of stability (Skocpol).
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concept} & \textbf{Gramsci} & \textbf{Skocpol} \\
+\midrule
+Central question & Why do the dominated consent? & When does the state collapse? \\
+Mechanism & $W^I$ forms preferences & $W^P$ destabilizes, elite splits \\
+Formal object & Hegemonic fixed point (Thm.~\ref{thm:hegemony}) & Stability loss (Prop.~\ref{prop:collapse}) \\
+Time horizon & Long-run (generations) & Medium-run (decades) \\
+Policy variable & $\Delta W^I$ (counter-hegemony) & Exogenous shock + coalition \\
+Bolivia application & MAS narrative control & 2000--2003 fiscal/social crisis \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Gramsci wrote from prison. Skocpol wrote from Harvard. Between them, they describe the two phases of structural politics: the long war of position (building alternative $W^I$) and the sudden war of maneuver (the crisis that topples the structure). The co-evolutionary system of this book unifies both in a single dynamical model.
+
+
+%% =====================================================================
+\subsection*{Further Reading}
+\addcontentsline{toc}{subsection}{Further Reading}
+%% =====================================================================
+
+\textbf{Gramsci:} Gramsci (1971), \textit{Selections from the Prison Notebooks}, edited by Q.\ Hoare and G.\ N.\ Smith, London: Lawrence \& Wishart. For the Latin American reception: Portantiero (1981), \textit{Los usos de Gramsci}. For the application to media: Hall (1986), ``Gramsci's Relevance for the Study of Race and Ethnicity,'' \textit{Journal of Communication Inquiry}.
+
+\textbf{Skocpol:} Skocpol (1979), \textit{States and Social Revolutions: A Comparative Analysis of France, Russia, and China}, Cambridge University Press. For the extension to the ``third wave'': Goodwin (2001), \textit{No Other Way Out: States and Revolutionary Movements}.
+
+\textbf{Hegemony and development:} Cox (1983), ``Gramsci, Hegemony and International Relations,'' \textit{Millennium}. For Latin America: Laclau and Mouffe (1985), \textit{Hegemony and Socialist Strategy}. For Bolivia specifically: Garc\'{i}a Linera (2008), \textit{La potencia plebeya}.
+
+\textbf{Information and political change:} Enikolopov, Petrova, and Zhuravskaya (2011), ``Media and Political Persuasion,'' \textit{AER}. Kern and Hainmueller (2009), ``Opium for the Masses,'' \textit{APSR}. Manacorda and Tesei (2020), ``Liberation Technology: Mobile Phones and Political Mobilization in Africa,'' \textit{Econometrica}.
+
+
+\end{document}

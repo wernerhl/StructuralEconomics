@@ -1,0 +1,485 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{float}
+
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=black, urlcolor=blue!70!black}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{example}[definition]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\x}{\mathbf{x}}
+\DeclareMathOperator{\Var}{Var}
+
+\newtcolorbox{intuition}[1][]{colback=blue!3, colframe=blue!40!black,
+  fonttitle=\bfseries, title={Intuition: #1}, sharp corners, boxrule=0.5pt}
+\newtcolorbox{keyinsight}[1][]{colback=orange!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title={Key Structural Insight}, sharp corners, boxrule=0.5pt}
+\newtcolorbox{prebisch}[1][]{colback=green!3, colframe=green!40!black,
+  fonttitle=\bfseries, title={Prebisch Connection: #1}, sharp corners, boxrule=0.5pt}
+\newtcolorbox{vizpanel}[1][]{colback=gray!4, colframe=gray!50!black,
+  fonttitle=\bfseries, title={Visualization: #1}, sharp corners, boxrule=0.5pt}
+
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Chapter 23: Tracking Structural Change Over Time}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{\vspace{-1cm}\textbf{Chapter 23} \\[0.5em]
+\LARGE Tracking Structural Change Over Time \\[0.3em]
+\large\textit{The Moving Heatmap}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{quote}
+\textit{``El cambio estructural no es un evento sino un proceso: una secuencia de transformaciones en las relaciones entre los componentes del sistema econ\'{o}mico.''}\\[0.3em]
+\textnormal{[``Structural change is not an event but a process: a sequence of transformations in the relations between the components of the economic system.'']}\\
+\hfill --- CEPAL, \textit{Structural Change for Equality} (2012)
+\end{quote}
+
+\vspace{1em}
+
+Chapters~20--22 showed how to measure $W^P$, $W^I$, and $W^U$ at a single point in time. This chapter adds the time dimension: how to track $W_t$ across years, detect structural breaks, measure the speed of change, and distinguish structural change from cyclical fluctuation.
+
+The central object is the \textbf{structural trajectory}: the time series $\{\Gamma_t, \sigma_{B,t}, G(\boldsymbol{\pi}_t), N_{\text{eff},t}\}$ computed from a sequence of SAMs or equivalent data. The trajectory tells you whether the economy is integrating or fragmenting, at what speed, and whether specific events (a nationalization, a trade reform, a crisis) produced detectable structural effects.
+
+Chapter~17 previewed the trajectory for Bolivia (1990--2019): glacial change, barely visible effects from major policy events. This chapter develops the methods and applies them systematically.
+
+
+%% =====================================================================
+\section{The Time-Varying Weight Matrix}
+\label{sec:time_varying}
+%% =====================================================================
+
+\subsection{Construction}
+
+\begin{definition}[Time-Indexed Weight Matrix]\label{def:Wt}
+For each year $t$, construct $W_t$ from the available data:
+\begin{enumerate}
+\item $W^P_t$: from the I-O table (if available for year $t$) or interpolated from benchmark I-O tables using annual National Accounts.
+\item $W^I_t$: from media audience data (annual surveys) or digital trace data (continuous).
+\item $W^U_t$: from household surveys (typically annual or biennial).
+\end{enumerate}
+The structural indicators are computed annually: $\Gamma_t = \Gamma(W_t)$, $\boldsymbol{\pi}_t = \boldsymbol{\pi}(W_t)$, etc.
+\end{definition}
+
+\begin{proposition}[Interpolation of $W^P$ Between Benchmark I-O Tables]\label{prop:interpolation}
+Most countries produce I-O tables only every 5--10 years. Between benchmarks, $W^P_t$ can be approximated by:
+\begin{equation}\label{eq:interpolation}
+W^P_t \approx W^P_{\tau_0} + \frac{t - \tau_0}{\tau_1 - \tau_0}(W^P_{\tau_1} - W^P_{\tau_0}),
+\end{equation}
+where $\tau_0$ and $\tau_1$ are the benchmark years. Alternatively, use the RAS method: given row totals $\mathbf{r}_t$ (sectoral output) and column totals $\mathbf{c}_t$ (sectoral input use) from annual National Accounts, update $W^P_{\tau_0}$ to match the new margins:
+\begin{equation}\label{eq:RAS}
+W^P_t = \text{RAS}(W^P_{\tau_0}; \mathbf{r}_t, \mathbf{c}_t).
+\end{equation}
+The RAS method preserves the block structure of $W^P_{\tau_0}$ while adjusting for changes in sectoral composition.
+\end{proposition}
+
+
+\subsection{The Structural Trajectory}
+
+\begin{definition}[Structural Trajectory]\label{def:trajectory}
+The \textbf{structural trajectory} of an economy is the time series:
+\begin{equation}\label{eq:trajectory}
+\mathcal{T} = \{(\Gamma_t, \sigma_{B,t}, G(\boldsymbol{\pi}_t), N_{\text{eff},t}, \text{ECI}_t) : t = t_0, \ldots, T\}.
+\end{equation}
+The trajectory is plotted in the five-dimensional structural health space (Chapter~17). Projection onto the $(\Gamma_t, \sigma_{B,t})$ plane gives the most informative two-dimensional visualization: integration on one axis, equality on the other.
+\end{definition}
+
+
+%% =====================================================================
+\section{Detecting Structural Breaks}
+\label{sec:breaks}
+%% =====================================================================
+
+\begin{definition}[Structural Break]\label{def:break}
+A \textbf{structural break} at time $t^*$ is a discontinuity in the trajectory $\mathcal{T}$: a change in $\Gamma$, $\sigma_B$, or $\boldsymbol{\pi}$ that is larger than can be explained by normal cyclical variation. Formally, a break at $t^*$ if:
+\begin{equation}\label{eq:break}
+|\Gamma_{t^*+1} - \Gamma_{t^*}| > k \cdot \hat{\sigma}_{\Delta\Gamma},
+\end{equation}
+where $\hat{\sigma}_{\Delta\Gamma}$ is the standard deviation of year-to-year changes in $\Gamma$ during a stable period, and $k$ is the detection threshold (typically $k = 2$ or $k = 3$).
+\end{definition}
+
+\begin{proposition}[Types of Structural Breaks]\label{prop:break_types}
+Three types of structural breaks correspond to three types of $\Delta W$:
+\begin{enumerate}
+\item \textbf{Edge creation break}: new edges appear (a trade agreement, infrastructure project, market opening). $\Gamma$ increases, $\sigma_B$ decreases. Example: South Korea's export push (1960s).
+\item \textbf{Edge destruction break}: edges are severed (a crisis, sanctions, nationalization). $\Gamma$ may decrease or increase depending on which edges are destroyed (cross-block destruction lowers $\Gamma$; within-block destruction may increase it). Example: Soviet collapse (1991).
+\item \textbf{Reweighting break}: existing edge weights shift (a terms-of-trade shock, a technological change that alters input shares). $\Gamma$ changes smoothly rather than discretely. Example: the commodity supercycle (2003--2014).
+\end{enumerate}
+\end{proposition}
+
+
+%% =====================================================================
+\section{Bolivia's Structural Trajectory, 1985--2019}
+\label{sec:bolivia}
+%% =====================================================================
+
+\begin{example}[Bolivia: Five Structural Epochs]\label{ex:epochs}
+Using Bolivia's I-O tables (1990, 2000, 2006, 2012, 2016), EH data (2000--2019), and trade data (annual):
+
+\textbf{Epoch 1: Structural Adjustment (1985--1993).} The NEP (New Economic Policy) liberalized trade, closed state mines, and privatized public enterprises. Expected effect: edge destruction (state mining edges severed) and edge creation (new private-sector trade edges).
+
+Actual trajectory: $\Gamma$ declined slightly from $\approx 0.10$ to $\approx 0.09$ (1985--1990). The mine closures destroyed within-block production edges (mining $\to$ downstream processing) without creating cross-block substitutes. $\sigma_B$ increased from $\approx 0.65$ to $\approx 0.68$: inequality became more structural as the mining workers were expelled into the informal sector.
+
+\textbf{Epoch 2: Capitalization and Gas Discovery (1994--2005).} The ``capitalization'' of state enterprises brought FDI into gas, telecoms, and transport. Gas production began at Sab\'{a}lo and San Alberto fields.
+
+Trajectory: $\Gamma$ recovered slowly from 0.09 to 0.12. The gas sector added high-value production edges but connected primarily to the rest of the world ($W^P_{\text{gas, RoW}} \gg W^P_{\text{gas, domestic}}$). Domestic $\Gamma$ increased modestly; the main effect was on the global $W^P$ (Bolivia's $\pi_G$ rose as gas exports grew). $\sigma_B$ fell slightly from 0.68 to 0.63: gas revenue created government jobs (moving some workers from informal to formal block).
+
+\textbf{Epoch 3: Gas Nationalization (2006--2009).} Supreme Decree 28701 renegotiated gas contracts. Government share of gas revenue jumped from $\approx 18\%$ to $\approx 82\%$.
+
+Trajectory: No detectable structural break in $\Gamma$. The nationalization changed the \textit{distribution} of existing edge weights (gas $\to$ MNC profit repatriation shifted to gas $\to$ treasury) but did not create new domestic production edges. $\Gamma$ remained at $\approx 0.12$--$0.13$. $\sigma_B$ fell modestly (from 0.63 to 0.61) as fiscal transfers reached poor households. The $\boldsymbol{\pi}$ vector shifted: $\pi_{\text{government}}$ increased; $\pi_{\text{foreign}}$ decreased. But the block structure persisted.
+
+\textbf{Epoch 4: Redistribution Without Structural Change (2010--2019).} A decade of high gas revenue, large fiscal transfers (Bono Juancito Pinto, Renta Dignidad, subsidies), and poverty reduction.
+
+Trajectory: $\Gamma$ stagnated at 0.13. $\sigma_B$ held at 0.62. $N_{\text{eff}}$ rose slowly (2.8 $\to$ 3.2, driven by social media). ECI: $-0.85 \to -0.80$. The dashboard indicators were virtually flat. Ten years of redistribution produced no measurable structural integration.
+
+\textbf{Epoch 5: Crisis and Stagnation (2019--present).} Political crisis (2019), pandemic (2020--2021), declining gas reserves.
+
+Trajectory: $\Gamma$ at risk of declining as gas production falls and the fiscal capacity to maintain transfers erodes. Without the gas revenue that financed the redistribution, and without structural change to replace it, the structural indicators may reverse.
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Epoch & Period & $\Delta\Gamma$ & $\Delta\sigma_B$ & $\Delta$ECI & Structural break? \\
+\midrule
+1. Adjustment & 1985--93 & $-0.01$ & $+0.03$ & --- & Mild (negative) \\
+2. Gas discovery & 1994--05 & $+0.03$ & $-0.05$ & $+0.02$ & No \\
+3. Nationalization & 2006--09 & $+0.01$ & $-0.02$ & $-0.01$ & No \\
+4. Redistribution & 2010--19 & $\approx 0$ & $\approx 0$ & $+0.04$ & No \\
+5. Crisis & 2019-- & $\leq 0$ & $?$ & $?$ & Possible (negative) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{example}
+
+\begin{vizpanel}{Bolivia's structural trajectory in the $(\Gamma, \sigma_B)$ plane}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\draw[->] (0,0) -- (7,0) node[right, font=\small] {$\Gamma$};
+\draw[->] (0,0) -- (0,5) node[above, font=\small] {$\sigma_B$};
+
+%% Bolivia trajectory
+\fill[red!60] (0.9, 3.8) circle (2pt);
+\node[font=\tiny, left] at (0.8, 3.8) {1985};
+\fill[red!60] (0.8, 4.0) circle (2pt);
+\node[font=\tiny, left] at (0.7, 4.1) {1990};
+\fill[red!60] (1.1, 3.7) circle (2pt);
+\node[font=\tiny, right] at (1.2, 3.7) {2000};
+\fill[red!60] (1.2, 3.5) circle (2pt);
+\node[font=\tiny, right] at (1.3, 3.5) {2006};
+\fill[red!60] (1.3, 3.4) circle (2pt);
+\node[font=\tiny, right] at (1.4, 3.3) {2010};
+\fill[red!60] (1.3, 3.5) circle (2pt);
+\node[font=\tiny, right] at (1.4, 3.6) {2019};
+
+\draw[red!60, thick, ->] (0.9,3.8) -- (0.8,4.0);
+\draw[red!60, thick, ->] (0.8,4.0) -- (1.1,3.7);
+\draw[red!60, thick, ->] (1.1,3.7) -- (1.2,3.5);
+\draw[red!60, thick, ->] (1.2,3.5) -- (1.3,3.4);
+\draw[red!60, thick, ->] (1.3,3.4) -- (1.3,3.5);
+
+%% South Korea trajectory (for comparison)
+\fill[blue!50] (1.5, 3.0) circle (2pt);
+\node[font=\tiny, blue!50, below] at (1.5, 2.9) {KOR 1960};
+\fill[blue!50] (3.0, 2.0) circle (2pt);
+\node[font=\tiny, blue!50, below] at (3.0, 1.9) {KOR 1980};
+\fill[blue!50] (4.5, 1.2) circle (2pt);
+\node[font=\tiny, blue!50, below] at (4.5, 1.1) {KOR 2000};
+\draw[blue!50, thick, ->] (1.5,3.0) -- (3.0,2.0);
+\draw[blue!50, thick, ->] (3.0,2.0) -- (4.5,1.2);
+
+%% Target zone
+\fill[green!10] (4,0) rectangle (7,1.5);
+\node[font=\scriptsize, green!50!black] at (5.5, 0.7) {Growth + Equity};
+
+%% Casillero vacio bound
+\draw[gray, dashed, thick, domain=0.3:6.5, smooth] plot (\x, {2.5/\x + 0.2});
+\node[font=\tiny, gray] at (6, 0.65) {bound};
+\end{tikzpicture}
+\end{center}
+\vspace{-0.5em}
+\small Bolivia (red): wandering in the upper-left quadrant --- low $\Gamma$, high $\sigma_B$. Thirty-four years of trajectory, barely any movement toward the target zone. South Korea (blue): traversed the plane from upper-left to lower-right in 40 years. The dashed curve is the spectral bound: below it is structurally inaccessible without increasing $\Gamma$. Bolivia is above the bound. Korea is well inside the target zone.
+\end{vizpanel}
+
+\begin{keyinsight}
+The trajectory visualization makes the book's central argument visible in one image. Bolivia's 34-year trajectory is a small cloud of points in the upper-left corner of the $(\Gamma, \sigma_B)$ plane: lots of policy activity, almost no structural movement. South Korea's 40-year trajectory is a long arrow from the same starting region to the target zone.
+
+The difference is not ``good policy'' vs.\ ``bad policy'' in the conventional sense. Bolivia had substantial economic growth (average 4\% per year), massive poverty reduction, and significant redistribution. But all of this operated through transfers ($\Delta\boldsymbol{\omega}$) rather than structural change ($\Delta W$). The trajectory stayed in the same neighborhood because $W$ stayed approximately the same.
+
+Korea's trajectory moved because Korea changed $W$: land reform ($\Delta W^U$), education ($\Delta W^I + \Delta W^P$), export discipline ($\Delta W^P_{\text{global}}$), and industrial policy ($\Delta W^P_{\text{domestic}}$). Each operator moved the point in the $(\Gamma, \sigma_B)$ plane. The compound effect over 40 years: from $\Gamma \approx 0.15, \sigma_B \approx 0.50$ to $\Gamma \approx 0.45, \sigma_B \approx 0.20$.
+
+The trajectory IS the structural report card. One image, 40 years, the entire argument.
+\end{keyinsight}
+
+
+%% =====================================================================
+\section{Speed of Structural Change}
+\label{sec:speed}
+%% =====================================================================
+
+\begin{definition}[Structural Velocity]\label{def:velocity}
+The \textbf{structural velocity} is the rate of change of the spectral gap:
+\begin{equation}\label{eq:velocity}
+v_\Gamma(t) = \frac{\Gamma_{t+1} - \Gamma_t}{\Delta t}.
+\end{equation}
+The \textbf{structural acceleration} is $a_\Gamma(t) = v_\Gamma(t+1) - v_\Gamma(t)$.
+\end{definition}
+
+\begin{example}[Structural Velocities, Selected Countries]\label{ex:velocities}
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+Country & Period & $v_\Gamma$ (per decade) & Interpretation \\
+\midrule
+South Korea & 1960--2000 & $+0.075$ & Rapid integration \\
+China & 1980--2010 & $+0.060$ & Fast integration \\
+Chile & 1990--2015 & $+0.025$ & Moderate integration \\
+Bolivia & 1990--2019 & $+0.010$ & Glacial \\
+Argentina & 2000--2019 & $-0.005$ & Mild fragmentation \\
+Venezuela & 2010--2020 & $-0.030$ & Structural collapse \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Bolivia's structural velocity ($+0.01$ per decade) means that at the current rate, reaching Korea's current $\Gamma = 0.45$ would take approximately $(0.45 - 0.13)/0.01 = 32$ decades --- 320 years. The velocity itself must increase (structural acceleration) for convergence in a reasonable timeframe.
+\end{example}
+
+\begin{proposition}[What Determines Structural Velocity?]\label{prop:velocity_determinants}
+From the co-evolutionary dynamics of Chapter~13, structural velocity depends on:
+\begin{enumerate}
+\item \textbf{Cross-block surplus} $s_{\text{cross}}$: higher surplus makes new cross-block edges profitable. Industrial policy that creates cross-block linkages increases $v_\Gamma$.
+\item \textbf{Edge destruction rate} $\delta_{\text{cross}}$: crises, policy reversals, and political instability destroy cross-block edges, reducing $v_\Gamma$ or making it negative.
+\item \textbf{Proximity bias} $p_1$: strong path dependence (high $p_1$) slows diversification into structurally distant activities, capping $v_\Gamma$.
+\item \textbf{Formation velocity}: the speed at which preferences adjust ($1 - \rho$). Fast preference adjustment ($\rho$ small) allows rapid norm change, which supports structural change. Slow adjustment ($\rho$ large, as in Bolivia: $\rho \approx 0.85$) means preferences lag behind structure, creating resistance to change.
+\end{enumerate}
+\end{proposition}
+
+
+%% =====================================================================
+\section{Distinguishing Structural Change from Cyclical Fluctuation}
+\label{sec:distinguish}
+%% =====================================================================
+
+\begin{theorem}[Structural-Cyclical Decomposition]\label{thm:decomposition}
+Any change in the Perron eigenvector can be decomposed:
+\begin{equation}\label{eq:SC_decomp}
+\Delta\pi_{i,t} = \underbrace{\Delta\pi_{i,t}^S}_{\text{structural}} + \underbrace{\Delta\pi_{i,t}^C}_{\text{cyclical}},
+\end{equation}
+where:
+\begin{enumerate}
+\item The \textbf{structural component} $\Delta\pi^S$ comes from changes in $W$ (new edges, destroyed edges, rewired connections). Structural changes persist: once an edge is created or destroyed, it stays.
+\item The \textbf{cyclical component} $\Delta\pi^C$ comes from changes in edge weights due to price fluctuations, demand shocks, or temporary policy. Cyclical changes reverse: when the shock passes, the weights return to their long-run values.
+\end{enumerate}
+
+Identification: the structural component is estimated from the trend in $\Gamma_t$ (HP-filtered or band-pass filtered). The cyclical component is the residual.
+\end{theorem}
+
+\begin{example}[Bolivia: Structural vs.\ Cyclical, 2003--2019]\label{ex:decomposition}
+During the gas boom (2003--2014): $\pi_{\text{gas}}$ rose from 0.07 to 0.11. After the boom (2015--2019): $\pi_{\text{gas}}$ fell back to 0.09.
+
+Decomposition: the structural component $\Delta\pi^S_{\text{gas}} = +0.02$ (the nationalization permanently increased the government's share of gas linkages). The cyclical component: $\Delta\pi^C_{\text{gas}} = +0.02$ (the price boom temporarily inflated gas weights), which reversed to $\Delta\pi^C_{\text{gas}} = -0.02$ after the boom.
+
+The 2006 nationalization produced a structural $\Delta\pi^S$ of approximately $+0.02$ --- a small but persistent effect. The commodity boom produced a cyclical $\Delta\pi^C$ of the same magnitude but temporary. The standard analysis that counted Bolivia's ``structural transformation'' during the boom was measuring the cyclical component. The structural trajectory (Section~\ref{sec:bolivia}) was nearly flat throughout.
+\end{example}
+
+\begin{prebisch}[Commodity booms as cyclical mirages]
+Latin American economic history is a sequence of commodity booms mistaken for structural change. Guano in Peru (1840--1870), nitrate in Chile (1880--1920), coffee in Brazil (1890--1930), oil in Venezuela (1920--2015), gas in Bolivia (2003--2014). Each boom raised incomes, reduced poverty, and generated optimism about ``transformation.'' Each bust revealed that $\Gamma$ had not changed: the economy remained an enclave connected to the world through a single commodity edge.
+
+The structural-cyclical decomposition is the instrument that detects the mirage. During the boom: $\Delta\pi^C$ is large (the commodity sector's weight inflates). After the bust: $\Delta\pi^C$ reverses. The structural component $\Delta\pi^S$ is what remains --- and it is typically near zero for commodity booms, because commodity booms do not create cross-block domestic linkages.
+
+The exception: commodity booms CAN produce structural change if the revenue is invested in the operators of Chapter~15 (information, education, infrastructure, industrial policy). Norway's oil fund is the canonical example: oil revenue invested in human capital and institutional development, producing structural change ($\Delta\Gamma > 0$) alongside the cyclical boom. Bolivia's gas revenue was invested in transfers ($\Delta\boldsymbol{\omega}$), producing poverty reduction but no structural change ($\Delta\Gamma \approx 0$).
+\end{prebisch}
+
+
+%% =====================================================================
+\section{The Structural Change Index}
+\label{sec:index}
+%% =====================================================================
+
+\begin{definition}[Structural Change Index (SCI)]\label{def:SCI}
+The \textbf{Structural Change Index} summarizes the entire trajectory in a single number:
+\begin{equation}\label{eq:SCI}
+\text{SCI}(t_0, T) = \frac{\Gamma_T - \Gamma_{t_0}}{\Gamma^* - \Gamma_{t_0}},
+\end{equation}
+where $\Gamma^*$ is the target spectral gap (e.g., $\Gamma^* = 0.50$, the level associated with the ``growth with equity'' zone of the casillero vac\'{i}o). SCI $\in [0, 1]$: the fraction of the structural distance that has been closed over the period.
+\end{definition}
+
+\begin{example}[SCI for Selected Countries]\label{ex:SCI}
+Using $\Gamma^* = 0.50$:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Country & $\Gamma_{t_0}$ & $\Gamma_T$ & Period & SCI \\
+\midrule
+South Korea & 0.15 & 0.45 & 1960--2000 & 0.86 \\
+China & 0.12 & 0.35 & 1980--2020 & 0.61 \\
+Chile & 0.18 & 0.28 & 1990--2020 & 0.31 \\
+Bolivia & 0.10 & 0.13 & 1990--2019 & 0.075 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its gap in 29 years. At Bolivia's rate, full closure would take $29/0.075 \approx 387$ years.
+\end{example}
+
+
+%% =====================================================================
+\section{Summary}
+\label{sec:summary}
+%% =====================================================================
+
+\begin{enumerate}
+\item The \textbf{structural trajectory} $\{(\Gamma_t, \sigma_{B,t})\}$ is the time series of structural health, plotted in the integration-equality plane. Bolivia: 34 years of wandering in the upper-left corner.
+
+\item \textbf{Structural breaks} are detectable as discontinuities in $\Gamma_t$. Bolivia's five epochs: structural adjustment ($\Delta\Gamma < 0$), gas discovery ($\Delta\Gamma$ small positive), nationalization (no break), redistribution (flat), crisis (risk of decline).
+
+\item \textbf{Structural velocity} $v_\Gamma$ measures the speed of integration. Bolivia: $+0.01$ per decade (glacial). Korea: $+0.075$ (rapid). At Bolivia's rate, convergence takes 320 years.
+
+\item The \textbf{structural-cyclical decomposition} separates permanent changes in $W$ from temporary price effects. Commodity booms are cyclical: $\Delta\pi^C$ reverses after the boom. Only booms invested in structural operators produce $\Delta\pi^S > 0$.
+
+\item The \textbf{Structural Change Index} (SCI): fraction of the structural gap closed. Korea: 0.86. Bolivia: 0.075.
+\end{enumerate}
+
+
+%% =====================================================================
+\section{Exercises}
+\label{sec:exercises}
+%% =====================================================================
+
+\begin{enumerate}[label=\textbf{23.\arabic*}, leftmargin=3em]
+
+\item \textbf{Bolivia's trajectory.} Using available I-O tables and EH data: construct Bolivia's structural trajectory for 2000--2019. Plot $(\Gamma_t, \sigma_{B,t})$. Is the trajectory moving toward or away from the target zone?
+
+\item \textbf{Structural break detection.} Compute $\Delta\Gamma_t$ for each year. Apply the break detection criterion with $k = 2$. Are there any structural breaks? At what years? Do they correspond to policy events?
+
+\item \textbf{Structural velocity.} Compute $v_\Gamma$ for Bolivia, Chile, and Peru. Which country is integrating fastest? At each country's velocity, when would it reach $\Gamma = 0.40$?
+
+\item \textbf{Structural-cyclical decomposition.} For Bolivia 2003--2019: decompose $\Delta\pi_{\text{gas},t}$ into structural and cyclical components using an HP filter. How much of the gas boom was structural?
+
+\item \textbf{Commodity boom counterfactual.} Suppose Bolivia had invested 30\% of gas revenue in cross-block operators (infrastructure connecting gas to traditional sector, technical education for rural workers). Simulate: how much would $\Gamma$ have increased by 2019? What SCI would Bolivia have achieved?
+
+\item \textbf{SCI computation.} Compute SCI for 10 Latin American countries (Bolivia, Brazil, Chile, Colombia, Costa Rica, Ecuador, Mexico, Peru, Uruguay, Venezuela) using ECI as a proxy for $\Gamma$. Rank them. Does the ranking match conventional measures of structural transformation?
+
+\item \textbf{Trajectory projection.} Using Bolivia's current structural velocity and the formation model: project the trajectory for 2020--2060 under three scenarios: (a) business as usual ($v_\Gamma = +0.01$/decade), (b) moderate structural reform ($v_\Gamma = +0.03$), (c) Korean-style acceleration ($v_\Gamma = +0.075$). Plot all three trajectories. When does each reach $\Gamma = 0.30$?
+\end{enumerate}
+
+
+%% =====================================================================
+\newpage
+\section*{Mathematical Appendices}
+\addcontentsline{toc}{section}{Mathematical Appendices}
+%% =====================================================================
+
+
+\subsection*{Appendix 23A: The RAS Method for I-O Table Updating}
+\addcontentsline{toc}{subsection}{Appendix 23A: RAS Method}
+\label{app:RAS}
+
+\paragraph{Problem.} Given a benchmark I-O coefficient matrix $A_0$ and new row totals $\mathbf{r}$ and column totals $\mathbf{c}$, find the updated matrix $A^*$ that matches the new margins while staying ``close'' to $A_0$.
+
+\paragraph{Algorithm.} The RAS (or biproportional) method alternates row and column scaling:
+\begin{enumerate}
+\item Initialize $A^{(0)} = A_0$.
+\item Scale rows: $A^{(2k+1)}_{ij} = A^{(2k)}_{ij} \cdot r_i / \sum_j A^{(2k)}_{ij}$.
+\item Scale columns: $A^{(2k+2)}_{ij} = A^{(2k+1)}_{ij} \cdot c_j / \sum_i A^{(2k+1)}_{ij}$.
+\item Repeat until convergence.
+\end{enumerate}
+
+The RAS solution minimizes the KL-divergence $\sum_{ij} A^*_{ij}\ln(A^*_{ij}/A_{0,ij})$ subject to the margin constraints. It preserves zeros (if $A_{0,ij} = 0$ then $A^*_{ij} = 0$) and the block structure of $A_0$.
+
+\paragraph{Structural interpretation.} RAS updating assumes the block structure of $W^P$ is unchanged between benchmarks --- only the relative sizes of sectors change. This is conservative: it cannot detect edge creation or destruction between benchmark I-O tables. A break in $\Gamma$ between RAS-updated years likely reflects a real structural change that the RAS assumption missed.
+
+
+\subsection*{Appendix 23B: Structural vs.\ Cyclical Decomposition}
+\addcontentsline{toc}{subsection}{Appendix 23B: Structural-Cyclical Decomposition}
+\label{app:decomposition}
+
+\paragraph{HP filter.} The Hodrick-Prescott filter decomposes $\Gamma_t = \Gamma_t^S + \Gamma_t^C$ by minimizing $\sum_t (\Gamma_t - \Gamma_t^S)^2 + \lambda\sum_t [(\Gamma_{t+1}^S - \Gamma_t^S) - (\Gamma_t^S - \Gamma_{t-1}^S)]^2$. The smoothing parameter $\lambda$ controls the trade-off between fit and smoothness. For annual data: $\lambda = 6.25$ (Ravn and Uhlig, 2002) or $\lambda = 100$ (traditional). For structural indicators that change slowly: $\lambda = 400$--$1600$ (equivalent to a 10--20 year business cycle).
+
+\paragraph{Band-pass filter.} The Baxter-King or Christiano-Fitzgerald filter isolates fluctuations at specific frequencies. Structural change: periods $> 20$ years. Business cycle: 2--8 years. The band-pass filter cleanly separates the two.
+
+\paragraph{Structural breaks.} The HP and band-pass filters assume smooth trends. For detecting abrupt structural breaks (nationalization, crisis, regime change): use the Bai-Perron (1998) multiple structural break test applied to $\Gamma_t$. The null hypothesis is no break; the alternative is one or more breaks at unknown dates.
+
+
+%% =====================================================================
+\subsection*{Structuralist Case Study: CEPAL's Structural Change Program}
+\addcontentsline{toc}{subsection}{Structuralist Case Study: CEPAL (2012)}
+%% =====================================================================
+
+CEPAL's (2012) report \textit{Structural Change for Equality: An Integrated Approach to Development} represents the institutional synthesis of the structuralist tradition's diagnosis and prescription. Published 63 years after Prebisch's 1949 manifesto, it argues that Latin America's central challenge remains structural: the region has achieved macroeconomic stability and poverty reduction but has not changed its production structure.
+
+The report maps onto this chapter's framework precisely.
+
+\textbf{Part 1: Structural change is slow.} CEPAL documents that Latin America's export composition changed little over 1990--2010: the region remained specialized in natural resources and low-technology manufactures. In this chapter's terms: $v_\Gamma \approx 0$ for most Latin American countries. The structural trajectory was flat.
+
+\textbf{Part 2: Redistribution without structural change is unsustainable.} CEPAL notes that the region's poverty reduction (2000--2012) was driven by commodity booms and fiscal transfers, not by structural transformation. In this chapter's terms: $\Delta\boldsymbol{\omega} \gg \Delta W$. The improvement is cyclical ($\Delta\pi^C > 0$ during the boom) not structural ($\Delta\pi^S \approx 0$). When the commodity cycle reversed (post-2014), poverty stagnated and in some countries reversed.
+
+\textbf{Part 3: The prescription is ``change for equality.''} CEPAL argues for industrial policy, technological upgrading, and institutional reform --- the operators of Chapter~15, stated in institutional language rather than matrix notation. The report's title is itself a theorem: structural change ($\Delta\Gamma > 0$) is necessary for equality ($\sigma_B \downarrow$). This is the spectral gap bound: you cannot reduce inequality sustainably without increasing $\Gamma$.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{CEPAL 2012} & \textbf{This chapter} & \textbf{Cross-reference} \\
+\midrule
+Structural change is slow & $v_\Gamma \approx 0.01$/decade & Ex.~\ref{ex:velocities} \\
+Redistribution without structural change & $\Delta\boldsymbol{\omega} \gg \Delta W$ & Sec.~\ref{sec:bolivia}, Epoch 4 \\
+Commodity boom as mirage & $\Delta\pi^C$ reverses & Prebisch Connection \\
+Change for equality & $\Delta\Gamma > 0 \Rightarrow \sigma_B \downarrow$ & Spectral bound \\
+Policy: industrial upgrading & Operators from Ch.~15 & Ch.~15 \\
+SCI as metric & Fraction of gap closed & Def.~\ref{def:SCI} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+CEPAL wrote in the language of institutions and policy. This chapter translates into eigenvalues and trajectories. The message is the same: Latin America has been redistributing within a fixed structure, and the structure has not changed. The trajectory visualization (this chapter's vizpanel) IS the image that CEPAL's report describes in 350 pages of prose.
+
+
+%% =====================================================================
+\subsection*{Further Reading}
+\addcontentsline{toc}{subsection}{Further Reading}
+%% =====================================================================
+
+\textbf{Structural change measurement:} CEPAL (2012), \textit{Structural Change for Equality}, Santiago: United Nations. McMillan, Rodrik, and Verduzco-Gallo (2014), ``Globalization, Structural Change, and Productivity Growth,'' \textit{World Development}. de Vries et al.\ (2012), ``Deconstructing the BRICs,'' \textit{GGDC Research Memorandum}.
+
+\textbf{I-O table updating:} Miller and Blair (2009), \textit{Input-Output Analysis: Foundations and Extensions}, Chapter~8 (RAS and cross-entropy methods). Temursho (2017), ``Entropy-Based Benchmarking Methods,'' \textit{Economic Systems Research}.
+
+\textbf{Structural breaks:} Bai and Perron (1998), ``Estimating and Testing Linear Models with Multiple Structural Changes,'' \textit{Econometrica}. For application to development: Pritchett (2000), ``Understanding Patterns of Economic Growth,'' \textit{World Bank Economic Review}.
+
+\textbf{Bolivia's economic history:} Morales and Sachs (1990), ``Bolivia's Economic Crisis.'' Weisbrot, Ray, and Johnston (2009), ``Bolivia: The Economy During the Morales Administration,'' CEPR. Andersen et al.\ (2020), ``Bolivia's Twenty-First Century Commodity Boom,'' INESAD Working Paper.
+
+
+\end{document}
