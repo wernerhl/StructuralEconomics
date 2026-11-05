@@ -64,7 +64,7 @@ $\tau_c = 0$: the country has the complete dense subgraph. $\tau_c = 1$: the cou
 
 To connect the product space to integration we need an assumption about how the domestic production network relates to it.
 
-\textbf{Assumption (product-space proxy).} The domestic network of country $c$ is proxied by the proximity among the products $c$ produces: $W_c = D_c^{-1}\phi_c$, where $\phi_c$ is $\phi$ restricted to $c$'s products and $D_c = \operatorname{diag}(\phi_c\ones)$. This $W_c$ is row-stochastic and reversible, so its eigenvalues are real. (It is a proxy: the input-share matrix $W^P = D^{-1}A$ of an I-O table is a different object, and Exercise~25.3 asks how well the proxy tracks it.)
+\textbf{Assumption (product-space proxy).} The domestic network of country $c$ is proxied by the proximity among the products $c$ produces: $W_c = D_c^{-1}\phi_c$, where $\phi_c$ is $\phi$ restricted to $c$'s products and $D_c = \operatorname{diag}(\phi_c\ones)$. This $W_c$ is row-stochastic and reversible, so its eigenvalues are real (we assume $c$ produces at least two products and every product has positive proximity to some other product, so that $D_c$ is invertible). Order them $1 = \lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_N$: in this section $\lambda_2(W_c)$ is the second-\emph{largest} eigenvalue, which differs from the eigenvalue of second-largest modulus that defines $\Gamma$ when $|\lambda_N| > |\lambda_2|$. (It is a proxy: the input-share matrix $W^P = D^{-1}A$ of an I-O table is a different object, and Exercise~25.3 asks how well the proxy tracks it.)
 
 For a set $S$ of $c$'s products, the \textbf{conductance} of the cut $(S, S^c)$ is $\Phi_c(S) = \phi_c(S, S^c) / \min\bigl(\mathrm{vol}(S), \mathrm{vol}(S^c)\bigr)$, where $\phi_c(S,S^c)$ is the total proximity across the cut and $\mathrm{vol}(S) = \sum_{p \in S}(\phi_c\ones)_p$.
 
@@ -75,8 +75,21 @@ Under the proxy assumption, for every cut $(S, S^c)$ of $c$'s products,
 \end{equation}
 Hence if $c$ lacks a set $\mathcal{B}$ of products that \emph{bridges} two clusters $S$ and $S^c$ --- so that, without $\mathcal{B}$, the direct proximity across the cut is small --- then $c$'s integration is at most twice that small conductance, however large the conductance of the same cut would be with $\mathcal{B}$ present.
 \end{proposition}
-\begin{proof}[Proof sketch]
-The first inequality holds because $|\lambda_2| \ge \lambda_2$. The second is the easy half of Cheeger's inequality for reversible chains \citep{lawler1988bounds,sinclair1989approximate}: insert the test function $f = \ones_S/\mathrm{vol}(S) - \ones_{S^c}/\mathrm{vol}(S^c)$, which is orthogonal to the stationary distribution, into the variational characterization $1 - \lambda_2 = \min_f \mathcal{E}(f,f)/\Var(f)$, and bound the ratio by $2\Phi_c(S)$.
+\begin{proof}
+\emph{First inequality.} The eigenvalue of second-largest modulus has modulus $\max(|\lambda_2|, |\lambda_N|) \ge \lambda_2$, so $\Gamma(W_c) \le 1 - \lambda_2(W_c)$.
+
+\emph{Second inequality} (the easy half of Cheeger's inequality for reversible chains; \citealp{lawler1988bounds,sinclair1989approximate}). Write $\phi = \phi_c$, $D = D_c$, $\mathbf{d} = \phi\ones$. $W_c = D^{-1}\phi$ is similar to the symmetric matrix $M = D^{-1/2}\phi D^{-1/2}$, whose top eigenvector is $D^{1/2}\ones$. By Courant--Fischer, with $\mathbf{g} = D^{1/2}\mathbf{f}$,
+\[
+\lambda_2 = \max_{\mathbf{g} \perp D^{1/2}\ones,\ \mathbf{g} \ne 0}\frac{\mathbf{g}'M\mathbf{g}}{\mathbf{g}'\mathbf{g}}
+\quad\Longrightarrow\quad
+1 - \lambda_2 = \min_{\mathbf{f}'\mathbf{d} = 0,\ \mathbf{f} \ne 0}\frac{\mathbf{f}'D\mathbf{f} - \mathbf{f}'\phi\mathbf{f}}{\mathbf{f}'D\mathbf{f}}
+= \min_{\mathbf{f}'\mathbf{d} = 0,\ \mathbf{f} \ne 0}\frac{\tfrac12\sum_{p,q}\phi_{pq}(f_p - f_q)^2}{\sum_p d_pf_p^2},
+\]
+where the last step uses $d_p = \sum_q \phi_{pq}$ and the symmetry of $\phi$. Take a cut with $S$ and $S^c$ nonempty (so $\mathrm{vol}(S), \mathrm{vol}(S^c) > 0$) and the test vector $\mathbf{f} = \ones_S/\mathrm{vol}(S) - \ones_{S^c}/\mathrm{vol}(S^c)$, for which $\mathbf{f}'\mathbf{d} = 1 - 1 = 0$. Only pairs across the cut contribute to the numerator, each with $(f_p - f_q)^2 = \kappa^2$, $\kappa := 1/\mathrm{vol}(S) + 1/\mathrm{vol}(S^c)$, so the numerator equals $\phi(S,S^c)\,\kappa^2$ (each unordered cross pair is counted twice in the double sum, cancelling the $\tfrac12$). The denominator is $\mathrm{vol}(S)/\mathrm{vol}(S)^2 + \mathrm{vol}(S^c)/\mathrm{vol}(S^c)^2 = \kappa$. Hence
+\[
+1 - \lambda_2 \le \phi(S,S^c)\Bigl(\frac{1}{\mathrm{vol}(S)} + \frac{1}{\mathrm{vol}(S^c)}\Bigr) \le \frac{2\,\phi(S,S^c)}{\min(\mathrm{vol}(S),\mathrm{vol}(S^c))} = 2\,\Phi_c(S).
+\]
+The ``hence'' clause applies this to $c$'s product set, from which $\mathcal{B}$ is absent, so $\Phi_c(S)$ is the conductance without $\mathcal{B}$. \texttt{code/ch25.py} checks both inequalities on random symmetric proximity matrices and all cuts.
 \end{proof}
 
 \begin{remark}[A dense module is not a bridge]\label{ch25:rem:module}
@@ -360,7 +373,7 @@ The transition from spurious to genuine is the transition from the periphery of 
 
 \paragraph{Computing $\mathcal{D}$.} Goldberg's problem $\max_S e(S)/|S|$ is solvable exactly in polynomial time by a sequence of minimum-cut computations. For large product spaces, \citeauthor{charikar2000greedy}'s (\citeyear{charikar2000greedy}) greedy peeling is simpler and guarantees at least half the optimal value: repeatedly delete the product with the smallest remaining weighted degree, and keep the intermediate set with the highest $e(S)/|S|$. On the ten-product example of \texttt{code/ch25.py}, peeling returns the four-product core, which coincides with the brute-force optimum ($e/|S| = 1.35$). A lower size bound $|S| \ge k$ makes the problem NP-hard; if one is needed, report peeling with the bound and state that it is a heuristic. Modularity-based community detection is an alternative, but it partitions the whole space into communities and needs a resolution parameter $\gamma$ and a density threshold to single out $\mathcal{D}$; whichever method is used, state the parameters.
 
-\paragraph{Integration after removing a set.} For a symmetric $\phi$ and $W = D^{-1}\phi$ (reversible), the eigenvalues are real and Cheeger's inequality holds:
+\paragraph{Integration after removing a set.} For a symmetric $\phi$ and $W = D^{-1}\phi$ (reversible), the eigenvalues are real and, with $\lambda_2$ the second-largest eigenvalue, Cheeger's inequality holds \citep{lawler1988bounds,sinclair1989approximate}:
 \[
 \frac{\Phi(W)^2}{2} \;\le\; 1 - \lambda_2(W) \;\le\; 2\,\Phi(W), \qquad \Phi(W) = \min_{S:\ \mathrm{vol}(S) \le \mathrm{vol}/2}\ \frac{\phi(S, S^c)}{\mathrm{vol}(S)}.
 \]
@@ -407,7 +420,7 @@ Three strategies & Build, attract, or grow toward $\mathcal{D}$ & Remark~\ref{ch
 \end{tabularx}
 \end{center}
 
-Fajnzylber died in 1991 at age 51, before seeing either the product space or the economic complexity literature that would echo his diagnosis. The casillero vac\'{i}o became the defining image of the structuralist diagnosis. This chapter gives his truncated industrialization a truncation index, a bridge theorem, a testable conjecture, and an estimate of its cost in integration.
+Fajnzylber died in 1991 at age 51, before seeing either the product space or the economic complexity literature that would echo his diagnosis. The casillero vac\'{i}o became the defining image of the structuralist diagnosis. This chapter gives his truncated industrialization a truncation index, a bridge bound, a testable conjecture, and an estimate of its cost in integration.
 
 
 %% =====================================================================

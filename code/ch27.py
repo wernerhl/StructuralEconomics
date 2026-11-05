@@ -88,3 +88,30 @@ Wp = rng.dirichlet(np.ones(5), size=5)
 ev, vr = np.linalg.eig(Wp)
 fixed = np.real(vr[:, np.argmin(np.abs(ev - 1))])
 print("primitive W: eigenvector for eigenvalue 1 is constant:", np.allclose(fixed / fixed[0], 1))
+
+print("\n== Proof checks for Proposition ch27:thm:echo ==")
+rng = np.random.default_rng(27)
+for _ in range(500):
+    # (i) general row-stochastic W, two groups of random sizes, random engagement
+    n = rng.integers(2, 9)
+    grp = rng.integers(0, 2, n)
+    W = rng.dirichlet(np.ones(n), size=n)
+    ec = rng.uniform(0.1, 1.0); es = ec * rng.uniform(1.01, 4.0)
+    E = np.where(grp[:, None] == grp[None, :], es, ec)
+    Wp = W * E; Wp /= Wp.sum(1, keepdims=True)
+    cross = grp[:, None] != grp[None, :]
+    lam_i = (W * cross).sum(1); lam_p = (Wp * cross).sum(1)
+    assert np.allclose(lam_p, lam_i * ec / (lam_i * ec + (1 - lam_i) * es))
+    assert np.all(lam_p[(lam_i > 0) & (lam_i < 1)] < lam_i[(lam_i > 0) & (lam_i < 1)])
+    # (ii) two equal uniform groups: same family, Gamma = 1-|1-2 lam|, doubly stochastic
+    m = int(rng.integers(1, 6)); lam = rng.uniform(0.01, 0.99)
+    T = two_group(lam, m)
+    Tp = T * np.where(np.kron(np.eye(2), np.ones((m, m))) > 0, es, ec)
+    Tp /= Tp.sum(1, keepdims=True)
+    lp = lam * ec / (lam * ec + (1 - lam) * es)
+    assert np.allclose(Tp, two_group(lp, m))
+    G, ne = stats(T)
+    assert abs(G - (1 - abs(1 - 2 * lam))) < 1e-9 and abs(ne - 2 * m) < 1e-6
+    if lam <= 0.5:
+        assert stats(Tp)[0] < G
+print("checked: lambda' formula on random W, same-family reweighting, Gamma = 1-|1-2lambda|, Neff = N")

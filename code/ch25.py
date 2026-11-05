@@ -92,6 +92,25 @@ for _ in range(300):
             assert gap(W) <= 1 - ev[1] + 1e-9
 print("checked Gamma <= 1 - lambda_2 <= 2*Phi(S) for 300 random reversible W, all cuts")
 
+# Proof check for Proposition ch25:prop:bridge_bound: Rayleigh quotient of the test vector
+for _ in range(300):
+    k = int(rng.integers(3, 9))
+    P = rng.uniform(0, 1, (k, k)); P = (P + P.T) / 2; np.fill_diagonal(P, 0.0)
+    d = P.sum(1)
+    Sset = rng.choice(k, size=int(rng.integers(1, k)), replace=False)
+    T = np.setdiff1d(np.arange(k), Sset)
+    vS, vT = d[Sset].sum(), d[T].sum()
+    f = np.zeros(k); f[Sset] = 1 / vS; f[T] = -1 / vT
+    assert abs(f @ d) < 1e-12
+    num = 0.5 * sum(P[p_, q_] * (f[p_] - f[q_]) ** 2 for p_ in range(k) for q_ in range(k))
+    den = f @ (d * f)
+    kap = 1 / vS + 1 / vT
+    cut = P[np.ix_(Sset, T)].sum()
+    assert abs(num - cut * kap ** 2) < 1e-10 and abs(den - kap) < 1e-10
+    lam2 = np.sort(np.real(np.linalg.eigvals(P / d[:, None])))[::-1][1]
+    assert 1 - lam2 <= num / den + 1e-10 <= 2 * conductance(P, list(Sset)) + 2e-10
+print("checked: test-vector Rayleigh quotient = cut*(1/vol S + 1/vol S^c) >= 1 - lambda_2, <= 2 Phi(S)")
+
 print("\n== Degenerate definition: average including diagonal phi_pp = 1 ==")
 phid = phiB.copy(); np.fill_diagonal(phid, 1.0)
 single = phid[np.ix_([0], [0])].mean()

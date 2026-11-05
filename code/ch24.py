@@ -66,3 +66,35 @@ for jump in (0.45, 0.55):
     for _ in range(400):
         th = rho * th + (1 - rho) * g(th)
     print(f"impulse to theta = {fps0[0]+jump:.3f}: converges to {th:.3f}")
+
+print("\n== Proof checks for Proposition ch24:thm:counter ==")
+# symmetry theta_c = 1 - theta_h at s = 0; the map F is strictly increasing
+assert abs(fps0[0] + fps0[2] - 1) < 1e-4
+grid = np.linspace(-2, 3, 20001)
+assert np.all(np.diff(rho * grid + (1 - rho) * g(grid)) > 0)
+# roots of g' = 1 are a and b = 1 - a; second (reverse) fold at s = -s*
+b_star = 1 - th_star
+assert abs(dg(th_star) - 1) < 1e-9 and abs(dg(b_star) - 1) < 1e-9
+assert abs((b_star - g(b_star)) + s_star) < 1e-12
+assert len(fixed_points(-s_star + 0.002)) == 3 and len(fixed_points(-s_star - 0.002)) == 1
+# for s > s*, convergence to the unique (upper) fixed point from any start
+rng = np.random.default_rng(24)
+for s in (0.19, 0.25, 0.5):
+    fp = fixed_points(s)[-1]
+    for th0 in rng.uniform(-1, 2, 20):
+        th = th0
+        for _ in range(3000):
+            th = rho * th + (1 - rho) * (g(th) + s)
+        assert abs(th - fp) < 1e-3
+# random (beta, s) checks: three roots for 0 <= s < s*(beta), one root above
+for _ in range(50):
+    bb = rng.uniform(4.5, 30)
+    gb = lambda t, bb=bb: 1 / (1 + np.exp(-bb * (t - 0.5)))
+    gs = (1 - np.sqrt(1 - 4 / bb)) / 2
+    a_ = 0.5 + np.log(gs / (1 - gs)) / bb
+    ss = a_ - gs
+    gr = np.linspace(-1, 2, 300001)
+    for sv, n in ((0.0, 3), (0.5 * ss, 3), (1.05 * ss + 1e-3, 1)):
+        f = gb(gr) + sv - gr
+        assert len(np.where(np.sign(f[:-1]) != np.sign(f[1:]))[0]) == n
+print("checked: symmetry, monotone map, reverse fold at -s*, global convergence for s > s*, random beta")

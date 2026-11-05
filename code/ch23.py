@@ -47,6 +47,30 @@ for _ in range(2000):
     assert abs(eig_sorted(A)[1]) <= tau1(A) + 1e-12
 print("checked: tau1(AB) <= tau1(A) tau1(B) and |lambda2| <= tau1 on 2000 random pairs")
 
+# Proof checks for Proposition ch23:prop:dobrushin
+# Step 1: ||delta' A||_1 <= tau1(A) ||delta||_1 on zero-sum delta, equality at e_i - e_j
+n_complex = 0
+for _ in range(1000):
+    n = int(rng.integers(2, 7))
+    A = rng.dirichlet(np.ones(n) * 0.5, size=n)
+    d = rng.normal(size=n); d -= d.mean()
+    assert np.abs(d @ A).sum() <= tau1(A) * np.abs(d).sum() + 1e-12
+    i, j = max(((i, j) for i in range(n) for j in range(n)),
+               key=lambda ij: np.abs(A[ij[0]] - A[ij[1]]).sum())
+    e = np.zeros(n); e[i], e[j] = 1, -1
+    assert abs(np.abs(e @ A).sum() - 2 * tau1(A)) < 1e-12
+    # (ii) every eigenvalue other than one copy of 1 (including complex ones) has modulus <= tau1
+    ev = eig_sorted(A)
+    n_complex += int(np.any(np.abs(np.imag(ev)) > 1e-9))
+    assert np.all(np.abs(ev[1:]) <= tau1(A) + 1e-10)
+# repeated unit eigenvalue (reducible): tau1 = 1, Gamma = 0
+R = np.array([[0.6, 0.4, 0, 0], [0.3, 0.7, 0, 0], [0, 0, 0.5, 0.5], [0, 0, 0.2, 0.8]])
+assert abs(tau1(R) - 1) < 1e-12 and abs(gap(R)) < 1e-12
+# Hajnal bound: prod tau1 <= exp(-sum(1 - tau1))
+taus = rng.uniform(0, 1, 200)
+assert np.prod(taus) <= np.exp(-np.sum(1 - taus)) + 1e-300
+print(f"checked: tau1 operator-norm identity, eigenvalue bound ({n_complex} cases with complex spectrum), reducible case, Hajnal bound")
+
 # weak ergodicity: product of scrambling matrices collapses rows; absolute probability sequence
 T = 60
 Ws = [rng.dirichlet(np.ones(4), size=4) for _ in range(T)]
