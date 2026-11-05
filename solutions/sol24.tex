@@ -1,0 +1,207 @@
+% Solutions to the exercises of Chapter 24. Numbers: code/solutions/sol24.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{23}}{}% NN-1 when built standalone
+\setcounter{chapter}{23}% NN-1, so this chapter is numbered NN
+\chapter{Hegemony and Counter-Hegemony}\label{sol24}
+\begingroup\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol24.py}. Unless a source is named, every parameter is \illustrative: Chapter~24 contains no sourced data except the input--output values of Example~\ref{ch24:ex:crisis}, and the data catalogue (\texttt{data/README.md}, row~100) records that the $\Neff^I$ values of the chapter remain illustrative because no historical audience data exist.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.1}{Hegemony as fixed point}
+
+\emph{A remark on the definition before the solution.} Condition~2 of Definition~\ref{ch24:def:hegemony} asks that $U_i(x_i^*,\theta_i^*) \ge U_i(x_i',\theta_i^*)$ for all \emph{feasible} $x_i'$. If ``feasible'' means resource-feasible ($\sum_i x_i' = \Omega$) and $U_i$ is increasing in $x$, the condition fails for every dominated agent whenever any transfer is possible, so no hegemony could exist. If it means ``attainable under the current $W$'', it holds trivially. The workable reading, and the one used in the last sentence of Definition~\ref{ch24:thm:hegemony} (``none demands a change in $W$''), is that no agent prefers, \emph{given her formed preferences}, the action that would change $W$. We formalize that action as mobilization at a cost.
+
+\solpart{a} \textbf{The system.} Two groups, $E$ and $M$. The co-evolutionary system (Definition~\ref{ch13:thm:coevolution}) has three blocks.
+\begin{enumerate}
+\item \emph{Bargaining} (Proposition~\ref{ch07:prop:allocation-rule}, equal disagreement points): $x_i = \Omega/N + (\pi^P_i - 1/N)\Phi$, with $\boldsymbol{\pi}^P$ the Perron vector of the production layer.
+\item \emph{Formation.} $\theta_t$ is the masses' counter-hegemonic preference, as in model~\eqref{ch24:eq:counter_model}:
+$\theta_{t+1} = \rho\theta_t + (1-\rho)[g(\theta_t) + s(W)]$, with logistic $g$ of slope $\beta$. The counter-signal is what the masses see of the allocation gap through channels the elite does not control:
+\[
+s(W) = \sigma\,W^I_{MM}\,(x_E - x_M) = \sigma(1-q)(x_E - x_M),
+\]
+where $q = W^I_{ME}$ is the weight the masses put on elite-controlled media. This is the chapter's $(1-\rho)s = \mu\|\Delta(W^I\mathbf{r})\|$ with returns $\mathbf{r} = \x$ and the elite-filtered part of the signal removed.
+\item \emph{Network evolution} $\mathcal{E}$. A member of $M$ who mobilizes pays $c$ and, with the subjective weight $\theta$ she attaches to the alternative, expects the counter-hegemonic allocation $x_M^{\text{ctr}}$. She mobilizes iff $\theta(x_M^{\text{ctr}} - x_M) > c$, i.e.\ iff $\theta > \bar\theta := c/(x_M^{\text{ctr}} - x_M)$. Then $\mathcal{E}(W;\theta) = W^{\text{heg}}$ if $\theta \le \bar\theta$ and $W^{\text{ctr}}$ otherwise.
+\end{enumerate}
+A fixed point $(W^*,\theta^*,\x^*)$ of these three maps is a structural equilibrium (Definition~\ref{ch13:def:structural_eq}); with the three conditions of Definition~\ref{ch24:def:hegemony} it is a hegemonic equilibrium (Definition~\ref{ch24:thm:hegemony}).
+
+\solpart{b} \textbf{Parameters and the hegemonic fixed point.} Take
+\[
+W^{P,\text{heg}} = \begin{pmatrix} 0.9 & 0.1\\ 0.4 & 0.6\end{pmatrix},\qquad
+W^{I,\text{heg}} = \begin{pmatrix} 0.9 & 0.1\\ q & 1-q\end{pmatrix},\ q = 0.7,
+\]
+$\Omega = 2$, $\Phi = 1$, $\sigma = 0.5$, $\rho = 0.85$, $\beta = 10$, $c = 0.15$. For a $2\times2$ row-stochastic matrix with off-diagonal entries $a, b$, $\boldsymbol{\pi} = (b, a)/(a+b)$ and $\lambda_2 = 1-a-b$. Hence $\boldsymbol{\pi}^P = (0.8, 0.2)$, $\Gamma(W^P) = 0.500$, and $\x = (1 + 0.3,\ 1 - 0.3) = (1.3, 0.7)$, which sums to $\Omega$. The information layer has $\boldsymbol{\pi}^I = (0.7, 0.1)/0.8 = (0.875, 0.125)$ and $\Gamma(W^I) = 0.800$. The counter-signal is $s = 0.5 \times 0.3 \times 0.6 = 0.090$, below the saddle-node value $s^* = 0.1810$ of Proposition~\ref{ch24:thm:counter} (for $\beta = 10$; the book rounds to 0.181).
+
+At $s = 0.09$ the formation map has three fixed points, $\theta = 0.1098,\ 0.4366,\ 1.0872$, with slopes $F'(\theta) = \rho + (1-\rho)g'(\theta) = 0.8791,\ 1.1897,\ 0.8542$: stable, unstable, stable. The hegemonic one is $\theta_h = 0.1098$. Under $W^{\text{ctr}}$ (below) the masses' allocation would be $x_M^{\text{ctr}} = 1$, so $\bar\theta = 0.15/0.3 = 0.50$. At $\theta_h$ the perceived gain from mobilizing is $0.1098 \times 0.3 = 0.0329 < c$: nobody mobilizes, $\mathcal{E}$ returns $W^{\text{heg}}$, and $(W^{\text{heg}}, \theta_h, \x)$ is a fixed point. Because $\mathcal{E}$ is locally constant at $\theta_h$, the co-evolutionary Jacobian (Appendix~\ref{ch24:app:stability}) is block-triangular and its only nonzero eigenvalue is $F'(\theta_h) = 0.879 < 1$: the fixed point is locally stable. A simulation from $\theta_0 = 0$ converges to $0.1098$ with no regime switch.
+
+\solpart{c} \textbf{The three conditions.}
+\begin{enumerate}
+\item \emph{Power concentration}: $\Neff(\boldsymbol{\pi}^P) = 1/(0.64 + 0.04) = 1.4706$ of $N = 2$; $\Var(\boldsymbol{\pi}^P) = 0.0900$, 36\% of its maximum $(N-1)/N^2 = 0.25$; $d_\pi = 0.300$ of a maximum $0.5$. With $N = 2$, ``well below $N$'' can only mean this kind of fraction of the attainable range.
+\item \emph{Consent}: shown in (b). The elite consents trivially ($x_E = 1.3$ exceeds its counter-hegemonic $1.0$).
+\item \emph{Formation alignment}: $\pi^I_E = 0.875 > \pi^I_M$ and $\pi^P_E = 0.8 > \pi^P_M$; the rank correlation is $+1$ (with two groups, the only possible positive value).
+\end{enumerate}
+Sanity checks: both Perron vectors sum to one; $\sum_i x_i = \Omega$; $\Var(\boldsymbol{\pi}^P) \le (N-1)/N^2$.
+
+\solpart{d} \textbf{When is there a counter-hegemonic equilibrium as well?} Let the counter-hegemonic structure be $W^{P,\text{ctr}} = \bigl(\begin{smallmatrix}0.75&0.25\\0.25&0.75\end{smallmatrix}\bigr)$ (doubly stochastic, so $\boldsymbol{\pi}^P = (0.5, 0.5)$ by the Chapter~6 criterion, Proposition~\ref{ch06:prop:equal_power}) and $q = 0.3$. Then $\x = (1, 1)$ and $s = 0$. At $s = 0$ the fixed points are $0.0072$, $0.5$ and $\theta_c = 0.9928 > \bar\theta$, so the masses keep mobilizing and $\mathcal{E}$ returns $W^{\text{ctr}}$: $(W^{\text{ctr}}, \theta_c, (1,1))$ is a second structural equilibrium. A simulation started at $\theta_0 = 0.6$ under $W^{\text{heg}}$ switches at $t = 1$ and settles at $0.9928$.
+
+Coexistence holds exactly when both of the following are true.
+\begin{itemize}
+\item \emph{The hegemonic equilibrium exists}: $s(W^{\text{heg}}) < s^*(\beta)$ (Proposition~\ref{ch24:thm:counter}, part~2; $\theta_h < a < \tfrac12 = \bar\theta$ then holds automatically). Here this is $\sigma(1-q)(x_E - x_M) < s^*$, i.e.\ $q > q^* = 1 - s^*/(\sigma\Delta x) = 0.397$: the elite must control at least about 40\% of the masses' attention. With $q = 0.35$ the hegemony is not a fixed point: from $\theta_0 = 0$ the masses cross $\bar\theta$ at $t = 79$ and the system ends at $\theta_c$.
+\item \emph{The counter-hegemonic equilibrium exists}: $\theta_c(s^{\text{ctr}}) > \bar\theta$. With $s^{\text{ctr}} = 0$ this needs $\beta > 4$: $s^* = 0.0692$ and $\theta_c = 0.9293$ at $\beta = 6$, $s^* = 0.3029$ and $\theta_c \approx 1.000$ at $\beta = 20$. For $\beta \le 4$, $g' \le \beta/4 \le 1$ everywhere (with equality at most at $\theta = \tfrac12$), so $h(\theta) = g(\theta) - \theta$ is strictly decreasing and the formation map has a unique fixed point; at $s = 0$ it is the knife-edge $\theta = \tfrac12 = \bar\theta$, at which nobody mobilizes. This is Theorem~\ref{ch10:thm:existence}, part~3, in miniature: multiplicity needs a nonlinearity strong enough to break the uniqueness condition.
+\end{itemize}
+So both equilibria coexist iff $\beta > 4$ and $q > q^*(\beta, \sigma, \Delta x)$. Stronger conformity ($\beta$) widens the coexistence region in two ways: it raises $s^*$ and it makes $\theta_c$ more extreme.
+
+\emph{Common mistakes.} Reading consent as ``the masses are well off''; it is a statement about their formed preferences, which is why $\theta_h$ must be computed. Using $\Gamma$ for concentration: here $\Gamma(W^I) = 0.800$ although the elite holds 87.5\% of $\boldsymbol{\pi}^I$ (Proposition~\ref{ch06:prop:gap-power-independent}).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.2}{Maintenance cost}
+
+\emph{Data status.} This is a data exercise. The budget data it needs are not in \texttt{data/processed} and were not fetched. No values are reported for them here; what follows is the method and the expected qualitative result.
+
+\solpart{a} \textbf{Method.}
+\begin{enumerate}
+\item \emph{Spending on $W^I$ control.} Source: the executed budgets (\emph{Presupuesto General del Estado}, executed) of the Ministry of Economy and Public Finance, 2006--2019. Collect the line items of the state media named in Example~\ref{ch17:ex:bolivia_neff} (Bolivia TV, Radio Patria Nueva, the newspaper \textit{Cambio}), the ministry responsible for government communication, and transfers to community and indigenous radio networks. Add government advertising placed in private media; it is usually reported separately, by ministry. Use current bolivianos, deflated by the GDP deflator.
+\item \emph{Denominator}: total executed central-government expenditure for the same years, from the same source.
+\item \emph{Ratio}: report the share year by year and the 2006--2019 average. Check robustness to including state-enterprise advertising.
+\end{enumerate}
+
+\solpart{b} \textbf{From spending to $\Neff^I$: the model.} Definition~\ref{ch24:prop:maintenance} gives $C_H = \mu_H\sum_{j\notin S_H}\pi^I_j|b_T - b^{(0)}_j|(1-\lambda_2)$. Note that it depends on the \emph{independent share} $\sum_{j\notin S_H}\pi_j^I$, not on $\Neff^I$ directly. To get a threshold in $\Neff^I$ an assumption is needed. Take $n$ outlets: the coalition controls one, with weight $1-\iota$; the other $n-1$ share the independent weight $\iota$ equally and sit at a common distance $\delta = |b_T - b^{(0)}_j|$. Then
+\[
+C_H = \mu_H\,\delta\,(1-\lambda_2)\,\iota, \qquad \Neff^I(\iota) = \frac{1}{(1-\iota)^2 + \iota^2/(n-1)},
+\]
+and $\Neff^I$ is strictly increasing in $\iota$ on $(0, (n-1)/n)$ (checked in the script), reaching $n$ at $\iota = (n-1)/n$. Let WTP be the coalition's willingness to pay, for instance a share of the rents its control secures, and let $\kappa := \text{WTP}/(\mu_H\delta(1-\lambda_2))$. The cost exceeds WTP iff $\iota > \kappa$, that is, iff $\Neff^I > \Neff^I(\kappa)$. For $n = 4$ (the four ecosystems of Example~\ref{ch17:ex:bolivia_neff}):
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$\kappa$ & 0.30 & 0.50 & 0.66 \\
+Threshold $\Neff^I$ & 1.923 & 3.000 & 3.834 \\
+\bottomrule
+\end{tabular}
+\end{center}
+For the record, the book's illustrative state share $0.34$ gives $\iota = 0.66$ and, with symmetric independents, $\Neff^I = 3.834$. (The book's $3.38$ uses the actual unequal shares. The symmetric version is the largest $\Neff^I$ consistent with $\iota = 0.66$.)
+
+\solpart{c} \textbf{Expected qualitative result and interpretation.} The direct budget share of state media is likely to be a small fraction of total spending. The model explains why a small budget can still be binding. What matters is the cost \emph{per unit of independent attention} times the independent share, against the rents the coalition defends. Two features of \eqref{ch24:eq:maintenance} should be stressed. (i) The threshold moves with $1-\lambda_2(W^I)$: when $W^I$ is weakly coupled, both the coalition and its challengers can move the consensus cheaply (Proposition~\ref{ch08:thm:manipulation}). (ii) Fragmentation of the private media lowers $\delta$ for the coalition only if the new outlets are closer to $b_T$. Digital channels that carry the opposition's narrative raise $\iota$ \emph{and} $\delta$.
+
+\emph{Common mistakes}: using $\Gamma^I$ as the concentration measure; using the total communication budget without separating the share spent on independent outlets (advertising placed in private media buys weight in $j \notin S_H$, which is exactly what the formula prices).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.3}{Counter-hegemony simulation}
+
+\emph{Well-posedness.} $\lambda^I$ is not defined in Chapter~24. We read it as the cross-group mixing weight of Chapter~18 (Definition~\ref{ch18:def:constrained_W}): the share of the dominated group's attention on counter-hegemonic sources. It must still be mapped into the signal $s$ of \eqref{ch24:eq:counter_model}. The exercise is solvable once that map is stated, and the answer to ``how does it depend on $\rho$'' turns on it. We give both natural conventions.
+
+\solpart{a} \textbf{Set-up.} Model~\eqref{ch24:eq:counter_model}, $\beta = 10$, start at the hegemonic equilibrium for $s = 0$, $\theta_0 = \theta_h = 0.0072$, with $\lambda^I_0 = 0$ and $\lambda^I_t = 0.02\,t$ for $t = 1, \dots, 50$.
+\begin{itemize}
+\item \emph{Convention A}, the signal in preference units: $s_t = 0.5\,\lambda^I_t = 0.01\,t$.
+\item \emph{Convention B}, the raw signal in return units: $\mu\|\Delta(W^I\mathbf{r})\| = 0.075\,\lambda^I_t$. Then $s_t = 0.075\lambda^I_t/(1-\rho)$, as the chapter's scaling $(1-\rho)s = \mu\|\Delta(W^I\mathbf{r})\|$ prescribes. At $\rho = 0.85$ the two conventions coincide.
+\end{itemize}
+Two collapse dates are reported. The \emph{equilibrium} collapses at the first $t$ with $s_t > s^* = 0.1810$ (the saddle-node). The \emph{state} collapses when $\theta_t$ first exceeds $\tfrac12$.
+
+\solpart{b} \textbf{Results.}
+\begin{center}
+\small
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{Convention A} & \multicolumn{2}{c}{Convention B} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+$\rho$ & equilibrium lost & $\theta_t > \tfrac12$ & equilibrium lost & $\theta_t > \tfrac12$ \\
+\midrule
+0.50 & 19 & 27 & never & never ($0.185$) \\
+0.70 & 19 & 31 & 37 & never ($0.406$) \\
+0.85 & 19 & 37 & 19 & 37 \\
+0.95 & 19 & never ($0.408$) & 7 & 29 \\
+\bottomrule
+\multicolumn{5}{l}{\footnotesize In parentheses: $\theta_{50}$ when $\theta$ never crosses $\tfrac12$.}
+\end{tabular}
+\end{center}
+In the baseline ($\rho = 0.85$) the hegemonic equilibrium ceases to exist at period~19 ($s_{19} = 0.19 > 0.181$). The population crosses the separatrix, and hence ``collapses'' visibly, only at period~37, eighteen periods later. (Beyond the crossing $\theta$ exceeds 1: with $s > 0$ the upper fixed point $\theta_c(s) = g + s$ lies above 1. If $\theta$ is read as a share, that is the cost of the linear $s$ term.)
+
+\solpart{c} \textbf{Dependence on $\rho$.} The fold is located by $s^*$, which depends on $\beta$ only, through $g'(a) = 1$ and $s^* = a - g(a)$. So in convention~A the date at which the equilibrium is lost does not depend on $\rho$. Persistence acts only on the \emph{transit}: the excess drift is $(1-\rho)[g(\theta) + s - \theta]$, so higher $\rho$ slows the move to $\theta_c$ (27, 31, 37 and more than 50 periods). In convention~B, $\rho$ also enters the signal, through the factor $1/(1-\rho)$, the formation multiplier of Definition~\ref{ch10:def:multiplier}. Stickier preferences then turn the same flow of counter-hegemonic edges into a larger long-run shift. The equilibrium is lost earlier (period~7 at $\rho = 0.95$, period~37 at $\rho = 0.70$), and for $\rho = 0.5$ it is never lost within 50 periods ($s_{50} = 0.15 < s^*$). The general lesson is that $\rho$ has two opposite effects: it amplifies a persistent signal through $\mathcal{M} = \mu/(1-\rho)$, and it slows adjustment. Which dominates depends on whether policy moves $s$ or the raw signal.
+
+\emph{Common mistake}: reporting the crossing date as the date the equilibrium disappeared. The fold comes first; the gap between the two dates is the period in which the hegemony survives in practice although it is no longer an equilibrium.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.4}{Bolivia's hegemonic transitions}
+
+\emph{Broken reference.} Chapter~24 has no ``Prebisch Connection'' box (it contains no \texttt{prebisch} environment). The five Bolivian hegemonies are those of Example~\ref{ch24:ex:bolivia_hegemony} (the table without the UDP interregnum and the post-2019 contested period), and that example is used here. The $\Neff^I$ values are the example's and are \illustrative.
+
+\solpart{a} \textbf{The mapping.} The coalitions are the four class alliances of Example~\ref{ch14:ex:four_alliances} (foreign capital $F$, domestic bourgeoisie $B$, middle class $M$, workers $W$). The script checks that each illustrative $\Delta\boldsymbol{\pi}$ vector there sums to zero and that every member gains ($\Delta\pi_i > 0$), the first half of the internal-stability condition~\eqref{ch14:eq:internal}.
+\begin{center}
+\small
+\begin{tabular}{p{2.1cm}p{2.0cm}p{4.1cm}cp{3.6cm}}
+\toprule
+Hegemony & Coalition (Ch.~14) & $W^I$ control mechanism & $\Neff^I$ & Trigger of collapse \\
+\midrule
+Tin oligarchy (to 1952) & $\{F,B\}$ (Alliance 1) & Press owned by or allied with mining interests; literacy-restricted suffrage limits who enters political $W^I$ & 1.5 & Chaco War defeat (an external shock in Skocpol's sense), the annulled 1951 election, the armed miners in April 1952 \\
+MNR (1952--64) & $\{B,M,W\}$ (Alliance 2) & Party, COB and union networks, miners' radios; land reform and universal suffrage widen $W^I$ & 2.0 & Split between the MNR government and the COB after stabilization; elite defection; 1964 coup \\
+Military (1964--82) & $\{F,B,M\}$ (Alliance 3) & Censorship, state broadcasting; consent largely replaced by coercion & 1.8 & Economic crisis of the late 1970s and early 1980s; democratization in 1982 \\
+Neoliberal (1985--2003) & $\{F,B,M\}$ (Alliance 3) & Private commercial media framing privatization as modernization; ``pacted'' party system & 2.5 & Water War 2000, fiscal crisis of 2003, Gas War 2003 (Example~\ref{ch24:ex:crisis}) \\
+MAS (2006--19) & $\{M,W\}$ (Alliance 4) & State media, indigenous-movement and union networks, community radio & 3.0--3.4 & Disputed 2019 election, urban civic committees, social-media mobilization (Example~\ref{ch24:ex:counter}) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{b} \textbf{What the mapping shows.} (i) Every transition is an alliance switch in the sense of Example~\ref{ch14:ex:breaks}. The 1964 and 1985 switches are the defection of $B$ (and $M$) from a domestic alliance to $\{F,B,M\}$, the switch condition~\eqref{ch14:eq:switch}. (ii) The $W^I$ mechanism changes character over time. The early hegemonies controlled \emph{access} to the information network (who could read, vote or broadcast); the later ones compete for \emph{weight} within a network everyone can enter. That is the reading of a rising $\Neff^I$ in Definition~\ref{ch24:prop:maintenance}. (iii) The military period is the one hegemony whose stability came from coercion rather than consent. Example~\ref{ch24:ex:bolivia_hegemony} labels it ``coercion-dependent'', and it shows that condition~2 of Definition~\ref{ch24:def:hegemony} is the weak link of the formalization (see Exercise~24.7). (iv) Triggers are of two kinds: external or fiscal shocks (1932--35, the early 1980s) and accumulated $\Delta W^I$ (2000--03, 2019). The first kind corresponds to conditions 3--4 of Conjecture~\ref{ch24:prop:collapse}, the second to conditions 1--2.
+
+\emph{Common mistakes}: treating the $\Neff^I$ column as data (it is not); treating the 1982--85 UDP government as a hegemony (the book lists it as ``no stable hegemony'').
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.5}{Skocpol's conditions}
+
+\solpart{a} \textbf{The four conditions, 2000--2006} (Example~\ref{ch24:ex:crisis}).
+\begin{enumerate}
+\item \emph{Counter-signal}: met. Community radio and the movements of the 1990s built alternative $W^I$ channels. The book's $\Neff^I$ path ($2.0 \to 2.8$) is illustrative.
+\item \emph{Exposing shock}: met. The Water War of 2000 turned the ``returns to privatization'' signal negative for poor households, a shock to $\mathbf{r}_t$.
+\item \emph{State breakdown under external pressure}: met only in weak form. There was fiscal pressure and an IMF-backed tax proposal (February 2003), followed by riots and a police mutiny, and the governing coalition split. But there was no international military pressure, and the coercive apparatus did not disintegrate. The successions of 2003 and 2005 followed constitutional rules, and the transition was completed through elections. In Skocpol's terms this is a crisis of government, not a state breakdown, as the chapter notes after Definition~\ref{ch24:def:crisis}.
+\item \emph{Autonomous organization of the dominated}: met strongly. The El Alto \textit{juntas vecinales}, cocalero and campesino unions and middle-class groups formed the $\{M,W\}$ alliance that forced two presidents to resign.
+\end{enumerate}
+
+\solpart{b} \textbf{Which was binding?} In model~\eqref{ch24:eq:counter_model}, conditions 1 and 2 are \emph{substitutes}. Condition~1 raises $s$; condition~2 is a one-time push $\Delta\theta$. The hegemony falls if $s > s^*$, or if the shock exceeds the distance to the separatrix, $\theta_u(s) - \theta_h(s)$. The script computes that distance:
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+$s$ & 0.00 & 0.05 & 0.10 & 0.15 & 0.17 & 0.18 \\
+Required shock $\theta_u - \theta_h$ & 0.4928 & 0.4037 & 0.3061 & 0.1827 & 0.1072 & 0.0314 \\
+\bottomrule
+\end{tabular}
+\end{center}
+It is strictly decreasing in $s$ and vanishes at $s^*$. A decade of counter-hegemonic channel building (condition~1) is what made a local tariff conflict (condition~2) sufficient. Conditions 3 and 4 act through a different block of the system: the coalition's feasibility set $\mathcal{F}(S)$ (Definition~\ref{ch14:prop:feasibility}). A preference shift changes $W$ only if a coalition that can implement $\Delta W$ forms. The best-supported answer is therefore that \textbf{condition~4 was binding} for the change of structure, and \textbf{condition~1} for the change of preferences. Condition~3 was present but not Skocpolian.
+
+\solpart{c} \textbf{Counterfactuals, one condition at a time.} (i) Without condition~1 (low $s$), the 2000 shock would have had to be several times larger: about $0.49$ preference units at $s = 0$ against $0.03$ near $s^*$. A purely local conflict would probably have been absorbed. (ii) Without condition~2, the hegemony could have persisted while $s < s^*$, as a hegemony that is still an equilibrium but fragile (Exercise~24.3 shows how long that phase can last). (iii) Without condition~3, the governing coalition does not split. Removal of presidents by protest remains possible, but the elite keeps $\mathcal{F}(S)$ and can reconstitute the neoliberal $W^P$ through elections. (iv) Without condition~4, no feasible counter-coalition exists, and the outcome is an interregnum (Appendix~\ref{ch24:app:gramsci}), not a new hegemony. One episode cannot identify these counterfactuals. The model only says which comparisons would be informative: cases with high $s$ but no organization, or the reverse.
+
+\emph{Common mistake}: calling 2003 a Skocpolian revolution. Skocpol's scope conditions (agrarian-bureaucratic state, international military competition) fit 1952, not 2003.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.6}{The acceleration of the cycle}
+
+\emph{Broken reference.} As in 24.4, there is no ``Prebisch Connection box''. The Latin American epochs are in the intuition box ``The Latin American hegemonic cycle'' of Section~\ref{ch24:sec:cycle}. That box gives only approximate dates and gives $\Neff^I$ for three of the five epochs. All inputs below are therefore \illustrative, and the exercise cannot be answered with data.
+
+\solpart{a} \textbf{Inputs.} Durations, chosen to match the box's ``between about 13 and 40 years'': oligarchic 1890--1930 (40), national-populist 1930--1964 (34), bureaucratic-authoritarian 1964--1985 (21), neoliberal 1985--2003 (18), left-populist 2006--2019 (13). $\Neff^I$: 1.5 (midpoint of ``1--2''), 2.5 (midpoint of ``2--3'') and 3.0, as in the box. For the two epochs the box leaves blank we borrow Bolivia's values from Example~\ref{ch24:ex:bolivia_hegemony}: 2.0 (MNR) and 1.8 (military).
+
+\solpart{b} \textbf{Correlation.} Pearson $r = -0.829$. The exact one-sided permutation $p$-value is $0.042$ (all 120 orderings of the five $\Neff^I$ values). The OLS line is duration $= 59.41 - 15.84\,\Neff^I$. As a check, Bolivia's four closed periods (12, 18, 18, 13 years against $\Neff^I$ = 2.0, 1.8, 2.5, 3.2) give $r = -0.313$ and $p = 0.417$ (24 orderings). The sign is the same, but there is no pattern to speak of.
+
+\solpart{c} \textbf{Interpretation.} The negative correlation in the regional series is not evidence for the acceleration hypothesis, for four reasons. (i) The $\Neff^I$ values are invented placeholders (data catalogue row~100), two of them borrowed from another unit. (ii) Both variables trend with calendar time: the correlation of duration with the epoch's end year is $-0.979$, and that of $\Neff^I$ with end year is $0.900$. \emph{Any} trending variable would ``explain'' durations as well, so the design cannot separate $\Neff^I$ from the time trend. (iii) Reverse causality: a long hegemony suppresses $\Neff^I$ (censorship, ownership concentration). $\Neff^I$ measured within the epoch is an outcome of the hegemony, not a predetermined cause. (iv) The last epoch is right-censored in spirit, because recent epochs have had less time to be long, and the end dates are coded by the analyst. The formal object for a real test is a duration (hazard) model for hegemonic spells, $h(t \mid N^I_{\text{eff},0})$, estimated on many countries, with $\Neff^I$ measured at the start of each spell from audience data. Remark~\ref{ch24:rem:cycle_mechanism} adds that a cycle needs recurring shocks or a slow reversing feedback; a monotone $\Neff^I$ trend on its own produces one transition, not a cycle.
+
+\solpart{d} \textbf{Prediction for the current period.} Read literally, the fitted line predicts a spell of $59.41 - 15.84 \times 3.5 = 4.0$ years at $\Neff^I = 3.5$ (the book's value for 2019 onward). That is consistent with the book's ``no hegemony'' label, but it is an extrapolation beyond the largest observed $\Neff^I$, from five illustrative points, and it should be reported only to show how fragile the inference is. Bolivia's own line predicts 13.4 years. The two ``predictions'' differ by a factor of three.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{24.7}{Gramsci vs.\ Skocpol}
+
+\solpart{a} \textbf{Complementary, in a precise sense.} Gramsci's hegemony is ``consent armoured by coercion'' (Definition~\ref{ch24:def:hegemony}). A regime survives a period if \emph{either} consent holds ($\theta_t \le \bar\theta$, the Gramscian $W^I$ loop) \emph{or} coercion suppresses the mobilization that dissent would produce (capacity $K_t \ge \bar K$, which Skocpol's international and fiscal pressure erodes). It falls at the first date at which both fail:
+\[
+T_{\text{collapse}} = \max\{T_{\text{consent}},\ T_{\text{coercion}}\}.
+\]
+Each theory explains one of the two necessary conditions for collapse, so they are complements as explanations. A third route runs through the coalition block: an elite split under the switch condition~\eqref{ch14:eq:switch} changes $W$ directly, even with consent intact. Skocpol's ``dominant-class obstruction'' belongs there.
+
+\solpart{b} \textbf{When each dominates.} The mechanism that fails \emph{last} sets the date, and it is the one an observer will call ``the cause''. In model~\eqref{ch24:eq:counter_model}, with a linearly rising counter-signal $s_t = s_0 + \delta_s t$, consent fails at $T_{\text{consent}} = (s^*(\beta) - s_0)/\delta_s$. With coercive capacity falling linearly, $T_{\text{coercion}} = (K_0 - \bar K)/\delta_K$. Hence
+\[
+\text{Gramsci dominates} \iff \frac{s^*(\beta) - s_0}{\delta_s} > \frac{K_0 - \bar K}{\delta_K}.
+\]
+Gramsci's mechanism dominates when conformity is strong (large $\beta$, hence large $s^*$), when the elite controls $W^I$ ($s_0$ small, $q$ large in 24.1), when counter-channels grow slowly, and when coercive capacity erodes quickly or cannot be used (democracies with high repression costs). Skocpol's mechanism dominates when consent is already weak ($s_0$ near $s^*$) but the coercive apparatus is strong and erodes only under external pressure: military regimes and agrarian-bureaucratic states. With $s_0 = 0.05$, $\delta_s = 0.01$ per year and $s^* = 0.181$, consent fails after 13.1 years. With $K_0 = 1$ and $\bar K = 0.4$, coercion fails after 60.0, 30.0 and 12.0 years for $\delta_K = 0.01, 0.02, 0.05$. The regime falls at 60.0 and 30.0 years in the first two cases (Skocpol's timing) and at 13.1 years in the third (Gramsci's timing).
+
+\solpart{c} \textbf{Application.} Bolivia 1964--82 (``coercion-dependent'', Exercise~24.4) is the Skocpol regime: consent was low, and the timing was set by the economic and fiscal crisis. Bolivia 2003 is the Gramsci regime: a democracy in which coercion was costly to use, whose timing was set by the counter-signal crossing the threshold. The two theories compete only if each is read as a sufficient account of collapse. Read as accounts of the two necessary failures, they are parts of one model. The synthesis is the book's (Conjecture~\ref{ch24:prop:collapse}), not Skocpol's, who gives ideas no causal role.
+
+\emph{Common mistake}: putting consent and coercion in a sum (``more consent offsets less coercion'') instead of in the $\max$ / ``or'' structure that ``armoured by'' describes.
+
+\endgroup
+\end{document}

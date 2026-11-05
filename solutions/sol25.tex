@@ -1,0 +1,139 @@
+% Solutions to the exercises of Chapter 25. Numbers: code/solutions/sol25.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{24}}{}% NN-1 when built standalone
+\setcounter{chapter}{24}% NN-1, so this chapter is numbered NN
+\chapter{Truncated Industrialization}\label{sol25}
+\begingroup\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol25.py}. Sourced values come from \texttt{data/processed} (retrieved 2026-11-05; sources and scripts in \texttt{data/README.md}). Every exercise in this chapter needs country~$\times$ product RCA data and product-space proximities. The data catalogue lists both as ``fetchable, not done'' (rows 101--102 and 34): the Growth Lab country~$\times$ product file is 451~MB and was not downloaded. Those parts are therefore answered with the method and the expected result only. The quantities that \emph{are} in the repository (ECI, PCI, diversity, $\Gamma$) are reported.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.1}{Identify the dense subgraph}
+
+\emph{Data status: method only.} The SITC proximity matrix was not computed (data catalogue row~101). Part~(b) also shows that, applied to the weighted proximity matrix, the book's own definition does not return the capital-goods core. The exercise should be run on a thresholded proximity graph.
+
+\solpart{a} \textbf{Method.}
+\begin{enumerate}
+\item \emph{Data}: Growth Lab, International Trade Data (SITC rev.~2), doi:10.7910/DVN/H8SFD2, country~$\times$ product~$\times$ year at the 4-digit level. Use one year (for comparability with \citealp{hidalgo2007product}, a year around 2000), or the average of three adjacent years to reduce noise. Apply and state minimum-size filters for countries and products.
+\item \emph{RCA and $M$}: $R_{cp}$ by \eqref{ch16:eq:RCA}; $M_{cp} = \mathbf{1}[R_{cp} \ge 1]$ (Definition~\ref{ch16:def:RCA}).
+\item \emph{Proximity}: $\phi_{pp'} = \sum_c M_{cp}M_{cp'}/\max(M_p, M_{p'})$ (Definition~\ref{ch16:def:proximity}), with the diagonal excluded as Definition~\ref{ch25:def:dense} requires.
+\item \emph{2-digit averages}: for each SITC 2-digit group $S$, $\bar\phi_S = 2e(S)/(|S|(|S|-1))$.
+\item \emph{Peeling} (Appendix~\ref{ch25:app:dense}): repeatedly remove the product with the smallest remaining weighted degree and record $e(S)/|S|$ along the way. Use a priority queue or incremental degree updates: $O(P^2)$ for a dense $\phi$.
+\item \emph{Report}: $\mathcal{D}$, $|\mathcal{D}|$, its composition by SITC section, $\bar\phi_{\mathcal{D}}/\bar\phi_{\text{all}}$ and the mean PCI of $\mathcal{D}$. Check robustness to the year, the HS92 classification and the threshold of part~(c).
+\end{enumerate}
+
+\solpart{b} \textbf{An obstacle in the definition.} For any set $S$, $e(S)/|S| = (|S|-1)\bar\phi_S/2$. On a weighted proximity matrix in which almost every pair has positive proximity, the objective therefore rewards \emph{size} almost as much as density. With the chapter's own illustrative values (Stylized Fact~\ref{ch25:prop:capital_goods} and Example~\ref{ch25:ex:missing}):
+\[
+\frac{e(\mathcal{D})}{|\mathcal{D}|} = \frac{99 \times 0.35}{2} = 17.325
+\quad<\quad
+\frac{e(\text{all})}{775} = \frac{774 \times 0.08}{2} = 30.960 .
+\]
+The 100-product core is \emph{not} the Goldberg maximizer: the whole space beats it. A set with mean proximity $0.35$ would need more than 178 products to beat the whole space. The synthetic check in the script confirms this. It uses a product space that is \emph{not data}: 775 products with a 100-product core, core proximities Beta$(3.5, 6.5)$ (mean 0.354) and other proximities with mean 0.0755, so that the overall mean is 0.080. Weighted peeling returns all 775 products (objective 31.019, density ratio 1.00).
+
+\solpart{c} \textbf{The fix: threshold first.} Binarize the product space at $\phi_{pp'} \ge \phi_0$, as \citet{hidalgo2007product} did to draw it, and run peeling, or exact Goldberg max-flow, which is cheap at 775 nodes, on the 0--1 graph. In the synthetic space with $\phi_0 = 0.25$, 74.0\% of core pairs and 5.67\% of the other pairs survive. Peeling then returns exactly the 100 core products (Jaccard index 1.000; objective 36.650) with a weighted density ratio of 4.42, the chapter's illustrative 4.4. Report the results over a grid of thresholds. A $\mathcal{D}$ that is stable across thresholds is the object Definition~\ref{ch25:def:dense} intends.
+
+\solpart{d} \textbf{Expected result.} On the real data (not computed here), the thresholded $\mathcal{D}$ should be the core \citet{hidalgo2007product} describe: machinery, metal products and chemicals, with high mean PCI (Appendix~\ref{ch25:app:PCI}). Whether it is ``the capital-goods cluster'' depends on the threshold and on whether chemicals and plastics enter. The 2-digit averages $\bar\phi_S$ will be highest for SITC~7 (machinery and transport equipment) and parts of SITC~5 and~6, and lowest for primary commodities (SITC~0--3).
+
+\emph{Common mistakes}: including $\phi_{pp} = 1$ (every singleton then has density~1; Section~\ref{ch25:sec:dense}); reading the peeling output as optimal (it is a 2-approximation); reporting $\mathcal{D}$ from one threshold only.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.2}{Truncation index}
+
+\emph{Data status: method only for $\tau_c$; ECI is sourced.}
+
+\solpart{a} \textbf{Method.} Fix $\mathcal{D}$ from Exercise~25.1 (one year, one threshold). For each country, compute $M_{cp}$ for the same year and $\tau_c = 1 - |\{p \in \mathcal{D}: M_{cp} = 1\}|/|\mathcal{D}|$ \eqref{ch25:eq:truncation}. Use ECI from the same classification and year.
+
+\solpart{b} \textbf{What the repository has.} ECI (Growth Lab, HS92, 2019; \citealp{growthlab2026atlas}): Korea $+1.807$ (rank 2), Germany $+1.544$ (6), Brazil $+0.481$ (52), Chile $-0.059$ (76), Bolivia $-1.295$ (131). The expected $\tau$ ranking is the reverse: Bolivia highest, then Chile, Brazil and the two industrial economies. The chapter's illustrative values are $\tau_{\text{BOL}} = 0.98$ and $\tau_{\text{KOR}} = 0.18$.
+
+\solpart{c} \textbf{Is the correlation strong, and does that mean anything?} It will almost certainly be strongly negative, and for a partly mechanical reason. Both $\tau_c$ and ECI are functions of the same matrix $M$. $\mathcal{D}$ is, by Appendix~\ref{ch25:app:PCI}, rich in high-PCI products. And ECI is, up to an affine standardization, the average PCI of the products a country exports. (From $\tilde M\mathbf{v} = \lambda\mathbf{v}$ and $\mathbf{q} = U^{-1}M'\mathbf{v}$ one gets $v_c = \lambda^{-1}k_c^{-1}\sum_p M_{cp}q_p$, with $k_c$ the diversity; Definition~\ref{ch16:def:ECI}.) A country that holds many $\mathcal{D}$ products has a high average PCI almost by construction. With five countries, the Pearson coefficient is not informative: run the regression on all countries in the Atlas, and report the correlation of $\tau$ with ECI \emph{net of} diversity $k_c$ to see whether $\tau$ carries information beyond ``many complex products''.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.3}{The truncation-$\Gamma$ relationship}
+
+\emph{Data status: $\Gamma$ results are sourced (12 sectors and detail); $\tau_c$, the product-space proxy and the bridge test are method only.}
+
+\solpart{a} \textbf{12-sector results (2019; book12\_isic, domestic flows, input shares, diagonal kept).} Twenty-three economies have a like-for-like $\Gamma$ (Bolivia from INE, base 2017; the rest from OECD ICIO 2023). It ranges from 0.333 (Viet Nam) to 0.659 (Indonesia), with mean 0.511 and standard deviation 0.077. Sixteen of them also have an HS92 ECI in the repository:
+\begin{center}
+\small
+\begin{tabular}{lcccccccc}
+\toprule
+& ARG & BOL & BRA & CHL & CHN & COL & CZE & DEU \\
+$\Gamma$ & 0.522 & 0.475 & 0.496 & 0.557 & 0.582 & 0.460 & 0.486 & 0.544 \\
+ECI & $+0.063$ & $-1.295$ & $+0.481$ & $-0.059$ & $+1.301$ & $+0.140$ & $+1.478$ & $+1.544$ \\
+\midrule
+& JPN & KOR & MEX & MYS & NOR & PER & POL & USA \\
+$\Gamma$ & 0.510 & 0.511 & 0.649 & 0.381 & 0.515 & 0.407 & 0.552 & 0.463 \\
+ECI & $+2.047$ & $+1.807$ & $+0.953$ & $+1.031$ & $+0.962$ & $-0.680$ & $+1.060$ & $+1.294$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Across them $\text{corr}(\Gamma, \text{ECI}) = 0.265$ (Spearman 0.176), and OLS gives $\Gamma = 0.493 + 0.0188\,\text{ECI}$ (s.e.\ 0.0183). The slope is not distinguishable from zero. ECI is not $\tau$, but if truncation lowered aggregate $\Gamma$, the least complex economies should show it, and they do not. This is Result~\ref{ch25:res:twelve} on a larger sample.
+
+\solpart{b} \textbf{Does the answer change with resolution?} Yes, at least for the ranking. For the 22 ICIO economies with both resolutions, the correlation between 12-sector $\Gamma$ and detail $\Gamma$ (44 industries for most, 43--45 for a few) is 0.476 (Spearman 0.296). The mean falls from 0.512 to 0.411. Germany moves from 0.544 to 0.372 and China from 0.582 to 0.377, from the upper half of the distribution to the bottom; the United States barely moves (0.463 and 0.465); Korea goes from 0.511 to 0.455. Aggregation can raise $\Gamma$, and does so unevenly across countries (Chapter~19). That is why the 12-sector test cannot see a capital-goods bridge. Bolivia's 39-industry value (0.410) cannot be compared with these until INE's industries are mapped to ICIO's. Method: map INE's 39 industries to ISIC Rev.~4 divisions, aggregate both sources to the finest common partition (about 30 groups), and recompute $\Gamma$ on that partition.
+
+\solpart{c} \textbf{The product-level test (method).}
+\begin{enumerate}
+\item $\tau_c$ for 30 countries from Exercise~25.2.
+\item The proxy $W_c = D_c^{-1}\phi_c$ on $c$'s products, with $\Gamma(W_c) \le 1-\lambda_2(W_c) \le 2\Phi_c(S)$ (Proposition~\ref{ch25:prop:bridge_bound}). The proxy's node set differs across countries. By the book's convention on node sets, compare $1-\lambda_2$ on a common product set, for example the union of all countries' products with $c$'s absent products given zero weight, or on random subsamples of fixed size.
+\item \emph{Is $\mathcal{D}$ a bridge?} Compute the betweenness centrality and the Guimer\`a--Amaral participation coefficient of $\mathcal{D}$'s products relative to a community partition of the periphery, and the conductance of each commodity cluster with and without $\mathcal{D}$. A bridge has high participation, and the conductance falls sharply when $\mathcal{D}$ is removed (Remark~\ref{ch25:rem:module}).
+\item Regress $\Gamma_c$ on $\tau_c$, both for the proxy and for ICIO input shares. Estimate $f$ by OLS and by isotonic (monotone) regression, and test $f' < 0$.
+\end{enumerate}
+\emph{Expected result.} For the proxy, a negative slope if $\mathcal{D}$ is a bridge. For ICIO $\Gamma$ at 12 sectors, no relation, as in part~(a). At 44 industries the result is open. The finding of part~(b) is that the conclusion may well depend on the resolution.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.4}{Counterfactual: Bolivia with the dense subgraph}
+
+\emph{Partly ill-posed.} The chapter has no model linking $\mathcal{D}$ to $\sigma_B$ or to the size of $\Delta\Gamma$, so ``how much would $\Gamma$ increase / $\sigma_B$ decrease'' presupposes both a sign and a magnitude the book does not deliver. We give the computable parts, the sign analysis and the method.
+
+\solpart{a} \textbf{$\tau$.} With the illustrative counts ($|\mathcal{D}| \approx 100$, Bolivia holds 2): $\tau = 1 - 2/100 = 0.98 \to 1 - 22/100 = 0.78$.
+
+\solpart{b} \textbf{ECI.} The exact method: set $M_{\text{BOL},p} = 1$ for the 20 products, recompute ubiquities, $\tilde M$ and the second eigenvector for all countries in the same year, and standardize (Definition~\ref{ch16:def:ECI}). A first-order approximation uses the identity of Exercise~25.2(c): ECI is an affine function, common to all countries in a year, of the mean PCI of a country's products, $\text{ECI}_c = \alpha + \beta\,\overline{\text{PCI}}_c$. Holding the PCI vector fixed,
+\[
+\Delta\text{ECI}_{\text{BOL}} \approx \beta\,\frac{20}{k_{\text{BOL}} + 20}\bigl(\overline{\text{PCI}}_{\text{new}} - \overline{\text{PCI}}_{\text{BOL}}\bigr).
+\]
+Bolivia's 2019 diversity is $k_{\text{BOL}} = 75$ (Growth Lab HS92 country-year file), so the 20 products carry weight $20/95 = 0.21$ in the new average, and its diversity rises by 26.7\%. $\beta$ and $\overline{\text{PCI}}_{\text{BOL}}$ need the country~$\times$ product file (not fetched). The approximation overstates the gain slightly: the 20 products become more ubiquitous, so their PCI falls a little.
+
+\solpart{c} \textbf{$\Gamma$.} The sign is not determined. Adding products changes the product-space proxy $W_c$ in every row that touches them, and Remark~\ref{ch25:rem:module} shows that the effect can go either way. In the chapter's two toy spaces (recomputed in the script), adding the core raises $\Gamma$ from 0.009 to 0.548 when it is a bridge and \emph{lowers} it from 0.800 to 0.218 when it is a module. For the 12-sector $W^P$, the 20 products sit inside ``Manufacturing''. They change $\Gamma$ only through the change in that sector's domestic input and sales shares, a perturbation $E$ with $E\ones = 0$ whose first-order effect $u_2'Ev_2$ (Lemma~\ref{ch06:lem:perturbation}) has no general sign. Approximate method: append a capital-goods row and column to Bolivia's 2019 domestic table (\texttt{data/processed/bolivia\_Z}), with input shares taken from a comparator (Korea's ICIO machinery industries) and output sold to domestic users in proportion to Bolivia's current imports of capital goods; then recompute $\Gamma$.
+
+\solpart{d} \textbf{$\sigma_B$.} Between-block inequality falls only if the new activities employ, or buy from, the low-income blocks. Core products are capital- and skill-intensive. Unless accompanied by the human-capital operator of Chapter~15, their direct effect on $\sigma_B$ is likely to be small in the short run. Measuring it requires the household microdata that are not available here (data catalogue row~105).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.5}{The divergence}
+
+\emph{Data status: method only for $\tau$. ECI (SITC) is sourced from 1995 on, which is too late for 1960 and 1980.}
+
+\solpart{a} \textbf{Method.} Growth Lab SITC rev.~2 country~$\times$ product data begin in 1962. Use 1962 (for ``1960''), 1980 and 2000, and a fixed $\mathcal{D}$ (from Exercise~25.1, computed once for a reference year so that $\tau$ moves only with countries' baskets). Compute $\tau_c$ for Brazil, Mexico, South Korea and Taiwan. \emph{Taiwan}: UN Comtrade has no Taiwanese reporter (it appears as ``Other Asia, n.e.s.''), so check whether the Atlas reconstructs Taiwan from partner (mirror) data; Taiwan is not in this repository's extract. Also plot the annual series, not only three dates, so that the divergence date is located to within a few years.
+
+\solpart{b} \textbf{What the repository shows (SITC ECI).} 1995: Korea $+1.231$, Mexico $+0.982$, Brazil $+0.819$. 2000: $+1.389$, $+1.169$, $+0.812$. 2019: $+1.706$, $+1.132$, $+0.277$. Brazil's complexity fell by 0.54 after 1995 while Korea's rose by 0.48. So a post-1995 divergence between Brazil and Korea is visible in ECI. Mexico, measured by exports, stays close to Korea.
+
+\solpart{c} \textbf{Expected result and the measurement trap.} On the chapter's account (Example~\ref{ch25:ex:divergence}), Korea's $\tau$ should fall steeply in the 1970s and 1980s, during and after the HCI drive (1973--79), and Brazil's should fall partly in the 1970s (II PND) and then stall. A divergence date in the mid-1970s would support a policy reading, but the exports-based $\tau$ cannot separate policy from the timing of world demand. Mexico is the trap. Maquiladora assembly of imported components gives Mexico RCA in machinery and electronics \emph{exports}. Its export-based $\tau$ can therefore fall although, on the chapter's reading, it ``imported $\mathcal{D}$ as a service''. RCA measures what is exported, not what is produced with domestic capabilities. To test Fajnzylber's claim, compute $\tau$ also on domestic value added in exports (OECD TiVA) where available, or weight $M_{cp}$ by the domestic content of exports.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.6}{Bolivia's incremental path}
+
+\emph{Data status: method only for (a) and the gross entry rate; net diversity, ECI and $v_\Gamma$ are sourced.}
+
+\solpart{a} \textbf{Top-5 products by relatedness density.} For every $p \in \mathcal{D}$ compute $\omega_{\text{BOL},p} = \sum_{p'} M_{\text{BOL},p'}\phi_{pp'}/\sum_{p'}\phi_{pp'}$ (Definition~\ref{ch16:def:relatedness}) and rank. Use relatedness to $\mathcal{D}$ as the target. A useful refinement is to rank products \emph{outside} $\mathcal{D}$ by the product of their $\omega_{\text{BOL},p}$ and their proximity to $\mathcal{D}$: these are the stepping stones. The products are not listed here because the data were not computed. The chapter's Step~1--2 products (gas processing, zinc smelting, lithium compounds, basic chemicals, fertilizers) are illustrative candidates, not results.
+
+\solpart{b} \textbf{Capabilities and operators.} For each product: the process technology (hydrometallurgy, chemical synthesis, precision machining), the skills (chemical and process engineers, technicians), the inputs and infrastructure (energy, water, transport to ports), and the standards and certification needed to sell. Map them to Chapter~15's operators: $\mathcal{L}_{\text{HC}}$ for skills (Definition~\ref{ch15:def:hc}), $\mathcal{L}_{\text{infra}}$ for energy and transport, $\mathcal{L}_{\text{inst}}$ for contract and standards regimes, $\mathcal{L}_{\text{info}}$ for links to buyers and engineers abroad, and an $\mathcal{L}_{\text{ISI}}$-type operator for domestic supply contracts. Order them with the sequencing heuristic, Conjecture~\ref{ch15:thm:sequencing}, which is a conjecture.
+
+\solpart{c} \textbf{Time at the observed rate of entry.} The quantity needed is the \emph{gross} entry rate: the number of products per year that move from no RCA to stable RCA (for instance, $R_{cp} < 0.5$ for three years, then $R_{cp} \ge 1$ for three years). That requires the country~$\times$ product file. The repository holds only \emph{net} diversity (number of HS92 products with RCA $\ge 1$), and net diversity is not a usable proxy. Over 1995--2019 Bolivia's diversity went from 97 to 75 (net $-22$, $-0.92$ per year) and Korea's from 282 to 257 (net $-25$, $-1.04$ per year), although Korea's ECI rose from $+1.10$ to $+1.81$. Bolivia's diversity also swings widely from year to year, from 68 (2014) to 194 (2004), which reflects commodity-price-driven changes in RCA rather than capability gains. Once gross entry rates $e_c$ are measured, the time to traverse a path of $n_s$ steps, with $m_s$ products to enter at step $s$, is roughly $\sum_s m_s/e_c(\omega_s)$, with the entry rate itself rising in relatedness density (Stylized Fact~\ref{ch16:prop:relatedness_global}).
+
+\emph{Why $v_\Gamma$ is the wrong clock.} (i) \emph{Wrong object}: $\Gamma$ is the mixing speed of the sectoral input-share network. Entering a product inside ``Manufacturing'' does not add a node, and its effect on $\Gamma$ has no definite sign (Exercise~25.4). (ii) \emph{Wrong sign}: Bolivia's velocity is negative ($-0.036$ per decade over 1990--2013; $-0.078$ if the outlying 2014 is kept), so a clock based on $v_\Gamma$ gives a negative or infinite time. Korea's was $-0.055$ per decade over 1995--2014 while it deepened its core, and $+0.055$ over 2011--2020 in the next ICIO vintage. (iii) \emph{Wrong units}: a product-space step is a change in capabilities, measured by relatedness density, not a change in $\Gamma$. Example~\ref{ch25:ex:bolivia_path} makes the same point.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{25.7}{The lithium question}
+
+\solpart{a} \textbf{Relatedness density.} $\omega_{\text{BOL},\text{LiB}} = \sum_{p'}M_{\text{BOL},p'}\phi_{\text{LiB},p'}/\sum_{p'}\phi_{\text{LiB},p'}$ (Definition~\ref{ch16:def:relatedness}) with LiB $=$ HS~8507, computed from the HS92 country~$\times$ product file and the Atlas proximities. \emph{Not computed here} (data not fetched). Expected: low, because Bolivia's RCA products (gas, ores, gold, soy) are far from electrical machinery in the product space. Note that HS92 has no separate lithium-ion heading: 8507 pools all electric accumulators, including lead-acid batteries, so $\omega$ and PCI refer to the pooled heading. A finer heading for lithium-ion cells exists only in later HS revisions.
+
+\solpart{b} \textbf{Intermediate products and their complexity} (PCI, Growth Lab HS92, 2019; \citealp{growthlab2026atlas}). Natural gas (2711) $-2.226$; carbonates, including lithium carbonate (2836), $-0.573$; the heading that includes lithium hydroxide (2825) $-0.276$; electric accumulators (8507) $+0.549$ ($+0.811$ in 2023). The steps in PCI are $+1.653$ (gas to carbonate) and $+1.122$ (carbonate to accumulators). Cathode active materials, the step between hydroxide or carbonate and cells, fall under HS chapters 28 and 38 and need their own concordance. The chain does not start from Bolivia's current gas exports: it starts from a new extractive activity, brine.
+
+\solpart{c} \textbf{Operator sequence.} (1) Brine to battery-grade carbonate or hydroxide: process chemistry and quality control ($\mathcal{L}_{\text{HC}}$, $\mathcal{L}_{\text{info}}$ through technology partners), plus energy, water and transport to the salt flats ($\mathcal{L}_{\text{infra}}$). (2) Cathode materials: precursor chemistry, purity standards, and reliable supply of other metals (nickel, manganese, cobalt, or iron phosphate), with offtake contracts ($\mathcal{L}_{\text{inst}}$). (3) Cells: electrode coating, assembly at scale, a large capital commitment, and proximity to vehicle or storage buyers. This is where an industrial-policy operator ($\mathcal{L}_{\text{ISI}}$-type procurement or joint ventures) is needed. Each step needs different capabilities, and in the product space each is a separate move.
+
+\solpart{d} \textbf{A realistic entry point?} As an entry to $\mathcal{D}$: probably not directly. Carbonate and hydroxide have negative PCI and are commodities. The first two steps would raise complexity but leave Bolivia outside the core. The cell step is where the product-space distance is largest and scale economies are steepest. Risks: price volatility in lithium compounds; technical difficulty of the brine; competition from established producers and from new extraction technologies; the capital and market access needed for cells; governance and contract design \citep{obaya2019estudio}; and water use in an arid region. As a \emph{path} it is coherent with the incremental strategy of Remark~\ref{ch25:prop:strategies}: it builds chemical and metallurgical capabilities that are closer to the core than gas is.
+
+\solpart{e} \textbf{Is HS~8507 in $\mathcal{D}$?} Cannot be answered without Exercise~25.1. Two remarks. (i) Membership in $\mathcal{D}$ is decided by \emph{proximity}, not by PCI, so a product with moderate PCI can be in the dense set if it is co-exported with many core products. (ii) Its PCI ($+0.549$) is 1.251 below the illustrative mean PCI of $\mathcal{D}$ (1.8). If the real $\mathcal{D}$ has a mean of that order, 8507 is at best on its edge. The rise to $+0.811$ by 2023 indicates that the heading is moving toward the core as battery production concentrates in complex economies.
+
+\endgroup
+\end{document}

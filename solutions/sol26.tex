@@ -1,0 +1,142 @@
+% Solutions to the exercises of Chapter 26. Numbers: code/solutions/sol26.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{25}}{}% NN-1 when built standalone
+\setcounter{chapter}{25}% NN-1, so this chapter is numbered NN
+\chapter{The Neo-Structuralist Synthesis}\label{sol26}
+\begingroup\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol26.py}. Sourced values come from \texttt{data/processed}, retrieved 2026-11-05: $\Gamma$ from INE (base 2017) and OECD ICIO 2023, \texttt{gamma\_comparison.csv}; ECI from Growth Lab HS92, \texttt{eci\_facts.csv}; GDP, Gini and gas rents from World Bank WDI, \texttt{wdi\_long.csv}; Bolivian distribution from INE and World Bank PIP. Thresholds, plan costs and plan targets are the chapter's \illustrative{} values.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.1}{The three conditions}
+
+\emph{Data status.} $\Gamma$ and ECI are sourced for 16 economies (not 30). $\Neff^I$ ``from media concentration data'' is not available: audience data are paywalled or need registration (data catalogue, \S9). Condition~(3) is therefore not evaluated.
+
+\solpart{a} \textbf{Method.} $\Gamma_c = 1 - |\lambda_2(W^P_c)|$ for $W^P_c = D^{-1}A_c$ on the ISIC-based 12-sector aggregation, using domestic flows, basic prices, input shares, diagonal kept, and the same year (2019) for every country. ECI from the Atlas (HS92, 2019). The repository has $\Gamma$ for 23 economies and ECI for 22. They overlap in 16. To reach 30, run \texttt{data/compute/compute\_oecd\_io.py} on all 76 ICIO economies and extend the ECI extract.
+
+\solpart{b} \textbf{Why $\Gamma$ must not be proxied by ECI.} They are spectral statistics of \emph{different matrices}. $\Gamma$ is the second eigenvalue modulus of a country's domestic input-share matrix and measures how fast shocks mix across its sectors. ECI is the standardized second \emph{eigenvector} of the global country-country matrix $\tilde M = D^{-1}MU^{-1}M'$ built from export baskets (Definition~\ref{ch16:def:ECI}), and it is positional: it is z-scored across countries, so about half of all countries have ECI $< 0$ by construction. Empirically they are nearly unrelated: across the 16 economies $\text{corr}(\Gamma, \text{ECI}) = 0.265$. Proxying one by the other would make condition~(1) a restatement of condition~(2).
+
+\solpart{c} \textbf{The $(\Gamma, \text{ECI})$ plane, 2019.} Every economy clears the placeholder $\Gamma^* = 0.30$. In the full set of 23, $\Gamma$ ranges from 0.333 to 0.659. The conditions therefore separate countries by ECI alone:
+\begin{itemize}
+\item \emph{Satisfy (1) and (2)} (13): Argentina (0.522, $+0.063$), Brazil (0.496, $+0.481$), China (0.582, $+1.301$), Colombia (0.460, $+0.140$), Czechia (0.486, $+1.478$), Germany (0.544, $+1.544$), Japan (0.510, $+2.047$), Korea (0.511, $+1.807$), Mexico (0.649, $+0.953$), Malaysia (0.381, $+1.031$), Norway (0.515, $+0.962$), Poland (0.552, $+1.060$), United States (0.463, $+1.294$).
+\item \emph{Violate (2)} (3): Bolivia (0.475, $-1.295$), Chile (0.557, $-0.059$), Peru (0.407, $-0.680$).
+\end{itemize}
+Not plotted: Costa Rica, Spain, Indonesia, India, Thailand, Viet Nam and South Africa have $\Gamma$ but no ECI in the extract; Ecuador, Ethiopia, Laos, Paraguay, Uruguay and Venezuela have ECI but no ICIO table. The interpretation matches the remark under the chapter's viz panel. Condition~(1) does not discriminate at the 12-sector level, and Argentina, Colombia and Brazil fall in the ``growth with equity'' zone on two of the three conditions despite well-known inequality. So either condition~(3) is doing all the work, or the conditions are not sufficient. The chapter claims only necessity.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.2}{Pathology classification}
+
+\solpart{a} \textbf{Brazil.} ECI $+0.481$ (2019), $\Gamma = 0.496$ (Korea 0.511), WDI Gini 53.5 (2019; Korea 33.7 in 2018). On measured values Brazil satisfies conditions (1) and (2), so the table's ``(1) only: growth without equity'' row does not fit: its ``Low $\Gamma$'' is not observed. Either Brazil violates condition~(3) (plausible given media concentration, but unmeasured here), and the correct row is ``(3) only: fragile growth'', which does not describe high inequality; or the table is wrong. Brazil is evidence that conditions (1)--(2) are not sufficient for equity.
+
+\solpart{b} \textbf{Cuba.} No value can be computed: Cuba is not in OECD ICIO, publishes no official income Gini, and is not in the repository's ECI extract. To check ``high $\Gamma$'' one would need a national input--output table (from Cuba's statistical office, if published at all) mapped to the 12 sectors. For ``low ECI'', one needs mirror trade data: partners' imports from Cuba, since its own reporting is incomplete. For equity, survey-based income distribution data are needed. Until then the classification is the table's conventional reading, ``(2) and (3): trapped equality'', and not a measurement.
+
+\solpart{c} \textbf{Venezuela.} ECI $-1.021$ (2019) is sourced. $\Gamma$ is unavailable (not a separate ICIO economy), and the last WDI Gini is for 2006. The ``all three violated'' row rests on one measured coordinate.
+
+\solpart{d} \textbf{Costa Rica.} $\Gamma = 0.469$ (2019, OECD ICIO, like-for-like), which is ``moderate'' only in the sense that it is close to the comparator mean (0.511). Its ECI is not in the extract and must be added. If its ECI is positive and $\Neff^I$ high, as the exercise posits, it lies in the ``none violated'' row. That is a prediction to be checked against its income distribution.
+
+\solpart{e} \textbf{Bolivia, 2005--2019.} $\Gamma = 0.475 > \Gamma^*$, ECI $-1.295 < 0$, and $\Neff^I = 3.4 < N^*_{\text{eff}} = 8$ (both illustrative). So conditions (2) and (3) are violated: the ``trapped equality'' row, illustrated in the table by Cuba. Yet Bolivia's Gini fell from 0.600 to 0.426 (INE) while GDP grew 4.52\% a year (Remark~\ref{ch26:rem:bolivia}): growth \emph{and} falling inequality, the opposite of ``trapped''. \emph{Implication.} The pathology table is a set of predictions, and Bolivia contradicts the row it falls in. The table survives only under the narrow reading of Remark~\ref{ch26:rem:bolivia}: its rows describe what cannot be \emph{sustained}, not what cannot happen for a decade and a half. A correct table would separate ``level'' outcomes (equity achieved) from ``persistence'' outcomes (equity maintained through a commodity cycle).
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.3}{Complementarity}
+
+\solpart{a} \textbf{Model.} Measure each pillar as progress toward its target: $z_k \in [0,1]$ for $k \in \{\Gamma, \text{ECI}, \Neff\}$, with the target zone $z_k \ge 1$ for all $k$. Investment $u_k \ge 0$ with $\sum_k u_k = 1$ per unit of time. Dynamics:
+\[
+\dot z_k = u_k\Bigl(\alpha + \gamma\sum_{l\ne k} z_l + \eta\, z_k\Bigr),
+\]
+increasing in all three levels as the exercise requires. Here $\gamma > 0$ is cross-pillar complementarity, the dynamic analogue of the supermodularity of Appendix~\ref{ch26:app:complementarity}, and $\eta \ge 0$ is own increasing returns (learning by doing). Normalize $\alpha = 1$. ``Simultaneous'' sets $u_k = 1/3$ for each pillar below target. ``Sequential'' puts the whole budget on one pillar until it reaches 1, then moves to the next.
+
+\solpart{b} \textbf{Closed forms.} Sequential: pillar $j = 0,1,2$ grows at $1 + \gamma j + \eta z$, so
+\[
+T_{\text{seq}} = \sum_{j=0}^{2}\frac{1}{\eta}\ln\Bigl(1 + \frac{\eta}{1 + \gamma j}\Bigr)\quad\Bigl(\to \textstyle\sum_j \frac{1}{1+\gamma j}\ \text{as } \eta \to 0\Bigr).
+\]
+Simultaneous: by symmetry $z_k = z$ with $\dot z = \tfrac13(1 + (2\gamma + \eta)z)$, so $T_{\text{sim}} = 3\ln(1 + 2\gamma + \eta)/(2\gamma + \eta)$. The script checks both against an Euler simulation (step $10^{-4}$).
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$\gamma$ & $\eta$ & $T_{\text{seq}}$ & $T_{\text{sim}}$ \\
+\midrule
+0 & 0 & 3.000 & 3.000 \\
+1 & 0 & 1.833 & 1.648 \\
+3 & 0 & 1.393 & 0.973 \\
+0 & 3 & 1.386 & 1.386 \\
+1 & 3 & 0.999 & 1.075 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{c} \textbf{Which is faster?} \emph{Simultaneous iff $\gamma > \eta$; sequential iff $\eta > \gamma$; they tie at $\gamma = \eta$.} \emph{Proof of the tie}: at $\gamma = \eta$, $T_{\text{seq}} = \eta^{-1}[\ln(1+\eta) + \ln\frac{1+2\eta}{1+\eta} + \ln\frac{1+3\eta}{1+2\eta}] = \eta^{-1}\ln(1+3\eta) = T_{\text{sim}}$ (for $\gamma = \eta = 2$ both equal $0.972955$). \emph{Why the sign flips there}: write $Z = \sum_k z_k$. Then $\dot Z = \sum_k u_k[1 + \gamma Z + (\eta - \gamma)z_k]$. At $\gamma = \eta$, $\dot Z = 1 + \gamma Z$ for \emph{every} allocation, so all non-wasteful policies take the same time. For $\gamma > \eta$ the term $(\eta - \gamma)z_k$ penalizes investing in advanced pillars, which favours balanced investment. For $\eta > \gamma$ it rewards them, which favours concentration. The grid in the script confirms the sign pattern: $T_{\text{seq}} - T_{\text{sim}}$ is positive above the diagonal $\gamma > \eta$ and negative below it at every grid point. A second force favours sequencing: increasing returns to the \emph{intensity} of investment (indivisibilities), $\dot z_k \propto u_k^{\varphi}$ with $\varphi > 1$. With $\varphi = 1.5$ and $\eta = 0$, sequential is faster for $\gamma = 0, 1, 3$ (3.000 vs 5.197, 1.834 vs 2.855, 1.393 vs 1.687), and simultaneous wins only for strong complementarity ($\gamma = 10$: 0.793 vs 1.139). For a Bolivia-like start in which condition~(1) is already met, $z = (1, 0, 0)$, with $\gamma = 1$, $\eta = 0$: simultaneous 0.811, sequential 0.833.
+
+\emph{Interpretation.} Complementarity alone (supermodularity) argues for joint reform. That is Conjecture~\ref{ch26:prop:complementary} in dynamic form. It does \emph{not} follow that joint reform is always faster: own-pillar increasing returns and minimum scales argue for concentration. Chapter~15's sequencing argument (Conjecture~\ref{ch15:thm:sequencing}) is a third, separate consideration, cost per unit of $\Psi$. Appendix~\ref{ch26:app:complementarity} makes the same point: supermodularity does not say where to start.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.4}{Bolivia's plan: cost-benefit}
+
+\solpart{a} \textbf{Is there a $\Gamma$--GDP relation?} Across the 12 economies with both a like-for-like $\Gamma$ and WDI GDP per capita (PPP, current international \$, 2019), $\text{corr}(\Gamma, \ln y) = 0.129$: none to speak of at the 12-sector level. \emph{ECI and growth.} For the 13 economies with both series, OLS of annual growth of GDP per capita (PPP, constant prices) on initial ECI and log income gives (standard errors in parentheses):
+\[
+g_{1995\text{--}2019} = 28.01 + \underset{(0.636)}{1.432}\,\text{ECI}_{1995} - \underset{(0.606)}{2.744}\,\ln y_{1995},\qquad
+g_{2009\text{--}2019}:\ \hat b_{\text{ECI}} = \underset{(0.651)}{0.993}.
+\]
+This regression does not support the use that follows. Dropping China reverses the sign ($-0.541$ and $-0.521$), so the positive coefficient is a China effect in a sample of 13 hand-picked economies. Taken at face value, raising ECI by 1.30 would add 1.86 (1995--2019 coefficient) or 1.29 percentage points (2009--2019) of annual growth. The published ECI--growth literature uses many more countries (Empirical Result~\ref{ch16:prop:ECI_growth}), and its coefficient, not this one, is the right input. It was not fetched, and no value is quoted here. We therefore report the NPV as a function of the coefficient $b$.
+
+\solpart{b} \textbf{NPV at 5\%.} \emph{Costs} (Example~\ref{ch26:ex:plan}, spread evenly over each item's period): broadband 1.5 (2025--34); polytechnics 2, corridors 5, lithium 3 and agriculture 1 (2030--44; the agriculture period is our assumption); industrial policy 4 (2040--54). Total \$16.5~bn, which the book rounds to \$17~bn; present value at 5\% (base 2024) \$8.45~bn. \emph{Benefits}: baseline GDP \$54.9~bn in 2024, growing at 3.36\% (geometric mean 2006--2024, WDI). ECI follows the plan's path: $-1.30$ to 2035, linear to $-0.30$ in 2045 and to $0$ in 2055. The plan adds $b\,(\text{ECI}_{t-1} + 1.30)$ points of growth. Benefits are the GDP gap against the baseline, counted to 2055 only.
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$b$ (pp per ECI unit) & 0 & 0.5 & 0.993 & 1.432 \\
+\midrule
+NPV at 5\% (\$ bn, to 2055) & $-8.5$ & $+13.4$ & $+35.9$ & $+56.9$ \\
+IRR & --- & 12.4\% & 17.9\% & 20.9\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+The NPV at 5\% is positive iff $b > 0.1961$ percentage points per ECI unit.
+
+\solpart{c} \textbf{Break-even discount rate.} It is the IRR in the table: 12.4\% to 20.9\% for $b$ between 0.5 and 1.43. With $b = 0$ the plan never breaks even. The decisive number is therefore not the discount rate but $b$, together with the assumption that the plan delivers its ECI path, an illustrative target. The plan's apparent profitability rests on (i) a causal reading of a cross-country correlation, (ii) ECI gains that Bolivia has never achieved (its ECI fell by 0.44 over 1995--2019), and (iii) zero cost overruns. A credible appraisal would use a published, causally interpreted $b$, a distribution of plan outcomes, and the opportunity cost of public funds.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.5}{The neoliberal counterfactual}
+
+\solpart{a} \textbf{Method and data.} Extrapolate linearly the structural velocities (Definition~\ref{ch23:def:velocity}) of the neoliberal period. $\Gamma$ (INE base 1990, \texttt{book12}, domestic, input shares) is available from 1988 and ECI from 1995, so ``1985--2005'' becomes 1988--2005 for $\Gamma$ and 1995--2005 for ECI. $\sigma_B$ is not available: it needs household microdata (data catalogue row~105). We use the income Gini (World Bank PIP) as the observable distributional proxy.
+
+\solpart{b} \textbf{Projections.}
+\begin{itemize}
+\item $\Gamma$: 0.563 (1988) to 0.502 (2005), $v_\Gamma = -0.0356$ per decade. Projected 0.474 (2013), 0.453 (2019) and 0.449 (2020). Actual: 0.484 in 2013, the last year of the comparable base. The 2019 value of 0.467 is on base 2017 and not comparable.
+\item ECI: $-0.852$ (1995) to $-1.096$ (2005), $v = -0.244$ per decade. Projected $-1.438$ (2019) and $-1.462$ (2020). Actual 2019: $-1.295$.
+\item Distribution: PIP Gini 0.581 (1997), 0.580 (1999), 0.616 (2000), 0.574 (2001), 0.593 (2002), 0.550 (2004), 0.585 (2005). These come from non-comparable survey spells, but there is no downward trend: the mean is 0.583. A flat projection gives about 0.58 in 2019, against an actual 0.416.
+\end{itemize}
+
+\solpart{c} \textbf{Target zone and comparison.} Neither path enters the zone. $\Gamma > 0.30$ holds in both, so condition~(1) does not discriminate, and ECI stays far below zero in both. The actual trajectory did better than the projection on ECI ($-1.295$ against $-1.438$ in 2019) and on $\Gamma$ (0.484 against 0.474 in 2013), and much better on distribution. \emph{Caveats.} (i) Linear extrapolation of a seven- or ten-year velocity over 15 years. (ii) The commodity boom of 2004--2014 was exogenous and would have occurred under either regime, so part of the actual gains, and part of what a neoliberal regime would also have obtained, is a price effect. (iii) The 1995--2005 ECI decline already includes the gas-discovery epoch (data catalogue: $-0.24$, 1995--2005). The counterfactual is a benchmark, not an identified estimate. A synthetic-control design with comparable gas exporters would be the next step.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.6}{The populist counterfactual}
+
+\emph{Ill-posed as stated.} The formation model (Definition~\ref{ch10:def:model}) maps a \emph{given} $W$ into preferences $\boldsymbol{\theta}^*$. It holds $W^P$ fixed and contains neither ECI nor any map from investment to $\Delta W$, so it cannot deliver $\Gamma$ or ECI. The closest well-posed version uses the operator calculus of Chapter~15 and bounds the outcome with observed rates of structural change. The premise also needs a check: the ``\$50B'' is illustrative.
+
+\solpart{a} \textbf{How large was the gas revenue?} WDI natural gas rents (NY.GDP.NGAS.RT.ZS $\times$ NY.GDP.MKTP.CD) sum to \$12.04~bn (current US\$) over 2006--2019, and \$8.35~bn over 2006--2014. Rents are an economic concept, value minus estimated extraction cost, not fiscal revenue. Government hydrocarbon revenue (royalties, the IDH tax, YPFB transfers) should be taken from the fiscal accounts, which were not fetched. The two can differ, and the 2017 GDP rebasing affects the rent series. The order of magnitude, though, is a quarter of the \$50~bn premise.
+
+\solpart{b} \textbf{What could it have bought?} Scaling the plan's illustrative ECI effect linearly (1.30 per \$17~bn) gives $+0.92$ for \$12~bn and $+3.82$ for \$50~bn. The second would put Bolivia far above Korea, which shows that linear scaling is wrong: time-to-build and product-space distance (Chapter~25: steps of decades) bind before money does. A data-based bound: the largest 14-year ECI gain among the 22 economies in the repository is $+0.949$ (Laos, 2009--2023), and Korea gained $+0.704$ over the whole of 1995--2019. Even at that record pace from its 2005 level ($-1.096$), Bolivia would have reached $-0.147$ in 2019, still below zero. $\Gamma$ was already inside the comparator range and is not the binding constraint.
+
+\solpart{c} \textbf{Target zone and trade-offs.} No: even the most favourable bound leaves ECI negative by 2019, and condition~(3) is not modelled. The counterfactual also has a cost the question omits. The transfers it would have cancelled financed part of the fall in poverty and inequality (Gini 0.600 to 0.426). Chapter~2's transfer result (Proposition~\ref{ch02:thm:transfer_trap}) says transfers do not change the power term. It does not say that they have no distributional value. A sound answer compares plans that split the revenue, not ``all or nothing''.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{26.7}{The 78-year argument}
+
+\emph{A reading exercise.} The manual cannot do the reading, and it does not supply quotations or page numbers, which would have to be checked against the editions. What follows is the model answer: each work's central claim, as it is usually summarized, and the result or conjecture of the book it maps to.
+
+\solpart{a} \textbf{Claims and mappings.}
+\begin{enumerate}
+\item \citet{prebisch1949desarrollo}: the world economy is divided into a center that generates and retains technical progress and a periphery specialized in primary goods. The gains from trade are distributed asymmetrically through the terms of trade, so the periphery must industrialize. \emph{Book}: the global $W^P$ (Definition~\ref{ch16:def:global_WP}) and the Prebisch--Singer hypothesis restated spectrally, which is a \emph{conjecture} (Conjecture~\ref{ch16:thm:prebisch_singer}).
+\item \citet{furtado1961desenvolvimento}: underdevelopment is not a stage on the road to development but a distinct structure produced by the way the periphery was inserted into the world economy, and it reproduces itself. \emph{Book}: structural equilibrium and the possibility of multiple equilibria (Definition~\ref{ch13:def:structural_eq}, Proposition~\ref{ch13:prop:multiplicity}), and the formation channel (Chapter~10).
+\item \citet{pinto1970naturaleza}: structural heterogeneity, the coexistence within one economy of strata with very different productivity that technical progress does not spread across. \emph{Book}: block structure of $W$ and between-block inequality (Proposition~\ref{ch02:prop:block_loss}), stratified steady states (Proposition~\ref{ch10:prop:two_types}). In Bolivia's data the heterogeneity appears in the enclave's $\pi$ and export orientation rather than in aggregate $\Gamma$ (Remark~\ref{ch26:rem:bolivia}).
+\item \citet{fajnzylber1983industrializacion}: industrialization was truncated, lacking an endogenous nucleus of technical progress (capital goods and engineering capacity). \emph{Book}: the bridge bound (Proposition~\ref{ch25:prop:bridge_bound}, a theorem) and the truncation conjecture (Conjecture~\ref{ch25:thm:truncation}), which the 12-sector data do not support (Result~\ref{ch25:res:twelve}).
+\item \citet{cepal2012structural}: equality is the goal and structural change is the path; redistribution without a change in the productive structure is not sustainable. \emph{Book}: the growth-equity conjecture (Conjecture~\ref{ch26:conj:growth_equity}) and the result that transfers leave the power term unchanged (Proposition~\ref{ch02:thm:transfer_trap}). Bolivia 2005--2019 tests the sustainability clause.
+\item \citet{ocampo2009growth}: growth is driven by the dynamics of the productive structure (innovation and complementarities), macroeconomic policy should serve structural change under a balance-of-payments constraint, and equity is a precondition for growth. \emph{Book}: complementarity of the pillars (Conjecture~\ref{ch26:prop:complementary}, Appendix~\ref{ch26:app:complementarity}). The macroeconomic pillar has no counterpart in the conjecture (case study of Chapter~26).
+\end{enumerate}
+
+\solpart{b} \textbf{Synthesis (one paragraph).} The single argument is this. An economy's income and its distribution depend on its \emph{position} in a non-anonymous structure: who supplies whom, who learns from whom, who captures the gains from technical progress. That structure is not a transitory stage. It reproduces itself through specialization, through the strata it creates and through the expectations it forms. It can be changed only by deliberate action on the structure itself, not by prices or transfers alone. In the book's language these are claims about the integration $\Gamma$ and the power vector $\boldsymbol{\pi}$ of the layers of $W$, and about how operators move them. The mapping shows how uneven the formal status is: one theorem (the bridge bound), several conjectures, and one empirical record (Bolivia 2005--2019) that strains the strongest form of the shared conclusion.
+
+\emph{Common mistakes}: attributing to an author the book's formalization (the mappings are the book's); presenting paraphrases as quotations.
+
+\endgroup
+\end{document}

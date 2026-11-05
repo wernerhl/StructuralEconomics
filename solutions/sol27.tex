@@ -1,0 +1,159 @@
+% Solutions to the exercises of Chapter 27. Numbers: code/solutions/sol27.py
+\documentclass[../solutions_manual.tex]{subfiles}
+\begin{document}
+\ifSubfilesClassLoaded{\setcounter{chapter}{26}}{}% NN-1 when built standalone
+\setcounter{chapter}{26}% NN-1, so this chapter is numbered NN
+\chapter{Algorithmic $W^I$}\label{sol27}
+\begingroup\sloppy
+
+All numbers below are printed by \texttt{python3 code/solutions/sol27.py}. The only sourced series is internet use (World Bank WDI, IT.NET.USER.ZS, retrieved 2026-11-05). Every network, engagement and policy parameter is \illustrative. As in the chapter, $\lambda$ denotes a user's cross-group share of attention, $\lambda_i = \sum_{j \notin g(i)}W^I_{ij}$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.1}{Algorithmic $\Delta\lambda$}
+
+\solpart{a} \textbf{Baseline.} Four equal groups: urban men (UM), urban women (UW), rural men (RM), rural women (RW). Organic attention weights are multiplicative in two attribute factors (Definition~\ref{ch18:def:constrained_W}): a factor $\lambda_g = 0.5$ when the genders differ and $\lambda_r = 0.3$ when the geographies differ. Row-normalizing $K_{ij} = \lambda_g^{\mathbf{1}[\text{gender differs}]}\lambda_r^{\mathbf{1}[\text{geo differs}]}$, whose row sums are all $(1+\lambda_g)(1+\lambda_r) = 1.95$:
+\[
+W^I_0 = \begin{pmatrix}
+0.5128 & 0.2564 & 0.1538 & 0.0769\\
+0.2564 & 0.5128 & 0.0769 & 0.1538\\
+0.1538 & 0.0769 & 0.5128 & 0.2564\\
+0.0769 & 0.1538 & 0.2564 & 0.5128
+\end{pmatrix} = B_r \otimes B_g,\quad B_x = \tfrac{1}{1+\lambda_x}\begin{pmatrix}1 & \lambda_x\\ \lambda_x & 1\end{pmatrix}.
+\]
+Its eigenvalues are the products of those of the factors, $\{1, \tfrac{1-\lambda_r}{1+\lambda_r}, \tfrac{1-\lambda_g}{1+\lambda_g}, \text{their product}\} = \{1, 0.5385, 0.3333, 0.1795\}$, so $\Gamma = 0.4615$. The cross-gender share is $\lambda_g/(1+\lambda_g) = 0.3333$, the cross-geography share $\lambda_r/(1+\lambda_r) = 0.2308$, and $\Neff = 4$.
+
+\solpart{b} \textbf{The algorithm.} Multiply the own-group entry (the diagonal cell) by 1.2 and every other entry by 0.85, then renormalize:
+\[
+W^I_1 = \begin{pmatrix}
+0.5978 & 0.2117 & 0.1270 & 0.0635\\
+0.2117 & 0.5978 & 0.0635 & 0.1270\\
+0.1270 & 0.0635 & 0.5978 & 0.2117\\
+0.0635 & 0.1270 & 0.2117 & 0.5978
+\end{pmatrix}.
+\]
+Cross-gender share $0.2752$ ($\Delta\lambda_g = -0.0581$); cross-geography share $0.1905$ ($\Delta\lambda_r = -0.0402$). The eigenvalues are now $1, 0.6189, 0.4496, 0.3225$ (the matrix is no longer a Kronecker product), so $\Gamma = 0.3811$ ($\Delta\Gamma = -0.0805$). $\Neff = 4$ ($\Delta\Neff = 0$). Sanity checks: rows sum to one, and both shares fall, as Proposition~\ref{ch27:thm:echo}(i) predicts with $e_s/e_c = 1.2/0.85$.
+
+\solpart{c} \textbf{Why $\Delta\Neff = 0$.} Every row of $W^I_1$ is a permutation of the same four numbers, so all rows have the same sum before normalization. The engagement matrix is symmetric, so the normalized matrix is still symmetric. A symmetric row-stochastic matrix is doubly stochastic, so $\boldsymbol{\pi} = \ones/4$ (Proposition~\ref{ch06:prop:equal_power}) and $\Neff = 4$ before and after. Both hypotheses matter. With unequal group sizes $p = (0.3, 0.3, 0.2, 0.2)$, attention proportional to source size ($W_{ij} \propto p_jK_{ij}$) gives a reversible chain with $\boldsymbol{\pi} = (0.3253, 0.3253, 0.1747, 0.1747)$. The same algorithm moves it to $(0.329, 0.329, 0.171, 0.171)$ and $\Neff$ from 3.6673 to 3.6369: the larger groups gain power because their own-group cells are reinforced. The general point is Remark~\ref{ch27:rem:gap_neff}: block reinforcement acts on $\Gamma$; it reaches $\Neff$ only through an asymmetry.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.2}{The echo chamber result}
+
+\solpart{a} \textbf{User-specific engagement.} Fix user $i$ with $0 < \lambda_i < 1$ and define the $W^I$-weighted mean engagements
+\[
+\bar e_s := \frac{\sum_{j\in g(i)}W^I_{ij}e_{ij}}{1-\lambda_i}, \qquad \bar e_c := \frac{\sum_{j\notin g(i)}W^I_{ij}e_{ij}}{\lambda_i}.
+\]
+Under \eqref{ch27:eq:reweight} the cross-group mass of row $i$ after reweighting is $\lambda_i\bar e_c$ and the own-group mass is $(1-\lambda_i)\bar e_s$, so
+\[
+\lambda_i' = \frac{\lambda_i\bar e_c}{\lambda_i\bar e_c + (1-\lambda_i)\bar e_s},
+\]
+which is \eqref{ch27:eq:echo} with group-level engagement replaced by weighted means. Then $\lambda_i' < \lambda_i$ iff $\bar e_c < \lambda_i\bar e_c + (1-\lambda_i)\bar e_s$ iff $(1-\lambda_i)(\bar e_s - \bar e_c) > 0$ iff $\bar e_s > \bar e_c$. The weighted-mean condition is therefore \emph{necessary and sufficient}, and equality $\bar e_s = \bar e_c$ gives $\lambda_i' = \lambda_i$. The min/max condition of the exercise implies it, since $\bar e_s \ge \min_{j\in g(i)}e_{ij} > \max_{j\notin g(i)}e_{ij} \ge \bar e_c$, but the converse fails: a user can have one cross-group source more engaging than some same-group source and still lose cross-group exposure. If $\lambda_i \in \{0, 1\}$, $\lambda_i' = \lambda_i$. The script checks the formula and the equivalence on 20{,}000 random users. Part~(ii) of the proposition does \emph{not} extend: with user-specific $e_{ij}$ the reweighted matrix leaves the two-parameter family, it need not be doubly stochastic, and $\Gamma$ and $\Neff$ can move either way.
+
+\solpart{b} \textbf{Two attributes.} Twenty users: urban with belief $L$ (8), urban $R$ (2), rural $L$ (2), rural $R$ (8). The organic feed weights same-geography sources 4 and other-geography sources 1 (no self-weight). The algorithm triples same-belief sources. For a rural-$L$ user, the organic cross-geography share is $10/(4\cdot 9 + 10) = 10/46 = 0.217$. After reweighting, the same-geography mass is $4(1\cdot 3 + 8) = 44$ and the other-geography mass $8\cdot3 + 2 = 26$, so the share rises to $26/70 = 0.371$. Urban-$R$ users are symmetric (0.217 to 0.371). Majority users lose: a rural-$R$ user goes from $10/46$ to $14/106 = 0.132$. Cross-\emph{belief} exposure falls on average from 0.426 to 0.218. These are exactly the values of \texttt{code/ch27.py}. Sorting on belief sends belief minorities to like-minded sources in the other region, raising their cross-geography exposure. The ``for all attributes $k$'' claim fails.
+
+\solpart{c} \textbf{Top-$K$.} Let the feed show only the $K$ sources with the highest $e_{ij}$, with organic weights renormalized among them. \emph{Group-level engagement} ($e_s > e_c$): every same-group source outranks every cross-group one. If $K$ is at most the number $n_s$ of same-group sources, $\lambda_i' = 0 \le \lambda_i$. If $K > n_s$, the shown cross-group mass is $c \le \lambda_i$ and $\lambda_i' = c/(1-\lambda_i+c) \le \lambda_i$, with equality iff all cross-group sources are shown. So the weak inequality survives. Integration can collapse completely: with two equal groups of three and $K = 3$, the feed becomes block-diagonal, $|\lambda_2| = 1.000$ and $\Gamma = 0$. The matrix is reducible and consensus fails (Appendix~\ref{ch27:app:degroot_algo}). \emph{User-specific engagement}: the result fails even under the weighted-mean condition of~(a). Take weights $(0.45, 0.45 \mid 0.10)$ and engagement $(2.0, 0.2 \mid 1.0)$, with the bar separating same-group from cross-group sources. Then $\bar e_s = 1.100 > \bar e_c = 1.000$, so multiplicative ranking lowers $\lambda$ from 0.100 to 0.0917. Top-2 shows the first same-group source and the cross-group source, and raises $\lambda$ to $0.10/0.55 = 0.1818$. Truncation responds to the \emph{rank} of the best cross-group source, not to average engagement.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.3}{Bolivia's digital divide}
+
+\emph{Data status.} Only the national internet-use series is in the repository. Department-, area-, sex- and age-specific use is in INE's household survey (ICT module) and was not fetched. The $\Neff$ estimates of Chapter~21 are illustrative. Method and expected result only.
+
+\solpart{a} \textbf{Sourced national figures.} Internet users were 22.4\% of the population in 2010, 47.5\% in 2019, 77.3\% in 2023 and 79.7\% in 2024 \citep{worldbank2026wdi}.
+
+\solpart{b} \textbf{Method.} The fraction of $W^I$ that is algorithmically mediated is
+\[
+F = \sum_g p_g\,u_g\,\omega_{d,g}\,a_g,
+\]
+where $p_g$ is group $g$'s population share (department $\times$ area $\times$ sex $\times$ age), $u_g$ its internet-use rate (INE survey), $\omega_{d,g}$ the digital weight in its composite $W^I$ (Definition~\ref{ch21:def:composite_WI}), and $a_g$ the share of digital attention spent on \emph{ranked} feeds. WhatsApp is not ranked (Chapter~27, introduction), so $a_g < 1$. $u_g$ comes from the survey; $\omega_{d,g}$ and $a_g$ need a time-use or attention module (Appendix~21B's survey design) or app-usage panels. Report $F$ and the population share with $u_g\omega_{d,g}a_g > 0$. With the illustrative composite weights of Example~\ref{ch21:ex:composite} ($\omega_d \le 0.50$ for every group), $F \le 0.5 \times 79.7\% = 39.9\%$ of national $W^I$ in 2024, an upper bound that ignores the unranked share.
+
+\solpart{c} \textbf{Correlation with $\Neff$.} $\Neff$ is a property of a whole network, not of a group (Conjecture~\ref{ch27:prop:objective}, last paragraph), so the correlation must be computed either across departments, each with its own $W^I$ and its own $\Neff$, or at user level with feed diversity $e^{H_i}$. \emph{Expected result.} The sign is ambiguous by Remark~\ref{ch27:rem:ch24}. Across channels, digital media add outlets and raise $\Neff^I$. Within ranked platforms, attention concentrates. The likely pattern is a hump: $\Neff$ rising with $F$ where digital access mainly adds sources (low-$F$, rural departments), and flat or falling where ranked platforms dominate (high-$F$, urban, young). \emph{Common mistake}: correlating group-level internet use with a national $\Neff$.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.4}{Objective function design}
+
+\solpart{a} \textbf{The problem.} Let $W^I_0$ be the organic network, $e_{ij} > 0$ predicted engagement and $\mathcal{S}$ the set of row-stochastic matrices supported on the organic graph ($W_{ij} = 0$ where $W^I_{0,ij} = 0$). The platform chooses the feed $W$:
+\[
+\begin{aligned}
+&\max_{W\in\mathcal{S}}\ \Neff(W) = \Bigl(\sum_j \pi_j(W)^2\Bigr)^{-1}\\
+&\text{s.t.}\quad \frac1N\sum_{i,j}W_{ij}e_{ij} \ge \bar E,\qquad \Gamma(W) \ge \Gamma_{\min},\qquad \lambda_i(W) \ge \lambda_{\min}\ \forall i.
+\end{aligned}
+\]
+\emph{Structure.} $\Neff \le N$, with equality iff $\boldsymbol{\pi} = \ones/N$ iff $W$ is doubly stochastic (Proposition~\ref{ch06:prop:equal_power}). So whenever the engagement constraint allows it, the solution set is $\{W \in \mathcal{S}: W'\ones = \ones,\ \text{constraints}\}$; without the $\Gamma$ floor (which is not convex) it is a polytope. The non-convex objective becomes the \emph{linear} constraint ``columns sum to one''.
+
+\solpart{b} \textbf{Why the $\Gamma$ floor is needed.} Without it, maximizing engagement over doubly stochastic matrices is a linear program over the Birkhoff polytope, whose vertices are permutation matrices (Birkhoff--von Neumann). The optimum is therefore a permutation: each user sees exactly one source. $\Neff = N$, but all eigenvalues have modulus one, so $\Gamma = 0$ and there is no learning or consensus. In the six-user example below, the best permutation achieves engagement 2.760. A well-posed design therefore needs $\Gamma_{\min}$, or entropy regularization. The tractable version is
+\[
+\max_{W \in \mathcal{S},\ W'\ones = \ones}\ \sum_{i,j}W_{ij}\ln e_{ij} - \frac1\tau\sum_{i,j}W_{ij}\ln\frac{W_{ij}}{W^I_{0,ij}},
+\]
+whose solution is the Sinkhorn scaling $W = \operatorname{diag}(\mathbf{a})(W^I_0 \circ e^{\tau})\operatorname{diag}(\mathbf{c})$: engagement ranking \eqref{ch27:eq:reweight} with exponent $\tau$, followed by a rescaling of sources that equalizes their total attention. The engagement floor $\bar E$ pins down $\tau$.
+
+\solpart{c} \textbf{A computed example.} Six users in two groups of three, organic $\lambda = 0.22$. Engagement is 2.07 for same-group sources and 1 otherwise, and source~1 is viral ($\times3$).
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Feed & engagement & $\Neff$ & $\Gamma$ & mean $\lambda_i$ \\
+\midrule
+Organic & 2.446 & 6.000 & 0.440 & 0.220 \\
+Engagement ranking \eqref{ch27:eq:reweight} & 3.190 & 4.002 & 0.261 & 0.130 \\
+Balanced ranking ($\tau = 1$) & 2.589 & 6.000 & 0.240 & 0.120 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Varying $\tau$ traces the trade-off. At $\tau = 0.5$, 1, 2 and 4, engagement is 2.526, 2.589, 2.672 and 2.738 with $\Neff = 6$ throughout, while $\Gamma$ falls to 0.328, 0.240, 0.124 and 0.030.
+
+\solpart{d} \textbf{Trade-offs.} (i) \emph{Engagement against concentration}: balancing costs engagement, in the example $3.190 \to 2.589$. (ii) \emph{Concentration against fragmentation}: holding $\Neff = N$, more engagement means lower $\Gamma$, so a $\Neff$ mandate alone produces echo chambers. The objective must carry a $\Gamma$ or $\lambda$ floor (Remark~\ref{ch27:rem:gap_neff}). (iii) \emph{Accuracy}: uniform power is not the epistemic optimum. Under the wisdom-of-crowds result (Theorem~\ref{ch08:thm:wisdom}) the efficient weights depend on source precision, so forcing equal weight on low-quality or fringe sources can spread misinformation. (iv) \emph{Feasibility}: balancing requires that the organic support admit a doubly stochastic pattern (total support), and it overrides user choice, which the evidence in Section~\ref{ch27:sec:effects} shows matters as much as ranking.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.5}{AI mentoring simulation}
+
+\solpart{a} \textbf{Design and $\Delta W^I$ edges.} An assistant on WhatsApp, the dominant channel (introduction to Chapter~27), matches each rural entrepreneur to three urban or modern-sector mentors in the same sector. It provides weekly market prices and buyer contacts, and relays short mentor videos in Spanish, Quechua or Aymara. It is Chapter~15's information operator (Definition~\ref{ch15:def:info}): $\Delta W^I_{ij} > 0$ for rural $i$ and modern-sector $j$, financed by an equal reduction of within-group weight, so that rows stay stochastic. The design target is to raise the cross-group share of the rural users from $\lambda = 0.22$ to $0.32$.
+
+\solpart{b} \textbf{$\Delta\lambda^I$ and $\Delta\Neff$.} Six-node version (three urban, three rural, organic $\lambda = 0.22$). Mentoring raises rural rows to $\lambda = 0.32$, spread evenly over the three urban mentors: $\Delta\lambda^I = +0.10$, $\Gamma$ rises from 0.440 to 0.540, and $\Neff$ \emph{falls} from 6.000 to 5.801, because the urban mentors' total Perron weight rises to 0.5926. If the extra 0.10 goes to one star mentor, $\Gamma$ is again 0.540, $\Neff = 5.764$ and the star's weight is 0.2247. Integration and concentration move in opposite directions, as Proposition~\ref{ch06:prop:gap-power-independent} allows. A design that rotates mentors and caps any mentor's audience limits the concentration.
+
+\solpart{c} \textbf{Formation prediction.} With the chapter's illustrative parameters ($\rho = 0.85$, $\mu\Delta\bar r = 0.09$; Example~\ref{ch27:ex:facebook}), the rural signal rises by $\Delta\lambda\,\Delta\bar r$. In the formation equation \eqref{ch10:eq:formation}, one generation (one period) changes rural preferences by $\mu\,\Delta\lambda\,\Delta\bar r = 0.09 \times 0.10 = 0.0090$ preference units. In steady state the change is $\mathcal{M}\mu^{-1}$ times that, $0.0090/0.15 = 0.0600$ (Definition~\ref{ch10:def:multiplier}), the same order as the gap the chapter attributes to algorithmic filtering. That holds if returns do not respond to $\theta$. If they do, the matrix multiplier $(I-J)^{-1}\mu$ applies (Theorem~\ref{ch10:thm:formation_effect}).
+
+\solpart{d} \textbf{Evaluation design.} Cluster-randomize communities: half receive the assistant, half receive a placebo price-only bot, which separates the mentoring edges from market information. \emph{Power}: minimum detectable effect 0.10 SD on an aspirations index, intra-cluster correlation 0.05, 20 entrepreneurs per community, two-sided $\alpha = 0.05$, power 0.80. Then
+\[
+J = \frac{(z_{0.975} + z_{0.80})^2\,[\rho_{\text{ICC}} + (1-\rho_{\text{ICC}})/n]}{P(1-P)\,\text{MDE}^2} = \frac{2.8016^2 \times 0.0975}{0.25 \times 0.01} = 306.1,
+\]
+so 308 communities (154 per arm) and 6{,}160 entrepreneurs. Outcomes: $\lambda_i$ from usage logs (first stage), aspirations and investment (second stage), sales after 24 months. \emph{Identification threats}: spillovers between neighbouring communities (SUTVA), handled with buffer zones or by randomizing at a coarser level; differential attrition of non-users; experimenter demand on survey aspirations, handled with behavioural outcomes; and the fact that the measured effect is one period of a multi-generation process, so only $\mu\Delta\lambda\Delta\bar r$, not the steady state, is identified.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.6}{Algorithmic center-periphery}
+
+\emph{Data status: method only.} SimilarWeb is commercial and no traffic panel was fetched. No traffic shares are reported.
+
+\solpart{a} \textbf{Method.}
+\begin{enumerate}
+\item \emph{Source}: a web and app traffic panel for Bolivia (SimilarWeb, or an app-usage panel). Web-only panels miss in-app use, which dominates on mobile, so use the app panel for Facebook, Instagram, TikTok, YouTube and WhatsApp.
+\item \emph{Classification}: for each destination $d$ record its headquarters country, whether its feed is ranked (recommender) or chronological and contact-based (WhatsApp, Telegram groups), and whether it is domestic news, entertainment or other.
+\item \emph{Fraction designed abroad}: $f = \sum_d s_d\,\mathbf{1}[\text{ranked}_d]\,\mathbf{1}[\text{foreign}_d]$, with $s_d$ the share of attention (time, not visits).
+\item \emph{Share of $W^I$}: $F_{\text{abroad}} = \sum_g p_g\,\omega_{d,g}\,f_g$, combining $f$ with the digital weight $\omega_{d,g}$ of Exercise~27.3.
+\end{enumerate}
+
+\solpart{b} \textbf{Expected result.} The ranked destinations with large shares are likely to be US-based platforms (Google search, YouTube, Facebook, Instagram), plus TikTok, whose parent company is based outside the US. Domestic news sites are likely to have small shares. So $f$ is likely to be close to the ranked share of attention. The fraction of $W^I$ designed abroad is then bounded by the digital weight $\omega_d$. With the book's illustrative composite weights it is at most about half for urban youth and about a tenth for rural and older users. \emph{Caveats}: traffic is not attention, and attention is not influence ($W^I$ weight). Much Bolivian digital information flows through WhatsApp groups, which a foreign firm hosts but does not rank. ``Designed abroad'' must distinguish infrastructure from curation.
+
+%% ---------------------------------------------------------------------
+\exercisesolution{27.7}{The policy frontier}
+
+\solpart{a} \textbf{A common test bed (illustrative).} The six-user network of 27.4, organic $\lambda = 0.22$. \emph{(a) No regulation}: engagement ranking with $e_s/e_c = 2.07$ plus a viral source taking a share $a = 0.3$ of everyone's attention. \emph{(b) Transparency}: assumed to move the feed a quarter of the way back to organic, $W_b = 0.75W_a + 0.25W_0$; this assumption carries the result for (b). \emph{(c) Diversity mandate}: every user's cross-group share raised to at least $\lambda^{\min} = 0.3$ by proportional reallocation. \emph{(d) Public-interest algorithm}: the balanced (Sinkhorn) version of the regime-(a) feed, the $\Neff$-maximizing design of 27.4.
+\begin{center}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Regime & $\Neff$ & $\Gamma$ & mean $\lambda_i$ & min $\lambda_i$ & $\pi_1$ & engagement \\
+\midrule
+Organic & 6.000 & 0.440 & 0.220 & 0.220 & 0.167 & 2.446 \\
+(a) None & 3.388 & 0.468 & 0.234 & 0.084 & 0.474 & 3.194 \\
+(b) Transparency & 4.164 & 0.461 & 0.230 & 0.118 & 0.398 & 3.007 \\
+(c) Mandate $\lambda^{\min} = 0.3$ & 4.665 & 0.684 & 0.342 & 0.300 & 0.361 & 2.831 \\
+(d) Public-interest & 6.000 & 0.325 & 0.163 & 0.163 & 0.167 & 2.474 \\
+(c) + (d) & 6.000 & 0.574 & 0.287 & 0.287 & 0.167 & 2.272 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\solpart{b} \textbf{Effects on $\Neff$ and $\Gamma$.} No single regime fixes both dimensions. The unregulated feed concentrates power ($\Neff = 3.388$, the viral source holds 0.474) while \emph{raising} $\Gamma$ (0.468), the viral-hub pattern of Remark~\ref{ch27:rem:gap_neff}, and leaves its least-connected users at $\lambda_i = 0.084$. The mandate restores mixing ($\Gamma = 0.684$, every $\lambda_i \ge 0.3$) but leaves the hub at 0.361. Balancing restores $\Neff = 6$ but keeps the engagement sorting, so $\Gamma$ falls to 0.325 and $\lambda_i$ to 0.163. Combining (c) and (d) gives $\Neff = 6$, $\Gamma = 0.574$ and $\lambda_i = 0.287$: balancing after the mandate slightly undoes it, so the two must be imposed jointly, not in sequence. Its engagement (2.272) is below the organic feed's: that is the commercial cost.
+
+\solpart{c} \textbf{Feasibility and cost (qualitative).} (b) is cheap, politically easy and enforceable through disclosure (the EU's Digital Services Act is the template; Remark~\ref{ch27:prop:regulation}). Its structural effect depends entirely on whether users and regulators respond. (c) needs audit access to feeds and a regulator able to verify $\lambda_k$ by group. Bolivia's regulator lacks the mandate and data (case study), and platforms can contest it. Its cost is the platform's engagement loss. (d) needs public funding or a cooperative operator, and it reaches only its own users: with adoption share $\sigma$, its effect on national $W^I$ scales with $\sigma\omega_d$. \emph{Which regime best advances the structural trajectory?} If the binding problem is fragmentation, as on the formation channel of Chapters~10 and~18, where cross-group $\lambda$ drives the aspiration gap, the mandate does most. If it is concentration of epistemic power (hegemony, Chapter~24), the public-interest algorithm does. The defensible recommendation is (b) as a precondition, since without transparency neither (c) nor (d) can be monitored, plus (c) with $\Neff$ monitoring (instrument~4), with (d) as a complement where a public broadcaster can run it. All magnitudes here are illustrative; the ranking of regimes, not the numbers, is the result.
+
+\endgroup
+\end{document}
