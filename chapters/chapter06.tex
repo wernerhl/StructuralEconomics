@@ -9,6 +9,7 @@
 \textnormal{[``In peripheral capitalism, the appropriation of the economic surplus is intimately linked to the power relations between different social strata.'']}\\
 \hfill --- Ra\'{u}l Prebisch, \textit{Capitalismo Perif\'{e}rico: Crisis y Transformaci\'{o}n} (1981)
 \end{quote}
+\nocite{prebisch1981capitalismo}
 
 \vspace{0.3em}
 
@@ -16,6 +17,7 @@
 \textit{``Power is not an institution, and not a structure; neither is it a certain strength we are endowed with; it is the name that one attributes to a complex strategical situation in a particular society.''}\\
 \hfill --- Michel Foucault, \textit{The History of Sexuality} (1976)
 \end{quote}
+\nocite{foucault1978history}
 
 \vspace{0.5em}
 
@@ -121,11 +123,11 @@ Bonacich centrality starts from degree (the $\mathbf{d}^{\text{in}}$ term) and t
 \begin{equation}\label{ch06:eq:bonacich_katz}
 \mathbf{c}^{\text{Bon}}(\beta) = \tfrac{1}{\beta}\,\mathbf{c}^{\text{Katz}}(\beta) \qquad (\beta \neq 0),
 \end{equation}
-so for $\beta > 0$ the two rank agents identically. Bonacich's (1987) contribution is the interpretation of the parameter, including negative values.
+so for $\beta > 0$ the two rank agents identically. Bonacich's \citeyearpar{bonacich1987power} contribution is the interpretation of the parameter, including negative values.
 
 The parameter $\beta$ has a remarkable interpretation. When $\beta > 0$, an agent is more central if her neighbors are also central --- this captures \textit{cooperation} (your friends' power helps you). When $\beta < 0$, an agent is more central if her neighbors are \textit{less} central --- this captures \textit{bargaining} (your power comes from your partners' weakness, because they have no outside options).
 
-Ballester, Calv\'{o}-Armengol, and Zenou (2006) proved the foundational result: in linear-quadratic games on networks, the Nash equilibrium action of each agent is proportional to her Bonacich centrality. This is the ``Bonacich-Nash linkage'' --- the first clean mapping from network position to economic outcome.
+\citet{ballester2006whos} proved the foundational result: in linear-quadratic games on networks, the Nash equilibrium action of each agent is proportional to her Bonacich centrality. This is the ``Bonacich-Nash linkage'' --- the first clean mapping from network position to economic outcome.
 
 \begin{intuition}[Getting closer]
 Katz and Bonacich already make the centrality of your neighbors matter, through the indirect paths. But both depend on a parameter that must be chosen by the analyst, and different values give different rankings. There is no ``canonical'' Bonacich centrality.
@@ -248,7 +250,7 @@ For a strongly connected network the answer to all three is yes, and the proof i
 \begin{theorem}[Perron-Frobenius]\label{ch06:thm:PF}
 Let $W$ be an $N \times N$ nonnegative matrix ($W_{ij} \geq 0$ for all $i, j$). Then:
 
-\textbf{Part I (Perron, 1907):} If $W > 0$ (all entries strictly positive):
+\textbf{Part I \citep{perron1907theorie}:} If $W > 0$ (all entries strictly positive):
 \begin{enumerate}
 \item $W$ has a real eigenvalue $\rho = \rho(W) > 0$ that is strictly larger in magnitude than all other eigenvalues: $|\lambda_k| < \rho$ for all $k \neq 1$.
 \item The corresponding right eigenvector $\mathbf{v}$ can be chosen strictly positive: $v_i > 0$ for all $i$.
@@ -256,7 +258,7 @@ Let $W$ be an $N \times N$ nonnegative matrix ($W_{ij} \geq 0$ for all $i, j$). 
 \item Both $\mathbf{v}$ and $\boldsymbol{\pi}$ are unique up to normalization.
 \end{enumerate}
 
-\textbf{Part II (Frobenius, 1912):} If $W \geq 0$ (nonnegative, some entries may be zero) and $W$ is \textbf{irreducible} (the network is strongly connected --- every agent can reach every other agent through some chain of positive weights):
+\textbf{Part II \citep{frobenius1912matrizen}:} If $W \geq 0$ (nonnegative, some entries may be zero) and $W$ is \textbf{irreducible} (the network is strongly connected --- every agent can reach every other agent through some chain of positive weights):
 \begin{enumerate}
 \setcounter{enumi}{4}
 \item Items (2)--(4) still hold, and $\rho > 0$ is a simple eigenvalue with $|\lambda_k| \leq \rho$ for all $k$. The \textit{strict} dominance in (1) holds if and only if $W$ is also \textbf{aperiodic} (the greatest common divisor of cycle lengths through any node is 1); an irreducible, aperiodic nonnegative matrix is called \textbf{primitive}. A periodic irreducible $W$ --- a bipartite star, an even ring without self-loops --- has other eigenvalues of modulus $\rho$ (e.g.\ $-\rho$).
@@ -289,7 +291,7 @@ The full proof is in Appendix~\ref{ch06:app:PF_proof}. Here we give the key idea
 
 \textbf{Step 1: The map $T$.} Define $T(\x) = W\x / \|W\x\|_1$ for $\x \geq 0$, $\x \neq 0$. This maps the open simplex $\Delta = \{\x > 0 : \|\x\|_1 = 1\}$ to itself (because $W > 0$ ensures $W\x > 0$).
 
-\textbf{Step 2: $T$ is a contraction.} On $\Delta$ with the Hilbert projective metric $d_H(\x, \y) = \ln\frac{\max_i x_i/y_i}{\min_i x_i/y_i}$, the map $T$ satisfies $d_H(T(\x), T(\y)) \leq \tau \cdot d_H(\x, \y)$ where $\tau < 1$ depends on the ratio of the smallest to largest entry of $W$. This is Birkhoff's contraction theorem (1957).
+\textbf{Step 2: $T$ is a contraction.} On $\Delta$ with the Hilbert projective metric $d_H(\x, \y) = \ln\frac{\max_i x_i/y_i}{\min_i x_i/y_i}$, the map $T$ satisfies $d_H(T(\x), T(\y)) \leq \tau \cdot d_H(\x, \y)$ where $\tau < 1$ depends on the ratio of the smallest to largest entry of $W$. This is Birkhoff's contraction theorem \citeyearpar{birkhoff1957extensions}.
 
 \textbf{Step 3: Fixed point.} $(\Delta, d_H)$ is a complete metric space, so by the Banach fixed-point theorem $T$ has a unique fixed point $\mathbf{v}^*$. This satisfies $W\mathbf{v}^* = \rho \mathbf{v}^*$ where $\rho = \|W\mathbf{v}^*\|_1$. So $\mathbf{v}^*$ is the right Perron eigenvector.
 
@@ -364,14 +366,14 @@ Partition the agents into blocks $B_1$ and $B_2$. Suppose every agent in $B_1$ p
 Let $M$ be the $N \times 2$ block-membership matrix. The hypothesis says $WM = M\bar{W}$ with $\bar{W} = \begin{pmatrix} 1-\varepsilon_1 & \varepsilon_1 \\ \varepsilon_2 & 1-\varepsilon_2 \end{pmatrix}$. Then $(\boldsymbol{\pi}'M)\bar{W} = \boldsymbol{\pi}'WM = \boldsymbol{\pi}'M$, so the block masses $\boldsymbol{\pi}'M$ are the stationary distribution of $\bar{W}$, namely $(\varepsilon_2, \varepsilon_1)/(\varepsilon_1+\varepsilon_2)$. If $\bar{\x}$ is the eigenvector of $\bar{W}$ for $1 - \varepsilon_1 - \varepsilon_2$, then $W(M\bar{\x}) = M\bar{W}\bar{\x} = (1-\varepsilon_1-\varepsilon_2)M\bar{\x}$.
 \end{proof}
 
-So weak coupling does two separate things. It makes $\Gamma$ small (the blocks mix slowly), and it splits power between the blocks in proportion to the \textit{inflows} $\varepsilon_2 : \varepsilon_1$ --- not in proportion to block size or to any spectral radius. Symmetric coupling ($\varepsilon_1 = \varepsilon_2$, equal block sizes, doubly stochastic blocks) gives perfectly equal power with $\Gamma$ as small as we like. As $\varepsilon \to 0$ the distribution \textit{within} each block approaches that block's own Perron vector (Simon--Ando aggregation; Meyer, 2000). Exactly block-diagonal $W$ is reducible: then each block has its own Perron vector and $\boldsymbol{\pi}$ is not unique.
+So weak coupling does two separate things. It makes $\Gamma$ small (the blocks mix slowly), and it splits power between the blocks in proportion to the \textit{inflows} $\varepsilon_2 : \varepsilon_1$ --- not in proportion to block size or to any spectral radius. Symmetric coupling ($\varepsilon_1 = \varepsilon_2$, equal block sizes, doubly stochastic blocks) gives perfectly equal power with $\Gamma$ as small as we like. As $\varepsilon \to 0$ the distribution \textit{within} each block approaches that block's own Perron vector (Simon--Ando aggregation; \citealp{meyer2000matrix}). Exactly block-diagonal $W$ is reducible: then each block has its own Perron vector and $\boldsymbol{\pi}$ is not unique.
 
 \begin{proposition}[The Welfare Theorem Revisited]\label{ch06:prop:welfare_revisited}
 In the Walrasian benchmark each agent interacts only with the market aggregate, and aggregate demand weights agents by their wealth shares $\mathbf{s}$. The implied interaction matrix is $W^{\text{mkt}} = \ones\mathbf{s}'$: rank one, with $\boldsymbol{\pi}(W^{\text{mkt}}) = \mathbf{s}$ and $\Gamma(W^{\text{mkt}}) = 1$. $\Wce = \frac{1}{N}\ones\ones'$ is the equal-wealth special case. The First Welfare Theorem holds for \emph{every} $\mathbf{s}$, under local nonsatiation, complete markets, price-taking and no externalities ($W^U = 0$).
 \end{proposition}
 
 \begin{proof}
-$\mathbf{s}'(\ones\mathbf{s}') = (\mathbf{s}'\ones)\mathbf{s}' = \mathbf{s}'$, and $\ones\mathbf{s}'$ has rank one, so its eigenvalues are $1$ and $0$ ($N-1$ times): $\Gamma = 1$. The First Welfare Theorem is the standard one (e.g.\ Mas-Colell, Whinston and Green, 1995, Prop.~16.C.1); its hypotheses do not involve $\mathbf{s}$.
+$\mathbf{s}'(\ones\mathbf{s}') = (\mathbf{s}'\ones)\mathbf{s}' = \mathbf{s}'$, and $\ones\mathbf{s}'$ has rank one, so its eigenvalues are $1$ and $0$ ($N-1$ times): $\Gamma = 1$. The First Welfare Theorem is the standard one \citep[e.g.][Prop.~16.C.1]{mascolell1995microeconomic}; its hypotheses do not involve $\mathbf{s}$.
 \end{proof}
 
 Hence unequal power, by itself, does not make an equilibrium inefficient: the Walrasian equilibrium with unequal wealth is Pareto efficient and has unequal $\boldsymbol{\pi}$. What breaks efficiency is utility interdependence ($W^U \neq 0$) and missing markets. What unequal power does is \textit{distributional}: Chapter~7 shows how $\boldsymbol{\pi}$ shifts the division of a surplus, at a utilitarian (not Pareto) cost.
@@ -612,7 +614,7 @@ W = \begin{pmatrix} 0 & 0 & 0.5 & 0.5 \\ 0 & 0 & 0.5 & 0.5 \\ 0.5 & 0.5 & 0 & 0 
 \begin{enumerate}
 \item Compute Bonacich centrality with $\beta = 0.3$ (cooperation) and $\beta = -0.3$ (bargaining).
 \item Under bargaining ($\beta < 0$), which agents have higher centrality? Why?
-\item Relate to Manea's (2011) bargaining result: in symmetric bipartite networks, all agents have equal bargaining power. Does the eigenvector centrality confirm this? Compute $\Gamma$ for this $W$ and explain the value (the network is bipartite).
+\item Relate to Manea's \citeyearpar{manea2011bargaining} bargaining result: in symmetric bipartite networks, all agents have equal bargaining power. Does the eigenvector centrality confirm this? Compute $\Gamma$ for this $W$ and explain the value (the network is bipartite).
 \end{enumerate}
 
 \item \textbf{Power iteration by hand.} For $W = \begin{pmatrix} 0.6 & 0.4 \\ 0.2 & 0.8 \end{pmatrix}$:
@@ -694,7 +696,7 @@ All numbers in this chapter are reproduced by \texttt{code/ch06.py}.
 \addcontentsline{toc}{subsection}{Appendix 6B: Proof of Perron-Frobenius (Positive Case)}
 \label{ch06:app:PF_proof}
 
-We prove Theorem~\ref{ch06:thm:PF} for the case $W > 0$ (all entries strictly positive). The irreducible case requires additional machinery (see Horn and Johnson, 2012, Chapter~8).
+We prove Theorem~\ref{ch06:thm:PF} for the case $W > 0$ (all entries strictly positive). The irreducible case requires additional machinery \citep[see][Chapter~8]{horn2012matrix}.
 
 \paragraph{Setup.} Let $W > 0$ be $N \times N$ with all entries strictly positive. Define the positive cone $\mathcal{K} = \{\x \in \R^N : x_i > 0 \text{ for all } i\}$ and the simplex $\Delta = \{\x \in \mathcal{K} : \|\x\|_1 = 1\}$.
 
@@ -716,7 +718,7 @@ This is a pseudo-metric on the positive cone ($d_H(\x, \y) = 0$ iff $\x = c\y$ f
 
 \paragraph{Step 7: Algebraic simplicity.} If $\rho$ were not algebraically simple, there would be $\mathbf{w}$ with $(W - \rho I)\mathbf{w} = \mathbf{v}^*$. Premultiplying by $\boldsymbol{\pi}'$ gives $0 = \boldsymbol{\pi}'\mathbf{v}^* > 0$, a contradiction.
 
-This completes the proof for the positive case. For an irreducible and aperiodic $W$, some power $W^m$ is positive, and applying the result to $W^m$ yields items (1)--(4) for $W$; for irreducible periodic $W$ only (2)--(4) survive (Horn and Johnson, 2012, Chapter~8). $\square$
+This completes the proof for the positive case. For an irreducible and aperiodic $W$, some power $W^m$ is positive, and applying the result to $W^m$ yields items (1)--(4) for $W$; for irreducible periodic $W$ only (2)--(4) survive \citep[Chapter~8]{horn2012matrix}. $\square$
 
 \subsection*{Appendix 6C: Perturbation of the Perron Vector and of the Spectral Gap}
 \addcontentsline{toc}{subsection}{Appendix 6C: Perturbation of the Perron Vector and of the Spectral Gap}
@@ -802,15 +804,14 @@ The Perron-Frobenius theorem guarantees that $\boldsymbol{\pi}$ exists and is un
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{The Perron-Frobenius theorem:} Horn and Johnson (2012), \textit{Matrix Analysis}, Chapter~8 --- the definitive treatment. Seneta (2006), \textit{Non-Negative Matrices and Markov Chains} --- for the probabilistic perspective. Meyer (2000), \textit{Matrix Analysis and Applied Linear Algebra}, Chapter~8 --- accessible.
+\textbf{The Perron-Frobenius theorem:} \citet{horn2012matrix}, \textit{Matrix Analysis}, Chapter~8 --- the definitive treatment. \citet{seneta2006nonnegative}, \textit{Non-Negative Matrices and Markov Chains} --- for the probabilistic perspective. \citet{meyer2000matrix}, \textit{Matrix Analysis and Applied Linear Algebra}, Chapter~8 --- accessible.
 
-\textbf{Centrality measures:} Bonacich (1987), ``Power and Centrality: A Family of Measures,'' \textit{American Journal of Sociology}. Ballester, Calv\'{o}-Armengol, and Zenou (2006), ``Who's Who in Networks,'' \textit{Econometrica}. Jackson (2008), \textit{Social and Economic Networks}, Chapter~2.
+\textbf{Centrality measures:} \citet{bonacich1987power}, ``Power and Centrality: A Family of Measures.'' \citet{ballester2006whos}, ``Who's Who in Networks.'' \citet{jackson2008social}, \textit{Social and Economic Networks}, Chapter~2.
 
-% TODO-VERIFY: venue of Golub (2025), "Eigenvalues in Microeconomics" (arXiv preprint? Notices of the AMS?).
-\textbf{Spectral methods in economics:} Golub (2025), ``Eigenvalues in Microeconomics,'' \textit{Notices of the AMS}. Sargent and Stachurski (2024), \textit{Economic Networks}, Chapters~2--3. Acemoglu et al.\ (2012), ``Network Origins of Aggregate Fluctuations,'' for the ``influence vector'' $(\alpha/N)\ones'(I - (1-\alpha)W^P)^{-1}$ --- a Katz/Leontief object whose $\alpha \to 0$ limit is the Perron vector of the input-share matrix. Kemeny and Snell (1960), \textit{Finite Markov Chains}, and Meyer (1980), on the fundamental matrix used in Appendix~6C.
+\textbf{Spectral methods in economics:} \citet{golub2025eigenvalues}, ``Eigenvalues in Microeconomics.'' \citet{sargent2024economic}, \textit{Economic Networks}, Chapters~2--3. \citet{acemoglu2012network}, ``Network Origins of Aggregate Fluctuations,'' for the ``influence vector'' $(\alpha/N)\ones'(I - (1-\alpha)W^P)^{-1}$ --- a Katz/Leontief object whose $\alpha \to 0$ limit is the Perron vector of the input-share matrix. \citet{kemeny1960finite}, \textit{Finite Markov Chains}, and \citet{meyer1980condition}, on the fundamental matrix used in Appendix~6C.
 
-\textbf{Birkhoff's contraction:} Birkhoff (1957), ``Extensions of Jentzsch's Theorem,'' \textit{Transactions of the AMS}. Lemmens and Nussbaum (2012), \textit{Nonlinear Perron-Frobenius Theory} --- the modern reference.
+\textbf{Birkhoff's contraction:} \citet{birkhoff1957extensions}, ``Extensions of Jentzsch's Theorem.'' \citet{lemmens2012nonlinear}, \textit{Nonlinear Perron-Frobenius Theory} --- the modern reference.
 
-\textbf{The structuralist tradition on power:} Prebisch (1981), \textit{Capitalismo Perif\'{e}rico: Crisis y Transformaci\'{o}n}, M\'{e}xico: FCE (the primary source for the case study above). Marini (1973), \textit{Dial\'{e}ctica de la dependencia} (superexploitation as $\pi_{\text{worker}} \ll 1/N$). Quijano (2000), ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (power as a multi-layer matrix).
+\textbf{The structuralist tradition on power:} \citet{prebisch1981capitalismo}, \textit{Capitalismo Perif\'{e}rico: Crisis y Transformaci\'{o}n}, M\'{e}xico: FCE (the primary source for the case study above). \citet{marini1973dialectica}, \textit{Dial\'{e}ctica de la dependencia} (superexploitation as $\pi_{\text{worker}} \ll 1/N$). \citet{quijano2000colonialidad}, ``Colonialidad del poder, eurocentrismo y Am\'{e}rica Latina'' (power as a multi-layer matrix).
 
 \end{document}

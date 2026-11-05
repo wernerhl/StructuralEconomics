@@ -9,6 +9,7 @@
 \textnormal{[``By dependence we mean a situation in which the economy of certain countries is conditioned by the development and expansion of another economy to which the former is subjected.'']}\\
 \hfill --- Theot\^{o}nio dos Santos, \textit{La estructura de la dependencia} (1970)
 \end{quote}
+\nocite{dossantos1970structure}
 
 \vspace{0.3em}
 
@@ -135,7 +136,7 @@ Here we develop $W^P$ as one of three networks, clarify what it shares with $W^U
 \begin{definition}[Production Network]\label{ch05:def:WP}
 The \textbf{production network} $W^P$ is the $N \times N$ row-stochastic matrix with $W^P_{ij} \geq 0$ the weight of agent (or sector) $j$ in agent $i$'s production: how much $i$ depends on $j$'s output.
 
-In the inter-sectoral interpretation, $W^P = D^{-1}A$ with $D = \operatorname{diag}(A\ones)$: $W^P_{ij} = a_{ij}/\sum_k a_{ik}$ is the share of input $j$ in sector $i$'s intermediate costs (the input-share matrix of Acemoglu et al., 2012). The technical coefficients $a_{ij}$ themselves (units of good $j$ per unit of good $i$) stay in $A$.
+In the inter-sectoral interpretation, $W^P = D^{-1}A$ with $D = \operatorname{diag}(A\ones)$: $W^P_{ij} = a_{ij}/\sum_k a_{ik}$ is the share of input $j$ in sector $i$'s intermediate costs (the input-share matrix of \citealt{acemoglu2012network}). The technical coefficients $a_{ij}$ themselves (units of good $j$ per unit of good $i$) stay in $A$.
 
 In the inter-agent interpretation, $W^P_{ij}$ captures production spillovers: how much $j$'s activity increases $i$'s productivity. This includes knowledge spillovers, shared infrastructure, supply chain dependencies, and agglomeration effects.
 \end{definition}
@@ -185,7 +186,7 @@ Benchmark model & $W^U = 0$ & Technology, taken as given (I-O tables exist) \\
 
 \subsection{The Missing Network}
 
-$W^U$ has been studied (under the name ``social preferences'' or ``other-regarding preferences'') since at least Becker (1974). $W^P$ has been studied (under the name ``input-output analysis'') since Leontief (1941). $W^I$ --- the network through which information, signals, and norms flow, shaping beliefs and eventually preferences --- is the one the benchmark general-equilibrium model leaves out. It is far from absent in economics: a large literature studies social learning on networks, from DeGroot (1974) through herding models (Banerjee, 1992) and learning from neighbors (Bala and Goyal, 1998) to Golub and Jackson (2010). What this book adds is to put it in the same framework as $W^U$ and $W^P$.
+$W^U$ has been studied (under the name ``social preferences'' or ``other-regarding preferences'') since at least \citet{becker1974theory}. $W^P$ has been studied (under the name ``input-output analysis'') since \citet{leontief1941structure}. $W^I$ --- the network through which information, signals, and norms flow, shaping beliefs and eventually preferences --- is the one the benchmark general-equilibrium model leaves out. It is far from absent in economics: a large literature studies social learning on networks, from \citet{degroot1974reaching} through herding models \citep{banerjee1992simple} and learning from neighbors \citep{bala1998learning} to \citet{golub2010naive}. What this book adds is to put it in the same framework as $W^U$ and $W^P$.
 
 It is not $W^U$ and it is not $W^P$. And, for the questions of Part~III, it is arguably the most important of the three.
 
@@ -468,7 +469,7 @@ Several additional topologies appear in applications:
 
 \textbf{Hierarchy} (tree): Top-down connections. Firms, bureaucracies, military, caste. Power typically falls with depth in the tree. Information flows down; surplus flows up.
 
-\textbf{Small-world}: Local clusters plus random long-range shortcuts. Most social networks exhibit this structure (Watts and Strogatz, 1998). High clustering with short path lengths. Ideas diffuse faster than in a ring but less uniformly than in a complete graph.
+\textbf{Small-world}: Local clusters plus random long-range shortcuts. Most social networks exhibit this structure \citep{watts1998collective}. High clustering with short path lengths. Ideas diffuse faster than in a ring but less uniformly than in a complete graph.
 
 \textbf{Scale-free}: Few super-connected hubs, many weakly connected nodes. Power-law degree distribution. Wealth, internet, citation networks. For a random walk on an undirected network $\pi_i$ is proportional to degree, so the degree inequality becomes power inequality.
 
@@ -817,7 +818,7 @@ In 1970, Theot\^{o}nio dos Santos published ``The Structure of Dependence'' in t
 
 \textbf{Regime 2: Financial-industrial dependence (late 19th century).} Big capital invests in raw material and agricultural production for export to hegemonic centers. The star becomes a \textbf{hub-spoke with multiple hubs}: several industrial powers (Britain, France, the US) each have their own peripheral suppliers. $W^P$ now has a few bright columns instead of one. The periphery begins to develop limited internal linkages (railways for commodity transport, ports, basic processing), adding small off-diagonal entries among peripheral nodes. But the dominant flows still point toward the center. $W^I$ remains center-dominated: economic policy knowledge flows from London and New York.
 
-\textbf{Regime 3: Technological-industrial dependence (post-WWII).} Multinational corporations invest in industries oriented toward the internal market of the underdeveloped countries. The topology becomes more complex: MNCs create \textbf{bridging nodes} that connect the domestic $W^P$ to the global $W^P$ through intra-firm trade. The domestic matrix acquires new blocks (the MNC-owned modern sector), but these blocks connect outward to headquarters rather than inward to the traditional domestic sector. This anticipates what Sunkel (1971) would call ``transnational integration and national disintegration'' --- in matrix terms, a rewiring: cross-country edges among elite nodes strengthen while within-country edges between modern and traditional blocks weaken. The information network $W^I$ becomes layered: the MNC subsidiary receives technical knowledge from headquarters ($W^I_{\text{subsidiary, HQ}}$ large) but does not transmit local knowledge back ($W^I_{\text{HQ, subsidiary}} \approx 0$).
+\textbf{Regime 3: Technological-industrial dependence (post-WWII).} Multinational corporations invest in industries oriented toward the internal market of the underdeveloped countries. The topology becomes more complex: MNCs create \textbf{bridging nodes} that connect the domestic $W^P$ to the global $W^P$ through intra-firm trade. The domestic matrix acquires new blocks (the MNC-owned modern sector), but these blocks connect outward to headquarters rather than inward to the traditional domestic sector. This anticipates what \citet{sunkel1971capitalismo} would call ``transnational integration and national disintegration'' --- in matrix terms, a rewiring: cross-country edges among elite nodes strengthen while within-country edges between modern and traditional blocks weaken. The information network $W^I$ becomes layered: the MNC subsidiary receives technical knowledge from headquarters ($W^I_{\text{subsidiary, HQ}}$ large) but does not transmit local knowledge back ($W^I_{\text{HQ, subsidiary}} \approx 0$).
 
 \begin{center}
 {\small
@@ -843,18 +844,18 @@ The three networks of this chapter --- $W^U$, $W^P$, $W^I$ --- offer one formali
 \subsection*{Further Reading}
 \addcontentsline{toc}{subsection}{Further Reading}
 
-\textbf{Social preferences and externalities:} Fehr and Schmidt (1999), ``A Theory of Fairness, Competition, and Cooperation,'' \textit{QJE}. Sobel (2005), ``Interdependent Preferences and Reciprocity,'' \textit{JEL}. Bowles and Gintis (2011), \textit{A Cooperative Species}.
+\textbf{Social preferences and externalities:} \citet{fehr1999theory}, ``A Theory of Fairness, Competition, and Cooperation.'' \citet{sobel2005interdependent}, ``Interdependent Preferences and Reciprocity.'' \citet{bowles2011cooperative}, \textit{A Cooperative Species}.
 
-\textbf{Production networks:} See readings from Chapters~1 and~3. The comprehensive reference is now Carvalho and Tahbaz-Salehi (2019), ``Production Networks: A Primer,'' \textit{Annual Review of Economics}.
+\textbf{Production networks:} See readings from Chapters~1 and~3. The comprehensive reference is now \citet{carvalho2019production}, ``Production Networks: A Primer.''
 
-\textbf{DeGroot learning:} DeGroot (1974), ``Reaching a Consensus.'' Banerjee (1992), ``A Simple Model of Herd Behavior,'' \textit{QJE}. Bala and Goyal (1998), ``Learning from Neighbours,'' \textit{Review of Economic Studies}. Golub and Jackson (2010), ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds,'' \textit{AEJ: Microeconomics}. This is the key paper on convergence, influence, and the Perron eigenvector in learning models.
+\textbf{DeGroot learning:} \citet{degroot1974reaching}, ``Reaching a Consensus.'' \citet{banerjee1992simple}, ``A Simple Model of Herd Behavior.'' \citet{bala1998learning}, ``Learning from Neighbours.'' \citet{golub2010naive}, ``Na\"{i}ve Learning in Social Networks and the Wisdom of Crowds.'' This is the key paper on convergence, influence, and the Perron eigenvector in learning models.
 
-\textbf{Network economics textbooks:} Jackson (2008), \textit{Social and Economic Networks}. Goyal (2023), \textit{Networks: An Economics Approach}. Sargent and Stachurski (2024), \textit{Economic Networks}.
+\textbf{Network economics textbooks:} \citet{jackson2008social}, \textit{Social and Economic Networks}. \citet{goyal2023networks}, \textit{Networks: An Economics Approach}. \citet{sargent2024economic}, \textit{Economic Networks}.
 
-\textbf{The interaction of multiple networks:} Kivel\"{a} et al.\ (2014), ``Multilayer Networks,'' \textit{Journal of Complex Networks}. For the economic application: the composite $W$ is related to the ``multiplex'' framework in network science.
+\textbf{The interaction of multiple networks:} \citet{kivela2014multilayer}, ``Multilayer Networks.'' For the economic application: the composite $W$ is related to the ``multiplex'' framework in network science.
 
-\textbf{Dependency and information:} Cardoso and Faletto (1969), \textit{Dependency and Development in Latin America}. For the modern formalization: Acemoglu et al.\ (2010), ``Spread of (Mis)information in Social Networks,'' \textit{Games and Economic Behavior}.
+\textbf{Dependency and information:} \citet{cardoso1979dependency}, \textit{Dependency and Development in Latin America}. For the modern formalization: \citet{acemoglu2010spread}, ``Spread of (Mis)information in Social Networks.''
 
-\textbf{Dependency theory:} Dos Santos (1970), ``The Structure of Dependence,'' \textit{AER} 60(2), pp.~231--236 (the six pages that define the taxonomy formalized in the case study above). Dos Santos (1978), \textit{Imperialismo y Dependencia}, M\'{e}xico: Era. Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional,'' \textit{Estudios Internacionales} 4(16).
+\textbf{Dependency theory:} \citet{dossantos1970structure}, ``The Structure of Dependence'' (the six pages that define the taxonomy formalized in the case study above). \citet{dossantos1978imperialismo}, \textit{Imperialismo y Dependencia}, M\'{e}xico: Era. \citet{sunkel1971capitalismo}, ``Capitalismo transnacional y desintegraci\'{o}n nacional.''
 
 \end{document}

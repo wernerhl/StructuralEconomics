@@ -9,6 +9,7 @@
 \textnormal{[``Underdevelopment is not a `moment' or a `stage' in the evolution of an isolated and autonomous society, but part of the global historical process of capitalist development.'']}\\
 \hfill --- Osvaldo Sunkel and Pedro Paz, \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} (1970)
 \end{quote}
+\nocite{sunkel1970subdesarrollo}
 
 \vspace{1em}
 
@@ -58,7 +59,7 @@ Large anonymous markets for standardized goods. The buyer of a barrel of oil on 
 
 \textbf{Small communities.} In a village or a tight-knit neighborhood, people know each other. The api vendor cares about her comadre's income. The shopkeeper cares about the schoolteacher's welfare. Utility externalities are large, local, and asymmetric.
 
-\textbf{Status competition.} Veblen (1899), Duesenberry (1949), Frank (1985): consumption generates externalities through social comparison. A neighbor's new car reduces your satisfaction with your old one. The externality is negative and proportional to the visibility of consumption.
+\textbf{Status competition.} \citet{veblen1899theory}, \citet{duesenberry1949income}, \citet{frank1985choosing}: consumption generates externalities through social comparison. A neighbor's new car reduces your satisfaction with your old one. The externality is negative and proportional to the visibility of consumption.
 
 \textbf{Network effects.} Adoption of a technology by agent $j$ raises the value of the technology for agent $i$ (telephones, social media, payment systems). $W^U_{ij} > 0$ for complementary users.
 
@@ -80,7 +81,7 @@ where $c_j^U = \sum_{i \neq j} W^U_{ij}$ is agent $j$'s externality centrality i
 
 \subsection{The Formal Condition}
 
-The technical coefficients matrix $A$ is treated as a technological parameter: determined by engineering, not by economic choices. The Leontief system takes $A$ as data and solves for output given final demand. This is a feature of the fixed-coefficient benchmark, not of general-equilibrium theory as such: with Cobb-Douglas or CES technologies, input shares respond to prices, and recent work makes the network itself endogenous (Oberfield 2018; Acemoglu and Azar 2020). What such work rarely does is treat $A$ as an object of development policy.
+The technical coefficients matrix $A$ is treated as a technological parameter: determined by engineering, not by economic choices. The Leontief system takes $A$ as data and solves for output given final demand. This is a feature of the fixed-coefficient benchmark, not of general-equilibrium theory as such: with Cobb-Douglas or CES technologies, input shares respond to prices, and recent work makes the network itself endogenous \citep{oberfield2018theory,acemoglu2020endogenous}. What such work rarely does is treat $A$ as an object of development policy.
 
 \subsection{When It Approximately Holds}
 
@@ -88,9 +89,9 @@ Short-run analysis. In a given year, a steel plant requires a specific amount of
 
 \subsection{When It Fails}
 
-\textbf{ISI as structural policy.} The entire history of import-substitution industrialization is an attempt to \textit{change} $A$ --- to build domestic production of goods previously imported. Tavares (1972) documented how each external bottleneck provoked a structural response that altered the domestic input-output matrix. $A$ is a policy variable, not a constant.
+\textbf{ISI as structural policy.} The entire history of import-substitution industrialization is an attempt to \textit{change} $A$ --- to build domestic production of goods previously imported. \citet{tavares1972substituicao} documented how each external bottleneck provoked a structural response that altered the domestic input-output matrix. $A$ is a policy variable, not a constant.
 
-\textbf{Endogenous specialization.} Countries choose what to produce. The product space (Hidalgo et al., 2007) shows that diversification follows path-dependent trajectories shaped by the existing productive structure: a country that produces wine can more easily diversify into grapes, bottles, and corks than into semiconductors. The production network evolves.
+\textbf{Endogenous specialization.} Countries choose what to produce. The product space \citep{hidalgo2007product} shows that diversification follows path-dependent trajectories shaped by the existing productive structure: a country that produces wine can more easily diversify into grapes, bottles, and corks than into semiconductors. The production network evolves.
 
 \textbf{FDI and global value chains.} When a multinational opens an assembly plant, it inserts new rows and columns into the domestic $A$, connecting the domestic economy to the global production network. The entries of $A$ reflect corporate decisions, not just technology.
 
@@ -116,7 +117,7 @@ The steady state satisfies $\Delta\K^* = S L_\gamma \mathbf{f}(\K^*)$. Different
 
 \subsection{The Formal Condition}
 
-The benchmark Arrow--Debreu model abstracts from belief formation through social networks: agents know the relevant prices and probabilities, and there is no mechanism through which one agent's beliefs influence another's --- no $W^I$. Mainstream economics relaxes much of this, with asymmetric information and with Bayesian learning in social networks (Acemoglu, Dahleh, Lobel and Ozdaglar 2011). What it rarely does is make the weights $W^I$ themselves the object of study.
+The benchmark Arrow--Debreu model abstracts from belief formation through social networks: agents know the relevant prices and probabilities, and there is no mechanism through which one agent's beliefs influence another's --- no $W^I$. Mainstream economics relaxes much of this, with asymmetric information and with Bayesian learning in social networks \citep{acemoglu2011bayesian}. What it rarely does is make the weights $W^I$ themselves the object of study.
 
 \subsection{When It Approximately Holds}
 
@@ -124,7 +125,7 @@ Financial markets with mandatory disclosure, standardized goods with transparent
 
 \subsection{When It Fails}
 
-\textbf{DeGroot-style learning.} Agents in many real-world settings do not observe the data-generating process. They observe their neighbors' behavior, their social media feeds, their peers' outcomes. There is experimental evidence that, in some settings, people update closer to a weighted average of neighbors' beliefs than to the Bayesian benchmark (Chandrasekhar, Larreguy and Xandri 2020). Under such averaging the long-run consensus weights are the Perron vector of $W^I$ (DeGroot 1974): the agents with the most epistemic power determine the consensus, whether or not their initial beliefs are correct. Golub and Jackson (2010) characterize when the consensus is nevertheless correct in large networks (the ``wisdom of crowds'').
+\textbf{DeGroot-style learning.} Agents in many real-world settings do not observe the data-generating process. They observe their neighbors' behavior, their social media feeds, their peers' outcomes. There is experimental evidence that, in some settings, people update closer to a weighted average of neighbors' beliefs than to the Bayesian benchmark \citep{chandrasekhar2020testing}. Under such averaging the long-run consensus weights are the Perron vector of $W^I$ \citep{degroot1974reaching}: the agents with the most epistemic power determine the consensus, whether or not their initial beliefs are correct. \citet{golub2010naive} characterize when the consensus is nevertheless correct in large networks (the ``wisdom of crowds'').
 
 \textbf{Media concentration.} When a few outlets control information flow, $W^I$ is star-shaped: everyone listens to the hub. The consensus converges to the hub's beliefs. State media, monopoly platforms, and algorithmic feeds all produce this topology.
 
@@ -218,7 +219,7 @@ The equation is self-referential: $\pi_i$ depends on $\pi_j$ for all $j$ who poi
 
 The preference parameter $\theta_i$ --- patience, risk aversion, time discount, aspiration level, labor supply elasticity --- is a primitive of the model. It does not change over time, does not respond to the network, and is not influenced by the allocations that the model produces.
 
-This is close to the Becker-Stigler (1977) position, ``de gustibus non est disputandum'': tastes are stable over time and similar across people, and apparent differences in tastes are to be explained by prices, incomes and accumulated consumption capital rather than by changing preferences. The economist's job is to derive behavior from stable preferences, not to explain the preferences themselves.
+This is close to the \citet{stigler1977gustibus} position, ``de gustibus non est disputandum'': tastes are stable over time and similar across people, and apparent differences in tastes are to be explained by prices, incomes and accumulated consumption capital rather than by changing preferences. The economist's job is to derive behavior from stable preferences, not to explain the preferences themselves.
 
 \subsection{When It Approximately Holds}
 
@@ -228,7 +229,7 @@ Short-run analysis with stable social environments. If nothing in the agent's in
 
 \textbf{Intergenerational change.} Preferences visibly evolve across generations: attitudes toward gender roles, savings behavior, educational aspirations, labor force participation norms. These are not random mutations --- they correlate with changes in the information environment. The girl in Potos\'{i} with a phone has different aspirations than her mother, not because of a random preference shock but because $W^I$ changed.
 
-\begin{sloppypar}\textbf{Peer effects.} Sacerdote (2001), Duflo and Saez (2003): randomly assigned roommates and coworkers' information influence academic outcomes and retirement-savings decisions. Choices are contagious --- they travel along $W^I$; whether the underlying preferences travel too is what Part~III asks.\end{sloppypar}
+\begin{sloppypar}\textbf{Peer effects.} \citet{sacerdote2001peer}, \citet{duflo2003role}: randomly assigned roommates and coworkers' information influence academic outcomes and retirement-savings decisions. Choices are contagious --- they travel along $W^I$; whether the underlying preferences travel too is what Part~III asks.\end{sloppypar}
 
 \textbf{Advertising and media.} $W^I$ is deliberately shaped by actors who benefit from specific preference configurations. Advertising can shift preferences as well as inform; to the extent it does, it changes $\theta$.
 
@@ -491,7 +492,7 @@ W = \begin{pmatrix} 0.5 & 0.3 & 0.2 \\ 0.1 & 0.7 & 0.2 \\ 0.2 & 0.1 & 0.7 \end{p
 \item Rank the six departures from largest to smallest. Which structural feature of Bolivia is the most severe deviation from the competitive benchmark?
 \end{enumerate}
 
-\item \textbf{Sunkel's five processes.} Sunkel (1971) argued, in substance, that development, underdevelopment, dependency, marginalization, and spatial inequality are manifestations of a single process of transnational integration and national disintegration.
+\item \textbf{Sunkel's five processes.} \citet{sunkel1971capitalismo} argued, in substance, that development, underdevelopment, dependency, marginalization, and spatial inequality are manifestations of a single process of transnational integration and national disintegration.
 % TODO-VERIFY: the phrase "diverse manifestations of a single process" was previously quoted here; find the wording in Sunkel (1971), Estudios Internacionales 4(16), or keep it as a paraphrase. Formalize this: define each of the five processes as a property of the weight matrix $W$ or its components ($W^U$, $W^P$, $W^I$). What is the ``single process'' in matrix terms?
 
 \item \textbf{A6 is the deepest.} Consider two economists:
@@ -538,7 +539,7 @@ If the components have different eigenvectors, the composite $\boldsymbol{\pi}(W
 \addcontentsline{toc}{subsection}{Structuralist Case Study: Sunkel and Paz (1970)}
 %% =====================================================================
 
-In 1970, Osvaldo Sunkel and Pedro Paz published \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} through ILPES/Siglo XXI --- a 385-page treatise that remains the most comprehensive systematic critique of orthodox development theory from the structuralist perspective. Where Prebisch (1949) was a manifesto and Furtado (1961) was a theoretical essay, Sunkel and Paz was a textbook: methodical, exhaustive, and organized as a point-by-point examination of what mainstream economics assumes and why those assumptions fail in the periphery.
+In 1970, Osvaldo Sunkel and Pedro Paz published \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo} through ILPES/Siglo XXI --- a 385-page treatise that remains the most comprehensive systematic critique of orthodox development theory from the structuralist perspective. Where \citet{prebisch1949desarrollo} was a manifesto and \citet{furtado1961desenvolvimento} was a theoretical essay, Sunkel and Paz was a textbook: methodical, exhaustive, and organized as a point-by-point examination of what mainstream economics assumes and why those assumptions fail in the periphery.
 
 Their argument maps directly onto the six assumptions of this chapter.
 
@@ -570,14 +571,14 @@ Sunkel and Paz's book is the structuralist critique organized as a textbook. Thi
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{The welfare theorems and their assumptions:} MWG (1995), Chapter~16; Debreu (1959); Arrow (1951). For the assumptions' failure in developing economies: Stiglitz (1989), ``Markets, Market Failures, and Development,'' \textit{AER P\&P}.
+\textbf{The welfare theorems and their assumptions:} \citet{mascolell1995microeconomic}, Chapter~16; \citet{debreu1959theory}; \citet{arrow1951extension}. For the assumptions' failure in developing economies: \citet{stiglitz1989markets}, ``Markets, Market Failures, and Development.''
 
-\textbf{Endogenous production networks:} Acemoglu et al.\ (2012); Baqaee and Farhi (2019); Oberfield (2018), ``A Theory of Input-Output Architecture,'' \textit{Econometrica}; Acemoglu and Azar (2020), ``Endogenous Production Networks,'' \textit{Econometrica}; Hidalgo et al.\ (2007), ``The Product Space Conditions the Development of Nations,'' \textit{Science}.
+\textbf{Endogenous production networks:} \citet{acemoglu2012network}; \citet{baqaee2019macroeconomic}; \citet{oberfield2018theory}, ``A Theory of Input-Output Architecture''; \citet{acemoglu2020endogenous}, ``Endogenous Production Networks''; \citet{hidalgo2007product}, ``The Product Space Conditions the Development of Nations.''
 
-\textbf{Information networks and belief dynamics:} DeGroot (1974); Golub and Jackson (2010); Chandrasekhar, Larreguy, and Xandri (2020), ``Testing Models of Social Learning on Networks,'' \textit{Econometrica}; Acemoglu et al.\ (2011), ``Bayesian Learning in Social Networks,'' \textit{ReStud}.
+\textbf{Information networks and belief dynamics:} \citet{degroot1974reaching}; \citet{golub2010naive}; \citet{chandrasekhar2020testing}, ``Testing Models of Social Learning on Networks''; \citet{acemoglu2011bayesian}, ``Bayesian Learning in Social Networks.''
 
-\textbf{Endogenous preferences:} Bowles (1998), ``Endogenous Preferences: The Cultural Consequences of Markets and Other Economic Institutions,'' \textit{JEL}; Bisin and Verdier (2001), ``The Economics of Cultural Transmission and the Dynamics of Preferences,'' \textit{JET}.
+\textbf{Endogenous preferences:} \citet{bowles1998endogenous}, ``Endogenous Preferences: The Cultural Consequences of Markets and Other Economic Institutions''; \citet{bisin2001economics}, ``The Economics of Cultural Transmission and the Dynamics of Preferences.''
 
-\textbf{The structuralist critique:} Sunkel and Paz (1970), \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}, M\'{e}xico: Siglo XXI / ILPES (the definitive systematic treatment; the full text in Spanish is available through CEPAL's digital repository). Sunkel (1971), ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina,'' \textit{Estudios Internacionales} 4(16), pp.~3--61.
+\textbf{The structuralist critique:} \citet{sunkel1970subdesarrollo}, \textit{El subdesarrollo latinoamericano y la teor\'{i}a del desarrollo}, M\'{e}xico: Siglo XXI / ILPES (the definitive systematic treatment; the full text in Spanish is available through CEPAL's digital repository). \citet{sunkel1971capitalismo}, ``Capitalismo transnacional y desintegraci\'{o}n nacional en Am\'{e}rica Latina.''
 
 \end{document}

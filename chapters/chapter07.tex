@@ -9,6 +9,7 @@
 \textnormal{[``The foundation of dependence is the superexploitation of labor --- that is, the fact that labor is remunerated below its value.'']}\\
 \hfill --- Ruy Mauro Marini, \textit{Dial\'{e}ctica de la dependencia} (1973)
 \end{quote}
+\nocite{marini1973dialectica}
 
 \vspace{0.5em}
 
@@ -117,7 +118,7 @@ S_i(\x) = V_i(\x) - d_i.
 \medskip\noindent\textbf{Assumption 7.A (Power as Nash weights).} \textit{The bargaining weights are the Perron vector of the composite weight matrix: agent $i$'s weight is $\pi_i = \pi_i(W)$.}
 \medskip
 
-This is a modelling postulate, not a result. It says that the long-run influence structure of Chapter~6 also governs how a surplus is split. Strategic models of bargaining in networks do not, in general, deliver it: in Manea (2011) and Abreu and Manea (2012) equilibrium payoffs depend on the network in ways that are not eigenvector centrality. Appendix~7B discusses what a microfoundation would have to deliver.
+This is a modelling postulate, not a result. It says that the long-run influence structure of Chapter~6 also governs how a surplus is split. Strategic models of bargaining in networks do not, in general, deliver it: in \citet{manea2011bargaining} and \citet{abreu2012bargaining,abreu2012markov} equilibrium payoffs depend on the network in ways that are not eigenvector centrality. Appendix~7B discusses what a microfoundation would have to deliver.
 
 \begin{definition}[The Bargaining Equilibrium]\label{ch07:def:bargaining_eq}
 The \textbf{bargaining equilibrium} is the allocation $\x^*$ that solves:
@@ -295,7 +296,7 @@ $L_{\text{externality}}$: the cost of unpriced cross-country spillovers. Technol
 
 $L_{\text{interaction}}$: whether the center's cohesion ($W^U_{\text{center, center}} \gg W^U_{\text{center, periphery}}$) raises or lowers the measured loss depends on the sign of $\Cov(c_j, \pi_j)$ --- and, as above, on whether the evaluation counts that cohesion as welfare.
 
-The phrase ``unequal exchange'' is Arghiri Emmanuel's (1969). Prebisch's own mechanism was the secular deterioration of the periphery's terms of trade. In this framework both become statements about $\boldsymbol{\pi}$ and $\Phi$ that can be computed.
+The phrase ``unequal exchange'' is Arghiri Emmanuel's \citeyearpar{emmanuel1969echange}. Prebisch's own mechanism was the secular deterioration of the periphery's terms of trade. In this framework both become statements about $\boldsymbol{\pi}$ and $\Phi$ that can be computed.
 \end{prebisch}
 
 
@@ -607,7 +608,7 @@ The calibration $\kappa x_i < 1$ keeps every agent below satiation, so that $U$ 
 \addcontentsline{toc}{subsection}{Appendix 7B: The Nash Axioms and Network Bargaining}
 \label{ch07:app:nash_axioms}
 
-\paragraph{The Nash bargaining solution.} Nash (1950) showed that four axioms uniquely characterize a bargaining solution:
+\paragraph{The Nash bargaining solution.} \citet{nash1950bargaining} showed that four axioms uniquely characterize a bargaining solution:
 \begin{enumerate}
 \item \textbf{Pareto efficiency}: no Pareto improvement is possible.
 \item \textbf{Symmetry}: if agents are identical, they get the same payoff.
@@ -617,9 +618,9 @@ The calibration $\kappa x_i < 1$ keeps every agent below satiation, so that $U$ 
 
 The unique solution satisfying (1)--(4) is $\x^* = \argmax \prod_i (U_i(x_i) - d_i)$: the product of surpluses.
 
-\paragraph{Asymmetric Nash bargaining.} Kalai (1977) showed that replacing (2) with asymmetric weights $\boldsymbol{\pi}$ gives $\x^* = \argmax \prod_i (U_i(x_i) - d_i)^{\pi_i}$: the weighted product. Taking logs: $\argmax \sum_i \pi_i \ln(U_i(x_i) - d_i)$. This is equation~\eqref{ch07:eq:bargaining}.
+\paragraph{Asymmetric Nash bargaining.} \citet{kalai1977nonsymmetric} showed that replacing (2) with asymmetric weights $\boldsymbol{\pi}$ gives $\x^* = \argmax \prod_i (U_i(x_i) - d_i)^{\pi_i}$: the weighted product. Taking logs: $\argmax \sum_i \pi_i \ln(U_i(x_i) - d_i)$. This is equation~\eqref{ch07:eq:bargaining}.
 
-\paragraph{Where do the weights come from?} In Nash's original formulation, the weights are arbitrary. In Rubinstein's (1982) alternating-offers model, they come from relative patience (discount rates). In this book, they are set equal to the Perron eigenvector, $\pi_i = \pi_i(W)$ --- Assumption~7.A. That is a modelling postulate: it ties the weights to the structure, but it is not derived from a bargaining game. A microfoundation would need a protocol in which an agent's bargaining strength is proportional to her long-run influence in $W$ --- for instance, recognition probabilities equal to the stationary frequency with which a random walk on $W$ visits her. The strategic network-bargaining literature (Manea, 2011; Abreu and Manea, 2012) shows that, with the usual protocols, limit payoffs depend on the network in other ways (through ``oligopoly'' subnetworks and outside options), not through eigenvector centrality. Readers should treat the results of this chapter as conditional on Assumption~7.A.
+\paragraph{Where do the weights come from?} In Nash's original formulation, the weights are arbitrary. In Rubinstein's \citeyearpar{rubinstein1982perfect} alternating-offers model, they come from relative patience (discount rates). In this book, they are set equal to the Perron eigenvector, $\pi_i = \pi_i(W)$ --- Assumption~7.A. That is a modelling postulate: it ties the weights to the structure, but it is not derived from a bargaining game. A microfoundation would need a protocol in which an agent's bargaining strength is proportional to her long-run influence in $W$ --- for instance, recognition probabilities equal to the stationary frequency with which a random walk on $W$ visits her. The strategic network-bargaining literature \citep{manea2011bargaining,abreu2012bargaining,abreu2012markov} shows that, with the usual protocols, limit payoffs depend on the network in other ways (through ``oligopoly'' subnetworks and outside options), not through eigenvector centrality. Readers should treat the results of this chapter as conditional on Assumption~7.A.
 
 
 %% =====================================================================
@@ -658,7 +659,7 @@ Escape is blocked politically, not spectrally & $t\|E\|_\infty \geq \Delta/\|Z\|
 \end{tabularx}
 \end{center}
 
-The \textit{Dial\'{e}ctica} was controversial in its time; its best-known critique is Cardoso and Serra (1978), to which Marini replied in ``Las razones del neodesarrollismo'' (1978). The bargaining equilibrium gives one part of Marini's thesis a testable formulation, conditional on Assumption~7.A: the left Perron eigenvector of the domestic weight matrix assigns workers a share substantially below $1/N$. Compute $W$ from input-output data, labor market surveys, and social network data. Compute $\boldsymbol{\pi}$ and $\Neff$. Compare $\pi_{\text{worker}}$ with $1/N$. The distance measures the weakness of labor's bargaining position --- the mechanism Marini emphasized, not his value-theoretic definition.
+The \textit{Dial\'{e}ctica} was controversial in its time; its best-known critique is \citet{cardoso1978desventuras}, to which Marini replied in ``Las razones del neodesarrollismo'' \citeyearpar{marini1978razones}. The bargaining equilibrium gives one part of Marini's thesis a testable formulation, conditional on Assumption~7.A: the left Perron eigenvector of the domestic weight matrix assigns workers a share substantially below $1/N$. Compute $W$ from input-output data, labor market surveys, and social network data. Compute $\boldsymbol{\pi}$ and $\Neff$. Compare $\pi_{\text{worker}}$ with $1/N$. The distance measures the weakness of labor's bargaining position --- the mechanism Marini emphasized, not his value-theoretic definition.
 
 Marini wrote in exile. The military governments that exiled him did not change the bargaining problem. They changed who got to sit at the table --- they pushed $\pi_{\text{worker}}$ toward zero by force. The Perron eigenvector remained well-defined. It just became more concentrated.
 
@@ -668,16 +669,16 @@ Marini wrote in exile. The military governments that exiled him did not change t
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Nash bargaining:} Nash (1950), ``The Bargaining Problem,'' \textit{Econometrica}. Kalai (1977), ``Nonsymmetric Nash Solutions and Replications of 2-Person Bargaining.'' Rubinstein (1982), ``Perfect Equilibrium in a Bargaining Model,'' \textit{Econometrica}.
+\textbf{Nash bargaining:} \citet{nash1950bargaining}, ``The Bargaining Problem.'' \citet{kalai1977nonsymmetric}, ``Nonsymmetric Nash Solutions and Replications of 2-Person Bargaining.'' \citet{rubinstein1982perfect}, ``Perfect Equilibrium in a Bargaining Model.''
 
-\textbf{Bargaining in networks:} Manea (2011), ``Bargaining in Stationary Networks,'' \textit{AER}. Abreu and Manea (2012), ``Markov Equilibria in a Model of Bargaining in Networks,'' \textit{Games and Economic Behavior}; and ``Bargaining and Efficiency in Networks,'' \textit{JET}. Corominas-Bosch (2004), ``Bargaining in a Network of Buyers and Sellers,'' \textit{JET}.
+\textbf{Bargaining in networks:} \citet{manea2011bargaining}, ``Bargaining in Stationary Networks.'' \citet{abreu2012markov}, ``Markov Equilibria in a Model of Bargaining in Networks''; and \citet{abreu2012bargaining}, ``Bargaining and Efficiency in Networks.'' \citet{corominasbosch2004bargaining}, ``Bargaining in a Network of Buyers and Sellers.''
 
 % TODO-VERIFY: authors/year/title of the production-network bargaining paper cited here (possibly Acemoglu and Tahbaz-Salehi, "The Macroeconomics of Supply Chain Disruptions").
-\textbf{Power and allocation:} on relationship-specific investments and bargaining in production networks, see Acemoglu, Ozdaglar, and Tahbaz-Salehi (2023). This is the closest existing work to the model in this chapter.
+\textbf{Power and allocation:} on relationship-specific investments and bargaining in production networks, see \citet{acemoglu2025macroeconomics}. This is the closest existing work to the model in this chapter.
 
-\textbf{Welfare decomposition:} The decomposition~\eqref{ch07:eq:decomposition} is original to this book. Emmanuel (1969), \textit{L'\'{e}change in\'{e}gal}, for the term ``unequal exchange.'' For related welfare loss analysis in network settings: Elliott, Golub, and Jackson (2014), ``Financial Networks and Contagion,'' \textit{AER}.
+\textbf{Welfare decomposition:} The decomposition~\eqref{ch07:eq:decomposition} is original to this book. \citet{emmanuel1969echange}, \textit{L'\'{e}change in\'{e}gal}, for the term ``unequal exchange.'' For related welfare loss analysis in network settings: \citet{elliott2014financial}, ``Financial Networks and Contagion.''
 
 % TODO-VERIFY: "six-chapter essay" and the Prebisch (1981) chapter number below.
-\textbf{Dependency theory and labor:} Marini (1973), \textit{Dial\'{e}ctica de la dependencia}, M\'{e}xico: Era (the six-chapter essay formalized in the case study above; available in Spanish at \texttt{marini-escritos.unam.mx}). Cardoso and Serra (1978), ``Las desventuras de la dial\'{e}ctica de la dependencia,'' and Marini (1978), ``Las razones del neodesarrollismo,'' \textit{Revista Mexicana de Sociolog\'{i}a} --- the critique and his response. Prebisch (1981), \textit{Capitalismo Perif\'{e}rico}, Chapter~4, for the structuralist version of the same argument without the Marxist vocabulary.
+\textbf{Dependency theory and labor:} \citet{marini1973dialectica}, \textit{Dial\'{e}ctica de la dependencia}, M\'{e}xico: Era (the six-chapter essay formalized in the case study above; available in Spanish at \texttt{marini-escritos.unam.mx}). \citet{cardoso1978desventuras}, ``Las desventuras de la dial\'{e}ctica de la dependencia,'' and \citet{marini1978razones}, ``Las razones del neodesarrollismo'' --- the critique and his response. \citet{prebisch1981capitalismo}, \textit{Capitalismo Perif\'{e}rico}, Chapter~4, for the structuralist version of the same argument without the Marxist vocabulary.
 
 \end{document}

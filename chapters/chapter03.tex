@@ -9,6 +9,7 @@
 \textnormal{[``The enormous benefits derived from increasing productivity have not reached the periphery in a measure comparable to that enjoyed by the peoples of the great industrial countries. Hence the great differences in standards of living, and the manifest discrepancies in their respective capacities for capital accumulation.'']}\\
 \hfill --- Ra\'{u}l Prebisch, \textit{El desarrollo econ\'{o}mico de la Am\'{e}rica Latina} (1949)
 \end{quote}
+\nocite{prebisch1949desarrollo}
 
 \vspace{1em}
 
@@ -119,7 +120,7 @@ where $\mathbf{f}$ is the vector of Cobb-Douglas production functions, playing t
 \mathbf{Y}_t = (I - \gamma A')^{-1}\mathbf{f}(\K_t, \mathbf{L}).
 \end{equation}
 
-This is the Leontief system made dynamic: at each period $t$, output is determined by capital (which accumulates) filtered through the production network (which amplifies through the Leontief inverse). It requires $\gamma\rho(A) < 1$. Two cautions about the reduced form. It transmits impulses the way the quantity system transmits final demand: \textit{upstream}, from users to their suppliers. A genuine cost-reducing productivity shock travels the other way, \textit{downstream} to the users of the cheaper good, through the price dual $\mathbf{p} = (I - A)^{-1}\mathbf{v}$ ($\mathbf{v}$ = value added per unit); network models of productivity shocks (Acemoglu et al.\ 2012) use that dual. And we treat $\mathbf{Y}$ as the base for saving below; with gross output one would first net out intermediate use.
+This is the Leontief system made dynamic: at each period $t$, output is determined by capital (which accumulates) filtered through the production network (which amplifies through the Leontief inverse). It requires $\gamma\rho(A) < 1$. Two cautions about the reduced form. It transmits impulses the way the quantity system transmits final demand: \textit{upstream}, from users to their suppliers. A genuine cost-reducing productivity shock travels the other way, \textit{downstream} to the users of the cheaper good, through the price dual $\mathbf{p} = (I - A)^{-1}\mathbf{v}$ ($\mathbf{v}$ = value added per unit); network models of productivity shocks \citep{acemoglu2012network} use that dual. And we treat $\mathbf{Y}$ as the base for saving below; with gross output one would first net out intermediate use.
 
 Capital accumulates sector by sector:
 \begin{equation}\label{ch03:eq:capital_dynamics}
@@ -164,7 +165,7 @@ Finding $\K^*$ is a fixed-point problem; with $\alpha_i < 1$, diminishing return
 
 \subsection{The Standard Answer}
 
-Simon Kuznets (1955) proposed that inequality first rises and then falls with development --- the ``inverted-U'' hypothesis. The mechanism: early industrialization moves workers out of a low-income, relatively equal agricultural sector into a higher-income, more unequal industrial sector. While the shift is under way, the gap between the sectors raises overall inequality; once most workers have moved, that between-sector component shrinks and overall inequality falls.
+Simon \citet{kuznets1955economic} proposed that inequality first rises and then falls with development --- the ``inverted-U'' hypothesis. The mechanism: early industrialization moves workers out of a low-income, relatively equal agricultural sector into a higher-income, more unequal industrial sector. While the shift is under way, the gap between the sectors raises overall inequality; once most workers have moved, that between-sector component shrinks and overall inequality falls.
 
 The inverted-U has been one of the most tested hypotheses in economics. The evidence is mixed at best: cross-country data show no robust inverted-U, and the within-country trajectories vary enormously. Some countries (South Korea, Taiwan) grew rapidly and reduced inequality. Others (Brazil in the 1960s--70s) grew and saw inequality rise. Bolivia is a warning against easy stories: its measured income inequality fell substantially during the 2006--14 gas boom (World Bank Poverty and Inequality Platform; SEDLAC), even though the gas sector remained an enclave in input-output terms. Any structural account has to confront that fact, and the transfer discussion in Section~\ref{ch03:sec:trickle} does.
 
@@ -338,7 +339,7 @@ In (2) the block weights depend only on the \textit{ratio} $a/b$; multiplying bo
 \end{proposition}
 
 \begin{proof}
-(1) Each block of $W^P$ is row-stochastic, so each contributes an eigenvalue 1, with a stationary vector supported on that block. (2) The trace is $2 - a - b$ and one eigenvalue is 1, so the other is $1 - a - b \ge 0$; and $(b, a)W^P = (b(1-a) + ab, \; ab + a(1-b)) = (b, a)$. (3) is Cheeger's inequality for reversible chains (see, e.g., Levin, Peres and Wilmer, \textit{Markov Chains and Mixing Times}).
+(1) Each block of $W^P$ is row-stochastic, so each contributes an eigenvalue 1, with a stationary vector supported on that block. (2) The trace is $2 - a - b$ and one eigenvalue is 1, so the other is $1 - a - b \ge 0$; and $(b, a)W^P = (b(1-a) + ab, \; ab + a(1-b)) = (b, a)$. (3) is Cheeger's inequality for reversible chains (see, e.g., \citealt{levin2009markov}, \textit{Markov Chains and Mixing Times}).
 \end{proof}
 
 For Bolivia, $W^P = \begin{pmatrix} 0.833 & 0.167 \\ 0.091 & 0.909\end{pmatrix}$, so $\Gamma = 0.26$. For the connected Bolivia, $W^P = \begin{pmatrix} 0.50 & 0.50 \\ 0.43 & 0.57\end{pmatrix}$ and $\Gamma = 0.93$. The production Perron vector of the enclave is $(0.35, 0.65)$: in the production reading, the traditional sector carries the larger weight, because the modern sector relies on it for a larger share of its inputs ($0.167$) than it relies on the modern sector ($0.091$). Integration and power are different questions.
@@ -628,14 +629,14 @@ Pinto's essay is short. Its mathematical content is a $2 \times 2$ nearly block-
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Growth theory:} Acemoglu (2009), \textit{Introduction to Modern Economic Growth}, chapters on Solow, OLG, multi-sector models. Barro and Sala-i-Martin (2004), \textit{Economic Growth}, for the empirical convergence literature.
+\textbf{Growth theory:} \citet{acemoglu2009introduction}, \textit{Introduction to Modern Economic Growth}, chapters on Solow, OLG, multi-sector models. \citet{barro2004economic}, \textit{Economic Growth}, for the empirical convergence literature.
 
-\textbf{Multi-sector growth with networks:} Acemoglu et al.\ (2012), ``Network Origins of Aggregate Fluctuations.'' Baqaee and Farhi (2019), ``The Macroeconomic Impact of Microeconomic Shocks.'' Liu and Tsyvinski (2020), ``Dynamical Structure and Spectral Properties of Input-Output Networks.''
+\textbf{Multi-sector growth with networks:} \citet{acemoglu2012network}, ``Network Origins of Aggregate Fluctuations.'' \citet{baqaee2019macroeconomic}, ``The Macroeconomic Impact of Microeconomic Shocks.'' \citet{liu2020dynamical}, ``Dynamical Structure and Spectral Properties of Input-Output Networks.''
 
-\textbf{Structural heterogeneity:} Pinto (1970), ``Naturaleza e implicaciones de la `heterogeneidad estructural'\,'' \textit{El Trimestre Econ\'{o}mico}. This is the source. Read it. CEPAL (2010), \textit{Time for Equality: Closing Gaps, Opening Trails}, for the modern institutional statement.
+\textbf{Structural heterogeneity:} \citet{pinto1970naturaleza}, ``Naturaleza e implicaciones de la `heterogeneidad estructural'\,.'' This is the source. Read it. \citet{cepal2010time}, \textit{Time for Equality: Closing Gaps, Opening Trails}, for the modern institutional statement.
 
-\textbf{The CEPAL tradition:} Prebisch (1950), start here. Furtado (1961), \textit{Development and Underdevelopment}. Ocampo, Rada, and Taylor (2009), \textit{Growth and Policy in Developing Countries: A Structuralist Approach}. Bielschowsky (2009), ``Sixty Years of ECLAC.''
+\textbf{The CEPAL tradition:} \citet{prebisch1950economic}, start here. \citet{furtado1964development}, \textit{Development and Underdevelopment}. \citet{ocampo2009growth}, \textit{Growth and Policy in Developing Countries: A Structuralist Approach}. \citet{bielschowsky2009sixty}, ``Sixty Years of ECLAC.''
 
-\textbf{Bolivia:} Morales and Sachs (1990), ``Bolivia's Economic Crisis'' for the structural adjustment context. Weisbrot, Ray, and Johnston (2009), ``Bolivia: The Economy During the Morales Administration'' for the resource-transfer period. The National Statistics Institute (INE) input-output tables for the data.
+\textbf{Bolivia:} \citet{morales1990bolivias}, ``Bolivia's Economic Crisis'' for the structural adjustment context. \citet{weisbrot2009bolivia}, ``Bolivia: The Economy During the Morales Administration'' for the resource-transfer period. The National Statistics Institute (INE) input-output tables for the data.
 
 \end{document}
