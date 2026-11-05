@@ -270,6 +270,10 @@ print("flagged k=3:", flag3, " moves > 0.05:", {y: r2(dG[y]) for y in big})
 assert big == [1999, 2000, 2014] and flag3 == [1999, 2000, 2007, 2012, 2014]
 assert [f"{r2(dG[y]):+.2f}" for y in big] == ["+0.10", "-0.15", "-0.12"]
 assert f"{r2(dG[2007]):+.2f}" == "-0.03" and f"{r2(dG[2012]):+.2f}" == "+0.03"
+CHK = {int(r["year"]): r for r in rows("bolivia_io_checks.csv") if r["base"] == "1990"}
+assert float(CHK[2012]["identity_rel_err_max"]) > 0.1                  # 2012: published-table inconsistency
+assert all(float(CHK[y]["identity_rel_err_max"]) < 1e-4 for y in (1999, 2000, 2014))   # big moves: not that
+assert all(CHK[y]["has_make"] == "False" for y in (1998, 1999, 2000, 2001)) and CHK[2014]["has_make"] == "True"
 # make matrices are published only for 2002, 2003, 2006, 2011-2014: N = 11 in those years, else 10
 assert all(BOL_N[("1990", y)] == (11 if y in (2002, 2003, 2006, 2011, 2012, 2013, 2014) else 10) for y in b90)
 
@@ -293,7 +297,7 @@ vel_txt = {("KOR", "ICIO2021"): "-0.055", ("KOR", "ICIO2023"): "+0.055", ("CHL",
            ("CHL", "ICIO2023"): "+0.107", ("ARG", "ICIO2021"): "+0.037", ("ARG", "ICIO2023"): "-0.050",
            ("DEU", "ICIO2021"): "-0.002", ("DEU", "ICIO2023"): "+0.043", ("USA", "ICIO2021"): "-0.010",
            ("USA", "ICIO2023"): "-0.016", ("CHN", "ICIO2023"): "-0.038", ("BRA", "ICIO2021"): "+0.020",
-           ("COL", "ICIO2021"): "-0.036", ("PER", "ICIO2021"): "-0.060", ("PER", "ICIO2023"): "-0.047",
+           ("COL", "ICIO2021"): "-0.036", ("PER", "ICIO2021"): "-0.060",
            ("BOL", "INE base 1990, 1990-2013"): "-0.036"}
 for k, txt in vel_txt.items():
     v = float(VEL[k]["v_endpoint_per_decade"])

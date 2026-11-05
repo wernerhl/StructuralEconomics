@@ -19,7 +19,7 @@ The central object is the \textbf{structural trajectory}: the time series of $\G
 
 Chapter~17 previewed Bolivia's trajectory. This chapter develops the methods and applies them to data. Two conventions are in force throughout (Chapter~1, Section~\ref{ch01:sec:conventions}): $\Gamma$ measures \emph{integration} (mixing speed) only, and the concentration of power is measured by $\Neff$, $\Var(\boldsymbol{\pi})$ or $G(\boldsymbol{\pi})$, never by $\Gamma$ (Proposition~\ref{ch06:prop:gap-power-independent}).
 
-The production-network trajectories are sourced. For Bolivia they come from INE's symmetric input--output matrices (base 1990, 1988--2014) and supply-use tables (base 2017, 2017--2024) \citep{ine2026sut}. The two bases differ in classification and national-accounts vintage, so they are kept as two separate series and no change is ever computed across the break. For Korea and the comparators they come from the domestic blocks of the OECD Inter-Country Input-Output tables, 2021 edition for 1995--2014 and 2023 edition for 2011--2020 \citep{oecd2021icio,oecd2023icio}. Complexity is the Growth Lab's ECI \citep{growthlab2026atlas}. Throughout, $\Gamma$ is that of the 12-sector domestic input-share matrix $W^P = D^{-1}A$ with the diagonal kept: the book's 12-sector classification for Bolivia's own series, and an ISIC-based 12-sector classification for comparisons across countries (Bolivia 2019: $\Gamma = 0.467$ and $0.475$ respectively). $\Gamma$ depends on aggregation and normalization. For Bolivia in 2019 it ranges from 0.33 to 0.69 across input and sales shares, with and without the diagonal, at 12 and 39 sectors, so only like-for-like comparisons are meaningful. Between-block inequality $\sigma_B$ and information concentration $\Neff(W^I)$ need household and audience microdata that were not available: their values remain \illustrative. Every sourced number is read from \texttt{data/processed} and checked by \texttt{code/ch23.py}.
+The production-network trajectories are sourced. For Bolivia they come from INE's symmetric input--output matrices (base 1990, 1988--2014) and supply-use tables (base 2017, 2017--2024) \citep{ine2026sut}. The two bases differ in classification and national-accounts vintage, so they are kept as two separate series and no change is ever computed across the break. For Korea and the comparators they come from the domestic blocks of the OECD Inter-Country Input-Output tables, 2021 edition for 1995--2014 and 2023 edition for 2011--2020 \citep{oecd2021icio,oecd2023icio}. Complexity is the Growth Lab's ECI \citep{growthlab2026atlas}. Throughout, $\Gamma$ is that of the 12-sector domestic input-share matrix $W^P = D^{-1}A$ with the diagonal kept: the book's 12-sector classification for Bolivia's own series, and an ISIC-based 12-sector classification for comparisons across countries (Bolivia 2019: $\Gamma = 0.467$ and $0.475$ respectively). $\Gamma$ depends on aggregation and normalization. For Bolivia in 2019 it ranges from 0.33 to 0.69 across input and sales shares, with and without the diagonal, at 12 and 39 sectors, so only like-for-like comparisons are meaningful. Between-block inequality $\sigma_B$ and information concentration $\Neff(W^I)$ need household and audience microdata that were not available: their values remain \illustrative. Every sourced number is read from \path{data/processed} and checked by \texttt{code/ch23.py}.
 
 The data do not tell the story usually told about Bolivia, and the chapter follows the data. Bolivia's $\Gamma$ is not low by comparison; it drifted \emph{down}, and so did Korea's. What separates the two economies is complexity, not aggregate integration.
 
@@ -158,97 +158,94 @@ Whether a break is \emph{structural} or \emph{cyclical} is a separate question (
 \label{ch23:sec:bolivia}
 %% =====================================================================
 
-\begin{example}[Bolivia: Five Structural Epochs \illustrative]\label{ch23:ex:epochs}
-Using Bolivia's I-O tables (1990, 2000, 2006, 2012, 2016), EH data (2000--2019), and trade data (annual):
+\begin{example}[Bolivia: Five Structural Epochs]\label{ch23:ex:epochs}
+INE publishes symmetric input--output matrices for every year 1988--2009 and 2011--2014 on base 1990, and supply-use tables for 2017--2024 on base 2017. There are no tables for 2010, 2015 or 2016. $\Gamma$ below is that of the 12-sector domestic input-share matrix; complexity is the ECI (HS92, available from 1995). Household microdata were not available, so the $\sigma_B$ values are \illustrative.
 
 \textbf{Epoch 1: Structural Adjustment (1985--1993).} The NEP (New Economic Policy) liberalized trade, closed state mines, and privatized public enterprises. Expected effect: edge destruction (state mining edges severed) and edge creation (new private-sector trade edges).
 
-Trajectory: $\Gamma$ declined slightly from $\approx 0.11$ to $\approx 0.10$ (1985--1990). The mine closures destroyed within-block production edges (mining $\to$ downstream processing) without creating cross-block substitutes. $\sigma_B$ increased from $\approx 0.65$ to $\approx 0.68$: inequality became more structural as the mining workers were expelled into the informal sector.
+Trajectory: the tables begin in 1988, after the 1985--87 mine closures, so the shock itself is not observed. From 1988 to 1993, $\Gamma$ was flat (0.563 to 0.573), and the hydrocarbons sector's Perron weight was small (0.025 in 1988). Illustratively, $\sigma_B$ rose from $\approx 0.65$ to $\approx 0.68$ as mining workers were expelled into the informal sector.
 
 \textbf{Epoch 2: Capitalization and Gas Discovery (1994--2005).} The ``capitalization'' of state enterprises brought FDI into gas, telecoms, and transport. Gas production began at Sab\'{a}lo and San Alberto fields.
 
-Trajectory: $\Gamma$ recovered slowly from 0.10 to 0.12. The gas sector added high-value production edges but connected primarily to the rest of the world ($W^P_{\text{gas, RoW}} \gg W^P_{\text{gas, domestic}}$). Domestic $\Gamma$ increased modestly; the main effect was on the global $W^P$ (Bolivia's $\pi_G$ rose as gas exports grew). $\sigma_B$ fell slightly from 0.68 to 0.63: gas revenue created government jobs (moving some workers from informal to formal block).
+Trajectory: $\Gamma$ \emph{fell}, from 0.567 in 1994 to 0.502 in 2005, most of it in a level shift around 1999--2000 (see the break test below). The gas sector connected primarily to the rest of the world: the share of its output exported rose from 22\% in 2000 to 69\% in 2006. Its Perron weight in the domestic $W^P$ rose from 0.022 (1994) to 0.074 (2005), still below the uniform share $1/N$. Bolivia's weight in the global trade network rose from 0.00018 (1995) to 0.00047 (2006) (Chapter~16). ECI fell by 0.24 (1995 to 2005). Illustratively, $\sigma_B$ fell from 0.68 to 0.63 as gas revenue created government jobs, moving some workers from the informal to the formal block.
 
 \textbf{Epoch 3: Gas Nationalization (2006--2009).} The Hydrocarbons Law 3058 (2005) had already raised the state's take to 50\% (18\% royalties plus the 32\% direct hydrocarbons tax, IDH). Supreme Decree 28701 (May 2006) imposed a transitional 82\% take on the two largest fields (San Alberto and Sab\'{a}lo) while all contracts were renegotiated.
 
-Trajectory: No detectable structural break in $\Gamma$. The nationalization changed the \textit{distribution} of existing edge weights (gas $\to$ MNC profit repatriation shifted to gas $\to$ treasury), a persistent reweighting, but did not create new domestic production edges. $\Gamma$ remained at $\approx 0.12$--$0.13$. $\sigma_B$ fell modestly (from 0.63 to 0.61) as fiscal transfers reached poor households. The $\boldsymbol{\pi}$ vector shifted: $\pi_{\text{government}}$ increased; $\pi_{\text{foreign}}$ decreased. But the block structure persisted.
+Trajectory: no detectable structural break in $\Gamma$: 0.518 in 2006 and 0.504 in 2009. The nationalization changed the \textit{distribution} of existing flows (gas $\to$ MNC profit repatriation shifted to gas $\to$ treasury), a persistent reweighting of ownership and fiscal flows that the inter-industry $W^P$ does not record. It did not create new domestic production edges: hydrocarbons bought 0.381 of domestic intermediate inputs per unit of output in 2006, and their Perron weight moved within 0.064--0.087. The government's and foreign owners' shares of the circular flow shifted, but measuring that needs a SAM (Chapter~20), not $W^P$. ECI fell by 0.14. Illustratively, $\sigma_B$ fell modestly (0.63 to 0.61) as fiscal transfers reached poor households.
 
 \textbf{Epoch 4: Redistribution Without Structural Change (2010--2019).} A decade of high gas revenue, large fiscal transfers (Bono Juancito Pinto, Renta Dignidad, subsidies), and poverty reduction.
 
-Trajectory: $\Gamma$ stagnated at 0.13. $\sigma_B$ held at 0.61--0.62. $\Neff(W^I)$ rose slowly ($3.0 \to 3.4$, driven by social media; 3.4 is the end-of-period value on Chapter~17's four media ecosystems, Example~\ref{ch17:ex:bolivia_neff}). ECI: $-0.85 \to -0.80$. The dashboard indicators were virtually flat. Ten years of redistribution produced no measurable structural integration.
+Trajectory: no single base spans the decade. On base 1990, $\Gamma$ was 0.478 in 2011 and 0.484 in 2013; on base 2017, 0.506 in 2017 and 0.467 in 2019. ECI stayed at its low level: $-1.28$ in 2010, $-1.30$ in 2019, with Bolivia's rank falling from 127th to 131st. Illustratively, $\sigma_B$ held at 0.61--0.62 and $\Neff(W^I)$ rose slowly ($3.0 \to 3.4$, driven by social media; 3.4 is the end-of-period value on Chapter~17's four media ecosystems, Example~\ref{ch17:ex:bolivia_neff}). Meanwhile the distributional record was remarkable. The Gini of per-capita household income fell from 0.600 (2005) to 0.426 (2019), and extreme poverty from 38.2\% (2005) to 15.2\% (2018). Ten years of redistribution produced no rise in $\Gamma$ and no gain in complexity, and large equity gains anyway.
 
 \textbf{Epoch 5: Crisis and Stagnation (2019--present).} Political crisis (2019), pandemic (2020--2021), declining gas reserves.
 
-Trajectory: $\Gamma$ at risk of declining as gas production falls and the fiscal capacity to maintain transfers erodes. Without the gas revenue that financed the redistribution, and without structural change to replace it, the structural indicators may reverse.
+Trajectory: on base 2017, $\Gamma$ fell from 0.467 (2019) to 0.381 (2023) and was 0.419 in 2024. The hydrocarbons sector shrank from 6.1\% of gross value added (2019) to 3.3\% (2024), and its Perron weight nearly halved (0.039 to 0.021). ECI \emph{rose}, from $-1.30$ to $-1.10$, as gas left the export basket: fuels were 32.1\% of merchandise exports in 2019 and 18.9\% in 2024. The base-2017 series is eight points long and includes the pandemic, so it is too early to call the fall in $\Gamma$ structural.
 
 \begin{center}
-\begin{tabular}{lccccc}
+\small
+\begin{tabular}{llcccl}
 \toprule
-Epoch & Period & $\Delta\Gamma$ & $\Delta\sigma_B$ & $\Delta$ECI & Structural break? \\
+Epoch & Period & $\Gamma$ (start $\to$ end) & $\Delta\Gamma$ & $\Delta$ECI & Structural break? \\
 \midrule
-1. Adjustment & 1985--93 & $-0.01$ & $+0.03$ & --- & Mild (negative) \\
-2. Gas discovery & 1994--05 & $+0.02$ & $-0.05$ & $+0.02$ & No \\
-3. Nationalization & 2006--09 & $+0.01$ & $-0.02$ & $-0.01$ & No \\
-4. Redistribution & 2010--19 & $\approx 0$ & $\approx 0$ & $+0.05$ & No \\
-5. Crisis & 2019-- & $\leq 0$ & $?$ & $?$ & Possible (negative) \\
+1. Adjustment & 1988--93 & 0.563 $\to$ 0.573 & $+0.01$ & --- & Not observed \\
+2. Gas discovery & 1994--05 & 0.567 $\to$ 0.502 & $-0.07$ & $-0.24$ & 1999--2000 (artefact?) \\
+3. Nationalization & 2006--09 & 0.518 $\to$ 0.504 & $-0.01$ & $-0.14$ & No \\
+4. Redistribution & 2011--13 & 0.478 $\to$ 0.484 & $+0.01$ & $-0.02$ & No \\
+ & 2017--19 & 0.506 $\to$ 0.467 & $-0.04$ & & \\
+5. Crisis & 2019--24 & 0.467 $\to$ 0.419 & $-0.05$ & $+0.20$ & Too short \\
 \bottomrule
 \end{tabular}
 \end{center}
+\par{\footnotesize Source: $\Gamma$, INE input--output matrices (base 1990, epochs 1--4, first row) and supply-use tables (base 2017, epoch 4 second row and epoch 5), 12 sectors, domestic flows, input shares \citep{ine2026sut}; author's calculations (\path{data/compute/compute_bolivia_io.py}, \path{data/processed/bolivia_io_summary.csv}). The two bases are not comparable, so epoch 4 is split. ECI: Growth Lab, HS92 \citep{growthlab2026atlas}, changes 1995$\to$2005, 2006$\to$2009, 2010$\to$2019 and 2019$\to$2024 (\path{data/processed/eci_epochs_bolivia.csv}). Inequality and poverty: INE, Encuestas de Hogares (old poverty lines for 2005--2018). The illustrative $\Delta\sigma_B$ are $+0.03$, $-0.05$, $-0.02$, $\approx 0$ and unknown.\par}
+
+\emph{Break test.} Apply Definition~\ref{ch23:def:break} to the base-1990 series, with $\hat\sigma_{\Delta\Gamma}$ estimated on the quiet years 1989--1997 (year-to-year changes of about 0.01). Three moves are an order of magnitude larger: 1999 ($+0.10$), 2000 ($-0.15$) and 2014 ($-0.12$). At $k = 3$, 2007 ($-0.03$) and 2012 ($+0.03$) are flagged as well. None of the large moves matches a policy event. INE published make matrices only for 2002, 2003, 2006 and 2011--2014. The 1999 spike and the 2000 drop fall in a run of years built on a diagonal-make assumption; 2014 is the last year of the base, drops 0.12 below 2013, and has no successor to confirm it. The 2007 move coincides with a change in the number of sectors with a defined row (public administration drops out of $W^P$ in years without a make matrix), and the 2012 move with a known inconsistency in that year's published table (one industry's output does not equal its intermediate plus final sales). These are, most likely, construction effects. That is exactly the situation Remark~\ref{ch23:rem:conditioning} warns about: the test finds breaks, and the bootstrap over the table's construction is what decides whether they are structural.
 \end{example}
 
-\begin{vizpanel}{Bolivia's structural trajectory in the $(\Gamma, \sigma_B)$ plane \illustrative}
+\begin{vizpanel}{Bolivia's and Korea's $\Gamma$ trajectories, 1988--2024}
 \begin{center}
 \begin{tikzpicture}[scale=1]
-\draw[->] (0,0) -- (7,0) node[right, font=\small] {$\Gamma$};
-\draw[->] (0,0) -- (0,5) node[above, font=\small] {$\sigma_B$};
-
-%% Bolivia trajectory: x = 10*Gamma, y = 6*sigma_B (code/ch23.py)
-\fill[red!60] (1.1, 3.90) circle (2pt);
-\node[font=\tiny, left] at (1.0, 3.75) {1985};
-\fill[red!60] (1.0, 4.08) circle (2pt);
-\node[font=\tiny, left] at (0.9, 4.15) {1990};
-\fill[red!60] (1.1, 3.90) circle (2pt);
-\node[font=\tiny, right] at (1.2, 4.0) {2000};
-\fill[red!60] (1.2, 3.78) circle (2pt);
-\node[font=\tiny, right] at (1.3, 3.85) {2006};
-\fill[red!60] (1.3, 3.66) circle (2pt);
-\node[font=\tiny, right] at (1.4, 3.55) {2010};
-\fill[red!60] (1.3, 3.72) circle (2pt);
-\node[font=\tiny, right] at (1.4, 3.75) {2019};
-
-\draw[red!60, thick, ->] (1.1,3.90) -- (1.0,4.08);
-\draw[red!60, thick, ->] (1.0,4.08) -- (1.1,3.90);
-\draw[red!60, thick, ->] (1.1,3.90) -- (1.2,3.78);
-\draw[red!60, thick, ->] (1.2,3.78) -- (1.3,3.66);
-\draw[red!60, thick, ->] (1.3,3.66) -- (1.3,3.72);
-
-%% South Korea trajectory (for comparison)
-\fill[blue!50] (1.5, 3.0) circle (2pt);
-\node[font=\tiny, blue!50, below] at (1.5, 2.9) {KOR 1960};
-\fill[blue!50] (3.0, 2.0) circle (2pt);
-\node[font=\tiny, blue!50, below] at (3.0, 1.9) {KOR 1980};
-\fill[blue!50] (4.5, 1.2) circle (2pt);
-\node[font=\tiny, blue!50, below] at (4.5, 1.1) {KOR 2000};
-\draw[blue!50, thick, ->] (1.5,3.0) -- (3.0,2.0);
-\draw[blue!50, thick, ->] (3.0,2.0) -- (4.5,1.2);
-
-%% Reference zone (illustrative): Gamma >= 0.40, sigma_B <= 0.25
-\fill[green!10] (4,0) rectangle (7,1.5);
-\node[font=\scriptsize, green!50!black] at (5.5, 0.7) {Reference zone};
+%% x = (year - 1988)/4 cm, y = 12.5 (Gamma - 0.30) cm; coordinates printed by code/ch23.py
+\draw[->] (0,0) -- (9.6,0) node[right, font=\small] {year};
+\draw[->] (0,0) -- (0,5.2) node[above, font=\small] {$\Gamma$};
+\foreach \g/\lab in {0/0.30, 1.25/0.40, 2.5/0.50, 3.75/0.60, 5/0.70} {
+  \draw (-0.08,\g) -- (0.08,\g); \node[left, font=\tiny] at (-0.08,\g) {\lab};
+  \draw[gray!20] (0.08,\g) -- (9.4,\g);
+}
+\foreach \x/\yr in {0/1988, 3/2000, 5.5/2010, 8/2020} {
+  \draw (\x,-0.08) -- (\x,0.08); \node[below, font=\tiny] at (\x,-0.08) {\yr};
+}
+%% base change for Bolivia (2014 | 2017)
+\draw[gray, dotted] (6.88,0) -- (6.88,5);
+\node[font=\tiny, gray, rotate=90, anchor=south] at (6.88,4.3) {INE base change};
+%% Bolivia, INE base 1990 (book12)
+\draw[red!70, thick] plot coordinates {(0.00,3.28) (0.25,3.31) (0.50,3.33) (0.75,3.48) (1.00,3.38) (1.25,3.41) (1.50,3.34) (1.75,3.48) (2.00,3.32) (2.25,3.17) (2.50,3.01) (2.75,4.27) (3.00,2.42) (3.25,2.42) (3.50,2.51) (3.75,2.67) (4.00,2.80) (4.25,2.53) (4.50,2.72) (4.75,2.36) (5.00,2.32) (5.25,2.56)};
+\draw[red!70, thick] plot coordinates {(5.75,2.23) (6.00,2.58) (6.25,2.30) (6.50,0.76)};
+%% Bolivia, INE base 2017 (book12)
+\draw[red!70, thick, dashed] plot coordinates {(7.25,2.57) (7.50,2.41) (7.75,2.09) (8.00,1.48) (8.25,1.65) (8.50,1.25) (8.75,1.01) (9.00,1.49)};
+%% Korea, ICIO 2021 and 2023 editions (book12_isic)
+\draw[blue!60, thick] plot coordinates {(1.75,4.07) (2.00,3.97) (2.25,4.03) (2.50,3.90) (2.75,3.13) (3.00,2.71) (3.25,3.00) (3.50,3.11) (3.75,3.19) (4.00,2.27) (4.25,1.39) (4.50,1.49) (4.75,1.22) (5.00,1.39) (5.25,1.51) (5.50,2.68) (5.75,2.61) (6.00,2.65) (6.25,2.67) (6.50,2.77)};
+\draw[blue!60, thick, dashed] plot coordinates {(5.75,2.39) (6.00,2.45) (6.25,2.47) (6.50,2.61) (6.75,2.76) (7.00,2.88) (7.25,2.78) (7.50,2.75) (7.75,2.64) (8.00,3.01)};
+%% legend
+\draw[red!70, thick] (0.4,0.75) -- (0.9,0.75); \node[right, font=\tiny] at (0.9,0.75) {Bolivia, INE base 1990};
+\draw[red!70, thick, dashed] (0.4,0.45) -- (0.9,0.45); \node[right, font=\tiny] at (0.9,0.45) {Bolivia, INE base 2017};
+\draw[blue!60, thick] (3.6,0.75) -- (4.1,0.75); \node[right, font=\tiny] at (4.1,0.75) {Korea, ICIO 2021 ed.};
+\draw[blue!60, thick, dashed] (3.6,0.45) -- (4.1,0.45); \node[right, font=\tiny] at (4.1,0.45) {Korea, ICIO 2023 ed.};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.5em}
-\small Bolivia (red): wandering in the upper-left quadrant --- low $\Gamma$, high $\sigma_B$. Thirty-four years of trajectory, barely any movement toward the reference zone ($\Gamma \ge 0.40$, $\sigma_B \le 0.25$). South Korea (blue): traversed the plane from upper-left to lower-right in 40 years and ends inside the zone. Coordinates are $x = 10\Gamma$, $y = 6\sigma_B$; all values are illustrative (\texttt{code/ch23.py}). The panel shows integration and between-block inequality only; it says nothing about the concentration of power $\boldsymbol{\pi}$, which must be read from $\Neff$ or $G(\boldsymbol{\pi})$.
+\small $\Gamma$ of the 12-sector domestic input-share matrix, by year. Bolivia (red): INE base 1990, 1988--2014 (there is no 2010 table), and base 2017, 2017--2024; the two series are not comparable and are not joined. Korea (blue): OECD ICIO 2021 edition, 1995--2014, and 2023 edition, 2011--2020 (the editions differ by 0.017 in the overlap year 2011). Bolivia is on the book's 12-sector classification and Korea on the ISIC-based one; in 2019 the two classifications give Bolivia 0.467 and 0.475. Both economies' $\Gamma$ fell: Bolivia's from 0.567 (1990) to 0.484 (2013), Korea's from 0.626 (1995) to a trough of 0.397 (2007) and 0.511 in 2019. Over 1995--2019, Korea's ECI rose from 1.10 to 1.81 and Bolivia's fell from $-0.85$ to $-1.30$. Bolivia's 1999 spike and 2014 drop are the break-test flags of Example~\ref{ch23:ex:epochs}. $\sigma_B$ is not plotted: there is no sourced series. Sources: \citet{ine2026sut,oecd2021icio,oecd2023icio,growthlab2026atlas}; author's calculations (\path{data/compute/compute_bolivia_io.py}, \path{data/compute/compute_oecd_io.py}); coordinates from \texttt{code/ch23.py}.
 \end{vizpanel}
 
 \begin{keyinsight}
-The trajectory visualization makes the book's central argument visible in one image. Bolivia's 34-year trajectory is a small cloud of points in the upper-left corner of the $(\Gamma, \sigma_B)$ plane: lots of policy activity, almost no structural movement. South Korea's 40-year trajectory is a long arrow from the same starting region to the target zone.
+The trajectory panel does not show what the usual story leads one to expect. On a like-for-like 12-sector basis, Bolivia's production network is not a fragmented outlier: its $\Gamma$ (0.475 in 2019, ISIC basis) lies inside the range of the comparators, between the United States (0.463) and Korea (0.511), below Germany (0.544) and Mexico (0.649). And $\Gamma$ fell in both economies: in Bolivia from 0.567 (1990) to 0.484 (2013), in Korea from 0.626 (1995) to 0.511 (2019). Aggregate $\Gamma$ does not separate the two development paths.
 
-The difference is not ``good policy'' vs.\ ``bad policy'' in the conventional sense. Bolivia had substantial economic growth (average 4\% per year), massive poverty reduction, and one of the region's largest falls in measured income inequality. But on this chapter's reading, most of this operated through transfers and labour-market tightening within the existing structure ($\Delta\boldsymbol{\omega}$) rather than through structural change ($\Delta W$). The trajectory stayed in the same neighborhood because $W$ stayed approximately the same.
+What separates them is complexity and where power sits. Korea's ECI rose from 1.10 to 1.81 over 1995--2019, and the Perron vector of its production network concentrated on manufacturing ($G(\boldsymbol{\pi})$ rose from 0.618 to 0.658). That concentration is industrial depth, not fragmentation, and not oppression: in an input-share matrix, a high $\pi$ marks a hub that many sectors buy from. Bolivia's ECI fell from $-0.85$ to $-1.30$. Its enclave shows up not in $\Gamma$ but in $\boldsymbol{\pi}$ and export orientation: in 2019 hydrocarbons had a Perron weight of 0.039 and exported 70\% of their output (Chapter~20).
 
-Korea's trajectory moved because Korea changed $W$: land reform ($\Delta W^U$), education ($\Delta W^I + \Delta W^P$), export discipline ($\Delta W^P_{\text{global}}$), and industrial policy ($\Delta W^P_{\text{domestic}}$). Each operator moved the point in the $(\Gamma, \sigma_B)$ plane. The compound effect over 40 years: from $\Gamma \approx 0.15, \sigma_B \approx 0.50$ to $\Gamma \approx 0.45, \sigma_B \approx 0.20$.
+Nor did distributional progress wait for $\Gamma$. Bolivia grew at 4.0\% a year over 1990--2019, its Gini fell from 0.600 (2005) to 0.426 (2019), and extreme poverty from 38.2\% to 15.2\% (2005--2018), while $\Gamma$ drifted down and ECI fell. On this chapter's reading, the gains came mostly through transfers and labour-market tightening within the existing structure ($\Delta\boldsymbol{\omega}$) rather than through $\Delta W$. Whether they can be sustained without structural change is the open question of Chapter~26. That they happened at all is evidence against any claim that equity gains \emph{require} rising $\Gamma$ or positive ECI.
 
-The trajectory IS the structural report card. One image, 40 years, the entire argument.
+Korea's transformation (land reform, mass education, export discipline, industrial policy) began decades before 1995, and its $\Gamma$ in those decades is not measured here: pre-1995 Korean tables were not available. Whatever that path was, Korea entered 1995 with $\Gamma$ above 0.6, so its development cannot be read as a rise in aggregate integration over the years the data cover.
+
+A structural report card needs several coordinates. $\Gamma$ alone grades Korea and Bolivia alike.
 \end{keyinsight}
 
 
@@ -265,23 +262,28 @@ v_\Gamma(t) = \frac{\Gamma_{t+1} - \Gamma_t}{\Delta t}.
 The \textbf{structural acceleration} is $a_\Gamma(t) = v_\Gamma(t+1) - v_\Gamma(t)$.
 \end{definition}
 
-\begin{example}[Structural Velocities, Selected Countries \illustrative]\label{ch23:ex:velocities}
+\begin{example}[Structural Velocities, Selected Countries]\label{ch23:ex:velocities}
+Endpoint velocities $v_\Gamma = (\Gamma_T - \Gamma_{t_0})/(T - t_0)$, per decade, computed within each data vintage:
 \begin{center}
-\begin{tabular}{lccl}
+\begin{tabular}{lcc}
 \toprule
-Country & Period & $v_\Gamma$ (per decade) & Interpretation \\
+Country & 1995--2014 (ICIO 2021) & 2011--2020 (ICIO 2023) \\
 \midrule
-South Korea & 1960--2000 & $+0.075$ & Rapid integration \\
-China & 1980--2020 & $+0.058$ & Fast integration \\
-Chile & 1990--2020 & $+0.033$ & Moderate integration \\
-Bolivia & 1990--2019 & $+0.010$ & Glacial \\
-Argentina & 2000--2019 & $-0.005$ & Mild fragmentation \\
-Venezuela & 2010--2020 & $-0.030$ & Structural collapse \\
+South Korea & $-0.055$ & $+0.055$ \\
+Chile & $+0.091$ & $+0.107$ \\
+Argentina & $+0.037$ & $-0.050$ \\
+Germany & $-0.002$ & $+0.043$ \\
+United States & $-0.010$ & $-0.016$ \\
+China & n/a & $-0.038$ \\
+\midrule
+ & 1990--2013 (INE base 1990) & 2017--2024 (INE base 2017) \\
+Bolivia & $-0.036$ & $-0.12$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+\par{\footnotesize Source: OECD ICIO, 2021 and 2023 editions \citep{oecd2021icio,oecd2023icio}, ISIC-based 12 sectors; INE input--output matrices and supply-use tables \citep{ine2026sut}, book's 12 sectors; domestic flows, input shares. Author's calculations (\path{data/compute/compute_velocity.py}, \path{data/processed/gamma_velocity.csv}). China is split into two blocks in the 2021 edition and could not be extracted for 1995--2010. Venezuela is not a separate economy in ICIO. OLS slopes for Bolivia: $-0.046$ and $-0.16$.\par}
 
-Bolivia's structural velocity ($+0.01$ per decade) means that at the current rate, reaching Korea's current $\Gamma = 0.45$ would take approximately $(0.45 - 0.13)/0.01 = 32$ decades --- 320 years. The velocity itself must increase (structural acceleration) for convergence in a reasonable timeframe.
+Three things stand out. First, the signs flip. Korea's $\Gamma$ fell at 0.055 per decade over 1995--2014 and rose at the same speed over 2011--2020; Argentina's did the reverse. At the 12-sector level, $v_\Gamma$ is not a stable property of a country, and over a decade it is of the same order as the year-to-year noise in $\Gamma_t$. Second, $v_\Gamma$ does not track development. The fastest ``integrator'' in the table is Chile, whose ECI barely moved (about 0.1 in 1995, $-0.06$ in 2019). Among the most negative entries are Korea over 1995--2014, when its ECI rose from 1.10 to 1.70, and China, whose ECI also rose (1.15 in 2010, 1.30 in 2019). Third, Bolivia's $\Gamma$ fell in both of its series ($-0.036$ per decade over 1990--2013; $-0.12$ over 2017--2024, a window that includes the pandemic). There is no ``distance to Korea'' to close in $\Gamma$: on the cross-country basis, Bolivia's 2019 value (0.475) is within 0.04 of Korea's (0.511).
 \end{example}
 
 \begin{remark}[What Determines Structural Velocity?]\label{ch23:prop:velocity_determinants}
@@ -313,20 +315,21 @@ where:
 The criterion is persistence, not the type of break (Definition~\ref{ch23:prop:break_types}). Identification: filter each series $\pi_{i,t}$ separately (HP or band-pass, Appendix~\ref{ch23:app:decomposition}); its trend is $\pi^S_{i,t}$ and the residual is $\pi^C_{i,t}$. The same filter applied to $\Gamma_t$ gives the structural and cyclical parts of integration. This is a definition, not a theorem: the split depends on the filter and its smoothing parameter.
 \end{definition}
 
-\begin{example}[Bolivia: Structural vs.\ Cyclical, 2003--2019 \illustrative]\label{ch23:ex:decomposition}
-During the gas boom (2003--2014): $\pi_{\text{gas}}$ rose from 0.07 to 0.11. After the boom (2015--2019): $\pi_{\text{gas}}$ fell back to 0.09.
+\begin{example}[Bolivia: The Gas Boom in $\boldsymbol{\pi}$, 2003--2024]\label{ch23:ex:decomposition}
+During the gas boom, the hydrocarbons sector's Perron weight in the domestic $W^P$ rose from 0.047 (2003) to 0.085 (2013), and to 0.117 in 2014, a year whose $\Gamma$ is an outlier (Example~\ref{ch23:ex:epochs}). On base 2017 it was 0.045 in 2017, 0.039 in 2019 and 0.021 in 2024. The sector's share of gross value added followed the same arc: 3.5\% (2000), 7.9\% (2006) and 10.0\% (2013) on base 1990; 6.3\% (2017) and 3.3\% (2024) on base 2017.
+\par{\footnotesize Source: INE input--output matrices (base 1990) and supply-use tables (base 2017), 12 sectors, domestic flows, input shares \citep{ine2026sut}; author's calculations (\path{data/compute/compute_bolivia_io.py}, \path{data/compute/compute_bolivia_facts.py}).\par}
 
-Decomposition: the structural component $\Delta\pi^S_{\text{gas}} = +0.02$ (the nationalization was a persistent reweighting that permanently increased the government's share of gas linkages). The cyclical component: $\Delta\pi^C_{\text{gas}} = +0.02$ (the price boom temporarily inflated gas weights), which reversed to $\Delta\pi^C_{\text{gas}} = -0.02$ after the boom.
+The change of base blocks the decomposition that Definition~\ref{ch23:def:decomposition} calls for. No single series runs from before the boom to after it, so the 2019 level cannot be compared with the 2003 level, and a filter run across the break would read the change of base as structural. Within each base the pattern is clear. The rise in $\pi_{\text{gas}}$ tracked the price and volume boom, and on the new base the weight kept falling as production declined. The data show no sign of a persistent increase in the sector's place in the domestic network. Whatever the nationalization changed permanently, it was the fiscal capture of rents (Epoch~3), which $W^P$ does not record.
 
-The 2006 nationalization produced a structural $\Delta\pi^S$ of approximately $+0.02$ --- a small but persistent effect. The commodity boom produced a cyclical $\Delta\pi^C$ of the same magnitude but temporary. The standard analysis that counted Bolivia's ``structural transformation'' during the boom was measuring the cyclical component. The structural trajectory (Section~\ref{ch23:sec:bolivia}) was nearly flat throughout.
+Note also the scale. Even at its peak, $\pi_{\text{gas}}$ was never far above the uniform share $1/N \approx 0.09$: the sector was never a hub of the domestic network. Its weight lay in exports and fiscal revenue, not in domestic linkages. An analysis that counted Bolivia's boom as ``structural transformation'' was reading a cyclical rise in a peripheral sector's weight.
 \end{example}
 
 \begin{prebisch}[Commodity booms as cyclical mirages]
-Latin American economic history is a sequence of commodity booms mistaken for structural change. Guano in Peru (1840--1870), nitrate in Chile (1880--1920), coffee in Brazil (1890--1930), oil in Venezuela (1920--2015), gas in Bolivia (2003--2014). Each boom raised incomes, reduced poverty, and generated optimism about ``transformation.'' Each bust revealed that $\Gamma$ had not changed: the economy remained an enclave connected to the world through a single commodity edge.
+Latin American economic history is a sequence of commodity booms mistaken for structural change. Guano in Peru (1840--1870), nitrate in Chile (1880--1920), coffee in Brazil (1890--1930), oil in Venezuela (1920--2015), gas in Bolivia (2003--2014). Each boom raised incomes, reduced poverty, and generated optimism about ``transformation.'' Each bust revealed that the production structure had not changed: the economy remained an enclave connected to the world through a single commodity edge. The enclave is not a matter of aggregate $\Gamma$, which in Bolivia is in the range of industrial economies. It is a matter of where the commodity sector sits: at the periphery of the domestic network (a small $\pi$), exporting most of its output, buying few domestic inputs, and paying a small share of its value added as wages.
 
 The structural-cyclical decomposition is the instrument that detects the mirage. During the boom: $\Delta\pi^C$ is large (the commodity sector's weight inflates). After the bust: $\Delta\pi^C$ reverses. The structural component $\Delta\pi^S$ is what remains --- and it is typically near zero for commodity booms, because commodity booms do not create cross-block domestic linkages.
 
-The exception: commodity booms CAN produce structural change if the revenue is invested in the operators of Chapter~15 (information, education, infrastructure, industrial policy). Norway is the canonical example, though not through its oil fund: the Government Pension Fund Global invests only abroad, precisely to keep oil revenue out of the domestic economy. Norway's structural change came from building domestic supplier, engineering and technology capabilities around the petroleum sector, which created cross-block edges ($\Delta\Gamma > 0$) alongside the cyclical boom. Bolivia's gas revenue was invested in transfers ($\Delta\boldsymbol{\omega}$), producing poverty reduction but no structural change ($\Delta\Gamma \approx 0$).
+The exception: commodity booms CAN produce structural change if the revenue is invested in the operators of Chapter~15 (information, education, infrastructure, industrial policy). Norway is the canonical example, though not through its oil fund: the Government Pension Fund Global invests only abroad, precisely to keep oil revenue out of the domestic economy. Norway's structural change came from building domestic supplier, engineering and technology capabilities around the petroleum sector. Neither aggregate used in this chapter shows it, however. On the 12-sector ICIO basis Norway's $\Gamma$ fell from 0.644 in 1995 to 0.313 in 2014, as the economy reorganized around petroleum and its supply industries, and its ECI fell from 1.24 to 1.01 (\citealp{oecd2021icio,growthlab2026atlas}; \path{data/processed/gamma_velocity.csv}, \path{eci_facts.csv}). If the petroleum cluster is structural change, it is visible only at a finer grain: in the domestic input intensity of the petroleum sector and the exports of its suppliers. That is where a test would have to look. Bolivia's gas revenue went largely into transfers ($\Delta\boldsymbol{\omega}$): poverty fell sharply, $\Gamma$ drifted down, and ECI fell.
 \end{prebisch}
 
 
@@ -340,25 +343,28 @@ The \textbf{Structural Change Index} summarizes the entire trajectory in a singl
 \begin{equation}\label{ch23:eq:SCI}
 \text{SCI}(t_0, T) = \frac{\Gamma_T - \Gamma_{t_0}}{\Gamma^{\text{ref}} - \Gamma_{t_0}},
 \end{equation}
-where $\Gamma^{\text{ref}} > \Gamma_{t_0}$ is a reference level of integration chosen by the analyst (here $\Gamma^{\text{ref}} = 0.50$, close to Germany's illustrative 0.52 in Chapter~17). It is a normalization, not the estimated threshold $\Gamma^*$ of Chapter~26. SCI is the fraction of the distance to the reference closed over the period: it equals 0 if nothing changed and 1 if the reference was reached, is negative when integration fell (Argentina, Venezuela in Example~\ref{ch23:ex:velocities}), can exceed 1 on overshoot, and is undefined when $\Gamma_{t_0} \ge \Gamma^{\text{ref}}$.
+where $\Gamma^{\text{ref}} > \Gamma_{t_0}$ is a reference level of integration chosen by the analyst (here $\Gamma^{\text{ref}} = 0.50$, a round number near Germany's 0.544 in 2019 on the 12-sector ICIO basis). It is a normalization, not the estimated threshold $\Gamma^*$ of Chapter~26. SCI is the fraction of the distance to the reference closed over the period: it equals 0 if nothing changed and 1 if the reference was reached, is negative when integration fell (the United States in Example~\ref{ch23:ex:SCI}), can exceed 1 on overshoot, and is undefined when $\Gamma_{t_0} \ge \Gamma^{\text{ref}}$.
 \end{definition}
 
-\begin{example}[SCI for Selected Countries \illustrative]\label{ch23:ex:SCI}
-Using $\Gamma^{\text{ref}} = 0.50$ (\texttt{code/ch23.py}):
+\begin{example}[SCI for Selected Countries]\label{ch23:ex:SCI}
+Using $\Gamma^{\text{ref}} = 0.50$ and the 1995--2014 window of the ICIO 2021 edition (Bolivia: INE base 1990, 1990--2013):
 \begin{center}
 \begin{tabular}{lcccc}
 \toprule
 Country & $\Gamma_{t_0}$ & $\Gamma_T$ & Period & SCI \\
 \midrule
-South Korea & 0.15 & 0.45 & 1960--2000 & 0.86 \\
-China & 0.12 & 0.35 & 1980--2020 & 0.61 \\
-Chile & 0.18 & 0.28 & 1990--2020 & 0.31 \\
-Bolivia & 0.10 & 0.13 & 1990--2019 & 0.075 \\
+Chile & 0.467 & 0.640 & 1995--2014 & $5.30$ \\
+Argentina & 0.407 & 0.476 & 1995--2014 & $0.75$ \\
+United States & 0.475 & 0.457 & 1995--2014 & $-0.72$ \\
+South Korea & 0.626 & 0.522 & 1995--2014 & undefined \\
+Germany & 0.554 & 0.549 & 1995--2014 & undefined \\
+Bolivia & 0.567 & 0.484 & 1990--2013 & undefined \\
 \bottomrule
 \end{tabular}
 \end{center}
+\par{\footnotesize Source: as for Example~\ref{ch23:ex:velocities}. The SCI is recomputed by \texttt{code/ch23.py} from the file \path{data/processed/gamma_velocity.csv}.\par}
 
-Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its gap in 29 years. At Bolivia's rate, full closure would take $29/0.075 \approx 387$ years.
+With the real trajectories the index is mostly undefined. Korea, Germany and Bolivia all start above $\Gamma^{\text{ref}}$, so on this basis they have ``no gap to close''. Where the index is defined, the denominator dominates it: Chile's 5.30 comes from a gap of only 0.033, overshot fivefold. The SCI presumes that development means moving $\Gamma$ from far below a reference to the reference. At the 12-sector level the data supply no such gradient: in 2019, $\Gamma$ for economies as different as Bolivia, Korea, Germany and the United States lies between 0.46 and 0.54. An index of this form is informative only for an indicator with a clear developmental gradient and starting points far from the reference. On this evidence that points to ECI, or to finer-grained network measures, rather than to aggregate $\Gamma$.
 \end{example}
 
 
@@ -368,15 +374,15 @@ Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its
 %% =====================================================================
 
 \begin{enumerate}
-\item The \textbf{structural trajectory} $\{(\Gamma_t, \sigma_{B,t})\}$ is the time series of structural health, plotted in the integration-equality plane. Bolivia: 34 years of wandering in the upper-left corner.
+\item The \textbf{structural trajectory} $\{(\Gamma_t, \sigma_{B,t}, G(\boldsymbol{\pi}_t), N_{\text{eff},t}, \text{ECI}_t)\}$ is the time series of structural health. In the data (INE base 1990 and base 2017, kept separate; OECD ICIO 1995--2019), $\Gamma$ \emph{fell} in both Bolivia (0.567 in 1990, 0.484 in 2013) and Korea (0.626 in 1995, 0.511 in 2019). Complexity separates them: Korea's ECI rose from 1.10 to 1.81, Bolivia's fell from $-0.85$ to $-1.30$.
 
-\item \textbf{Structural breaks} are detectable as discontinuities in $\Gamma_t$, once bootstrap error bands are respected. Per-period $\Gamma_t$ does not control the product $W_t\cdots W_s$: the Dobrushin coefficient $\tau_1$ and the realized-product gap do, and the absolute probability sequence is the time-varying power vector. Bolivia's five epochs show no clear break.
+\item \textbf{Structural breaks} are detectable as discontinuities in $\Gamma_t$, once bootstrap error bands are respected. Per-period $\Gamma_t$ does not control the product $W_t\cdots W_s$: the Dobrushin coefficient $\tau_1$ and the realized-product gap do, and the absolute probability sequence is the time-varying power vector. Bolivia's series shows no break that matches a policy event; the flagged years (1999--2000, 2014) look like effects of how the tables were built.
 
-\item \textbf{Structural velocity} $v_\Gamma$ measures the speed of integration. Bolivia: $+0.01$ per decade (glacial). Korea: $+0.075$ (rapid). At Bolivia's rate, convergence takes 320 years.
+\item \textbf{Structural velocity} $v_\Gamma$ measures the speed of integration. Bolivia: $-0.036$ per decade (1990--2013) and $-0.12$ (2017--2024). Korea: $-0.055$ (1995--2014) and $+0.055$ (2011--2020). At the 12-sector level, velocities flip sign between windows and do not track development.
 
-\item The \textbf{structural-cyclical decomposition} (a definition, based on persistence) separates permanent changes in $W$ from temporary price effects. Commodity booms are cyclical: $\Delta\pi^C$ reverses after the boom. Only booms invested in structural operators produce $\Delta\pi^S > 0$.
+\item The \textbf{structural-cyclical decomposition} (a definition, based on persistence) separates permanent changes in $W$ from temporary price effects. Commodity booms are cyclical: $\Delta\pi^C$ reverses after the boom. Bolivia's $\pi_{\text{gas}}$ rose from 0.047 (2003) to 0.085 (2013) and, on the new base, fell to 0.021 (2024); the change of base prevents a clean decomposition. The sector stayed peripheral in the domestic network throughout.
 
-\item The \textbf{Structural Change Index} (SCI): fraction of the distance to a reference $\Gamma$ closed (negative if integration falls). Korea: 0.86. Bolivia: 0.075 (illustrative).
+\item The \textbf{Structural Change Index} (SCI): fraction of the distance to a reference $\Gamma$ closed (negative if integration falls). With $\Gamma^{\text{ref}} = 0.50$ it is undefined for Korea, Germany and Bolivia, which start above the reference: aggregate $\Gamma$ supplies no developmental gradient for it to measure.
 \end{enumerate}
 
 
@@ -387,19 +393,19 @@ Korea closed 86\% of its structural gap in 40 years. Bolivia closed 7.5\% of its
 
 \begin{enumerate}[label=\textbf{23.\arabic*}, leftmargin=3em]
 
-\item \textbf{Bolivia's trajectory.} Using available I-O tables and EH data: construct Bolivia's structural trajectory for 2000--2019. Plot $(\Gamma_t, \sigma_{B,t})$. Is the trajectory moving toward or away from the target zone?
+\item \textbf{Bolivia's trajectory.} Using INE's input--output matrices (base 1990) and supply-use tables (base 2017), and EH microdata: construct Bolivia's structural trajectory for 2000--2019, keeping the two bases separate. Plot $\Gamma_t$ against $G(\boldsymbol{\pi}_t)$ and, if you can compute it from the EH, against $\sigma_{B,t}$. Which coordinates move? Repeat with sales shares and with the diagonal removed: does the direction of change survive?
 
 \item \textbf{Structural break detection.} Compute $\Delta\Gamma_t$ for each year. Apply the break detection criterion with $k = 2$, and a bootstrap band (Remark~\ref{ch23:rem:conditioning}). Are there any structural breaks? At what years? Do they correspond to policy events? Compute $\tau_1(W_t)$ and the realized-product gap $\Gamma^{(5)}_t$ as well: do they tell the same story as $\Gamma_t$?
 
-\item \textbf{Structural velocity.} Compute $v_\Gamma$ for Bolivia, Chile, and Peru. Which country is integrating fastest? At each country's velocity, when would it reach $\Gamma = 0.40$?
+\item \textbf{Structural velocity.} Compute $v_\Gamma$ for Bolivia (INE), Chile and Peru (OECD ICIO), by endpoints and by OLS. Does each country's velocity keep its sign across the 1995--2014 and 2011--2020 windows? Compare it with each country's change in ECI over the same years. What does the comparison say about $v_\Gamma$ as a measure of development?
 
-\item \textbf{Structural-cyclical decomposition.} For Bolivia 2003--2019: decompose $\Delta\pi_{\text{gas},t}$ into structural and cyclical components using an HP filter. How much of the gas boom was structural?
+\item \textbf{Structural-cyclical decomposition.} For Bolivia, decompose $\pi_{\text{gas},t}$ into structural and cyclical components with an HP filter, on the base-1990 series only (1988--2014). How much of the 2003--2013 rise was structural? How sensitive is the answer to $\lambda$, and to dropping the 2014 outlier? Why must the base-2017 years not be appended to the series?
 
-\item \textbf{Commodity boom counterfactual.} Suppose Bolivia had invested 30\% of gas revenue in cross-block operators (infrastructure connecting gas to traditional sector, technical education for rural workers). Simulate: how much would $\Gamma$ have increased by 2019? What SCI would Bolivia have achieved?
+\item \textbf{Commodity boom counterfactual.} Suppose Bolivia had invested 30\% of gas revenue in cross-block operators (infrastructure connecting gas to traditional sector, technical education for rural workers). Simulate the effect on the hydrocarbons sector's domestic input intensity (0.225 per unit of output in 2019), on its Perron weight, and on $\Gamma$. Which of the three indicators would detect the change, and why might $\Gamma$ not?
 
-\item \textbf{SCI computation.} For the Latin American countries covered by the OECD Inter-Country Input-Output tables, compute $\Gamma$ of the row-normalized domestic input-share matrix $W^P = D^{-1}A$ for the first and last available years, using the same sector classification for every country. Compute SCI with $\Gamma^{\text{ref}} = 0.50$ and rank the countries. Now rank them by the change in ECI. Why is ECI \emph{not} a proxy for $\Gamma$? (Hint: ECI is computed from the country--product export matrix and is standardized across countries each year.)
+\item \textbf{SCI computation.} For the Latin American countries covered by the OECD Inter-Country Input-Output tables, compute $\Gamma$ of the row-normalized domestic input-share matrix $W^P = D^{-1}A$ for the first and last available years, using the same sector classification for every country. Compute SCI with $\Gamma^{\text{ref}} = 0.50$ and rank the countries. For how many is it undefined? Now rank them by the change in ECI. Why is ECI \emph{not} a proxy for $\Gamma$? (Hint: ECI is computed from the country--product export matrix and is standardized across countries each year.)
 
-\item \textbf{Trajectory projection.} Using Bolivia's current structural velocity and the formation model: project the trajectory for 2020--2060 under three scenarios: (a) business as usual ($v_\Gamma = +0.01$/decade), (b) moderate structural reform ($v_\Gamma = +0.03$), (c) Korean-style acceleration ($v_\Gamma = +0.075$). Plot all three trajectories. When does each reach $\Gamma = 0.30$?
+\item \textbf{Trajectory projection.} Bolivia's ECI changed by $-0.44$ over 1995--2019 and by $+0.20$ over 2019--2024; Korea's rose by $+0.70$ over 1995--2019 (\path{data/processed/eci_epochs_bolivia.csv}, \path{eci_facts.csv}). Project Bolivia's ECI for 2025--2060 under three scenarios: (a) the 1995--2019 trend, (b) the 2019--2024 trend, (c) Korea's 1995--2019 pace. Plot all three. When, if ever, does each reach $\text{ECI} = 0$? ECI is standardized across countries each year: what does a ``trend'' in it mean?
 \end{enumerate}
 
 
@@ -453,28 +459,28 @@ subject to the margin constraints. It preserves zeros (if $A_{0,ij} = 0$ then $A
 
 The report maps onto this chapter's framework precisely.
 
-\textbf{Part 1: Structural change is slow.} CEPAL documents that Latin America's export composition changed little over 1990--2010: the region remained specialized in natural resources and low-technology manufactures. In this chapter's terms: $v_\Gamma \approx 0$ for most Latin American countries. The structural trajectory was flat.
+\textbf{Part 1: Structural change is slow.} CEPAL documents that Latin America's export composition changed little over 1990--2010: the region remained specialized in natural resources and low-technology manufactures. In this chapter's terms, the complexity trajectory was flat or falling: Chile's ECI was about 0.1 in 1995 and $-0.06$ in 2019, and Bolivia's fell from $-0.85$ to $-1.30$. The $\Gamma$ velocities are small and of mixed sign (1995--2014, per decade: Chile $+0.091$, Argentina $+0.037$, Brazil $+0.020$, Colombia $-0.036$, Peru $-0.060$; Example~\ref{ch23:ex:velocities}), and, as for Korea, they do not track development.
 
 \textbf{Part 2: Redistribution without structural change is unsustainable.} CEPAL notes that the region's poverty reduction (2000--2012) was driven by commodity booms and fiscal transfers, not by structural transformation. In this chapter's terms: $\Delta\boldsymbol{\omega} \gg \Delta W$. The improvement is cyclical ($\Delta\pi^C > 0$ during the boom) not structural ($\Delta\pi^S \approx 0$). When the commodity cycle reversed (post-2014), poverty stagnated and in some countries reversed.
 
-\textbf{Part 3: The prescription is ``change for equality.''} CEPAL argues for industrial policy, technological upgrading, and institutional reform --- the operators of Chapter~15, stated in institutional language rather than matrix notation. The report's title states a claim: structural change ($\Delta\Gamma > 0$) is necessary for sustained equality ($\sigma_B \downarrow$). In this book that claim is not a theorem; it is the testable conjecture of Chapter~26 (Conjecture~\ref{ch26:conj:growth_equity}).
+\textbf{Part 3: The prescription is ``change for equality.''} CEPAL argues for industrial policy, technological upgrading, and institutional reform --- the operators of Chapter~15, stated in institutional language rather than matrix notation. The report's title states a claim: structural change ($\Delta\Gamma > 0$) is necessary for sustained equality ($\sigma_B \downarrow$). In this book that claim is not a theorem; it is the testable conjecture of Chapter~26 (Conjecture~\ref{ch26:conj:growth_equity}). Bolivia's record is evidence against it in its $\Gamma$ form: between 2005 and 2019 the Gini fell from 0.600 to 0.426 while $\Gamma$ drifted down and ECI fell. The claim survives only as one about \emph{sustaining} equity gains, not achieving them.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{\citet{cepal2012structural}} & \textbf{This chapter} & \textbf{Cross-reference} \\
 \midrule
-Structural change is slow & $v_\Gamma \approx 0.01$/decade & Ex.~\ref{ch23:ex:velocities} \\
+Structural change is slow & ECI flat or falling; $v_\Gamma$ of mixed sign & Ex.~\ref{ch23:ex:velocities} \\
 Redistribution without structural change & $\Delta\boldsymbol{\omega} \gg \Delta W$ & Sec.~\ref{ch23:sec:bolivia}, Epoch 4 \\
 Commodity boom as mirage & $\Delta\pi^C$ reverses & Prebisch Connection \\
-Change for equality & $\Delta\Gamma > 0$ needed for $\sigma_B \downarrow$ & Conjecture (Ch.~26) \\
+Change for equality & $\Delta\Gamma > 0$ needed? Not in Bolivia 2005--19 & Conjecture (Ch.~26) \\
 Policy: industrial upgrading & Operators from Ch.~15 & Ch.~15 \\
 SCI as metric & Fraction of gap closed & Def.~\ref{ch23:def:SCI} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-CEPAL wrote in the language of institutions and policy. This chapter translates into eigenvalues and trajectories. The message is the same: Latin America has been redistributing within a fixed structure, and the structure has not changed. The trajectory visualization (this chapter's vizpanel) is a compact image of what CEPAL's report argues in prose.
+CEPAL wrote in the language of institutions and policy. This chapter translates into eigenvalues and trajectories. The message is largely the same: Latin America has been redistributing within a structure that, measured by what it can produce and export, has not changed. The data add a warning CEPAL did not need to make. At this level of aggregation, the integration of the input--output network is not where the missing structural change shows up: Bolivia's $\Gamma$ is like Korea's, and both fell.
 
 
 %% =====================================================================
@@ -487,6 +493,8 @@ CEPAL wrote in the language of institutions and policy. This chapter translates 
 \textbf{I-O table updating:} \citet{miller2009inputoutput}, \textit{Input-Output Analysis: Foundations and Extensions}, Chapter~8 (RAS and cross-entropy methods). \citet{temursho2018entropy}, ``Entropy-Based Benchmarking Methods.''
 
 \textbf{Structural breaks:} \citet{bai1998estimating}, ``Estimating and Testing Linear Models with Multiple Structural Changes.'' For application to development: \citet{pritchett2000understanding}, ``Understanding Patterns of Economic Growth.''
+
+\textbf{Data used in this chapter:} INE input--output matrices and supply-use tables \citep{ine2026sut}; OECD ICIO \citep{oecd2021icio,oecd2023icio}; Growth Lab complexity data \citep{growthlab2026atlas}; World Development Indicators \citep{worldbank2026wdi}. Scripts and processed files are in \path{data/}.
 
 \textbf{Bolivia's economic history:} \citet{morales1990bolivias}, ``Bolivia's Economic Crisis.'' \citet{weisbrot2009bolivia}, ``Bolivia: The Economy During the Morales Administration.'' Andersen et al.\ (2020), ``Bolivia's Twenty-First Century Commodity Boom,'' INESAD Working Paper.
 

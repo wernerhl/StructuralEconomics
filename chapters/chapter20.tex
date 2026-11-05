@@ -110,8 +110,8 @@ The sources one would use to build a Bolivian SAM:
 \toprule
 \textbf{SAM block} & \textbf{Data source} & \textbf{Detail} \\
 \midrule
-Production $\times$ Production & INE supply-use tables, base 2017 & 42 products $\times$ 39 industries \\
-Production $\times$ Factors & Same tables, value-added block & Compensation, surplus by industry \\
+Production $\times$ Production & INE supply-use tables 2019 & 42 products $\times$ 39 ind. \\
+Production $\times$ Factors & Same, value-added block & Value added by sector \\
 Factors $\times$ Households & EH 2019 & Wages, profits by HH type \\
 Households $\times$ Commodities & EH 2019 (consumption) & Expenditure by HH type \\
 Government $\times$ all & Fiscal data (MEFP) & Tax, transfers, spending \\
@@ -119,7 +119,7 @@ Rest of world & Balance of payments & Exports, imports, FDI \\
 \bottomrule
 \end{tabular}
 \end{center}
-INE publishes supply-use tables annually for 2017--2024 on the base-2017 national accounts, and symmetric $35 \times 35$ input--output matrices for 1988--2009 and 2011--2014 on base 1990 \citep{ine2026sut}. There is no 2016 table. The supply-use tables do not separate domestic from imported use, so an industry-by-industry block of domestic flows has to be derived from them (net taxes and margins removed, imports allocated proportionally, fixed product-sales structure); \texttt{data/compute/compute\_bolivia\_io.py} does this and is the source of every Bolivian I-O number quoted below. INE does not publish a SAM.
+INE publishes supply-use tables annually for 2017--2024 on the base-2017 national accounts, and symmetric $35 \times 35$ input--output matrices for 1988--2009 and 2011--2014 on base 1990 \citep{ine2026sut}. There is no 2016 table. The supply-use tables do not separate domestic from imported use, so an industry-by-industry block of domestic flows has to be derived from them (net taxes and margins removed, imports allocated proportionally, fixed product-sales structure); \path{data/compute/compute_bolivia_io.py} does this and is the source of every Bolivian I-O number quoted below. INE does not publish a SAM.
 \end{example}
 
 \subsection{The SAM Structure}
@@ -337,7 +337,7 @@ The SAM is a toy, but its gas column can be checked against INE's 2019 supply-us
 \item \emph{Size.} The sector is 4.7\% of gross output and 6.1\% of gross value added. The toy's gas account, a fifth of production, overstates it about fourfold.
 \item \emph{Position in $W^P$.} In the 12-sector domestic input-share matrix, the hydrocarbons sector's Perron weight is $\pi = 0.039$. The sector sits at the periphery of the domestic network, not at its center (Chapter~17).
 \end{itemize}
-This is the enclave of Pinto and Prebisch, measured by export orientation, domestic input intensity and $\pi$, not by $\Gamma$. The rents are captured fiscally (IDH and royalties, Chapter~22) rather than through linkages or wages. \par{\footnotesize Source: INE supply-use tables, base 2017, 2019 \citep{ine2026sut}; author's calculations (\texttt{data/compute/compute\_bolivia\_io.py}, \texttt{data/compute/compute\_bolivia\_facts.py}). Toy-SAM ratios: \texttt{code/ch20.py}.\par}
+This is the enclave of Pinto and Prebisch, measured by export orientation, domestic input intensity and $\pi$, not by $\Gamma$. The rents are captured fiscally (IDH and royalties, Chapter~22) rather than through linkages or wages. \par{\footnotesize Source: INE supply-use tables, base 2017, 2019 \citep{ine2026sut}; author's calculations (\path{data/compute/compute_bolivia_io.py}, \path{data/compute/compute_bolivia_facts.py}). Toy-SAM ratios: \texttt{code/ch20.py}.\par}
 
 This is a central theme of \citet{taylor1983structuralist}: in demand-driven structuralist models, the functional and size distribution of income shapes the multiplier, because different recipients have different spending and import propensities. In the SAM, it shows up as a strong Gas-to-Capital cell and a faint Capital-to-Poor-HH cell.
 

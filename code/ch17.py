@@ -280,6 +280,10 @@ check("ILO A share (README)", FACTS["BOL_emp_share_agriculture_2019"] / 100, r(e
 ranked = sorted((v, s) for s, v in ratio.items() if not np.isnan(v))
 print("highest ratio:", ranked[-1][1], "lowest:", ranked[0][1])
 assert ranked[-1][1] == "Financial services"
+ia = sectors.index("Agriculture")
+check("manuf input share from agric", W[sectors.index("Manufacturing"), ia], 0.34, 2)       # "a third"
+check("personal input share from agric", W[sectors.index("Personal services"), ia], 0.14, 2)  # "a seventh"
+check("1/11", 1 / N, 0.091, 3)
 d_ga = pd_["Hydrocarbons"] - pd_["Agriculture"]
 print(f"pi_hydro - pi_agr = {d_ga:+.3f}")
 check("pi_gas - pi_agr", d_ga, -0.052, 3)
@@ -327,6 +331,7 @@ check("bar 1-G BOL", 1 - dash["Bolivia"][2], 0.565, 3); check("bar 1-G KOR", 1 -
 print(f"ratios: G(pi) Korea/Bolivia {dash['Korea'][2]/dash['Bolivia'][2]:.2f}x; Gamma Korea/Bolivia "
       f"{dash['Korea'][0]/dash['Bolivia'][0]:.2f}x; sigma_B {0.62/0.20:.1f}x, Neff {12/3.4:.2f}x, Psi {1.56/0.6:.1f}x")
 check("G ratio", dash["Korea"][2] / dash["Bolivia"][2], 1.5, 1)
+assert eci[("KOR", "2019")] - eci[("BOL", "2019")] > 3          # "more than three standard deviations"
 
 # ---------------------------------------------------------------------
 print("\n== Example ch17:ex:trajectory: book12, domestic, input shares (INE base 1990 | base 2017) ==")
