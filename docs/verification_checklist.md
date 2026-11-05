@@ -117,15 +117,23 @@ Generated from the source tree; regenerate with `grep -n 'TODO-VERIFY' chapters/
 - [ ] L10: this wording may come from Teoria e Politica do Desenvolvimento Economico (1967) rather than the 1961 book; the canonical 1961 line is "um processo historico autonomo, e nao uma etapa ...". Check both editions and give a page.
 
 
-## Bibliography entries to verify (14)
-Each carries an `x-verify` field in `bib/part*.bib`. After checking, fix the entry, delete the field, and re-run `python3 tools/merge_bib.py`.
+## Bibliography entries to verify (23)
+Each carries an `x-verify` field in `bib/*.bib`. After checking, fix the entry, delete the field, and re-run `python3 tools/merge_bib.py`.
 
+- [ ] `avin2015homophily` (Avin, Chen and Keller, Barbara and Lotker, Zvi and Mathieu, , 2015): page range and DOI
 - [ ] `benabou1996heterogeneity` (B{\'e}nabou, Roland, 1996): Text cites "Benabou (1996)" on stratification through local interactions without a title; Benabou also published "Equity and Efficiency in Human Capital Investment: The Local Connection", REStud 63(2), 1996. Confirm which paper is meant.
+- [ ] `bondareva1963some` (Bondareva, Olga N., 1963): volume and pages (Problemy Kibernetiki 10, 119--139) and English title translation
+- [ ] `brody1970proportions` (Br{\'o}dy, Andr{\'a}s, 1970): co-publisher Akad{\'e}miai Kiad{\'o}, Budapest; exact subtitle
 - [ ] `chandrasekhar2016econometrics` (Chandrasekhar, Arun G. and Lewis, Randall, 2016): Unpublished working paper with several drafts (first circulated c.\ 2011); the text gives no year. Confirm the draft year to cite.
 - [ ] `deaton1994saving` (Deaton, Angus S. and Paxson, Christina H., 1994): Text cites "Deaton and Paxson (1994)" for APC identification without a title; the Taiwan chapter is assumed. Their "Intertemporal Choice and Inequality" (JPE 102(3), 1994) is the other 1994 candidate.
+- [ ] `dekerchove2008maximizing` (de Kerchove, Cristobald and Ninove, Laure and Van Dooren, Pa, 2008): issue number and pages (Linear Algebra Appl. 429; arXiv:0711.2867)
 - [ ] `furtado1974mito` (Furtado, Celso, 1974): book says only "Furtado's (1974) thesis of cultural dependency"; confirm this is the intended 1974 work
+- [ ] `ghiglino2010keeping` (Ghiglino, Christian and Goyal, Sanjeev, 2010): page range 90--119 and issue number
+- [ ] `ghosh2006growing` (Ghosh, Arpita and Boyd, Stephen, 2006): page range in the CDC 2006 proceedings
+- [ ] `hajnal1958weak` (Hajnal, John, 1958): volume, issue and pages from memory; check against the journal (the journal was then titled Proceedings of the Cambridge Philosophical Society)
 - [ ] `harsanyi1977morality` (Harsanyi, John C., 1977): Text cites "Harsanyi (1977)" on "true" (full-information) preferences without a title; this article is assumed. The other 1977 candidate is the book Rational Behavior and Bargaining Equilibrium in Games and Social Situations (Cambridge UP).
 - [ ] `jimenezpozo2006bolivia` (Jim{\'e}nez Pozo, Wilson and Landa Casazola, Fernando and Ya, 2006): book cites "Jimenez Pozo, Landa Casazola, and Yanzon (2006), Bolivia: Indicadores de equidad etnica, UDAPE"; no such UDAPE title found. This chapter by the same first two authors (third author Yanez Aguilar) is the closest match; confirm the intended work
+- [ ] `karimi2018homophily` (Karimi, Fariba and G{\'e}nois, Mathieu and Wagner, Claudia a, 2018): article number and DOI
 - [ ] `love1994economic` (Love, Joseph L., 1994): year (1994 vs. the 1995 printing on Cambridge Core) and pages (391--460 or 393--460); the book had 1996, the year of the reprint in Bethell (ed.), Ideas and Ideologies in Twentieth-Century Latin America
 - [ ] `meyer1980condition` (Meyer, Jr., Carl D., 1980): that this is the Meyer (1980) intended in ch06 Further Reading (fundamental matrix / group inverse, Appendix 6C)
 - [ ] `morales1990bolivias` (Morales, Juan Antonio and Sachs, Jeffrey D., 1990): in the 1990 volume this is "Book II" (several chapters, overview pp. 159-174); confirm authorship and page range. A shorter version appeared in Sachs (ed.), Developing Country Debt and the World Economy (1989), pp. 57-80
@@ -134,3 +142,4 @@ Each carries an `x-verify` field in `bib/part*.bib`. After checking, fix the ent
 - [ ] `tavares1971mas` (Tavares, Maria da Concei{\c{c}}{\~a}o and Serra, Jos{\'e}, 1971): venue: book says El Trimestre Economico (1971); could not confirm the journal, volume or issue. A Spanish reprint is in Desarrollo latinoamericano: ensayos criticos (FCE, 1974), pp. 203-248
 - [ ] `temursho2018entropy` (Temursho, Umed, 2018): volume and pages; the book cited it as Economic Systems Research (2017). The paper is on benchmarking time series (earlier GGDC Research Memorandum 122, 2012), not on I-O table updating as the Further Reading heading implies
 - [ ] `touri2014product` (Touri, Behrouz and Nedi{\'c}, Angelia, 2014): the text names "Touri and Nedic" with no year; confirm this is the intended work (alternative: On Backward Product of Stochastic Matrices, Automatica 48, 2012); add volume and pages
+- [ ] `wirkierman2021leontief` (Wirkierman, Ariel Luis and Bianchi, Monica and Torriero, Ann, 2021): volume, issue and pages (online 2021); year of the printed issue
