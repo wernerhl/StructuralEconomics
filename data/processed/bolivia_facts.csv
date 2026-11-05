@@ -1,0 +1,143 @@
+fact_id,value,unit,years,source,derivation
+BOL_gdp_growth_mean_2006_2019,4.52,% per year (arithmetic mean),2006-2019,WDI NY.GDP.MKTP.KD.ZG,mean of 14 annual rates
+BOL_gdp_growth_geo_2006_2019,4.51,% per year (compound),2006-2019,WDI NY.GDP.MKTP.KD.ZG,geometric mean
+BOL_gdp_growth_mean_2006_2014,5.06,% per year (arithmetic mean),2006-2014,WDI NY.GDP.MKTP.KD.ZG,mean of 9 annual rates
+BOL_gdp_growth_geo_2006_2014,5.06,% per year (compound),2006-2014,WDI NY.GDP.MKTP.KD.ZG,geometric mean
+BOL_gdp_growth_mean_1990_2019,4.04,% per year (arithmetic mean),1990-2019,WDI NY.GDP.MKTP.KD.ZG,mean of 30 annual rates
+BOL_gdp_growth_geo_1990_2019,4.03,% per year (compound),1990-2019,WDI NY.GDP.MKTP.KD.ZG,geometric mean
+BOL_gdp_growth_mean_1986_2019,3.76,% per year (arithmetic mean),1986-2019,WDI NY.GDP.MKTP.KD.ZG,mean of 34 annual rates
+BOL_gdp_growth_geo_1986_2019,3.74,% per year (compound),1986-2019,WDI NY.GDP.MKTP.KD.ZG,geometric mean
+BOL_gdp_growth_mean_2006_2024,3.46,% per year (arithmetic mean),2006-2024,WDI NY.GDP.MKTP.KD.ZG,mean of 19 annual rates
+BOL_gdp_growth_geo_2006_2024,3.36,% per year (compound),2006-2024,WDI NY.GDP.MKTP.KD.ZG,geometric mean
+BOL_gdp_usd_2019,49.06,US$ billion (current),2019,WDI NY.GDP.MKTP.CD,
+BOL_gdp_usd_2023,52.34,US$ billion (current),2023,WDI NY.GDP.MKTP.CD,
+BOL_gdp_usd_2024,54.88,US$ billion (current),2024,WDI NY.GDP.MKTP.CD,
+BOL_gdppc_ppp_current_2019,11005.0,current intl $ (2021 ICP vintage),2019,WDI NY.GDP.PCAP.PP.CD,
+KOR_gdppc_ppp_current_2019,46511.0,current intl $ (2021 ICP vintage),2019,WDI NY.GDP.PCAP.PP.CD,
+BOL_labour_force_2019_mn,5.95,million persons,2019,WDI SL.TLF.TOTL.IN (ILO modelled),
+DEU_labour_force_2019_mn,43.98,million persons,2019,WDI SL.TLF.TOTL.IN (ILO modelled),
+BOL_population_2012_mn,10.52,million,2012,WDI SP.POP.TOTL,
+BOL_population_2019_mn,11.67,million,2019,WDI SP.POP.TOTL,
+BOL_population_2024_mn,12.41,million,2024,WDI SP.POP.TOTL,
+BOL_remittances_2007,1.055,US$ billion,2007,WDI BX.TRF.PWKR.CD.DT,
+BOL_remittances_2007_Bs,7.35,Bs billion,2007,WDI BX.TRF.PWKR.CD.DT,x 6.96 Bs/US$
+BOL_remittances_pct_gdp_2007,8.04,% of GDP,2007,WDI BX.TRF.PWKR.DT.GD.ZS,
+BOL_remittances_2019,1.336,US$ billion,2019,WDI BX.TRF.PWKR.CD.DT,
+BOL_remittances_2019_Bs,9.3,Bs billion,2019,WDI BX.TRF.PWKR.CD.DT,x 6.96 Bs/US$
+BOL_remittances_pct_gdp_2019,2.72,% of GDP,2019,WDI BX.TRF.PWKR.DT.GD.ZS,
+BOL_remittances_2023,1.449,US$ billion,2023,WDI BX.TRF.PWKR.CD.DT,
+BOL_remittances_2023_Bs,10.08,Bs billion,2023,WDI BX.TRF.PWKR.CD.DT,x 6.96 Bs/US$
+BOL_remittances_pct_gdp_2023,2.77,% of GDP,2023,WDI BX.TRF.PWKR.DT.GD.ZS,
+BOL_remittances_2024,1.269,US$ billion,2024,WDI BX.TRF.PWKR.CD.DT,
+BOL_remittances_2024_Bs,8.83,Bs billion,2024,WDI BX.TRF.PWKR.CD.DT,x 6.96 Bs/US$
+BOL_remittances_pct_gdp_2024,2.31,% of GDP,2024,WDI BX.TRF.PWKR.DT.GD.ZS,
+BOL_fuel_exports_share_2006,48.8,% of merchandise exports,2006,WDI TX.VAL.FUEL.ZS.UN (UN Comtrade),
+BOL_ores_metals_exports_share_2006,22.0,% of merchandise exports,2006,WDI TX.VAL.MMTL.ZS.UN,
+BOL_fuel_exports_share_2013,54.5,% of merchandise exports,2013,WDI TX.VAL.FUEL.ZS.UN (UN Comtrade),
+BOL_ores_metals_exports_share_2013,20.5,% of merchandise exports,2013,WDI TX.VAL.MMTL.ZS.UN,
+BOL_fuel_exports_share_2014,51.7,% of merchandise exports,2014,WDI TX.VAL.FUEL.ZS.UN (UN Comtrade),
+BOL_ores_metals_exports_share_2014,19.9,% of merchandise exports,2014,WDI TX.VAL.MMTL.ZS.UN,
+BOL_fuel_exports_share_2019,32.1,% of merchandise exports,2019,WDI TX.VAL.FUEL.ZS.UN (UN Comtrade),
+BOL_ores_metals_exports_share_2019,28.7,% of merchandise exports,2019,WDI TX.VAL.MMTL.ZS.UN,
+BOL_fuel_exports_share_2023,19.7,% of merchandise exports,2023,WDI TX.VAL.FUEL.ZS.UN (UN Comtrade),
+BOL_ores_metals_exports_share_2023,29.5,% of merchandise exports,2023,WDI TX.VAL.MMTL.ZS.UN,
+BOL_fuel_exports_share_2024,18.9,% of merchandise exports,2024,WDI TX.VAL.FUEL.ZS.UN (UN Comtrade),
+BOL_ores_metals_exports_share_2024,43.6,% of merchandise exports,2024,WDI TX.VAL.MMTL.ZS.UN,
+BOL_natgas_rents_pct_gdp_2006,3.56,% of GDP,2006,WDI NY.GDP.NGAS.RT.ZS,
+BOL_natgas_rents_pct_gdp_2013,5.56,% of GDP,2013,WDI NY.GDP.NGAS.RT.ZS,
+BOL_natgas_rents_pct_gdp_2019,2.07,% of GDP,2019,WDI NY.GDP.NGAS.RT.ZS,
+BOL_natgas_rents_pct_gdp_2021,1.85,% of GDP,2021,WDI NY.GDP.NGAS.RT.ZS,
+BOL_internet_users_2012,35.3,% of population,2012,WDI IT.NET.USER.ZS (ITU),
+BOL_internet_users_2019,47.5,% of population,2019,WDI IT.NET.USER.ZS (ITU),
+BOL_internet_users_2023,77.3,% of population,2023,WDI IT.NET.USER.ZS (ITU),
+BOL_internet_users_2024,79.7,% of population,2024,WDI IT.NET.USER.ZS (ITU),
+BOL_account_ownership_female_2017,53.9,% of age 15+,2017,WDI FX.OWN.TOTL.FE.ZS (Global Findex),
+BOL_account_ownership_male_2017,55.0,% of age 15+,2017,WDI FX.OWN.TOTL.MA.ZS (Global Findex),
+BOL_account_ownership_female_2021,63.3,% of age 15+,2021,WDI FX.OWN.TOTL.FE.ZS (Global Findex),
+BOL_account_ownership_male_2021,74.0,% of age 15+,2021,WDI FX.OWN.TOTL.MA.ZS (Global Findex),
+BOL_account_ownership_female_2024,53.5,% of age 15+,2024,WDI FX.OWN.TOTL.FE.ZS (Global Findex),
+BOL_account_ownership_male_2024,60.3,% of age 15+,2024,WDI FX.OWN.TOTL.MA.ZS (Global Findex),
+BOL_self_employed_2019,68.1,% of employment (ILO modelled),2019,WDI SL.EMP.SELF.ZS,
+BOL_female_lfp_2019,66.2,% of women 15+ (ILO modelled),2019,WDI SL.TLF.CACT.FE.ZS,
+BOL_self_employed_2024,66.5,% of employment (ILO modelled),2024,WDI SL.EMP.SELF.ZS,
+BOL_female_lfp_2024,72.4,% of women 15+ (ILO modelled),2024,WDI SL.TLF.CACT.FE.ZS,
+BOL_INE_extreme_poverty_oldline_2005,38.2,% of population,2005,"INE cuadro 3.06.01.02 (EH 2005-2018, old lines)",
+BOL_INE_poverty_oldline_2005,60.6,% of population,2005,"INE cuadro 3.06.01.01 (EH 2005-2018, old lines)",
+BOL_INE_extreme_poverty_oldline_2006,37.7,% of population,2006,"INE cuadro 3.06.01.02 (EH 2005-2018, old lines)",
+BOL_INE_poverty_oldline_2006,59.9,% of population,2006,"INE cuadro 3.06.01.01 (EH 2005-2018, old lines)",
+BOL_INE_extreme_poverty_oldline_2018,15.2,% of population,2018,"INE cuadro 3.06.01.02 (EH 2005-2018, old lines)",
+BOL_INE_poverty_oldline_2018,34.6,% of population,2018,"INE cuadro 3.06.01.01 (EH 2005-2018, old lines)",
+BOL_INE_extreme_poverty_EPF_2016,19.2,% of population,2016,INE cuadro 3.06.01.02-rev25 (EPF 2015-16 lines),
+BOL_INE_poverty_EPF_2016,43.3,% of population,2016,INE cuadro 3.06.01.01-rev25 (EPF 2015-16 lines),
+BOL_INE_extreme_poverty_EPF_2019,13.2,% of population,2019,INE cuadro 3.06.01.02-rev25 (EPF 2015-16 lines),
+BOL_INE_poverty_EPF_2019,37.7,% of population,2019,INE cuadro 3.06.01.01-rev25 (EPF 2015-16 lines),
+BOL_INE_extreme_poverty_EPF_2024,13.3,% of population,2024,INE cuadro 3.06.01.02-rev25 (EPF 2015-16 lines),
+BOL_INE_poverty_EPF_2024,38.1,% of population,2024,INE cuadro 3.06.01.01-rev25 (EPF 2015-16 lines),
+BOL_INE_extreme_poverty_EPF_2025,16.7,% of population,2025,INE cuadro 3.06.01.02-rev25 (EPF 2015-16 lines),
+BOL_INE_poverty_EPF_2025,44.7,% of population,2025,INE cuadro 3.06.01.01-rev25 (EPF 2015-16 lines),
+BOL_INE_gini_2005,0.6,"Gini, per-capita household income",2005,INE cuadro 3.06.01.03-rev25,
+BOL_INE_gini_2006,0.592,"Gini, per-capita household income",2006,INE cuadro 3.06.01.03-rev25,
+BOL_INE_gini_2018,0.435,"Gini, per-capita household income",2018,INE cuadro 3.06.01.03-rev25,
+BOL_INE_gini_2019,0.426,"Gini, per-capita household income",2019,INE cuadro 3.06.01.03-rev25,
+BOL_INE_gini_2024,0.418,"Gini, per-capita household income",2024,INE cuadro 3.06.01.03-rev25,
+BOL_INE_gini_2025,0.426,"Gini, per-capita household income",2025,INE cuadro 3.06.01.03-rev25,
+BOL_PIP_gini_2000,0.616,"Gini (income), PIP",2000,World Bank PIP API,
+BOL_PIP_pov300_2000,28.2,% below $3.00/day 2021 PPP,2000,World Bank PIP API,
+BOL_PIP_gini_2005,0.585,"Gini (income), PIP",2005,World Bank PIP API,
+BOL_PIP_pov300_2005,18.7,% below $3.00/day 2021 PPP,2005,World Bank PIP API,
+BOL_PIP_gini_2006,0.567,"Gini (income), PIP",2006,World Bank PIP API,
+BOL_PIP_pov300_2006,15.9,% below $3.00/day 2021 PPP,2006,World Bank PIP API,
+BOL_PIP_gini_2019,0.416,"Gini (income), PIP",2019,World Bank PIP API,
+BOL_PIP_pov300_2019,3.1,% below $3.00/day 2021 PPP,2019,World Bank PIP API,
+BOL_PIP_gini_2024,0.409,"Gini (income), PIP",2024,World Bank PIP API,
+BOL_PIP_pov300_2024,2.1,% below $3.00/day 2021 PPP,2024,World Bank PIP API,
+BOL_hydrocarbons_va_share_2000_b1990,3.51,% of total gross value added (basic prices),2000,INE SUT base 1990,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2000_b1990,3.96,% of gross output,2000,INE SUT base 1990,
+BOL_hydrocarbons_export_share_of_output_2000_b1990,22.0,% of sector output exported,2000,INE SUT base 1990,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2000_b1990,0.434,domestic intermediate inputs per unit of output,2000,INE SUT base 1990,
+BOL_hydrocarbons_va_share_2006_b1990,7.85,% of total gross value added (basic prices),2006,INE SUT base 1990,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2006_b1990,9.66,% of gross output,2006,INE SUT base 1990,
+BOL_hydrocarbons_export_share_of_output_2006_b1990,69.2,% of sector output exported,2006,INE SUT base 1990,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2006_b1990,0.381,domestic intermediate inputs per unit of output,2006,INE SUT base 1990,
+BOL_hydrocarbons_va_share_2013_b1990,10.01,% of total gross value added (basic prices),2013,INE SUT base 1990,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2013_b1990,16.44,% of gross output,2013,INE SUT base 1990,
+BOL_hydrocarbons_export_share_of_output_2013_b1990,55.3,% of sector output exported,2013,INE SUT base 1990,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2013_b1990,0.456,domestic intermediate inputs per unit of output,2013,INE SUT base 1990,
+BOL_hydrocarbons_va_share_2017_b2017,6.28,% of total gross value added (basic prices),2017,INE SUT base 2017,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2017_b2017,5.01,% of gross output,2017,INE SUT base 2017,
+BOL_hydrocarbons_export_share_of_output_2017_b2017,68.1,% of sector output exported,2017,INE SUT base 2017,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2017_b2017,0.252,domestic intermediate inputs per unit of output,2017,INE SUT base 2017,
+BOL_hydrocarbons_comp_share_of_va_2017_b2017,6.1,% of sector VA paid as compensation of employees,2017,INE SUT base 2017,D1 / B1b
+BOL_hydrocarbons_va_share_2019_b2017,6.14,% of total gross value added (basic prices),2019,INE SUT base 2017,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2019_b2017,4.7,% of gross output,2019,INE SUT base 2017,
+BOL_hydrocarbons_export_share_of_output_2019_b2017,70.1,% of sector output exported,2019,INE SUT base 2017,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2019_b2017,0.225,domestic intermediate inputs per unit of output,2019,INE SUT base 2017,
+BOL_hydrocarbons_comp_share_of_va_2019_b2017,6.0,% of sector VA paid as compensation of employees,2019,INE SUT base 2017,D1 / B1b
+BOL_hydrocarbons_va_share_2023_b2017,4.44,% of total gross value added (basic prices),2023,INE SUT base 2017,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2023_b2017,3.29,% of gross output,2023,INE SUT base 2017,
+BOL_hydrocarbons_export_share_of_output_2023_b2017,68.2,% of sector output exported,2023,INE SUT base 2017,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2023_b2017,0.217,domestic intermediate inputs per unit of output,2023,INE SUT base 2017,
+BOL_hydrocarbons_comp_share_of_va_2023_b2017,8.5,% of sector VA paid as compensation of employees,2023,INE SUT base 2017,D1 / B1b
+BOL_hydrocarbons_va_share_2024_b2017,3.28,% of total gross value added (basic prices),2024,INE SUT base 2017,industry 05 (b2017) / 6 (b1990) VA over total industry VA
+BOL_hydrocarbons_output_share_2024_b2017,2.55,% of gross output,2024,INE SUT base 2017,
+BOL_hydrocarbons_export_share_of_output_2024_b2017,71.4,% of sector output exported,2024,INE SUT base 2017,model-D industry exports / output
+BOL_hydrocarbons_dom_inputs_per_output_2024_b2017,0.241,domestic intermediate inputs per unit of output,2024,INE SUT base 2017,
+BOL_hydrocarbons_comp_share_of_va_2024_b2017,5.7,% of sector VA paid as compensation of employees,2024,INE SUT base 2017,D1 / B1b
+BOL_emp_share_agriculture_2019,27.4,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_A
+BOL_female_share_agriculture_2019,46.0,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_A
+BOL_emp_share_mining_quarrying_incl_hydrocarbons_2019,1.3,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_B
+BOL_female_share_mining_quarrying_incl_hydrocarbons_2019,6.5,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_B
+BOL_emp_share_manufacturing_2019,11.2,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_C
+BOL_female_share_manufacturing_2019,44.1,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_C
+BOL_emp_share_construction_2019,7.9,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_F
+BOL_female_share_construction_2019,3.1,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_F
+BOL_emp_share_commerce_2019,17.1,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_G
+BOL_female_share_commerce_2019,61.4,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_G
+BOL_emp_share_transport_2019,7.1,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_H
+BOL_female_share_transport_2019,3.9,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_H
+BOL_emp_share_public_administration_2019,2.6,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_O
+BOL_female_share_public_administration_2019,34.3,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_O
+BOL_emp_share_domestic_services_2019,1.9,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_T
+BOL_female_share_domestic_services_2019,93.9,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_T
+BOL_emp_share_finance_2019,0.7,% of employment,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_K
+BOL_female_share_finance_2019,46.9,% of sector employment that is female,2019,ILOSTAT DF_EMP_TEMP_SEX_ECO_NB,ECO_ISIC4_K

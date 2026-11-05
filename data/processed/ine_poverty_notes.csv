@@ -1,0 +1,50 @@
+table,series_vintage,note
+3.06.01.02,old_lines_2005_2018,Fuente: Instituto Nacional de Estadística- Encuesta de Hogares 2005-2018
+3.06.01.02,old_lines_2005_2018,"(1) Corresponde a indicadores obtenidos por el método del ingreso, calculados a partir de la línea de pobreza."
+3.06.01.02,old_lines_2005_2018,(2) UDAPE con datos del INE (Encuesta de Hogares 2005).
+3.06.01.02,old_lines_2005_2018,Serie revisada de la Encuesta de Hogares 2005-2018.
+3.06.01.02,old_lines_2005_2018,"A partir de la Encuesta de Hogares 2011, las estimaciones fueron realizadas con los factores de expansión calculados en base a las proyecciones de población basada en el Censo 2012."
+3.06.01.02,old_lines_2005_2018,No se realizó la Encuesta de Hogares 2010.
+3.06.01.02,old_lines_2005_2018,"A partir de 2008 las líneas de pobreza son construidas con precios diferenciados para 9 ciudades capitales más la ciudad de El Alto. Asimismo, no se realizaron imputaciones en los ingresos."
+3.06.01.01,old_lines_2005_2018,Fuente: Instituto Nacional de Estadística- Encuesta de Hogares 2005-2018
+3.06.01.01,old_lines_2005_2018,"(1) Corresponde a indicadores obtenidos por el método del ingreso, calculados a partir de la línea de pobreza."
+3.06.01.01,old_lines_2005_2018,(2) UDAPE con datos del INE (Encuesta de Hogares 2005).
+3.06.01.01,old_lines_2005_2018,Serie revisada de la Encuesta de Hogares 2005-2018.
+3.06.01.01,old_lines_2005_2018,"A partir de la Encuesta de Hogares 2011, las estimaciones fueron realizadas con los factores de expansión calculados en base a las proyecciones de población basada en el Censo 2012."
+3.06.01.01,old_lines_2005_2018,No se realizó la Encuesta de Hogares 2010.
+3.06.01.01,old_lines_2005_2018,"A partir de 2008 las líneas de pobreza son construidas con precios diferenciados para 9 ciudades capitales más la ciudad de El Alto. Asimismo, no se realizaron imputaciones en los ingresos."
+3.06.01.02,EPF2015_lines_2016_2025,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2016-2025"
+3.06.01.02,EPF2015_lines_2016_2025,"(1) Corresponde a indicadores obtenidos por el método del ingreso, calculados a partir de la línea de pobreza. No se realizaron imputaciones en los ingresos."
+3.06.01.02,EPF2015_lines_2016_2025,Notas: El año 2025 considera factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.02,EPF2015_lines_2016_2025_rev25,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2016-2025"
+3.06.01.02,EPF2015_lines_2016_2025_rev25,La Canasta Básica Alimentaria (CBA) se calcula con base en la Encuesta de Presupuestos Familiares EPF 2015-2016. Información técnica disponible en: https://www.ine.gob.bo/index.php/estadisticas-economicas/informacion-tecnica-pobreza/
+3.06.01.02,EPF2015_lines_2016_2025_rev25,(1) Corresponde a Indicadores FGT estimados mediante Líneas de Pobreza derivadas de la metodología de la CBA. No se realizaron imputaciones en los ingresos y los valores pueden presentar diferencias menores por redondeo.
+3.06.01.02,EPF2015_lines_2016_2025_rev25,"Metodología FGT(α): El índice de pobreza Foster-Greer-Thorbecke (FGT) mide la incidencia (α=0), brecha (α=1) y severidad de la pobreza extrema (α=2). El FGT2 denominado históricamente como 'Magnitud' en los reportes oficiales del INE, conceptualmente corresponde al indicador P2 de severidad de la pobreza extrema (FGT2), el cual pondera la desigualdad entre la población en extrema pobreza."
+3.06.01.02,EPF2015_lines_2016_2025_rev25,Nota: Las estadísticas e indicadores estimados consideran factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.01,EPF2015_lines_2016_2025,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2016-2025"
+3.06.01.01,EPF2015_lines_2016_2025,"(1) Corresponde a indicadores obtenidos por el método del ingreso, calculados a partir de la línea de pobreza. No se realizaron imputaciones en los ingresos."
+3.06.01.01,EPF2015_lines_2016_2025,Notas: El año 2025 considera factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.01,EPF2015_lines_2016_2025_rev25,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2016-2025"
+3.06.01.01,EPF2015_lines_2016_2025_rev25,La Canasta Básica Alimentaria (CBA) se calcula con base en la Encuesta de Presupuestos Familiares EPF 2015-2016. Información técnica disponible en: https://www.ine.gob.bo/index.php/estadisticas-economicas/informacion-tecnica-pobreza/
+3.06.01.01,EPF2015_lines_2016_2025_rev25,(1) Corresponde a Indicadores FGT estimados mediante Líneas de Pobreza derivadas de la metodología de la CBA. No se realizaron imputaciones en los ingresos y los valores pueden presentar diferencias menores por redondeo.
+3.06.01.01,EPF2015_lines_2016_2025_rev25,"Metodología FGT(α): El índice de pobreza Foster-Greer-Thorbecke (FGT) mide la incidencia (α=0), brecha (α=1) y severidad de la pobreza (α=2). El FGT2 denominado históricamente como 'Magnitud' en los reportes oficiales del INE, conceptualmente corresponde al indicador P2 de severidad de la pobreza (FGT2), el cual pondera la desigualdad entre la población pobre."
+3.06.01.01,EPF2015_lines_2016_2025_rev25,Nota: Las estadísticas e indicadores estimados consideran factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.03,gini_2005_2025,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2005-2025"
+3.06.01.03,gini_2005_2025,"(1) UDAPE, elaborado con datos del INE(Encuesta de Hogares 2005)."
+3.06.01.03,gini_2005_2025,El cálculo del indicador excluye los ceros en el ingreso per cápita.
+3.06.01.03,gini_2005_2025,No se realizó la Encuesta de Hogares 2010.
+3.06.01.03,gini_2005_2025,Notas: El año 2025 considera factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.03,gini_2005_2025_rev25,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2005-2025"
+3.06.01.03,gini_2005_2025_rev25,(1) Elaborado por la Unidad de Análisis de Políticas Sociales y Económicas (UDAPE) con datos de la Encuesta de Hogares (INE 2005).
+3.06.01.03,gini_2005_2025_rev25,El cálculo del indicador excluye los ceros en el ingreso per cápita. No se realizaron imputaciones en los ingresos y los valores pueden presentar diferencias menores por redondeo.
+3.06.01.03,gini_2005_2025_rev25,No se realizó la Encuesta de Hogares 2010.
+3.06.01.03,gini_2005_2025_rev25,Notas: El periodo 2011 a 2025 considera factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.04,percentile_ratio_2005_2025,"Fuente : Instituto Nacional de Estadística, Encuesta de Hogares 2005-2025"
+3.06.01.04,percentile_ratio_2005_2025,"(1) UDAPE, elaborado con datos del INE(Encuesta de Hogares 2005)."
+3.06.01.04,percentile_ratio_2005_2025,El cálculo del indicador excluye los ceros en el ingreso per cápita.
+3.06.01.04,percentile_ratio_2005_2025,No se realizó la Encuesta de Hogares 2010.
+3.06.01.04,percentile_ratio_2005_2025,Notas: El año 2025 considera factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025.
+3.06.01.05,poverty_lines_rev25,Fuente: Instituto Nacional de Estadística con base a información de la Encuesta de Presupuestos Familiares 2015-2016
+3.06.01.05,poverty_lines_rev25,"(1) Corresponde al promedio ponderado del valor de las líneas, para el área urbana."
+3.06.01.05,poverty_lines_rev25,"(2) Las estadísticas e indicadores estimados con fuente Encuesta de Hogares sección gastos alimentarios, consideran factores de expansión basados en las Estimaciones y Proyecciones de Población Revisión 2025."
+3.06.01.05,poverty_lines_rev25,Metodología disponible en: https://www.ine.gob.bo/index.php/estadisticas-economicas/actualizacion-lineas-de-pobreza/

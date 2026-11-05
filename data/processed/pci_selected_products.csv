@@ -1,0 +1,331 @@
+product_hs92_code,description,year,pci,export_value
+1201,Soya beans,1995,-1.565,6714607095
+1201,Soya beans,1996,-1.941,8902976793
+1201,Soya beans,1997,-1.868,10020522376
+1201,Soya beans,1998,-1.345,8024514663
+1201,Soya beans,1999,-1.736,6835159952
+1201,Soya beans,2000,-1.86,8478524040
+1201,Soya beans,2001,-1.432,9695755005
+1201,Soya beans,2002,-1.413,10164938815
+1201,Soya beans,2003,-1.857,14823330756
+1201,Soya beans,2004,-1.663,15047899413
+1201,Soya beans,2005,-1.58,14800896850
+1201,Soya beans,2006,-1.346,15451498386
+1201,Soya beans,2007,-1.617,21823434854
+1201,Soya beans,2008,-0.874,34347096584
+1201,Soya beans,2009,-1.243,31225017092
+1201,Soya beans,2010,-0.826,37137774635
+1201,Soya beans,2011,-0.762,42563826963
+1201,Soya beans,2012,-0.985,49798762072
+1201,Soya beans,2013,-1.506,52681068562
+1201,Soya beans,2014,-1.549,55563324504
+1201,Soya beans,2015,-1.018,47909068134
+1201,Soya beans,2016,-1.511,49229221321
+1201,Soya beans,2017,-1.595,54409028298
+1201,Soya beans,2018,-1.633,56392254154
+1201,Soya beans,2019,-1.808,52352619126
+1201,Soya beans,2020,-1.957,62173938332
+1201,Soya beans,2021,-2.341,75713101946
+1201,Soya beans,2022,-2.346,91125274593
+1201,Soya beans,2023,-3.002,90097612049
+1201,Soya beans,2024,-2.574,76822302993
+2304,Soybean oil-cake,1995,-0.788,5244046641
+2304,Soybean oil-cake,1996,-1.316,7348504366
+2304,Soybean oil-cake,1997,-0.889,8041924103
+2304,Soybean oil-cake,1998,-1.086,6443091005
+2304,Soybean oil-cake,1999,-0.909,5514213880
+2304,Soybean oil-cake,2000,-1.032,6320761730
+2304,Soybean oil-cake,2001,-0.959,7275734387
+2304,Soybean oil-cake,2002,-0.965,7755546075
+2304,Soybean oil-cake,2003,-0.729,8872793779
+2304,Soybean oil-cake,2004,-0.831,10824746249
+2304,Soybean oil-cake,2005,-0.68,10344521319
+2304,Soybean oil-cake,2006,-0.653,10764220983
+2304,Soybean oil-cake,2007,-0.554,14104974604
+2304,Soybean oil-cake,2008,-0.247,19958734099
+2304,Soybean oil-cake,2009,-0.411,20219182937
+2304,Soybean oil-cake,2010,-0.559,21041723769
+2304,Soybean oil-cake,2011,-0.385,23400188948
+2304,Soybean oil-cake,2012,-0.295,25740671131
+2304,Soybean oil-cake,2013,-0.504,29328423386
+2304,Soybean oil-cake,2014,-0.406,30788901752
+2304,Soybean oil-cake,2015,-0.606,25091340333
+2304,Soybean oil-cake,2016,-0.833,23430633808
+2304,Soybean oil-cake,2017,-0.881,21678650756
+2304,Soybean oil-cake,2018,-0.848,24544162266
+2304,Soybean oil-cake,2019,-0.798,22426734985
+2304,Soybean oil-cake,2020,-1.076,22524414697
+2304,Soybean oil-cake,2021,-1.312,26878063430
+2304,Soybean oil-cake,2022,-1.377,32864540524
+2304,Soybean oil-cake,2023,-1.572,31990280800
+2304,Soybean oil-cake,2024,-1.549,28471088455
+2603,Copper ores,1995,-2.162,6328883721
+2603,Copper ores,1996,-1.859,5605173000
+2603,Copper ores,1997,-1.664,5473226104
+2603,Copper ores,1998,-2.028,4466515448
+2603,Copper ores,1999,-2.157,4905452499
+2603,Copper ores,2000,-1.487,6002423155
+2603,Copper ores,2001,-2.004,5893316412
+2603,Copper ores,2002,-2.252,5723171582
+2603,Copper ores,2003,-2.703,7242946395
+2603,Copper ores,2004,-2.559,12240135733
+2603,Copper ores,2005,-2.826,17779630768
+2603,Copper ores,2006,-2.937,29528484132
+2603,Copper ores,2007,-3.005,34986112377
+2603,Copper ores,2008,-2.635,31958530023
+2603,Copper ores,2009,-2.977,29217185499
+2603,Copper ores,2010,-2.934,42164747882
+2603,Copper ores,2011,-2.373,47905847773
+2603,Copper ores,2012,-2.531,46572125318
+2603,Copper ores,2013,-2.691,48386451541
+2603,Copper ores,2014,-2.562,49044712346
+2603,Copper ores,2015,-2.648,42270496891
+2603,Copper ores,2016,-2.495,42530552854
+2603,Copper ores,2017,-2.547,53594351468
+2603,Copper ores,2018,-2.457,58048545917
+2603,Copper ores,2019,-2.21,54866574217
+2603,Copper ores,2020,-2.347,59236789175
+2603,Copper ores,2021,-2.52,85713330508
+2603,Copper ores,2022,-2.225,84125249518
+2603,Copper ores,2023,-2.367,89075977701
+2603,Copper ores,2024,-2.579,97070380995
+2608,Zinc ores,1995,-0.977,1708804169
+2608,Zinc ores,1996,-0.545,2027047879
+2608,Zinc ores,1997,-0.775,2753867510
+2608,Zinc ores,1998,-0.82,1987806550
+2608,Zinc ores,1999,-0.766,2125879032
+2608,Zinc ores,2000,-1.107,2224528724
+2608,Zinc ores,2001,-1.161,1880156018
+2608,Zinc ores,2002,-1.201,1734939928
+2608,Zinc ores,2003,-1.017,1969303472
+2608,Zinc ores,2004,-0.908,2483555537
+2608,Zinc ores,2005,-1.223,3233090909
+2608,Zinc ores,2006,-1.294,7853104752
+2608,Zinc ores,2007,-1.448,10058528383
+2608,Zinc ores,2008,-1.472,5385261131
+2608,Zinc ores,2009,-1.618,4422878616
+2608,Zinc ores,2010,-1.599,6719368830
+2608,Zinc ores,2011,-1.118,7113234245
+2608,Zinc ores,2012,-1.472,6454022541
+2608,Zinc ores,2013,-1.541,6454243523
+2608,Zinc ores,2014,-1.571,7331773493
+2608,Zinc ores,2015,-1.869,6523731178
+2608,Zinc ores,2016,-1.826,6369122783
+2608,Zinc ores,2017,-1.773,9800586965
+2608,Zinc ores,2018,-1.981,11341942180
+2608,Zinc ores,2019,-1.67,9325097240
+2608,Zinc ores,2020,-1.708,6890669605
+2608,Zinc ores,2021,-2.013,10445603590
+2608,Zinc ores,2022,-1.747,12167299276
+2608,Zinc ores,2023,-1.755,9110069900
+2608,Zinc ores,2024,-2.215,10368616232
+2616,Precious-metal ores (silver),1995,-1.512,513216138
+2616,Precious-metal ores (silver),1996,-1.114,577722071
+2616,Precious-metal ores (silver),1997,-1.757,603988080
+2616,Precious-metal ores (silver),1998,-1.041,667085807
+2616,Precious-metal ores (silver),1999,-0.749,669899951
+2616,Precious-metal ores (silver),2000,-1.095,921890332
+2616,Precious-metal ores (silver),2001,-2.038,1003167722
+2616,Precious-metal ores (silver),2002,-1.83,1079805620
+2616,Precious-metal ores (silver),2003,-1.864,954598356
+2616,Precious-metal ores (silver),2004,-1.936,858348289
+2616,Precious-metal ores (silver),2005,-2.021,1226470250
+2616,Precious-metal ores (silver),2006,-2.175,1689680722
+2616,Precious-metal ores (silver),2007,-1.79,2259943903
+2616,Precious-metal ores (silver),2008,-1.847,2615808340
+2616,Precious-metal ores (silver),2009,-2.127,2766816880
+2616,Precious-metal ores (silver),2010,-1.78,3426589824
+2616,Precious-metal ores (silver),2011,-1.772,5919941467
+2616,Precious-metal ores (silver),2012,-1.691,6315676233
+2616,Precious-metal ores (silver),2013,-1.678,5706421511
+2616,Precious-metal ores (silver),2014,-2.185,5728062819
+2616,Precious-metal ores (silver),2015,-1.998,5117607923
+2616,Precious-metal ores (silver),2016,-1.98,5948295654
+2616,Precious-metal ores (silver),2017,-1.926,5710249171
+2616,Precious-metal ores (silver),2018,-1.929,5503765444
+2616,Precious-metal ores (silver),2019,-1.91,7160967450
+2616,Precious-metal ores (silver),2020,-2.208,9926831028
+2616,Precious-metal ores (silver),2021,-2.468,11678118771
+2616,Precious-metal ores (silver),2022,-2.281,12729196919
+2616,Precious-metal ores (silver),2023,-2.128,12083530621
+2616,Precious-metal ores (silver),2024,-2.253,15078144456
+2711,Petroleum gases (natural gas),1995,-0.928,34562862375
+2711,Petroleum gases (natural gas),1996,-0.751,52162961642
+2711,Petroleum gases (natural gas),1997,-0.912,59858465485
+2711,Petroleum gases (natural gas),1998,-0.845,47040611898
+2711,Petroleum gases (natural gas),1999,-1.068,50046828918
+2711,Petroleum gases (natural gas),2000,-1.589,71668033976
+2711,Petroleum gases (natural gas),2001,-1.929,73099425104
+2711,Petroleum gases (natural gas),2002,-1.618,69299829039
+2711,Petroleum gases (natural gas),2003,-1.708,91283764793
+2711,Petroleum gases (natural gas),2004,-1.794,113202280662
+2711,Petroleum gases (natural gas),2005,-1.616,148406382838
+2711,Petroleum gases (natural gas),2006,-1.881,180731183678
+2711,Petroleum gases (natural gas),2007,-1.902,194337863186
+2711,Petroleum gases (natural gas),2008,-2.144,281054536701
+2711,Petroleum gases (natural gas),2009,-2.073,187311161894
+2711,Petroleum gases (natural gas),2010,-2.202,250517078669
+2711,Petroleum gases (natural gas),2011,-2.276,332073706899
+2711,Petroleum gases (natural gas),2012,-2.588,371787480934
+2711,Petroleum gases (natural gas),2013,-2.4,377912578976
+2711,Petroleum gases (natural gas),2014,-2.447,365409534890
+2711,Petroleum gases (natural gas),2015,-2.377,212469310678
+2711,Petroleum gases (natural gas),2016,-2.298,183346690224
+2711,Petroleum gases (natural gas),2017,-2.401,231212480278
+2711,Petroleum gases (natural gas),2018,-2.366,258725829248
+2711,Petroleum gases (natural gas),2019,-2.226,253646374026
+2711,Petroleum gases (natural gas),2020,-2.19,178269511165
+2711,Petroleum gases (natural gas),2021,-2.153,373650589327
+2711,Petroleum gases (natural gas),2022,-1.891,621625314123
+2711,Petroleum gases (natural gas),2023,-2.188,440298521161
+2711,Petroleum gases (natural gas),2024,-2.322,356318082544
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",1995,0.054,1332056865
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",1996,0.231,1175508719
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",1997,0.204,1292784343
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",1998,0.276,1223386827
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",1999,0.442,1069353107
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2000,0.514,1192674610
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2001,0.328,1162338921
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2002,0.125,1200636756
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2003,0.132,1331453639
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2004,0.196,1986990810
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2005,0.182,3110360951
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2006,-0.003,3426742913
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2007,-0.091,3960622721
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2008,-0.025,4320445515
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2009,0.008,2140246585
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2010,-0.334,3598696261
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2011,-0.106,4910219990
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2012,-0.298,4083327518
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2013,-0.149,3572759402
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2014,-0.311,3699210371
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2015,-0.631,2975119940
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2016,-0.238,3010428556
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2017,-0.472,3951758752
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2018,-0.452,5409493596
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2019,-0.276,4855107437
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2020,-0.148,3752337122
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2021,-0.141,5881365475
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2022,-0.162,11232651962
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2023,-0.261,13275331691
+2825,"Hydrazine, metal oxides/hydroxides (incl. lithium hydroxide)",2024,-0.297,7734379975
+2836,Carbonates (incl. lithium carbonate),1995,-0.031,1921826694
+2836,Carbonates (incl. lithium carbonate),1996,0.333,2049934802
+2836,Carbonates (incl. lithium carbonate),1997,0.369,2042609424
+2836,Carbonates (incl. lithium carbonate),1998,0.371,1974989685
+2836,Carbonates (incl. lithium carbonate),1999,0.309,1996798841
+2836,Carbonates (incl. lithium carbonate),2000,0.103,1975049316
+2836,Carbonates (incl. lithium carbonate),2001,0.019,2247570094
+2836,Carbonates (incl. lithium carbonate),2002,0.059,2378253575
+2836,Carbonates (incl. lithium carbonate),2003,-0.1,2653049730
+2836,Carbonates (incl. lithium carbonate),2004,0.015,3058452187
+2836,Carbonates (incl. lithium carbonate),2005,-0.243,3410139297
+2836,Carbonates (incl. lithium carbonate),2006,-0.249,3848440518
+2836,Carbonates (incl. lithium carbonate),2007,-0.244,4319449533
+2836,Carbonates (incl. lithium carbonate),2008,-0.444,5277986040
+2836,Carbonates (incl. lithium carbonate),2009,-0.181,4145205689
+2836,Carbonates (incl. lithium carbonate),2010,-0.208,4535048836
+2836,Carbonates (incl. lithium carbonate),2011,-0.403,5331776472
+2836,Carbonates (incl. lithium carbonate),2012,-0.614,5563382136
+2836,Carbonates (incl. lithium carbonate),2013,-0.518,5682973769
+2836,Carbonates (incl. lithium carbonate),2014,-0.548,5755245888
+2836,Carbonates (incl. lithium carbonate),2015,-0.54,5484917827
+2836,Carbonates (incl. lithium carbonate),2016,-0.508,5728783024
+2836,Carbonates (incl. lithium carbonate),2017,-0.578,6560605124
+2836,Carbonates (incl. lithium carbonate),2018,-0.668,7673983544
+2836,Carbonates (incl. lithium carbonate),2019,-0.573,7341451630
+2836,Carbonates (incl. lithium carbonate),2020,-0.406,6501923040
+2836,Carbonates (incl. lithium carbonate),2021,-0.529,7799529708
+2836,Carbonates (incl. lithium carbonate),2022,-0.719,18497654666
+2836,Carbonates (incl. lithium carbonate),2023,-0.739,15598635366
+2836,Carbonates (incl. lithium carbonate),2024,-0.704,10665327192
+7108,"Gold, unwrought",1995,-1.999,26797072440
+7108,"Gold, unwrought",1996,-2.106,32613050256
+7108,"Gold, unwrought",1997,-2.065,35217019649
+7108,"Gold, unwrought",1998,-2.138,34358851510
+7108,"Gold, unwrought",1999,-2.219,28408314049
+7108,"Gold, unwrought",2000,-2.087,27810749956
+7108,"Gold, unwrought",2001,-2.095,26927966824
+7108,"Gold, unwrought",2002,-2.015,27867363581
+7108,"Gold, unwrought",2003,-1.973,35425674838
+7108,"Gold, unwrought",2004,-2.038,40191928658
+7108,"Gold, unwrought",2005,-2.35,44198921727
+7108,"Gold, unwrought",2006,-2.048,57617439228
+7108,"Gold, unwrought",2007,-2.199,81259437710
+7108,"Gold, unwrought",2008,-2.42,118393370246
+7108,"Gold, unwrought",2009,-2.207,113181282060
+7108,"Gold, unwrought",2010,-2.042,153698722361
+7108,"Gold, unwrought",2011,-1.866,228739283223
+7108,"Gold, unwrought",2012,-2.527,345172616886
+7108,"Gold, unwrought",2013,-2.798,434210261421
+7108,"Gold, unwrought",2014,-2.754,284182976841
+7108,"Gold, unwrought",2015,-2.862,290789635782
+7108,"Gold, unwrought",2016,-2.966,300991644619
+7108,"Gold, unwrought",2017,-2.989,288093048062
+7108,"Gold, unwrought",2018,-2.932,272306489318
+7108,"Gold, unwrought",2019,-2.809,286311507063
+7108,"Gold, unwrought",2020,-2.824,378452029164
+7108,"Gold, unwrought",2021,-2.926,379668048643
+7108,"Gold, unwrought",2022,-2.758,432531808767
+7108,"Gold, unwrought",2023,-2.951,477145340750
+7108,"Gold, unwrought",2024,-2.615,533197631286
+8001,Unwrought tin,1995,-0.974,1555520934
+8001,Unwrought tin,1996,-0.967,1588269689
+8001,Unwrought tin,1997,-1.146,1557865878
+8001,Unwrought tin,1998,-0.689,1544561044
+8001,Unwrought tin,1999,-0.777,1400496176
+8001,Unwrought tin,2000,-0.62,1660631257
+8001,Unwrought tin,2001,-0.555,1263511691
+8001,Unwrought tin,2002,-0.755,1221373635
+8001,Unwrought tin,2003,-0.454,1353509363
+8001,Unwrought tin,2004,-1.072,2790005365
+8001,Unwrought tin,2005,-1.239,2697260153
+8001,Unwrought tin,2006,-0.39,2833669455
+8001,Unwrought tin,2007,-1.045,4054881047
+8001,Unwrought tin,2008,-0.431,4898774340
+8001,Unwrought tin,2009,-0.244,3057951222
+8001,Unwrought tin,2010,-0.748,5214484237
+8001,Unwrought tin,2011,-0.748,7291736511
+8001,Unwrought tin,2012,-0.663,6357297839
+8001,Unwrought tin,2013,-0.6,6370349867
+8001,Unwrought tin,2014,-0.573,5472029371
+8001,Unwrought tin,2015,-0.59,3895209439
+8001,Unwrought tin,2016,-0.463,3845959858
+8001,Unwrought tin,2017,-0.455,4394805757
+8001,Unwrought tin,2018,-0.271,4376254758
+8001,Unwrought tin,2019,0.007,3849251537
+8001,Unwrought tin,2020,-0.298,3241324755
+8001,Unwrought tin,2021,-0.448,6950094896
+8001,Unwrought tin,2022,-0.736,6633570393
+8001,Unwrought tin,2023,-1.306,5218837932
+8001,Unwrought tin,2024,-1.282,5603905422
+8507,Electric accumulators (incl. lithium-ion batteries),1995,0.459,8507399930
+8507,Electric accumulators (incl. lithium-ion batteries),1996,0.474,8984235163
+8507,Electric accumulators (incl. lithium-ion batteries),1997,0.587,8981351549
+8507,Electric accumulators (incl. lithium-ion batteries),1998,0.573,9297068380
+8507,Electric accumulators (incl. lithium-ion batteries),1999,0.465,10361670730
+8507,Electric accumulators (incl. lithium-ion batteries),2000,0.609,12083917009
+8507,Electric accumulators (incl. lithium-ion batteries),2001,0.633,10446690909
+8507,Electric accumulators (incl. lithium-ion batteries),2002,0.524,10680353802
+8507,Electric accumulators (incl. lithium-ion batteries),2003,0.464,12554596138
+8507,Electric accumulators (incl. lithium-ion batteries),2004,0.354,14753925094
+8507,Electric accumulators (incl. lithium-ion batteries),2005,0.245,16514329835
+8507,Electric accumulators (incl. lithium-ion batteries),2006,0.316,18562720806
+8507,Electric accumulators (incl. lithium-ion batteries),2007,0.156,23880387927
+8507,Electric accumulators (incl. lithium-ion batteries),2008,0.376,28396106732
+8507,Electric accumulators (incl. lithium-ion batteries),2009,0.413,22388650510
+8507,Electric accumulators (incl. lithium-ion batteries),2010,0.337,27283901924
+8507,Electric accumulators (incl. lithium-ion batteries),2011,0.205,30904140086
+8507,Electric accumulators (incl. lithium-ion batteries),2012,0.353,31125580572
+8507,Electric accumulators (incl. lithium-ion batteries),2013,0.368,32783055359
+8507,Electric accumulators (incl. lithium-ion batteries),2014,0.266,34879002832
+8507,Electric accumulators (incl. lithium-ion batteries),2015,0.35,35425314918
+8507,Electric accumulators (incl. lithium-ion batteries),2016,0.327,37315096996
+8507,Electric accumulators (incl. lithium-ion batteries),2017,0.566,43455944726
+8507,Electric accumulators (incl. lithium-ion batteries),2018,0.519,52011144646
+8507,Electric accumulators (incl. lithium-ion batteries),2019,0.549,56400912633
+8507,Electric accumulators (incl. lithium-ion batteries),2020,0.44,64678259357
+8507,Electric accumulators (incl. lithium-ion batteries),2021,0.665,91289141772
+8507,Electric accumulators (incl. lithium-ion batteries),2022,0.802,120592958067
+8507,Electric accumulators (incl. lithium-ion batteries),2023,0.811,141404929391
+8507,Electric accumulators (incl. lithium-ion batteries),2024,0.766,132513017013

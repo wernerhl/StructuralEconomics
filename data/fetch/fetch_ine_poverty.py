@@ -59,7 +59,7 @@ def parse(path, table, vintage):
     for r in rows[hdr_i + 1:]:
         if not r or r[0] is None:
             continue
-        lab = str(r[0]).strip()
+        lab = re.sub(r"\s+", " ", str(r[0])).strip()
         vals = {years[j]: r[j] for j in years if j < len(r) and isinstance(r[j], (int, float))}
         if not vals:
             if re.match(r"(Fuente|\(|Nota|Metodolog|La Canast|El c|No se|A partir|Serie|Elab)", lab):

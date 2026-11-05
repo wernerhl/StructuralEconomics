@@ -1,0 +1,4 @@
+raw/oecd_icio/
+*.part
+raw/atlas/hs92_country_country_year.csv
+__pycache__/
