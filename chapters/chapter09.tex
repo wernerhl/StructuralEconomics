@@ -296,7 +296,8 @@ This is \textit{heterogeneity}, not multiplicity. Each agent's map is a contract
 
 \begin{scope}[xshift=3cm]
 %% Connected W^I
-\foreach \i/\j/\v in {1/1/60,1/2/40,2/1/40,2/2/60} {
+%% weights 0.6/0.4 normalized to the matrix max
+\foreach \i/\j/\v in {1/1/100,1/2/67,2/1/67,2/2/100} {
   \fill[blue!\v, draw=white, line width=0.3pt]
     ({(\j-1)*\s}, {(2-\i)*\s}) rectangle +(\s,\s);
 }

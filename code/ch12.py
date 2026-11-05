@@ -141,3 +141,8 @@ for pi_ in [np.array([0.8, 0.2]), np.array([0.5, 0.5])]:
     print(f"12.7 pi={pi_}: x={x7}, Bentham(endog) {endo.sum():.4f} {np.round(endo,4)}, "
           f"laundered {laund.sum():.4f} {np.round(laund,4)}, Rawls(endog) {endo.min():.4f}, "
           f"capability min e {x7.min():.2f}")
+# Appendix 12B identity: U = theta x - (k/2) x^2 at x = (theta + d)/k equals theta^2/(2k) - d^2/(2k)
+for th_, d_, k_ in [(1.1, 0.07, 0.5), (0.9, -0.2, 1.3)]:
+    xx = (th_ + d_) / k_
+    assert abs(th_ * xx - 0.5 * k_ * xx ** 2 - (th_ ** 2 - d_ ** 2) / (2 * k_)) < 1e-12
+print("Appendix 12B identity verified")

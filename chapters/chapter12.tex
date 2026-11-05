@@ -73,9 +73,12 @@ Preference sovereignty becomes problematic when preferences are endogenous to th
 Take the steady-state allocations of Chapter~10's Bolivia economy (Example~\ref{ch10:ex:bolivia_three}): $\bar{x}_b = (1.249, 0.985, 0.766)$, with its $W^I$ (within-block weight 0.85, cross-block 0.025 each). Aspirations $\mathbf{a} = 0.8\,W^I\x$ (e.g.\ $\rho = 0.75$, $\mu = 0.2$), and $v(z) = z - 0.25z^2$ ($\kappa = 0.5$; all $\kappa z < 1$).
 
 \begin{center}
+\small
 \begin{tabular}{lccccc}
 \toprule
-& $\bar{x}_b$ & $a_b$ (block $W^I$) & $s_b$ (block $W^I$) & $a_b$ (integrated) & $s_b$ (integrated) \\
+& & \multicolumn{2}{c}{Block $W^I$} & \multicolumn{2}{c}{Integrated ($\Wce$)} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+& $\bar{x}_b$ & $a_b$ & $s_b$ & $a_b$ & $s_b$ \\
 \midrule
 Gas (block 1) & 1.249 & 0.954 & 0.273 & 0.800 & 0.398 \\
 Urban (block 2) & 0.985 & 0.791 & 0.185 & 0.800 & 0.177 \\
@@ -481,34 +484,35 @@ because the cross-term cancels. The draft's $+\theta_i d_i/\kappa$ was wrong. Su
 
 Amartya Sen's \textit{Development as Freedom} (1999) is the most influential critique of preference-based welfare economics in the development literature. Its central argument is that development should be measured not by income or utility but by \textbf{capabilities} --- the substantive freedoms people have to lead the lives they have reason to value. The argument was aimed squarely at the problem this chapter addresses: the inadequacy of preference satisfaction as a welfare criterion when preferences are shaped by deprivation.
 
-Sen's framework maps onto the formation model in three specific ways.
+Sen's framework maps onto the formation model in three specific ways --- each with a caveat about what the mapping leaves out.
 
 \textbf{Part 1: Adaptive preferences as a failure of welfare economics.} Sen identified ``adaptive preferences'' --- the phenomenon where the deprived adjust their expectations downward, reporting satisfaction with objectively inadequate conditions --- as the fundamental challenge to utilitarian welfare economics. A woman who has never been to school does not desire schooling; a worker who has never had a union does not miss collective bargaining; a society that has never experienced democracy does not demand it. Utility-based welfare analysis concludes: no deprivation, because no unsatisfied desire.
 
-In the formation model: this is Theorem~\ref{ch12:thm:paradox}. The traditional sector's $\theta_T^* < \theta_M^*$ because $W^I$ is block-diagonal. The satisfaction gap ($U_T^*/U_M^*$) is compressed relative to the allocation gap ($x_T^*/x_M^*$) by the factor $\theta_T^*/\theta_M^*$. The compression IS the adaptive preference. The mathematics makes it measurable: the compression factor equals the ratio of formation-adjusted to anchor preferences.
+In the formation model, this is Proposition~\ref{ch12:thm:paradox}. The traditional sector's aspiration $a_T^* < a_M^*$ because $W^I$ is block-diagonal, and the satisfaction gap is compressed relative to the integrated benchmark by the factor $1 - \mathcal{M}$, while the allocation gap is unchanged. In the model, that compression \textit{is} the adaptive preference, and it is measurable once $\mathcal{M}$ is. Sen's concept is broader --- it includes resignation, internalized norms about what one is entitled to, and lack of ``courage to demand'' --- and the scalar aspiration captures only the first of these.
 
 \textbf{Part 2: Capabilities as an alternative evaluative space.} Sen proposed measuring development by what people are \textit{free to do and be} (``functionings'' and ``capabilities'') rather than by what they have or how they feel. A person who chooses to fast has the capability to eat; a person who starves does not. The distinction matters because the first person's ``preference'' for fasting is exercised from a position of freedom; the second's ``preference'' for accepting hunger is formed by necessity.
 
-In Definition~\ref{ch12:def:capability}, the capability set $\mathcal{O}_i$ formalizes this: it is the set of allocations achievable under varying preferences. The agent who could form $\theta_M^*$ but currently has $\theta_T^*$ (because of $W^I$ constraints) has a larger capability set than one who faces both low $\theta$ and low $\pi$. The structural constraints on capability are twofold: power ($\pi_i$) limits what you can \textit{get}; information ($W^I$) limits what you can \textit{want}.
+In Definition~\ref{ch12:def:capability}, the capability set $\mathcal{O}_i = [0, c_i e_i]$ formalizes this. It is determined by entitlements ($e_i = \omega_i + \pi_i\Phi$) and conversion factors ($c_i$), not by preferences. The faster and the starving person may choose the same nutrition, but only the first has it in her set. The structural constraints on capability are twofold: power ($\pi_i$) limits what you can \textit{get}, and information ($W^I$, through $c_i$) limits what you know you can \textit{do} with it. Aspirations shape what is \textit{chosen} from the set, not the set itself.
 
-\textbf{Part 3: Development as structural change.} Sen argued that development should expand capabilities, not maximize utility. In the formation model: expanding capabilities means increasing $\Gamma$ (more equal power) and $N_{\text{eff}}$ (more democratic information). These are structural properties of $W$ and $W^I$, not properties of individuals. The capability approach evaluates the \textit{matrix}, not the allocation vector.
+\textbf{Part 3: Development as structural change.} Sen argued that development should expand capabilities, not maximize utility. In the formation model, expanding the capabilities of the least advantaged means raising their entitlements (less concentrated power: higher $\Neff(\boldsymbol{\pi})$; Proposition~\ref{ch12:prop:capability}(3)) and their conversion factors (more plural and relevant information: higher $\Neff(\boldsymbol{\pi}^I)$, and access to returns they can attain). These are structural properties of the bargaining layer and of $W^I$. The spectral gap $\Gamma$ is not among them: it measures integration, not the distribution of power. Note, too, that summing capabilities across agents hides exactly the distributional question Sen cared about.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{LLL}
 \toprule
 \textbf{Sen's concept} & \textbf{Formal object} & \textbf{This chapter} \\
 \midrule
-Adaptive preferences & $\theta_T^* < \theta_M^*$ from block-diagonal $W^I$ & Thm.~\ref{ch12:thm:paradox} \\
-Satisfaction paradox & $U_T^* \approx U_M^*$ despite $x_T^* \ll x_M^*$ & Ex.~\ref{ch12:ex:satisfaction} \\
-Capability set & $\mathcal{O}_i = \{x : x = h(\pi_i, \theta, \omega_i)\}$ & Def.~\ref{ch12:def:capability} \\
-Freedom to choose & $\theta$ ranges over all achievable preferences & Prop.~\ref{ch12:prop:capability} \\
-Capability deprivation & Low $\pi_i$ + block-diagonal $W^I$ & Joint structural constraint \\
-Development as freedom & Increase $\Gamma$ and $N_{\text{eff}}$ & Thm.~\ref{ch12:thm:structural_welfare} \\
+Adaptive preferences & $a_T^* < a_M^*$ from block-diagonal $W^I$; gap compressed by $1 - \mathcal{M}$ & Prop.~\ref{ch12:thm:paradox} \\
+Satisfaction paradox & $s_T^* \approx s_M^*$ as $\mathcal{M} \to 1$ despite $x_T^* < x_M^*$ & Ex.~\ref{ch12:ex:satisfaction} \\
+Capability set & $\mathcal{O}_i = [0, c_i e_i]$, $e_i = \omega_i + \pi_i\Phi$ & Def.~\ref{ch12:def:capability} \\
+Freedom vs.\ choice & $\mathcal{O}_i$ independent of $a_i$; aspirations act on choice within the set & Prop.~\ref{ch12:prop:capability} \\
+Capability deprivation & Low $\pi_i$ (entitlement) and poor information (conversion) & Joint structural constraint \\
+Partial comparability & Intersection quasi-ordering over criteria & Prop.~\ref{ch12:prop:robust} \\
+Development as freedom & Raise $\Neff(\boldsymbol{\pi})$ and the conversion factors of the least advantaged & Props.~\ref{ch12:thm:structural_welfare}, \ref{ch12:prop:capability} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Sen wrote in philosophical prose. He famously resisted formalization, arguing that the capabilities approach cannot be reduced to a single metric. The formation model does not reduce it to a single metric --- Approach~2 (capability welfare) is one of four criteria, and the multi-criteria approach (Approach~3) explicitly preserves the irreducibility that Sen insisted upon. What the model adds is \textit{measurement}: the aspiration compression factor, the capability set boundaries, the structural conditions ($\Gamma$, $N_{\text{eff}}$) under which capabilities expand. Sen's diagnosis is correct. The formation model makes it computable.
+Sen was not averse to formalization --- much of his social-choice work is formal. What he resisted was reducing the capability approach to a fixed list of capabilities or a single metric. The formation model respects that: capability is one of four criteria, and the multi-criteria approach is Sen's own intersection quasi-ordering. What the model adds is a mechanism and some measurable quantities: the aspiration compression factor $1 - \mathcal{M}$, and the distinction between entitlements, conversion factors and aspirations. It also adds the structural statistics ($\Neff(\boldsymbol{\pi})$, $\Neff(\boldsymbol{\pi}^I)$) that bear on them. Critics of adaptive-preference arguments warn against using them to override people's own judgments (Nussbaum, 2001; Khader, 2011). That is why the chapter ends with structural transparency rather than with a planner's verdict.
 
 
 %% =====================================================================
@@ -516,14 +520,14 @@ Sen wrote in philosophical prose. He famously resisted formalization, arguing th
 \addcontentsline{toc}{subsection}{Further Reading}
 %% =====================================================================
 
-\textbf{Adaptive preferences:} Sen (1999), \textit{Development as Freedom}, Chapters~1--3. Nussbaum (2000), \textit{Women and Human Development}, Chapter~1. Elster (1983), \textit{Sour Grapes}, Chapter~3 (the original philosophical treatment).
+\textbf{Adaptive preferences:} Sen (1999), \textit{Development as Freedom}, Chapters~1--3. Nussbaum (2000), \textit{Women and Human Development}, Chapter~1. Nussbaum (2001), ``Adaptive Preferences and Women's Options,'' \textit{Economics and Philosophy}. Khader (2011), \textit{Adaptive Preferences and Women's Empowerment}. Elster (1983), \textit{Sour Grapes}, Chapter~3 (the original philosophical treatment). On aspirations: Genicot and Ray (2017), \textit{Econometrica}; Dalton, Ghosal and Mani (2016), ``Poverty and Aspirations Failure,'' \textit{EJ}.
 
-\textbf{Welfare with endogenous preferences:} Becker and Stigler (1977), ``De Gustibus Non Est Disputandum,'' \textit{AER} (the opposing view). Goodin (1986), ``Laundering Preferences,'' in Elster and Hylland (eds.), \textit{Foundations of Social Choice Theory}. Bowles (1998), ``Endogenous Preferences,'' \textit{JEL}.
+\textbf{Welfare with endogenous preferences:} Becker and Stigler (1977), ``De Gustibus Non Est Disputandum,'' \textit{AER} (the opposing view). Goodin (1986), ``Laundering Preferences,'' in Elster and Hylland (eds.), \textit{Foundations of Social Choice Theory}. Bowles (1998), ``Endogenous Preferences,'' \textit{JEL}. von Weizs\"{a}cker (1971), ``Notes on Endogenous Change of Tastes,'' \textit{JET}. Hammond (1976), ``Endogenous Tastes and Stable Long-Run Choice,'' \textit{JET}. Pollak (1978), ``Endogenous Tastes in Demand and Welfare Analysis,'' \textit{AER P\&P}. Brandt (1979), \textit{A Theory of the Good and the Right}; Harsanyi (1977) on ``true'' (full-information) preferences.
 
-\textbf{The capability approach:} Sen (1985), \textit{Commodities and Capabilities}. Alkire (2002), \textit{Valuing Freedoms}. Robeyns (2005), ``The Capability Approach: A Theoretical Survey,'' \textit{Journal of Human Development}.
+\textbf{The capability approach:} Sen (1970), \textit{Collective Choice and Social Welfare} (partial comparability and intersection quasi-orderings). Sen (1985), \textit{Commodities and Capabilities}. Pattanaik and Xu (1990), ``On Ranking Opportunity Sets in Terms of Freedom of Choice,'' \textit{Recherches \'{E}conomiques de Louvain}. Sen (1991), ``Welfare, Preference and Freedom,'' \textit{J.\ Econometrics}. Alkire (2002), \textit{Valuing Freedoms}. Robeyns (2005), ``The Capability Approach: A Theoretical Survey,'' \textit{Journal of Human Development}.
 
 \textbf{The Easterlin paradox:} Easterlin (1974), ``Does Economic Growth Improve the Human Lot?'' Stevenson and Wolfers (2008), ``Economic Growth and Subjective Well-Being,'' \textit{BPEA}. Clark, Frijters, and Shields (2008), ``Relative Income, Happiness, and Utility,'' \textit{JEL}.
 
-\textbf{Policy evaluation under endogenous preferences:} Bernheim and Rangel (2009), ``Beyond Revealed Preference: Choice-Theoretic Foundations for Behavioral Welfare Economics,'' \textit{QJE}. Sugden (2004), ``The Opportunity Criterion,'' \textit{Economics and Philosophy}.
+\textbf{Policy evaluation under endogenous preferences:} Bernheim and Rangel (2009), ``Beyond Revealed Preference: Choice-Theoretic Foundations for Behavioral Welfare Economics,'' \textit{QJE}. Sugden (2004), ``The Opportunity Criterion: Consumer Sovereignty Without the Assumption of Coherent Preferences,'' \textit{AER}. Macours and Vakis (2014), \textit{EJ}, on transfers, aspirations and social interactions.
 
 \end{document}

@@ -95,3 +95,8 @@ th7 = 0.70 + 4 * (0.4 * 0.85 + 0.6 * 0.70 - 0.70)
 w_star = (1 - 0.70) / (4 * (0.85 - 0.70))
 print("9.7 theta* =", th7, " exceeds 1 when w >", w_star)
 assert abs(th7 - 0.94) < 1e-12 and abs(w_star - 0.5) < 1e-12
+# Used in Chapter 12, Appendix 12B: connecting the agents lowers mean theta*
+print("\nmean theta*: block", steady(np.eye(2)).mean(), " w=0.3", steady(np.array([[0.7, 0.3], [0.3, 0.7]])).mean(),
+      " w=0.5", steady(np.array([[0.5, 0.5], [0.5, 0.5]])).mean())
+# Viz panel heatmap colours (normalized to each matrix's max): block (1,0) -> 100/0; connected (0.6,0.4) -> 100/67
+print("heatmap colours connected:", round(100 * 0.6 / 0.6), round(100 * 0.4 / 0.6))
